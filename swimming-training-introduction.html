@@ -759,6 +759,22 @@
       width:100%;
       text-align:center;
     }
+
+    .journey-item.page-linkable{
+      cursor:pointer;
+    }
+
+    .journey-item.page-linkable:hover .journey-circle,
+    .journey-item.page-linkable:focus-visible .journey-circle{
+      transform:translateY(-2px);
+      border-color:var(--blue);
+      box-shadow:0 14px 28px rgba(45,132,179,.18);
+    }
+
+    .journey-item.page-linkable:hover .journey-title,
+    .journey-item.page-linkable:focus-visible .journey-title{
+      color:var(--ink);
+    }
   
     .journey-circle{
       width:58px;
@@ -3376,6 +3392,7 @@
 
       <div class="hero-actions">
         <button class="btn btn-primary" data-scroll="#focus">Training Focus</button>
+        <a class="btn btn-secondary" href="Javier-module1.html">Module 1</a>
       </div>
     </section>
 
@@ -3497,7 +3514,7 @@
 
           <div class="journey-wrap">
             <div class="journey-track">
-              <div class="journey-item active">
+              <div class="journey-item active page-linkable" data-page-link="Javier-module1.html" tabindex="0" role="link" aria-label="Open Module 1">
                 <div class="journey-circle">1</div>
                 <div class="journey-title">Module 1 &mdash; Foundations of Aquatic Development</div>
                 <div class="journey-status">Understanding how aquatic learning begins.</div>
@@ -3565,6 +3582,7 @@
             </div>
 
             <div class="completion-actions">
+              <a class="btn btn-primary" href="Javier-module1.html">Module 1</a>
               <a class="btn btn-secondary" href="#overview">Back to Top</a>
             </div>
           </div>
@@ -3635,6 +3653,29 @@
     });
   }
 
+  function setupPageLinks(){
+    document.querySelectorAll('[data-page-link]').forEach(function(item){
+      var target = item.getAttribute('data-page-link');
+      if(!target) return;
+
+      function goToPage(){
+        window.location.href = target;
+      }
+
+      item.addEventListener('click', function(e){
+        if(e.target.closest('a, button, input, label')) return;
+        goToPage();
+      });
+
+      item.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          goToPage();
+        }
+      });
+    });
+  }
+
   function setupSidebarActiveState(){
     var links = document.querySelectorAll('.nav-link');
     var targets = ['overview','focus','explores','outcomes','journey','principle']
@@ -3667,5 +3708,6 @@
 
   setupSpeech();
   setupSmoothScroll();
+  setupPageLinks();
   setupSidebarActiveState();
 </script>
