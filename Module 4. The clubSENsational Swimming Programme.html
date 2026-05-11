@@ -7681,6 +7681,10 @@
             breadcrumbEl.innerHTML = '';
             breadcrumbEl.style.display = 'none';
           }
+          if(/^b2l[1-6]$/.test(target || '')){
+            breadcrumbEl.innerHTML = '';
+            breadcrumbEl.style.display = 'none';
+          }
         }
         const stageTarget = getBlock2StageTarget(target);
         document.querySelectorAll(`[data-concept-grid="${block}"] .concept-square`).forEach(btn => {
