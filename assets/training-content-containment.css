@@ -470,3 +470,148 @@ body {
 .quiz-layout .main > .q-card {
   margin-bottom: 0;
 }
+
+/* ----- Concept title chrome: unified corporate treatment ----- */
+.portal .concept-panel > .concept-heading-row,
+.portal .concept-panel > .concept-panel-title-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--training-stack-gap) var(--training-card-gap);
+  margin: 8px 0 18px;
+  padding: 18px 20px;
+  border: 1px solid rgba(45, 132, 179, 0.18);
+  border-radius: 20px;
+  background: linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%);
+  box-shadow: 0 10px 24px rgba(18, 50, 71, 0.06);
+}
+
+.portal .concept-panel > .concept-heading-row {
+  grid-template-areas: "title tts";
+}
+
+.portal .concept-panel > .concept-panel-title-row {
+  grid-template-areas:
+    "title tts"
+    "breadcrumb breadcrumb";
+}
+
+.portal .concept-panel > .concept-heading-row h4,
+.portal .concept-panel > .concept-panel-title-row .concept-panel-title {
+  grid-area: title;
+  margin: 0;
+  min-width: 0;
+  align-self: center;
+}
+
+.portal .concept-panel > .concept-heading-row .concept-panel-tts,
+.portal .concept-panel > .concept-panel-title-row .concept-panel-tts {
+  grid-area: tts;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  justify-self: end;
+}
+
+.portal .concept-panel > .concept-panel-title-row .concept-breadcrumb {
+  grid-area: breadcrumb;
+  justify-self: start;
+}
+
+.portal .concept-panel > .concept-heading-row h4,
+.portal .concept-panel > .concept-panel-title-row .concept-panel-title,
+.portal .concept-panel > h4:not(.concept-section-head),
+.portal .folder-page > .b2pl-folder-h,
+.portal .folder-page > .b2pl-cathead {
+  position: relative;
+  margin: 0;
+  color: #163247 !important;
+  font-weight: 800;
+  font-size: clamp(1.25rem, 1rem + 0.9vw, 1.95rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.portal .concept-panel > h4:not(.concept-section-head),
+.portal .folder-page > .b2pl-folder-h,
+.portal .folder-page > .b2pl-cathead {
+  margin: 8px 0 18px;
+  padding: 18px 20px;
+  border: 1px solid rgba(45, 132, 179, 0.18);
+  border-radius: 20px;
+  background: linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%);
+  box-shadow: 0 10px 24px rgba(18, 50, 71, 0.06);
+}
+
+.portal .concept-panel > .concept-heading-row h4::after,
+.portal .concept-panel > .concept-panel-title-row .concept-panel-title::after,
+.portal .concept-panel > h4:not(.concept-section-head)::after,
+.portal .folder-page > .b2pl-folder-h::after,
+.portal .folder-page > .b2pl-cathead::after {
+  content: "";
+  display: block;
+  width: 68px;
+  height: 4px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #cc952b 0%, #2d84b3 100%);
+}
+
+.portal .folder-page > .b2pl-folder-h {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.portal .folder-page > .b2pl-cathead {
+  display: block;
+}
+
+.portal .folder-page > .b2pl-folder-h .b2pl-folder-h-txt,
+.portal .folder-page > .b2pl-folder-h .b2pl-folder-ico--page,
+.portal .folder-page > .b2pl-cathead {
+  color: inherit !important;
+}
+
+.portal .folder-page > .b2pl-folder-h .b2pl-folder-ico--page {
+  color: #2d84b3 !important;
+}
+
+.portal .concept-panel > .concept-panel-title-row .concept-breadcrumb,
+.portal .concept-panel > .concept-level-badge {
+  max-width: max-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(45, 132, 179, 0.1);
+  color: #2d84b3;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (max-width: 720px) {
+  .portal .concept-panel > .concept-heading-row,
+  .portal .concept-panel > .concept-panel-title-row {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "tts"
+      "breadcrumb";
+  }
+
+  .portal .concept-panel > .concept-heading-row .concept-panel-tts,
+  .portal .concept-panel > .concept-panel-title-row .concept-panel-tts {
+    justify-self: start;
+    justify-content: flex-start;
+  }
+
+  .portal .concept-panel > .concept-heading-row,
+  .portal .concept-panel > .concept-panel-title-row,
+  .portal .concept-panel > h4:not(.concept-section-head),
+  .portal .folder-page > .b2pl-folder-h,
+  .portal .folder-page > .b2pl-cathead {
+    padding: 16px 16px 18px;
+  }
+}
