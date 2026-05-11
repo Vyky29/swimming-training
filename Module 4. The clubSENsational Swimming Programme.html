@@ -6664,6 +6664,59 @@
       if(stage === 'b2c4') return 'core';
       return 'core';
     }
+    function getBlock2ThemeStyles(theme){
+      if(theme === 'confidence') return {
+        accent: '#2d6b28',
+        soft: 'rgba(62,127,51,.14)',
+        border: 'rgba(62,127,51,.24)',
+        surface: 'linear-gradient(135deg, #f1f8ef 0%, #e6f3e2 100%)'
+      };
+      if(theme === 'basic') return {
+        accent: '#b8860b',
+        soft: 'rgba(220,162,79,.18)',
+        border: 'rgba(220,162,79,.28)',
+        surface: 'linear-gradient(135deg, #fff7e7 0%, #fdf0d7 100%)'
+      };
+      if(theme === 'structured') return {
+        accent: '#5f8a90',
+        soft: 'rgba(122,168,175,.18)',
+        border: 'rgba(122,168,175,.3)',
+        surface: 'linear-gradient(135deg, #eef7f8 0%, #deedf0 100%)'
+      };
+      return {
+        accent: '#2d84b3',
+        soft: 'rgba(45,132,179,.14)',
+        border: 'rgba(45,132,179,.22)',
+        surface: 'linear-gradient(135deg, #f1f8fc 0%, #e4f0f8 100%)'
+      };
+    }
+    function applyStageTitleChrome(panel, theme){
+      if(!panel) return;
+      const titleRow = panel.querySelector('.concept-panel-title-row');
+      const titleEl = panel.querySelector('.concept-panel-title');
+      const iconEl = panel.querySelector('.concept-title-icon');
+      if(!titleRow) return;
+      if(!theme){
+        titleRow.style.background = '';
+        titleRow.style.borderColor = '';
+        if(titleEl) titleEl.style.color = '';
+        if(iconEl){
+          iconEl.style.color = '';
+          iconEl.style.background = '';
+          iconEl.style.boxShadow = '';
+        }
+        return;
+      }
+      const styles = getBlock2ThemeStyles(theme);
+      titleRow.style.background = styles.surface;
+      titleRow.style.borderColor = styles.border;
+      if(titleEl) titleEl.style.color = styles.accent;
+      if(iconEl){
+        iconEl.style.color = styles.accent;
+        iconEl.style.background = 'linear-gradient(180deg, rgba(255,255,255,.96) 0%, ' + styles.soft + ' 100%)';
+        iconEl.style.boxShadow = 'inset 0 0 0 1px ' + styles.border + ', 0 8px 18px rgba(18,50,71,.08)';
+      }
+    }
     function getBlock2Level(target){
       const m = target && target.match(/b2l(\d)/);
       return m ? m[1] : '';
@@ -7515,6 +7568,7 @@
       if(block === 'block2'){
         panel.dataset.stageTheme = getBlock2Theme(target);
         panel.dataset.level = getBlock2Level(target) || '';
+        applyStageTitleChrome(panel, panel.dataset.stageTheme);
         const breadcrumbEl = panel.querySelector('[data-concept-breadcrumb]');
         if(breadcrumbEl){
           const parts = getBlock2Breadcrumb(target);
@@ -7550,6 +7604,7 @@
       } else {
         panel.removeAttribute('data-stage-theme');
         panel.removeAttribute('data-level');
+        applyStageTitleChrome(panel, '');
         const breadcrumbEl = panel.querySelector('[data-concept-breadcrumb]');
         if(breadcrumbEl){
           breadcrumbEl.innerHTML = '';
@@ -7566,7 +7621,10 @@
           stageIntroWrap.setAttribute('aria-hidden', 'false');
           var stageTitleEl = stageIntroWrap.querySelector('.stage-intro-title');
           var stageFocusEl = stageIntroWrap.querySelector('[data-stage-focus]');
-          if(stageTitleEl) stageTitleEl.textContent = data.title || '';
+          if(stageTitleEl){
+            stageTitleEl.textContent = data.title || '';
+            stageTitleEl.style.display = 'none';
+          }
           if(stageFocusEl) stageFocusEl.textContent = data.focus || '';
           var panelLooks = stageIntroWrap.querySelector('[data-panel="looks"]');
           var panelPriorities = stageIntroWrap.querySelector('[data-panel="priorities"]');
@@ -7596,6 +7654,8 @@
           });
         } else {
           stageIntroWrap.setAttribute('aria-hidden', 'true');
+          var hiddenStageTitleEl = stageIntroWrap.querySelector('.stage-intro-title');
+          if(hiddenStageTitleEl) hiddenStageTitleEl.style.display = '';
         }
       }
       const descEl = panel.querySelector('.concept-panel-desc');
