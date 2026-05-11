@@ -5926,11 +5926,13 @@
         var subTarget = btn.getAttribute('data-overview-subtarget');
         var isDynamic = subTarget === 'b1c4';
         var isCompleted = conceptCompletion.block1.has(subTarget);
+        var isLocked = !REVIEW_MODE && isDynamic && !supportiveDone;
+        var isNext = !REVIEW_MODE && isDynamic && supportiveDone && !dynamicDone;
         btn.classList.toggle('visited', isCompleted);
-        btn.classList.toggle('is-locked', isDynamic && !supportiveDone);
-        btn.classList.toggle('is-next', isDynamic && supportiveDone && !dynamicDone);
+        btn.classList.toggle('is-locked', isLocked);
+        btn.classList.toggle('is-next', isNext);
         btn.onclick = function(){
-          if(btn.classList.contains('is-locked')) return;
+          if(isLocked) return;
           renderConcept('block1', subTarget);
         };
       });
