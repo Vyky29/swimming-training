@@ -19,6 +19,14 @@ PAGES = [
         "portal",
     ),
     (
+        PROJECT_ROOT / "swimming-training-portal1.html",
+        [
+            DIST_DIR / "swimming-portal" / "index.html",
+            DIST_DIR / "swimming-training-i" / "index.html",
+        ],
+        "swimming_hub",
+    ),
+    (
         PROJECT_ROOT / "module 1. understanding water",
         [DIST_DIR / "modules" / "module-1" / "index.html"],
         "module1",
@@ -73,7 +81,7 @@ PAGES = [
 COMMON_REPLACEMENTS = [
     ('href="../assets/training-content-containment.css"', 'href="/assets/training-content-containment.css"'),
     ('href="assets/training-content-containment.css"', 'href="/assets/training-content-containment.css"'),
-    ('href="https://www.clubsensational.org/swimmingtrainingmodules"', 'href="/portal/"'),
+    ('href="https://www.clubsensational.org/swimmingtrainingmodules"', 'href="/swimming-portal/"'),
     ('href="https://www.clubsensational.org/"', 'href="/portal/"'),
     ('href="../Training Portal/index.html"', 'href="/portal/"'),
     ('src="shared/parent-subconcept-layout.js"', 'src="/shared/parent-subconcept-layout.js"'),
@@ -81,8 +89,25 @@ COMMON_REPLACEMENTS = [
 
 PAGE_REPLACEMENTS = {
     "portal": [
-        ('href="https://www.clubsensational.org/swimmingtraining_modules1/"', 'href="/modules/module-1/"'),
+        ('href="https://www.clubsensational.org/swimmingtraining_modules1/"', 'href="/swimming-portal/"'),
         ('href="../../Swimming Training II/index.html"', 'href="#"'),
+    ],
+    "swimming_hub": [
+        ('href="https://www.clubsensational.org/trainingportal"', 'href="/portal/"'),
+        ('href="https://www.clubsensational.org/module1-understanding-water/"', 'href="/modules/module-1/"'),
+        ('href="https://www.clubsensational.org/emotionalstates-2-2-2/"', 'href="/modules/module-2/"'),
+        (
+            'href="https://www.clubsensational.org/module3-building-engagement-and-connection-in-the-water/"',
+            'href="/modules/module-3/"',
+        ),
+        (
+            'href="https://www.clubsensational.org/module4-the-clubsensational-swimming-programme/"',
+            'href="/modules/module-4/"',
+        ),
+        (
+            'href="https://www.clubsensational.org/module-5-using-visual-aids-effectively-pixtoleaern-in-action/"',
+            'href="/modules/module-5/"',
+        ),
     ],
     "module1": [
         ('href="https://www.clubsensational.org/emotionalstates-2-2-2/"', 'href="/modules/module-2/"'),
