@@ -3332,7 +3332,7 @@
   </style>
   <link rel="stylesheet" href="../assets/training-content-containment.css" />
   
-  <div class="portal">
+  <div class="portal" data-course-page="module1">
     <aside class="sidebar">
       <div class="brand-card">
         <a href="https://www.clubsensational.org/swimmingtrainingmodules" class="sidebar-logo-link">
@@ -3340,7 +3340,7 @@
         </a>
       </div>
   
-      <a href="index.html" class="btn-back-portal">← Back to Swimming Portal</a>
+      <a href="swimming-training-introduction.html" class="btn-back-portal" data-course-overview-link>← Back to Swimming Portal</a>
   
       <div class="sidebar-card">
         <h3>Module Navigation</h3>
@@ -3429,13 +3429,13 @@
 
             <div class="journey-wrap">
               <div class="journey-track">
-                <div class="journey-item active">
+                <div class="journey-item active" data-course-module-id="module1">
                   <div class="journey-circle">1</div>
                   <div class="journey-title">Foundations of Aquatic Skill Development</div>
                   <div class="journey-status">Current Module</div>
                 </div>
 
-                <div class="journey-item">
+                <div class="journey-item" data-course-module-id="module2" tabindex="0" role="link" aria-label="Open Module 2">
                   <div class="journey-circle">2</div>
                   <div class="journey-title">Guiding Learning Through Scaffolding</div>
                   <div class="journey-status">Next Module</div>
@@ -4021,8 +4021,8 @@
               </div>
 
               <div class="completion-actions">
-                <a class="btn btn-primary" href="#quiz">View Next Module</a>
-                <a class="btn btn-secondary" href="index.html">Training Introduction</a>
+                <a class="btn btn-primary" href="#" data-course-next-module-button="module2" aria-disabled="true">View Next Module</a>
+                <a class="btn btn-secondary" href="swimming-training-introduction.html" data-course-overview-link>Training Introduction</a>
                 <a class="btn btn-secondary" href="#overview">Back to Top</a>
               </div>
             </div>
@@ -6216,6 +6216,8 @@
       });
     });
   </script>
+  <link rel="stylesheet" href="course-navigation.css" />
+  <script src="course-navigation.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
   (function(){
