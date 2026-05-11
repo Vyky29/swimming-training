@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 5 Quiz | Using Visual Aids Effectively — clubSENsational</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+    :root{
+      --blue:#2d84b3;
+      --blueSoft:#89b5c1;
+      --gold:#cc952b;
+      --ink:#163247;
+      --text:#314555;
+      --muted:#70808f;
+      --line:rgba(22,50,71,.12);
+      --white:#ffffff;
+      --bg:#f3f8fb;
+      --success:#e8f7ef;
+      --successText:#1b7c52;
+      --error:#fde8e8;
+      --errorText:#c53030;
+      --shadow:0 18px 40px rgba(18,50,71,.08);
+      --shadowSoft:0 14px 30px rgba(18,50,71,.06);
+      --gradBlue:linear-gradient(135deg,var(--blue) 0%,var(--blueSoft) 100%);
+      --gradBrand:linear-gradient(90deg,var(--gold) 0%,var(--blue) 100%);
+      --transition:.25s ease;
+      --sidebar:280px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;}
+    .quiz-layout{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh;}
+    .sidebar{position:sticky;top:0;height:100vh;overflow:auto;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-right:1px solid var(--line);padding:24px 20px 32px;}
+    .brand-card{background:var(--gradBlue);border-radius:20px;padding:20px;box-shadow:var(--shadowSoft);margin-bottom:16px;display:flex;align-items:center;justify-content:center;}
+    .brand-card img{width:100%;max-width:180px;height:auto;display:block;}
+    .back-container{display:flex;justify-content:flex-start;align-items:center;}
+    .back-button{display:inline-flex;align-items:center;gap:6px;width:auto !important;max-width:fit-content;padding:6px 12px;font-size:14px;font-weight:500;background:transparent;border:none;cursor:pointer;white-space:nowrap;opacity:.7;transition:opacity .2s ease;color:var(--blue);text-decoration:none;}
+    .back-button:hover{opacity:1;}
+    .sidebar-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:var(--shadowSoft);}
+    .sidebar-card h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:800;margin-bottom:12px;}
+    .progress-track{height:10px;background:#e6edf2;border-radius:999px;overflow:hidden;}
+    .progress-fill{height:100%;width:0%;background:var(--gradBrand);border-radius:999px;transition:width .4s ease;}
+    .progress-meta{margin-top:10px;font-size:13px;font-weight:700;color:var(--ink);}
+    .main{padding:28px 32px 60px;overflow-x:hidden;}
+    .quiz-hero{background:var(--gradBlue);color:var(--white);border-radius:24px;padding:32px 40px;margin-bottom:28px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+    .quiz-hero::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.1);top:-50px;right:-40px;}
+    .quiz-hero .tag{display:inline-block;background:rgba(255,255,255,.22);padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
+    .quiz-hero h1{font-size:clamp(22px,3.5vw,28px);font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
+    .quiz-hero p{opacity:.95;font-size:15px;position:relative;z-index:1;}
+    .q-card{background:var(--white);border-radius:20px;padding:28px 32px;margin-bottom:24px;box-shadow:var(--shadow);border:1px solid var(--line);}
+    .q-card h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    .q-card .q-text{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:20px;}
+    .opt-list{list-style:none;}
+    .opt-list li{margin-bottom:10px;}
+    .opt-list label{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;border:2px solid #e7eef5;cursor:pointer;transition:var(--transition);font-weight:500;}
+    .opt-list label:hover{border-color:var(--blue);background:#f8fbfd;}
+    .opt-list input:checked+label,.opt-list label:has(input:checked){border-color:var(--blue);background:#edf6fb;}
+    .opt-list label:has(input:checked) .opt-txt{color:var(--blue);font-weight:600;}
+    .opt-txt{flex:1;}
+    .opt-list input[type="radio"],.opt-list input[type="checkbox"]{accent-color:var(--blue);width:22px;height:22px;flex-shrink:0;order:2;}
+    .feedback{margin-top:16px;padding:14px 18px;border-radius:12px;font-size:14px;font-weight:600;display:none;}
+    .feedback.correct{background:var(--success);color:var(--successText);display:flex;align-items:center;gap:10px;}
+    .feedback.incorrect{background:var(--error);color:var(--errorText);display:flex;align-items:center;gap:10px;}
+    .match-game{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+    .match-slots .match-slot{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
+    .match-slots .match-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
+    .match-slots .match-slot.filled{border-style:solid;border-color:#c5e0ed;}
+    .slot-label{font-weight:700;color:var(--ink);min-width:100px;flex-shrink:0;}
+    .slot-drop{flex:1;min-height:24px;}
+    .slot-drop .match-chip{margin:0;}
+    .match-pool{display:flex;flex-direction:column;gap:12px;padding:12px;border-radius:14px;min-height:120px;transition:var(--transition);}
+    .match-pool.drag-over{background:#edf6fb;}
+    .match-pool .match-chip{margin:0;}
+    .match-chip{padding:14px 18px;background:var(--white);border:2px solid var(--blue);border-radius:12px;color:var(--blue);font-weight:600;cursor:grab;transition:var(--transition);user-select:none;}
+    .match-chip:hover{background:#edf6fb;}
+    .match-chip.dragging{opacity:.6;cursor:grabbing;}
+    .btn-submit{display:inline-flex;align-items:center;justify-content:center;padding:16px 32px;font-size:16px;font-weight:700;background:var(--blue);color:var(--white);border:none;border-radius:14px;cursor:pointer;font-family:inherit;transition:var(--transition);margin-top:16px;}
+    .btn-submit:hover{background:#236d95;transform:translateY(-2px);}
+    .btn-submit:disabled{opacity:.7;cursor:not-allowed;transform:none;}
+    .score-card{background:var(--gradBlue);color:var(--white);border-radius:24px;padding:40px;text-align:center;display:none;margin-top:24px;}
+    .score-card.show{display:block;}
+    .score-card h2{font-size:28px;margin-bottom:12px;}
+    .score-card .score-value{font-size:48px;font-weight:800;margin:16px 0;}
+    .score-card .score-msg{font-size:16px;opacity:.95;}
+    .back-link{display:inline-flex;align-items:center;gap:8px;color:var(--white);font-weight:700;text-decoration:none;margin-top:24px;font-size:14px;opacity:.95;}
+    .back-link:hover{text-decoration:underline;}
+    @media(max-width:900px){.quiz-layout{grid-template-columns:1fr;}.sidebar{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--line);}}
+    @media(max-width:600px){.main{padding:20px 16px;}.q-card{padding:20px;}.match-game{grid-template-columns:1fr;}}
+  </style>
+  <link rel="stylesheet" href="../assets/training-content-containment.css" />
+</head>
+<body>
+  <div class="quiz-layout">
+    <aside class="sidebar">
+      <div class="brand-card">
+        <img src="https://www.clubsensational.org/wp-content/uploads/2025/07/F-01.png" alt="clubSENsational"/>
+      </div>
+      <div class="back-container"><a href="../Training Portal/index.html" class="back-button">← Back to Portal</a></div>
+      <div class="sidebar-card">
+        <h3>Quiz progress</h3>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <p class="progress-meta" id="progressText">0 of 8 answered</p>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="quiz-hero">
+        <span class="tag">Module 5</span>
+        <h1>Using Visual Aids Effectively – PixtoLearn in Action</h1>
+        <p>Test your knowledge of visual supports and their role in swimming instruction.</p>
+      </header>
+      <form id="quizForm">
+        <div class="q-card" data-q="1">
+          <h3>Single choice</h3>
+          <p class="q-text">1. What is the main purpose of visual supports?</p>
+          <ul class="opt-list">
+            <li><label for="q1a"><span class="opt-txt">A. Replace instructors</span><input type="radio" name="q1" id="q1a" value="A"></label></li>
+            <li><label for="q1b"><span class="opt-txt">B. Reduce uncertainty and support understanding</span><input type="radio" name="q1" id="q1b" value="B"></label></li>
+            <li><label for="q1c"><span class="opt-txt">C. Increase verbal instructions</span><input type="radio" name="q1" id="q1c" value="C"></label></li>
+          </ul>
+          <div class="feedback" id="f1"></div>
+        </div>
+        <div class="q-card" data-q="2">
+          <h3>Single choice</h3>
+          <p class="q-text">2. Visual supports are especially helpful for:</p>
+          <ul class="opt-list">
+            <li><label for="q2a"><span class="opt-txt">A. Competitive swimmers</span><input type="radio" name="q2" id="q2a" value="A"></label></li>
+            <li><label for="q2b"><span class="opt-txt">B. Neurodiverse learners</span><input type="radio" name="q2" id="q2b" value="B"></label></li>
+            <li><label for="q2c"><span class="opt-txt">C. Lifeguards</span><input type="radio" name="q2" id="q2c" value="C"></label></li>
+          </ul>
+          <div class="feedback" id="f2"></div>
+        </div>
+        <div class="q-card" data-q="3">
+          <h3>Single choice</h3>
+          <p class="q-text">3. What do visual sequences help swimmers understand?</p>
+          <ul class="opt-list">
+            <li><label for="q3a"><span class="opt-txt">A. Speed</span><input type="radio" name="q3" id="q3a" value="A"></label></li>
+            <li><label for="q3b"><span class="opt-txt">B. Order of actions</span><input type="radio" name="q3" id="q3b" value="B"></label></li>
+            <li><label for="q3c"><span class="opt-txt">C. Pool depth</span><input type="radio" name="q3" id="q3c" value="C"></label></li>
+          </ul>
+          <div class="feedback" id="f3"></div>
+        </div>
+        <div class="q-card" data-q="4">
+          <h3>Multiple choice</h3>
+          <p class="q-text">4. Visual supports can help with:</p>
+          <ul class="opt-list">
+            <li><label for="q4a"><span class="opt-txt">A. Predictability</span><input type="checkbox" name="q4" id="q4a" value="A"></label></li>
+            <li><label for="q4b"><span class="opt-txt">B. Communication</span><input type="checkbox" name="q4" id="q4b" value="B"></label></li>
+            <li><label for="q4c"><span class="opt-txt">C. Reducing cognitive load</span><input type="checkbox" name="q4" id="q4c" value="C"></label></li>
+            <li><label for="q4d"><span class="opt-txt">D. Increasing competition</span><input type="checkbox" name="q4" id="q4d" value="D"></label></li>
+          </ul>
+          <div class="feedback" id="f4"></div>
+        </div>
+        <div class="q-card" data-q="5">
+          <h3>Multiple choice</h3>
+          <p class="q-text">5. Examples of visual supports include:</p>
+          <ul class="opt-list">
+            <li><label for="q5a"><span class="opt-txt">A. Routine cards</span><input type="checkbox" name="q5" id="q5a" value="A"></label></li>
+            <li><label for="q5b"><span class="opt-txt">B. Visual sequences</span><input type="checkbox" name="q5" id="q5b" value="B"></label></li>
+            <li><label for="q5c"><span class="opt-txt">C. Symbol cues</span><input type="checkbox" name="q5" id="q5c" value="C"></label></li>
+            <li><label for="q5d"><span class="opt-txt">D. Pool whistles</span><input type="checkbox" name="q5" id="q5d" value="D"></label></li>
+          </ul>
+          <div class="feedback" id="f5"></div>
+        </div>
+        <div class="q-card" data-q="6">
+          <h3>True or false</h3>
+          <p class="q-text">6. Visual supports can reduce verbal demand.</p>
+          <ul class="opt-list">
+            <li><label for="q6t"><span class="opt-txt">True</span><input type="radio" name="q6" id="q6t" value="T"></label></li>
+            <li><label for="q6f"><span class="opt-txt">False</span><input type="radio" name="q6" id="q6f" value="F"></label></li>
+          </ul>
+          <div class="feedback" id="f6"></div>
+        </div>
+        <div class="q-card" data-q="7">
+          <h3>True or false</h3>
+          <p class="q-text">7. Visual supports are unnecessary once a swimmer enters the pool.</p>
+          <ul class="opt-list">
+            <li><label for="q7t"><span class="opt-txt">True</span><input type="radio" name="q7" id="q7t" value="T"></label></li>
+            <li><label for="q7f"><span class="opt-txt">False</span><input type="radio" name="q7" id="q7f" value="F"></label></li>
+          </ul>
+          <div class="feedback" id="f7"></div>
+        </div>
+        <div class="q-card" data-q="8">
+          <h3>Match the following</h3>
+          <p class="q-text">8. Drag each function to the correct visual tool.</p>
+          <div class="match-game">
+            <div class="match-column match-slots">
+              <div class="match-slot" data-correct="predict"><span class="slot-label">Routine card</span><div class="slot-drop"></div></div>
+              <div class="match-slot" data-correct="order"><span class="slot-label">Visual sequence</span><div class="slot-drop"></div></div>
+              <div class="match-slot" data-correct="instruction"><span class="slot-label">Symbol cue</span><div class="slot-drop"></div></div>
+            </div>
+            <div class="match-column match-pool" id="pool8">
+              <div class="match-chip" data-value="order" draggable="true">Shows order of actions</div>
+              <div class="match-chip" data-value="instruction" draggable="true">Represents instruction</div>
+              <div class="match-chip" data-value="predict" draggable="true">Supports predictability</div>
+            </div>
+          </div>
+          <div class="feedback" id="f8"></div>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">Submit answers</button>
+      </form>
+      <div class="score-card" id="scoreCard">
+        <h2>Quiz complete</h2>
+        <p class="score-value" id="scoreValue">0/8</p>
+        <p class="score-msg" id="scoreMsg"></p>
+        <a href="../Training Portal/index.html" class="back-link" target="_top">← Back to Training Portal</a>
+      </div>
+    </main>
+  </div>
+  <script>
+    const total = 8;
+    const correctAnswers = { q1: 'B', q2: 'B', q3: 'B', q4: ['A','B','C'], q5: ['A','B','C'], q6: 'T', q7: 'F' };
+    function countAnswered() { let n = 0; [1,2,3,6,7].forEach(i => { if (document.querySelector('input[name="q'+i+'"]:checked')) n++; }); if (document.querySelectorAll('input[name="q4"]:checked').length > 0) n++; if (document.querySelectorAll('input[name="q5"]:checked').length > 0) n++; if (document.querySelectorAll('.match-slot .slot-drop .match-chip').length === 3) n++; return n; }
+    function updateProgress() { document.getElementById('progressFill').style.width = (countAnswered() / total * 100) + '%'; document.getElementById('progressText').textContent = countAnswered() + ' of ' + total + ' answered'; }
+    document.getElementById('quizForm').addEventListener('change', updateProgress);
+    function initMatch(container, poolId) { const pool = document.getElementById(poolId); const slots = container.querySelectorAll('.match-slot'); let dragged = null;
+      function onDragStart(e) { dragged = e.target; if (!dragged.classList.contains('match-chip')) return; e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragged.dataset.value); dragged.classList.add('dragging'); }
+      function onDragEnd(e) { if (e.target.classList.contains('match-chip')) e.target.classList.remove('dragging'); dragged = null; }
+      function onDragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; const slot = e.target.closest('.match-slot'); if (slot) slot.classList.add('drag-over'); if (e.target.closest('.match-pool')) e.target.closest('.match-pool').classList.add('drag-over'); }
+      function onDragLeave(e) { const slot = e.target.closest('.match-slot'); if (slot && !slot.contains(e.relatedTarget)) slot.classList.remove('drag-over'); const p = e.target.closest('.match-pool'); if (p && !p.contains(e.relatedTarget)) p.classList.remove('drag-over'); }
+      function onDropSlot(e) { e.preventDefault(); const slot = e.target.closest('.match-slot'); slots.forEach(s => { s.classList.remove('drag-over'); s.querySelector('.slot-drop').classList.remove('filled'); }); pool.classList.remove('drag-over'); if (!slot || !dragged) return; const dropZone = slot.querySelector('.slot-drop'); if (dropZone.contains(dragged)) return; const existing = dropZone.querySelector('.match-chip'); if (existing) pool.appendChild(existing); dropZone.appendChild(dragged); slot.classList.add('filled'); dropZone.classList.add('filled'); updateProgress(); }
+      function onDropPool(e) { e.preventDefault(); if (!dragged || !e.target.closest('.match-pool')) return; slots.forEach(s => { s.classList.remove('drag-over'); s.classList.remove('filled'); s.querySelector('.slot-drop').classList.remove('filled'); }); pool.classList.remove('drag-over'); pool.appendChild(dragged); updateProgress(); }
+      container.addEventListener('dragstart', function(e) { if (e.target.classList.contains('match-chip')) onDragStart(e); });
+      container.addEventListener('dragend', function(e) { if (e.target.classList.contains('match-chip')) onDragEnd(e); });
+      slots.forEach(slot => { const dropZone = slot.querySelector('.slot-drop'); dropZone.addEventListener('dragover', onDragOver); dropZone.addEventListener('dragleave', onDragLeave); dropZone.addEventListener('drop', onDropSlot); });
+      pool.addEventListener('dragover', onDragOver); pool.addEventListener('dragleave', onDragLeave); pool.addEventListener('drop', onDropPool);
+    }
+    initMatch(document.querySelector('.q-card[data-q="8"]'), 'pool8');
+    function showFeedback(id, correct, msg) { const el = document.getElementById('f' + id); el.className = 'feedback ' + (correct ? 'correct' : 'incorrect'); el.innerHTML = (correct ? '✓ ' : '✗ ') + msg; el.style.display = 'flex'; }
+    document.getElementById('quizForm').onsubmit = function(e) {
+      e.preventDefault();
+      let score = 0;
+      [1,2,3,6,7].forEach(i => { const v = document.querySelector('input[name="q'+i+'"]:checked')?.value; const ok = v === correctAnswers['q'+i]; if (ok) score++; showFeedback(i, ok, ok ? 'Correct.' : 'Incorrect. The correct answer is ' + (i<=3 ? correctAnswers['q'+i] : (correctAnswers['q'+i]==='T'?'True':'False')) + '.'); });
+      const q4 = Array.from(document.querySelectorAll('input[name="q4"]:checked')).map(c=>c.value).sort().join(''); const q4ok = q4 === 'ABC'; if (q4ok) score++; showFeedback(4, q4ok, q4ok ? 'Correct.' : 'Incorrect. The correct answers are A, B and C.');
+      const q5 = Array.from(document.querySelectorAll('input[name="q5"]:checked')).map(c=>c.value).sort().join(''); const q5ok = q5 === 'ABC'; if (q5ok) score++; showFeedback(5, q5ok, q5ok ? 'Correct.' : 'Incorrect. The correct answers are A, B and C.');
+      const slots8 = document.querySelectorAll('.q-card[data-q="8"] .match-slot'); let q8ok = slots8.length === 3; slots8.forEach(slot => { const chip = slot.querySelector('.slot-drop .match-chip'); if (!chip || chip.dataset.value !== slot.dataset.correct) q8ok = false; }); if (q8ok) score++;
+      showFeedback(8, q8ok, q8ok ? 'Correct.' : 'Incorrect. Routine card → Supports predictability; Visual sequence → Shows order of actions; Symbol cue → Represents instruction.');
+      document.getElementById('progressFill').style.width = '100%'; document.getElementById('progressText').textContent = '8 of 8 answered';
+      document.getElementById('scoreValue').textContent = score + '/' + total; document.getElementById('scoreMsg').textContent = score === total ? 'Well done! You understand how to use visual aids effectively.' : 'Review the module to strengthen your understanding.';
+      document.getElementById('scoreCard').classList.add('show'); document.getElementById('submitBtn').disabled = true; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    };
+    updateProgress();
+  </script>
+</body>
+</html>

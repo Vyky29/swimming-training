@@ -1,0 +1,851 @@
+<!-- FINAL PixtoLearn Orbit Block
+     No overlaps
+     No orange hover (azure only)
+     Same card size always with auto fit for title and text
+     Hides any blue line above the HTML widget using a top mask
+     Mobile and tablet responsive
+     ARIA tabs; tap a circle pauses orbit + auto for 8s then resumes; prefers-reduced-motion
+-->
+
+<div class="pxl-mask-top">
+  <div class="pxl-section-wrap pxl-bg-full" id="pxlOrbitBlock">
+
+    <div class="pxl-orbit-area">
+      <div class="orbit-section" id="pixtoOrbitSection" role="region" aria-label="PixtoLearn audiences">
+
+        <div class="orbit-wrapper">
+          <div class="center-item">
+            <img decoding="async" fetchpriority="high" alt="PixtoLearn Packs"
+                 src="https://pixtolearn.com/wp-content/uploads/2024/06/packs-web_Mesa-de-trabajo-1-2.png">
+          </div>
+
+          <div class="orbit-rotator" id="orbitRotator">
+
+            <svg class="orbit-svg" viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="wave-ring" cx="50" cy="50" r="48"></circle>
+              <circle class="wave-ring-2" cx="50" cy="50" r="42"></circle>
+            </svg>
+
+            <div class="orbit-tablist" role="tablist" aria-label="Who PixtoLearn is for">
+            <button class="orbit-item top is-active" type="button" id="orbit-tab-0"
+              role="tab" aria-selected="true" tabindex="0" aria-controls="orbitCard"
+              data-title="Swimming Schools and Organisations"
+              data-text="One visual system. Same language in every pool. Less confusion, more progress."
+              data-icon="tpl-schools"
+              aria-label="Swimming Schools and Organisations">
+              <div class="orbit-item-inner"></div>
+            </button>
+
+            <button class="orbit-item top-right" type="button" id="orbit-tab-1"
+              role="tab" aria-selected="false" tabindex="-1" aria-controls="orbitCard"
+              data-title="Families"
+              data-text="Routines that stick. From getting ready to the first dip — calm, clear, confident."
+              data-icon="tpl-families"
+              aria-label="Families">
+              <div class="orbit-item-inner"></div>
+            </button>
+
+            <button class="orbit-item bottom-right" type="button" id="orbit-tab-2"
+              role="tab" aria-selected="false" tabindex="-1" aria-controls="orbitCard"
+              data-title="Swimming Instructors"
+              data-text="Deliver lessons that flow. Less explaining, more doing — in and out of the water."
+              data-icon="tpl-instructors"
+              aria-label="Swimming Instructors">
+              <div class="orbit-item-inner"></div>
+            </button>
+
+            <button class="orbit-item bottom" type="button" id="orbit-tab-3"
+              role="tab" aria-selected="false" tabindex="-1" aria-controls="orbitCard"
+              data-title="Therapists"
+              data-text="Predictable steps that support regulation and build trust in the water."
+              data-icon="tpl-therapists"
+              aria-label="Therapists">
+              <div class="orbit-item-inner"></div>
+            </button>
+
+            <button class="orbit-item left" type="button" id="orbit-tab-4"
+              role="tab" aria-selected="false" tabindex="-1" aria-controls="orbitCard"
+              data-title="SEN Specialists"
+              data-text="Shared visuals that keep everyone safe and understood — poolside and beyond."
+              data-icon="tpl-sen"
+              aria-label="SEN Specialists">
+              <div class="orbit-item-inner"></div>
+            </button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="orbit-card is-active" id="orbitCard" role="tabpanel"
+          aria-labelledby="orbit-tab-0" tabindex="0">
+          <div class="card-top">
+            <div class="card-icon-wrap">
+              <div class="card-icon-holder" id="cardIconHolder"></div>
+            </div>
+
+            <h3 id="cardTitle" class="card-title">SWIMMING SCHOOLS AND ORGANISATIONS</h3>
+          </div>
+
+          <div class="card-body">
+            <p id="cardText" class="card-text">One visual system. Same language in every pool. Less confusion, more progress.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pxl-bridge-container">
+      <p class="pxl-bridge-min">
+        <span>One system</span>
+        <span class="pxl-bridge-dot" aria-hidden="true">·</span>
+        <span>Every pool</span>
+        <span class="pxl-bridge-dot" aria-hidden="true">·</span>
+        <span>One visual language</span>
+      </p>
+    </div>
+
+    <template id="tpl-schools">
+      <svg class="orbit-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="26" y="34" width="68" height="38" rx="8" stroke="currentColor" stroke-width="6"/>
+        <rect x="44" y="22" width="32" height="16" rx="4" stroke="currentColor" stroke-width="6"/>
+        <circle cx="48" cy="52" r="5" fill="currentColor"/>
+        <circle cx="60" cy="52" r="5" fill="currentColor"/>
+        <circle cx="72" cy="52" r="5" fill="currentColor"/>
+        <path d="M18 80 Q30 72 42 80 T66 80 T90 80 T114 80" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </template>
+
+    <template id="tpl-families">
+      <svg class="orbit-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="62" cy="58" r="22" stroke="currentColor" stroke-width="6"/>
+        <circle cx="62" cy="58" r="11" stroke="currentColor" stroke-width="6" opacity="0.55"/>
+        <circle cx="52" cy="46" r="6" fill="currentColor"/>
+        <circle cx="73" cy="49" r="5" fill="currentColor"/>
+        <path d="M46 64 Q52 56 58 64" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+        <path d="M69 66 Q73 60 77 66" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+        <path d="M18 86 Q30 78 42 86 T66 86 T90 86 T114 86" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </template>
+
+    <template id="tpl-instructors">
+      <svg class="orbit-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="60" cy="42" r="14" stroke="currentColor" stroke-width="6"/>
+        <path d="M38 88 L38 62 Q38 52 60 52 Q82 52 82 62 L82 88" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+        <path d="M52 52 L60 44 L68 52" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18 92 Q30 84 42 92 T66 92 T90 92 T114 92" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </template>
+
+    <template id="tpl-therapists">
+      <svg class="orbit-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M60 76 C48 66 38 58 38 48 C38 40 44 34 52 34 C56 34 59 36 60 38 C61 36 64 34 68 34 C76 34 82 40 82 48 C82 58 72 66 60 76 Z"
+              stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M60 76 C48 66 38 58 38 48" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+        <path d="M18 92 Q30 84 42 92 T66 92 T90 92 T114 92" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </template>
+
+    <template id="tpl-sen">
+      <svg class="orbit-icon" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="60" cy="50" r="24" stroke="currentColor" stroke-width="6"/>
+        <circle cx="60" cy="32" r="5" fill="currentColor"/>
+        <circle cx="42" cy="54" r="5" fill="currentColor"/>
+        <circle cx="78" cy="54" r="5" fill="currentColor"/>
+        <path d="M52 52 L58 58 L70 44" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M18 90 Q30 82 42 90 T66 90 T90 90 T114 90" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </template>
+
+  </div>
+</div>
+
+<style>
+  :root{
+    --pxl-azure:#89b5c1;
+    --pxl-azure-deep:#5a9aa8;
+    --pxl-azure-light:#c5dfe5;
+    --pxl-white:#ffffff;
+    --pxl-text:#121826;
+    --pxl-muted:#5a6b76;
+
+    --orbit-size:520px;
+    --center-size:280px;
+    --side-size:122px;
+    --orbit-offset:22px;
+    --orbit-safe:70px;
+    --rotate-speed:26s;
+
+    --card-h:320px;
+
+    --title-base:22px;
+    --title-min:14px;
+    --title-lines:2;
+
+    --text-base:17px;
+    --text-min:14px;
+    --text-lines:4;
+  }
+
+  /* Mask the line above the HTML widget by covering the area above this block */
+  .pxl-mask-top{
+    position:relative;
+    z-index:1;
+    background:transparent;
+  }
+  .pxl-mask-top::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    top:-120px;
+    height:120px;
+    width:100vw;
+    background:var(--pxl-white);
+    z-index:9999;
+    pointer-events:none;
+  }
+
+  .pxl-section-wrap{
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 16px 14px;
+    font-family:"Montserrat",sans-serif;
+    background:var(--pxl-white);
+    position:relative;
+    border:0 !important;
+    overflow:visible;
+  }
+
+  .pxl-bg-full::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:100vw;
+    height:100%;
+    background: linear-gradient(180deg, var(--pxl-white) 0%, rgba(197,223,229,0.25) 50%, rgba(137,181,193,0.12) 100%);
+    z-index:-1;
+  }
+  /* Subtle wave line – swimming feel */
+  .pxl-bg-full::after{
+    content:"";
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:80px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-width='1.5' stroke-opacity='0.2' d='M0 40 Q300 20 600 40 T1200 40'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-width='1' stroke-opacity='0.12' d='M0 50 Q300 30 600 50 T1200 50'/%3E%3C/svg%3E") no-repeat bottom center;
+    background-size: 100% 80px;
+    z-index:0;
+    pointer-events:none;
+  }
+
+  .pxl-orbit-area{
+    padding:6px 0 0;
+    overflow:visible;
+  }
+
+  .orbit-section{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:56px;
+    padding:0 0 20px 0;
+    overflow:visible;
+  }
+
+  .orbit-wrapper{
+    position:relative;
+    width:var(--orbit-size);
+    height:var(--orbit-size);
+    margin:var(--orbit-safe);
+    flex:0 0 auto;
+    isolation:isolate;
+    overflow:visible;
+  }
+  /* Tablist only wraps tabs; SVG stays sibling for valid ARIA */
+  .orbit-tablist{
+    position:absolute;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+    margin:0;
+    padding:0;
+    border:0;
+    background:transparent;
+  }
+  .orbit-tablist .orbit-item{
+    pointer-events:auto;
+  }
+  .orbit-wrapper:hover .orbit-rotator,
+  .orbit-wrapper:hover .orbit-item-inner{
+    animation-play-state:paused;
+  }
+  #pxlOrbitBlock.pxl-orbit-tap-hold .orbit-rotator,
+  #pxlOrbitBlock.pxl-orbit-tap-hold .orbit-item-inner,
+  #pxlOrbitBlock.pxl-orbit-tap-hold .wave-ring,
+  #pxlOrbitBlock.pxl-orbit-tap-hold .wave-ring-2{
+    animation-play-state:paused !important;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .orbit-rotator{
+      animation:none !important;
+    }
+    .orbit-item-inner{
+      animation:none !important;
+    }
+    .wave-ring,
+    .wave-ring-2{
+      animation:none !important;
+    }
+  }
+
+  .center-item{
+    position:absolute;
+    inset:50%;
+    width:var(--center-size);
+    height:var(--center-size);
+    transform:translate(-50%,-50%);
+    z-index:3;
+    border-radius:999px;
+    overflow:hidden;
+    padding:0;
+    box-sizing:border-box;
+    background:transparent;
+  }
+  .center-item img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+    display:block;
+    transform:scale(1.18);
+    filter: drop-shadow(0 16px 28px rgba(0,0,0,.2));
+  }
+
+  .orbit-rotator{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    animation: orbitSpin var(--rotate-speed) linear infinite;
+    transform-origin:50% 50%;
+    will-change:transform;
+  }
+  @keyframes orbitSpin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+
+  .orbit-svg{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+  }
+  .wave-ring{
+    fill:none;
+    stroke: rgba(137,181,193,0.62);
+    stroke-width:2.2;
+    stroke-linecap:round;
+    stroke-dasharray:12 10;
+    animation: orbitDash 8s linear infinite;
+  }
+  .wave-ring-2{
+    fill:none;
+    stroke: rgba(137,181,193,0.26);
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-dasharray:7 14;
+    animation: orbitDash 12s linear infinite reverse;
+  }
+  @keyframes orbitDash{ to{ stroke-dashoffset: -44; } }
+
+  .orbit-item{
+    position:absolute;
+    width:var(--side-size);
+    height:var(--side-size);
+    min-width:var(--side-size);
+    min-height:var(--side-size);
+    box-sizing:border-box;
+    border-radius:50%;
+    background: linear-gradient(145deg, var(--pxl-azure-deep) 0%, var(--pxl-azure) 100%);
+    border:2px solid rgba(255,255,255,.85);
+    box-shadow:0 10px 28px rgba(90,154,168,.35), inset 0 1px 0 rgba(255,255,255,.3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    cursor:pointer;
+    color:#fff;
+    z-index:2;
+    overflow:hidden;
+    transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+    outline:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  /* Never orange */
+  .orbit-item:hover,
+  .orbit-item:focus,
+  .orbit-item:focus-visible{
+    background: linear-gradient(145deg, var(--pxl-azure) 0%, var(--pxl-azure-deep) 100%) !important;
+    transform:translateY(-3px) scale(1.04);
+    box-shadow:0 16px 36px rgba(90,154,168,.4), 0 0 0 4px rgba(137,181,193,.2);
+  }
+  .orbit-item.is-active{
+    background: linear-gradient(145deg, var(--pxl-azure-deep) 0%, var(--pxl-azure) 100%) !important;
+    box-shadow:0 14px 32px rgba(90,154,168,.35), 0 0 0 4px rgba(137,181,193,.18), inset 0 1px 0 rgba(255,255,255,.35);
+  }
+
+  .orbit-item-inner{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    animation: orbitCounter var(--rotate-speed) linear infinite;
+    will-change:transform;
+  }
+  @keyframes orbitCounter{ from{transform:rotate(0deg);} to{transform:rotate(-360deg);} }
+
+  .orbit-item-inner > *{ width:100% !important; height:100% !important; display:block !important; }
+  .orbit-item-inner svg,
+  .orbit-item-inner img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    display:block !important;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
+  }
+  .orbit-item-inner img{
+    transform:scale(1.28) !important;
+    transform-origin:50% 50% !important;
+  }
+  .orbit-item-inner svg{
+    transform:scale(1.32);
+    transform-origin:50% 50%;
+  }
+
+  .top{ top:calc(-1 * var(--orbit-offset)); left:50%; transform:translateX(-50%); }
+  .top-right{ top:72px; right:calc(-1 * var(--orbit-offset)); }
+  .bottom-right{ bottom:72px; right:calc(-1 * var(--orbit-offset)); }
+  .bottom{ bottom:calc(-1 * var(--orbit-offset)); left:50%; transform:translateX(-50%); }
+  .left{ left:calc(-1 * var(--orbit-offset)); top:50%; transform:translateY(-50%); }
+
+  /* Fixed card size always – same dimensions every time */
+  .orbit-card{
+    width:min(640px, 100%);
+    min-width:min(640px, 100%);
+    height:var(--card-h);
+    min-height:var(--card-h);
+    max-height:var(--card-h);
+    box-sizing:border-box;
+    background:var(--pxl-white);
+    border-radius:24px;
+    border:1px solid rgba(137,181,193,0.35);
+    box-shadow:0 12px 36px rgba(0,0,0,0.07), 0 0 0 1px rgba(137,181,193,0.08);
+    padding:24px 26px 20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    overflow:hidden;
+    position:relative;
+  }
+  .orbit-card::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+    background: linear-gradient(90deg, var(--pxl-azure-light), var(--pxl-azure), var(--pxl-azure-deep));
+    border-radius:24px 24px 0 0;
+    opacity:0.9;
+  }
+
+  .orbit-card::before{
+    content:none !important;
+    display:none !important;
+  }
+
+  .orbit-card.is-active{
+    border-color: rgba(137,181,193,0.45);
+    box-shadow:0 18px 44px rgba(0,0,0,0.08), 0 0 0 4px rgba(137,181,193,0.12);
+  }
+
+  .card-top{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    flex:0 0 auto;
+  }
+
+  .card-icon-wrap{
+    width:88px;
+    height:88px;
+    border-radius:16px;
+    background: linear-gradient(145deg, var(--pxl-azure-deep) 0%, var(--pxl-azure) 100%);
+    box-shadow:0 8px 20px rgba(90,154,168,.25);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+  }
+  .card-icon-holder{
+    width:72px;
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+  }
+  .card-icon-holder svg,
+  .card-icon-holder img{
+    width:72px;
+    height:72px;
+    display:block;
+    object-fit:contain;
+    filter:none;
+    transform:none !important;
+  }
+
+  /* Title and text blocks are fixed height so the card never changes */
+  .card-title{
+    margin:0;
+    color:var(--pxl-azure);
+    font-weight:900;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    line-height:1.12;
+    font-size:var(--title-base);
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:var(--title-lines);
+    overflow:hidden;
+    min-height: calc(var(--title-lines) * 1.12em);
+    max-height: calc(var(--title-lines) * 1.12em);
+  }
+
+  .card-body{
+    margin-top:8px;
+    flex:1 1 auto;
+    min-height:0;
+    display:flex;
+    align-items:flex-start;
+    overflow:hidden;
+  }
+
+  .card-text{
+    margin:0;
+    color:var(--pxl-muted);
+    line-height:1.75;
+    font-size:var(--text-base);
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:var(--text-lines);
+    overflow:hidden;
+    max-width:52ch;
+    min-height: calc(1.75em * var(--text-lines));
+  }
+
+  /* Fluido: transición al cambiar de sección */
+  .card-icon-holder,
+  #cardTitle,
+  #cardText{
+    transition: opacity 0.3s ease;
+  }
+
+  .pxl-bridge-container{
+    display:flex;
+    justify-content:center;
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid rgba(137,181,193,0.22);
+    max-width:900px;
+    margin-left:auto;
+    margin-right:auto;
+    width:100%;
+  }
+  .pxl-bridge-min{
+    margin:0;
+    padding:0 8px;
+    font-size:11px;
+    font-weight:500;
+    line-height:1.5;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:rgba(90,107,118,0.72);
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:0.35em 0.55em;
+    text-align:center;
+  }
+  .pxl-bridge-dot{
+    color:rgba(137,181,193,0.45);
+    font-weight:300;
+    letter-spacing:0;
+    user-select:none;
+  }
+
+  /* Tablet */
+  @media (max-width: 1024px){
+    :root{
+      --orbit-size:400px;
+      --center-size:248px;
+      --side-size:110px;
+      --orbit-offset:18px;
+      --orbit-safe:60px;
+      --card-h:320px;
+      --title-base:21px;
+      --text-base:16px;
+    }
+    .orbit-section{
+      flex-direction:column;
+      gap:32px;
+      padding:0 0 16px 0;
+    }
+    .top-right{ top:62px; }
+    .bottom-right{ bottom:62px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 767px){
+    :root{
+      --orbit-size:340px;
+      --center-size:218px;
+      --side-size:100px;
+      --orbit-offset:16px;
+      --orbit-safe:62px;
+      --card-h:300px;
+      --title-base:20px;
+      --text-base:16px;
+    }
+    .pxl-section-wrap{ padding:0 14px 12px; }
+    .orbit-section{ gap:28px; padding:0 0 14px 0; }
+    .orbit-card{
+      padding:20px 18px 18px;
+      border-radius:22px;
+    }
+    .pxl-bridge-container{ margin-top:14px; padding-top:12px; }
+    .pxl-bridge-min{
+      font-size:10px;
+      letter-spacing:0.14em;
+      gap:0.3em 0.45em;
+    }
+  }
+
+  /* Small mobile */
+  @media (max-width: 420px){
+    :root{
+      --orbit-size:310px;
+      --center-size:198px;
+      --side-size:92px;
+      --orbit-offset:14px;
+      --orbit-safe:56px;
+      --card-h:292px;
+      --title-base:19px;
+      --text-base:15px;
+    }
+  }
+</style>
+
+<script>
+  (function(){
+    const section = document.getElementById("pixtoOrbitSection");
+    const block = document.getElementById("pxlOrbitBlock");
+    const buttons = Array.from(document.querySelectorAll("#pixtoOrbitSection .orbit-item"));
+    const tablist = section && section.querySelector('[role="tablist"]');
+    const card = document.getElementById("orbitCard");
+    const cardIconHolder = document.getElementById("cardIconHolder");
+    const cardTitle = document.getElementById("cardTitle");
+    const cardText = document.getElementById("cardText");
+
+    const reducedMotion = typeof matchMedia !== "undefined" &&
+      matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function cloneIcon(templateId){
+      const tpl = document.getElementById(templateId);
+      if (!tpl) return null;
+      return tpl.content.firstElementChild.cloneNode(true);
+    }
+
+    function mountNodeIcons(){
+      buttons.forEach(btn => {
+        const inner = btn.querySelector(".orbit-item-inner");
+        const iconId = btn.getAttribute("data-icon");
+        const node = cloneIcon(iconId);
+        if (inner && node){
+          inner.innerHTML = "";
+          inner.appendChild(node);
+        }
+      });
+    }
+
+    function fitBlock(el, basePx, minPx, lines){
+      if (!el) return;
+      el.style.fontSize = basePx + "px";
+
+      const style = getComputedStyle(el);
+      const lineHeight = parseFloat(style.lineHeight) || (1.2 * basePx);
+      const maxHeight = Math.ceil(lineHeight * lines);
+
+      let size = basePx;
+      while (size > minPx && el.scrollHeight > maxHeight + 1){
+        size -= 1;
+        el.style.fontSize = size + "px";
+      }
+    }
+
+    function applyFit(){
+      const root = getComputedStyle(document.documentElement);
+
+      const titleBase = parseInt(root.getPropertyValue("--title-base"), 10) || 22;
+      const titleMin = parseInt(root.getPropertyValue("--title-min"), 10) || 14;
+      const titleLines = parseInt(root.getPropertyValue("--title-lines"), 10) || 2;
+
+      const textBase = parseInt(root.getPropertyValue("--text-base"), 10) || 17;
+      const textMin = parseInt(root.getPropertyValue("--text-min"), 10) || 14;
+      const textLines = parseInt(root.getPropertyValue("--text-lines"), 10) || 4;
+
+      fitBlock(cardTitle, titleBase, titleMin, titleLines);
+      fitBlock(cardText, textBase, textMin, textLines);
+    }
+
+    function setTabState(i){
+      buttons.forEach((b, idx) => {
+        const on = idx === i;
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+        b.setAttribute("tabindex", on ? "0" : "-1");
+      });
+      if (card && buttons[i]){
+        card.setAttribute("aria-labelledby", buttons[i].id);
+      }
+    }
+
+    const CARD_TRANSITION_MS = 320;
+    const AUTO_ROTATE_MS = 4000;
+    const RESUME_IDLE_MS = 8000;
+
+    let index = 0;
+    let timer = null;
+    let resumeTimer = null;
+
+    function clearAuto(){
+      if (timer){
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function clearResume(){
+      if (resumeTimer){
+        clearTimeout(resumeTimer);
+        resumeTimer = null;
+      }
+    }
+
+    function updateCardFrom(btn){
+      cardIconHolder.style.opacity = 0;
+      cardTitle.style.opacity = 0;
+      cardText.style.opacity = 0;
+
+      setTimeout(() => {
+        const iconId = btn.getAttribute("data-icon");
+        const node = cloneIcon(iconId);
+        if (node){
+          cardIconHolder.innerHTML = "";
+          cardIconHolder.appendChild(node);
+        }
+
+        cardTitle.textContent = (btn.getAttribute("data-title") || "").toUpperCase();
+        cardText.textContent = btn.getAttribute("data-text") || "";
+
+        applyFit();
+
+        requestAnimationFrame(() => {
+          cardIconHolder.style.opacity = 1;
+          cardTitle.style.opacity = 1;
+          cardText.style.opacity = 1;
+        });
+      }, CARD_TRANSITION_MS);
+    }
+
+    function show(i){
+      index = i;
+      setTabState(i);
+      updateCardFrom(buttons[i]);
+      card.classList.add("is-active");
+    }
+
+    function startAuto(){
+      clearAuto();
+      if (reducedMotion) return;
+      timer = setInterval(() => {
+        show((index + 1) % buttons.length);
+      }, AUTO_ROTATE_MS);
+    }
+
+    function scheduleResumeAuto(){
+      clearResume();
+      if (reducedMotion) return;
+      resumeTimer = setTimeout(() => {
+        resumeTimer = null;
+        if (block) block.classList.remove("pxl-orbit-tap-hold");
+        startAuto();
+      }, RESUME_IDLE_MS);
+    }
+
+    /** User chose a tab: pause orbit + slideshow, resume both after idle. */
+    function armIdleResume(){
+      if (block && !reducedMotion) block.classList.add("pxl-orbit-tap-hold");
+      clearAuto();
+      scheduleResumeAuto();
+    }
+
+    function onTabActivate(i, opts){
+      const fromKeyboard = opts && opts.fromKeyboard;
+      armIdleResume();
+      show(i);
+      if (fromKeyboard && buttons[i]) buttons[i].focus();
+    }
+
+    if (tablist){
+      tablist.addEventListener("keydown", (e) => {
+        const key = e.key;
+        if (key !== "ArrowRight" && key !== "ArrowLeft" && key !== "Home" && key !== "End") return;
+        e.preventDefault();
+        const n = buttons.length;
+        if (!n) return;
+        let next = index;
+        if (key === "Home") next = 0;
+        else if (key === "End") next = n - 1;
+        else if (key === "ArrowRight") next = (index + 1) % n;
+        else next = (index - 1 + n) % n;
+        onTabActivate(next, { fromKeyboard:true });
+      });
+    }
+
+    function init(){
+      if (!buttons.length) return;
+      mountNodeIcons();
+      show(0);
+      if (!reducedMotion) startAuto();
+      window.addEventListener("resize", applyFit, { passive:true });
+      if (typeof ResizeObserver !== "undefined" && card){
+        const ro = new ResizeObserver(() => { applyFit(); });
+        ro.observe(card);
+      }
+    }
+
+    buttons.forEach((btn, i) => {
+      btn.addEventListener("click", () => {
+        onTabActivate(i);
+      });
+    });
+
+    init();
+  })();
+</script>

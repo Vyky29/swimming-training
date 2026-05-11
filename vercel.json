@@ -1,0 +1,5 @@
+{
+  "cleanUrls": false,
+  "buildCommand": "python3 build_swimming_training.py",
+  "outputDirectory": "dist"
+}
