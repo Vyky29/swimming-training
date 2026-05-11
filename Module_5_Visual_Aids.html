@@ -5361,16 +5361,29 @@
       updateConceptProgress(block);
     }
 
-    function scrollPanelIntoView(panel){
-      if(panel){
-        var scrollTarget = panel.querySelector('.back-container') || panel;
-        setTimeout(() => {
-          scrollTarget.scrollIntoView({
-            behavior:'smooth',
-            block:'start'
-          });
-        }, 120);
+    function releaseActiveConceptControl(){
+      var activeEl = document.activeElement;
+      if(!activeEl || activeEl === document.body || typeof activeEl.blur !== 'function') return;
+      if(activeEl.matches && (
+        activeEl.matches('[data-finish-concept], [data-concept-back], [data-target], [data-scroll], button, a, [role="button"]') ||
+        activeEl.closest('.concept-panel, [data-concept-grid], [data-parent-subconcept-nav]')
+      )){
+        activeEl.blur();
       }
+    }
+
+    function scrollPanelIntoView(panel){
+      if(!panel) return;
+      var scrollTarget = panel.querySelector('.back-container') || panel;
+      var scrollTop = function(){
+        var top = Math.max(0, Math.round(scrollTarget.getBoundingClientRect().top + window.pageYOffset - 16));
+        window.scrollTo({ top: top, behavior:'smooth' });
+      };
+      releaseActiveConceptControl();
+      setTimeout(function(){
+        scrollTop();
+        setTimeout(scrollTop, 220);
+      }, 120);
     }
 
     function getNextConceptTarget(block, currentTarget){
@@ -5802,6 +5815,7 @@
       const data = conceptContent[target];
       const panel = document.querySelector(`[data-panel-for="${block}"]`);
       if(!data || !panel) return;
+      releaseActiveConceptControl();
 
       delete data.requiresChoiceActivity;
       delete data.choiceCorrect;
