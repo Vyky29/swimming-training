@@ -5310,9 +5310,11 @@
       return icons[icon] || icons.spark;
     }
 
-    function setConceptTitle(el, title, target, block){
+    function setConceptTitle(el, title, target, block, subtitle){
       if(!el) return;
       el.textContent = '';
+      var stack = document.createElement('span');
+      stack.className = 'concept-title-stack';
       var wrap = document.createElement('span');
       wrap.className = 'concept-title-main';
       var iconEl = document.createElement('span');
@@ -5324,7 +5326,14 @@
       textEl.textContent = title || '';
       wrap.appendChild(iconEl);
       wrap.appendChild(textEl);
-      el.appendChild(wrap);
+      stack.appendChild(wrap);
+      if(subtitle){
+        var subtitleEl = document.createElement('span');
+        subtitleEl.className = 'concept-title-subtitle';
+        subtitleEl.textContent = subtitle;
+        stack.appendChild(subtitleEl);
+      }
+      el.appendChild(stack);
     }
 
     const conceptContent = {
@@ -7578,8 +7587,9 @@
       panel.dataset.currentBlock = block;
       panel.dataset.conceptFlow = (block === 'block1' || block === 'block3') ? 'flat' : '';
       const titleEl = panel.querySelector('.concept-panel-title');
+      const stageSubtitle = (block === 'block2' && ['b2c1','b2c2','b2c3','b2c4'].indexOf(target) !== -1) ? (data.focus || '') : '';
       if(titleEl){
-        setConceptTitle(titleEl, data.title || '', target, block);
+        setConceptTitle(titleEl, data.title || '', target, block, stageSubtitle);
         titleEl.style.display = '';
       }
       if(block === 'block2'){
@@ -7642,7 +7652,10 @@
             stageTitleEl.textContent = data.title || '';
             stageTitleEl.style.display = 'none';
           }
-          if(stageFocusEl) stageFocusEl.textContent = data.focus || '';
+          if(stageFocusEl){
+            stageFocusEl.textContent = data.focus || '';
+            stageFocusEl.style.display = 'none';
+          }
           var panelLooks = stageIntroWrap.querySelector('[data-panel="looks"]');
           var panelPriorities = stageIntroWrap.querySelector('[data-panel="priorities"]');
           var panelGoal = stageIntroWrap.querySelector('[data-panel="goal"]');
@@ -7673,6 +7686,8 @@
           stageIntroWrap.setAttribute('aria-hidden', 'true');
           var hiddenStageTitleEl = stageIntroWrap.querySelector('.stage-intro-title');
           if(hiddenStageTitleEl) hiddenStageTitleEl.style.display = '';
+          var hiddenStageFocusEl = stageIntroWrap.querySelector('[data-stage-focus]');
+          if(hiddenStageFocusEl) hiddenStageFocusEl.style.display = '';
         }
       }
       const descEl = panel.querySelector('.concept-panel-desc');
