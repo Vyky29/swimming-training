@@ -5349,6 +5349,37 @@
     return (el.textContent || el.innerText || '').replace(/\s+/g, ' ').trim();
   }
 
+  function getConceptTitleIcon(title, target, block){
+    var key = [title || '', target || '', block || ''].join(' ').toLowerCase();
+    if(/safety|risk|entry|exit|vulnerability|prevention/.test(key)) return '🛟';
+    if(/breath|submersion|bubble/.test(key)) return '🌬️';
+    if(/water|aquatic|buoyancy|pressure|drag|force|dynamic/.test(key)) return '🌊';
+    if(/movement|float|balance|streamlin|rotation|scull|stroke|diving|turn|swimmer/.test(key)) return '🏊';
+    if(/experience|sensory|regulation|cognitive|emotion|internal/.test(key)) return '🧠';
+    if(/engagement|connection|trust|interaction|play|communication|participation/.test(key)) return '🤝';
+    if(/programme|progression|principle|framework|values|purpose|review|goal|stage/.test(key)) return '🧭';
+    if(/visual|pixtolearn|image|schedule|sequence/.test(key)) return '🖼️';
+    if(/plan|session/.test(key)) return '🗂️';
+    return '🔷';
+  }
+
+  function setConceptTitle(el, title, target, block){
+    if(!el) return;
+    el.textContent = '';
+    var wrap = document.createElement('span');
+    wrap.className = 'concept-title-main';
+    var iconEl = document.createElement('span');
+    iconEl.className = 'concept-title-icon';
+    iconEl.setAttribute('aria-hidden', 'true');
+    iconEl.textContent = getConceptTitleIcon(title, target, block);
+    var textEl = document.createElement('span');
+    textEl.className = 'concept-title-text';
+    textEl.textContent = title || '';
+    wrap.appendChild(iconEl);
+    wrap.appendChild(textEl);
+    el.appendChild(wrap);
+  }
+
   function capitalizeFirstLetter(str){
     var t = String(str || '').trim();
     if(!t) return t;
@@ -5435,7 +5466,7 @@
     panel.classList.add('show');
     panel.dataset.currentTarget = target;
     panel.dataset.currentBlock = block;
-    panel.querySelector('h4').textContent = data.title;
+    setConceptTitle(panel.querySelector('h4'), data.title, target, block);
     const pEl = panel.querySelector('p');
     if(pEl){
       pEl.innerHTML = formatConceptCopy(data.text || '');

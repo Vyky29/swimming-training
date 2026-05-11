@@ -4355,6 +4355,37 @@
       return (el.textContent || el.innerText || '').replace(/\s+/g, ' ').trim();
     }
 
+    function getConceptTitleIcon(title, target, block){
+      var key = [title || '', target || '', block || ''].join(' ').toLowerCase();
+      if(/safety|risk|entry|exit|vulnerability|prevention/.test(key)) return '🛟';
+      if(/breath|submersion|bubble/.test(key)) return '🌬️';
+      if(/water|aquatic|buoyancy|pressure|drag|force|dynamic/.test(key)) return '🌊';
+      if(/movement|float|balance|streamlin|rotation|scull|stroke|diving|turn|swimmer/.test(key)) return '🏊';
+      if(/experience|sensory|regulation|cognitive|emotion|internal/.test(key)) return '🧠';
+      if(/engagement|connection|trust|interaction|play|communication|participation/.test(key)) return '🤝';
+      if(/programme|progression|principle|framework|values|purpose|review|goal|stage/.test(key)) return '🧭';
+      if(/visual|pixtolearn|image|schedule|sequence/.test(key)) return '🖼️';
+      if(/plan|session/.test(key)) return '🗂️';
+      return '🔷';
+    }
+
+    function setConceptTitle(el, title, target, block){
+      if(!el) return;
+      el.textContent = '';
+      var wrap = document.createElement('span');
+      wrap.className = 'concept-title-main';
+      var iconEl = document.createElement('span');
+      iconEl.className = 'concept-title-icon';
+      iconEl.setAttribute('aria-hidden', 'true');
+      iconEl.textContent = getConceptTitleIcon(title, target, block);
+      var textEl = document.createElement('span');
+      textEl.className = 'concept-title-text';
+      textEl.textContent = title || '';
+      wrap.appendChild(iconEl);
+      wrap.appendChild(textEl);
+      el.appendChild(wrap);
+    }
+
     /** Water waves (pool) when pending; check when marked done — fits swimming instructor context. */
     function inPracticeActionIconHtml(done){
       if(done){
@@ -5797,7 +5828,7 @@
       delete panel.dataset.carouselComplete;
       delete panel.dataset.sequenceComplete;
       var titleHeading = panel.querySelector('.concept-heading-row h4') || panel.querySelector('h4');
-      if(titleHeading) titleHeading.textContent = data.title;
+      if(titleHeading) setConceptTitle(titleHeading, data.title, target, block);
       const pEl = panel.querySelector('.concept-panel-desc') || panel.querySelector('.concept-heading-row + p');
       if(pEl) pEl.innerHTML = formatConceptCopy(data.text || '');
 

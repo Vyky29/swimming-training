@@ -3667,6 +3667,48 @@
   </div>
 
   <script>
+    function getConceptTitleIcon(title, target, block){
+      var key = [title || '', target || '', block || ''].join(' ').toLowerCase();
+      if(/safety|risk|entry|exit|vulnerability|prevention/.test(key)) return '🛟';
+      if(/breath|submersion|bubble/.test(key)) return '🌬️';
+      if(/water|aquatic|buoyancy|pressure|drag|force|dynamic/.test(key)) return '🌊';
+      if(/movement|float|balance|streamlin|rotation|scull|stroke|diving|turn|swimmer/.test(key)) return '🏊';
+      if(/experience|sensory|regulation|cognitive|emotion|internal/.test(key)) return '🧠';
+      if(/engagement|connection|trust|interaction|play|communication|participation/.test(key)) return '🤝';
+      if(/programme|progression|principle|framework|values|purpose|review|goal|stage/.test(key)) return '🧭';
+      if(/visual|pixtolearn|image|schedule|sequence/.test(key)) return '🖼️';
+      if(/plan|session/.test(key)) return '🗂️';
+      return '🔷';
+    }
+
+    function setConceptTitle(el, title, target, block){
+      if(!el) return;
+      el.textContent = '';
+      var wrap = document.createElement('span');
+      wrap.className = 'concept-title-main';
+      var iconEl = document.createElement('span');
+      iconEl.className = 'concept-title-icon';
+      iconEl.setAttribute('aria-hidden', 'true');
+      iconEl.textContent = getConceptTitleIcon(title, target, block);
+      var textEl = document.createElement('span');
+      textEl.className = 'concept-title-text';
+      textEl.textContent = title || '';
+      wrap.appendChild(iconEl);
+      wrap.appendChild(textEl);
+      el.appendChild(wrap);
+    }
+
+    function decorateNestedConceptTitles(scope){
+      if(!scope) return;
+      scope.querySelectorAll('.b2pl-folder-h, .b2pl-cathead').forEach(function(el){
+        if(el.dataset.titleDecorated === 'true') return;
+        var rawTitle = (el.textContent || '').trim();
+        if(!rawTitle) return;
+        setConceptTitle(el, rawTitle, el.className, 'module5-nested');
+        el.dataset.titleDecorated = 'true';
+      });
+    }
+
     const conceptContent = {
       b1c1: {
         title: 'Why Visual Learning Works',
@@ -5325,6 +5367,7 @@
       const wrapper = panel.querySelector('[data-b2-screens="' + target + '"]');
       if(!wrapper || wrapper.dataset.initialized === 'true') return;
       wrapper.dataset.initialized = 'true';
+      decorateNestedConceptTitles(wrapper);
 
       function showScreen(id){
         wrapper.querySelectorAll('.b2-screen').forEach(screen => {
@@ -5339,8 +5382,7 @@
               vs2: 'First, Next & Then (3 Activities)',
               vs3: 'Four or More Activities'
             };
-            mainTitle.textContent = titleMap[id] || 'Visual Schedules';
-            mainTitle.style.color = 'var(--blue)';
+            setConceptTitle(mainTitle, titleMap[id] || 'Visual Schedules', id, target);
           }
         }
         if(target === 'b2c3'){
@@ -5621,7 +5663,7 @@
       panel.classList.add('show');
       panel.dataset.currentTarget = target;
       panel.dataset.currentBlock = block;
-      panel.querySelector('h4').textContent = data.title;
+      setConceptTitle(panel.querySelector('h4'), data.title, target, block);
       const descEl = panel.querySelector('.concept-panel-desc');
       if(descEl){
         descEl.innerHTML = (data.text || '')

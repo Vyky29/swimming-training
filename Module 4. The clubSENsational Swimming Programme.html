@@ -5247,6 +5247,37 @@
     document.addEventListener('DOMContentLoaded', function(){
     if (typeof console !== 'undefined') console.log('Module 4: DOMContentLoaded');
     try {
+    function getConceptTitleIcon(title, target, block){
+      var key = [title || '', target || '', block || ''].join(' ').toLowerCase();
+      if(/safety|risk|entry|exit|vulnerability|prevention/.test(key)) return '🛟';
+      if(/breath|submersion|bubble/.test(key)) return '🌬️';
+      if(/water|aquatic|buoyancy|pressure|drag|force|dynamic/.test(key)) return '🌊';
+      if(/movement|float|balance|streamlin|rotation|scull|stroke|diving|turn|swimmer/.test(key)) return '🏊';
+      if(/experience|sensory|regulation|cognitive|emotion|internal/.test(key)) return '🧠';
+      if(/engagement|connection|trust|interaction|play|communication|participation/.test(key)) return '🤝';
+      if(/programme|progression|principle|framework|values|purpose|review|goal|stage/.test(key)) return '🧭';
+      if(/visual|pixtolearn|image|schedule|sequence/.test(key)) return '🖼️';
+      if(/plan|session/.test(key)) return '🗂️';
+      return '🔷';
+    }
+
+    function setConceptTitle(el, title, target, block){
+      if(!el) return;
+      el.textContent = '';
+      var wrap = document.createElement('span');
+      wrap.className = 'concept-title-main';
+      var iconEl = document.createElement('span');
+      iconEl.className = 'concept-title-icon';
+      iconEl.setAttribute('aria-hidden', 'true');
+      iconEl.textContent = getConceptTitleIcon(title, target, block);
+      var textEl = document.createElement('span');
+      textEl.className = 'concept-title-text';
+      textEl.textContent = title || '';
+      wrap.appendChild(iconEl);
+      wrap.appendChild(textEl);
+      el.appendChild(wrap);
+    }
+
     const conceptContent = {
       // BLOCK 1 – Programme foundations
       b1c1: {
@@ -7372,13 +7403,8 @@
       panel.dataset.conceptFlow = (block === 'block1' || block === 'block3') ? 'flat' : '';
       const titleEl = panel.querySelector('.concept-panel-title');
       if(titleEl){
-        if(block === 'block2'){
-          titleEl.textContent = '';
-          titleEl.style.display = 'none';
-        } else {
-          titleEl.textContent = data.title || '';
-          titleEl.style.display = '';
-        }
+        setConceptTitle(titleEl, data.title || '', target, block);
+        titleEl.style.display = '';
       }
       if(block === 'block2'){
         panel.dataset.stageTheme = getBlock2Theme(target);
