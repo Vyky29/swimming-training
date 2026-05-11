@@ -74,5 +74,30 @@ Production deploys for this repo have been reliable when commits use the GitHub 
 ## Notes
 
 - The standalone quiz pages are still available, even though the modules already include inline quizzes.
-- The shared stylesheet is copied into `dist/assets/`.
-- The shared JS file is copied into `dist/shared/`.
+- The full `assets/` folder is copied into `dist/assets/`.
+- The full `shared/` folder is copied into `dist/shared/`.
+
+## Local images
+
+You can now keep project images inside this repo and deploy them with Vercel.
+
+Recommended structure:
+
+- `assets/images/module-1/`
+- `assets/images/module-2/`
+- `assets/images/module-3/`
+- `assets/images/module-4/`
+- `assets/images/module-5/`
+
+How to use them:
+
+1. Drop the image file into `assets/images/...`
+2. Reference it in the HTML with an absolute path from the site root
+
+Example:
+
+```html
+<img src="/assets/images/module-4/example-photo.jpg" alt="Example photo">
+```
+
+For replacements, just keep the same file name and overwrite it, or change the `src` to the new file.

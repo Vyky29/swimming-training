@@ -140,14 +140,14 @@ PAGE_REPLACEMENTS = {
     ],
 }
 
-STATIC_FILES = [
+STATIC_DIRECTORIES = [
     (
-        PROJECT_ROOT / "assets" / "training-content-containment.css",
-        DIST_DIR / "assets" / "training-content-containment.css",
+        PROJECT_ROOT / "assets",
+        DIST_DIR / "assets",
     ),
     (
-        PROJECT_ROOT / "shared" / "parent-subconcept-layout.js",
-        DIST_DIR / "shared" / "parent-subconcept-layout.js",
+        PROJECT_ROOT / "shared",
+        DIST_DIR / "shared",
     ),
 ]
 
@@ -217,10 +217,11 @@ def build_html(source_path: Path, destination_paths: list[Path], page_key: str) 
         destination_path.write_text(html, encoding="utf-8")
 
 
-def copy_static_files() -> None:
-    for source_path, destination_path in STATIC_FILES:
-        destination_path.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source_path, destination_path)
+def copy_static_directories() -> None:
+    for source_path, destination_path in STATIC_DIRECTORIES:
+        if not source_path.exists():
+            continue
+        shutil.copytree(source_path, destination_path, dirs_exist_ok=True)
 
 
 def write_supporting_pages() -> None:
@@ -229,7 +230,7 @@ def write_supporting_pages() -> None:
 
 def main() -> None:
     reset_dist()
-    copy_static_files()
+    copy_static_directories()
     write_supporting_pages()
     for source_path, destination_paths, page_key in PAGES:
         build_html(source_path, destination_paths, page_key)
