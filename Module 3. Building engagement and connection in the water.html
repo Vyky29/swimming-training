@@ -4504,6 +4504,28 @@
       }
     }
 
+    function prepareConceptTransition(control){
+      if(control && typeof control.blur === 'function'){
+        control.blur();
+        setTimeout(function(){
+          try { control.blur(); } catch(err){}
+        }, 0);
+      }
+      releaseActiveConceptControl();
+    }
+
+    function focusConceptStart(panel){
+      if(!panel) return;
+      var focusTarget = panel.querySelector('.back-container') || panel.querySelector('.concept-heading-row') || panel.querySelector('h4') || panel;
+      if(!focusTarget) return;
+      if(!focusTarget.hasAttribute('tabindex')) focusTarget.setAttribute('tabindex', '-1');
+      try {
+        focusTarget.focus({ preventScroll:true });
+      } catch(err){
+        try { focusTarget.focus(); } catch(e){}
+      }
+    }
+
     function scrollPanelIntoView(panel){
       if(!panel) return;
       var scrollTarget = panel.querySelector('.back-container') || panel;
@@ -4513,8 +4535,12 @@
       };
       releaseActiveConceptControl();
       setTimeout(function(){
+        focusConceptStart(panel);
         scrollTop();
-        setTimeout(scrollTop, 220);
+        setTimeout(function(){
+          focusConceptStart(panel);
+          scrollTop();
+        }, 220);
       }, 120);
     }
 
@@ -5329,6 +5355,7 @@
           btn.addEventListener('click', function(e){
             e.preventDefault();
             e.stopPropagation();
+            prepareConceptTransition(btn);
             renderConcept(block, btn.getAttribute('data-target'));
           });
         });
@@ -5485,6 +5512,8 @@
         const target = button.getAttribute('data-target');
         if(!target || !conceptContent[target]) return;
         e.preventDefault();
+        e.stopPropagation();
+        prepareConceptTransition(button);
         renderConcept(block, target);
       });
     }
