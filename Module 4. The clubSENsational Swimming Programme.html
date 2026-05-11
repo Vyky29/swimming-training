@@ -1662,41 +1662,45 @@
     .b3c2-factor-explore--cognitive .b3c2-factor-acc-trigger:focus-visible{ outline-color:#6d5acd; }
     .b3c2-factor-explore--cognitive .b3c2-factor-acc-icon{ color:#6d5acd; }
 
-    /* Level programme shell (L1–L6): one tinted container — stage colour only on shell, white for inner content */
+    /* Level programme shell (L1–L6): one polished tinted container per level family */
     .b2l1-intro-box{
-      margin:0;
-      padding:14px 16px;
-      border-radius:12px;
-      font-size:.9rem;
-      line-height:1.55;
+      width:100%;
+      max-width:100%;
+      box-sizing:border-box;
+      margin:0 0 10px;
+      padding:20px 22px;
+      border-radius:20px;
+      font-size:.94rem;
+      line-height:1.62;
       border:1px solid rgba(22,50,71,.12);
       background:linear-gradient(180deg,rgba(248,251,253,.95) 0%,#fff 100%);
       color:var(--ink);
+      box-shadow:0 10px 24px rgba(18,50,71,.06);
     }
     .b2l1-intro-box.b2l-stage--confidence{
-      border-color:rgba(45,107,40,.28);
-      background:linear-gradient(180deg,rgba(62,127,51,.14) 0%,rgba(62,127,51,.07) 100%);
+      border-color:rgba(45,107,40,.24);
+      background:linear-gradient(180deg,rgba(62,127,51,.18) 0%,rgba(233,246,231,.96) 100%);
       color:#1f3f1a;
     }
     .b2l1-intro-box.b2l-stage--basic{
-      border-color:rgba(194,138,26,.38);
-      background:linear-gradient(180deg,rgba(220,162,79,.18) 0%,rgba(232,184,92,.09) 100%);
+      border-color:rgba(194,138,26,.28);
+      background:linear-gradient(180deg,rgba(232,184,92,.22) 0%,rgba(252,243,224,.98) 100%);
       color:#3d2e12;
     }
     .b2l1-intro-box.b2l-stage--structured{
-      border-color:rgba(95,138,144,.38);
-      background:linear-gradient(180deg,rgba(122,168,175,.16) 0%,rgba(155,196,201,.1) 100%);
+      border-color:rgba(95,138,144,.28);
+      background:linear-gradient(180deg,rgba(122,168,175,.2) 0%,rgba(236,246,247,.98) 100%);
       color:#1a3539;
     }
     .b2l1-intro-head{
       display:flex;
       align-items:center;
       gap:8px;
-      margin:0 0 8px;
+      margin:0 0 10px;
       color:var(--blue);
       font-size:.76rem;
       font-weight:800;
-      letter-spacing:.04em;
+      letter-spacing:.06em;
       text-transform:uppercase;
     }
     .b2l-stage--confidence .b2l1-intro-head{ color:#2d6b28; }
@@ -1717,51 +1721,56 @@
     .b2l-stage--basic .b2l-intro-book{ background:rgba(194,138,26,.18); color:#a67414; }
     .b2l-stage--structured .b2l-intro-book{ background:rgba(95,138,144,.16); color:#4d7278; }
     .b2l-intro-book svg{ width:13px; height:13px; display:block; }
-    .b2l-intro-line{ margin:0; font-size:.9rem; line-height:1.55; }
-    .b2l-intro-line + .b2l-intro-line{ margin-top:6px; }
+    .b2l-intro-line{ margin:0; font-size:.98rem; line-height:1.68; }
+    .b2l-intro-line + .b2l-intro-line{ margin-top:8px; }
     .b2l1-section{
-      margin-top:14px;
-      padding-top:12px;
-      border-top:1px solid rgba(22,50,71,.1);
+      margin-top:18px;
+      padding:18px 18px 16px;
+      border:1px solid rgba(255,255,255,.58);
+      border-radius:18px;
+      background:rgba(255,255,255,.34);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
     }
     .b2l1-section-title{
-      margin:0 0 6px;
-      font-size:.95rem;
+      margin:0 0 8px;
+      font-size:1rem;
       font-weight:800;
       color:var(--blue);
     }
     .b2l1-section-intro{
-      margin:0 0 10px;
-      font-size:.88rem;
-      line-height:1.5;
-      color:var(--muted);
+      margin:0 0 12px;
+      font-size:.9rem;
+      line-height:1.56;
+      color:inherit;
+      opacity:.86;
     }
     .b2l1-list{
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
     }
     .b2l1-item-btn{
       position:relative;
       width:100%;
       text-align:left;
-      border-radius:12px;
-      padding:13px 14px;
+      border-radius:14px;
+      padding:14px 16px;
       font:inherit;
       font-weight:700;
-      font-size:.93rem;
+      font-size:.95rem;
       cursor:pointer;
       display:flex;
       align-items:center;
-      gap:9px;
+      gap:10px;
       line-height:1.35;
+      box-shadow:0 6px 16px rgba(18,50,71,.05);
     }
     .b2l-stage--confidence .b2l1-item-btn{
       border:1px solid rgba(45,107,40,.24);
       background:linear-gradient(180deg,rgba(62,127,51,.12) 0%,rgba(62,127,51,.06) 100%);
       color:#1f3f1a;
     }
-    .b2l-stage--confidence .b2l1-item-btn:hover{ border-color:#2d6b28; background:#fff; color:#174116; }
+    .b2l-stage--confidence .b2l1-item-btn:hover{ border-color:#2d6b28; background:rgba(255,255,255,.95); color:#174116; }
     .b2l-stage--confidence .b2l1-item-btn.is-active{
       border-color:#2d6b28;
       background:linear-gradient(180deg,rgba(62,127,51,.2) 0%,rgba(62,127,51,.12) 100%);
@@ -1772,7 +1781,7 @@
       background:linear-gradient(180deg,rgba(220,162,79,.14) 0%,rgba(232,184,92,.08) 100%);
       color:#3d2e12;
     }
-    .b2l-stage--basic .b2l1-item-btn:hover{ border-color:#c28a1a; background:#fff; color:#5c3d0a; }
+    .b2l-stage--basic .b2l1-item-btn:hover{ border-color:#c28a1a; background:rgba(255,255,255,.95); color:#5c3d0a; }
     .b2l-stage--basic .b2l1-item-btn.is-active{
       border-color:#c28a1a;
       background:linear-gradient(180deg,rgba(220,162,79,.22) 0%,rgba(232,184,92,.12) 100%);
@@ -1783,7 +1792,7 @@
       background:linear-gradient(180deg,rgba(122,168,175,.14) 0%,rgba(155,196,201,.08) 100%);
       color:#1a3539;
     }
-    .b2l-stage--structured .b2l1-item-btn:hover{ border-color:#5f8a90; background:#fff; color:#143038; }
+    .b2l-stage--structured .b2l1-item-btn:hover{ border-color:#5f8a90; background:rgba(255,255,255,.95); color:#143038; }
     .b2l-stage--structured .b2l1-item-btn.is-active{
       border-color:#5f8a90;
       background:linear-gradient(180deg,rgba(122,168,175,.22) 0%,rgba(155,196,201,.12) 100%);
@@ -7693,7 +7702,8 @@
       const descEl = panel.querySelector('.concept-panel-desc');
       if(descEl){
         descEl.innerHTML = formatConceptCopy(data.text || '');
-        descEl.style.display = isBlock2Stage ? 'none' : '';
+        const isBlock2LevelRoot = block === 'block2' && /^b2l[1-6]$/.test(target || '');
+        descEl.style.display = (isBlock2Stage || isBlock2LevelRoot) ? 'none' : '';
       }
 
       const introMediaEl = panel.querySelector('[data-concept-intro-media]');
