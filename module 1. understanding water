@@ -893,6 +893,14 @@
   .outcome > div{
     font-size:.93rem;
     line-height:1.65;
+    font-weight:400;
+    font-family:inherit;
+    color:var(--ink);
+  }
+  .outcome > div strong{
+    font-weight:400;
+    font-family:inherit;
+    color:inherit;
   }
 
   .stage-helper{
@@ -3479,7 +3487,7 @@
         <div class="section-body">
           <div class="section-lock-banner">Complete the Swimming Journey section to unlock Learning Outcomes.</div>
           <div class="section-title-row">
-            <h3>Learning Outcomes</h3>
+            <h3>What will you understand by the end of this module?</h3>
             <div class="section-top-actions">
               <button class="btn btn-tts" data-tts-button="outcomes">🔊 Listen</button>
               <button class="btn btn-tts" data-tts-stop="outcomes">⏹ Stop Audio</button>
