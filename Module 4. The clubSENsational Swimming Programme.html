@@ -6830,6 +6830,7 @@
       const subLabels = { overview: 'Overview', focus: 'Focus Areas', activities: 'Activities in Practice' };
       let parts = [];
       if(stage && target === stage) return parts;
+      if(level && target === ('b2l' + level)) return parts;
       if(stage === 'b2c4' && coreLabel){
         parts.push({ label: stageLabels[stage], active: target === 'b2c4', key: 'stage' });
         parts.push({ label: coreLabel, active: target.match(/^b2core\d$/) && !target.match(/_/), key: 'core' });
