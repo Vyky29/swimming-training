@@ -4789,8 +4789,13 @@
     }
 
 
+    function isOverviewReturnSubconcept(block, target){
+      if(block === 'block3' && block3ApproachTargets.indexOf(target) !== -1) return true;
+      return false;
+    }
+
     function getNextActionLabel(block, target){
-      if(block === 'block3' && block3ApproachTargets.indexOf(target) !== -1) return 'Done and choose next approach';
+      if(block === 'block3' && block3ApproachTargets.indexOf(target) !== -1) return 'Done';
       if(block === 'block3' && target === 'b3c3'){
         return block3ApproachesViewed.size === block3ApproachTargets.length ? 'Continue' : 'Choose an approach above';
       }
@@ -4812,15 +4817,16 @@
       }
       var dwellEnd = parseInt(panel.dataset.conceptDwellEnd, 10) || 0;
       var dwellOk = !dwellEnd || Date.now() >= dwellEnd;
+      var optionalSubconceptActivity = isOverviewReturnSubconcept(block, target);
       var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
       var requiredMatches = data.matchingPairsCount || 7;
-      var matchingOk = !data.requiresMatching || matchedCount === requiredMatches;
-      var categorizeOk = !data.requiresCategorize || panel.dataset.categorizeComplete === 'true';
-      var choiceOk = !data.requiresChoiceActivity || panel.dataset.choiceComplete === 'true';
-      var carouselOk = !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
-      var reflectAckOk = !data.requiresReflectAck || panel.dataset.reflectAckComplete === 'true';
-      var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
-      var inPracticeOk = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
+      var matchingOk = optionalSubconceptActivity || !data.requiresMatching || matchedCount === requiredMatches;
+      var categorizeOk = optionalSubconceptActivity || !data.requiresCategorize || panel.dataset.categorizeComplete === 'true';
+      var choiceOk = optionalSubconceptActivity || !data.requiresChoiceActivity || panel.dataset.choiceComplete === 'true';
+      var carouselOk = optionalSubconceptActivity || !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
+      var reflectAckOk = optionalSubconceptActivity || !data.requiresReflectAck || panel.dataset.reflectAckComplete === 'true';
+      var keyIdeasOk = optionalSubconceptActivity || panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
+      var inPracticeOk = optionalSubconceptActivity || panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
       var canFinish = dwellOk && matchingOk && categorizeOk && choiceOk && carouselOk && reflectAckOk && keyIdeasOk && inPracticeOk;
       finishBtn.disabled = !canFinish;
       finishBtn.style.opacity = canFinish ? '1' : '.55';

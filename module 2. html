@@ -5543,12 +5543,18 @@
     return cleaned;
   }
 
+    function isOverviewReturnSubconcept(block, target){
+      if(block === 'block2' && block2StateTargets.indexOf(target) !== -1) return true;
+      if(block === 'block3' && block3FactorTargets.indexOf(target) !== -1) return true;
+      return false;
+    }
+
     function getNextActionLabel(block, target){
-      if(block === 'block2' && block2StateTargets.indexOf(target) !== -1) return 'Done and choose next state';
+      if(block === 'block2' && block2StateTargets.indexOf(target) !== -1) return 'Done';
       if(block === 'block2' && target === 'b2c2'){
         return block2StatesViewed.size === block2StateTargets.length ? 'Continue' : 'Choose a state above';
       }
-      if(block === 'block3' && block3FactorTargets.indexOf(target) !== -1) return 'Done and choose next factor';
+      if(block === 'block3' && block3FactorTargets.indexOf(target) !== -1) return 'Done';
       if(block === 'block3' && target === 'b3c2'){
         return block3FactorsViewed.size === block3FactorTargets.length ? 'Continue' : 'Choose a factor above';
       }
@@ -5574,17 +5580,18 @@
       }
     var dwellEnd = parseInt(panel.dataset.conceptDwellEnd, 10) || 0;
     var dwellOk = !dwellEnd || Date.now() >= dwellEnd;
-    var carouselOk = !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
+    var optionalSubconceptActivity = isOverviewReturnSubconcept(block, target);
+    var carouselOk = optionalSubconceptActivity || !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
     var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
     var requiredMatches = data.matchingPairsCount || 7;
-    var matchingOk = !data.requiresMatching || matchedCount === requiredMatches;
-    var categorizeOk = !data.requiresCategorize || panel.dataset.categorizeComplete === 'true';
-    var choiceOk = !data.requiresChoiceActivity || panel.dataset.choiceComplete === 'true';
-    var sequenceOk = !data.requiresSequenceActivity || panel.dataset.sequenceComplete === 'true';
+    var matchingOk = optionalSubconceptActivity || !data.requiresMatching || matchedCount === requiredMatches;
+    var categorizeOk = optionalSubconceptActivity || !data.requiresCategorize || panel.dataset.categorizeComplete === 'true';
+    var choiceOk = optionalSubconceptActivity || !data.requiresChoiceActivity || panel.dataset.choiceComplete === 'true';
+    var sequenceOk = optionalSubconceptActivity || !data.requiresSequenceActivity || panel.dataset.sequenceComplete === 'true';
     var sensoryFlipped = panel.querySelectorAll('[data-sense-card].flipped').length;
-    var sensoryOk = !data.requiresSensoryBoxes || sensoryFlipped === 7;
-    var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
-    var inPracticeOk = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
+    var sensoryOk = optionalSubconceptActivity || !data.requiresSensoryBoxes || sensoryFlipped === 7;
+    var keyIdeasOk = optionalSubconceptActivity || panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
+    var inPracticeOk = optionalSubconceptActivity || panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
     var canFinish = dwellOk && carouselOk && matchingOk && categorizeOk && sensoryOk && choiceOk && sequenceOk && keyIdeasOk && inPracticeOk;
     finishBtn.disabled = !canFinish;
     finishBtn.style.opacity = canFinish ? '1' : '.55';
