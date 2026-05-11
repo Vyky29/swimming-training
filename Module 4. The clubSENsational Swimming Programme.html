@@ -2558,9 +2558,16 @@
     .concept-panel[data-stage-theme="confidence"] .concept-square.visited.active{ outline-color:rgba(45,107,40,.55); }
     .concept-panel[data-stage-theme="basic"] .concept-square.visited.active{ outline-color:rgba(184,134,11,.55); }
     .concept-panel[data-stage-theme="structured"] .concept-square.visited.active{ outline-color:rgba(95,138,144,.55); }
+    .concept-panel[data-stage-theme="core"] .concept-square.visited.active{ outline-color:rgba(138,63,176,.55); }
     .concept-square.active{
       outline:3px solid rgba(255,255,255,.4);
       outline-offset:2px;
+    }
+    .concept-square.level-card--core.active:hover,
+    .concept-square.level-card--core.active:focus-visible{
+      background:#6f2395;
+      color:#fff;
+      border-color:#6f2395;
     }
 
     .concept-square.current-stage{
@@ -2570,6 +2577,7 @@
     .concept-square.level-card--confidence.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #3e7f33; }
     .concept-square.level-card--basic.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #dca24f; }
     .concept-square.level-card--structured.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #7aa8af; }
+    .concept-square.level-card--core.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #8a3fb0; }
 
     .concept-square--level.level-completed{
       position:relative;
@@ -4994,7 +5002,7 @@
                 <button class="concept-square level-card--confidence" data-target="b2c1"><span class="concept-square-stage-kicker">Stage 1</span><span class="concept-square-stage-title">Swim Confidence</span></button>
                 <button class="concept-square level-card--basic" data-target="b2c2"><span class="concept-square-stage-kicker">Stage 2</span><span class="concept-square-stage-title">Swim Basic</span></button>
                 <button class="concept-square level-card--structured" data-target="b2c3"><span class="concept-square-stage-kicker">Stage 3</span><span class="concept-square-stage-title">Swim Structured</span></button>
-                <button class="concept-square" data-target="b2c4"><span class="concept-square-stage-title">Core Development Areas</span></button>
+                <button class="concept-square level-card--core" data-target="b2c4"><span class="concept-square-stage-title">Core Development Areas</span></button>
               </div>
 
             </div>
