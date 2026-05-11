@@ -7341,22 +7341,69 @@
       }
     }
 
-    function scrollPanelIntoView(panel){
+    function getScrollableAncestors(el){
+      var ancestors = [];
+      var node = el ? el.parentElement : null;
+      while(node && node !== document.body && node !== document.documentElement){
+        var style = window.getComputedStyle(node);
+        var overflowY = style.overflowY || style.overflow || '';
+        if(/(auto|scroll|overlay)/.test(overflowY) && node.scrollHeight > node.clientHeight + 4){
+          ancestors.push(node);
+        }
+        node = node.parentElement;
+      }
+      return ancestors;
+    }
+
+    function jumpConceptPanelToTop(panel){
       if(!panel) return;
       var scrollTarget = panel.querySelector('.back-container') || panel;
-      var scrollTop = function(){
-        var top = Math.max(0, Math.round(scrollTarget.getBoundingClientRect().top + window.pageYOffset - 16));
-        window.scrollTo({ top: top, behavior:'smooth' });
-      };
+      getScrollableAncestors(scrollTarget).forEach(function(container){
+        var targetRect = scrollTarget.getBoundingClientRect();
+        var containerRect = container.getBoundingClientRect();
+        var nextTop = Math.max(0, Math.round(container.scrollTop + targetRect.top - containerRect.top - 16));
+        container.scrollTop = nextTop;
+      });
+      var absoluteTop = Math.max(0, Math.round(scrollTarget.getBoundingClientRect().top + window.pageYOffset - 16));
+      window.scrollTo(0, absoluteTop);
+      if(document.documentElement) document.documentElement.scrollTop = absoluteTop;
+      if(document.body) document.body.scrollTop = absoluteTop;
+    }
+
+    function bindConceptPanelImageStabilizers(panel){
+      if(!panel) return;
+      var renderKey = panel.dataset.currentTarget || '';
+      panel.querySelectorAll('img').forEach(function(img){
+        if(img.complete) return;
+        if(img.dataset.topStabilizerKey === renderKey) return;
+        img.dataset.topStabilizerKey = renderKey;
+        img.addEventListener('load', function(){
+          if(panel.dataset.currentTarget !== renderKey) return;
+          jumpConceptPanelToTop(panel);
+        }, { once:true });
+      });
+    }
+
+    function scrollPanelIntoView(panel){
+      if(!panel) return;
       releaseActiveConceptControl();
       setTimeout(function(){
         focusConceptStart(panel);
-        scrollTop();
+        jumpConceptPanelToTop(panel);
+        bindConceptPanelImageStabilizers(panel);
+        requestAnimationFrame(function(){
+          if(!panel.classList.contains('show')) return;
+          jumpConceptPanelToTop(panel);
+        });
         setTimeout(function(){
           focusConceptStart(panel);
-          scrollTop();
-        }, 220);
-      }, 120);
+          jumpConceptPanelToTop(panel);
+        }, 180);
+        setTimeout(function(){
+          if(!panel.classList.contains('show')) return;
+          jumpConceptPanelToTop(panel);
+        }, 420);
+      }, 40);
     }
 
     function getNextConceptTarget(block, currentTarget){
