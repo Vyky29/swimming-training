@@ -6667,54 +6667,71 @@
     function getBlock2ThemeStyles(theme){
       if(theme === 'confidence') return {
         accent: '#2d6b28',
-        soft: 'rgba(62,127,51,.14)',
+        soft: 'rgba(62,127,51,.22)',
         border: 'rgba(62,127,51,.24)',
-        surface: 'linear-gradient(135deg, #f1f8ef 0%, #e6f3e2 100%)'
+        surface: 'linear-gradient(135deg, #eef7ea 0%, #dcedd6 100%)',
+        line: 'linear-gradient(90deg, #8ac480 0%, #2d6b28 100%)'
       };
       if(theme === 'basic') return {
         accent: '#b8860b',
-        soft: 'rgba(220,162,79,.18)',
+        soft: 'rgba(220,162,79,.24)',
         border: 'rgba(220,162,79,.28)',
-        surface: 'linear-gradient(135deg, #fff7e7 0%, #fdf0d7 100%)'
+        surface: 'linear-gradient(135deg, #fff6e4 0%, #f7e5bb 100%)',
+        line: 'linear-gradient(90deg, #efcb7b 0%, #b8860b 100%)'
       };
       if(theme === 'structured') return {
         accent: '#5f8a90',
-        soft: 'rgba(122,168,175,.18)',
+        soft: 'rgba(122,168,175,.24)',
         border: 'rgba(122,168,175,.3)',
-        surface: 'linear-gradient(135deg, #eef7f8 0%, #deedf0 100%)'
+        surface: 'linear-gradient(135deg, #edf7f8 0%, #d7eaec 100%)',
+        line: 'linear-gradient(90deg, #9bc4c9 0%, #5f8a90 100%)'
       };
       return {
         accent: '#2d84b3',
-        soft: 'rgba(45,132,179,.14)',
+        soft: 'rgba(45,132,179,.2)',
         border: 'rgba(45,132,179,.22)',
-        surface: 'linear-gradient(135deg, #f1f8fc 0%, #e4f0f8 100%)'
+        surface: 'linear-gradient(135deg, #eef7fc 0%, #dceefa 100%)',
+        line: 'linear-gradient(90deg, #6eb4de 0%, #2d84b3 100%)'
       };
     }
     function applyStageTitleChrome(panel, theme){
       if(!panel) return;
       const titleRow = panel.querySelector('.concept-panel-title-row');
       const titleEl = panel.querySelector('.concept-panel-title');
+      const titleTextEl = titleEl ? titleEl.querySelector('.concept-title-text') : null;
       const iconEl = panel.querySelector('.concept-title-icon');
       if(!titleRow) return;
       if(!theme){
+        titleRow.style.removeProperty('--concept-title-accent');
+        titleRow.style.removeProperty('--concept-title-accent-soft');
+        titleRow.style.removeProperty('--concept-title-accent-border');
+        titleRow.style.removeProperty('--concept-title-line');
         titleRow.style.background = '';
         titleRow.style.borderColor = '';
-        if(titleEl) titleEl.style.color = '';
+        titleRow.style.boxShadow = '';
+        if(titleEl) titleEl.style.removeProperty('color');
+        if(titleTextEl) titleTextEl.style.removeProperty('color');
         if(iconEl){
-          iconEl.style.color = '';
-          iconEl.style.background = '';
-          iconEl.style.boxShadow = '';
+          iconEl.style.removeProperty('color');
+          iconEl.style.removeProperty('background');
+          iconEl.style.removeProperty('box-shadow');
         }
         return;
       }
       const styles = getBlock2ThemeStyles(theme);
-      titleRow.style.background = styles.surface;
-      titleRow.style.borderColor = styles.border;
-      if(titleEl) titleEl.style.color = styles.accent;
+      titleRow.style.setProperty('--concept-title-accent', styles.accent);
+      titleRow.style.setProperty('--concept-title-accent-soft', styles.soft);
+      titleRow.style.setProperty('--concept-title-accent-border', styles.border);
+      titleRow.style.setProperty('--concept-title-line', styles.line);
+      titleRow.style.setProperty('background', styles.surface, 'important');
+      titleRow.style.setProperty('border-color', styles.border, 'important');
+      titleRow.style.setProperty('box-shadow', '0 10px 24px rgba(18,50,71,.06)', 'important');
+      if(titleEl) titleEl.style.setProperty('color', styles.accent, 'important');
+      if(titleTextEl) titleTextEl.style.setProperty('color', styles.accent, 'important');
       if(iconEl){
-        iconEl.style.color = styles.accent;
-        iconEl.style.background = 'linear-gradient(180deg, rgba(255,255,255,.96) 0%, ' + styles.soft + ' 100%)';
-        iconEl.style.boxShadow = 'inset 0 0 0 1px ' + styles.border + ', 0 8px 18px rgba(18,50,71,.08)';
+        iconEl.style.setProperty('color', styles.accent, 'important');
+        iconEl.style.setProperty('background', 'linear-gradient(180deg, rgba(255,255,255,.96) 0%, ' + styles.soft + ' 100%)', 'important');
+        iconEl.style.setProperty('box-shadow', 'inset 0 0 0 1px ' + styles.border + ', 0 8px 18px rgba(18,50,71,.08)', 'important');
       }
     }
     function getBlock2Level(target){
