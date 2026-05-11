@@ -2161,6 +2161,27 @@
       display:block;
       max-width:100%;
     }
+    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square{
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      text-align:center;
+      padding:20px 18px;
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square .concept-square-stage-kicker{
+      display:block;
+      font-size:.76rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      opacity:.9;
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square .concept-square-stage-title{
+      display:block;
+      max-width:100%;
+      line-height:1.25;
+    }
 
     /* Main grid stage boxes (Block 2) – same colours as level cards */
     .concept-square.level-card--confidence{
@@ -4946,10 +4967,10 @@
               </div>
 
               <div class="concept-grid" data-concept-grid="block2">
-                <button class="concept-square level-card--confidence" data-target="b2c1">Stage 1 – Swim Confidence</button>
-                <button class="concept-square level-card--basic" data-target="b2c2">Stage 2 – Swim Basic</button>
-                <button class="concept-square level-card--structured" data-target="b2c3">Stage 3 – Swim Structured</button>
-                <button class="concept-square" data-target="b2c4">Core Development Areas</button>
+                <button class="concept-square level-card--confidence" data-target="b2c1"><span class="concept-square-stage-kicker">Stage 1</span><span class="concept-square-stage-title">Swim Confidence</span></button>
+                <button class="concept-square level-card--basic" data-target="b2c2"><span class="concept-square-stage-kicker">Stage 2</span><span class="concept-square-stage-title">Swim Basic</span></button>
+                <button class="concept-square level-card--structured" data-target="b2c3"><span class="concept-square-stage-kicker">Stage 3</span><span class="concept-square-stage-title">Swim Structured</span></button>
+                <button class="concept-square" data-target="b2c4"><span class="concept-square-stage-kicker">Core</span><span class="concept-square-stage-title">Development Areas</span></button>
               </div>
 
             </div>
