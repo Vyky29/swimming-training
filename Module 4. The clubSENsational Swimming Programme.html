@@ -1757,63 +1757,67 @@
       position:relative;
       width:100%;
       text-align:left;
-      border-radius:12px;
-      padding:13px 14px;
+      border-radius:14px;
+      padding:14px 16px;
       font:inherit;
       font-weight:700;
       font-size:.94rem;
       cursor:pointer;
       display:flex;
       align-items:center;
-      gap:10px;
+      justify-content:flex-start;
+      gap:12px;
       line-height:1.35;
-      border:1px solid rgba(255,255,255,.56);
-      background:rgba(255,255,255,.76);
-      box-shadow:none;
+      border:1px solid rgba(255,255,255,.62);
+      background:linear-gradient(180deg,rgba(255,255,255,.9) 0%,rgba(255,255,255,.74) 100%);
+      box-shadow:0 1px 2px rgba(18,50,71,.03);
       transition:border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
     }
     .b2l-stage--confidence .b2l1-item-btn{
       border-color:rgba(45,107,40,.16);
-      background:rgba(255,255,255,.78);
       color:#203425;
     }
-    .b2l-stage--confidence .b2l1-item-btn:hover{ transform:translateY(-1px); border-color:#2d6b28; background:rgba(255,255,255,.95); color:#174116; box-shadow:0 8px 18px rgba(18,50,71,.06); }
+    .b2l-stage--confidence .b2l1-item-btn:hover{ transform:translateY(-1px); border-color:#2d6b28; background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(255,255,255,.84) 100%); color:#174116; box-shadow:0 8px 18px rgba(18,50,71,.06); }
     .b2l-stage--confidence .b2l1-item-btn.is-active{
       border-color:#2d6b28;
-      background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(62,127,51,.12) 100%);
-      box-shadow:0 0 0 3px rgba(45,107,40,.08);
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+      background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(62,127,51,.12) 100%);
+      box-shadow:0 0 0 2px rgba(45,107,40,.08);
     }
     .b2l-stage--basic .b2l1-item-btn{
       border-color:rgba(194,138,26,.18);
-      background:rgba(255,255,255,.78);
       color:#42331a;
     }
-    .b2l-stage--basic .b2l1-item-btn:hover{ transform:translateY(-1px); border-color:#c28a1a; background:rgba(255,255,255,.95); color:#5c3d0a; box-shadow:0 8px 18px rgba(18,50,71,.06); }
+    .b2l-stage--basic .b2l1-item-btn:hover{ transform:translateY(-1px); border-color:#c28a1a; background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(255,255,255,.84) 100%); color:#5c3d0a; box-shadow:0 8px 18px rgba(18,50,71,.06); }
     .b2l-stage--basic .b2l1-item-btn.is-active{
       border-color:#c28a1a;
-      background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(220,162,79,.12) 100%);
-      box-shadow:0 0 0 3px rgba(194,138,26,.09);
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+      background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(220,162,79,.13) 100%);
+      box-shadow:0 0 0 2px rgba(194,138,26,.09);
     }
     .b2l-stage--structured .b2l1-item-btn{
       border-color:rgba(95,138,144,.18);
-      background:rgba(255,255,255,.78);
       color:#21373b;
     }
-    .b2l-stage--structured .b2l1-item-btn:hover{ transform:translateY(-1px); border-color:#5f8a90; background:rgba(255,255,255,.95); color:#143038; box-shadow:0 8px 18px rgba(18,50,71,.06); }
+    .b2l-stage--structured .b2l1-item-btn:hover{ transform:translateY(-1px); border-color:#5f8a90; background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(255,255,255,.84) 100%); color:#143038; box-shadow:0 8px 18px rgba(18,50,71,.06); }
     .b2l-stage--structured .b2l1-item-btn.is-active{
       border-color:#5f8a90;
-      background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(122,168,175,.12) 100%);
-      box-shadow:0 0 0 3px rgba(95,138,144,.09);
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+      background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(122,168,175,.13) 100%);
+      box-shadow:0 0 0 2px rgba(95,138,144,.09);
     }
     .b2l1-item-arrow{
       flex:0 0 auto;
-      width:20px;
-      height:20px;
+      width:22px;
+      height:22px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
       border-radius:999px;
-      font-size:.68rem;
+      font-size:.7rem;
       font-weight:800;
       line-height:1;
       background:rgba(22,50,71,.05);
@@ -1826,41 +1830,55 @@
       position:relative;
       width:100%;
       text-align:left;
-      border:1px solid rgba(22,50,71,.14);
-      border-radius:10px;
-      background:#fff;
-      padding:9px 11px;
+      border:1px solid rgba(22,50,71,.1);
+      border-radius:12px;
+      background:rgba(255,255,255,.88);
+      padding:12px 14px;
       font:inherit;
-      font-size:.86rem;
+      font-size:.88rem;
       color:#1f3f1a;
       cursor:pointer;
-      box-shadow:0 1px 2px rgba(18,50,71,.06);
+      box-shadow:none;
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:12px;
+      align-items:flex-start;
     }
-    .b2l1-point-btn:hover{ background:#fff; border-color:rgba(22,50,71,.24); color:#1f3f1a; }
+    .b2l1-point-btn:hover{ background:#fff; border-color:rgba(22,50,71,.2); color:#1f3f1a; }
+    .b2l1-point-index{
+      width:26px;
+      height:26px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:.76rem;
+      font-weight:800;
+      line-height:1;
+      background:rgba(22,50,71,.06);
+      color:var(--ink);
+      flex-shrink:0;
+    }
+    .b2l1-point-copy{
+      min-width:0;
+      line-height:1.55;
+    }
     .b2l1-point-btn.is-done{
       border-color:#2d6b28;
-      background:rgba(62,127,51,.09);
+      background:rgba(62,127,51,.08);
       color:#1f3f1a;
     }
-    .b2l1-point-btn.is-done::after{
-      content:'✓';
-      position:absolute;
-      top:8px;
-      right:10px;
-      font-size:.78rem;
-      font-weight:800;
-      color:#2d6b28;
-    }
+    .b2l1-point-btn.is-done .b2l1-point-index{ background:#2d6b28; color:#fff; }
     .b2l-stage--basic .b2l1-point-btn.is-done{
       border-color:#c28a1a;
       background:rgba(220,162,79,.1);
     }
-    .b2l-stage--basic .b2l1-point-btn.is-done::after{ color:#b8860b; }
+    .b2l-stage--basic .b2l1-point-btn.is-done .b2l1-point-index{ background:#b8860b; color:#fff; }
     .b2l-stage--structured .b2l1-point-btn.is-done{
       border-color:#5f8a90;
       background:rgba(122,168,175,.1);
     }
-    .b2l-stage--structured .b2l1-point-btn.is-done::after{ color:#5f8a90; }
+    .b2l-stage--structured .b2l1-point-btn.is-done .b2l1-point-index{ background:#5f8a90; color:#fff; }
     .b2l1-detail-panel{
       margin-top:12px;
       padding:2px 0 0;
@@ -1873,17 +1891,24 @@
     .b2l1-detail-section ul{ margin:6px 0 0; padding-left:16px; }
     .b2l1-detail-section li{ margin:0 0 4px; }
     .b2l1-inline-detail{
-      margin:8px 0 4px 6px;
-      padding:8px 0 2px 12px;
-      border-left:2px solid rgba(22,50,71,.16);
-      background:#fff;
+      margin:-4px 0 12px;
+      padding:14px 14px 14px;
+      border:1px solid var(--concept-title-accent-border);
+      border-top:none;
+      border-radius:0 0 14px 14px;
+      background:linear-gradient(180deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.7) 100%);
+      box-shadow:0 10px 20px rgba(18,50,71,.04);
     }
+    .b2l1-focus-detail .b2l1-list{ gap:10px; }
     .b2l1-activity-detail .b2l1-detail-section{
-      background:#fff;
-      border:1px solid rgba(22,50,71,.14);
-      border-radius:10px;
-      padding:10px 12px;
-      box-shadow:0 1px 2px rgba(18,50,71,.06);
+      margin:0;
+      padding:0;
+      background:none;
+      border:0;
+      border-radius:0;
+      box-shadow:none;
+      font-size:.9rem;
+      line-height:1.62;
     }
     .b2l1-hidden-source{ display:none !important; }
 
@@ -9001,7 +9026,7 @@
             detail.innerHTML = '<div class="b2l1-list">' +
               data.points.map(function(point, idx){
                 var pKey = target + '_' + key + '_' + idx;
-                return '<button type="button" class="b2l1-point-btn' + (pointDone[pKey] ? ' is-done' : '') + '" data-b2l1-point="' + pKey + '">' + (idx + 1) + '. ' + point + '</button>';
+                return '<button type="button" class="b2l1-point-btn' + (pointDone[pKey] ? ' is-done' : '') + '" data-b2l1-point="' + pKey + '"><span class="b2l1-point-index">' + (idx + 1) + '</span><span class="b2l1-point-copy">' + point + '</span></button>';
               }).join('') + '</div>';
             detail.hidden = false;
             detail.querySelectorAll('[data-b2l1-point]').forEach(function(pointBtn){
