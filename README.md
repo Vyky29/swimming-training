@@ -69,6 +69,8 @@ Recommended workflow:
 3. Merge into `main`.
 4. Let Vercel redeploy automatically from GitHub.
 
+Production deploys for this repo have been reliable when commits use the GitHub noreply identity for `Vyky29` (`275041081+Vyky29@users.noreply.github.com`). Commits authored with the local machine email have previously produced failed production deployments in Vercel.
+
 ## Notes
 
 - The standalone quiz pages are still available, even though the modules already include inline quizzes.
