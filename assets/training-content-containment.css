@@ -1,6 +1,6 @@
 /**
- * clubSENsational ó shared training content containment
- * Load this stylesheet AFTER each pageís inline <style> block so safe
+ * clubSENsational ù shared training content containment
+ * Load this stylesheet AFTER each pageùs inline <style> block so safe
  * layout rules win on equal specificity where needed.
  *
  * Spacing: use --training-space-* and --training-*-gap on flex/grid parents.
@@ -472,6 +472,14 @@ body {
 }
 
 /* ----- Concept title chrome: unified corporate treatment ----- */
+.portal .concept-panel {
+  --concept-title-accent: #2d84b3;
+  --concept-title-accent-soft: rgba(45, 132, 179, 0.12);
+  --concept-title-accent-border: rgba(45, 132, 179, 0.18);
+  --concept-title-surface: linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%);
+  --concept-title-line: linear-gradient(90deg, #cc952b 0%, #2d84b3 100%);
+}
+
 .portal .concept-panel > .concept-heading-row,
 .portal .concept-panel > .concept-panel-title-row {
   display: grid;
@@ -480,9 +488,9 @@ body {
   gap: var(--training-stack-gap) var(--training-card-gap);
   margin: 8px 0 18px;
   padding: 18px 20px;
-  border: 1px solid rgba(45, 132, 179, 0.18);
+  border: 1px solid var(--concept-title-accent-border);
   border-radius: 20px;
-  background: linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%);
+  background: var(--concept-title-surface);
   box-shadow: 0 10px 24px rgba(18, 50, 71, 0.06);
 }
 
@@ -526,7 +534,7 @@ body {
 .portal .folder-page > .b2pl-cathead {
   position: relative;
   margin: 0;
-  color: #2d84b3 !important;
+  color: var(--concept-title-accent) !important;
   font-weight: 800;
   font-size: clamp(1.25rem, 1rem + 0.9vw, 1.95rem);
   line-height: 1.15;
@@ -545,15 +553,25 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex: 0 0 36px;
-  border-radius: 12px;
-  background: rgba(45, 132, 179, 0.12);
-  box-shadow: inset 0 0 0 1px rgba(45, 132, 179, 0.15);
-  color: #2d84b3;
-  font-size: 1.05rem;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, var(--concept-title-accent-soft) 100%);
+  box-shadow: inset 0 0 0 1px var(--concept-title-accent-border), 0 8px 18px rgba(18, 50, 71, 0.08);
+  color: var(--concept-title-accent);
   line-height: 1;
+}
+
+.portal .concept-title-icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .portal .concept-title-text {
@@ -567,9 +585,9 @@ body {
 .portal .folder-page > .b2pl-cathead {
   margin: 8px 0 18px;
   padding: 18px 20px;
-  border: 1px solid rgba(45, 132, 179, 0.18);
+  border: 1px solid var(--concept-title-accent-border);
   border-radius: 20px;
-  background: linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%);
+  background: var(--concept-title-surface);
   box-shadow: 0 10px 24px rgba(18, 50, 71, 0.06);
 }
 
@@ -584,7 +602,7 @@ body {
   height: 4px;
   margin-top: 12px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #cc952b 0%, #2d84b3 100%);
+  background: var(--concept-title-line);
 }
 
 .portal .folder-page > .b2pl-folder-h {
