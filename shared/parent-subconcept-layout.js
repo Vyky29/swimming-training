@@ -5,8 +5,8 @@
  * Static DOM order inside `.concept-panel` (after Back + title row):
  *   1. `.concept-panel-desc` — introduction
  *   2. `[data-concept-intro-media]` — optional hero / infographic (when populated)
- *   3. `.concept-points-box` — Key Ideas for Instructors
- *   4. `[data-concept-primary-image]` — primary media slot (may be empty on some parents)
+ *   3. `[data-concept-primary-image]` — primary media slot (may be empty on some parents)
+ *   4. `.concept-points-box` — Key Ideas for Instructors
  *   5. `.concept-insight-box[data-concept-insight]` — optional insight
  *   6. `[data-concept-micro-check]` — optional micro check
  *   7. `[data-concept-why]` — optional why-matters
@@ -43,7 +43,7 @@
   }
 
   /**
-   * Ensures Introduction → (optional intro media) → Key Ideas → primary image slot at the top
+   * Ensures Introduction → (optional intro media) → primary image slot → Key Ideas at the top
    * of the panel. Does not move the subconcept nav (that is pinned separately).
    * @param {HTMLElement} panel
    */
@@ -61,11 +61,11 @@
     var hasIntroMedia = introMedia && (introMedia.innerHTML || '').trim();
     if(hasIntroMedia){
       intro.insertAdjacentElement('afterend', introMedia);
-      introMedia.insertAdjacentElement('afterend', points);
-      points.insertAdjacentElement('afterend', image);
+      introMedia.insertAdjacentElement('afterend', image);
+      image.insertAdjacentElement('afterend', points);
     } else {
-      intro.insertAdjacentElement('afterend', points);
-      points.insertAdjacentElement('afterend', image);
+      intro.insertAdjacentElement('afterend', image);
+      image.insertAdjacentElement('afterend', points);
     }
   }
 

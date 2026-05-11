@@ -3190,12 +3190,12 @@
     .concept-panel.show > .concept-media-actions{ order:6; }
     .concept-panel.show > .concept-actions{ order:7; }
 
-    /* Block 3 flat + subconcept nav (b3c2): intro → optional intro media → key ideas → primary slot → activity → sub-path buttons */
+    /* Block 3 flat + subconcept nav (b3c2): intro → optional intro media → primary slot → key ideas → activity → sub-path buttons */
     .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > .concept-panel-desc{ order:1; }
     .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > [data-concept-intro-media]{ order:2; }
-    .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > .concept-points-box{ order:3; }
     .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > [data-concept-primary-image],
-    .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > .concept-image{ order:4; }
+    .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > .concept-image{ order:3; }
+    .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > .concept-points-box{ order:4; }
     .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > [data-concept-activity-flow]{ order:5; }
     .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > [data-parent-subconcept-nav]{ order:6; }
     .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > .concept-media-actions{ order:7; }
@@ -7714,18 +7714,18 @@
         if(intro.nextElementSibling !== introMediaReorder){
           intro.insertAdjacentElement('afterend', introMediaReorder);
         }
-        if(introMediaReorder.nextElementSibling !== ideas){
-          introMediaReorder.insertAdjacentElement('afterend', ideas);
+        if(introMediaReorder.nextElementSibling !== image){
+          introMediaReorder.insertAdjacentElement('afterend', image);
         }
-        if(ideas.nextElementSibling !== image){
-          ideas.insertAdjacentElement('afterend', image);
+        if(image.nextElementSibling !== ideas){
+          image.insertAdjacentElement('afterend', ideas);
         }
       } else {
-        if(intro.nextElementSibling !== ideas){
-          intro.insertAdjacentElement('afterend', ideas);
+        if(intro.nextElementSibling !== image){
+          intro.insertAdjacentElement('afterend', image);
         }
-        if(ideas.nextElementSibling !== image){
-          ideas.insertAdjacentElement('afterend', image);
+        if(image.nextElementSibling !== ideas){
+          image.insertAdjacentElement('afterend', ideas);
         }
       }
     } else {
@@ -7751,8 +7751,7 @@
       }
     }
     // Move activity blocks out of the image container so order is always:
-    // Flat + subconcept nav: Intro -> optional intro media -> Key Ideas -> primary slot -> Activity.
-    // Otherwise: Intro -> optional intro media -> primary slot -> Key Ideas -> Activity.
+    // Intro -> optional intro media -> primary slot -> Key Ideas -> Activity.
     var embeddedActivities = image
       ? Array.from(image.querySelectorAll(':scope > .concept-activity-section, :scope > .concept-activity-interactive, :scope > [data-activity]'))
       : [];
@@ -7770,9 +7769,7 @@
       guideEl.className = 'activity-mini-guide';
       guideEl.textContent = getActivityMiniGuideText(embeddedActivities[0]);
       activityHost.appendChild(guideEl);
-      if(isFlatWithNav && image && image.parentNode){
-        image.insertAdjacentElement('afterend', activityHost);
-      } else if(ideas && ideas.parentNode){
+      if(ideas && ideas.parentNode){
         ideas.insertAdjacentElement('afterend', activityHost);
       } else if(image && image.parentNode){
         image.insertAdjacentElement('afterend', activityHost);
@@ -7791,11 +7788,9 @@
     }
 
     var actHost = panel.querySelector('[data-concept-activity-flow]') || panel;
-    // Final deterministic order safeguard (flat + subconcept nav includes optional intro media)
+    // Final deterministic order safeguard (all concept flows keep image before Key Ideas)
     var introMedia = panel.querySelector('[data-concept-intro-media]');
-    var orderNodes = isFlatWithNav
-      ? [intro, introMedia, ideas, image, actHost]
-      : [intro, introMedia, image, ideas, actHost];
+    var orderNodes = [intro, introMedia, image, ideas, actHost];
     orderNodes.forEach(function(node){
       if(node && node.parentNode === panel){
         panel.appendChild(node);
@@ -7805,7 +7800,7 @@
       ParentSubconceptLayout.lockIntroductionKeyIdeasPrimaryImage(panel);
       ParentSubconceptLayout.pinSubconceptNavBeforeMediaActions(panel);
     }
-    /* Module 4 — b3c2 parent: Introduction → intro media (infographic) → Key Ideas → primary slot; subconcept nav pinned above Done */
+    /* Module 4 — b3c2 parent: Introduction → intro media (infographic) → primary slot → Key Ideas; subconcept nav pinned above Done */
     if(panel.dataset.currentTarget === 'b3c2'){
       var introB3 = panel.querySelector('.concept-panel-desc');
       var mediaB3 = panel.querySelector('[data-concept-intro-media]');
@@ -7813,8 +7808,8 @@
       var imgB3 = panel.querySelector('[data-concept-primary-image]') || panel.querySelector('.concept-image');
       if(introB3 && mediaB3 && ideasB3 && imgB3 && (mediaB3.innerHTML || '').trim()){
         introB3.insertAdjacentElement('afterend', mediaB3);
-        mediaB3.insertAdjacentElement('afterend', ideasB3);
-        ideasB3.insertAdjacentElement('afterend', imgB3);
+        mediaB3.insertAdjacentElement('afterend', imgB3);
+        imgB3.insertAdjacentElement('afterend', ideasB3);
       }
       if(typeof ParentSubconceptLayout !== 'undefined'){
         ParentSubconceptLayout.pinSubconceptNavBeforeMediaActions(panel);
