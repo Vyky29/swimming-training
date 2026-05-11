@@ -5201,10 +5201,11 @@
 
     function scrollPanelIntoView(panel){
       if(panel){
+        var scrollTarget = panel.querySelector('.back-container') || panel;
         setTimeout(() => {
-          panel.scrollIntoView({
+          scrollTarget.scrollIntoView({
             behavior:'smooth',
-            block: window.innerWidth <= 860 ? 'start' : 'nearest'
+            block:'start'
           });
         }, 120);
       }
@@ -5286,10 +5287,12 @@
 
     function finishConcept(block, target){
       if(block === 'block2' && block2StateTargets.indexOf(target) !== -1){
+        conceptHistory[block] = [];
         renderConcept(block, 'b2c2');
         return;
       }
       if(block === 'block3' && block3FactorTargets.indexOf(target) !== -1){
+        conceptHistory[block] = [];
         renderConcept(block, 'b3c2');
         return;
       }
@@ -5301,7 +5304,7 @@
       } else {
         const panel = document.querySelector(`[data-panel-for="${block}"]`);
         if(panel){
-          panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+          scrollPanelIntoView(panel);
         }
       }
     }
@@ -5335,7 +5338,7 @@
           finishBtn.disabled = !canFinish;
           finishBtn.style.opacity = canFinish ? '1' : '.55';
           finishBtn.style.cursor = canFinish ? 'pointer' : 'not-allowed';
-          finishBtn.textContent = canFinish ? 'Done' : (allSeen && secLeft > 0 ? 'Continue in ' + secLeft + 's' : (allSeen ? 'Done' : 'View all slides first'));
+          finishBtn.textContent = canFinish ? getNextActionLabel(block, target) : (allSeen && secLeft > 0 ? 'Continue in ' + secLeft + 's' : (allSeen ? getNextActionLabel(block, target) : 'View all slides first'));
         }
 
         function render(){
@@ -5453,10 +5456,35 @@
     return cleaned;
   }
 
-  function updateConceptFinishState(panel, block, target){
+    function getNextActionLabel(block, target){
+      if(block === 'block2' && block2StateTargets.indexOf(target) !== -1) return 'Done and choose next state';
+      if(block === 'block2' && target === 'b2c2'){
+        return block2StatesViewed.size === block2StateTargets.length ? 'Continue' : 'Choose a state above';
+      }
+      if(block === 'block3' && block3FactorTargets.indexOf(target) !== -1) return 'Done and choose next factor';
+      if(block === 'block3' && target === 'b3c2'){
+        return block3FactorsViewed.size === block3FactorTargets.length ? 'Continue' : 'Choose a factor above';
+      }
+      var nextTarget = getNextConceptTarget(block, target);
+      return nextTarget ? 'Continue' : 'Done';
+    }
+
+    function updateConceptFinishState(panel, block, target){
     var data = conceptContent[target];
     var finishBtn = panel ? panel.querySelector('[data-finish-concept]') : null;
     if(!data || !finishBtn) return;
+      var isStateChooser = block === 'block2' && target === 'b2c2';
+      var isFactorChooser = block === 'block3' && target === 'b3c2';
+      if(isStateChooser || isFactorChooser){
+        var chooserReady = isStateChooser
+          ? block2StatesViewed.size === block2StateTargets.length
+          : block3FactorsViewed.size === block3FactorTargets.length;
+        finishBtn.disabled = !chooserReady;
+        finishBtn.style.opacity = chooserReady ? '1' : '.55';
+        finishBtn.style.cursor = chooserReady ? 'pointer' : 'not-allowed';
+        finishBtn.textContent = getNextActionLabel(block, target);
+        return;
+      }
     var dwellEnd = parseInt(panel.dataset.conceptDwellEnd, 10) || 0;
     var dwellOk = !dwellEnd || Date.now() >= dwellEnd;
     var carouselOk = !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
@@ -5475,7 +5503,7 @@
     finishBtn.style.opacity = canFinish ? '1' : '.55';
     finishBtn.style.cursor = canFinish ? 'pointer' : 'not-allowed';
     var secLeft = dwellEnd ? Math.ceil((dwellEnd - Date.now()) / 1000) : 0;
-    if(canFinish) finishBtn.textContent = 'Done';
+      if(canFinish) finishBtn.textContent = getNextActionLabel(block, target);
     else if(data.requiresCarousel && !carouselOk) finishBtn.textContent = 'Complete the slides above first';
     else if(data.requiresSensoryBoxes && !sensoryOk) finishBtn.textContent = 'Open all 7 senses first';
     else if(data.requiresMatching && !matchingOk) finishBtn.textContent = 'Complete the matching activity';
@@ -5483,9 +5511,9 @@
     else if(data.requiresSequenceActivity && !sequenceOk) finishBtn.textContent = 'Complete the sequencing activity';
     else if(data.requiresChoiceActivity && !choiceOk) finishBtn.textContent = 'Complete the activity first';
     else if(!keyIdeasOk) finishBtn.textContent = 'Review all Key Ideas to continue';
-    else if(!inPracticeOk) finishBtn.textContent = 'Click In Practice to continue';
+      else if(!inPracticeOk) finishBtn.textContent = 'Click In Practice to continue';
     else if(secLeft > 0) finishBtn.textContent = 'Continue in ' + secLeft + 's';
-    else finishBtn.textContent = 'Done';
+      else finishBtn.textContent = getNextActionLabel(block, target);
   }
 
   function setupChoiceActivity(panel, block, target){
@@ -6159,7 +6187,12 @@
       finishBtn = panel.querySelector('[data-finish-concept]');
       if(finishBtn){
         if(isB2c2Container || isB3c2Container){
-          finishBtn.style.display = 'none';
+          finishBtn.style.display = '';
+          finishBtn.onclick = function(){
+            if(finishBtn.disabled) return;
+            finishConcept(block, target);
+          };
+          updateConceptFinishState(panel, block, target);
         } else {
           finishBtn.style.display = '';
           finishBtn.onclick = function(){
@@ -6170,7 +6203,7 @@
             finishBtn.disabled = false;
             finishBtn.style.opacity = '1';
             finishBtn.style.cursor = 'pointer';
-            finishBtn.textContent = 'Done';
+            finishBtn.textContent = getNextActionLabel(block, target);
           } else {
             finishBtn.disabled = true;
             finishBtn.style.opacity = '.55';

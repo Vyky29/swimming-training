@@ -5363,10 +5363,11 @@
 
     function scrollPanelIntoView(panel){
       if(panel){
+        var scrollTarget = panel.querySelector('.back-container') || panel;
         setTimeout(() => {
-          panel.scrollIntoView({
+          scrollTarget.scrollIntoView({
             behavior:'smooth',
-            block: window.innerWidth <= 860 ? 'start' : 'nearest'
+            block:'start'
           });
         }, 120);
       }
@@ -5460,7 +5461,7 @@
       } else {
         const panel = document.querySelector(`[data-panel-for="${block}"]`);
         if(panel){
-          panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+          scrollPanelIntoView(panel);
         }
       }
     }
