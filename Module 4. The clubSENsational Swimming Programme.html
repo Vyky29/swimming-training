@@ -7685,15 +7685,13 @@
         const levelBadgeEl = panel.querySelector('[data-concept-level-badge]');
         if(levelBadgeEl){
           const lvl = getBlock2Level(target);
-          const theme = getBlock2Theme(target);
           const coreLabel = getBlock2CoreLabel(target);
           if(coreLabel){
             levelBadgeEl.innerHTML = `<span class="level-badge-pill level-badge--core">${coreLabel}</span>`;
             levelBadgeEl.style.display = '';
-          } else if(lvl && theme && theme !== 'core'){
-            const tone = ['1','2'].indexOf(lvl) >= 0 ? (lvl === '1' ? 'tone1' : 'tone2') : (['3','4'].indexOf(lvl) >= 0 ? (lvl === '3' ? 'tone1' : 'tone2') : (lvl === '5' ? 'tone1' : 'tone2'));
-            levelBadgeEl.innerHTML = `<span class="level-badge-pill level-badge--${theme}-${tone}">Level ${lvl}</span>`;
-            levelBadgeEl.style.display = '';
+          } else if(lvl){
+            levelBadgeEl.innerHTML = '';
+            levelBadgeEl.style.display = 'none';
           } else {
             levelBadgeEl.innerHTML = '';
             levelBadgeEl.style.display = 'none';
