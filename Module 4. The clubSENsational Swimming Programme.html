@@ -2860,6 +2860,18 @@
       padding:14px 16px;
       border:1px solid rgba(45,132,179,.15);
     }
+    .concept-panel[data-stage-theme] > .concept-panel-title-row{
+      background:var(--concept-title-surface) !important;
+      border-color:var(--concept-title-accent-border) !important;
+    }
+    .concept-panel[data-stage-theme] > .concept-panel-title-row .concept-panel-title{
+      color:var(--concept-title-accent) !important;
+    }
+    .concept-panel[data-stage-theme] > .concept-panel-title-row .concept-title-icon{
+      color:var(--concept-title-accent) !important;
+      background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, var(--concept-title-accent-soft) 100%) !important;
+      box-shadow:inset 0 0 0 1px var(--concept-title-accent-border), 0 8px 18px rgba(18,50,71,.08) !important;
+    }
     .concept-panel[data-stage-theme="core"] .concept-breadcrumb .breadcrumb-part.current{ color:var(--blue); border-color:var(--blue); background:rgba(45,132,179,.18); }
 
     /* Stage intro (Block 2): Focus + tabbed cards – one panel visible */
@@ -2876,6 +2888,9 @@
       font-weight:700;
       line-height:1.3;
       color:var(--ink);
+    }
+    .concept-panel[data-stage-theme] .stage-intro-title{
+      display:none;
     }
     .stage-intro-focus{
       margin:0 0 18px;
@@ -5449,7 +5464,6 @@
         goal: '<p><strong>Clearer planning and communication.</strong> These areas help you observe, plan, and talk about progress in ways that match each swimmer\'s development.</p>',
         imageHTML: `
           <div class="levels-section">
-            <div class="levels-section-title">Core Development Areas</div>
             <p class="subconcept-intro">Regulation, Independence, and Learning &amp; Engagement run through all stages and levels. Click an area to open its Overview.</p>
             <div class="concept-grid concept-grid--core" data-concept-grid="block2">
               <button class="concept-square concept-square--core level-card--core level-tone-1" data-target="b2core1">Regulation</button>
