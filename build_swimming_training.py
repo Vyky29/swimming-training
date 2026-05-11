@@ -5,7 +5,6 @@ import shutil
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
-WORKSPACE_ROOT = PROJECT_ROOT.parent
 DIST_DIR = PROJECT_ROOT / "dist"
 
 PORTAL_SOURCE = PROJECT_ROOT / "Training Portal" / "swimming-training-portal.html"
@@ -118,7 +117,7 @@ PAGE_REPLACEMENTS = {
 
 STATIC_FILES = [
     (
-        WORKSPACE_ROOT / "assets" / "training-content-containment.css",
+        PROJECT_ROOT / "assets" / "training-content-containment.css",
         DIST_DIR / "assets" / "training-content-containment.css",
     ),
     (

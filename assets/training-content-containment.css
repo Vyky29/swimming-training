@@ -1,0 +1,472 @@
+/**
+ * clubSENsational — shared training content containment
+ * Load this stylesheet AFTER each page’s inline <style> block so safe
+ * layout rules win on equal specificity where needed.
+ *
+ * Spacing: use --training-space-* and --training-*-gap on flex/grid parents.
+ * Prefer `gap` over per-child margin for stacks (cards, activities, quiz).
+ */
+
+/* ----- Global box model ----- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  max-width: 100%;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ----- Shell layouts + spacing tokens (modules, quizzes, portal) ----- */
+.portal,
+.quiz-layout,
+#quiz,
+.training-page,
+.training-portal,
+.app {
+  --training-space-xs: 8px;
+  --training-space-sm: 12px;
+  --training-space-md: 14px;
+  --training-space-lg: 16px;
+  --training-space-xl: 20px;
+  --training-stack-gap: var(--training-space-md);
+  --training-list-gap: var(--training-space-sm);
+  --training-card-gap: var(--training-space-lg);
+  --training-section-gap: var(--training-space-xl);
+  --training-inline-tight: var(--training-space-xs);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.portal .main,
+.quiz-layout .main {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Guard against inline 100vw widths blowing past the layout */
+[style*="100vw"] {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* ----- Text wrapping (keep pre/code readable) ----- */
+.portal :where(h1, h2, h3, h4, h5, h6, p, span, label, li, dt, dd, a, small, strong, em, td, th, button),
+.quiz-layout :where(h1, h2, h3, h4, h5, h6, p, span, label, li, dt, dd, a, small, strong, em, td, th, button),
+#quiz :where(h1, h2, h3, h4, h5, h6, p, span, label, li, dt, dd, a, small, strong, em, td, th, button),
+.training-page :where(h1, h2, h3, h4, h5, h6, p, span, label, li, dt, dd, a, small, strong, em, td, th, button),
+.training-portal :where(h1, h2, h3, h4, h5, h6, p, span, label, li, dt, dd, a, small, strong, em, td, th, button),
+.app :where(h1, h2, h3, h4, h5, h6, p, span, label, li, dt, dd, a, small, strong, em, td, th, button) {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.portal pre,
+.portal code,
+.quiz-layout pre,
+.quiz-layout code,
+#quiz pre,
+#quiz code {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+/* Long UI chips / pills must not force horizontal overflow */
+.portal .section-pill,
+.quiz-layout .section-pill,
+.training-page .section-pill,
+.training-portal .section-pill {
+  white-space: normal !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+
+/* ----- Cards, panels, activities, quiz chrome ----- */
+.portal .concept-section-card,
+.portal .concept-activity-box,
+.portal .concept-panel,
+.portal .concept-stage,
+.portal .concept-shell,
+.portal .concept-grid,
+.portal .concept-square,
+.portal .concept-activity-slot,
+.portal .section-activity-shell,
+.portal .activity-container,
+.portal .activity-shell,
+.portal .activity-content,
+.portal .activity-mini-guide,
+.portal .activity-feedback,
+.portal .activity-question,
+.portal .block-intro-card,
+.portal .icon-card,
+.portal .path-card,
+.portal .recap-card,
+.portal .sidebar-card,
+.portal .q-card,
+.portal .score-card,
+.portal .brand-card,
+.portal .slide-body,
+.portal .slide-inner,
+.portal .content-box,
+.portal .info-panel,
+.portal .quick-check,
+.portal .matching-wrap,
+.portal .match-wrap,
+.portal .instructor-thinking-interactive,
+.portal .card,
+.quiz-layout .sidebar-card,
+.quiz-layout .q-card,
+.quiz-layout .score-card,
+.quiz-layout .brand-card,
+.quiz-layout .match-game,
+.quiz-layout .match-slots,
+.quiz-layout .match-pool,
+#quiz .quiz-inline,
+#quiz .q-card,
+#quiz .score-card,
+.training-page .path-card,
+.training-page .modal,
+.training-portal .path-card,
+.training-portal .modal,
+.app .shell,
+.app .card,
+.app .panel,
+.app .step {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.portal .concept-grid,
+.portal .activity-option-grid,
+.portal .option-grid,
+.quiz-layout .match-game,
+#quiz .match-game {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.portal iframe,
+.portal video,
+.quiz-layout iframe,
+.quiz-layout video {
+  max-width: 100%;
+}
+
+/* ----- Activity / quiz answer controls: flex + wrap-safe ----- */
+.portal .activity-option,
+.portal button.activity-option {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--training-list-gap);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.portal .activity-option .opt-badge {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.portal .activity-option .opt-text {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.quiz-layout .opt-list label,
+#quiz .opt-list label,
+#quiz .quiz-inline .opt-list label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--training-stack-gap);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.quiz-layout .opt-list .opt-txt,
+#quiz .opt-list .opt-txt,
+#quiz .quiz-inline .opt-list .opt-txt {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.quiz-layout .match-chip,
+#quiz .match-chip {
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.quiz-layout .match-slots .match-slot,
+#quiz .match-slots .match-slot {
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.quiz-layout .slot-label,
+#quiz .slot-label {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.quiz-layout .slot-drop,
+#quiz .slot-drop {
+  min-width: 0;
+  flex: 1 1 0;
+  max-width: 100%;
+}
+
+/* Module 4+ : expanded / interactive shells */
+.portal .block-intro-slide,
+.portal .concept-activity-interactive,
+.portal .sort-slots,
+.portal .sort-slot {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/**
+ * ----- Card stacking & vertical rhythm (activities, quizzes, concepts) -----
+ * Uses --training-* tokens; stack with parent `gap`, not ad hoc child margins.
+ */
+
+/* Concept panel (open): one vertical rhythm for all major blocks */
+.portal .concept-panel.show {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--training-card-gap);
+}
+
+/* --- Activity shells & slots: column stack + gap --- */
+.portal .section-activity-shell,
+.portal [data-concept-activity-flow].section-activity-shell,
+#quiz .section-activity-shell,
+#quiz [data-concept-activity-flow].section-activity-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--training-stack-gap);
+}
+
+.portal .section-activity-shell > .concept-section-head,
+.portal .section-activity-shell > .activity-mini-guide,
+#quiz .section-activity-shell > .concept-section-head,
+#quiz .section-activity-shell > .activity-mini-guide {
+  margin-bottom: 0;
+}
+
+.portal .section-activity-shell .concept-activity-slot,
+#quiz .section-activity-shell .concept-activity-slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-stack-gap);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.portal .activity-container,
+#quiz .activity-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-stack-gap);
+}
+
+.portal .activity-container .activity-content,
+#quiz .activity-container .activity-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-stack-gap);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* Inline activity sections (Module 4, etc.) */
+.portal .concept-activity-section,
+.portal .concept-activity-interactive,
+#quiz .concept-activity-section,
+#quiz .concept-activity-interactive {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-stack-gap);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* --- Question + options: vertical rhythm, no collapsed margins --- */
+.portal .activity-question,
+.portal .activity-hint,
+#quiz .activity-question,
+#quiz .activity-hint {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.portal .option-grid,
+.portal .activity-option-grid,
+#quiz .option-grid,
+#quiz .activity-option-grid,
+.quiz-layout .option-grid {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  gap: var(--training-stack-gap);
+  row-gap: var(--training-stack-gap);
+  column-gap: var(--training-stack-gap);
+}
+
+/* Quiz cards: stack prompt, options, feedback */
+.quiz-layout .q-card,
+#quiz .q-card,
+#quiz .quiz-inline .q-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-card-gap);
+}
+
+.quiz-layout .q-card .q-text,
+#quiz .q-card .q-text,
+#quiz .quiz-inline .q-card .q-text {
+  margin-bottom: 0;
+}
+
+.quiz-layout .opt-list,
+#quiz .opt-list,
+#quiz .quiz-inline .opt-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-list-gap);
+  margin: 0;
+  padding: 0;
+}
+
+.quiz-layout .opt-list li,
+#quiz .opt-list li,
+#quiz .quiz-inline .opt-list li {
+  margin-bottom: 0;
+}
+
+.quiz-layout .opt-list label,
+#quiz .opt-list label {
+  margin: 0;
+}
+
+.quiz-layout .feedback,
+#quiz .feedback,
+#quiz .quiz-inline .feedback {
+  margin-top: 0;
+}
+
+/* Match / sort columns: gap without changing grid where used */
+.quiz-layout .match-game,
+#quiz .match-game {
+  gap: var(--training-section-gap);
+}
+
+.quiz-layout .match-slots,
+#quiz .match-slots {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-list-gap);
+}
+
+.quiz-layout .match-pool,
+#quiz .match-pool {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-list-gap);
+}
+
+/* Key idea list rhythm (grid/flex children use gap, not li margins) */
+.portal .concept-points-box ul {
+  gap: var(--training-list-gap);
+  row-gap: var(--training-list-gap);
+  column-gap: var(--training-list-gap);
+}
+
+.portal .key-idea-item {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  gap: var(--training-list-gap);
+}
+
+/* Recap / learning outcomes: keep grid layout; unify inter-card gap token */
+.portal .recap-stack,
+.portal .outcomes {
+  gap: var(--training-list-gap);
+}
+
+/* Inline quiz inside module pages */
+#quiz .quiz-inline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-section-gap);
+}
+
+#quiz .quiz-inline .q-card {
+  margin-bottom: 0;
+}
+
+/* Standalone quiz pages: vertical rhythm in main column */
+.quiz-layout .main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--training-section-gap);
+}
+
+.quiz-layout .main > .q-card {
+  margin-bottom: 0;
+}
