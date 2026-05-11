@@ -127,6 +127,48 @@ STATIC_FILES = [
     ),
 ]
 
+NOT_FOUND_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: #f3f8fb;
+      color: #163247;
+      text-align: center;
+    }
+    .card {
+      max-width: 560px;
+      padding: 32px;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 18px 40px rgba(18, 50, 71, 0.08);
+    }
+    a {
+      color: #2d84b3;
+      font-weight: 700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Page not found</h1>
+    <p>The page you requested is not available in the Swimming Training portal.</p>
+    <p><a href=\"/\">Return to the portal</a></p>
+  </main>
+</body>
+</html>
+"""
+
 
 def reset_dist() -> None:
     if DIST_DIR.exists():
@@ -157,9 +199,14 @@ def copy_static_files() -> None:
         shutil.copy2(source_path, destination_path)
 
 
+def write_supporting_pages() -> None:
+    (DIST_DIR / "404.html").write_text(NOT_FOUND_HTML, encoding="utf-8")
+
+
 def main() -> None:
     reset_dist()
     copy_static_files()
+    write_supporting_pages()
     for source_path, destination_paths, page_key in PAGES:
         build_html(source_path, destination_paths, page_key)
     print(f"Built Swimming Training site into {DIST_DIR}")
