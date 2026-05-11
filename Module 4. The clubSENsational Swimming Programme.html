@@ -6840,6 +6840,19 @@
         iconEl.style.setProperty('box-shadow', 'inset 0 0 0 1px ' + styles.border + ', 0 8px 18px rgba(18,50,71,.08)', 'important');
       }
     }
+    function applyLevelBodyChrome(levelBox, theme){
+      if(!levelBox) return;
+      if(!theme){
+        levelBox.style.removeProperty('background');
+        levelBox.style.removeProperty('border-color');
+        levelBox.style.removeProperty('box-shadow');
+        return;
+      }
+      const styles = getBlock2ThemeStyles(theme);
+      levelBox.style.setProperty('background', styles.surface, 'important');
+      levelBox.style.setProperty('border-color', styles.border, 'important');
+      levelBox.style.setProperty('box-shadow', '0 10px 24px rgba(18,50,71,.06)', 'important');
+    }
     function getBlock2Level(target){
       const m = target && target.match(/b2l(\d)/);
       return m ? m[1] : '';
@@ -7909,7 +7922,10 @@
         primaryImgSlot.innerHTML = stripInstructorAndWhy(data.imageHTML || '');
         if(block === 'block2' && /^b2l[1-6]$/.test(target || '')){
           var levelSummaryBox = primaryImgSlot.querySelector('.b2l1-intro-box');
-          if(levelSummaryBox) levelSummaryBox.classList.add('is-summary-in-title');
+          if(levelSummaryBox){
+            levelSummaryBox.classList.add('is-summary-in-title');
+            applyLevelBodyChrome(levelSummaryBox, panel.dataset.stageTheme || getBlock2Theme(target));
+          }
         }
       }
       var navEl = panel.querySelector('[data-parent-subconcept-nav]');
