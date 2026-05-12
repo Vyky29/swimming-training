@@ -6,7 +6,7 @@ This repo now combines:
 - `Swimming Training I`
 - `Swimming Training II`
 
-`Swimming Training II` lives inside `training-ii/` and was imported with Git history preserved. The top-level `build_swimming_training.py` is now the only build script that should be used for deployment.
+`Swimming Training II` lives inside `training-ii/` and was imported with Git history preserved. The top-level `build_swimming_training.py` is the only build script that should be used for deployment.
 
 ## How it works
 
@@ -17,10 +17,18 @@ This repo now combines:
 
 ## Source layout
 
-- `Training Portal/` -> main portal source
-- `swimming-training-portal1.html` + root module files -> `Swimming Training I`
-- `training-ii/` -> `Swimming Training II`
-- `assets/` and `shared/` -> shared files for `Training I`
+- `portal/` -> main portal source
+- `common/` -> shared assets and shared scripts used by portal + `Training I`
+- `training-i/` -> `Swimming Training I` source
+- `training-ii/` -> `Swimming Training II` source
+
+## Source conventions
+
+- Every editable page now lives as an `index.html` inside its own folder.
+- `Training I` modules live in `training-i/modules/module-x/index.html`.
+- `Training II` modules live in `training-ii/modules/module-x/index.html`.
+- `Training II` scripts and styles are separated into `training-ii/scripts/` and `training-ii/styles/`.
+- Old duplicated source files such as `swimmingportal`, the nested `training-ii` build script, and the nested `training-ii/vercel.json` were removed from the repo.
 
 ## Generated routes
 
@@ -98,10 +106,10 @@ Production deploys for this repo have been reliable when commits use the GitHub 
 ## Notes
 
 - The standalone Training I quiz pages are still available, even though the modules already include inline quizzes.
-- The full root `assets/` folder is copied into `dist/assets/`.
-- The full root `shared/` folder is copied into `dist/shared/`.
-- `Training II` assets and shared files are namespaced into `dist/training-ii/` to avoid collisions with `Training I`.
-- Do not deploy from `training-ii/build_swimming_training.py`; that file is kept only as imported history/context.
+- `common/assets/` is copied into `dist/assets/`.
+- `common/shared/` is copied into `dist/shared/`.
+- `Training II` assets, scripts, styles, and shared files are namespaced into `dist/training-ii/` to avoid collisions with `Training I`.
+- Do not create separate deployment config inside `training-i/` or `training-ii/`; the repo deploys from the root only.
 
 ## Local images
 
@@ -109,15 +117,15 @@ You can now keep project images inside this repo and deploy them with Vercel.
 
 Recommended structure:
 
-- `assets/images/module-1/`
-- `assets/images/module-2/`
-- `assets/images/module-3/`
-- `assets/images/module-4/`
-- `assets/images/module-5/`
+- `common/assets/images/module-1/`
+- `common/assets/images/module-2/`
+- `common/assets/images/module-3/`
+- `common/assets/images/module-4/`
+- `common/assets/images/module-5/`
 
 How to use them:
 
-1. Drop the image file into `assets/images/...`
+1. Drop the image file into `common/assets/images/...`
 2. Reference it in the HTML with an absolute path from the site root
 
 Example:

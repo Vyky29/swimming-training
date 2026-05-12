@@ -1,5 +1,0 @@
-{
-  "buildCommand": "python build_swimming_training.py",
-  "outputDirectory": "dist",
-  "trailingSlash": true
-}
