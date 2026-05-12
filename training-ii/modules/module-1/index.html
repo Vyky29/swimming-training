@@ -3616,18 +3616,10 @@
                 <div class="card-icon">&#8801;</div>
                 <h4>What This Block Covers</h4>
                 <ul>
-                  <li>two ways of understanding swimming</li>
-                  <li>skills before structure</li>
-                  <li>individual progression</li>
-                  <li>instructor role</li>
-                </ul>
-              </div>
-              <div class="card icon-card block-intro-card clickable-progress" data-card-type="visual" role="button" tabindex="0">
-                <div class="card-icon">&#9635;</div>
-                <h4>Block Visual</h4>
-                <ul>
-                  <li>swimmer performing structured strokes</li>
-                  <li>swimmer interacting freely with water</li>
+                  <li>Two ways of understanding swimming</li>
+                  <li>Skills before structure</li>
+                  <li>Individual progression</li>
+                  <li>Instructor role</li>
                 </ul>
               </div>
             </div>
@@ -3639,8 +3631,6 @@
               <div class="concept-grid" data-concept-grid="block1">
                 <button class="concept-square" data-target="b1c1">Two Ways of Understanding Swimming</button>
                 <button class="concept-square" data-target="b1c2">Skills Come Before Structure</button>
-                <button class="concept-square" data-target="b1c3">Progression Is Individual</button>
-                <button class="concept-square" data-target="b1c4">The Role of the Instructor</button>
               </div>
 
               <div class="concept-panel" data-panel-for="block1">
@@ -3675,7 +3665,7 @@
                     <div class="concept-mini-fill" data-mini-fill="block1"></div>
                   </div>
                   <div class="concept-progress">
-                    <span data-mini-text="block1">0 of 4 concepts completed</span>
+                    <span data-mini-text="block1">0 of 2 concepts completed</span>
                     <span>Block 1</span>
                   </div>
                 </div>
@@ -3686,31 +3676,32 @@
               <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
             </div>
 
-            <div class="reflection-gate" data-gate="block1" data-reflection-type="choice">
-              <h4>Activity - Recognition Task (Quiz)</h4>
-              <p class="reflection-prompt">Two swimmers are observed:</p>
-              <div class="force-cards" style="margin-bottom:18px;">
-                <div class="force-card">
-                  <strong>Swimmer A</strong>
-                  <span>Performs a correct stroke pattern but shows tension and instability</span>
+            <div class="reflection-gate" data-gate="block1" data-reflection-type="questions">
+              <h4>Reflection Checkpoint</h4>
+              <p class="reflection-prompt">Review each question below and use them to reflect on how you would interpret readiness and progression in practice.</p>
+              <div class="grid-2 block-intro-cards">
+                <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
+                  <div class="card-icon">1</div>
+                  <h4>Question 1</h4>
+                  <ul>
+                    <li>When a swimmer shows calm control without structured stroke shape, what does that suggest about readiness and your next teaching decision?</li>
+                  </ul>
                 </div>
-                <div class="force-card">
-                  <strong>Swimmer B</strong>
-                  <span>Moves freely and calmly but without structured technique</span>
+                <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
+                  <div class="card-icon">2</div>
+                  <h4>Question 2</h4>
+                  <ul>
+                    <li>If a swimmer can copy movement but becomes tense or unstable, how should that influence whether you progress or simplify the task?</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
+                  <div class="card-icon">3</div>
+                  <h4>Question 3</h4>
+                  <ul>
+                    <li>How can you distinguish between apparent performance and genuine aquatic confidence when planning the next step for a neurodiverse swimmer?</li>
+                  </ul>
                 </div>
               </div>
-              <p class="reflection-prompt">Question: Which swimmer demonstrates stronger aquatic development?</p>
-              <div class="option-grid">
-                <label class="option">
-                  <input type="radio" name="gate1" value="wrong">
-                  <span>A. Swimmer A</span>
-                </label>
-                <label class="option">
-                  <input type="radio" name="gate1" value="correct">
-                  <span>B. Swimmer B</span>
-                </label>
-              </div>
-              <p class="small-note">Explain your reasoning.</p>
               <div class="feedback" data-feedback="block1"></div>
             </div>
 
@@ -4106,25 +4097,27 @@
     const conceptContent = {
       b1c1: {
         title: 'Concept 1 - Two Ways of Understanding Swimming',
-        text: '<p>Swimming is often understood as structured swimming, including strokes. In this training, swimming is understood as the ability to function effectively in water.</p>',
+        text: '<p>Swimming is often understood as the ability to perform structured strokes. In this training, swimming is understood as the ability to function effectively in water.</p>',
         points: [
-          'swimming is more than structured swimming',
-          'function comes before structured movement',
-          'experience matters as much as outcome',
-          'readiness is not always visible'
+          'Swimming is more than structured swimming',
+          'Function comes before structured movement',
+          'Experience matters as much as outcome',
+          'Readiness is not always visible',
+          'In Practice: A swimmer moves calmly and confidently around the pool without structured strokes. The instructor recognises strong aquatic confidence and does not introduce technique before control and readiness are established.'
         ],
-        imageHTML: '<div class="force-cards"><div class="force-card"><strong>Example - Free movement vs stroke</strong><span>A swimmer moves calmly and confidently without structured strokes. The instructor recognises strong development and does not introduce technique prematurely.</span></div></div>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Visual Comparison</strong><span>A visual comparison between a swimmer performing a structured stroke and a swimmer calmly interacting with water through free movement.</span></div></div>'
       },
       b1c2: {
         title: 'Concept 2 - Skills Come Before Structure',
-        text: '<p>Structured swimming requires readiness.</p>',
+        text: '<p>Structured swimming requires readiness. Before structured movement is introduced, the swimmer needs control, comfort and confidence in the water.</p>',
         points: [
-          'readiness determines progression',
-          'progression must be gradual',
-          'control comes before movement',
-          'structure should not be rushed'
+          'Readiness determines progression',
+          'Progression must be gradual',
+          'Control comes before movement',
+          'Structure should not be rushed',
+          'In Practice: A swimmer kicks strongly with a float but loses body position and becomes dysregulated when asked to coordinate movement. The instructor returns to balance and body control instead of progressing.'
         ],
-        imageHTML: '<div class="force-cards"><div class="force-card"><strong>Example - Kicking with float</strong><span>A swimmer kicks with a float but loses body position. The instructor returns to balance and control instead of progressing.</span></div></div>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Visual Example</strong><span>A swimmer uses a float but loses body position, with the instructor guiding the swimmer back to a simpler balance activity.</span></div></div>'
       },
       b1c3: {
         title: 'Concept 3 - Progression Is Individual',
@@ -4258,7 +4251,7 @@
     };
   
     const conceptGroups = {
-      block1: { total: 4, visited: new Set(), order: ['b1c1','b1c2','b1c3','b1c4'] },
+      block1: { total: 2, visited: new Set(), order: ['b1c1','b1c2'] },
       block2: { total: 4, visited: new Set(), order: ['b2c1','b2c2','b2c3','b2c4'] },
       block3: { total: 4, visited: new Set(), order: ['b3c1','b3c2','b3c3','b3c4'] }
     };
@@ -5193,7 +5186,32 @@
   
     const block2KeyIdeas = {};
 
-    const conceptActivityBank = {};
+    const conceptActivityBank = {
+      b1c1: {
+        title: 'Activity - Recognition Task',
+        q: 'Two swimmers are observed. Swimmer A performs a correct stroke pattern but shows tension and instability. Swimmer B moves freely and calmly but without structured technique. Which swimmer demonstrates stronger aquatic development?',
+        options: [
+          { id: 'a', text: 'Swimmer A' },
+          { id: 'b', text: 'Swimmer B' }
+        ],
+        correct: 'b',
+        ok: 'Correct. Swimmer B demonstrates stronger aquatic development because calm, confident interaction with water shows readiness more clearly than stroke shape alone.',
+        bad: 'Not quite. A correct stroke pattern does not automatically show stronger aquatic development when tension and instability are present.',
+        variant: 'reflection'
+      },
+      b1c2: {
+        title: 'Activity - Decision Making Task',
+        q: 'A swimmer is moving actively but cannot maintain control when a float is introduced. Decide whether to progress to more structured kicking or return to balance and control work.',
+        options: [
+          { id: 'a', text: 'Progress to more structured kicking' },
+          { id: 'b', text: 'Return to balance and control work' }
+        ],
+        correct: 'b',
+        ok: 'Correct. Returning to balance and control work protects regulation and readiness before more structure is introduced.',
+        bad: 'Not quite. When control is lost, the priority is to reduce demand and re-establish balance, comfort, and confidence.',
+        variant: 'scenario'
+      }
+    };
 
     function buildActivityContainerShell(opts){
       var variant = opts && opts.variant ? String(opts.variant) : '';
@@ -5840,6 +5858,39 @@
         checkbox.checked = false;
         checkbox.closest('.check-item')?.classList.remove('clicked');
         updateProgress();
+      }
+
+      if(gate.dataset.reflectionType === 'questions'){
+        const questions = gate.querySelectorAll('[data-reflection-question]');
+        if(!questions.length){
+          checkbox.disabled = false;
+          return;
+        }
+
+        function updateQuestionState(){
+          const reviewed = gate.querySelectorAll('[data-reflection-question].clicked').length;
+          if(reviewed === questions.length){
+            setGood('Reflection checkpoint complete. You can now mark Block 1 as completed.');
+          } else {
+            setWarn('Review all reflective questions to unlock the completion check. ' + reviewed + ' of ' + questions.length + ' reviewed.');
+          }
+        }
+
+        questions.forEach(question => {
+          question.addEventListener('click', () => {
+            question.classList.add('clicked');
+            updateQuestionState();
+          });
+          question.addEventListener('keydown', event => {
+            if(event.key === 'Enter' || event.key === ' '){
+              event.preventDefault();
+              question.click();
+            }
+          });
+        });
+
+        updateQuestionState();
+        return;
       }
 
       if(gate.dataset.reflectionType === 'matching'){
