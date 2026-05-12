@@ -216,6 +216,24 @@
     }
   }
 
+  function normalizeModuleNavigation(){
+    var navList = document.querySelector('.nav-list');
+    if(!navList) return;
+
+    navList.innerHTML = [
+      { id: 'overview', label: 'Overview' },
+      { id: 'journey', label: 'Swimming Journey' },
+      { id: 'outcomes', label: 'Learning Outcomes' },
+      { id: 'block1', label: 'Block 1' },
+      { id: 'block2', label: 'Block 2' },
+      { id: 'block3', label: 'Block 3' },
+      { id: 'recap', label: 'Recap' },
+      { id: 'complete', label: 'Completion' }
+    ].map(function(item, index){
+      return '<a class="nav-link' + (index === 0 ? ' active' : '') + '" href="#' + item.id + '" data-stage="' + item.id + '" data-scroll="' + item.id + '">' + item.label + '</a>';
+    }).join('');
+  }
+
   function updateBlockSection(moduleMeta, blockNumber){
     var section = document.getElementById('block' + blockNumber);
     if(!section) return;
@@ -592,6 +610,9 @@
     var stageOrder = ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'complete'];
 
     applyTrainingIModulePattern(moduleId);
+    if(moduleId !== 'module1'){
+      normalizeModuleNavigation();
+    }
     assignProgressItemKeys();
     restoreChecks(moduleId);
     restoreClickedItems(moduleId);

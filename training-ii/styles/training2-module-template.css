@@ -138,10 +138,7 @@ body.training-template-body{
 }
 
 .nav-link{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+  display:block;
   padding:12px 14px;
   min-height:44px;
   border-radius:12px;
@@ -167,9 +164,7 @@ body.training-template-body{
 }
 
 .nav-meta{
-  font-size:.74rem;
-  font-weight:700;
-  color:inherit;
+  display:none;
 }
 
 .progress-track{
