@@ -62,26 +62,32 @@
 
   const JOURNEY_MODULES = {
     module1: {
+      displayTitle: 'Foundations of Aquatic Skill Development',
       timelineTitle: 'Module 1 - Foundations of Aquatic Skill Development',
       summary: 'Understanding how aquatic learning begins.'
     },
     module2: {
+      displayTitle: 'Guiding Learning Through Scaffolding',
       timelineTitle: 'Module 2 - Guiding Learning Through Scaffolding and the CS Learning Principle',
       summary: 'Structuring support, progression and teaching decisions.'
     },
     module3: {
+      displayTitle: 'Early Aquatic Experiences',
       timelineTitle: 'Module 3 - Early Aquatic Experiences',
       summary: 'Supporting first contact, entry and exit in the water and early familiarisation.'
     },
     module4: {
+      displayTitle: 'Core Aquatic Skills',
       timelineTitle: 'Module 4 - Core Aquatic Skills',
       summary: 'Developing breathing control and submersion, floating and balance, gliding and streamlining, and rotation.'
     },
     module5: {
+      displayTitle: 'Propulsion Development in the Water',
       timelineTitle: 'Module 5 - Propulsion Development in the Water',
       summary: 'Building functional movement through the water.'
     },
     module6: {
+      displayTitle: 'Swimming Strokes and Advanced Techniques',
       timelineTitle: 'Module 6 - Swimming Strokes and Advanced Techniques',
       summary: 'Applying aquatic foundations to strokes and advanced skills.'
     }
@@ -376,7 +382,7 @@
       const statusEl = item.querySelector('.journey-status');
 
       if(moduleMeta){
-        if(titleEl) titleEl.textContent = moduleMeta.timelineTitle;
+        if(titleEl) titleEl.textContent = moduleMeta.displayTitle || moduleMeta.timelineTitle.replace(/^Module\s+\d+\s*-\s*/, '');
         if(headingEl) headingEl.textContent = moduleMeta.timelineTitle.split(' - ')[0];
         if(descriptionEl) descriptionEl.textContent = moduleMeta.summary;
       }
@@ -387,20 +393,16 @@
       item.setAttribute('aria-disabled', (!available || (!unlocked && !REVIEW_MODE)) ? 'true' : 'false');
 
       if(statusEl){
-        if(titleEl){
-          statusEl.textContent = moduleMeta ? moduleMeta.summary : statusEl.textContent.trim();
+        if(completed){
+          statusEl.textContent = 'Completed Module';
+        } else if(current){
+          statusEl.textContent = 'Current Module';
+        } else if(!available){
+          statusEl.textContent = 'Unavailable';
+        } else if(inProgress){
+          statusEl.textContent = '';
         } else {
-          if(completed){
-            statusEl.textContent = 'Completed';
-          } else if(current){
-            statusEl.textContent = 'Current Module';
-          } else if(!available){
-            statusEl.textContent = 'Unavailable';
-          } else if(inProgress){
-            statusEl.textContent = 'In Progress';
-          } else {
-            statusEl.textContent = 'Available';
-          }
+          statusEl.textContent = '';
         }
       }
     });

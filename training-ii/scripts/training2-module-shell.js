@@ -72,10 +72,9 @@
   function buildConceptMarkup(moduleNumber, blockNumber){
     var conceptCards = [1, 2, 3, 4].map(function(index){
       return '' +
-        '<article class="concept-square clickable-progress" role="button" tabindex="0">' +
-          '<span class="concept-tag">Concept ' + index + '</span>' +
-          '<strong>Add the approved concept ' + index + ' title</strong>' +
-        '</article>';
+        '<button type="button" class="concept-square clickable-progress">' +
+          'Add the approved concept ' + index + ' title' +
+        '</button>';
     }).join('');
 
     return '' +
@@ -107,14 +106,14 @@
   function buildBlockCards(moduleNumber, blockNumber){
     return '' +
       '<div class="grid-2 block-intro-cards">' +
-        '<article class="block-intro-card clickable-progress">' +
+        '<article class="card icon-card block-intro-card clickable-progress">' +
           '<div class="card-icon">◎</div>' +
           '<h4>Block Focus</h4>' +
           '<ul>' + buildListMarkup([
             'Add the approved teaching focus for Module ' + moduleNumber + ' Block ' + blockNumber + '.'
           ]) + '</ul>' +
         '</article>' +
-        '<article class="block-intro-card clickable-progress">' +
+        '<article class="card icon-card block-intro-card clickable-progress">' +
           '<div class="card-icon">≡</div>' +
           '<h4>What This Block Covers</h4>' +
           '<ul>' + buildListMarkup([
