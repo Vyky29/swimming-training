@@ -234,6 +234,33 @@
     }).join('');
   }
 
+  function normalizeSharedUiCopy(){
+    var saveHeading = document.querySelector('.save-progress-card h3');
+    if(saveHeading) saveHeading.textContent = 'Save progress';
+
+    var saveButton = document.getElementById('saveProgressButton');
+    if(saveButton) saveButton.textContent = 'Save progress';
+
+    var saveMessage = document.getElementById('saveProgressMessage');
+    if(saveMessage) saveMessage.textContent = 'Use Save progress while you review the module and add the approved content.';
+
+    document.querySelectorAll('[data-tts-button]').forEach(function(button){
+      button.textContent = '🔊 Listen';
+    });
+
+    document.querySelectorAll('[data-tts-stop]').forEach(function(button){
+      button.textContent = '⏹ Stop Audio';
+    });
+
+    document.querySelectorAll('[data-concept-tts]').forEach(function(button){
+      button.textContent = '🔊 Listen';
+    });
+
+    document.querySelectorAll('[data-concept-tts-stop]').forEach(function(button){
+      button.textContent = '⏹ Stop';
+    });
+  }
+
   function updateBlockSection(moduleMeta, blockNumber){
     var section = document.getElementById('block' + blockNumber);
     if(!section) return;
@@ -552,10 +579,7 @@
   function stopSpeech(){
     if(!synth) return;
     synth.cancel();
-    if(speakingButton){
-      speakingButton.textContent = 'Listen';
-      speakingButton = null;
-    }
+    speakingButton = null;
   }
 
   function setupTts(){
@@ -587,7 +611,6 @@
         utterance.onerror = stopSpeech;
 
         speakingButton = button;
-        button.textContent = 'Stop Audio';
         synth.speak(utterance);
       });
     });
@@ -613,6 +636,7 @@
     if(moduleId !== 'module1'){
       normalizeModuleNavigation();
     }
+    normalizeSharedUiCopy();
     assignProgressItemKeys();
     restoreChecks(moduleId);
     restoreClickedItems(moduleId);
