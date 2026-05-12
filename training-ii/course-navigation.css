@@ -1,0 +1,102 @@
+.journey-item,
+.journey-item.page-linkable{
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, opacity .22s ease;
+}
+
+.journey-item.is-locked{
+  opacity:.62;
+}
+
+.journey-item.is-locked .journey-circle{
+  background:#f3f7fa;
+  border-color:#d9e5ec;
+  box-shadow:none;
+}
+
+.journey-item.is-locked .journey-title,
+.journey-item.is-locked .journey-status{
+  color:var(--muted);
+}
+
+.btn.is-disabled,
+.btn[aria-disabled="true"]{
+  opacity:.6;
+  cursor:not-allowed;
+  pointer-events:auto;
+}
+
+.btn.is-disabled:hover,
+.btn[aria-disabled="true"]:hover{
+  transform:none;
+}
+
+.course-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:9999;
+  max-width:min(92vw,360px);
+  padding:14px 16px;
+  border-radius:16px;
+  background:rgba(22,50,71,.96);
+  color:#fff;
+  box-shadow:0 18px 40px rgba(18,50,71,.22);
+  font-size:.92rem;
+  line-height:1.55;
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:opacity .22s ease, transform .22s ease;
+}
+
+.course-toast.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:860px){
+  [data-course-page] .journey-track{
+    grid-template-columns:1fr;
+    gap:18px;
+    justify-items:stretch;
+    padding-top:0;
+  }
+
+  [data-course-page] .journey-track::before{
+    left:28px;
+    right:auto;
+    top:12px;
+    bottom:12px;
+    width:3px;
+    height:auto;
+  }
+
+  [data-course-page] .journey-item{
+    position:relative;
+    align-items:flex-start;
+    text-align:left;
+    min-height:64px;
+    padding-left:76px;
+  }
+
+  [data-course-page] .journey-circle{
+    position:absolute;
+    left:0;
+    top:0;
+  }
+
+  [data-course-page] .journey-title,
+  [data-course-page] .journey-status{
+    max-width:none;
+    text-align:left;
+  }
+}
+
+@media(max-width:700px){
+  .course-toast{
+    left:14px;
+    right:14px;
+    bottom:14px;
+    max-width:none;
+  }
+}

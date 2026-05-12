@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 6 - Swimming Training II</title>
+  <meta
+    name="description"
+    content="Structural shell for Swimming Training II Module 6, ready for Javier to replace with approved final content."
+  />
+  <link rel="stylesheet" href="assets/training-content-containment.css" />
+  <link rel="stylesheet" href="training2-workspace.css" />
+  <link rel="stylesheet" href="course-navigation.css" />
+</head>
+<body class="training-shell-body">
+  <div class="training-page portal" data-course-page="module6">
+    <aside class="training-sidebar">
+      <div class="sidebar-card">
+        <h3>Module Progress</h3>
+        <div class="progress-track"><div class="progress-fill" id="moduleProgressFill"></div></div>
+        <div class="progress-meta"><span id="moduleProgressText">0% completed</span><span id="moduleProgressCount">0 / 7</span></div>
+        <button class="btn btn-primary save-progress" id="saveProgressButton" type="button">Save Progress</button>
+        <p class="small-note" id="saveProgressMessage">This shell stores progress on this device so Javier can keep working through the structure.</p>
+        <input id="completeStageCheck" type="checkbox" hidden />
+      </div>
+      <div class="sidebar-card">
+        <h3>Module Navigation</h3>
+        <nav class="nav-links" aria-label="Module sections">
+          <a class="nav-link" href="#journey" data-scroll="journey" data-stage="journey"><span class="nav-label">Journey</span><span class="nav-meta">Open</span></a>
+          <a class="nav-link" href="#outcomes" data-scroll="outcomes" data-stage="outcomes"><span class="nav-label">Outcomes</span><span class="nav-meta">Open</span></a>
+          <a class="nav-link" href="#block1" data-scroll="block1" data-stage="block1"><span class="nav-label">Block 1</span><span class="nav-meta">Open</span></a>
+          <a class="nav-link" href="#block2" data-scroll="block2" data-stage="block2"><span class="nav-label">Block 2</span><span class="nav-meta">Open</span></a>
+          <a class="nav-link" href="#block3" data-scroll="block3" data-stage="block3"><span class="nav-label">Block 3</span><span class="nav-meta">Open</span></a>
+          <a class="nav-link" href="#recap" data-scroll="recap" data-stage="recap"><span class="nav-label">Recap</span><span class="nav-meta">Open</span></a>
+          <a class="nav-link" href="#complete" data-scroll="complete" data-stage="complete"><span class="nav-label">Completion</span><span class="nav-meta">Open</span></a>
+        </nav>
+      </div>
+    </aside>
+
+    <main class="training-main">
+      <div class="shell-topbar">
+        <a class="back-link" href="swimming-training-introduction.html">Back to Training Introduction</a>
+        <span class="status-chip">Training 2 workspace shell</span>
+      </div>
+
+      <section class="hero" aria-labelledby="module6Title">
+        <span class="hero-module-num">Module 6</span>
+        <h1 id="module6Title">Swimming Strokes and Advanced Techniques</h1>
+        <p>
+          This structural shell is ready for Javier&apos;s approved Module 6 content. It preserves the same gated
+          learning flow and sidebar structure used across the Training 2 workspace so the final module can be built
+          by replacing placeholders rather than redesigning the page.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#journey" data-scroll="journey">Start Module</a>
+          <a class="btn btn-secondary" href="swimming-training-introduction.html">Training Introduction</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong>3 gated blocks</strong><span>Ready for approved theory, visuals and learner tasks.</span></div>
+          <div class="hero-stat"><strong>Shared progress</strong><span>Completion state feeds the full Training 2 route map and unlock chain.</span></div>
+          <div class="hero-stat"><strong id="heroModuleProgressText">Ready to begin</strong><div class="module-progress-bar" aria-hidden="true"><div class="module-progress-fill" id="heroModuleProgressFill"></div></div></div>
+        </div>
+      </section>
+
+      <section class="section" id="journey">
+        <div class="section-top">
+          <div><span class="section-pill">Section 1</span><div class="section-title-row"><h2>Module Journey</h2></div></div>
+          <div class="tts-actions"><button class="tts-btn" type="button" data-tts-button="#journey .section-body">Read aloud</button><button class="tts-btn" type="button" data-tts-stop>Stop audio</button></div>
+        </div>
+        <div class="section-body">
+          <p>Use this section to orient the learner before adding the approved Module 6 content. The pathway below remains connected to the shared course progress logic across all six modules.</p>
+          <div class="journey-track" style="margin-top:18px;">
+            <article class="journey-item page-linkable" data-course-module-id="module1" tabindex="0" role="link"><span class="journey-step">1</span><h3>Module 1</h3><p>Foundations of Aquatic Development</p><span class="journey-status">Available</span></article>
+            <article class="journey-item page-linkable" data-course-module-id="module2" tabindex="0" role="link"><span class="journey-step">2</span><h3>Module 2</h3><p>Scaffolding and the CS learning principle</p><span class="journey-status">Available</span></article>
+            <article class="journey-item page-linkable" data-course-module-id="module3" tabindex="0" role="link"><span class="journey-step">3</span><h3>Module 3</h3><p>Early Aquatic Experiences</p><span class="journey-status">Available</span></article>
+            <article class="journey-item page-linkable" data-course-module-id="module4" tabindex="0" role="link"><span class="journey-step">4</span><h3>Module 4</h3><p>Core Aquatic Skills</p><span class="journey-status">Available</span></article>
+            <article class="journey-item page-linkable" data-course-module-id="module5" tabindex="0" role="link"><span class="journey-step">5</span><h3>Module 5</h3><p>Propulsion Development</p><span class="journey-status">Available</span></article>
+            <article class="journey-item page-linkable" data-course-module-id="module6" tabindex="0" role="link"><span class="journey-step">6</span><h3>Module 6</h3><p>Swimming Strokes and Advanced Techniques</p><span class="journey-status">Available</span></article>
+          </div>
+          <label class="check-item clickable-progress"><input type="checkbox" data-stage-check="journey" /><span class="check-text"><strong>Journey complete</strong><span>Confirm this section once the learner has reviewed the Module 6 pathway.</span></span></label>
+        </div>
+      </section>
+
+      <section class="section gated-locked" id="outcomes">
+        <div class="section-top">
+          <div><span class="section-pill">Section 2</span><div class="section-title-row"><h2>Learning Outcomes</h2></div></div>
+          <div class="tts-actions"><button class="tts-btn" type="button" data-tts-button="#outcomes .section-body">Read aloud</button><button class="tts-btn" type="button" data-tts-stop>Stop audio</button></div>
+        </div>
+        <div class="section-body" data-outcomes-group="outcomes">
+          <div class="section-lock-banner"><strong>Locked.</strong> Complete the Module Journey section first.</div>
+          <p>These cards are ready for the approved Module 6 outcomes. Open each card before confirming the section.</p>
+          <div class="outcomes" style="margin-top:18px;">
+            <article class="outcome clickable-progress"><h4>Outcome placeholder 1</h4><p>Add Javier&apos;s approved outcome wording here.</p></article>
+            <article class="outcome clickable-progress"><h4>Outcome placeholder 2</h4><p>Add Javier&apos;s approved outcome wording here.</p></article>
+            <article class="outcome clickable-progress"><h4>Outcome placeholder 3</h4><p>Add Javier&apos;s approved outcome wording here.</p></article>
+            <article class="outcome clickable-progress"><h4>Outcome placeholder 4</h4><p>Add Javier&apos;s approved outcome wording here.</p></article>
+          </div>
+          <div class="stage-helper" id="outcomesHelper"><strong>Guidance:</strong> Open each learning outcome card first, then confirm the section.</div>
+          <label class="check-item clickable-progress"><input type="checkbox" data-stage-check="outcomes" disabled /><span class="check-text"><strong>Outcomes complete</strong><span>Confirm after reviewing all placeholder outcome cards.</span></span></label>
+        </div>
+      </section>
+
+      <section class="section gated-locked" id="block1">
+        <div class="section-top">
+          <div><span class="section-pill">Section 3</span><div class="section-title-row"><h2>Block 1 Workspace</h2></div></div>
+          <div class="tts-actions"><button class="tts-btn" type="button" data-tts-button="#block1 .section-body">Read aloud</button><button class="tts-btn" type="button" data-tts-stop>Stop audio</button></div>
+        </div>
+        <div class="section-body">
+          <div class="section-lock-banner"><strong>Locked.</strong> Complete the Learning Outcomes section first.</div>
+          <p>Use these cards to place the approved Block 1 content for Module 6 without changing the structure.</p>
+          <div class="grid-2" style="margin-top:18px;">
+            <article class="block-intro-card clickable-progress is-highlight"><h4>Approved block title</h4><p>Insert the final Block 1 heading and main teaching focus here.</p></article>
+            <article class="block-intro-card clickable-progress"><h4>Key teaching notes</h4><p>Replace this with the approved explanation, examples or coaching guidance.</p></article>
+            <article class="block-intro-card clickable-progress"><h4>Visual or scenario slot</h4><p>Use this area for the approved example, image or practical walkthrough.</p></article>
+            <article class="block-intro-card clickable-progress"><h4>Interaction cue</h4><p>Use the same card structure to add the approved reflective or applied learner task.</p></article>
+          </div>
+          <label class="check-item clickable-progress"><input type="checkbox" data-stage-check="block1" /><span class="check-text"><strong>Block 1 complete</strong><span>Confirm after Javier replaces the placeholders with approved Module 6 content.</span></span></label>
+        </div>
+      </section>
+
+      <section class="section gated-locked" id="block2">
+        <div class="section-top">
+          <div><span class="section-pill">Section 4</span><div class="section-title-row"><h2>Block 2 Workspace</h2></div></div>
+          <div class="tts-actions"><button class="tts-btn" type="button" data-tts-button="#block2 .section-body">Read aloud</button><button class="tts-btn" type="button" data-tts-stop>Stop audio</button></div>
+        </div>
+        <div class="section-body">
+          <div class="section-lock-banner"><strong>Locked.</strong> Complete Block 1 first.</div>
+          <p>Keep the same layout and replace these placeholders with the approved Block 2 content only.</p>
+          <div class="grid-2" style="margin-top:18px;">
+            <article class="block-intro-card clickable-progress"><h4>Approved block title</h4><p>Insert the final Block 2 heading and supporting explanation here.</p></article>
+            <article class="block-intro-card clickable-progress"><h4>Concept development</h4><p>Replace this with the final theory or learner guidance for this block.</p></article>
+            <article class="block-intro-card clickable-progress"><h4>Practice connection</h4><p>Use this card for approved examples, observation points or instructor prompts.</p></article>
+            <article class="block-intro-card clickable-progress"><h4>Interaction cue</h4><p>Maintain the structure and add the final reflection or applied activity here.</p></article>
+          </div>
+          <label class="check-item clickable-progress"><input type="checkbox" data-stage-check="block2" /><span class="check-text"><strong>Block 2 complete</strong><span>Confirm this stage after replacing the shell text with approved content.</span></span></label>
+        </div>
+      </section>
+
+      <section class="section gated-locked" id="block3">
+        <div class="section-top">
+          <div><span class="section-pill">Section 5</span><div class="section-title-row"><h2>Block 3 Workspace</h2></div></div>
+          <div class="tts-actions"><button class="tts-btn" type="button" data-tts-button="#block3 .section-body">Read aloud</button><button class="tts-btn" type="button" data-tts-stop>Stop audio</button></div>
+        </div>
+        <div class="section-body">
+          <div class="section-lock-banner"><strong>Locked.</strong> Complete Block 2 first.</div>
+          <p>This final content block is ready for Javier&apos;s approved Module 6 material and final applied guidance.</p>
+          <div class="grid-2" style="margin-top:18px;">
+            <article class="block-intro-card clickable-progress"><h4>Approved block title</h4><p>Insert the final Block 3 heading and key message here.</p></article>
+            <article class="block-intro-card clickable-progress"><h4>Core explanation</h4><p>Replace this shell text with the approved instructional explanation.</p></article>
+            <article class="block-intro-card clickable-progress"><h4>Worked example</h4><p>Use this card for the final example, learner scenario or practical application.</p></article>
+            <article class="block-intro-card clickable-progress"><h4>Transfer to practice</h4><p>Keep the same structure and add the final action points or next-step cues.</p></article>
+          </div>
+          <label class="check-item clickable-progress"><input type="checkbox" data-stage-check="block3" /><span class="check-text"><strong>Block 3 complete</strong><span>Confirm after the final approved Block 3 content has been placed into this layout.</span></span></label>
+        </div>
+      </section>
+
+      <section class="section gated-locked" id="recap">
+        <div class="section-top">
+          <div><span class="section-pill">Section 6</span><div class="section-title-row"><h2>Module Recap</h2></div></div>
+          <div class="tts-actions"><button class="tts-btn" type="button" data-tts-button="#recap .section-body">Read aloud</button><button class="tts-btn" type="button" data-tts-stop>Stop audio</button></div>
+        </div>
+        <div class="section-body">
+          <div class="section-lock-banner"><strong>Locked.</strong> Complete Block 3 first.</div>
+          <p>Use the recap cards below for the final approved Module 6 summary points and completion message.</p>
+          <div class="recap-stack" style="margin-top:18px;">
+            <article class="recap-card clickable-progress"><h4>Recap point 1</h4><p>Replace this with the final approved takeaway.</p></article>
+            <article class="recap-card clickable-progress"><h4>Recap point 2</h4><p>Replace this with the final approved takeaway.</p></article>
+            <article class="recap-card clickable-progress"><h4>Recap point 3</h4><p>Replace this with the final approved takeaway.</p></article>
+          </div>
+          <label class="check-item clickable-progress"><input type="checkbox" data-stage-check="recap" /><span class="check-text"><strong>Recap complete</strong><span>Confirm once the approved recap and summary content is in place.</span></span></label>
+        </div>
+      </section>
+
+      <section class="section gated-locked" id="complete">
+        <div class="section-top"><div><span class="section-pill">Completion</span><div class="section-title-row"><h2>Module Completion</h2></div></div></div>
+        <div class="section-body">
+          <div class="section-lock-banner"><strong>Locked.</strong> Complete the recap section first.</div>
+          <div class="completion-box">
+            <h3>Module 6 shell ready for final content</h3>
+            <p>This page now has the full structural pathway Javier needs: sidebar navigation, progress, journey, outcomes, three gated blocks, recap and final completion flow. Replace the placeholder text only with the approved final module content.</p>
+            <div class="completion-actions">
+              <a class="btn btn-primary" href="swimming-training-portal2.html">Return to Training Dashboard</a>
+              <a class="btn btn-secondary" href="swimming-training-introduction.html">Return to Introduction</a>
+            </div>
+            <p class="completion-note">When Module 6 is completed, the shared course state marks the full Training 2 pathway as completed.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="training2-module-shell.js"></script>
+  <script src="course-navigation.js"></script>
+</body>
+</html>
