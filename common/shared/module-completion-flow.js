@@ -486,7 +486,25 @@
     });
   }
 
+  function restoreTrainingIPassedQuiz(context){
+    if(context.trainingId !== 'training-i') return;
+    var quizSection = document.getElementById('quiz');
+    if(!quizSection) return;
+    var quizInline = quizSection.querySelector('.quiz-inline');
+    if(!quizInline) return;
+    var scoreCard = quizInline.querySelector('.score-card');
+    if(!scoreCard || !isModulePassed(context)) return;
+    quizInline.classList.add('quiz-passed-restore');
+    revealQuizSection(quizSection);
+    renderPassedState(context, scoreCard);
+  }
+
   function ensureQuizPreview(context){
+    if(context.trainingId === 'training-i'){
+      restoreTrainingIPassedQuiz(context);
+      return;
+    }
+
     var quizSection = document.getElementById('quiz');
     if(!quizSection) return;
 
