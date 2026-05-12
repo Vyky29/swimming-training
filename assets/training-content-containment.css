@@ -1,0 +1,44 @@
+/* Minimal shared containment layer for Training 2 pages. */
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe{
+  display:block;
+  max-width:100%;
+}
+
+pre,
+code{
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.portal,
+.training-page,
+.training-portal,
+.quiz-layout{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+}
+
+.portal :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,em,li,a,button,label,div),
+.training-page :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,em,li,a,button,label,div),
+.training-portal :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,em,li,a,button,label,div){
+  overflow-wrap:break-word;
+  word-break:break-word;
+}

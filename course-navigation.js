@@ -25,37 +25,37 @@
     module2: {
       id: 'module2',
       title: 'Module 2 - Guiding Learning Through Scaffolding and the CS Learning Principle',
-      file: null,
-      sections: ['section-1', 'section-2', 'section-3'],
-      available: false
+      file: 'Javier-module2.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      available: true
     },
     module3: {
       id: 'module3',
       title: 'Module 3 - Early Aquatic Experiences',
-      file: null,
-      sections: ['section-1', 'section-2', 'section-3'],
-      available: false
+      file: 'Javier-module3.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      available: true
     },
     module4: {
       id: 'module4',
       title: 'Module 4 - Core Aquatic Skills',
-      file: null,
-      sections: ['block-1', 'block-2', 'block-3', 'block-4'],
-      available: false
+      file: 'Javier-module4.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      available: true
     },
     module5: {
       id: 'module5',
       title: 'Module 5 - Propulsion Development in the Water',
-      file: null,
-      sections: ['section-1', 'section-2', 'section-3'],
-      available: false
+      file: 'Javier-module5.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      available: true
     },
     module6: {
       id: 'module6',
       title: 'Module 6 - Swimming Strokes and Advanced Techniques',
-      file: null,
-      sections: ['section-1', 'section-2', 'section-3'],
-      available: false
+      file: 'Javier-module6.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      available: true
     }
   };
 
