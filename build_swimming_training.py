@@ -36,6 +36,7 @@ SOURCE_ROUTES = {
 STATIC_FILES = [
     "course-navigation.css",
     "course-navigation.js",
+    "training2-portal.css",
     "training2-workspace.css",
     "training2-hub.js",
     "training2-module-shell.js",
@@ -44,6 +45,7 @@ STATIC_FILES = [
 REPLACEMENTS = [
     ('href="assets/training-content-containment.css"', 'href="/assets/training-content-containment.css"'),
     ('href="course-navigation.css"', 'href="/course-navigation.css"'),
+    ('href="training2-portal.css"', 'href="/training2-portal.css"'),
     ('src="course-navigation.js"', 'src="/course-navigation.js"'),
     ('href="training2-workspace.css"', 'href="/training2-workspace.css"'),
     ('src="training2-hub.js"', 'src="/training2-hub.js"'),

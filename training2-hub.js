@@ -1,20 +1,38 @@
 (function(){
   var STORAGE_KEYS = {
-    progress: 'cs_swimming_training_progress',
-    currentModule: 'cs_swimming_training_current_module',
-    completedSections: 'cs_swimming_training_completed_sections',
-    completedModules: 'cs_swimming_training_completed_modules'
+    progress: 'cs_swimming_training_progress'
   };
 
   var COURSE_ORDER = ['introduction', 'module1', 'module2', 'module3', 'module4', 'module5', 'module6'];
   var COURSE_MODULES = {
-    introduction: { file: 'swimming-training-introduction.html', sections: ['training-introduction'] },
-    module1: { file: 'Javier-module1.html', sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'] },
-    module2: { file: 'Javier-module2.html', sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'] },
-    module3: { file: 'Javier-module3.html', sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'] },
-    module4: { file: 'Javier-module4.html', sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'] },
-    module5: { file: 'Javier-module5.html', sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'] },
-    module6: { file: 'Javier-module6.html', sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'] }
+    introduction: {
+      file: 'swimming-training-introduction.html',
+      sections: ['training-introduction']
+    },
+    module1: {
+      file: 'Javier-module1.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+    },
+    module2: {
+      file: 'Javier-module2.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+    },
+    module3: {
+      file: 'Javier-module3.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+    },
+    module4: {
+      file: 'Javier-module4.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+    },
+    module5: {
+      file: 'Javier-module5.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+    },
+    module6: {
+      file: 'Javier-module6.html',
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+    }
   };
 
   function getEmptyState(){
@@ -57,7 +75,7 @@
   function loadState(){
     try{
       return normalizeState(JSON.parse(localStorage.getItem(STORAGE_KEYS.progress) || '{}'));
-    } catch (error){
+    } catch(error){
       return getEmptyState();
     }
   }
@@ -78,8 +96,7 @@
 
   function isModuleComplete(moduleId, state){
     if(!COURSE_MODULES[moduleId]) return false;
-    var required = COURSE_MODULES[moduleId].sections;
-    return required.every(function(sectionId){
+    return COURSE_MODULES[moduleId].sections.every(function(sectionId){
       return (state.completedSections[moduleId] || []).indexOf(sectionId) >= 0;
     });
   }
@@ -96,7 +113,10 @@
 
   function getResumeTarget(state){
     if(!state.introductionCompleted){
-      return { href: COURSE_MODULES.introduction.file, label: 'Open Training Introduction' };
+      return {
+        href: COURSE_MODULES.introduction.file,
+        label: 'Start Training Introduction'
+      };
     }
 
     for(var i = 1; i < COURSE_ORDER.length; i += 1){
@@ -111,7 +131,18 @@
       }
     }
 
-    return { href: COURSE_MODULES.module6.file + '#complete', label: 'Review Completion' };
+    return {
+      href: COURSE_MODULES.module6.file + '#complete',
+      label: 'Review Completion'
+    };
+  }
+
+  function setButtonState(button, text, href, className, disabled){
+    if(!button) return;
+    button.textContent = text;
+    button.href = href;
+    button.className = 'btn ' + className;
+    button.setAttribute('aria-disabled', disabled ? 'true' : 'false');
   }
 
   function renderHub(){
@@ -122,12 +153,25 @@
     var completed = getCompletedItemCount(state);
     var percent = total ? Math.round((completed / total) * 100) : 0;
 
-    var fill = document.getElementById('hubOverallProgressFill');
-    var text = document.getElementById('hubOverallProgressText');
-    var count = document.getElementById('hubOverallProgressCount');
-    if(fill) fill.style.width = percent + '%';
-    if(text) text.textContent = percent + '% completed';
-    if(count) count.textContent = completed + ' / ' + total;
+    var summary = document.getElementById('progressSummary');
+    var summaryFill = document.getElementById('progressSummaryFill');
+    var summaryText = document.getElementById('progressSummaryText');
+
+    if(summary){
+      summary.classList.toggle('visible', completed > 0 || !!state.introductionCompleted);
+    }
+    if(summaryFill){
+      summaryFill.style.width = percent + '%';
+    }
+    if(summaryText){
+      summaryText.textContent = percent + '% completed • ' + completed + ' of ' + total + ' stages completed';
+    }
+
+    var introButton = document.getElementById('hubIntroductionButton');
+    if(introButton){
+      introButton.href = COURSE_MODULES.introduction.file;
+      introButton.textContent = state.introductionCompleted ? 'Review Training Introduction' : 'Open Training Introduction';
+    }
 
     var resumeTarget = getResumeTarget(state);
     var resumeButton = document.getElementById('hubResumeButton');
@@ -145,8 +189,10 @@
       var inProgress = !completedModule && unlocked && (state.completedSections[moduleId] || []).length > 0;
       var current = state.currentModule === moduleId && unlocked && !completedModule;
 
+      card.classList.toggle('is-locked', !unlocked);
+
       if(status){
-        status.className = 'module-status';
+        status.className = 'module-status-badge';
         if(completedModule){
           status.classList.add('status-completed');
           status.textContent = 'Completed';
@@ -154,34 +200,30 @@
           status.classList.add('status-locked');
           status.textContent = 'Locked';
         } else if(current || inProgress){
-          status.textContent = 'In Progress';
+          status.classList.add('status-in-progress');
+          status.textContent = 'In progress';
         } else {
-          status.textContent = 'Available';
+          status.classList.add('status-not-started');
+          status.textContent = 'Not started';
         }
       }
 
-      if(button){
-        if(completedModule){
-          button.href = COURSE_MODULES[moduleId].file;
-          button.textContent = 'Review Module';
-          button.classList.remove('is-disabled');
-          button.setAttribute('aria-disabled', 'false');
-        } else if(current || inProgress){
-          button.href = COURSE_MODULES[moduleId].file + '#' + getFirstIncompleteSection(moduleId, state);
-          button.textContent = 'Continue Module';
-          button.classList.remove('is-disabled');
-          button.setAttribute('aria-disabled', 'false');
-        } else if(unlocked){
-          button.href = COURSE_MODULES[moduleId].file;
-          button.textContent = 'Open Module';
-          button.classList.remove('is-disabled');
-          button.setAttribute('aria-disabled', 'false');
-        } else {
-          button.href = '#';
-          button.textContent = 'Locked';
-          button.classList.add('is-disabled');
-          button.setAttribute('aria-disabled', 'true');
-        }
+      if(!button) return;
+
+      if(completedModule){
+        setButtonState(button, 'Review Module', COURSE_MODULES[moduleId].file, 'btn-continue', false);
+      } else if(current || inProgress){
+        setButtonState(
+          button,
+          'Continue Module',
+          COURSE_MODULES[moduleId].file + '#' + getFirstIncompleteSection(moduleId, state),
+          'btn-continue',
+          false
+        );
+      } else if(unlocked){
+        setButtonState(button, 'Start Module', COURSE_MODULES[moduleId].file, 'btn-primary', false);
+      } else {
+        setButtonState(button, 'Locked', '#', 'btn-disabled', true);
       }
     });
   }
