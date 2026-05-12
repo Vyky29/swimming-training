@@ -20,6 +20,232 @@
     };
   }
 
+  var TRAINING_I_STYLE_COPY = {
+    module2: {
+      number: 2,
+      title: 'Guiding Learning Through Scaffolding and the CS Learning Principle',
+      nextId: 'module3',
+      nextLabel: 'Module 3 - Early Aquatic Experiences',
+      journeyText: 'This module sits after Module 1 and introduces a clearer learning structure around scaffolding, guidance, and the CS Learning Principle before the course moves into early aquatic experiences.',
+      completionText: 'You have now completed the Module 2 page structure. Add the approved content and concept-level copy here before progressing into Module 3.'
+    },
+    module3: {
+      number: 3,
+      title: 'Early Aquatic Experiences',
+      nextId: 'module4',
+      nextLabel: 'Module 4 - Core Aquatic Skills',
+      journeyText: 'This module sits after Module 2 and before Module 4. Use this page to map the approved early-experience content into the same section and concept structure used across Training I.',
+      completionText: 'You have now completed the Module 3 page structure. Add the approved content and concept-level copy here before progressing into Module 4.'
+    },
+    module4: {
+      number: 4,
+      title: 'Core Aquatic Skills',
+      nextId: 'module5',
+      nextLabel: 'Module 5 - Propulsion Development in the Water',
+      journeyText: 'This module sits after Module 3 and before Module 5. Use this page to organise the approved core-skills content with the same headings, blocks, and concept rhythm as Training I.',
+      completionText: 'You have now completed the Module 4 page structure. Add the approved content and concept-level copy here before progressing into Module 5.'
+    },
+    module5: {
+      number: 5,
+      title: 'Propulsion Development in the Water',
+      nextId: 'module6',
+      nextLabel: 'Module 6 - Swimming Strokes and Advanced Techniques',
+      journeyText: 'This module sits after Module 4 and before Module 6. Use this page to organise propulsion content using the same visible section titles and concept flow as the Training I modules.',
+      completionText: 'You have now completed the Module 5 page structure. Add the approved content and concept-level copy here before progressing into Module 6.'
+    },
+    module6: {
+      number: 6,
+      title: 'Swimming Strokes and Advanced Techniques',
+      nextId: null,
+      nextLabel: 'Final module of the Training II pathway',
+      journeyText: 'This is the final module in the Training II pathway. Use this page to bring the approved stroke and advanced-technique content into the same structured section and concept layout used in Training I.',
+      completionText: 'You have now completed the Module 6 page structure. Add the approved content and concept-level copy here to complete the full Training II pathway.'
+    }
+  };
+
+  function buildListMarkup(items){
+    return items.map(function(item){
+      return '<li>' + item + '</li>';
+    }).join('');
+  }
+
+  function buildConceptMarkup(moduleNumber, blockNumber){
+    var conceptCards = [1, 2, 3, 4].map(function(index){
+      return '' +
+        '<article class="concept-square clickable-progress" role="button" tabindex="0">' +
+          '<span class="concept-tag">Concept ' + index + '</span>' +
+          '<strong>Add the approved concept ' + index + ' title</strong>' +
+        '</article>';
+    }).join('');
+
+    return '' +
+      '<div class="concept-stage">' +
+        '<h4>Explore the Key Concepts</h4>' +
+        '<p>Use these concept placeholders to mirror the same concept-by-concept structure used in the Training I modules.</p>' +
+        '<div class="concept-grid">' + conceptCards + '</div>' +
+        '<div class="concept-panel clickable-progress">' +
+          '<div class="concept-heading-row">' +
+            '<h4>Concept content area</h4>' +
+          '</div>' +
+          '<p class="concept-panel-desc">Add the approved explanation, examples, and supporting notes for Module ' + moduleNumber + ' Block ' + blockNumber + ' here so each concept follows the same visible rhythm as Training I.</p>' +
+          '<div class="concept-points-box">' +
+            '<h4>Key Ideas for Instructors</h4>' +
+            '<ul>' + buildListMarkup([
+              'Add the key teaching idea for this concept.',
+              'Add the point instructors should notice or apply.',
+              'Add the final takeaway that supports delivery in practice.'
+            ]) + '</ul>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="reflection-card clickable-progress">' +
+        '<h4>Reflection checkpoint</h4>' +
+        '<p>Add the approved reflection, checkpoint question, or applied activity here so the end of the block follows the same structure as the Training I modules.</p>' +
+      '</div>';
+  }
+
+  function buildBlockCards(moduleNumber, blockNumber){
+    return '' +
+      '<div class="grid-2 block-intro-cards">' +
+        '<article class="block-intro-card clickable-progress">' +
+          '<div class="card-icon">◎</div>' +
+          '<h4>Block Focus</h4>' +
+          '<ul>' + buildListMarkup([
+            'Add the approved teaching focus for Module ' + moduleNumber + ' Block ' + blockNumber + '.'
+          ]) + '</ul>' +
+        '</article>' +
+        '<article class="block-intro-card clickable-progress">' +
+          '<div class="card-icon">≡</div>' +
+          '<h4>What This Block Covers</h4>' +
+          '<ul>' + buildListMarkup([
+            'Approved concept area 1',
+            'Approved concept area 2',
+            'Approved concept area 3',
+            'Approved concept area 4'
+          ]) + '</ul>' +
+        '</article>' +
+      '</div>' +
+      buildConceptMarkup(moduleNumber, blockNumber);
+  }
+
+  function updateCheckText(sectionId, title, detail){
+    var textWrap = document.querySelector('#' + sectionId + ' .check-text');
+    if(textWrap){
+      textWrap.innerHTML = '<strong>' + title + '</strong><span>' + detail + '</span>';
+    }
+  }
+
+  function updateBlockSection(moduleMeta, blockNumber){
+    var section = document.getElementById('block' + blockNumber);
+    if(!section) return;
+
+    var title = section.querySelector('.block-title-wrap h3');
+    if(title) title.textContent = 'Add the approved Block ' + blockNumber + ' title';
+
+    var lead = section.querySelector('.lead');
+    if(lead){
+      lead.textContent = 'Use this block to add the approved Module ' + moduleMeta.number + ' Block ' + blockNumber + ' content while keeping the same title structure, concept flow, and checkpoint rhythm as Training I.';
+    }
+
+    var cardGrid = section.querySelector('.grid-2');
+    if(cardGrid){
+      cardGrid.outerHTML = buildBlockCards(moduleMeta.number, blockNumber);
+    }
+
+    updateCheckText(
+      'block' + blockNumber,
+      'I have completed Block ' + blockNumber + '.',
+      'Use this once the approved block copy, concepts, and reflection checkpoint are in place.'
+    );
+  }
+
+  function applyTrainingIModulePattern(moduleId){
+    var moduleMeta = TRAINING_I_STYLE_COPY[moduleId];
+    if(!moduleMeta) return;
+
+    document.title = 'clubSENsational Training Module ' + moduleMeta.number + ' | ' + moduleMeta.title;
+
+    var heroTitle = document.querySelector('#overview h2');
+    if(heroTitle) heroTitle.textContent = 'Module ' + moduleMeta.number + ' - ' + moduleMeta.title;
+
+    var heroBody = document.querySelector('#overview p');
+    if(heroBody){
+      heroBody.innerHTML = 'This page now follows the same visible section structure as the Training I modules.<br><br>Add the approved Module ' + moduleMeta.number + ' content into the same sequence of Swimming Journey, Learning Outcomes, three named blocks, key concepts, recap, and completion.';
+    }
+
+    var heroPills = document.querySelectorAll('#overview .meta-pill');
+    if(heroPills[0]) heroPills[0].textContent = 'Training I section structure';
+    if(heroPills[1]) heroPills[1].textContent = '3 named blocks with concept areas';
+    if(heroPills[2]) heroPills[2].textContent = moduleMeta.nextId ? ('Next: ' + moduleMeta.nextLabel) : moduleMeta.nextLabel;
+
+    var journeyTitle = document.querySelector('#journey .section-title-row h3');
+    if(journeyTitle) journeyTitle.textContent = 'clubSENsational Swimming Journey';
+
+    var journeyPanelTitle = document.querySelector('#journey .journey-panel h4');
+    if(journeyPanelTitle) journeyPanelTitle.textContent = 'Module ' + moduleMeta.number + ' - ' + moduleMeta.title;
+
+    var journeyPanelText = document.querySelector('#journey .journey-panel p');
+    if(journeyPanelText) journeyPanelText.textContent = moduleMeta.journeyText;
+
+    updateCheckText(
+      'journey',
+      'Journey reviewed',
+      'I understand where this module sits within the wider clubSENsational Swimming journey.'
+    );
+
+    var outcomesTitle = document.querySelector('#outcomes .section-title-row h3');
+    if(outcomesTitle) outcomesTitle.textContent = 'What will you understand by the end of this module?';
+
+    var outcomesLead = document.querySelector('#outcomes .lead');
+    if(outcomesLead) outcomesLead.textContent = 'Add the approved learning outcomes for Module ' + moduleMeta.number + ' below.';
+
+    var outcomes = document.querySelectorAll('#outcomes .outcome div:last-child');
+    outcomes.forEach(function(item, index){
+      item.textContent = 'Approved learning outcome ' + (index + 1) + ' for Module ' + moduleMeta.number + '.';
+    });
+
+    updateCheckText(
+      'outcomes',
+      'Outcomes reviewed',
+      'I have reviewed all learning outcomes and I am ready to begin Block 1.'
+    );
+
+    updateBlockSection(moduleMeta, 1);
+    updateBlockSection(moduleMeta, 2);
+    updateBlockSection(moduleMeta, 3);
+
+    var recapTitle = document.querySelector('#recap .section-title-row h3');
+    if(recapTitle) recapTitle.textContent = 'Key Ideas to Remember';
+
+    var recapLead = document.querySelector('#recap .lead');
+    if(recapLead) recapLead.textContent = 'Use these recap cards to capture the approved summary points for Module ' + moduleMeta.number + '.';
+
+    var recapCards = document.querySelectorAll('#recap .recap-card');
+    recapCards.forEach(function(card, index){
+      var heading = card.querySelector('h4');
+      var body = card.querySelector('p');
+      if(heading) heading.textContent = 'Approved recap point ' + (index + 1);
+      if(body) body.textContent = 'Add the approved recap wording for Module ' + moduleMeta.number + ' here.';
+    });
+
+    updateCheckText(
+      'recap',
+      'Recap reviewed',
+      'I have reviewed the recap and I am ready to complete the module.'
+    );
+
+    var completionTitle = document.querySelector('#complete .completion-box h3');
+    if(completionTitle) completionTitle.textContent = 'Module ' + moduleMeta.number + ' complete';
+
+    var completionText = document.querySelector('#complete .completion-box p');
+    if(completionText) completionText.textContent = moduleMeta.completionText;
+
+    var completionNote = document.querySelector('#complete .completion-note');
+    if(completionNote){
+      completionNote.textContent = 'Keep this final section for the completion summary, final action, and next-step link once the approved content is in place.';
+    }
+  }
+
   function loadState(moduleId){
     try{
       var parsed = JSON.parse(localStorage.getItem(getStorageKey(moduleId)) || '{}');
@@ -283,6 +509,7 @@
     var moduleId = getModulePage();
     var stageOrder = ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'complete'];
 
+    applyTrainingIModulePattern(moduleId);
     assignProgressItemKeys();
     restoreChecks(moduleId);
     restoreClickedItems(moduleId);
