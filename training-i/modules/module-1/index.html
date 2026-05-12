@@ -1,5 +1,6 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+  @import url('/assets/module-completion-flow.css');
 
   :root{
     --blue:#2d84b3;
@@ -4030,12 +4031,10 @@
                 <h3>Module 1 complete</h3>
               </div>
             </div>
-            <p data-tts-source="complete">You have now completed the interactive learning content for Understanding Water. The next step is to complete the module quiz before moving into the next stage of your training.</p>
+            <p data-tts-source="complete">You have completed all content for Module 1. Ready for the quiz?</p>
 
             <div class="completion-actions">
               <a class="btn btn-primary" href="#quiz">Start Quiz</a>
-              <a class="btn btn-secondary" href="/training-i/modules/module-2/">Go to Next Module</a>
-              <a class="btn btn-secondary" href="#overview">Back to Top</a>
             </div>
           </div>
         </div>
@@ -4151,7 +4150,7 @@
                 <h2>Quiz complete</h2>
                 <p class="score-value" id="scoreValueM1">0/8</p>
                 <p class="score-msg" id="scoreMsgM1"></p>
-                <a href="/training-i/modules/module-2/" class="back-link quiz-next-btn">→ Next: Module 2</a>
+                <a href="/training-i/modules/module-2/" class="back-link quiz-next-btn">Go to Next Module</a>
               </div>
             </div>
           </div>
@@ -6530,6 +6529,7 @@
     });
   });
 </script>
+<script src="/shared/module-completion-flow.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
@@ -6631,7 +6631,7 @@
         }
         if(!this.checked) return;
         var stage = this.getAttribute('data-stage-check');
-        if(stage === 'complete') completeModule(MODULE_NUMBER);
+        if(stage === 'complete') saveProgress({ ['module' + MODULE_NUMBER + '_complete']: true });
         else saveProgress({ ['module' + MODULE_NUMBER + '_' + stage]: true });
       });
     });
@@ -6646,7 +6646,7 @@
         }
         if(!this.checked) return;
         var stage = this.getAttribute('data-stage-check');
-        if(stage === 'complete') completeModule(MODULE_NUMBER);
+        if(stage === 'complete') saveProgress({ ['module' + MODULE_NUMBER + '_complete']: true });
         else saveProgress({ ['module' + MODULE_NUMBER + '_' + stage]: true });
       });
     });
@@ -6665,7 +6665,7 @@
         quizSec.classList.remove('gated-locked');
         quizSec.classList.add('quiz-visible');
         if(!REVIEW_MODE){
-          completeModule(MODULE_NUMBER);
+          saveProgress({ ['module' + MODULE_NUMBER + '_complete']: true });
           var cb = document.querySelector('.overall-check[data-stage-check="complete"]');
           if(cb){ cb.checked = true; if(cb.closest('.check-item')) cb.closest('.check-item').classList.add('clicked'); }
         }
@@ -6860,12 +6860,37 @@
     results.forEach(function(r){ showFeedback(r.i, r.ok, r.msg, showCorrect); });
     progressFill.style.width = '100%';
     progressText.textContent = '8 of 8 answered';
-    scoreValue.textContent = score + '/' + total;
-    scoreMsg.textContent = score === total ? 'Congratulations! Quiz complete. You\'re ready for the next module.' : 'You need all 8 correct to continue to the next module. Try again.';
+    var passed = score === total;
+    scoreValue.textContent = passed ? ('Quiz passed - ' + score + '/' + total) : (score + '/' + total);
+    if(passed){
+      try {
+        var module1Progress = JSON.parse(localStorage.getItem('swimming_module_1_progress') || '{}');
+        module1Progress.module1_complete = true;
+        module1Progress.module1_quiz = true;
+        module1Progress.module1_completed = true;
+        module1Progress.module2_unlocked = true;
+        localStorage.setItem('swimming_module_1_progress', JSON.stringify(module1Progress));
+      } catch(error) {}
+    }
     var backLink = root.querySelector('.score-card .back-link');
-    if(backLink) backLink.style.display = score === total ? 'inline-flex' : 'none';
-    scoreCard.classList.add('show');
-    submitBtn.disabled = (score === total);
+    if(backLink) backLink.style.display = passed ? 'inline-flex' : 'none';
+    if(window.clubTrainingCompletion){
+      window.clubTrainingCompletion.renderResultCard({
+        scoreCard: scoreCard,
+        scoreValue: scoreValue,
+        scoreMsg: scoreMsg,
+        passed: passed,
+        isFinalModule: false,
+        trainingLabel: 'Swimming Training I',
+        moduleLabel: 'Module 1 - Understanding Water',
+        successMessage: 'You passed the quiz for Module 1. Continue into Module 2 when you are ready.',
+        failureMessage: 'You need all 8 correct before moving on. Review the module and try again.'
+      });
+    } else {
+      scoreMsg.textContent = passed ? 'You passed the quiz for Module 1. Continue into Module 2 when you are ready.' : 'You need all 8 correct before moving on. Review the module and try again.';
+      scoreCard.classList.add('show');
+    }
+    submitBtn.disabled = passed;
     scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   updateProgress();

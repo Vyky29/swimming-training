@@ -66,18 +66,14 @@
 
   function syncCourseState(moduleId){
     var courseState = loadCourseState();
-    var requiredSections = ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'];
+    var requiredSections = ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz'];
     var checkedSections = Array.from(document.querySelectorAll('input[data-stage-check]:checked')).map(function(input){
       return input.getAttribute('data-stage-check');
     }).filter(function(stageId){
       return requiredSections.indexOf(stageId) >= 0;
     });
-    var completeCheck = document.getElementById('completeStageCheck');
-    var isExplicitlyComplete = !!(completeCheck && completeCheck.checked);
 
-    courseState.completedSections[moduleId] = Array.from(new Set(
-      isExplicitlyComplete ? requiredSections.slice() : checkedSections
-    ));
+    courseState.completedSections[moduleId] = Array.from(new Set(checkedSections));
     courseState.currentModule = moduleId;
 
     if(courseState.completedSections[moduleId].length === requiredSections.length){
@@ -109,7 +105,7 @@
       nextId: 'module3',
       nextLabel: 'Module 3 - Early Aquatic Experiences',
       journeyText: 'This module sits after Module 1 and introduces a clearer learning structure around scaffolding, guidance, and the CS Learning Principle before the course moves into early aquatic experiences.',
-      completionText: 'You have now completed the Module 2 page structure. Add the approved content and concept-level copy here before progressing into Module 3.'
+      completionText: 'You have completed all content for Module 2. Ready for the quiz?'
     },
     module3: {
       number: 3,
@@ -117,7 +113,7 @@
       nextId: 'module4',
       nextLabel: 'Module 4 - Core Aquatic Skills',
       journeyText: 'This module sits after Module 2 and before Module 4. Use this page to map the approved early-experience content into the same section and concept structure used across Training I.',
-      completionText: 'You have now completed the Module 3 page structure. Add the approved content and concept-level copy here before progressing into Module 4.'
+      completionText: 'You have completed all content for Module 3. Ready for the quiz?'
     },
     module4: {
       number: 4,
@@ -125,7 +121,7 @@
       nextId: 'module5',
       nextLabel: 'Module 5 - Propulsion Development in the Water',
       journeyText: 'This module sits after Module 3 and before Module 5. Use this page to organise the approved core-skills content with the same headings, blocks, and concept rhythm as Training I.',
-      completionText: 'You have now completed the Module 4 page structure. Add the approved content and concept-level copy here before progressing into Module 5.'
+      completionText: 'You have completed all content for Module 4. Ready for the quiz?'
     },
     module5: {
       number: 5,
@@ -133,7 +129,7 @@
       nextId: 'module6',
       nextLabel: 'Module 6 - Swimming Strokes and Advanced Techniques',
       journeyText: 'This module sits after Module 4 and before Module 6. Use this page to organise propulsion content using the same visible section titles and concept flow as the Training I modules.',
-      completionText: 'You have now completed the Module 5 page structure. Add the approved content and concept-level copy here before progressing into Module 6.'
+      completionText: 'You have completed all content for Module 5. Ready for the quiz?'
     },
     module6: {
       number: 6,
@@ -141,7 +137,7 @@
       nextId: null,
       nextLabel: 'Final module of the Training II pathway',
       journeyText: 'This is the final module in the Training II pathway. Use this page to bring the approved stroke and advanced-technique content into the same structured section and concept layout used in Training I.',
-      completionText: 'You have now completed the Module 6 page structure. Add the approved content and concept-level copy here to complete the full Training II pathway.'
+      completionText: 'You have completed all content for Module 6. Ready for the quiz?'
     }
   };
 
@@ -228,7 +224,8 @@
       { id: 'block2', label: 'Block 2' },
       { id: 'block3', label: 'Block 3' },
       { id: 'recap', label: 'Recap' },
-      { id: 'complete', label: 'Completion' }
+      { id: 'complete', label: 'Completion' },
+      { id: 'quiz', label: 'Quiz' }
     ].map(function(item, index){
       return '<a class="nav-link' + (index === 0 ? ' active' : '') + '" href="#' + item.id + '" data-stage="' + item.id + '" data-scroll="' + item.id + '">' + item.label + '</a>';
     }).join('');
@@ -366,9 +363,134 @@
     var completionText = document.querySelector('#complete .completion-box p');
     if(completionText) completionText.textContent = moduleMeta.completionText;
 
+    var completionActions = document.querySelector('#complete .completion-actions');
+    if(completionActions){
+      completionActions.innerHTML = '<a class="btn btn-primary" href="#quiz" data-scroll="quiz">Start Quiz</a>';
+    }
+
     var completionNote = document.querySelector('#complete .completion-note');
     if(completionNote){
-      completionNote.textContent = 'Keep this final section for the completion summary, final action, and next-step link once the approved content is in place.';
+      completionNote.textContent = 'Use this final section as the consistent bridge from content completion into the module quiz.';
+    }
+  }
+
+  function ensureQuizSection(moduleMeta){
+    var quizSection = document.getElementById('quiz');
+    if(!quizSection){
+      quizSection = document.createElement('section');
+      quizSection.className = 'section gated-locked';
+      quizSection.id = 'quiz';
+      quizSection.setAttribute('data-stage', 'quiz');
+      quizSection.innerHTML = [
+        '<div class="section-top">',
+        '  <span class="section-pill">Quiz</span>',
+        '</div>',
+        '<div class="section-body">',
+        '  <p class="lead">When you are ready, open the quiz flow to confirm understanding and move into the next stage.</p>',
+        '  <div class="quiz-embed" style="margin-top:18px;">',
+        '    <div class="quiz-inline quiz-inline--preview">',
+        '      <div class="quiz-inline-progress">',
+        '        <div class="progress-track"><div class="progress-fill" style="width:100%;"></div></div>',
+        '        <p class="progress-meta">Quiz completion stage</p>',
+        '      </div>',
+        '      <header class="quiz-hero">',
+        '        <span class="tag">Module ' + moduleMeta.number + '</span>',
+        '        <h1>' + moduleMeta.title + '</h1>',
+        '        <p>Use the same embedded quiz flow here so the module always ends in one consistent way across Training I and Training II.</p>',
+        '      </header>',
+        '      <div class="q-card">',
+        '        <h3>Quiz review</h3>',
+        '        <p class="q-text">Approved quiz questions for Module ' + moduleMeta.number + ' will sit here.</p>',
+        '        <p>This review build keeps the final module flow visible now, so the end-of-module experience can be approved before the full quiz content is added.</p>',
+        '        <p class="preview-note">Once the approved quiz is written, this placeholder can be replaced without changing the closing experience or the completion state.</p>',
+        '      </div>',
+        '      <input type="checkbox" data-stage-check="quiz" id="quizStageCheck" hidden />',
+        '      <button type="button" class="btn-submit" data-shell-quiz-pass>Complete Quiz</button>',
+        '      <div class="score-card" id="shellScoreCard">',
+        '        <h2>Quiz complete</h2>',
+        '        <p class="score-value" id="shellScoreValue">Quiz passed</p>',
+        '        <p class="score-msg" id="shellScoreMsg"></p>',
+        '        <button type="button" data-download-certificate hidden>Download Certificate</button>',
+        '        <a href="' + (moduleMeta.nextId ? ('/training-ii/modules/' + moduleMeta.nextId.replace('module', 'module-') + '/') : '/training-ii/') + '" class="quiz-next-btn">' + (moduleMeta.nextId ? 'Go to Next Module' : 'Return to Training Dashboard') + '</a>',
+        '      </div>',
+        '    </div>',
+        '  </div>',
+        '</div>'
+      ].join('');
+
+      var completeSection = document.getElementById('complete');
+      if(completeSection && completeSection.parentNode){
+        completeSection.parentNode.insertBefore(quizSection, completeSection.nextSibling);
+      }
+    }
+
+    return quizSection;
+  }
+
+  function setupQuizFlow(moduleId, moduleMeta, stageOrder){
+    var quizSection = ensureQuizSection(moduleMeta);
+    if(!quizSection) return;
+
+    var scoreCard = document.getElementById('shellScoreCard');
+    var scoreValue = document.getElementById('shellScoreValue');
+    var scoreMsg = document.getElementById('shellScoreMsg');
+    var quizCheck = document.getElementById('quizStageCheck');
+    var passButton = quizSection.querySelector('[data-shell-quiz-pass]');
+
+    function revealQuiz(){
+      quizSection.classList.remove('gated-locked');
+      quizSection.classList.add('quiz-visible');
+    }
+
+    function renderPassedState(){
+      if(window.clubTrainingCompletion){
+        window.clubTrainingCompletion.renderResultCard({
+          scoreCard: scoreCard,
+          scoreValue: scoreValue,
+          scoreMsg: scoreMsg,
+          passed: true,
+          isFinalModule: !moduleMeta.nextId,
+          trainingLabel: 'Swimming Training II',
+          moduleLabel: 'Module ' + moduleMeta.number + ' - ' + moduleMeta.title,
+          successMessage: 'You completed the Module ' + moduleMeta.number + ' quiz flow. Continue into ' + moduleMeta.nextLabel + ' when you are ready.',
+          finalMessage: 'You have completed Swimming Training II. Download the certificate to save the result of your training.',
+          primaryActionText: moduleMeta.nextId ? 'Go to Next Module' : 'Return to Training Dashboard',
+          scoreLabel: 'Quiz passed'
+        });
+      } else if(scoreCard){
+        scoreCard.classList.add('show');
+      }
+    }
+
+    document.querySelectorAll('a[href="#quiz"]').forEach(function(link){
+      if(link.getAttribute('data-shell-quiz-bound') === '1') return;
+      link.setAttribute('data-shell-quiz-bound', '1');
+      link.addEventListener('click', function(event){
+        event.preventDefault();
+        revealQuiz();
+        window.location.hash = 'quiz';
+        setTimeout(function(){
+          quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+      });
+    });
+
+    if(passButton && quizCheck){
+      passButton.addEventListener('click', function(){
+        quizCheck.checked = true;
+        saveChecks(moduleId);
+        updateProgress(stageOrder);
+        revealQuiz();
+        renderPassedState();
+        if(scoreCard){
+          scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+
+    if(quizCheck && quizCheck.checked){
+      revealQuiz();
+      renderPassedState();
     }
   }
 
@@ -630,19 +752,26 @@
 
   function init(){
     var moduleId = getModulePage();
-    var stageOrder = ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'complete'];
+    var stageOrder = ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz'];
+    var moduleMeta = TRAINING_I_STYLE_COPY[moduleId];
 
     applyTrainingIModulePattern(moduleId);
     if(moduleId !== 'module1'){
       normalizeModuleNavigation();
     }
     normalizeSharedUiCopy();
+    if(moduleMeta){
+      ensureQuizSection(moduleMeta);
+    }
     assignProgressItemKeys();
     restoreChecks(moduleId);
     restoreClickedItems(moduleId);
     setupClickableProgress(moduleId);
     setupChecks(moduleId, stageOrder);
     setupSaveProgress(moduleId, stageOrder);
+    if(moduleMeta){
+      setupQuizFlow(moduleId, moduleMeta, stageOrder);
+    }
     setupSmoothScroll();
     setupSidebarActiveState();
     setupTts();

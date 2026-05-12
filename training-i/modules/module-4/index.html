@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>clubSENsational Training Module 4 | The clubSENsational Swimming Programme</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+  @import url('/assets/module-completion-flow.css');
 
     :root{
       --blue:#2d84b3;
@@ -5371,16 +5372,14 @@
               <div class="section-title-row" style="margin-bottom:0;">
                 <div style="display:flex;align-items:center;gap:12px;">
                   <div class="completion-badge">✓</div>
-                  <h3 style="margin:0;">Content complete</h3>
+                  <h3 style="margin:0;">Module 4 complete</h3>
                 </div>
               </div>
               <p style="margin-top:12px;">
-                When you are ready, open the quiz to consolidate this module. Use Save progress when you have finished the sections you plan to complete in this visit.
+                You have completed all content for Module 4. Ready for the quiz?
               </p>
               <div class="completion-actions">
-                <a class="btn btn-primary" href="#quiz">Open quiz</a>
-                <a class="btn btn-secondary" href="#journey">Review Swimming Journey</a>
-                <a class="btn btn-secondary" href="#module-title">Back to overview</a>
+                <a class="btn btn-primary" href="#quiz">Start Quiz</a>
               </div>
             </div>
           </div>
@@ -5497,7 +5496,7 @@
                   <h2>Quiz complete</h2>
                   <p class="score-value" id="scoreValueM4">0/8</p>
                   <p class="score-msg" id="scoreMsgM4"></p>
-                  <a href="/training-i/modules/module-5/" class="back-link quiz-next-btn">→ Next: Module 5</a>
+                  <a href="/training-i/modules/module-5/" class="back-link quiz-next-btn">Go to Next Module</a>
                 </div>
               </div>
             </div>
@@ -9662,6 +9661,7 @@
     } catch(err) { console.error('Module 4 script error:', err); }
     });
   </script>
+  <script src="/shared/module-completion-flow.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     (function(){
@@ -9780,7 +9780,7 @@
             }
             if(!this.checked) return;
             var stage = this.getAttribute('data-stage-check');
-            if(stage === 'complete') completeModule(MODULE_NUMBER);
+            if(stage === 'complete') markComplete('module' + MODULE_NUMBER + '_complete');
             else markComplete('module' + MODULE_NUMBER + '_' + stage);
           });
         });
@@ -9978,12 +9978,37 @@
         results.forEach(function(r){ showFeedback(r.i, r.ok, r.msg, showCorrect); });
         progressFill.style.width = '100%';
         progressText.textContent = '8 of 8 answered';
-        scoreValue.textContent = score + '/' + total;
-        scoreMsg.textContent = score === total ? 'Congratulations! Quiz complete. You\'re ready for the next module.' : 'You need all 8 correct to continue to the next module. Try again.';
+        var passed = score === total;
+        scoreValue.textContent = passed ? ('Quiz passed - ' + score + '/' + total) : (score + '/' + total);
+        if(passed){
+          try {
+            var module4Progress = JSON.parse(localStorage.getItem('swimming_module_4_progress') || '{}');
+            module4Progress.module4_complete = true;
+            module4Progress.module4_quiz = true;
+            module4Progress.module4_completed = true;
+            module4Progress.module5_unlocked = true;
+            localStorage.setItem('swimming_module_4_progress', JSON.stringify(module4Progress));
+          } catch(error) {}
+        }
         var backLink = root.querySelector('.score-card .back-link');
-        if(backLink) backLink.style.display = score === total ? 'inline-flex' : 'none';
-        scoreCard.classList.add('show');
-        submitBtn.disabled = (score === total);
+        if(backLink) backLink.style.display = passed ? 'inline-flex' : 'none';
+        if(window.clubTrainingCompletion){
+          window.clubTrainingCompletion.renderResultCard({
+            scoreCard: scoreCard,
+            scoreValue: scoreValue,
+            scoreMsg: scoreMsg,
+            passed: passed,
+            isFinalModule: false,
+            trainingLabel: 'Swimming Training I',
+            moduleLabel: 'Module 4 - The clubSENsational Swimming Programme',
+            successMessage: 'You passed the quiz for Module 4. Continue into Module 5 when you are ready.',
+            failureMessage: 'You need all 8 correct before moving on. Review the module and try again.'
+          });
+        } else {
+          scoreMsg.textContent = passed ? 'You passed the quiz for Module 4. Continue into Module 5 when you are ready.' : 'You need all 8 correct before moving on. Review the module and try again.';
+          scoreCard.classList.add('show');
+        }
+        submitBtn.disabled = passed;
         scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
       };
       updateProgress();
