@@ -1,4 +1,14 @@
-﻿<style>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 1 - Swimming Training II</title>
+  <meta
+    name="description"
+    content="Module 1 of Swimming Training II, aligned with the shared course design while preserving the approved interactive content."
+  />
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
   
     :root{
@@ -3331,7 +3341,10 @@
     }
   </style>
   <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css" />
-  
+  <link rel="stylesheet" href="/training-ii/styles/training2-module-template.css" />
+  <link rel="stylesheet" href="/training-ii/styles/course-navigation.css" />
+</head>
+<body class="training-template-body">
   <div class="portal" data-course-page="module1">
     <aside class="sidebar">
       <div class="brand-card">
@@ -3340,7 +3353,7 @@
         </a>
       </div>
   
-      <a href="/training-ii/introduction/" class="btn-back-portal" data-course-overview-link>← Back to Training Introduction</a>
+      <a href="/training-ii/" class="btn-back-portal" data-course-overview-link>← Back to Training Dashboard</a>
   
       <div class="sidebar-card">
         <h3>Module Navigation</h3>
@@ -3352,7 +3365,7 @@
           <a class="nav-link" href="#block2" data-progress-key="module1_block2">Block 2</a>
           <a class="nav-link" href="#block3" data-progress-key="module1_block3">Block 3</a>
           <a class="nav-link" href="#recap" data-progress-key="module1_recap">Recap</a>
-          <a class="nav-link" href="#complete" data-progress-key="module1_completed">Principles</a>
+          <a class="nav-link" href="#complete" data-progress-key="module1_completed">Completion</a>
           <a class="nav-link" href="#quiz" data-progress-key="module1_quiz">Quiz</a>
         </div>
       </div>
@@ -3370,9 +3383,9 @@
       </div>
   
       <div class="sidebar-card save-progress-card">
-        <h3>Save progress</h3>
+        <h3>Save Progress</h3>
         <input type="checkbox" class="overall-check gated-check" data-stage-check="complete" id="completeCheckHidden" hidden>
-        <button type="button" class="btn-save-progress" id="saveProgressBtnSidebar">Save progress</button>
+        <button type="button" class="btn-save-progress" id="saveProgressBtnSidebar">Save Progress</button>
       </div>
     </aside>
   
@@ -3422,8 +3435,8 @@
             <div class="section-title-row">
               <h3>clubSENsational Swimming Journey</h3>
               <div class="section-top-actions">
-                <button class="btn btn-tts" data-tts-button="journey">&#128266; Listen</button>
-                <button class="btn btn-tts" data-tts-stop="journey">&#9209; Stop Audio</button>
+                <button class="btn btn-tts" data-tts-button="journey">Listen</button>
+                <button class="btn btn-tts" data-tts-stop="journey">Stop Audio</button>
               </div>
             </div>
 
@@ -3484,12 +3497,12 @@
             <span class="section-pill">Learning Outcomes</span>
           </div>
           <div class="section-body">
-            <div class="section-lock-banner">Complete the Training Journey section to unlock Learning Outcomes.</div>
+            <div class="section-lock-banner">Complete the Swimming Journey section to unlock Learning Outcomes.</div>
             <div class="section-title-row">
               <h3>What will you understand by the end of this module?</h3>
               <div class="section-top-actions">
-                <button class="btn btn-tts" data-tts-button="outcomes">&#128266; Listen</button>
-                <button class="btn btn-tts" data-tts-stop="outcomes">&#9209; Stop Audio</button>
+                <button class="btn btn-tts" data-tts-button="outcomes">Listen</button>
+                <button class="btn btn-tts" data-tts-stop="outcomes">Stop Audio</button>
               </div>
             </div>
             <p class="lead" data-tts-source="outcomes">By the end of this module, instructors will:</p>
@@ -3497,51 +3510,19 @@
             <div class="outcomes" data-outcomes-group="outcomes">
               <div class="outcome clickable-progress" data-outcome-item="1">
                 <span class="outcome-index">&bull;</span>
-                <div>understand aquatic development as a behaviour based learning process</div>
+                <div>Understand aquatic development as a behaviour-based learning process.</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="2">
                 <span class="outcome-index">&bull;</span>
-                <div>observe swimmer responses and identify readiness</div>
+                <div>Observe swimmer responses and identify readiness.</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="3">
                 <span class="outcome-index">&bull;</span>
-                <div>recognise when to progress, maintain or reduce task demand</div>
+                <div>Recognise when to progress, maintain or reduce task demand.</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="4">
                 <span class="outcome-index">&bull;</span>
-                <div>support independence through structured and adapted support</div>
-              </div>
-            </div>
-
-            <p class="lead">Module Blocks Overview:</p>
-            <div class="grid-2 block-intro-cards">
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">1</div>
-                <h4>Understanding the Swimmer</h4>
-                <ul>
-                  <li>Aquatic learning begins by observing how the swimmer experiences and responds to water.</li>
-                </ul>
-              </div>
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">2</div>
-                <h4>Behaviour and Regulation</h4>
-                <ul>
-                  <li>Behaviour reflects how the swimmer engages, copes and manages the aquatic environment.</li>
-                </ul>
-              </div>
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">3</div>
-                <h4>Readiness Before Progression</h4>
-                <ul>
-                  <li>Progression depends on control and response, not visible performance.</li>
-                </ul>
-              </div>
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">4</div>
-                <h4>Independence as the Goal</h4>
-                <ul>
-                  <li>Learning is guided towards confidence, self management and reduced reliance on support.</li>
-                </ul>
+                <div>Support independence through structured and adapted support.</div>
               </div>
             </div>
 
@@ -3590,8 +3571,8 @@
                 <h3>Block 1 - Aquatic Skills vs Structured Swimming</h3>
               </div>
               <div class="section-top-actions">
-                <button class="btn btn-tts" data-tts-button="block1">&#128266; Listen</button>
-                <button class="btn btn-tts" data-tts-stop="block1">&#9209; Stop Audio</button>
+                <button class="btn btn-tts" data-tts-button="block1">Listen</button>
+                <button class="btn btn-tts" data-tts-stop="block1">Stop Audio</button>
               </div>
             </div>
 
@@ -3640,8 +3621,8 @@
                 <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
                 <div class="concept-heading-row">
                   <div class="concept-panel-tts">
-                    <button class="btn btn-tts" type="button" data-concept-tts>&#128266; Listen</button>
-                    <button class="btn btn-tts" type="button" data-concept-tts-stop>&#9209; Stop</button>
+                    <button class="btn btn-tts" type="button" data-concept-tts>Listen</button>
+                    <button class="btn btn-tts" type="button" data-concept-tts-stop>Stop Audio</button>
                   </div>
                   <h4></h4>
                 </div>
@@ -3726,8 +3707,8 @@
                 <h3>Block 2 - Key Areas of Aquatic Development</h3>
               </div>
               <div class="section-top-actions">
-                <button class="btn btn-tts" data-tts-button="block2">&#128266; Listen</button>
-                <button class="btn btn-tts" data-tts-stop="block2">&#9209; Stop Audio</button>
+                <button class="btn btn-tts" data-tts-button="block2">Listen</button>
+                <button class="btn btn-tts" data-tts-stop="block2">Stop Audio</button>
               </div>
             </div>
 
@@ -3778,8 +3759,8 @@
                 <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
                 <div class="concept-heading-row">
                   <div class="concept-panel-tts">
-                    <button class="btn btn-tts" type="button" data-concept-tts>&#128266; Listen</button>
-                    <button class="btn btn-tts" type="button" data-concept-tts-stop>&#9209; Stop</button>
+                    <button class="btn btn-tts" type="button" data-concept-tts>Listen</button>
+                    <button class="btn btn-tts" type="button" data-concept-tts-stop>Stop Audio</button>
                   </div>
                   <h4></h4>
                 </div>
@@ -3859,8 +3840,8 @@
                 <h3>Block 3 - Independence in the Water</h3>
               </div>
               <div class="section-top-actions">
-                <button class="btn btn-tts" data-tts-button="block3">&#128266; Listen</button>
-                <button class="btn btn-tts" data-tts-stop="block3">&#9209; Stop Audio</button>
+                <button class="btn btn-tts" data-tts-button="block3">Listen</button>
+                <button class="btn btn-tts" data-tts-stop="block3">Stop Audio</button>
               </div>
             </div>
 
@@ -3910,8 +3891,8 @@
                 <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
                 <div class="concept-heading-row">
                   <div class="concept-panel-tts">
-                    <button class="btn btn-tts" type="button" data-concept-tts>&#128266; Listen</button>
-                    <button class="btn btn-tts" type="button" data-concept-tts-stop>&#9209; Stop</button>
+                    <button class="btn btn-tts" type="button" data-concept-tts>Listen</button>
+                    <button class="btn btn-tts" type="button" data-concept-tts-stop>Stop Audio</button>
                   </div>
                   <h4></h4>
                 </div>
@@ -3981,23 +3962,23 @@
             <div class="section-title-row">
               <h3>Key Ideas to Remember</h3>
               <div class="section-top-actions">
-                <button class="btn btn-tts" data-tts-button="recap">&#128266; Listen</button>
-                <button class="btn btn-tts" data-tts-stop="recap">&#9209; Stop Audio</button>
+                <button class="btn btn-tts" data-tts-button="recap">Listen</button>
+                <button class="btn btn-tts" data-tts-stop="recap">Stop Audio</button>
               </div>
             </div>
 
             <div class="recap-stack" data-tts-source="recap">
               <div class="recap-card clickable-progress">
-                <h4>swimming is about functioning in water</h4>
+                <h4>Swimming is about functioning in water.</h4>
               </div>
               <div class="recap-card clickable-progress">
-                <h4>readiness guides progression</h4>
+                <h4>Readiness guides progression.</h4>
               </div>
               <div class="recap-card clickable-progress">
-                <h4>development is individual and multi layered</h4>
+                <h4>Development is individual and multi-layered.</h4>
               </div>
               <div class="recap-card clickable-progress">
-                <h4>behaviour guides decision making</h4>
+                <h4>Behaviour guides decision-making.</h4>
               </div>
             </div>
 
@@ -4010,12 +3991,12 @@
   
                 <section class="section gated-locked" id="complete" data-stage="complete">
           <div class="section-top">
-            <span class="section-pill">Principles</span>
+            <span class="section-pill">Completion</span>
           </div>
           <div class="section-body">
             <div class="section-lock-banner">Complete the recap before continuing.</div>
 
-            <div class="completion">
+            <div class="completion completion-box">
               <div class="section-title-row" style="margin-bottom:0;">
                 <div style="display:flex;align-items:center;gap:12px;">
                   <div class="completion-badge">&#10003;</div>
@@ -4394,7 +4375,7 @@
       });
       var completeCb = document.querySelector('.overall-check[data-stage-check="complete"]');
       document.querySelectorAll('.btn-save-progress').forEach(function(b){
-        if(b){ b.textContent = completeCb && completeCb.checked ? 'Saved' : 'Save progress'; b.disabled = !!(completeCb && completeCb.checked); }
+        if(b){ b.textContent = completeCb && completeCb.checked ? 'Saved' : 'Save Progress'; b.disabled = !!(completeCb && completeCb.checked); }
       });
     }
   
@@ -6248,7 +6229,6 @@
       });
     });
   </script>
-  <link rel="stylesheet" href="/training-ii/styles/course-navigation.css" />
   <script src="/training-ii/scripts/course-navigation.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -6569,6 +6549,5 @@
     updateProgress();
   })();
   </script>
-
-
-
+</body>
+</html>

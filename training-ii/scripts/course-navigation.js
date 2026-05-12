@@ -412,6 +412,11 @@
     document.querySelectorAll('.sidebar-logo-link').forEach(function(link){
       link.href = '/training-ii/';
     });
+
+    document.querySelectorAll('[data-course-overview-link]').forEach(function(link){
+      link.href = '/training-ii/';
+      link.textContent = '← Back to Training Dashboard';
+    });
   }
 
   function syncCourseProgressUi(state, pageId){
