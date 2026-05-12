@@ -3345,9 +3345,11 @@
       <div class="sidebar-card">
         <h3>Module Navigation</h3>
         <div class="nav-list">
-          <a class="nav-link active" href="#overview" data-progress-key="module1_overview">Overview</a>
-          <a class="nav-link" href="#journey" data-progress-key="module1_journey">Swimming Journey</a>
+          <a class="nav-link active" href="#overview" data-progress-key="module1_overview">Module Introduction</a>
+          <a class="nav-link" href="#journey" data-progress-key="module1_journey">Training Journey</a>
+          <a class="nav-link" href="#module-overview">Module Overview</a>
           <a class="nav-link" href="#outcomes" data-progress-key="module1_outcomes">Learning Outcomes</a>
+          <a class="nav-link" href="#key-concepts">Explore the Key Concepts</a>
           <a class="nav-link" href="#block1" data-progress-key="module1_block1">Block 1</a>
           <a class="nav-link" href="#block2" data-progress-key="module1_block2">Block 2</a>
           <a class="nav-link" href="#block3" data-progress-key="module1_block3">Block 3</a>
@@ -3389,18 +3391,17 @@
         </div>
         <p data-tts-source="overview">
           This module introduces the foundations of aquatic development by focusing on how swimmers experience and respond to the water.<br><br>
-          It shifts the focus from movement and technique to behaviour, regulation and readiness, establishing the basis for all future learning.<br><br>
-          This module focuses on understanding how aquatic development begins, how behaviour reflects readiness, and how independence develops through structured support and adaptation.
+          It shifts the focus from movement and technique to behaviour, regulation and readiness, establishing the basis for all future learning.
         </p>
 
         <div class="hero-meta">
-          <span class="meta-pill">Starting point of the training pathway</span>
+          <span class="meta-pill">Module Introduction</span>
           <span class="meta-pill">Structure: 3 module blocks</span>
           <span class="meta-pill">Next: Module 2 - Guiding Learning Through Scaffolding</span>
         </div>
 
         <div class="hero-actions">
-          <button class="btn btn-primary" data-scroll="#journey">Start Module</button>
+          <button class="btn btn-primary" data-scroll="#journey">Start Training Journey</button>
         </div>
       </section>
   
@@ -3416,11 +3417,11 @@
       </div>
                 <section class="section" id="journey" data-stage="journey">
           <div class="section-top">
-            <span class="section-pill">Swimming Journey</span>
+            <span class="section-pill">Training Journey</span>
           </div>
           <div class="section-body">
             <div class="section-title-row">
-              <h3>clubSENsational Swimming Journey</h3>
+              <h3>Training Journey</h3>
               <div class="section-top-actions">
                 <button class="btn btn-tts" data-tts-button="journey">&#128266; Listen</button>
                 <button class="btn btn-tts" data-tts-stop="journey">&#9209; Stop Audio</button>
@@ -3468,14 +3469,30 @@
 
               <div class="journey-panel" id="journeyPanel" data-tts-source="journey">
                 <h4>MODULE 1 - Foundations of Aquatic Skill Development</h4>
-                <p>This module is the starting point of the full six-module training pathway.<br><br>Use this panel to show how Module 1 introduces the foundations of aquatic development before the course moves into scaffolding, early experiences, core skills, propulsion and advanced techniques.</p>
+                <p>This module is the starting point of the training pathway.<br><br>After this module, instructors will understand how swimmers experience the aquatic environment and how to interpret their responses before applying structured teaching approaches in Module 2 - Guiding Learning Through Scaffolding.</p>
               </div>
             </div>
 
             <label class="check-item clickable-progress">
               <input type="checkbox" class="overall-check" data-stage-check="journey">
-              <span>I understand where this module sits within the wider clubSENsational Swimming journey.</span>
+              <span>I understand where this module sits within the wider clubSENsational training journey.</span>
             </label>
+          </div>
+        </section>
+
+                <section class="section" id="module-overview">
+          <div class="section-top">
+            <span class="section-pill">Module Overview</span>
+          </div>
+          <div class="section-body">
+            <div class="section-title-row">
+              <h3>Module Overview</h3>
+              <div class="section-top-actions">
+                <button class="btn btn-tts" data-tts-button="module-overview">&#128266; Listen</button>
+                <button class="btn btn-tts" data-tts-stop="module-overview">&#9209; Stop Audio</button>
+              </div>
+            </div>
+            <p class="lead" data-tts-source="module-overview">This module focuses on understanding how aquatic development begins, how behaviour reflects readiness, and how independence develops through structured support and adaptation.</p>
           </div>
         </section>
   
@@ -3486,7 +3503,7 @@
           <div class="section-body">
             <div class="section-lock-banner">Complete the Training Journey section to unlock Learning Outcomes.</div>
             <div class="section-title-row">
-              <h3>What will you understand by the end of this module?</h3>
+              <h3>Learning Outcomes</h3>
               <div class="section-top-actions">
                 <button class="btn btn-tts" data-tts-button="outcomes">&#128266; Listen</button>
                 <button class="btn btn-tts" data-tts-stop="outcomes">&#9209; Stop Audio</button>
@@ -3497,23 +3514,45 @@
             <div class="outcomes" data-outcomes-group="outcomes">
               <div class="outcome clickable-progress" data-outcome-item="1">
                 <span class="outcome-index">&bull;</span>
-                <div>understand aquatic development as a behaviour based learning process</div>
+                <div>Understand aquatic development as a behaviour based learning process</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="2">
                 <span class="outcome-index">&bull;</span>
-                <div>observe swimmer responses and identify readiness</div>
+                <div>Observe swimmer responses and identify readiness</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="3">
                 <span class="outcome-index">&bull;</span>
-                <div>recognise when to progress, maintain or reduce task demand</div>
+                <div>Recognise when to progress, maintain or reduce task demand</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="4">
                 <span class="outcome-index">&bull;</span>
-                <div>support independence through structured and adapted support</div>
+                <div>Support independence through structured and adapted support</div>
               </div>
             </div>
 
-            <p class="lead">Module Blocks Overview:</p>
+            <div class="stage-helper" id="outcomesHelper">Complete all learning outcomes to unlock the stage completion check.</div>
+
+            <label class="check-item clickable-progress">
+              <input type="checkbox" class="overall-check" data-stage-check="outcomes" id="outcomesCheck" disabled>
+              <span>I have reviewed the learning outcomes and I am clear on what this module will help me understand.</span>
+            </label>
+          </div>
+        </section>
+
+                <section class="section" id="key-concepts">
+          <div class="section-top">
+            <span class="section-pill">Explore the Key Concepts</span>
+          </div>
+          <div class="section-body">
+            <div class="section-title-row">
+              <h3>Explore the Key Concepts</h3>
+              <div class="section-top-actions">
+                <button class="btn btn-tts" data-tts-button="key-concepts">&#128266; Listen</button>
+                <button class="btn btn-tts" data-tts-stop="key-concepts">&#9209; Stop Audio</button>
+              </div>
+            </div>
+            <p class="lead" data-tts-source="key-concepts">These core concepts frame how clubSENsational understands aquatic learning at the start of the pathway.</p>
+
             <div class="grid-2 block-intro-cards">
               <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
                 <div class="card-icon">1</div>
@@ -3544,38 +3583,6 @@
                 </ul>
               </div>
             </div>
-
-            <p class="lead">Module Blocks Overview:</p>
-            <div class="grid-2 block-intro-cards">
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">1</div>
-                <h4>Block 1 - Aquatic Skills vs Structured Swimming</h4>
-                <ul>
-                  <li>Understanding swimming as functional interaction with water rather than structured swimming performance.</li>
-                </ul>
-              </div>
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">2</div>
-                <h4>Block 2 - Key Areas of Aquatic Development</h4>
-                <ul>
-                  <li>Understanding how different areas influence development and progression.</li>
-                </ul>
-              </div>
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">3</div>
-                <h4>Block 3 - Independence in the Water</h4>
-                <ul>
-                  <li>Understanding how independence develops through control, recovery and reduced support.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="stage-helper" id="outcomesHelper">Complete all learning outcomes to unlock the stage completion check.</div>
-
-            <label class="check-item clickable-progress">
-              <input type="checkbox" class="overall-check" data-stage-check="outcomes" id="outcomesCheck" disabled>
-              <span>I have reviewed the learning outcomes and I am clear on what this module will help me understand.</span>
-            </label>
           </div>
         </section>
   
@@ -5934,7 +5941,7 @@
   
     function setupSidebarActiveState(){
       const links = document.querySelectorAll('.nav-link');
-      const targets = ['overview','journey','outcomes','block1','block2','block3','recap','complete','quiz']
+      const targets = ['overview','journey','module-overview','outcomes','key-concepts','block1','block2','block3','recap','complete','quiz']
         .map(id => document.getElementById(id))
         .filter(Boolean);
   
