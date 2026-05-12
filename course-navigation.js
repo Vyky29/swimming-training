@@ -60,17 +60,73 @@
   };
 
   const COURSE_ORDER = ['introduction', 'module1', 'module2', 'module3', 'module4', 'module5', 'module6'];
+  const INTRO_SELECTIONS = [
+    { key: 'focus', selector: '#focus .block-intro-card' },
+    { key: 'explores', selector: '#explores .outcome' },
+    { key: 'outcomes', selector: '#outcomes .outcome' }
+  ];
+
   let toastTimer = null;
 
   function getEmptyState(){
     return {
       introductionCompleted: false,
+      courseCompleted: false,
       currentModule: 'introduction',
       completedSections: {},
       completedModules: [],
+      introSelections: {},
       lastActiveSection: {},
       lastUpdatedAt: null
     };
+  }
+
+  function normalizeState(state){
+    if(!state || typeof state !== 'object') return;
+
+    if(typeof state.introductionCompleted !== 'boolean'){
+      state.introductionCompleted = false;
+    }
+
+    if(!state.currentModule || !COURSE_MODULES[state.currentModule]){
+      state.currentModule = 'introduction';
+    }
+
+    if(!state.completedSections || typeof state.completedSections !== 'object'){
+      state.completedSections = {};
+    }
+
+    if(!Array.isArray(state.completedModules)){
+      state.completedModules = [];
+    }
+
+    if(!state.introSelections || typeof state.introSelections !== 'object'){
+      state.introSelections = {};
+    }
+
+    if(!state.lastActiveSection || typeof state.lastActiveSection !== 'object'){
+      state.lastActiveSection = {};
+    }
+
+    COURSE_ORDER.forEach(function(moduleId){
+      if(!Array.isArray(state.completedSections[moduleId])){
+        state.completedSections[moduleId] = [];
+      }
+      state.completedSections[moduleId] = Array.from(new Set(state.completedSections[moduleId]));
+    });
+
+    if(state.completedSections.introduction.indexOf('training-introduction') >= 0){
+      state.introductionCompleted = true;
+    }
+    if(state.introductionCompleted && state.completedSections.introduction.indexOf('training-introduction') === -1){
+      state.completedSections.introduction.push('training-introduction');
+    }
+
+    state.completedModules = state.completedModules.filter(function(moduleId){
+      return moduleId !== 'introduction' && COURSE_MODULES[moduleId];
+    });
+    state.completedModules = Array.from(new Set(state.completedModules));
+    state.courseCompleted = state.completedModules.indexOf('module6') >= 0;
   }
 
   function loadState(){
@@ -117,49 +173,6 @@
     return state;
   }
 
-  function normalizeState(state){
-    if(!state || typeof state !== 'object') return;
-
-    if(typeof state.introductionCompleted !== 'boolean'){
-      state.introductionCompleted = false;
-    }
-
-    if(!state.currentModule || !COURSE_MODULES[state.currentModule]){
-      state.currentModule = 'introduction';
-    }
-
-    if(!state.completedSections || typeof state.completedSections !== 'object'){
-      state.completedSections = {};
-    }
-
-    if(!Array.isArray(state.completedModules)){
-      state.completedModules = [];
-    }
-
-    if(!state.lastActiveSection || typeof state.lastActiveSection !== 'object'){
-      state.lastActiveSection = {};
-    }
-
-    COURSE_ORDER.forEach(function(moduleId){
-      if(!Array.isArray(state.completedSections[moduleId])){
-        state.completedSections[moduleId] = [];
-      }
-      state.completedSections[moduleId] = Array.from(new Set(state.completedSections[moduleId]));
-    });
-
-    if(state.completedSections.introduction.indexOf('training-introduction') >= 0){
-      state.introductionCompleted = true;
-    }
-    if(state.introductionCompleted && state.completedSections.introduction.indexOf('training-introduction') === -1){
-      state.completedSections.introduction.push('training-introduction');
-    }
-
-    state.completedModules = state.completedModules.filter(function(moduleId){
-      return moduleId !== 'introduction' && COURSE_MODULES[moduleId];
-    });
-    state.completedModules = Array.from(new Set(state.completedModules));
-  }
-
   function saveState(state){
     normalizeState(state);
     state.lastUpdatedAt = new Date().toISOString();
@@ -177,16 +190,11 @@
     }
 
     const filename = decodeURIComponent(window.location.pathname.split('/').pop() || 'index.html');
-    const moduleIds = Object.keys(COURSE_MODULES);
 
-    for(let i = 0; i < moduleIds.length; i++){
-      const moduleId = moduleIds[i];
+    return Object.keys(COURSE_MODULES).find(function(moduleId){
       const config = COURSE_MODULES[moduleId];
-      if(config.file === filename) return moduleId;
-      if(Array.isArray(config.aliases) && config.aliases.indexOf(filename) >= 0) return moduleId;
-    }
-
-    return null;
+      return config.file === filename || (Array.isArray(config.aliases) && config.aliases.indexOf(filename) >= 0);
+    }) || null;
   }
 
   function getPreviousModuleId(moduleId){
@@ -219,56 +227,42 @@
     const config = COURSE_MODULES[moduleId];
     if(!config) return false;
     const completed = new Set(state.completedSections[moduleId] || []);
-    return config.sections.every(function(sectionId){ return completed.has(sectionId); });
-  }
-
-  function markIntroductionComplete(state){
-    state.introductionCompleted = true;
-    if(state.completedSections.introduction.indexOf('training-introduction') === -1){
-      state.completedSections.introduction.push('training-introduction');
-    }
-    saveState(state);
-  }
-
-  function markSectionComplete(moduleId, sectionId, state){
-    if(!COURSE_MODULES[moduleId]) return;
-    if(moduleId === 'introduction'){
-      markIntroductionComplete(state);
-      return;
-    }
-
-    if(COURSE_MODULES[moduleId].sections.indexOf(sectionId) === -1) return;
-
-    if(state.completedSections[moduleId].indexOf(sectionId) === -1){
-      state.completedSections[moduleId].push(sectionId);
-    }
-
-    if(isModuleComplete(moduleId, state) && state.completedModules.indexOf(moduleId) === -1){
-      state.completedModules.push(moduleId);
-    }
-
-    const nextModuleId = getNextModuleId(moduleId);
-    if(nextModuleId && isModuleUnlocked(nextModuleId, state) && isModuleAvailable(nextModuleId)){
-      state.currentModule = nextModuleId;
-    } else {
-      state.currentModule = moduleId;
-    }
-
-    saveState(state);
-  }
-
-  function getTotalCourseItems(){
-    return COURSE_ORDER.reduce(function(total, moduleId){
-      return total + COURSE_MODULES[moduleId].sections.length;
-    }, 0);
+    return config.sections.every(function(sectionId){
+      return completed.has(sectionId);
+    });
   }
 
   function getCompletedItemCount(state){
     return COURSE_ORDER.reduce(function(total, moduleId){
-      const sectionIds = COURSE_MODULES[moduleId].sections;
       const completed = new Set(state.completedSections[moduleId] || []);
-      return total + sectionIds.filter(function(sectionId){ return completed.has(sectionId); }).length;
+      return total + COURSE_MODULES[moduleId].sections.filter(function(sectionId){
+        return completed.has(sectionId);
+      }).length;
     }, 0);
+  }
+
+  function getFirstIncompleteSection(moduleId, state){
+    const config = COURSE_MODULES[moduleId];
+    if(!config) return null;
+    const completed = new Set(state.completedSections[moduleId] || []);
+    return config.sections.find(function(sectionId){
+      return !completed.has(sectionId);
+    }) || config.sections[config.sections.length - 1] || null;
+  }
+
+  function getResumeTarget(state){
+    const moduleId = state.currentModule && state.currentModule !== 'introduction'
+      ? state.currentModule
+      : (state.introductionCompleted ? 'module1' : null);
+    if(!moduleId || !isModuleAvailable(moduleId)) return null;
+
+    const sectionId = state.lastActiveSection[moduleId] || getFirstIncompleteSection(moduleId, state);
+
+    return {
+      moduleId: moduleId,
+      sectionId: sectionId,
+      href: COURSE_MODULES[moduleId].file + (sectionId ? ('#' + sectionId) : '')
+    };
   }
 
   function ensureToast(){
@@ -294,11 +288,46 @@
     }, 2600);
   }
 
-  function navigateToModule(moduleId, state){
-    if(!COURSE_MODULES[moduleId] || !COURSE_MODULES[moduleId].file) return;
+  function markIntroductionComplete(state){
+    state.introductionCompleted = true;
+    if(state.completedSections.introduction.indexOf('training-introduction') === -1){
+      state.completedSections.introduction.push('training-introduction');
+    }
+    saveState(state);
+  }
+
+  function markSectionComplete(moduleId, sectionId, state){
+    if(!COURSE_MODULES[moduleId] || moduleId === 'introduction') return;
+    if(COURSE_MODULES[moduleId].sections.indexOf(sectionId) === -1) return;
+
+    if(state.completedSections[moduleId].indexOf(sectionId) === -1){
+      state.completedSections[moduleId].push(sectionId);
+    }
+
+    if(isModuleComplete(moduleId, state) && state.completedModules.indexOf(moduleId) === -1){
+      state.completedModules.push(moduleId);
+    }
+
+    state.courseCompleted = state.completedModules.indexOf('module6') >= 0;
     state.currentModule = moduleId;
     saveState(state);
-    window.location.href = COURSE_MODULES[moduleId].file;
+  }
+
+  function navigateToModule(moduleId, state, targetSectionId){
+    if(!COURSE_MODULES[moduleId] || !COURSE_MODULES[moduleId].file) return;
+    state.currentModule = moduleId;
+    if(targetSectionId){
+      state.lastActiveSection[moduleId] = targetSectionId;
+    }
+    saveState(state);
+    window.location.href = COURSE_MODULES[moduleId].file + (targetSectionId ? ('#' + targetSectionId) : '');
+  }
+
+  function composeJourneyStatus(prefix, original){
+    const base = String(original || '').trim();
+    if(!base) return prefix;
+    if(base === prefix || base.indexOf(prefix + ' - ') === 0) return base;
+    return prefix + ' - ' + base;
   }
 
   function syncJourneyItems(state, pageId){
@@ -309,98 +338,137 @@
       const unlocked = isModuleUnlocked(moduleId, state);
       const available = isModuleAvailable(moduleId);
       const completed = isModuleComplete(moduleId, state);
-      const current = pageId === moduleId || state.currentModule === moduleId;
+      const current = pageId === moduleId || (pageId === 'introduction' && state.currentModule === moduleId);
+      const inProgress = !completed && unlocked && available && (state.completedSections[moduleId] || []).length > 0;
+      const statusEl = item.querySelector('.journey-status');
 
-      item.classList.toggle('is-locked', !unlocked || !available);
+      item.classList.toggle('active', current);
       item.classList.toggle('completed', completed);
-      item.classList.toggle('is-completed', completed);
-      item.classList.toggle('is-current', current);
-
-      let stateLabel = 'Unlocked';
-      if(completed) stateLabel = 'Completed';
-      else if(current) stateLabel = 'Current';
-      else if(!unlocked) stateLabel = 'Locked';
-      else if(!available) stateLabel = 'Unavailable';
-
-      item.setAttribute('data-course-state-label', stateLabel);
+      item.classList.toggle('is-locked', !unlocked || !available);
       item.setAttribute('aria-disabled', (!unlocked || !available) ? 'true' : 'false');
+
+      if(statusEl){
+        if(!item.dataset.courseOriginalStatus){
+          item.dataset.courseOriginalStatus = statusEl.textContent.trim();
+        }
+        const original = item.dataset.courseOriginalStatus;
+        if(completed){
+          statusEl.textContent = composeJourneyStatus('Completed', original);
+        } else if(current){
+          statusEl.textContent = composeJourneyStatus('Current Module', original);
+        } else if(!unlocked || !available){
+          statusEl.textContent = 'Locked';
+        } else if(inProgress){
+          statusEl.textContent = composeJourneyStatus('In Progress', original);
+        } else {
+          statusEl.textContent = original || 'Available';
+        }
+      }
     });
   }
 
-  function syncCourseProgressUi(state){
-    const totalItems = getTotalCourseItems();
-    const completedItems = getCompletedItemCount(state);
-    const percentage = totalItems ? Math.round((completedItems / totalItems) * 100) : 0;
+  function syncCourseProgressUi(state, pageId){
+    if(pageId !== 'introduction') return;
 
     const overallFill = document.getElementById('overallProgressFill');
-    if(overallFill) overallFill.style.width = percentage + '%';
-
     const overallText = document.getElementById('overallProgressText');
-    if(overallText) overallText.textContent = percentage + '% completed';
-
     const overallCount = document.getElementById('overallProgressCount');
-    if(overallCount) overallCount.textContent = completedItems + ' / ' + totalItems;
+    if(!overallFill || !overallText || !overallCount) return;
 
-    const moduleFill = document.getElementById('moduleProgressFill');
-    if(moduleFill) moduleFill.style.width = percentage + '%';
+    const total = COURSE_ORDER.reduce(function(sum, moduleId){
+      return sum + COURSE_MODULES[moduleId].sections.length;
+    }, 0);
+    const completed = getCompletedItemCount(state);
+    const percent = total ? Math.round((completed / total) * 100) : 0;
 
-    const moduleText = document.getElementById('moduleProgressText');
-    if(moduleText) moduleText.textContent = percentage + '% completed • ' + completedItems + ' of ' + totalItems + ' course items';
-
-    const moduleLabel = document.querySelector('.module-progress-top strong');
-    if(moduleLabel) moduleLabel.textContent = 'Course Progress';
+    overallFill.style.width = percent + '%';
+    overallText.textContent = percent + '% completed';
+    overallCount.textContent = completed + ' / ' + total;
   }
 
-  function syncModuleStageChecks(moduleId, state){
-    const completed = new Set(state.completedSections[moduleId] || []);
+  function renderResumeAction(state){
+    const heroActions = document.querySelector('.hero-actions');
+    if(!heroActions) return;
 
-    completed.forEach(function(sectionId){
-      const input = document.querySelector('input[data-stage-check="' + sectionId + '"]');
-      if(input && !input.checked){
-        input.checked = true;
+    let resumeButton = document.getElementById('courseResumeButton');
+    const resumeTarget = getResumeTarget(state);
+    const hasSavedProgress = state.introductionCompleted || getCompletedItemCount(state) > 0;
+
+    if(!hasSavedProgress || !resumeTarget){
+      if(resumeButton) resumeButton.remove();
+      return;
+    }
+
+    if(!resumeButton){
+      resumeButton = document.createElement('a');
+      resumeButton.id = 'courseResumeButton';
+      resumeButton.className = 'btn btn-secondary';
+      resumeButton.textContent = 'Resume Training';
+      heroActions.appendChild(resumeButton);
+    }
+
+    resumeButton.href = resumeTarget.href;
+    resumeButton.onclick = function(event){
+      event.preventDefault();
+      const liveState = loadState();
+      const liveResumeTarget = getResumeTarget(liveState);
+      if(!liveResumeTarget){
+        showToast('No saved progress was found.');
+        return;
       }
-      const label = input ? input.closest('.check-item') : null;
-      if(label) label.classList.add('clicked');
-    });
+      navigateToModule(liveResumeTarget.moduleId, liveState, liveResumeTarget.sectionId);
+    };
   }
 
-  function syncNextModuleButtons(pageId, state){
-    document.querySelectorAll('[data-course-next-module-button]').forEach(function(button){
-      const nextModuleId = button.getAttribute('data-course-next-module-button');
-      const moduleComplete = isModuleComplete(pageId, state);
-      const targetUnlocked = nextModuleId ? isModuleUnlocked(nextModuleId, state) : false;
-      const targetAvailable = nextModuleId ? isModuleAvailable(nextModuleId) : false;
-      const canNavigate = moduleComplete && targetUnlocked && targetAvailable;
+  function setupIntroductionSelections(){
+    const state = loadState();
+    INTRO_SELECTIONS.forEach(function(group){
+      if(!Array.isArray(state.introSelections[group.key])){
+        state.introSelections[group.key] = [];
+      }
 
-      button.classList.toggle('is-disabled', !canNavigate);
-      button.setAttribute('aria-disabled', canNavigate ? 'false' : 'true');
-      button.href = canNavigate ? COURSE_MODULES[nextModuleId].file : '#';
-
-      if(button.getAttribute('data-course-bound') === '1') return;
-      button.setAttribute('data-course-bound', '1');
-
-      button.addEventListener('click', function(event){
-        const liveState = loadState();
-        if(!isModuleComplete(pageId, liveState)){
-          event.preventDefault();
-          showToast('Please complete the current module before continuing.');
-          return;
+      document.querySelectorAll(group.selector).forEach(function(item, index){
+        const itemKey = String(index);
+        if(state.introSelections[group.key].indexOf(itemKey) >= 0){
+          item.classList.add('clicked');
         }
-        if(!nextModuleId || !isModuleAvailable(nextModuleId)){
-          event.preventDefault();
-          showToast('The next module page is not available yet.');
-          return;
+
+        if(item.getAttribute('data-course-bound') === '1') return;
+        item.setAttribute('data-course-bound', '1');
+
+        if(!item.matches('button, a, input, select, textarea')){
+          item.setAttribute('role', item.getAttribute('role') || 'button');
+          if(!item.hasAttribute('tabindex')) item.setAttribute('tabindex', '0');
         }
-        liveState.currentModule = nextModuleId;
-        saveState(liveState);
+
+        function markSelected(){
+          const liveState = loadState();
+          if(!Array.isArray(liveState.introSelections[group.key])){
+            liveState.introSelections[group.key] = [];
+          }
+          if(liveState.introSelections[group.key].indexOf(itemKey) === -1){
+            liveState.introSelections[group.key].push(itemKey);
+          }
+          item.classList.add('clicked');
+          saveState(liveState);
+        }
+
+        item.addEventListener('click', markSelected);
+        item.addEventListener('keydown', function(event){
+          if(event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          markSelected();
+        });
       });
     });
+
+    saveState(state);
   }
 
-  function setupCourseModuleLinks(pageId, state){
+  function setupCourseModuleLinks(pageId){
     document.querySelectorAll('[data-course-module-id]').forEach(function(item){
-      if(item.getAttribute('data-course-bound') === '1') return;
-      item.setAttribute('data-course-bound', '1');
+      if(item.getAttribute('data-course-journey-bound') === '1') return;
+      item.setAttribute('data-course-journey-bound', '1');
 
       function onActivate(event){
         if(event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
@@ -410,12 +478,10 @@
         const targetModuleId = item.getAttribute('data-course-module-id');
         const liveState = loadState();
 
-        if(targetModuleId === pageId){
-          return;
-        }
+        if(targetModuleId === pageId) return;
 
         if(!isModuleUnlocked(targetModuleId, liveState)){
-          showToast('Please complete the previous module before continuing.');
+          showToast('Complete the previous item first.');
           return;
         }
 
@@ -436,17 +502,10 @@
     });
   }
 
-  function setupOverviewLinks(state){
-    document.querySelectorAll('[data-course-overview-link]').forEach(function(link){
-      if(link.getAttribute('data-course-bound') === '1') return;
-      link.setAttribute('data-course-bound', '1');
-    });
-  }
-
-  function setupIntroductionPage(state){
+  function setupIntroductionPage(){
     document.querySelectorAll('[data-course-start-training]').forEach(function(link){
-      if(link.getAttribute('data-course-bound') === '1') return;
-      link.setAttribute('data-course-bound', '1');
+      if(link.getAttribute('data-course-start-bound') === '1') return;
+      link.setAttribute('data-course-start-bound', '1');
       link.addEventListener('click', function(event){
         event.preventDefault();
         const liveState = loadState();
@@ -458,13 +517,10 @@
 
   function restoreLastSection(moduleId, state){
     if(window.location.hash) return;
-
     const savedSection = state.lastActiveSection[moduleId];
     if(!savedSection) return;
-
     const target = document.getElementById(savedSection);
     if(!target) return;
-
     setTimeout(function(){
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 280);
@@ -474,7 +530,6 @@
     const sectionIds = COURSE_MODULES[moduleId].sections.filter(function(sectionId){
       return !!document.getElementById(sectionId);
     });
-
     if(!sectionIds.length) return;
 
     const observer = new IntersectionObserver(function(entries){
@@ -490,7 +545,6 @@
       liveState.lastActiveSection[moduleId] = currentSectionId;
       saveState(liveState);
       syncJourneyItems(liveState, moduleId);
-      syncCourseProgressUi(liveState);
     }, {
       root: null,
       threshold: [0.25, 0.4, 0.6],
@@ -505,10 +559,52 @@
     restoreLastSection(moduleId, state);
   }
 
-  function setupModuleCompletionTracking(moduleId, state){
+  function syncModuleStageChecks(moduleId, state){
+    const completed = new Set(state.completedSections[moduleId] || []);
+    completed.forEach(function(sectionId){
+      const input = document.querySelector('input[data-stage-check="' + sectionId + '"]');
+      if(input && !input.checked){
+        input.checked = true;
+      }
+      const label = input ? input.closest('.check-item') : null;
+      if(label) label.classList.add('clicked');
+    });
+  }
+
+  function backfillCheckedStagesToCourseState(moduleId){
+    if(!COURSE_MODULES[moduleId] || moduleId === 'introduction') return;
+
+    const validSections = new Set(COURSE_MODULES[moduleId].sections);
+    const liveState = loadState();
+    let changed = false;
+
     document.querySelectorAll('input[data-stage-check]').forEach(function(input){
-      if(input.getAttribute('data-course-bound') === '1') return;
-      input.setAttribute('data-course-bound', '1');
+      const sectionId = input.getAttribute('data-stage-check');
+      if(!sectionId || !validSections.has(sectionId) || !input.checked) return;
+
+      if(liveState.completedSections[moduleId].indexOf(sectionId) === -1){
+        liveState.completedSections[moduleId].push(sectionId);
+        changed = true;
+      }
+    });
+
+    if(isModuleComplete(moduleId, liveState) && liveState.completedModules.indexOf(moduleId) === -1){
+      liveState.completedModules.push(moduleId);
+      changed = true;
+    }
+
+    if(changed){
+      liveState.currentModule = moduleId;
+      saveState(liveState);
+      syncJourneyItems(liveState, moduleId);
+      syncNextModuleButtons(moduleId, liveState);
+    }
+  }
+
+  function setupModuleCompletionTracking(moduleId){
+    document.querySelectorAll('input[data-stage-check]').forEach(function(input){
+      if(input.getAttribute('data-course-stage-bound') === '1') return;
+      input.setAttribute('data-course-stage-bound', '1');
 
       input.addEventListener('change', function(){
         const sectionId = input.getAttribute('data-stage-check');
@@ -521,10 +617,43 @@
           saveState(liveState);
         }
 
-        syncModuleStageChecks(moduleId, liveState);
         syncJourneyItems(liveState, moduleId);
-        syncCourseProgressUi(liveState);
         syncNextModuleButtons(moduleId, liveState);
+      });
+    });
+  }
+
+  function syncNextModuleButtons(pageId, state){
+    document.querySelectorAll('[data-course-next-module-button]').forEach(function(button){
+      const nextModuleId = button.getAttribute('data-course-next-module-button');
+      const canNavigate = !!(
+        nextModuleId &&
+        isModuleComplete(pageId, state) &&
+        isModuleUnlocked(nextModuleId, state) &&
+        isModuleAvailable(nextModuleId)
+      );
+
+      button.classList.toggle('is-disabled', !canNavigate);
+      button.setAttribute('aria-disabled', canNavigate ? 'false' : 'true');
+      button.href = canNavigate ? COURSE_MODULES[nextModuleId].file : '#';
+
+      if(button.getAttribute('data-course-next-bound') === '1') return;
+      button.setAttribute('data-course-next-bound', '1');
+
+      button.addEventListener('click', function(event){
+        const liveState = loadState();
+        if(!isModuleComplete(pageId, liveState)){
+          event.preventDefault();
+          showToast('Complete the previous item first.');
+          return;
+        }
+        if(!nextModuleId || !isModuleAvailable(nextModuleId)){
+          event.preventDefault();
+          showToast('The next module page is not available yet.');
+          return;
+        }
+        liveState.currentModule = nextModuleId;
+        saveState(liveState);
       });
     });
   }
@@ -536,32 +665,35 @@
     const state = loadState();
     if(pageId !== 'introduction'){
       state.currentModule = pageId;
-    } else if(!state.currentModule){
-      state.currentModule = 'introduction';
     }
     saveState(state);
 
     ensureToast();
-    setupOverviewLinks(state);
-    setupCourseModuleLinks(pageId, state);
+    setupCourseModuleLinks(pageId);
 
     if(pageId === 'introduction'){
-      setupIntroductionPage(state);
+      setupIntroductionPage();
+      setupIntroductionSelections();
+      renderResumeAction(state);
+      syncCourseProgressUi(state, pageId);
     } else {
-      setupModuleCompletionTracking(pageId, state);
+      setupModuleCompletionTracking(pageId);
       setupSectionTracking(pageId, state);
       syncModuleStageChecks(pageId, state);
       syncNextModuleButtons(pageId, state);
+      backfillCheckedStagesToCourseState(pageId);
     }
 
     syncJourneyItems(state, pageId);
-    syncCourseProgressUi(state);
 
     setTimeout(function(){
       const liveState = loadState();
       syncJourneyItems(liveState, pageId);
-      syncCourseProgressUi(liveState);
-      if(pageId !== 'introduction'){
+      if(pageId === 'introduction'){
+        renderResumeAction(liveState);
+        syncCourseProgressUi(liveState, pageId);
+      } else {
+        backfillCheckedStagesToCourseState(pageId);
         syncModuleStageChecks(pageId, liveState);
         syncNextModuleButtons(pageId, liveState);
       }
@@ -570,8 +702,11 @@
     window.addEventListener('storage', function(){
       const liveState = loadState();
       syncJourneyItems(liveState, pageId);
-      syncCourseProgressUi(liveState);
-      if(pageId !== 'introduction'){
+      if(pageId === 'introduction'){
+        renderResumeAction(liveState);
+        syncCourseProgressUi(liveState, pageId);
+      } else {
+        backfillCheckedStagesToCourseState(pageId);
         syncModuleStageChecks(pageId, liveState);
         syncNextModuleButtons(pageId, liveState);
       }

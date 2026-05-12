@@ -1,3 +1,8 @@
+.journey-item,
+.journey-item.page-linkable{
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, opacity .22s ease;
+}
+
 .journey-item.is-locked{
   opacity:.62;
 }
@@ -11,42 +16,6 @@
 .journey-item.is-locked .journey-title,
 .journey-item.is-locked .journey-status{
   color:var(--muted);
-}
-
-.journey-item[data-course-state-label]::after{
-  content:attr(data-course-state-label);
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:24px;
-  margin-top:2px;
-  padding:5px 10px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  background:#fff;
-  color:var(--ink);
-  font-size:.68rem;
-  font-weight:800;
-  line-height:1;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-}
-
-.journey-item.is-locked[data-course-state-label]::after{
-  background:#f7fafc;
-  color:var(--muted);
-}
-
-.journey-item.completed[data-course-state-label]::after{
-  background:var(--goldSoft);
-  color:var(--gold);
-  border-color:rgba(204,149,43,.25);
-}
-
-.journey-item.is-current[data-course-state-label]::after{
-  background:#edf6fb;
-  color:var(--blue);
-  border-color:rgba(45,132,179,.25);
 }
 
 .btn.is-disabled,
@@ -83,6 +52,44 @@
 .course-toast.is-visible{
   opacity:1;
   transform:translateY(0);
+}
+
+@media(max-width:860px){
+  [data-course-page] .journey-track{
+    grid-template-columns:1fr;
+    gap:18px;
+    justify-items:stretch;
+    padding-top:0;
+  }
+
+  [data-course-page] .journey-track::before{
+    left:28px;
+    right:auto;
+    top:12px;
+    bottom:12px;
+    width:3px;
+    height:auto;
+  }
+
+  [data-course-page] .journey-item{
+    position:relative;
+    align-items:flex-start;
+    text-align:left;
+    min-height:64px;
+    padding-left:76px;
+  }
+
+  [data-course-page] .journey-circle{
+    position:absolute;
+    left:0;
+    top:0;
+  }
+
+  [data-course-page] .journey-title,
+  [data-course-page] .journey-status{
+    max-width:none;
+    text-align:left;
+  }
 }
 
 @media(max-width:700px){

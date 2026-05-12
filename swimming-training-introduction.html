@@ -3369,6 +3369,18 @@
         <a class="nav-link" href="#principle">Key Principle</a>
       </div>
     </div>
+
+    <div class="sidebar-card">
+      <h3>Overall Progress</h3>
+      <div class="progress-track">
+        <div class="progress-fill" id="overallProgressFill"></div>
+      </div>
+      <div class="progress-meta">
+        <span id="overallProgressText">0% completed</span>
+        <span id="overallProgressCount">0 / 23</span>
+      </div>
+      <p class="small-note">Course progress updates as modules are completed, following the same training pathway.</p>
+    </div>
   </aside>
 
   <main class="main">
@@ -3413,28 +3425,28 @@
           <p class="lead" data-tts-source="focus">This training is built around four key principles:</p>
 
           <div class="grid-2 block-intro-cards">
-            <div class="card icon-card block-intro-card">
+            <div class="card icon-card block-intro-card clickable-progress">
               <div class="card-icon">&#9678;</div>
               <h4>Control before movement</h4>
               <ul>
                 <li>Swimmers need stability, regulation and confidence before skills become more complex.</li>
               </ul>
             </div>
-            <div class="card icon-card block-intro-card">
+            <div class="card icon-card block-intro-card clickable-progress">
               <div class="card-icon">&#9678;</div>
               <h4>Skills before strokes</h4>
               <ul>
                 <li>Aquatic foundations must be developed before structured stroke technique is introduced.</li>
               </ul>
             </div>
-            <div class="card icon-card block-intro-card">
+            <div class="card icon-card block-intro-card clickable-progress">
               <div class="card-icon">&#9678;</div>
               <h4>Readiness before progression</h4>
               <ul>
                 <li>Progression is guided by observation, response and control, not by speed or pressure.</li>
               </ul>
             </div>
-            <div class="card icon-card block-intro-card">
+            <div class="card icon-card block-intro-card clickable-progress">
               <div class="card-icon">&#9678;</div>
               <h4>Independence as the goal</h4>
               <ul>
@@ -3461,11 +3473,11 @@
           <p class="lead" data-tts-source="explores">This training explores:</p>
 
           <div class="outcomes">
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>how swimmers experience the aquatic environment</div></div>
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>how confidence, regulation and control develop in water</div></div>
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>how instructors use scaffolding to support progression</div></div>
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>how core aquatic skills prepare swimmers for propulsion and strokes</div></div>
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>how teaching decisions are adapted to each swimmer&rsquo;s readiness</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>how swimmers experience the aquatic environment</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>how confidence, regulation and control develop in water</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>how instructors use scaffolding to support progression</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>how core aquatic skills prepare swimmers for propulsion and strokes</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>how teaching decisions are adapted to each swimmer&rsquo;s readiness</div></div>
           </div>
         </div>
       </section>
@@ -3486,11 +3498,11 @@
           <p class="lead" data-tts-source="outcomes">Instructors will be able to:</p>
 
           <div class="outcomes">
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>understand aquatic development as a progressive learning process</div></div>
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>observe swimmer responses and identify readiness</div></div>
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>apply scaffolding to support skill development</div></div>
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>adapt activities based on swimmer needs and responses</div></div>
-            <div class="outcome"><span class="outcome-index">&bull;</span><div>support independence through structured progression</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>understand aquatic development as a progressive learning process</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>observe swimmer responses and identify readiness</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>apply scaffolding to support skill development</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>adapt activities based on swimmer needs and responses</div></div>
+            <div class="outcome clickable-progress"><span class="outcome-index">&bull;</span><div>support independence through structured progression</div></div>
           </div>
         </div>
       </section>
@@ -3514,7 +3526,7 @@
 
           <div class="journey-wrap">
             <div class="journey-track">
-              <div class="journey-item active page-linkable" data-page-link="Javier-module1.html" data-course-module-id="module1" tabindex="0" role="link" aria-label="Open Module 1">
+              <div class="journey-item active page-linkable" data-course-module-id="module1" tabindex="0" role="link" aria-label="Open Module 1">
                 <div class="journey-circle">1</div>
                 <div class="journey-title">Module 1 &mdash; Foundations of Aquatic Development</div>
                 <div class="journey-status">Understanding how aquatic learning begins.</div>
@@ -3654,29 +3666,6 @@
     });
   }
 
-  function setupPageLinks(){
-    document.querySelectorAll('[data-page-link]').forEach(function(item){
-      var target = item.getAttribute('data-page-link');
-      if(!target) return;
-
-      function goToPage(){
-        window.location.href = target;
-      }
-
-      item.addEventListener('click', function(e){
-        if(e.target.closest('a, button, input, label')) return;
-        goToPage();
-      });
-
-      item.addEventListener('keydown', function(e){
-        if(e.key === 'Enter' || e.key === ' '){
-          e.preventDefault();
-          goToPage();
-        }
-      });
-    });
-  }
-
   function setupSidebarActiveState(){
     var links = document.querySelectorAll('.nav-link');
     var targets = ['overview','focus','explores','outcomes','journey','principle']
@@ -3709,7 +3698,6 @@
 
   setupSpeech();
   setupSmoothScroll();
-  setupPageLinks();
   setupSidebarActiveState();
 </script>
 <script src="course-navigation.js"></script>
