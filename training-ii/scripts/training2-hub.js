@@ -131,6 +131,9 @@
 
   function isModuleComplete(moduleId, state){
     if(!COURSE_MODULES[moduleId]) return false;
+    if(Array.isArray(state.completedModules) && state.completedModules.indexOf(moduleId) >= 0){
+      return true;
+    }
     return COURSE_MODULES[moduleId].sections.every(function(sectionId){
       return (state.completedSections[moduleId] || []).indexOf(sectionId) >= 0;
     });
