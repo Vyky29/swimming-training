@@ -62,7 +62,7 @@
 
   const JOURNEY_MODULES = {
     module1: {
-      timelineTitle: 'Module 1 - Foundations of Aquatic Development',
+      timelineTitle: 'Module 1 - Foundations of Aquatic Skill Development',
       summary: 'Understanding how aquatic learning begins.'
     },
     module2: {

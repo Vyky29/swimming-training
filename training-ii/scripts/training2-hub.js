@@ -38,7 +38,7 @@
 
   var MODULE_CARD_CONTENT = {
     module1: {
-      title: 'Foundations of Aquatic Development',
+      title: 'Foundations of Aquatic Skill Development',
       subtitle: 'Understanding how aquatic learning begins.',
       intro: 'The first learner module after the Training Introduction, focused on how aquatic learning starts and how strong foundations are built.'
     },
