@@ -283,6 +283,13 @@
   display:none !important;
 }
 
+/* Training I: real inline quiz - hide chrome when learner already passed (shared flow restores result card only) */
+#quiz .quiz-inline.quiz-passed-restore .quiz-inline-progress,
+#quiz .quiz-inline.quiz-passed-restore .quiz-hero,
+#quiz .quiz-inline.quiz-passed-restore form{
+  display:none !important;
+}
+
 #quiz .shared-quiz-preview{
   margin-bottom:26px;
 }
