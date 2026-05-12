@@ -4212,7 +4212,7 @@
           'timing is critical',
           'over support limits independence'
         ],
-        imageHTML: '<div class="force-cards"><div class="force-card"><strong>Example - Support reduction</strong><span>A swimmer relies on the instructor's hold. The instructor slightly reduces contact to encourage self control.</span></div></div>'
+        imageHTML: '<div class="force-cards"><div class="force-card"><strong>Example - Support reduction</strong><span>A swimmer relies on the instructor&#39;s hold. The instructor slightly reduces contact to encourage self control.</span></div></div>'
       },
       b3c4: {
         title: 'Concept 4 - Independence as the Goal',
@@ -4544,21 +4544,23 @@
   
     function finishConcept(block, target){
       markConceptComplete(block, target);
-  
-      setTimeout(function(){
-          var p = document.querySelector('[data-panel-for="block1"]');
-          var grid = p ? p.querySelector('.overview-subconcept-grid') : null;
-          if(grid) grid.scrollIntoView({ behavior:'smooth', block:'nearest' });
-        }, 120);
-        return;
-      }
-      if(block === 'block1' && target === 'b1c4'){
+
+      var group = conceptGroups[block];
+      var isLastRequiredConcept = !!(group && group.order && group.order[group.order.length - 1] === target && conceptCompletion[block].size === group.total);
+
+      if(block === 'block1' && isLastRequiredConcept){
         var gate = document.querySelector('[data-gate="block1"]');
         if(gate){
-          gate.scrollIntoView({ behavior:'smooth', block:'start' });
+          setTimeout(function(){
+            gate.scrollIntoView({ behavior:'smooth', block:'start' });
+          }, 120);
         } else {
           var nextBlock = document.getElementById('block2');
-          if(nextBlock) nextBlock.scrollIntoView({ behavior:'smooth', block:'start' });
+          if(nextBlock){
+            setTimeout(function(){
+              nextBlock.scrollIntoView({ behavior:'smooth', block:'start' });
+            }, 120);
+          }
         }
         return;
       }
