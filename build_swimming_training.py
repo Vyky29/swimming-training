@@ -143,6 +143,14 @@ PORTAL_COMMON_REPLACEMENTS = [
 ]
 
 TRAINING_ONE_COMMON_REPLACEMENTS = [
+    (
+        'src="/shared/module-completion-flow.js"',
+        'src="/shared/module-completion-flow.js?v=20260513"',
+    ),
+    (
+        "@import url('/assets/module-completion-flow.css');",
+        "@import url('/assets/module-completion-flow.css?v=20260513');",
+    ),
     ('href="../assets/training-content-containment.css"', 'href="/assets/training-content-containment.css"'),
     ('href="assets/training-content-containment.css"', 'href="/assets/training-content-containment.css"'),
     ('href="https://www.clubsensational.org/swimmingtrainingmodules"', 'href="/training-i/"'),
@@ -213,6 +221,14 @@ TRAINING_ONE_PAGE_REPLACEMENTS = {
 }
 
 TRAINING_TWO_COMMON_REPLACEMENTS = [
+    (
+        'src="/shared/module-completion-flow.js"',
+        'src="/shared/module-completion-flow.js?v=20260513"',
+    ),
+    (
+        "@import url('/assets/module-completion-flow.css');",
+        "@import url('/assets/module-completion-flow.css?v=20260513');",
+    ),
     ('href="assets/training-content-containment.css"', 'href="/training-ii/assets/training-content-containment.css"'),
     ('src="shared/parent-subconcept-layout.js"', 'src="/training-ii/shared/parent-subconcept-layout.js"'),
     ('href="course-navigation.css"', 'href="/training-ii/styles/course-navigation.css"'),
