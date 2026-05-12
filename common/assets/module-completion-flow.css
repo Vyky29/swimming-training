@@ -9,6 +9,7 @@
   background:linear-gradient(135deg,#2d84b3 0%,#89b5c1 72%,rgba(255,255,255,.92) 130%);
   color:#fff;
   box-shadow:0 18px 40px rgba(18,50,71,.12);
+  text-align:center;
 }
 
 #complete .completion::before,
@@ -90,7 +91,7 @@
 #complete .completion .completion-heading-row{
   display:flex;
   align-items:center;
-  justify-content:flex-start;
+  justify-content:center;
   gap:16px;
   margin-bottom:0;
 }
@@ -106,12 +107,19 @@
   flex-wrap:wrap;
   gap:14px;
   margin-top:26px;
+  justify-content:center;
 }
 
 #complete .completion .completion-actions .btn,
 #complete .completion-box .completion-actions .btn,
 #keyideas .completion .completion-actions .btn{
   min-width:190px;
+}
+
+#complete .completion .completion-actions .btn-secondary,
+#complete .completion-box .completion-actions .btn-secondary,
+#keyideas .completion .completion-actions .btn-secondary{
+  display:none !important;
 }
 
 #complete .completion .completion-actions .btn-secondary,
@@ -264,6 +272,74 @@
 
 #quiz .quiz-inline--preview .q-card{
   border-style:dashed;
+}
+
+#quiz .quiz-inline.quiz-template-mode .quiz-inline-progress,
+#quiz .quiz-inline.quiz-template-mode form{
+  display:none !important;
+}
+
+#quiz .quiz-inline.quiz-template-mode > .q-card{
+  display:none !important;
+}
+
+#quiz .shared-quiz-preview{
+  margin-bottom:26px;
+}
+
+#quiz .shared-quiz-preview .shared-quiz-card{
+  background:#fff;
+  border:1px dashed #c9dae5;
+  border-radius:24px;
+  padding:28px 30px;
+  box-shadow:0 16px 34px rgba(18,50,71,.08);
+  text-align:center;
+}
+
+#quiz .shared-quiz-preview .shared-quiz-kicker{
+  display:inline-block;
+  margin-bottom:10px;
+  padding:7px 14px;
+  border-radius:999px;
+  background:#edf6fb;
+  color:#2d84b3;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+#quiz .shared-quiz-preview h3{
+  margin:0 0 12px;
+  color:#173042;
+  font-size:clamp(24px,3vw,34px);
+  line-height:1.1;
+  font-weight:800;
+}
+
+#quiz .shared-quiz-preview p{
+  max-width:760px;
+  margin:0 auto;
+  color:#476071;
+  font-size:17px;
+  line-height:1.7;
+}
+
+#quiz .shared-quiz-preview .shared-quiz-note{
+  margin-top:14px;
+  font-size:14px;
+  color:#6a8090;
+}
+
+#quiz .shared-quiz-preview .shared-quiz-actions{
+  display:flex;
+  justify-content:center;
+  margin-top:22px;
+}
+
+#quiz .shared-quiz-preview .shared-quiz-actions .btn-submit{
+  margin-top:0;
+  min-width:210px;
 }
 
 #quiz .quiz-inline--preview .preview-note{

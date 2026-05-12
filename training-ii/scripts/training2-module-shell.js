@@ -365,10 +365,7 @@
 
     var completionActions = document.querySelector('#complete .completion-actions');
     if(completionActions){
-      completionActions.innerHTML = [
-        '<a class="btn btn-primary" href="#quiz" data-scroll="quiz">Start Quiz</a>',
-        '<a class="btn btn-secondary" href="#overview" data-scroll="overview">Back to Top</a>'
-      ].join('');
+      completionActions.innerHTML = '<a class="btn btn-primary" href="#quiz" data-scroll="quiz">Start Quiz</a>';
     }
 
     var completionNote = document.querySelector('#complete .completion-note');
