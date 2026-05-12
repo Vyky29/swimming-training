@@ -369,15 +369,24 @@
   }
 
   function syncJourneyItems(state, pageId){
+    const referenceModuleId =
+      pageId !== 'introduction' && COURSE_MODULES[pageId]
+        ? pageId
+        : (COURSE_MODULES[state.currentModule] ? state.currentModule : null);
+    const referenceIndex = referenceModuleId ? COURSE_ORDER.indexOf(referenceModuleId) : -1;
+
     document.querySelectorAll('[data-course-module-id]').forEach(function(item){
       const moduleId = item.getAttribute('data-course-module-id');
       if(!moduleId || !COURSE_MODULES[moduleId]) return;
       const moduleMeta = JOURNEY_MODULES[moduleId];
+      const moduleIndex = COURSE_ORDER.indexOf(moduleId);
 
       const unlocked = isModuleUnlocked(moduleId, state);
       const available = isModuleAvailable(moduleId);
       const completed = isModuleComplete(moduleId, state);
       const current = pageId === moduleId || (pageId === 'introduction' && state.currentModule === moduleId);
+      const previousToCurrent = referenceIndex > 0 && moduleIndex > 0 && moduleIndex < referenceIndex;
+      const displayCompleted = !current && (completed || previousToCurrent);
       const inProgress = !completed && unlocked && available && (state.completedSections[moduleId] || []).length > 0;
       const titleEl = item.querySelector('.journey-title');
       const headingEl = item.querySelector('h3');
@@ -391,13 +400,13 @@
       }
 
       item.classList.toggle('active', current);
-      item.classList.toggle('completed', completed);
+      item.classList.toggle('completed', displayCompleted);
       item.classList.toggle('is-locked', !available || (!unlocked && !REVIEW_MODE));
       item.setAttribute('aria-disabled', (!available || (!unlocked && !REVIEW_MODE)) ? 'true' : 'false');
 
       if(statusEl){
-        if(completed){
-          statusEl.textContent = 'Completed Module';
+        if(displayCompleted){
+          statusEl.textContent = 'Completed module';
         } else if(current){
           statusEl.textContent = 'Current Module';
         } else if(!available){
