@@ -6,149 +6,235 @@ import shutil
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 DIST_DIR = PROJECT_ROOT / "dist"
+TRAINING_TWO_ROOT = PROJECT_ROOT / "training-ii"
 
-PORTAL_SOURCE = PROJECT_ROOT / "Training Portal" / "swimming-training-portal.html"
 
-PAGES = [
+def dist_paths(*relative_paths: str) -> list[Path]:
+    return [DIST_DIR / relative_path for relative_path in relative_paths]
+
+
+TRAINING_ONE_PAGES = [
     (
-        PORTAL_SOURCE,
-        [
-            DIST_DIR / "index.html",
-            DIST_DIR / "portal" / "index.html",
-        ],
+        PROJECT_ROOT / "Training Portal" / "swimming-training-portal.html",
+        dist_paths("index.html", "portal/index.html"),
         "portal",
     ),
     (
         PROJECT_ROOT / "swimming-training-portal1.html",
-        [
-            DIST_DIR / "swimming-portal" / "index.html",
-            DIST_DIR / "swimming-training-i" / "index.html",
-        ],
-        "swimming_hub",
+        dist_paths(
+            "training-i/index.html",
+            "swimming-portal/index.html",
+            "swimming-training-i/index.html",
+        ),
+        "training1_hub",
     ),
     (
         PROJECT_ROOT / "module 1. understanding water",
-        [DIST_DIR / "modules" / "module-1" / "index.html"],
-        "module1",
+        dist_paths("training-i/modules/module-1/index.html", "modules/module-1/index.html"),
+        "training1_module1",
     ),
     (
         PROJECT_ROOT / "module 2. html",
-        [DIST_DIR / "modules" / "module-2" / "index.html"],
-        "module2",
+        dist_paths("training-i/modules/module-2/index.html", "modules/module-2/index.html"),
+        "training1_module2",
     ),
     (
         PROJECT_ROOT / "Module 3. Building engagement and connection in the water.html",
-        [DIST_DIR / "modules" / "module-3" / "index.html"],
-        "module3",
+        dist_paths("training-i/modules/module-3/index.html", "modules/module-3/index.html"),
+        "training1_module3",
     ),
     (
         PROJECT_ROOT / "Module 4. The clubSENsational Swimming Programme.html",
-        [DIST_DIR / "modules" / "module-4" / "index.html"],
-        "module4",
+        dist_paths("training-i/modules/module-4/index.html", "modules/module-4/index.html"),
+        "training1_module4",
     ),
     (
         PROJECT_ROOT / "Module_5_Visual_Aids.html",
-        [DIST_DIR / "modules" / "module-5" / "index.html"],
-        "module5",
+        dist_paths("training-i/modules/module-5/index.html", "modules/module-5/index.html"),
+        "training1_module5",
     ),
     (
         PROJECT_ROOT / "Quizzes" / "Quiz_Module_1_Understanding_Water.html",
-        [DIST_DIR / "quizzes" / "module-1" / "index.html"],
-        "quiz1",
+        dist_paths("training-i/quizzes/module-1/index.html", "quizzes/module-1/index.html"),
+        "training1_quiz1",
     ),
     (
         PROJECT_ROOT / "Quizzes" / "Quiz_Module_2_Swimmers_Experience.html",
-        [DIST_DIR / "quizzes" / "module-2" / "index.html"],
-        "quiz2",
+        dist_paths("training-i/quizzes/module-2/index.html", "quizzes/module-2/index.html"),
+        "training1_quiz2",
     ),
     (
         PROJECT_ROOT / "Quizzes" / "Quiz_Module_3_Engagement_Connection.html",
-        [DIST_DIR / "quizzes" / "module-3" / "index.html"],
-        "quiz3",
+        dist_paths("training-i/quizzes/module-3/index.html", "quizzes/module-3/index.html"),
+        "training1_quiz3",
     ),
     (
         PROJECT_ROOT / "Quizzes" / "Quiz_Module_4_ClubSENsational_Programme.html",
-        [DIST_DIR / "quizzes" / "module-4" / "index.html"],
-        "quiz4",
+        dist_paths("training-i/quizzes/module-4/index.html", "quizzes/module-4/index.html"),
+        "training1_quiz4",
     ),
     (
         PROJECT_ROOT / "Quizzes" / "Quiz_Module_5_Visual_Aids.html",
-        [DIST_DIR / "quizzes" / "module-5" / "index.html"],
-        "quiz5",
+        dist_paths("training-i/quizzes/module-5/index.html", "quizzes/module-5/index.html"),
+        "training1_quiz5",
     ),
 ]
 
-COMMON_REPLACEMENTS = [
+TRAINING_TWO_PAGES = [
+    (
+        TRAINING_TWO_ROOT / "swimming-training-portal2.html",
+        dist_paths("training-ii/index.html", "swimming-training-ii/index.html"),
+        "training2_hub",
+    ),
+    (
+        TRAINING_TWO_ROOT / "swimming-training-introduction.html",
+        dist_paths("training-ii/introduction/index.html"),
+        "training2_introduction",
+    ),
+    (
+        TRAINING_TWO_ROOT / "Javier-module1.html",
+        dist_paths("training-ii/modules/module-1/index.html"),
+        "training2_module1",
+    ),
+    (
+        TRAINING_TWO_ROOT / "Javier-module2.html",
+        dist_paths("training-ii/modules/module-2/index.html"),
+        "training2_module2",
+    ),
+    (
+        TRAINING_TWO_ROOT / "Javier-module3.html",
+        dist_paths("training-ii/modules/module-3/index.html"),
+        "training2_module3",
+    ),
+    (
+        TRAINING_TWO_ROOT / "Javier-module4.html",
+        dist_paths("training-ii/modules/module-4/index.html"),
+        "training2_module4",
+    ),
+    (
+        TRAINING_TWO_ROOT / "Javier-module5.html",
+        dist_paths("training-ii/modules/module-5/index.html"),
+        "training2_module5",
+    ),
+    (
+        TRAINING_TWO_ROOT / "Javier-module6.html",
+        dist_paths("training-ii/modules/module-6/index.html"),
+        "training2_module6",
+    ),
+]
+
+TRAINING_ONE_COMMON_REPLACEMENTS = [
     ('href="../assets/training-content-containment.css"', 'href="/assets/training-content-containment.css"'),
     ('href="assets/training-content-containment.css"', 'href="/assets/training-content-containment.css"'),
-    ('href="https://www.clubsensational.org/swimmingtrainingmodules"', 'href="/swimming-portal/"'),
+    ('href="https://www.clubsensational.org/swimmingtrainingmodules"', 'href="/training-i/"'),
     ('href="https://www.clubsensational.org/"', 'href="/portal/"'),
     ('href="../Training Portal/index.html"', 'href="/portal/"'),
     ('src="shared/parent-subconcept-layout.js"', 'src="/shared/parent-subconcept-layout.js"'),
 ]
 
-PAGE_REPLACEMENTS = {
+TRAINING_ONE_PAGE_REPLACEMENTS = {
     "portal": [
-        ('href="https://www.clubsensational.org/swimmingtraining_modules1/"', 'href="/swimming-portal/"'),
-        ('href="../../Swimming Training II/index.html"', 'href="#"'),
+        ('href="https://www.clubsensational.org/swimmingtraining_modules1/"', 'href="/training-i/"'),
+        ('href="../../Swimming Training II/index.html"', 'href="/training-ii/"'),
     ],
-    "swimming_hub": [
+    "training1_hub": [
         ('href="https://www.clubsensational.org/trainingportal"', 'href="/portal/"'),
-        ('href="https://www.clubsensational.org/module1-understanding-water/"', 'href="/modules/module-1/"'),
-        ('href="https://www.clubsensational.org/emotionalstates-2-2-2/"', 'href="/modules/module-2/"'),
+        ('href="https://www.clubsensational.org/module1-understanding-water/"', 'href="/training-i/modules/module-1/"'),
+        ('href="https://www.clubsensational.org/emotionalstates-2-2-2/"', 'href="/training-i/modules/module-2/"'),
         (
             'href="https://www.clubsensational.org/module3-building-engagement-and-connection-in-the-water/"',
-            'href="/modules/module-3/"',
+            'href="/training-i/modules/module-3/"',
         ),
         (
             'href="https://www.clubsensational.org/module4-the-clubsensational-swimming-programme/"',
-            'href="/modules/module-4/"',
+            'href="/training-i/modules/module-4/"',
         ),
         (
             'href="https://www.clubsensational.org/module-5-using-visual-aids-effectively-pixtoleaern-in-action/"',
-            'href="/modules/module-5/"',
+            'href="/training-i/modules/module-5/"',
         ),
     ],
-    "module1": [
-        ('href="https://www.clubsensational.org/emotionalstates-2-2-2/"', 'href="/modules/module-2/"'),
-        ('href="../Module 2/module 2. html"', 'href="/modules/module-2/"'),
+    "training1_module1": [
+        ('href="https://www.clubsensational.org/emotionalstates-2-2-2/"', 'href="/training-i/modules/module-2/"'),
+        ('href="../Module 2/module 2. html"', 'href="/training-i/modules/module-2/"'),
     ],
-    "module2": [
+    "training1_module2": [
         (
             'href="https://www.clubsensational.org/module3-building-engagement-and-connection-in-the-water/"',
-            'href="/modules/module-3/"',
+            'href="/training-i/modules/module-3/"',
         ),
-        ('href="../Module3/Module 3. Building engagement and connection in the water.html"', 'href="/modules/module-3/"'),
+        (
+            'href="../Module3/Module 3. Building engagement and connection in the water.html"',
+            'href="/training-i/modules/module-3/"',
+        ),
     ],
-    "module3": [
-        ('href="../Module 4/Module 4. The clubSENsational Swimming Programme.html"', 'href="/modules/module-4/"'),
+    "training1_module3": [
+        (
+            'href="../Module 4/Module 4. The clubSENsational Swimming Programme.html"',
+            'href="/training-i/modules/module-4/"',
+        ),
     ],
-    "module4": [
-        ('href="../Module_5_Visual_Aids.html"', 'href="/modules/module-5/"'),
+    "training1_module4": [
+        ('href="../Module_5_Visual_Aids.html"', 'href="/training-i/modules/module-5/"'),
     ],
-    "quiz1": [
-        ('href="../Module 2/module 2. html"', 'href="/modules/module-2/"'),
+    "training1_quiz1": [
+        ('href="../Module 2/module 2. html"', 'href="/training-i/modules/module-2/"'),
     ],
-    "quiz2": [
-        ('href="../Module3/Module 3. Building engagement and connection in the water.html"', 'href="/modules/module-3/"'),
+    "training1_quiz2": [
+        (
+            'href="../Module3/Module 3. Building engagement and connection in the water.html"',
+            'href="/training-i/modules/module-3/"',
+        ),
     ],
-    "quiz3": [
-        ('href="../Module 4/Module 4. The clubSENsational Swimming Programme.html"', 'href="/modules/module-4/"'),
+    "training1_quiz3": [
+        (
+            'href="../Module 4/Module 4. The clubSENsational Swimming Programme.html"',
+            'href="/training-i/modules/module-4/"',
+        ),
     ],
-    "quiz4": [
-        ('href="../Module 5"', 'href="/modules/module-5/"'),
+    "training1_quiz4": [
+        ('href="../Module 5"', 'href="/training-i/modules/module-5/"'),
     ],
 }
 
-STATIC_DIRECTORIES = [
-    (
-        PROJECT_ROOT / "assets",
-        DIST_DIR / "assets",
-    ),
-    (
-        PROJECT_ROOT / "shared",
-        DIST_DIR / "shared",
-    ),
+TRAINING_TWO_COMMON_REPLACEMENTS = [
+    ('href="assets/training-content-containment.css"', 'href="/training-ii/assets/training-content-containment.css"'),
+    ('src="shared/parent-subconcept-layout.js"', 'src="/training-ii/shared/parent-subconcept-layout.js"'),
+    ('href="course-navigation.css"', 'href="/training-ii/course-navigation.css"'),
+    ('href="training2-portal.css"', 'href="/training-ii/training2-portal.css"'),
+    ('href="training2-workspace.css"', 'href="/training-ii/training2-workspace.css"'),
+    ('src="course-navigation.js"', 'src="/training-ii/course-navigation.js"'),
+    ('src="training2-hub.js"', 'src="/training-ii/training2-hub.js"'),
+    ('src="training2-module-shell.js"', 'src="/training-ii/training2-module-shell.js"'),
+    ('https://swimming-training-fresh-deploy.vercel.app/portal/', '/portal/'),
+    ('https://www.clubsensational.org/swimmingtrainingmodules', '/training-ii/'),
+    ("swimming-training-portal2.html", "/training-ii/"),
+    ("swimming-training-introduction.html", "/training-ii/introduction/"),
+    ("Javier-module1.html", "/training-ii/modules/module-1/"),
+    ("Javier-module2.html", "/training-ii/modules/module-2/"),
+    ("Javier-module3.html", "/training-ii/modules/module-3/"),
+    ("Javier-module4.html", "/training-ii/modules/module-4/"),
+    ("Javier-module5.html", "/training-ii/modules/module-5/"),
+    ("Javier-module6.html", "/training-ii/modules/module-6/"),
+]
+
+TRAINING_ONE_STATIC_DIRECTORIES = [
+    (PROJECT_ROOT / "assets", DIST_DIR / "assets"),
+    (PROJECT_ROOT / "shared", DIST_DIR / "shared"),
+]
+
+TRAINING_TWO_STATIC_DIRECTORIES = [
+    (TRAINING_TWO_ROOT / "assets", DIST_DIR / "training-ii" / "assets"),
+    (TRAINING_TWO_ROOT / "shared", DIST_DIR / "training-ii" / "shared"),
+]
+
+TRAINING_TWO_STATIC_FILES = [
+    "course-navigation.css",
+    "course-navigation.js",
+    "training2-portal.css",
+    "training2-workspace.css",
+    "training2-hub.js",
+    "training2-module-shell.js",
 ]
 
 NOT_FOUND_HTML = """<!DOCTYPE html>
@@ -187,7 +273,7 @@ NOT_FOUND_HTML = """<!DOCTYPE html>
   <main class="card">
     <h1>Page not found</h1>
     <p>The page you requested is not available in the Swimming Training portal.</p>
-    <p><a href=\"/\">Return to the portal</a></p>
+    <p><a href=\"/portal/\">Return to the portal</a></p>
   </main>
 </body>
 </html>
@@ -207,34 +293,57 @@ def apply_replacements(text: str, replacements: list[tuple[str, str]]) -> str:
     return updated
 
 
-def build_html(source_path: Path, destination_paths: list[Path], page_key: str) -> None:
-    html = source_path.read_text(encoding="utf-8")
-    html = apply_replacements(html, COMMON_REPLACEMENTS)
-    html = apply_replacements(html, PAGE_REPLACEMENTS.get(page_key, []))
-
-    for destination_path in destination_paths:
-        destination_path.parent.mkdir(parents=True, exist_ok=True)
-        destination_path.write_text(html, encoding="utf-8")
+def write_text(destination_path: Path, content: str) -> None:
+    destination_path.parent.mkdir(parents=True, exist_ok=True)
+    destination_path.write_text(content, encoding="utf-8")
 
 
-def copy_static_directories() -> None:
-    for source_path, destination_path in STATIC_DIRECTORIES:
+def build_pages(
+    pages: list[tuple[Path, list[Path], str]],
+    common_replacements: list[tuple[str, str]],
+    page_replacements: dict[str, list[tuple[str, str]]] | None = None,
+) -> None:
+    page_replacements = page_replacements or {}
+    for source_path, destination_paths, page_key in pages:
+        html = source_path.read_text(encoding="utf-8")
+        html = apply_replacements(html, common_replacements)
+        html = apply_replacements(html, page_replacements.get(page_key, []))
+        for destination_path in destination_paths:
+            write_text(destination_path, html)
+
+
+def copy_static_directories(directories: list[tuple[Path, Path]]) -> None:
+    for source_path, destination_path in directories:
         if not source_path.exists():
             continue
         shutil.copytree(source_path, destination_path, dirs_exist_ok=True)
 
 
+def copy_training_two_static_files() -> None:
+    for file_name in TRAINING_TWO_STATIC_FILES:
+        source_path = TRAINING_TWO_ROOT / file_name
+        content = source_path.read_text(encoding="utf-8")
+        content = apply_replacements(content, TRAINING_TWO_COMMON_REPLACEMENTS)
+        write_text(DIST_DIR / "training-ii" / file_name, content)
+
+
 def write_supporting_pages() -> None:
-    (DIST_DIR / "404.html").write_text(NOT_FOUND_HTML, encoding="utf-8")
+    write_text(DIST_DIR / "404.html", NOT_FOUND_HTML)
 
 
 def main() -> None:
     reset_dist()
-    copy_static_directories()
+    copy_static_directories(TRAINING_ONE_STATIC_DIRECTORIES)
+    copy_static_directories(TRAINING_TWO_STATIC_DIRECTORIES)
+    copy_training_two_static_files()
+    build_pages(
+        TRAINING_ONE_PAGES,
+        TRAINING_ONE_COMMON_REPLACEMENTS,
+        TRAINING_ONE_PAGE_REPLACEMENTS,
+    )
+    build_pages(TRAINING_TWO_PAGES, TRAINING_TWO_COMMON_REPLACEMENTS)
     write_supporting_pages()
-    for source_path, destination_paths, page_key in PAGES:
-        build_html(source_path, destination_paths, page_key)
-    print(f"Built Swimming Training site into {DIST_DIR}")
+    print(f"Built unified Swimming Training site into {DIST_DIR}")
 
 
 if __name__ == "__main__":

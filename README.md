@@ -1,27 +1,51 @@
-# Swimming Training Deployment
+# Swimming Training Unified Repo
 
-This folder now works as the source project for the Swimming Training Portal, modules 1-5, and the standalone quiz pages.
+This repo now combines:
+
+- the main Swimming Training portal
+- `Swimming Training I`
+- `Swimming Training II`
+
+`Swimming Training II` lives inside `training-ii/` and was imported with Git history preserved. The top-level `build_swimming_training.py` is now the only build script that should be used for deployment.
 
 ## How it works
 
-- Keep editing the original source files in this folder.
+- Edit the source files in this repo.
 - Run `python3 build_swimming_training.py`.
 - The script generates a deployable site in `dist/`.
 - Vercel should deploy `dist/`, not the raw source files.
 
+## Source layout
+
+- `Training Portal/` -> main portal source
+- `swimming-training-portal1.html` + root module files -> `Swimming Training I`
+- `training-ii/` -> `Swimming Training II`
+- `assets/` and `shared/` -> shared files for `Training I`
+
 ## Generated routes
 
 - `/` and `/portal/` -> Swimming Training Portal
-- `/modules/module-1/` -> Module 1
-- `/modules/module-2/` -> Module 2
-- `/modules/module-3/` -> Module 3
-- `/modules/module-4/` -> Module 4
-- `/modules/module-5/` -> Module 5
-- `/quizzes/module-1/` -> Quiz 1
-- `/quizzes/module-2/` -> Quiz 2
-- `/quizzes/module-3/` -> Quiz 3
-- `/quizzes/module-4/` -> Quiz 4
-- `/quizzes/module-5/` -> Quiz 5
+- `/training-i/` -> Swimming Training I dashboard
+- `/training-i/modules/module-1/` -> Training I Module 1
+- `/training-i/modules/module-2/` -> Training I Module 2
+- `/training-i/modules/module-3/` -> Training I Module 3
+- `/training-i/modules/module-4/` -> Training I Module 4
+- `/training-i/modules/module-5/` -> Training I Module 5
+- `/training-i/quizzes/module-1/` -> Training I Quiz 1
+- `/training-i/quizzes/module-2/` -> Training I Quiz 2
+- `/training-i/quizzes/module-3/` -> Training I Quiz 3
+- `/training-i/quizzes/module-4/` -> Training I Quiz 4
+- `/training-i/quizzes/module-5/` -> Training I Quiz 5
+- `/training-ii/` -> Swimming Training II dashboard
+- `/training-ii/introduction/` -> Training II introduction
+- `/training-ii/modules/module-1/` -> Training II Module 1
+- `/training-ii/modules/module-2/` -> Training II Module 2
+- `/training-ii/modules/module-3/` -> Training II Module 3
+- `/training-ii/modules/module-4/` -> Training II Module 4
+- `/training-ii/modules/module-5/` -> Training II Module 5
+- `/training-ii/modules/module-6/` -> Training II Module 6
+
+Legacy aliases for older Training I routes are still generated in `dist/` so older links do not immediately break.
 
 ## Local preview
 
@@ -56,7 +80,7 @@ That exposes:
 
 When you create the Vercel project:
 
-- Root Directory: `Swimming Training : Modules`
+- Root Directory: repository root
 - Build Command: `python3 build_swimming_training.py`
 - Output Directory: `dist`
 
@@ -73,9 +97,11 @@ Production deploys for this repo have been reliable when commits use the GitHub 
 
 ## Notes
 
-- The standalone quiz pages are still available, even though the modules already include inline quizzes.
-- The full `assets/` folder is copied into `dist/assets/`.
-- The full `shared/` folder is copied into `dist/shared/`.
+- The standalone Training I quiz pages are still available, even though the modules already include inline quizzes.
+- The full root `assets/` folder is copied into `dist/assets/`.
+- The full root `shared/` folder is copied into `dist/shared/`.
+- `Training II` assets and shared files are namespaced into `dist/training-ii/` to avoid collisions with `Training I`.
+- Do not deploy from `training-ii/build_swimming_training.py`; that file is kept only as imported history/context.
 
 ## Local images
 

@@ -1,3 +1,4 @@
 dist/
 .DS_Store
 .vercel
+training-ii/dist/
