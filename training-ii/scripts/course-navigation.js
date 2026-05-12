@@ -1,4 +1,5 @@
 (function(){
+  const REVIEW_MODE = true;
   const STORAGE_KEYS = {
     progress: 'cs_swimming_training_progress',
     currentModule: 'cs_swimming_training_current_module',
@@ -56,6 +57,33 @@
       file: '/training-ii/modules/module-6/',
       sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
       available: true
+    }
+  };
+
+  const JOURNEY_MODULES = {
+    module1: {
+      timelineTitle: 'Module 1 - Foundations of Aquatic Development',
+      summary: 'Understanding how aquatic learning begins.'
+    },
+    module2: {
+      timelineTitle: 'Module 2 - Guiding Learning Through Scaffolding and the CS Learning Principle',
+      summary: 'Structuring support, progression and teaching decisions.'
+    },
+    module3: {
+      timelineTitle: 'Module 3 - Early Aquatic Experiences',
+      summary: 'Supporting first contact, entry and exit in the water and early familiarisation.'
+    },
+    module4: {
+      timelineTitle: 'Module 4 - Core Aquatic Skills',
+      summary: 'Developing breathing control and submersion, floating and balance, gliding and streamlining, and rotation.'
+    },
+    module5: {
+      timelineTitle: 'Module 5 - Propulsion Development in the Water',
+      summary: 'Building functional movement through the water.'
+    },
+    module6: {
+      timelineTitle: 'Module 6 - Swimming Strokes and Advanced Techniques',
+      summary: 'Applying aquatic foundations to strokes and advanced skills.'
     }
   };
 
@@ -210,6 +238,7 @@
   }
 
   function isModuleUnlocked(moduleId, state){
+    if(REVIEW_MODE && moduleId !== 'introduction') return true;
     if(moduleId === 'introduction') return true;
     const previous = getPreviousModuleId(moduleId);
     if(!previous) return true;
@@ -334,36 +363,52 @@
     document.querySelectorAll('[data-course-module-id]').forEach(function(item){
       const moduleId = item.getAttribute('data-course-module-id');
       if(!moduleId || !COURSE_MODULES[moduleId]) return;
+      const moduleMeta = JOURNEY_MODULES[moduleId];
 
       const unlocked = isModuleUnlocked(moduleId, state);
       const available = isModuleAvailable(moduleId);
       const completed = isModuleComplete(moduleId, state);
       const current = pageId === moduleId || (pageId === 'introduction' && state.currentModule === moduleId);
       const inProgress = !completed && unlocked && available && (state.completedSections[moduleId] || []).length > 0;
+      const titleEl = item.querySelector('.journey-title');
+      const headingEl = item.querySelector('h3');
+      const descriptionEl = item.querySelector('p');
       const statusEl = item.querySelector('.journey-status');
+
+      if(moduleMeta){
+        if(titleEl) titleEl.textContent = moduleMeta.timelineTitle;
+        if(headingEl) headingEl.textContent = moduleMeta.timelineTitle.split(' - ')[0];
+        if(descriptionEl) descriptionEl.textContent = moduleMeta.summary;
+      }
 
       item.classList.toggle('active', current);
       item.classList.toggle('completed', completed);
-      item.classList.toggle('is-locked', !unlocked || !available);
-      item.setAttribute('aria-disabled', (!unlocked || !available) ? 'true' : 'false');
+      item.classList.toggle('is-locked', !available || (!unlocked && !REVIEW_MODE));
+      item.setAttribute('aria-disabled', (!available || (!unlocked && !REVIEW_MODE)) ? 'true' : 'false');
 
       if(statusEl){
-        if(!item.dataset.courseOriginalStatus){
-          item.dataset.courseOriginalStatus = statusEl.textContent.trim();
-        }
-        const original = item.dataset.courseOriginalStatus;
-        if(completed){
-          statusEl.textContent = composeJourneyStatus('Completed', original);
-        } else if(current){
-          statusEl.textContent = composeJourneyStatus('Current Module', original);
-        } else if(!unlocked || !available){
-          statusEl.textContent = 'Locked';
-        } else if(inProgress){
-          statusEl.textContent = composeJourneyStatus('In Progress', original);
+        if(titleEl){
+          statusEl.textContent = moduleMeta ? moduleMeta.summary : statusEl.textContent.trim();
         } else {
-          statusEl.textContent = original || 'Available';
+          if(completed){
+            statusEl.textContent = 'Completed';
+          } else if(current){
+            statusEl.textContent = 'Current Module';
+          } else if(!available){
+            statusEl.textContent = 'Unavailable';
+          } else if(inProgress){
+            statusEl.textContent = 'In Progress';
+          } else {
+            statusEl.textContent = 'Available';
+          }
         }
       }
+    });
+  }
+
+  function syncTrainingTwoBrandLinks(){
+    document.querySelectorAll('.sidebar-logo-link').forEach(function(link){
+      link.href = '/training-ii/';
     });
   }
 
@@ -480,7 +525,7 @@
 
         if(targetModuleId === pageId) return;
 
-        if(!isModuleUnlocked(targetModuleId, liveState)){
+        if(!REVIEW_MODE && !isModuleUnlocked(targetModuleId, liveState)){
           showToast('Complete the previous item first.');
           return;
         }
@@ -628,8 +673,8 @@
       const nextModuleId = button.getAttribute('data-course-next-module-button');
       const canNavigate = !!(
         nextModuleId &&
-        isModuleComplete(pageId, state) &&
-        isModuleUnlocked(nextModuleId, state) &&
+        (REVIEW_MODE || isModuleComplete(pageId, state)) &&
+        (REVIEW_MODE || isModuleUnlocked(nextModuleId, state)) &&
         isModuleAvailable(nextModuleId)
       );
 
@@ -642,7 +687,7 @@
 
       button.addEventListener('click', function(event){
         const liveState = loadState();
-        if(!isModuleComplete(pageId, liveState)){
+        if(!REVIEW_MODE && !isModuleComplete(pageId, liveState)){
           event.preventDefault();
           showToast('Complete the previous item first.');
           return;
@@ -669,6 +714,7 @@
     saveState(state);
 
     ensureToast();
+    syncTrainingTwoBrandLinks();
     setupCourseModuleLinks(pageId);
 
     if(pageId === 'introduction'){

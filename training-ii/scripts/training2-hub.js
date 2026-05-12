@@ -1,4 +1,5 @@
 (function(){
+  var REVIEW_MODE = true;
   var STORAGE_KEYS = {
     progress: 'cs_swimming_training_progress'
   };
@@ -32,6 +33,39 @@
     module6: {
       file: '/training-ii/modules/module-6/',
       sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+    }
+  };
+
+  var MODULE_CARD_CONTENT = {
+    module1: {
+      title: 'Foundations of Aquatic Development',
+      subtitle: 'Understanding how aquatic learning begins.',
+      intro: 'The first learner module after the Training Introduction, focused on how aquatic learning starts and how strong foundations are built.'
+    },
+    module2: {
+      title: 'Guiding Learning Through Scaffolding and the CS Learning Principle',
+      subtitle: 'Structuring support, progression and teaching decisions.',
+      intro: 'This review version keeps the full Module 2 flow visible so scaffolding, progression and teaching decision points can be checked end to end.'
+    },
+    module3: {
+      title: 'Early Aquatic Experiences',
+      subtitle: 'Supporting first contact, entry and exit in the water and early familiarisation.',
+      intro: 'This review version keeps the full Module 3 flow visible so the early-experience pathway can be checked before the final content is locked in.'
+    },
+    module4: {
+      title: 'Core Aquatic Skills',
+      subtitle: 'Developing breathing control, balance, gliding, streamlining and rotation.',
+      intro: 'This review version keeps the full Module 4 flow visible so the core-skill progression can be checked from journey to completion.'
+    },
+    module5: {
+      title: 'Propulsion Development in the Water',
+      subtitle: 'Building functional movement through the water.',
+      intro: 'This review version keeps the full Module 5 flow visible so propulsion development can be reviewed across the complete module structure.'
+    },
+    module6: {
+      title: 'Swimming Strokes and Advanced Techniques',
+      subtitle: 'Applying aquatic foundations to strokes and advanced skills.',
+      intro: 'This review version keeps the full Module 6 flow visible so the final advanced-technique pathway can be checked from start to finish.'
     }
   };
 
@@ -87,6 +121,7 @@
   }
 
   function isModuleUnlocked(moduleId, state){
+    if(REVIEW_MODE && moduleId !== 'introduction') return true;
     if(moduleId === 'introduction') return true;
     if(moduleId === 'module1') return !!state.introductionCompleted;
 
@@ -188,15 +223,25 @@
       var completedModule = isModuleComplete(moduleId, state);
       var inProgress = !completedModule && unlocked && (state.completedSections[moduleId] || []).length > 0;
       var current = state.currentModule === moduleId && unlocked && !completedModule;
+      var content = MODULE_CARD_CONTENT[moduleId];
 
-      card.classList.toggle('is-locked', !unlocked);
+      if(content){
+        var title = card.querySelector('h3');
+        var subtitle = card.querySelector('.module-subtitle');
+        var intro = card.querySelector('.module-intro');
+        if(title) title.textContent = content.title;
+        if(subtitle) subtitle.textContent = content.subtitle;
+        if(intro) intro.textContent = content.intro;
+      }
+
+      card.classList.toggle('is-locked', !unlocked && !REVIEW_MODE);
 
       if(status){
         status.className = 'module-status-badge';
         if(completedModule){
           status.classList.add('status-completed');
           status.textContent = 'Completed';
-        } else if(!unlocked){
+        } else if(!unlocked && !REVIEW_MODE){
           status.classList.add('status-locked');
           status.textContent = 'Locked';
         } else if(current || inProgress){
