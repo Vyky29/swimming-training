@@ -254,6 +254,10 @@ TRAINING_TWO_STATIC_FILES = [
         DIST_DIR / "training-ii" / "styles" / "training2-workspace.css",
     ),
     (
+        TRAINING_TWO_ROOT / "styles" / "training2-module-template.css",
+        DIST_DIR / "training-ii" / "styles" / "training2-module-template.css",
+    ),
+    (
         TRAINING_TWO_ROOT / "scripts" / "course-navigation.js",
         DIST_DIR / "training-ii" / "scripts" / "course-navigation.js",
     ),
