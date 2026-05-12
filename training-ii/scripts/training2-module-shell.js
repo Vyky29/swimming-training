@@ -2,6 +2,12 @@
   var voice = null;
   var synth = window.speechSynthesis || null;
   var speakingButton = null;
+  var COURSE_STORAGE_KEYS = {
+    progress: 'cs_swimming_training_progress',
+    currentModule: 'cs_swimming_training_current_module',
+    completedSections: 'cs_swimming_training_completed_sections',
+    completedModules: 'cs_swimming_training_completed_modules'
+  };
 
   function getModulePage(){
     var root = document.querySelector('[data-course-page]');
@@ -10,6 +16,82 @@
 
   function getStorageKey(moduleId){
     return 'cs_training2_shell_' + moduleId;
+  }
+
+  function getCourseModuleIds(){
+    return ['introduction', 'module1', 'module2', 'module3', 'module4', 'module5', 'module6'];
+  }
+
+  function loadCourseState(){
+    var state = {};
+    try{
+      state = JSON.parse(localStorage.getItem(COURSE_STORAGE_KEYS.progress) || '{}') || {};
+    } catch(error){
+      state = {};
+    }
+
+    if(!state.completedSections || typeof state.completedSections !== 'object'){
+      state.completedSections = {};
+    }
+    if(!Array.isArray(state.completedModules)){
+      state.completedModules = [];
+    }
+    if(!state.lastActiveSection || typeof state.lastActiveSection !== 'object'){
+      state.lastActiveSection = {};
+    }
+    if(!state.introSelections || typeof state.introSelections !== 'object'){
+      state.introSelections = {};
+    }
+
+    getCourseModuleIds().forEach(function(id){
+      if(!Array.isArray(state.completedSections[id])){
+        state.completedSections[id] = [];
+      }
+    });
+
+    state.introductionCompleted = !!state.introductionCompleted;
+    state.courseCompleted = state.completedModules.indexOf('module6') >= 0;
+    state.currentModule = state.currentModule || 'introduction';
+    return state;
+  }
+
+  function saveCourseState(state){
+    state.lastUpdatedAt = new Date().toISOString();
+    localStorage.setItem(COURSE_STORAGE_KEYS.progress, JSON.stringify(state));
+    localStorage.setItem(COURSE_STORAGE_KEYS.currentModule, state.currentModule);
+    localStorage.setItem(COURSE_STORAGE_KEYS.completedSections, JSON.stringify(state.completedSections));
+    localStorage.setItem(COURSE_STORAGE_KEYS.completedModules, JSON.stringify(state.completedModules));
+    window.dispatchEvent(new Event('storage'));
+  }
+
+  function syncCourseState(moduleId){
+    var courseState = loadCourseState();
+    var requiredSections = ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'];
+    var checkedSections = Array.from(document.querySelectorAll('input[data-stage-check]:checked')).map(function(input){
+      return input.getAttribute('data-stage-check');
+    }).filter(function(stageId){
+      return requiredSections.indexOf(stageId) >= 0;
+    });
+    var completeCheck = document.getElementById('completeStageCheck');
+    var isExplicitlyComplete = !!(completeCheck && completeCheck.checked);
+
+    courseState.completedSections[moduleId] = Array.from(new Set(
+      isExplicitlyComplete ? requiredSections.slice() : checkedSections
+    ));
+    courseState.currentModule = moduleId;
+
+    if(courseState.completedSections[moduleId].length === requiredSections.length){
+      if(courseState.completedModules.indexOf(moduleId) === -1){
+        courseState.completedModules.push(moduleId);
+      }
+    } else {
+      courseState.completedModules = courseState.completedModules.filter(function(entry){
+        return entry !== moduleId;
+      });
+    }
+
+    courseState.courseCompleted = courseState.completedModules.indexOf('module6') >= 0;
+    saveCourseState(courseState);
   }
 
   function getEmptyState(){
@@ -132,6 +214,51 @@
     if(textWrap){
       textWrap.innerHTML = '<strong>' + title + '</strong><span>' + detail + '</span>';
     }
+  }
+
+  function normalizeModuleNavigation(){
+    var navList = document.querySelector('.nav-list');
+    if(!navList) return;
+
+    navList.innerHTML = [
+      { id: 'overview', label: 'Overview' },
+      { id: 'journey', label: 'Swimming Journey' },
+      { id: 'outcomes', label: 'Learning Outcomes' },
+      { id: 'block1', label: 'Block 1' },
+      { id: 'block2', label: 'Block 2' },
+      { id: 'block3', label: 'Block 3' },
+      { id: 'recap', label: 'Recap' },
+      { id: 'complete', label: 'Completion' }
+    ].map(function(item, index){
+      return '<a class="nav-link' + (index === 0 ? ' active' : '') + '" href="#' + item.id + '" data-stage="' + item.id + '" data-scroll="' + item.id + '">' + item.label + '</a>';
+    }).join('');
+  }
+
+  function normalizeSharedUiCopy(){
+    var saveHeading = document.querySelector('.save-progress-card h3');
+    if(saveHeading) saveHeading.textContent = 'Save progress';
+
+    var saveButton = document.getElementById('saveProgressButton');
+    if(saveButton) saveButton.textContent = 'Save progress';
+
+    var saveMessage = document.getElementById('saveProgressMessage');
+    if(saveMessage) saveMessage.textContent = 'Use Save progress while you review the module and add the approved content.';
+
+    document.querySelectorAll('[data-tts-button]').forEach(function(button){
+      button.textContent = '🔊 Listen';
+    });
+
+    document.querySelectorAll('[data-tts-stop]').forEach(function(button){
+      button.textContent = '⏹ Stop Audio';
+    });
+
+    document.querySelectorAll('[data-concept-tts]').forEach(function(button){
+      button.textContent = '🔊 Listen';
+    });
+
+    document.querySelectorAll('[data-concept-tts-stop]').forEach(function(button){
+      button.textContent = '⏹ Stop';
+    });
   }
 
   function updateBlockSection(moduleMeta, blockNumber){
@@ -367,6 +494,7 @@
     var completeCheck = document.getElementById('completeStageCheck');
     state.completed = !!(completeCheck && completeCheck.checked);
     saveState(moduleId, state);
+    syncCourseState(moduleId);
   }
 
   function setupChecks(moduleId, stageOrder){
@@ -451,10 +579,7 @@
   function stopSpeech(){
     if(!synth) return;
     synth.cancel();
-    if(speakingButton){
-      speakingButton.textContent = 'Listen';
-      speakingButton = null;
-    }
+    speakingButton = null;
   }
 
   function setupTts(){
@@ -486,7 +611,6 @@
         utterance.onerror = stopSpeech;
 
         speakingButton = button;
-        button.textContent = 'Stop Audio';
         synth.speak(utterance);
       });
     });
@@ -509,6 +633,10 @@
     var stageOrder = ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'complete'];
 
     applyTrainingIModulePattern(moduleId);
+    if(moduleId !== 'module1'){
+      normalizeModuleNavigation();
+    }
+    normalizeSharedUiCopy();
     assignProgressItemKeys();
     restoreChecks(moduleId);
     restoreClickedItems(moduleId);
@@ -518,6 +646,7 @@
     setupSmoothScroll();
     setupSidebarActiveState();
     setupTts();
+    syncCourseState(moduleId);
     updateProgress(stageOrder);
   }
 
