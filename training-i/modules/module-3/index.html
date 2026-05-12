@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>clubSENsational Training Module 3 | Building Engagement and Connection in the Water</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+  @import url('/assets/module-completion-flow.css');
 
     :root{
       --blue:#2d84b3;
@@ -3566,11 +3567,10 @@
                 <div class="completion-badge" aria-hidden="true">✓</div>
                 <h3>Module 3 complete</h3>
               </div>
-              <p class="completion-lead" data-tts-source="complete">You have now completed the interactive learning content for Building Engagement and Connection in the Water. The next step is to complete the module quiz before moving into the next stage of your training.</p>
+              <p class="completion-lead" data-tts-source="complete">You have completed all content for Module 3. Ready for the quiz?</p>
 
               <div class="completion-actions">
                 <a class="btn btn-primary" href="#quiz">Start Quiz</a>
-                <a class="btn btn-secondary" href="/portal/">Return to Training Portal</a>
                 <a class="btn btn-secondary" href="#overview">Back to Top</a>
               </div>
             </div>
@@ -3688,7 +3688,7 @@
                   <h2>Quiz complete</h2>
                   <p class="score-value" id="scoreValueM3">0/8</p>
                   <p class="score-msg" id="scoreMsgM3"></p>
-                  <a href="/training-i/modules/module-4/" class="back-link quiz-next-btn">→ Next: Module 4</a>
+                  <a href="/training-i/modules/module-4/" class="back-link quiz-next-btn">Go to Next Module</a>
                 </div>
               </div>
             </div>
@@ -5941,6 +5941,7 @@
       });
     });
   </script>
+  <script src="/shared/module-completion-flow.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     (function(){
@@ -6040,7 +6041,7 @@
             }
             if(!this.checked) return;
             var stage = this.getAttribute('data-stage-check');
-            if(stage === 'complete') completeModule(MODULE_NUMBER);
+            if(stage === 'complete') markComplete('module' + MODULE_NUMBER + '_complete');
             else markComplete('module' + MODULE_NUMBER + '_' + stage);
           });
         });
@@ -6058,7 +6059,7 @@
             e.preventDefault();
             quizSec.classList.remove('gated-locked');
             quizSec.classList.add('quiz-visible');
-            completeModule(MODULE_NUMBER);
+            markComplete('module' + MODULE_NUMBER + '_complete');
             var cb = document.querySelector('.overall-check[data-stage-check="complete"]');
             if(cb){ cb.checked = true; if(cb.closest('.check-item')) cb.closest('.check-item').classList.add('clicked'); }
             window.location.hash = 'quiz';
@@ -6252,12 +6253,37 @@
         results.forEach(function(r){ showFeedback(r.i, r.ok, r.msg, showCorrect); });
         progressFill.style.width = '100%';
         progressText.textContent = '8 of 8 answered';
-        scoreValue.textContent = score + '/' + total;
-        scoreMsg.textContent = score === total ? 'Congratulations! Quiz complete. You\'re ready for the next module.' : 'You need all 8 correct to continue to the next module. Try again.';
+        var passed = score === total;
+        scoreValue.textContent = passed ? ('Quiz passed - ' + score + '/' + total) : (score + '/' + total);
+        if(passed){
+          try {
+            var module3Progress = JSON.parse(localStorage.getItem('swimming_module_3_progress') || '{}');
+            module3Progress.module3_complete = true;
+            module3Progress.module3_quiz = true;
+            module3Progress.module3_completed = true;
+            module3Progress.module4_unlocked = true;
+            localStorage.setItem('swimming_module_3_progress', JSON.stringify(module3Progress));
+          } catch(error) {}
+        }
         var backLink = root.querySelector('.score-card .back-link');
-        if(backLink) backLink.style.display = score === total ? 'inline-flex' : 'none';
-        scoreCard.classList.add('show');
-        submitBtn.disabled = (score === total);
+        if(backLink) backLink.style.display = passed ? 'inline-flex' : 'none';
+        if(window.clubTrainingCompletion){
+          window.clubTrainingCompletion.renderResultCard({
+            scoreCard: scoreCard,
+            scoreValue: scoreValue,
+            scoreMsg: scoreMsg,
+            passed: passed,
+            isFinalModule: false,
+            trainingLabel: 'Swimming Training I',
+            moduleLabel: 'Module 3 - Building Engagement and Connection in the Water',
+            successMessage: 'You passed the quiz for Module 3. Continue into Module 4 when you are ready.',
+            failureMessage: 'You need all 8 correct before moving on. Review the module and try again.'
+          });
+        } else {
+          scoreMsg.textContent = passed ? 'You passed the quiz for Module 3. Continue into Module 4 when you are ready.' : 'You need all 8 correct before moving on. Review the module and try again.';
+          scoreCard.classList.add('show');
+        }
+        submitBtn.disabled = passed;
         scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
       };
       updateProgress();

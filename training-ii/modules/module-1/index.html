@@ -3948,63 +3948,49 @@
               <div class="section-title-row" style="margin-bottom:0;">
                 <div style="display:flex;align-items:center;gap:12px;">
                   <div class="completion-badge">&#10003;</div>
-                  <h3>How This Module Reflects CLUBSENSATIONAL Principles</h3>
+                  <h3>Module 1 complete</h3>
                 </div>
               </div>
 
-              <div class="recap-stack" data-tts-source="complete">
-                <div class="recap-card clickable-progress">
-                  <h4>Progression before performance - readiness first</h4>
-                </div>
-                <div class="recap-card clickable-progress">
-                  <h4>Skills before structured swimming - foundations first</h4>
-                </div>
-                <div class="recap-card clickable-progress">
-                  <h4>Individual pathways - no fixed route</h4>
-                </div>
-                <div class="recap-card clickable-progress">
-                  <h4>Regulation before demand - behaviour guides teaching</h4>
-                </div>
-                <div class="recap-card clickable-progress">
-                  <h4>Independence - long term goal</h4>
-                </div>
-                <div class="recap-card clickable-progress">
-                  <h4>Adaptation - continuous and responsive</h4>
-                </div>
-              </div>
-
-              <p data-tts-source="complete" style="margin-top:16px;">You have now completed the interactive learning content for this module. The next step is to continue into the quiz/transition stage before moving into Module 2.</p>
+              <p data-tts-source="complete" style="margin-top:16px;">You have completed all content for Module 1. Ready for the quiz?</p>
 
               <div class="completion-actions">
                 <a class="btn btn-primary" href="#quiz">Start Quiz</a>
-                <a class="btn btn-secondary" href="/training-ii/modules/module-2/">Go to Next Module</a>
                 <a class="btn btn-secondary" href="#overview">Back to Top</a>
               </div>
             </div>
           </div>
         </section>
-                <section class="section gated-locked" id="quiz" data-stage="quiz">
+        <section class="section gated-locked" id="quiz" data-stage="quiz">
           <div class="section-top">
             <span class="section-pill">Module Quiz</span>
           </div>
           <div class="section-body">
-            <p class="lead">When you are ready, continue into the next stage of the pathway just as in Swimming Training 1.</p>
+            <p class="lead">When you are ready, complete the quiz flow to confirm understanding before moving into Module 2.</p>
             <div class="quiz-embed" style="margin-top:18px;">
-              <div class="quiz-inline">
+              <div class="quiz-inline quiz-inline--preview" id="quizInlineM1">
+                <div class="quiz-inline-progress">
+                  <div class="progress-track"><div class="progress-fill" id="progressFillM1" style="width:100%;"></div></div>
+                  <p class="progress-meta" id="progressTextM1">Quiz completion stage</p>
+                </div>
                 <header class="quiz-hero" data-tts-source="quiz">
                   <span class="tag">Module 1</span>
-                  <h1>Module 1 Transition</h1>
-                  <p>These observations and decisions form the foundation for structured teaching, which will be developed in Module 2.</p>
+                  <h1>Foundations of Aquatic Skill Development</h1>
+                  <p>Use the same embedded quiz flow here so the module always ends in one consistent way across Training I and Training II.</p>
                 </header>
                 <div class="q-card">
-                  <h3>Key Principle</h3>
-                  <p class="q-text">You are not teaching skills in isolation.</p>
-                  <p>You are developing control through every skill.</p>
+                  <h3>Quiz review</h3>
+                  <p class="q-text">Approved quiz questions for Module 1 will sit here.</p>
+                  <p>This review build keeps the final module flow visible now, so the end-of-module experience can be approved before the full quiz content is added.</p>
+                  <p class="preview-note">When the approved quiz is ready, this placeholder can be replaced without changing the completion state or the final module flow.</p>
                 </div>
-                <div class="score-card show" id="scoreCardM1">
-                  <h2>Ready for Module 2</h2>
-                  <p class="score-msg">Continue into the next module to build on the foundations from Module 1.</p>
-                  <a href="/training-ii/modules/module-2/" class="back-link quiz-next-btn">→ Next: Module 2</a>
+                <input type="checkbox" data-stage-check="quiz" id="quizStageCheckM1" hidden />
+                <button type="button" class="btn-submit" id="submitBtnM1">Complete Quiz</button>
+                <div class="score-card" id="scoreCardM1">
+                  <h2>Quiz complete</h2>
+                  <p class="score-value" id="scoreValueM1">Quiz passed</p>
+                  <p class="score-msg" id="scoreMsgM1"></p>
+                  <a href="/training-ii/modules/module-2/" class="back-link quiz-next-btn">Go to Next Module</a>
                 </div>
               </div>
             </div>
@@ -6225,6 +6211,7 @@
       });
     });
   </script>
+  <script src="/shared/module-completion-flow.js"></script>
   <script src="/training-ii/scripts/course-navigation.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -6313,7 +6300,7 @@
         cb.addEventListener('change', function(){
           if(!this.checked) return;
           var stage = this.getAttribute('data-stage-check');
-          if(stage === 'complete') completeModule(MODULE_NUMBER);
+          if(stage === 'complete') saveProgress({ ['module' + MODULE_NUMBER + '_complete']: true });
           else saveProgress({ ['module' + MODULE_NUMBER + '_' + stage]: true });
         });
       });
@@ -6322,7 +6309,7 @@
         cb.addEventListener('change', function(){
           if(!this.checked) return;
           var stage = this.getAttribute('data-stage-check');
-          if(stage === 'complete') completeModule(MODULE_NUMBER);
+          if(stage === 'complete') saveProgress({ ['module' + MODULE_NUMBER + '_complete']: true });
           else saveProgress({ ['module' + MODULE_NUMBER + '_' + stage]: true });
         });
       });
@@ -6340,7 +6327,7 @@
           e.preventDefault();
           quizSec.classList.remove('gated-locked');
           quizSec.classList.add('quiz-visible');
-          completeModule(MODULE_NUMBER);
+          saveProgress({ ['module' + MODULE_NUMBER + '_complete']: true });
           var cb = document.querySelector('.overall-check[data-stage-check="complete"]');
           if(cb){ cb.checked = true; if(cb.closest('.check-item')) cb.closest('.check-item').classList.add('clicked'); }
           window.location.hash = 'quiz';
@@ -6359,190 +6346,47 @@
   </script>
   <script>
   (function(){
-    var total = 8;
-    var correctAnswers = { q1: 'B', q2: 'B', q3: 'B', q4: ['A','B','C'], q5: ['A','B','C'], q6: 'F', q7: 'T' };
     var root = document.getElementById('quizInlineM1');
     if(!root) return;
-    var progressFill = document.getElementById('progressFillM1');
-    var progressText = document.getElementById('progressTextM1');
-    var quizForm = document.getElementById('quizFormM1');
-    var pool8 = document.getElementById('pool8M1');
+    var submitBtn = document.getElementById('submitBtnM1');
+    var quizCheck = document.getElementById('quizStageCheckM1');
     var scoreCard = document.getElementById('scoreCardM1');
     var scoreValue = document.getElementById('scoreValueM1');
     var scoreMsg = document.getElementById('scoreMsgM1');
-    var submitBtn = document.getElementById('submitBtnM1');
-    function countAnswered(){
-      var n = 0;
-      [1,2,3,6,7].forEach(function(i){ if(root.querySelector('input[name="q'+i+'_m1"]:checked')) n++; });
-      if(root.querySelectorAll('input[name="q4_m1"]:checked').length > 0) n++;
-      if(root.querySelectorAll('input[name="q5_m1"]:checked').length > 0) n++;
-      if(root.querySelectorAll('.q-card[data-q="8"] .match-slot .slot-drop .match-chip').length === 3) n++;
-      return n;
-    }
-    function updateProgress(){
-      progressFill.style.width = (countAnswered() / total * 100) + '%';
-      progressText.textContent = countAnswered() + ' of ' + total + ' answered';
-    }
-    quizForm.addEventListener('change', updateProgress);
-    function initMatch(container, poolEl){
-      var slots = container.querySelectorAll('.match-slot');
-      var dragged = null;
-      var selectedChip = null;
-      function clearSelected(){
-        container.querySelectorAll('.match-chip.selected').forEach(function(el){ el.classList.remove('selected'); });
-        selectedChip = null;
-      }
-      function moveChipToSlot(chip, slot){
-        if(!chip || !slot) return;
-        var dropZone = slot.querySelector('.slot-drop');
-        if(!dropZone) return;
-        var existing = dropZone.querySelector('.match-chip');
-        if(existing) poolEl.appendChild(existing);
-        dropZone.appendChild(chip);
-      }
-      function onDragStart(e){
-        dragged = e.target;
-        if(!dragged.classList.contains('match-chip')) return;
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', dragged.dataset.value);
-        dragged.classList.add('dragging');
-      }
-      function onDragEnd(e){ if(e.target.classList.contains('match-chip')) e.target.classList.remove('dragging'); dragged = null; }
-      function onDragOver(e){
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        var slot = e.target.closest('.match-slot');
-        if(slot) slot.classList.add('drag-over');
-        if(e.target.closest('.match-pool')) e.target.closest('.match-pool').classList.add('drag-over');
-      }
-      function onDragLeave(e){
-        var slot = e.target.closest('.match-slot');
-        if(slot && !slot.contains(e.relatedTarget)) slot.classList.remove('drag-over');
-        var p = e.target.closest('.match-pool');
-        if(p && !p.contains(e.relatedTarget)) p.classList.remove('drag-over');
-      }
-      function onDropSlot(e){
-        e.preventDefault();
-        var slot = e.target.closest('.match-slot');
-        slots.forEach(function(s){ s.classList.remove('drag-over'); var dz = s.querySelector('.slot-drop'); if(dz) dz.classList.remove('filled'); });
-        poolEl.classList.remove('drag-over');
-        if(!slot || !dragged) return;
-        var dropZone = slot.querySelector('.slot-drop');
-        if(dropZone.contains(dragged)) return;
-        var existing = dropZone.querySelector('.match-chip');
-        if(existing) poolEl.appendChild(existing);
-        dropZone.appendChild(dragged);
-        slot.classList.add('filled');
-        dropZone.classList.add('filled');
-        updateProgress();
-      }
-      function onDropPool(e){
-        e.preventDefault();
-        if(!dragged || !e.target.closest('.match-pool')) return;
-        slots.forEach(function(s){ s.classList.remove('drag-over','filled'); var dz = s.querySelector('.slot-drop'); if(dz) dz.classList.remove('filled'); });
-        poolEl.classList.remove('drag-over');
-        poolEl.appendChild(dragged);
-        updateProgress();
-      }
-      function setupClickMode(){
-        container.querySelectorAll('.match-chip').forEach(function(chip){
-          chip.setAttribute('tabindex','0');
-          chip.addEventListener('click', function(){
-            var parentDrop = chip.closest('.slot-drop');
-            if(parentDrop){
-              poolEl.appendChild(chip);
-              clearSelected();
-              updateProgress();
-              return;
-            }
-            if(selectedChip === chip){
-              chip.classList.remove('selected');
-              selectedChip = null;
-              return;
-            }
-            clearSelected();
-            selectedChip = chip;
-            chip.classList.add('selected');
-          });
-          chip.addEventListener('keydown', function(e){
-            if(e.key === 'Enter' || e.key === ' '){
-              e.preventDefault();
-              chip.click();
-            }
-          });
+    if(!submitBtn || !quizCheck || !scoreCard) return;
+
+    submitBtn.addEventListener('click', function(){
+      quizCheck.checked = true;
+      quizCheck.dispatchEvent(new Event('change', { bubbles: true }));
+      try {
+        var module1Progress = JSON.parse(localStorage.getItem('swimming_module_1_progress') || '{}');
+        module1Progress.module1_complete = true;
+        module1Progress.module1_quiz = true;
+        module1Progress.module1_completed = true;
+        module1Progress.module2_unlocked = true;
+        localStorage.setItem('swimming_module_1_progress', JSON.stringify(module1Progress));
+      } catch(error) {}
+
+      if(window.clubTrainingCompletion){
+        window.clubTrainingCompletion.renderResultCard({
+          scoreCard: scoreCard,
+          scoreValue: scoreValue,
+          scoreMsg: scoreMsg,
+          passed: true,
+          isFinalModule: false,
+          trainingLabel: 'Swimming Training II',
+          moduleLabel: 'Module 1 - Foundations of Aquatic Skill Development',
+          successMessage: 'You completed the Module 1 quiz flow. Continue into Module 2 when you are ready.',
+          scoreLabel: 'Quiz passed'
         });
-        slots.forEach(function(slot){
-          slot.addEventListener('click', function(){
-            if(!selectedChip) return;
-            moveChipToSlot(selectedChip, slot);
-            clearSelected();
-            updateProgress();
-          });
-        });
+      } else {
+        scoreMsg.textContent = 'You completed the Module 1 quiz flow. Continue into Module 2 when you are ready.';
+        scoreCard.classList.add('show');
       }
-      setupClickMode();
-      container.addEventListener('dragstart', function(e){ if(e.target.classList.contains('match-chip')) onDragStart(e); });
-      container.addEventListener('dragend', function(e){ if(e.target.classList.contains('match-chip')) onDragEnd(e); });
-      slots.forEach(function(slot){
-        var dropZone = slot.querySelector('.slot-drop');
-        dropZone.addEventListener('dragover', onDragOver);
-        dropZone.addEventListener('dragleave', onDragLeave);
-        dropZone.addEventListener('drop', onDropSlot);
-      });
-      poolEl.addEventListener('dragover', onDragOver);
-      poolEl.addEventListener('dragleave', onDragLeave);
-      poolEl.addEventListener('drop', onDropPool);
-    }
-    initMatch(root.querySelector('.q-card[data-q="8"]'), pool8);
-    var attemptCount = 0;
-    function showFeedback(id, correct, msg, showCorrect){
-      var el = document.getElementById('f' + id + 'M1');
-      el.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
-      var text = correct ? msg : (showCorrect ? msg : 'Incorrect. Try again.');
-      el.innerHTML = (correct ? '✓ ' : '✗ ') + text;
-      el.style.display = 'flex';
-    }
-    quizForm.onsubmit = function(e){
-      e.preventDefault();
-      attemptCount++;
-      var score = 0;
-      var results = [];
-      [1,2,3,6,7].forEach(function(i){
-        var v = root.querySelector('input[name="q'+i+'_m1"]:checked');
-        v = v ? v.value : null;
-        var ok = v === correctAnswers['q'+i];
-        if(ok) score++;
-        results.push({ i: i, ok: ok, msg: ok ? 'Correct.' : 'Incorrect. The correct answer is ' + (i<=3 ? correctAnswers['q'+i] : (correctAnswers['q'+i]==='T'?'True':'False')) + '.' });
-      });
-      var q4 = Array.from(root.querySelectorAll('input[name="q4_m1"]:checked')).map(function(c){ return c.value; }).sort().join('');
-      var q4ok = q4 === 'ABC';
-      if(q4ok) score++;
-      results.push({ i: 4, ok: q4ok, msg: q4ok ? 'Correct.' : 'Incorrect. The correct answers are A, B and C.' });
-      var q5 = Array.from(root.querySelectorAll('input[name="q5_m1"]:checked')).map(function(c){ return c.value; }).sort().join('');
-      var q5ok = q5 === 'ABC';
-      if(q5ok) score++;
-      results.push({ i: 5, ok: q5ok, msg: q5ok ? 'Correct.' : 'Incorrect. The correct answers are A, B and C.' });
-      var slots8 = root.querySelectorAll('.q-card[data-q="8"] .match-slot');
-      var q8ok = slots8.length === 3;
-      slots8.forEach(function(slot){
-        var chip = slot.querySelector('.slot-drop .match-chip');
-        if(!chip || chip.dataset.value !== slot.dataset.correct) q8ok = false;
-      });
-      if(q8ok) score++;
-      results.push({ i: 8, ok: q8ok, msg: q8ok ? 'Correct.' : 'Incorrect. Buoyancy → Supports body weight; Resistance → Pushes against movement; Pressure → Surrounds the body.' });
-      var showCorrect = (score === total);
-      results.forEach(function(r){ showFeedback(r.i, r.ok, r.msg, showCorrect); });
-      progressFill.style.width = '100%';
-      progressText.textContent = '8 of 8 answered';
-      scoreValue.textContent = score + '/' + total;
-      scoreMsg.textContent = score === total ? 'Congratulations! Quiz complete. You\'re ready for the next module.' : 'You need all 8 correct to continue to the next module. Try again.';
-      var backLink = root.querySelector('.score-card .back-link');
-      if(backLink) backLink.style.display = score === total ? 'inline-flex' : 'none';
-      scoreCard.classList.add('show');
-      submitBtn.disabled = (score === total);
+
+      submitBtn.disabled = true;
       scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-    updateProgress();
+    });
   })();
   </script>
 </body>

@@ -6,6 +6,7 @@
   <title>clubSENsational Training Module 5 | Using Visual Aids Effectively – PixtoLearn in Action</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+    @import url('/assets/module-completion-flow.css');
 
     :root{
       --blue:#2d84b3;
@@ -3623,11 +3624,10 @@
                   <h3>Module 5 complete</h3>
                 </div>
               </div>
-              <p data-tts-source="complete">You have now completed the interactive learning content for Using Visual Aids Effectively – PixtoLearn in Action. The next step is to complete the module quiz before moving into the next stage of your training.</p>
+              <p data-tts-source="complete">You have completed all content for Module 5. Ready for the quiz?</p>
 
               <div class="completion-actions">
                 <a class="btn btn-primary" href="#quiz">Start Quiz</a>
-                <a class="btn btn-secondary" href="/portal/">Return to Training Portal</a>
                 <a class="btn btn-secondary" href="#overview">Back to Top</a>
               </div>
             </div>
@@ -3746,7 +3746,8 @@
                   <h2>Quiz complete</h2>
                   <p class="score-value" id="scoreValueM5">0/8</p>
                   <p class="score-msg" id="scoreMsgM5"></p>
-                  <a href="/portal/" class="back-link quiz-next-btn">→ Back to Training Portal</a>
+                  <button type="button" data-download-certificate hidden>Download Certificate</button>
+                  <a href="/portal/" class="back-link quiz-next-btn">Return to Training Portal</a>
                 </div>
               </div>
             </div>
@@ -6483,6 +6484,7 @@
       });
     });
   </script>
+  <script src="/shared/module-completion-flow.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     (function(){
@@ -6585,7 +6587,7 @@
             }
             if(!this.checked) return;
             var stage = this.getAttribute('data-stage-check');
-            if(stage === 'complete') completeModule(MODULE_NUMBER);
+            if(stage === 'complete') markComplete('module' + MODULE_NUMBER + '_complete');
             else markComplete('module' + MODULE_NUMBER + '_' + stage);
           });
         });
@@ -6733,12 +6735,37 @@
         results.forEach(function(r){ showFeedback(r.i, r.ok, r.msg, showCorrect); });
         progressFill.style.width = '100%';
         progressText.textContent = '8 of 8 answered';
-        scoreValue.textContent = score + '/' + total;
-        scoreMsg.textContent = score === total ? 'Congratulations! Quiz complete. You\'ve completed this training.' : 'You need all 8 correct to continue to the next module. Try again.';
+        var passed = score === total;
+        scoreValue.textContent = passed ? ('Quiz passed - ' + score + '/' + total) : (score + '/' + total);
+        if(passed){
+          try {
+            var module5Progress = JSON.parse(localStorage.getItem('swimming_module_5_progress') || '{}');
+            module5Progress.module5_complete = true;
+            module5Progress.module5_quiz = true;
+            module5Progress.module5_completed = true;
+            localStorage.setItem('swimming_module_5_progress', JSON.stringify(module5Progress));
+          } catch(error) {}
+        }
         var backLink = root.querySelector('.score-card .back-link');
-        if(backLink) backLink.style.display = score === total ? 'inline-flex' : 'none';
-        scoreCard.classList.add('show');
-        submitBtn.disabled = (score === total);
+        if(backLink) backLink.style.display = passed ? 'inline-flex' : 'none';
+        if(window.clubTrainingCompletion){
+          window.clubTrainingCompletion.renderResultCard({
+            scoreCard: scoreCard,
+            scoreValue: scoreValue,
+            scoreMsg: scoreMsg,
+            passed: passed,
+            isFinalModule: true,
+            trainingLabel: 'Swimming Training I',
+            moduleLabel: 'Module 5 - Using Visual Aids Effectively – PixtoLearn in Action',
+            finalMessage: 'You have completed Swimming Training I. Download the certificate to save the result of your training.',
+            primaryActionText: 'Return to Training Portal',
+            failureMessage: 'You need all 8 correct before completing the training. Review the module and try again.'
+          });
+        } else {
+          scoreMsg.textContent = passed ? 'You have completed Swimming Training I. Download the certificate to save the result of your training.' : 'You need all 8 correct before completing the training. Review the module and try again.';
+          scoreCard.classList.add('show');
+        }
+        submitBtn.disabled = passed;
         scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
       };
       updateProgress();

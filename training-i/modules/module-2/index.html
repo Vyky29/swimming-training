@@ -6,6 +6,7 @@
   <title>clubSENsational Training Module 2 | Understanding the Swimmer's Experience in the Water</title>
   <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+  @import url('/assets/module-completion-flow.css');
 
   :root{
     --blue:#2d84b3;
@@ -4297,11 +4298,10 @@
                   <h3>Module 2 complete</h3>
                 </div>
               </div>
-              <p data-tts-source="complete">You have now completed the interactive learning content for Understanding the Swimmer's Experience in the Water. The next step is to complete the module quiz before moving into the next stage of your training.</p>
+              <p data-tts-source="complete">You have completed all content for Module 2. Ready for the quiz?</p>
 
               <div class="completion-actions">
                 <a class="btn btn-primary" href="#quiz">Start Quiz</a>
-                <a class="btn btn-secondary" href="/training-i/modules/module-3/">Go to Next Module</a>
                 <a class="btn btn-secondary" href="#overview">Back to Top</a>
               </div>
             </div>
@@ -4419,7 +4419,7 @@
                   <h2>Quiz complete</h2>
                   <p class="score-value" id="scoreValueM2">0/8</p>
                   <p class="score-msg" id="scoreMsgM2"></p>
-                  <a href="/training-i/modules/module-3/" class="back-link quiz-next-btn">→ Next: Module 3</a>
+                  <a href="/training-i/modules/module-3/" class="back-link quiz-next-btn">Go to Next Module</a>
                 </div>
               </div>
             </div>
@@ -6790,6 +6790,7 @@
       });
     });
   </script>
+  <script src="/shared/module-completion-flow.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     (function(){
@@ -6892,7 +6893,7 @@
             }
             if(!this.checked) return;
             var stage = this.getAttribute('data-stage-check');
-            if(stage === 'complete') completeModule(MODULE_NUMBER);
+            if(stage === 'complete') markComplete('module' + MODULE_NUMBER + '_complete');
             else markComplete('module' + MODULE_NUMBER + '_' + stage);
           });
         });
@@ -7094,12 +7095,37 @@
         results.forEach(function(r){ showFeedback(r.i, r.ok, r.msg, showCorrect); });
         progressFill.style.width = '100%';
         progressText.textContent = '8 of 8 answered';
-        scoreValue.textContent = score + '/' + total;
-        scoreMsg.textContent = score === total ? 'Congratulations! Quiz complete. You\'re ready for the next module.' : 'You need all 8 correct to continue to the next module. Try again.';
+        var passed = score === total;
+        scoreValue.textContent = passed ? ('Quiz passed - ' + score + '/' + total) : (score + '/' + total);
+        if(passed){
+          try {
+            var module2Progress = JSON.parse(localStorage.getItem('swimming_module_2_progress') || '{}');
+            module2Progress.module2_complete = true;
+            module2Progress.module2_quiz = true;
+            module2Progress.module2_completed = true;
+            module2Progress.module3_unlocked = true;
+            localStorage.setItem('swimming_module_2_progress', JSON.stringify(module2Progress));
+          } catch(error) {}
+        }
         var backLink = root.querySelector('.score-card .back-link');
-        if(backLink) backLink.style.display = score === total ? 'inline-flex' : 'none';
-        scoreCard.classList.add('show');
-        submitBtn.disabled = (score === total);
+        if(backLink) backLink.style.display = passed ? 'inline-flex' : 'none';
+        if(window.clubTrainingCompletion){
+          window.clubTrainingCompletion.renderResultCard({
+            scoreCard: scoreCard,
+            scoreValue: scoreValue,
+            scoreMsg: scoreMsg,
+            passed: passed,
+            isFinalModule: false,
+            trainingLabel: 'Swimming Training I',
+            moduleLabel: "Module 2 - Understanding the Swimmer's Experience in the Water",
+            successMessage: 'You passed the quiz for Module 2. Continue into Module 3 when you are ready.',
+            failureMessage: 'You need all 8 correct before moving on. Review the module and try again.'
+          });
+        } else {
+          scoreMsg.textContent = passed ? 'You passed the quiz for Module 2. Continue into Module 3 when you are ready.' : 'You need all 8 correct before moving on. Review the module and try again.';
+          scoreCard.classList.add('show');
+        }
+        submitBtn.disabled = passed;
         scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
       };
       updateProgress();

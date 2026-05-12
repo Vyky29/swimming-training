@@ -12,27 +12,27 @@
     },
     module1: {
       file: '/training-ii/modules/module-1/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz']
     },
     module2: {
       file: '/training-ii/modules/module-2/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz']
     },
     module3: {
       file: '/training-ii/modules/module-3/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz']
     },
     module4: {
       file: '/training-ii/modules/module-4/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz']
     },
     module5: {
       file: '/training-ii/modules/module-5/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz']
     },
     module6: {
       file: '/training-ii/modules/module-6/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap']
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz']
     }
   };
 
@@ -170,7 +170,7 @@
     }
 
     return {
-      href: COURSE_MODULES.module6.file + '#complete',
+      href: COURSE_MODULES.module6.file + '#quiz',
       label: 'Review Completion'
     };
   }

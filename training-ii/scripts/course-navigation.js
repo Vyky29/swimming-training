@@ -20,42 +20,42 @@
       id: 'module1',
       title: 'Module 1 - Foundations of Aquatic Development',
       file: '/training-ii/modules/module-1/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz'],
       available: true
     },
     module2: {
       id: 'module2',
       title: 'Module 2 - Guiding Learning Through Scaffolding and the CS Learning Principle',
       file: '/training-ii/modules/module-2/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz'],
       available: true
     },
     module3: {
       id: 'module3',
       title: 'Module 3 - Early Aquatic Experiences',
       file: '/training-ii/modules/module-3/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz'],
       available: true
     },
     module4: {
       id: 'module4',
       title: 'Module 4 - Core Aquatic Skills',
       file: '/training-ii/modules/module-4/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz'],
       available: true
     },
     module5: {
       id: 'module5',
       title: 'Module 5 - Propulsion Development in the Water',
       file: '/training-ii/modules/module-5/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz'],
       available: true
     },
     module6: {
       id: 'module6',
       title: 'Module 6 - Swimming Strokes and Advanced Techniques',
       file: '/training-ii/modules/module-6/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'],
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz'],
       available: true
     }
   };
@@ -452,7 +452,6 @@
     const quizSection = document.getElementById('quiz');
     if(quizSection){
       quizSection.classList.remove('gated-locked');
-      quizSection.classList.add('quiz-visible');
     }
   }
 
@@ -697,7 +696,7 @@
 
       input.addEventListener('change', function(){
         const sectionId = input.getAttribute('data-stage-check');
-        if(!sectionId || sectionId === 'complete' || sectionId === 'quiz') return;
+        if(!sectionId || sectionId === 'complete') return;
 
         const liveState = loadState();
         if(input.checked){
