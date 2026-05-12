@@ -261,6 +261,9 @@
     if(moduleId === 'introduction') return !!state.introductionCompleted;
     const config = COURSE_MODULES[moduleId];
     if(!config) return false;
+    if(Array.isArray(state.completedModules) && state.completedModules.indexOf(moduleId) >= 0){
+      return true;
+    }
     const completed = new Set(state.completedSections[moduleId] || []);
     return config.sections.every(function(sectionId){
       return completed.has(sectionId);
@@ -417,6 +420,31 @@
       link.href = '/training-ii/';
       link.textContent = '← Back to Training Dashboard';
     });
+  }
+
+  function applyReviewModeOverrides(pageId){
+    if(!REVIEW_MODE || pageId === 'introduction') return;
+
+    document.body.classList.add('training-review-mode');
+
+    document.querySelectorAll('.gated-locked').forEach(function(section){
+      section.classList.remove('gated-locked');
+    });
+
+    document.querySelectorAll('.section-lock-banner, .stage-helper, .dwell-countdown, [data-lock-box]').forEach(function(element){
+      element.setAttribute('hidden', 'hidden');
+    });
+
+    document.querySelectorAll('input[data-stage-check], #completeStageCheck').forEach(function(input){
+      input.disabled = false;
+      input.removeAttribute('data-dwell-required');
+    });
+
+    const quizSection = document.getElementById('quiz');
+    if(quizSection){
+      quizSection.classList.remove('gated-locked');
+      quizSection.classList.add('quiz-visible');
+    }
   }
 
   function syncCourseProgressUi(state, pageId){
@@ -666,6 +694,13 @@
         if(input.checked){
           markSectionComplete(moduleId, sectionId, liveState);
         } else {
+          liveState.completedSections[moduleId] = (liveState.completedSections[moduleId] || []).filter(function(entry){
+            return entry !== sectionId;
+          });
+          liveState.completedModules = (liveState.completedModules || []).filter(function(entry){
+            return entry !== moduleId;
+          });
+          liveState.courseCompleted = liveState.completedModules.indexOf('module6') >= 0;
           saveState(liveState);
         }
 
@@ -735,6 +770,7 @@
       syncModuleStageChecks(pageId, state);
       syncNextModuleButtons(pageId, state);
       backfillCheckedStagesToCourseState(pageId);
+      applyReviewModeOverrides(pageId);
     }
 
     syncJourneyItems(state, pageId);
@@ -749,6 +785,7 @@
         backfillCheckedStagesToCourseState(pageId);
         syncModuleStageChecks(pageId, liveState);
         syncNextModuleButtons(pageId, liveState);
+        applyReviewModeOverrides(pageId);
       }
     }, 350);
 
@@ -762,6 +799,7 @@
         backfillCheckedStagesToCourseState(pageId);
         syncModuleStageChecks(pageId, liveState);
         syncNextModuleButtons(pageId, liveState);
+        applyReviewModeOverrides(pageId);
       }
     });
   }

@@ -3526,31 +3526,6 @@
               </div>
             </div>
 
-            <p class="lead">Module Blocks Overview:</p>
-            <div class="grid-2 block-intro-cards">
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">1</div>
-                <h4>Block 1 - Aquatic Skills vs Structured Swimming</h4>
-                <ul>
-                  <li>Understanding swimming as functional interaction with water rather than structured swimming performance.</li>
-                </ul>
-              </div>
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">2</div>
-                <h4>Block 2 - Key Areas of Aquatic Development</h4>
-                <ul>
-                  <li>Understanding how different areas influence development and progression.</li>
-                </ul>
-              </div>
-              <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0">
-                <div class="card-icon">3</div>
-                <h4>Block 3 - Independence in the Water</h4>
-                <ul>
-                  <li>Understanding how independence develops through control, recovery and reduced support.</li>
-                </ul>
-              </div>
-            </div>
-
             <div class="stage-helper" id="outcomesHelper">Complete all learning outcomes to unlock the stage completion check.</div>
 
             <label class="check-item clickable-progress">
@@ -4216,6 +4191,7 @@
 
     const stageOrder = ['journey','outcomes','block1','block2','block3','recap','complete'];
     const stageChecks = {};
+    const REVIEW_MODE = true;
     var updateOutcomeStateRef = null;
     document.querySelectorAll('.overall-check').forEach(input => {
       stageChecks[input.dataset.stageCheck] = input;
@@ -4281,6 +4257,11 @@
     }
   
     function setupDwellTime(){
+      if(REVIEW_MODE){
+        enableReviewMode();
+        return;
+      }
+
       var stagesWithDwell = ['journey','outcomes','block1','block2','block3','recap'];
       stagesWithDwell.forEach(function(stage){
         var section = document.getElementById(stage);
@@ -4383,6 +4364,30 @@
       const section = document.getElementById(stageId);
       if(section){
         section.classList.remove('gated-locked');
+      }
+    }
+
+    function enableReviewMode(){
+      if(!REVIEW_MODE) return;
+
+      ['outcomes','block1','block2','block3','recap','complete','quiz'].forEach(unlockStage);
+
+      Object.keys(stageChecks).forEach(function(stage){
+        if(stageChecks[stage]){
+          stageChecks[stage].disabled = false;
+          stageChecks[stage].removeAttribute('data-dwell-required');
+        }
+        sectionDwellElapsed[stage] = true;
+      });
+
+      document.querySelectorAll('.section-lock-banner, .stage-helper, .dwell-countdown, [data-lock-box]').forEach(function(element){
+        element.setAttribute('hidden', 'hidden');
+      });
+
+      var quizSection = document.getElementById('quiz');
+      if(quizSection){
+        quizSection.classList.remove('gated-locked');
+        quizSection.classList.add('quiz-visible');
       }
     }
   
@@ -5800,6 +5805,7 @@
       const feedback = document.querySelector(`[data-feedback="${block}"]`);
       const checkbox = document.querySelector(`[data-check-for="${block}"]`);
       if(!gate || !feedback || !checkbox) return;
+      if(REVIEW_MODE) checkbox.disabled = false;
 
       function setGood(message){
         feedback.textContent = message;
@@ -5810,6 +5816,7 @@
       function setWarn(message){
         feedback.textContent = message;
         feedback.className = 'feedback show warn';
+        if(REVIEW_MODE) return;
         checkbox.disabled = true;
         checkbox.checked = false;
         checkbox.closest('.check-item')?.classList.remove('clicked');
@@ -5994,6 +6001,21 @@
       const helper = document.getElementById('outcomesHelper');
       const outcomesCheck = document.getElementById('outcomesCheck');
       const visited = new Set();
+
+      if(REVIEW_MODE){
+        if(helper) helper.setAttribute('hidden', 'hidden');
+        if(outcomesCheck) outcomesCheck.disabled = false;
+
+        outcomeItems.forEach((item, index) => {
+          item.addEventListener('click', () => {
+            visited.add(index);
+            item.classList.add('clicked');
+          });
+        });
+
+        updateOutcomeStateRef = function(){};
+        return;
+      }
   
       function updateOutcomeState(){
         const total = outcomeItems.length;
@@ -6219,6 +6241,7 @@
     setupLearningOutcomes();
     setupSpeech();
     setupModal();
+    enableReviewMode();
     updateProgress();
     document.querySelectorAll('.btn-save-progress').forEach(function(btn){
       btn.addEventListener('click', function(){
