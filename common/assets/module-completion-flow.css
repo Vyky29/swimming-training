@@ -1,26 +1,71 @@
-/* Shared completion cards for Training I and II module endings (premium: waves + depth). */
+/* Shared completion: premium transition panel (hero-linked waves; no LMS white card). */
+
+/* Strip outer white section chrome for #complete only (beats page .section via specificity). */
+.portal .main .content > section#complete.section{
+  background:transparent;
+  border-color:transparent;
+  box-shadow:none;
+  overflow:hidden;
+  border-radius:28px;
+}
+
+.portal .main .content > section#complete.section > .section-top{
+  display:none;
+}
+
+.portal .main .content > section#complete.section > .section-body{
+  padding:0;
+}
+
+.portal .main .content > section#complete.section > .section-body > .section-lock-banner{
+  margin:14px 24px 0;
+}
+
+.portal .main .content > section#complete.section > .section-body > .section-lock-banner + .completion,
+.portal .main .content > section#complete.section > .section-body > .section-lock-banner + .completion-box{
+  margin-top:12px;
+}
+
+.portal .main .content > section#complete.section > .section-body > .completion,
+.portal .main .content > section#complete.section > .section-body > .completion-box{
+  width:100%;
+  max-width:none;
+  margin-left:0;
+  margin-right:0;
+  border-radius:0;
+}
+
 #complete .completion,
 #complete .completion-box,
 #keyideas .completion{
   position:relative;
   isolation:isolate;
   overflow:hidden;
-  border-radius:30px;
-  padding:32px 34px;
+  border-radius:0;
+  padding:clamp(28px,4vw,44px) clamp(22px,4vw,40px);
+  width:100%;
+  max-width:none;
+  box-sizing:border-box;
   background:
-    radial-gradient(ellipse 72% 58% at 12% 18%,rgba(255,255,255,.14) 0%,transparent 52%),
-    radial-gradient(ellipse 58% 48% at 88% 22%,rgba(137,181,193,.22) 0%,transparent 55%),
-    linear-gradient(135deg,#2d84b3 0%,#89b5c1 72%,rgba(255,255,255,.92) 130%);
+    radial-gradient(ellipse 78% 62% at 12% 16%,rgba(255,255,255,.12) 0%,transparent 50%),
+    radial-gradient(ellipse 62% 52% at 88% 20%,rgba(137,181,193,.24) 0%,transparent 58%),
+    radial-gradient(ellipse 90% 85% at 50% 118%,rgba(29,111,153,.32) 0%,transparent 48%),
+    linear-gradient(165deg,#1d6f99 0%,#246f9e 22%,#2d84b3 52%,#3a93b8 78%,#2d84b3 100%);
   color:#fff;
   box-shadow:
-    0 22px 48px rgba(18,50,71,.14),
-    0 1px 0 rgba(255,255,255,.12) inset;
+    inset 0 1px 0 rgba(255,255,255,.14),
+    inset 0 -48px 90px rgba(22,50,71,.14);
   text-align:center;
 }
 
 #keyideas .completion{
-  margin-top:28px;
-  padding-top:32px;
+  margin-top:26px;
+  margin-left:-28px;
+  margin-right:-28px;
+  margin-bottom:0;
+  width:calc(100% + 56px);
+  max-width:none;
+  border-radius:0 0 22px 22px;
   border-top:0;
 }
 
@@ -52,7 +97,7 @@
   background-size:1200px 100%;
   mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.38) 12%,#000 34%,#000 100%);
   -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.38) 12%,#000 34%,#000 100%);
-  animation:completionWaveB 38s linear infinite reverse;
+  animation:completionWaveB 46s linear infinite reverse;
   will-change:background-position;
 }
 
@@ -78,7 +123,7 @@
   background-size:1200px 100%;
   mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.28) 8%,#000 28%,#000 100%);
   -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.28) 8%,#000 28%,#000 100%);
-  animation:completionWaveA 26s linear infinite;
+  animation:completionWaveA 34s linear infinite;
   will-change:background-position;
 }
 
@@ -100,15 +145,15 @@
   #complete .completion:hover .completion-atmosphere::after,
   #complete .completion-box:hover > .completion-atmosphere::after,
   #keyideas .completion:hover > .completion-atmosphere::after{
-    opacity:.38;
-    animation-duration:17s;
+    opacity:.36;
+    animation-duration:22s;
   }
 
   #complete .completion:hover .completion-atmosphere::before,
   #complete .completion-box:hover > .completion-atmosphere::before,
   #keyideas .completion:hover > .completion-atmosphere::before{
-    opacity:.22;
-    animation-duration:28s;
+    opacity:.2;
+    animation-duration:34s;
   }
 }
 
@@ -132,6 +177,49 @@
   z-index:0;
 }
 
+#complete .completion .completion-pathway,
+#complete .completion-box .completion-pathway,
+#keyideas .completion .completion-pathway{
+  margin:0 auto;
+  padding:0;
+  max-width:min(38rem,100%);
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.58);
+  line-height:1.55;
+}
+
+#complete .completion .completion-pathway__sep,
+#complete .completion-box .completion-pathway__sep,
+#keyideas .completion .completion-pathway__sep{
+  display:inline-block;
+  padding:0 .28em;
+  font-weight:600;
+  opacity:.42;
+}
+
+#complete .completion .completion-pathway__quiz,
+#complete .completion-box .completion-pathway__quiz,
+#keyideas .completion .completion-pathway__quiz{
+  color:rgba(255,255,255,.95);
+  letter-spacing:.16em;
+  text-shadow:0 0 20px rgba(137,181,193,.5);
+}
+
+#complete .completion .completion-pathway::after,
+#complete .completion-box .completion-pathway::after,
+#keyideas .completion .completion-pathway::after{
+  content:"";
+  display:block;
+  width:min(220px,52%);
+  height:1px;
+  margin:12px auto 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.32),transparent);
+  opacity:.72;
+}
+
 #complete .completion h3,
 #complete .completion-box h3,
 #keyideas .completion h3,
@@ -143,6 +231,13 @@
   font-size:clamp(26px,3vw,36px);
   font-weight:800;
   line-height:1.08;
+  text-wrap:balance;
+}
+
+#complete .completion .completion-pathway + .completion-title,
+#complete .completion-box .completion-pathway + .completion-title,
+#keyideas .completion .completion-pathway + .completion-title{
+  margin-top:8px;
 }
 
 #complete .completion p,
@@ -162,6 +257,11 @@
   margin-top:18px;
 }
 
+#complete .completion .completion-inner > .recap-stack + .completion-body,
+#complete .completion-box > .completion-inner > .recap-stack + .completion-body{
+  margin-top:22px;
+}
+
 #complete .completion .completion-body .completion-lead,
 #complete .completion-box .completion-body .completion-lead,
 #keyideas .completion .completion-body .completion-lead{
@@ -175,31 +275,14 @@
   color:rgba(255,255,255,.9);
 }
 
-#complete .completion .completion-badge,
-#complete .completion-box .completion-badge,
-#keyideas .completion .completion-badge{
-  display:grid;
-  place-items:center;
-  width:78px;
-  height:78px;
-  border-radius:999px;
-  background:rgba(255,255,255,.16);
-  border:2px solid rgba(255,255,255,.26);
-  color:#fff;
-  font-size:34px;
-  font-weight:800;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
-}
-
 #complete .completion-inner > .recap-stack,
 #complete .completion-box > .completion-inner > .recap-stack{
-  margin-top:20px;
+  margin-top:18px;
 }
 
 #complete .completion .section-title-row,
 #complete .completion-box .section-title-row,
-#keyideas .completion .section-title-row,
-#complete .completion .completion-heading-row{
+#keyideas .completion .section-title-row{
   display:flex;
   align-items:center;
   justify-content:center;
@@ -207,26 +290,34 @@
   margin-bottom:0;
 }
 
-#complete .completion .completion-actions .btn-primary,
-#complete .completion-box .completion-actions .btn-primary,
-#keyideas .completion .completion-actions .btn-primary{
-  border:1px solid rgba(255,255,255,.34);
+#complete .completion .completion-actions .btn.btn-primary,
+#complete .completion-box .completion-actions .btn.btn-primary,
+#keyideas .completion .completion-actions .btn.btn-primary{
+  border:1px solid rgba(255,255,255,.38);
+  background:rgba(255,255,255,.12);
+  color:#fff;
   box-shadow:
-    0 12px 32px rgba(18,50,71,.24),
-    0 1px 0 rgba(255,255,255,.32) inset;
-  transition:transform .26s ease,box-shadow .3s ease,filter .28s ease,background .28s ease;
+    0 12px 32px rgba(18,50,71,.22),
+    0 0 0 1px rgba(255,255,255,.06),
+    0 1px 0 rgba(255,255,255,.34) inset;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  transition:transform .26s ease,box-shadow .3s ease,filter .28s ease,background .28s ease,border-color .28s ease;
 }
 
 @media (hover:hover){
-  #complete .completion .completion-actions .btn-primary:hover,
-  #complete .completion-box .completion-actions .btn-primary:hover,
-  #keyideas .completion .completion-actions .btn-primary:hover{
+  #complete .completion .completion-actions .btn.btn-primary:hover,
+  #complete .completion-box .completion-actions .btn.btn-primary:hover,
+  #keyideas .completion .completion-actions .btn.btn-primary:hover{
     transform:translateY(-2px);
+    background:rgba(255,255,255,.2);
+    border-color:rgba(255,255,255,.52);
     box-shadow:
-      0 16px 38px rgba(18,50,71,.3),
-      0 0 0 1px rgba(255,255,255,.14),
-      0 1px 0 rgba(255,255,255,.38) inset;
-    filter:brightness(1.05);
+      0 16px 40px rgba(18,50,71,.28),
+      0 0 22px rgba(137,181,193,.22),
+      0 0 0 1px rgba(255,255,255,.1),
+      0 1px 0 rgba(255,255,255,.42) inset;
+    filter:brightness(1.04);
   }
 
   #complete .completion .completion-actions .btn-secondary:hover,
@@ -256,9 +347,9 @@
     filter:none;
   }
 
-  #complete .completion .completion-actions .btn-primary:hover,
-  #complete .completion-box .completion-actions .btn-primary:hover,
-  #keyideas .completion .completion-actions .btn-primary:hover,
+  #complete .completion .completion-actions .btn.btn-primary:hover,
+  #complete .completion-box .completion-actions .btn.btn-primary:hover,
+  #keyideas .completion .completion-actions .btn.btn-primary:hover,
   #complete .completion .completion-actions .btn-secondary:hover,
   #complete .completion-box .completion-actions .btn-secondary:hover,
   #keyideas .completion .completion-actions .btn-secondary:hover{
@@ -298,13 +389,16 @@
   background:rgba(255,255,255,.14);
   color:#fff;
   border-color:rgba(255,255,255,.28);
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
 }
 
 #complete .completion .completion-actions .btn-secondary:hover,
 #complete .completion-box .completion-actions .btn-secondary:hover,
 #keyideas .completion .completion-actions .btn-secondary:hover{
-  background:rgba(255,255,255,.2);
+  background:rgba(255,255,255,.22);
   border-color:rgba(255,255,255,.46);
+  color:#fff;
 }
 
 #complete .completion .completion-note,
@@ -550,16 +644,20 @@
   #complete .completion-box,
   #keyideas .completion,
   #quiz .score-card.module-result-card{
-    padding:24px 20px;
-    border-radius:24px;
+    padding:24px 18px;
+    border-radius:0;
   }
 
-  #complete .completion .completion-badge,
-  #complete .completion-box .completion-badge,
-  #keyideas .completion .completion-badge{
-    width:64px;
-    height:64px;
-    font-size:28px;
+  #keyideas .completion{
+    border-radius:0 0 18px 18px;
+  }
+
+  #complete .completion .completion-pathway,
+  #complete .completion-box .completion-pathway,
+  #keyideas .completion .completion-pathway{
+    font-size:.62rem;
+    letter-spacing:.1em;
+    line-height:1.6;
   }
 
   #complete .completion p,
