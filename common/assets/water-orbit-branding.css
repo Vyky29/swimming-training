@@ -1,6 +1,8 @@
 /**
- * clubSENsational � Water orbit identity layer
+ * clubSENsational - Water orbit identity layer
  * Calm aquatic motion (CSS only). Respects prefers-reduced-motion.
+ * Hero uses soft rotating light (conic swell) plus blurred masses orbiting the mark
+ * (water-like, not sharp tech particles).
  */
 
 :root{
@@ -12,6 +14,9 @@
 }
 
 @media (prefers-reduced-motion:reduce){
+  .water-orbit__flow,
+  .water-orbit__swell,
+  .water-orbit__lump,
   .water-orbit__ring,
   .progress-summary-fill,
   .portal .progress-fill,
@@ -29,13 +34,13 @@
 }
 
 @keyframes water-orbit-breathe{
-  0%,100%{opacity:0.32;transform:translate(-50%,-50%) scale(1);}
-  50%{opacity:0.48;transform:translate(-50%,-50%) scale(1.035);}
+  0%,100%{opacity:0.28;transform:translate(-50%,-50%) scale(1);}
+  50%{opacity:0.5;transform:translate(-50%,-50%) scale(1.045);}
 }
 
 @keyframes water-orbit-breathe-slow{
-  0%,100%{opacity:0.22;transform:translate(-50%,-50%) scale(1);}
-  50%{opacity:0.38;transform:translate(-50%,-50%) scale(1.02);}
+  0%,100%{opacity:0.2;transform:translate(-50%,-50%) scale(1);}
+  50%{opacity:0.4;transform:translate(-50%,-50%) scale(1.028);}
 }
 
 @keyframes water-progress-flow{
@@ -44,9 +49,28 @@
 }
 
 @keyframes water-ripple-expand{
-  0%{transform:translate(-50%,-50%) scale(0.98);opacity:0.35;}
-  70%{opacity:0.12;}
-  100%{transform:translate(-50%,-50%) scale(1.12);opacity:0;}
+  0%{transform:translate(-50%,-50%) scale(0.96);opacity:0.38;}
+  70%{opacity:0.1;}
+  100%{transform:translate(-50%,-50%) scale(1.14);opacity:0;}
+}
+
+@keyframes water-swell-spin{
+  to{transform:rotate(360deg);}
+}
+
+@keyframes water-lump-orbit-1{
+  from{transform:rotate(0deg) translateX(min(118px,31vw)) rotate(0deg);}
+  to{transform:rotate(360deg) translateX(min(118px,31vw)) rotate(-360deg);}
+}
+
+@keyframes water-lump-orbit-2{
+  from{transform:rotate(40deg) translateX(min(148px,38vw)) rotate(-40deg);}
+  to{transform:rotate(400deg) translateX(min(148px,38vw)) rotate(-400deg);}
+}
+
+@keyframes water-lump-orbit-3{
+  from{transform:rotate(-20deg) translateX(min(92px,26vw)) rotate(20deg);}
+  to{transform:rotate(340deg) translateX(min(92px,26vw)) rotate(-340deg);}
 }
 
 /* ---- Logo frame (hero + sidebar) ---- */
@@ -59,6 +83,101 @@
   margin-inline:auto;
 }
 
+/* Slow rotating light on water (hero only) */
+.water-orbit--hero .water-orbit__flow{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(158%,560px);
+  height:min(158%,560px);
+  max-width:560px;
+  max-height:560px;
+  aspect-ratio:1;
+  z-index:0;
+  pointer-events:none;
+}
+
+.water-orbit--hero .water-orbit__swell{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  mix-blend-mode:soft-light;
+  transform-origin:center center;
+}
+
+.water-orbit--hero .water-orbit__swell--1{
+  opacity:0.44;
+  background:conic-gradient(
+    from 0deg,
+    transparent 0deg 28deg,
+    rgba(255,255,255,0.24) 52deg,
+    transparent 96deg 132deg,
+    rgba(137,181,193,0.38) 188deg,
+    transparent 248deg 292deg,
+    rgba(255,255,255,0.14) 322deg,
+    transparent 360deg
+  );
+  animation:water-swell-spin 76s linear infinite;
+  -webkit-mask:radial-gradient(closest-side,transparent 50%,#000 52%,#000 88%,transparent 90%);
+  mask:radial-gradient(closest-side,transparent 50%,#000 52%,#000 88%,transparent 90%);
+}
+
+.water-orbit--hero .water-orbit__swell--2{
+  opacity:0.34;
+  background:conic-gradient(
+    from 110deg,
+    transparent 0deg 64deg,
+    rgba(255,255,255,0.2) 102deg,
+    transparent 168deg 220deg,
+    rgba(255,255,255,0.12) 280deg,
+    transparent 360deg
+  );
+  animation:water-swell-spin 104s linear infinite reverse;
+  -webkit-mask:radial-gradient(closest-side,transparent 56%,#000 58%,#000 84%,transparent 86%);
+  mask:radial-gradient(closest-side,transparent 56%,#000 58%,#000 84%,transparent 86%);
+}
+
+/* Soft blurred masses orbiting (water eddies, not hard dots) */
+.water-orbit--hero .water-orbit__lump{
+  position:absolute;
+  left:50%;
+  top:50%;
+  z-index:2;
+  pointer-events:none;
+  border-radius:50%;
+  mix-blend-mode:screen;
+  filter:blur(11px);
+  opacity:0.48;
+  transform-origin:center center;
+}
+
+.water-orbit--hero .water-orbit__lump--1{
+  width:46px;
+  height:28px;
+  margin:-14px 0 0 -23px;
+  background:linear-gradient(125deg,rgba(255,255,255,0.85),rgba(137,181,193,0.55));
+  animation:water-lump-orbit-1 54s linear infinite;
+}
+
+.water-orbit--hero .water-orbit__lump--2{
+  width:38px;
+  height:38px;
+  margin:-19px 0 0 -19px;
+  background:radial-gradient(circle at 35% 35%,rgba(255,255,255,0.75),rgba(45,132,179,0.35) 62%,transparent 72%);
+  opacity:0.4;
+  animation:water-lump-orbit-2 72s linear infinite;
+}
+
+.water-orbit--hero .water-orbit__lump--3{
+  width:52px;
+  height:22px;
+  margin:-11px 0 0 -26px;
+  background:linear-gradient(90deg,rgba(255,255,255,0.55),rgba(255,255,255,0.1),rgba(137,181,193,0.45));
+  opacity:0.36;
+  animation:water-lump-orbit-3 63s linear infinite;
+}
+
 .water-orbit__ring{
   position:absolute;
   left:50%;
@@ -69,44 +188,54 @@
   box-sizing:border-box;
   aspect-ratio:1;
   border:1px solid var(--water-ring-hero);
+  z-index:1;
 }
 
 .water-orbit--hero .water-orbit__ring--a{
   width:min(118%,420px);
   max-width:420px;
-  animation:water-orbit-breathe 16s ease-in-out infinite;
+  animation:water-orbit-breathe 14s ease-in-out infinite;
 }
 
 .water-orbit--hero .water-orbit__ring--b{
   width:min(138%,480px);
   max-width:480px;
   border-color:var(--water-ring-hero-soft);
-  animation:water-orbit-breathe 22s ease-in-out infinite reverse;
+  animation:water-orbit-breathe 20s ease-in-out infinite reverse;
 }
 
 .water-orbit--hero .water-orbit__ring--c{
   width:min(104%,360px);
   max-width:360px;
   border-color:rgba(255,255,255,0.14);
-  animation:water-orbit-breathe-slow 13s ease-in-out infinite;
+  animation:water-orbit-breathe-slow 12s ease-in-out infinite;
 }
 
 .water-orbit--hero .water-orbit__ring--d{
   width:min(152%,520px);
   max-width:520px;
   border-color:transparent;
-  box-shadow:0 0 0 1px rgba(255,255,255,0.08);
-  animation:water-ripple-expand 26s ease-out infinite;
-  animation-delay:-4s;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.09);
+  animation:water-ripple-expand 24s ease-out infinite;
+  animation-delay:-5s;
 }
 
 .water-orbit__logo{
   position:relative;
-  z-index:2;
+  z-index:4;
   display:block;
 }
 
-/* Sidebar / compact: slower, tighter */
+/* Hero logo: soften square edges / fringe on non-transparent PNGs */
+.water-orbit--hero .water-orbit__logo{
+  border-radius:50%;
+  overflow:hidden;
+  box-shadow:
+    0 0 0 5px rgba(255,255,255,0.18),
+    0 10px 36px rgba(23,50,78,0.2);
+}
+
+/* Sidebar / compact: slower rings only (no lumps / swell) */
 .water-orbit--compact .water-orbit__ring--a{
   width:118%;
   max-width:220px;
@@ -129,6 +258,11 @@
 }
 
 .water-orbit--compact .water-orbit__ring--d{
+  display:none;
+}
+
+.water-orbit--compact .water-orbit__flow,
+.water-orbit--compact .water-orbit__lump{
   display:none;
 }
 
