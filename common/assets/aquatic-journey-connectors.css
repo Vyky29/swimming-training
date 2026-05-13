@@ -1,12 +1,12 @@
 /**
  * Aquatic journey connectors
  * - #inside-module: static subtle paths only (no progression animation).
- * - #journey: 3-layer pathway ï¿½ base spine (thin) + completed wash (static blue) +
- *   active flow (::after) ONLY on the segment between previous and current module,
- *   with calm partial motion (no full-line loop).
+ * - #journey: base spine (::before) + active flow (::after) ONLY on the segment
+ *   between previous and current module, with calm partial motion (no full-line loop).
+ *   No rectangular track wash — timeline floats on journey-wrap atmosphere only.
  */
 
-/* ========== Shared SVG (blue only) ï¿½ thin base path ========== */
+/* ========== Shared SVG (blue only) — thin base path ========== */
 
 .portal .main .content #journey .journey-track::before,
 .portal .main .content #inside-module .journey-track::before{
@@ -33,27 +33,20 @@
   animation:none;
 }
 
-/* Layer 1 ï¿½ Journey base: calm full spine */
+/* Journey base spine */
 .portal .main .content #journey .journey-track::before{
   opacity:.92;
   filter:drop-shadow(0 1px 0 rgba(255,255,255,.18));
   animation:none;
 }
 
-/* Layer 2 ï¿½ static ï¿½completed memoryï¿½ wash (rectangular; stays off #inside-module) */
+/* #journey: no track fill — avoids nested “card behind timeline” */
 .portal .main .content #journey .journey-track{
   position:relative;
-  --jx-wash-end:0%;
-  background-image:linear-gradient(
-    90deg,
-    rgba(45,132,179,.10) 0%,
-    rgba(110,168,198,.065) var(--jx-wash-end),
-    transparent 100%
-  );
-  background-repeat:no-repeat;
+  background:none;
 }
 
-/* Layer 3 ï¿½ active segment only (previous ? current), thicker stroke, partial motion */
+/* Active segment only (previous ? current), thicker stroke, partial motion */
 .portal .main .content #journey .journey-track::after{
   content:"";
   position:absolute;
@@ -67,7 +60,7 @@
   border-radius:0;
   opacity:0;
   background-color:transparent;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.64' stroke-width='1.42' stroke-linecap='round' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.54' stroke-width='1.04' stroke-linecap='round' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.68' stroke-width='1.48' stroke-linecap='round' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.56' stroke-width='1.08' stroke-linecap='round' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
   background-repeat:repeat-x;
   background-size:1200px 100%;
   background-position:0 50%;
@@ -76,55 +69,40 @@
 }
 
 @keyframes journeyFlowMicroH{
-  0%,100%{ background-position:0 50%; opacity:.9; }
-  50%{ background-position:-20px 50%; opacity:.97; }
+  0%,100%{ background-position:0 50%; opacity:.88; }
+  50%{ background-position:-20px 50%; opacity:.98; }
 }
 
 @keyframes journeyFlowMicroV{
-  0%,100%{ background-position:50% 0; opacity:.9; }
-  50%{ background-position:50% -18px; opacity:.97; }
+  0%,100%{ background-position:50% 0; opacity:.88; }
+  50%{ background-position:50% -18px; opacity:.98; }
 }
 
-/* --- Training I: 5 modules ï¿½ wash + active segment (no wash on module 1 only) --- */
+/* --- Training I: 5 modules --- */
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(1).active){
-  --jx-wash-end:0%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(1).active)::after{
   opacity:0;
   animation:none;
 }
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(2).active){
-  --jx-wash-end:25%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(2).active)::after{
   opacity:.94;
   clip-path:polygon(0 0,25% 0,25% 100%,0 100%);
   animation:journeyFlowMicroH 7.5s ease-in-out 0.35s infinite;
 }
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(3).active){
-  --jx-wash-end:50%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(3).active)::after{
   opacity:.94;
   clip-path:polygon(25% 0,50% 0,50% 100%,25% 100%);
   animation:journeyFlowMicroH 7.5s ease-in-out 0.35s infinite;
 }
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(4).active){
-  --jx-wash-end:75%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(4).active)::after{
   opacity:.94;
   clip-path:polygon(50% 0,75% 0,75% 100%,50% 100%);
   animation:journeyFlowMicroH 7.5s ease-in-out 0.35s infinite;
 }
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(5).active){
-  --jx-wash-end:75%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(5).active)::after{
   opacity:.94;
   clip-path:polygon(75% 0,100% 0,100% 100%,75% 100%);
@@ -133,53 +111,35 @@
 
 /* --- Training II: 6 modules --- */
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(1).active){
-  --jx-wash-end:0%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(1).active)::after{
   opacity:0;
   animation:none;
 }
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(2).active){
-  --jx-wash-end:20%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(2).active)::after{
   opacity:.94;
   clip-path:polygon(0 0,20% 0,20% 100%,0 100%);
   animation:journeyFlowMicroH 7.5s ease-in-out 0.35s infinite;
 }
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(3).active){
-  --jx-wash-end:40%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(3).active)::after{
   opacity:.94;
   clip-path:polygon(20% 0,40% 0,40% 100%,20% 100%);
   animation:journeyFlowMicroH 7.5s ease-in-out 0.35s infinite;
 }
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(4).active){
-  --jx-wash-end:60%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(4).active)::after{
   opacity:.94;
   clip-path:polygon(40% 0,60% 0,60% 100%,40% 100%);
   animation:journeyFlowMicroH 7.5s ease-in-out 0.35s infinite;
 }
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(5).active){
-  --jx-wash-end:80%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(5).active)::after{
   opacity:.94;
   clip-path:polygon(60% 0,80% 0,80% 100%,60% 100%);
   animation:journeyFlowMicroH 7.5s ease-in-out 0.35s infinite;
 }
 
-.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(6).active){
-  --jx-wash-end:80%;
-}
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(6).active)::after{
   opacity:.94;
   clip-path:polygon(80% 0,100% 0,100% 100%,80% 100%);
@@ -211,23 +171,12 @@
   }
 }
 
-/* ========== Vertical ï¿½ Training I journey + inside static ========== */
+/* ========== Vertical — Training I journey + inside static ========== */
 
 @media (max-width:860px){
   .portal .main .content #journey .journey-track,
   .portal .main .content #inside-module[data-roadmap-stack="training-i"] .journey-track{
     background-image:none;
-  }
-
-  .portal .main .content #journey .journey-track{
-    --jx-wash-end:0%;
-    background-image:linear-gradient(
-      180deg,
-      rgba(45,132,179,.10) 0%,
-      rgba(110,168,198,.065) var(--jx-wash-end),
-      transparent 100%
-    );
-    background-repeat:no-repeat;
   }
 
   .portal .main .content #journey .journey-track::before,
@@ -266,97 +215,64 @@
     clip-path:polygon(0 0,100% 0,100% 0,0 0);
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(1).active){
-    --jx-wash-end:0%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(1).active)::after{
     opacity:0;
     animation:none;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(2).active){
-    --jx-wash-end:25%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(2).active)::after{
     opacity:.94;
     clip-path:polygon(0 0,100% 0,100% 25%,0 25%);
     animation:journeyFlowMicroV 8s ease-in-out 0.35s infinite;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(3).active){
-    --jx-wash-end:50%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(3).active)::after{
     opacity:.94;
     clip-path:polygon(0 25%,100% 25%,100% 50%,0 50%);
     animation:journeyFlowMicroV 8s ease-in-out 0.35s infinite;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(4).active){
-    --jx-wash-end:75%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(4).active)::after{
     opacity:.94;
     clip-path:polygon(0 50%,100% 50%,100% 75%,0 75%);
     animation:journeyFlowMicroV 8s ease-in-out 0.35s infinite;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(5).active){
-    --jx-wash-end:75%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(5).active)::after{
     opacity:.94;
     clip-path:polygon(0 75%,100% 75%,100% 100%,0 100%);
     animation:journeyFlowMicroV 8s ease-in-out 0.35s infinite;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(1).active){
-    --jx-wash-end:0%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(1).active)::after{
     opacity:0;
     animation:none;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(2).active){
-    --jx-wash-end:20%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(2).active)::after{
     opacity:.94;
     clip-path:polygon(0 0,100% 0,100% 20%,0 20%);
     animation:journeyFlowMicroV 8s ease-in-out 0.35s infinite;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(3).active){
-    --jx-wash-end:40%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(3).active)::after{
     opacity:.94;
     clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%);
     animation:journeyFlowMicroV 8s ease-in-out 0.35s infinite;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(4).active){
-    --jx-wash-end:60%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(4).active)::after{
     opacity:.94;
     clip-path:polygon(0 40%,100% 40%,100% 60%,0 60%);
     animation:journeyFlowMicroV 8s ease-in-out 0.35s infinite;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(5).active){
-    --jx-wash-end:80%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(5).active)::after{
     opacity:.94;
     clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);
     animation:journeyFlowMicroV 8s ease-in-out 0.35s infinite;
   }
 
-  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(6).active){
-    --jx-wash-end:80%;
-  }
   .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(6).active)::after{
     opacity:.94;
     clip-path:polygon(0 80%,100% 80%,100% 100%,0 100%);

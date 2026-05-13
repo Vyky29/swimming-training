@@ -20,7 +20,7 @@
     radial-gradient(ellipse 92% 80% at 50% 108%, rgba(29,111,153,.14) 0%, transparent 50%),
     linear-gradient(175deg, #e4f1f9 0%, #eef7fc 34%, #f9fcfe 72%, #ffffff 100%);
   box-shadow:
-    0 16px 40px rgba(18,50,71,.1),
+    0 12px 32px rgba(18,50,71,.08),
     inset 0 1px 0 rgba(255,255,255,.58),
     inset 0 -36px 72px rgba(45,132,179,.055);
 }
@@ -163,9 +163,9 @@
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-item.active .journey-title{
-  color:#0f6a9c;
+  color:#075a87;
   font-weight:800;
-  text-shadow:0 1px 0 rgba(255,255,255,.92);
+  text-shadow:0 1px 0 rgba(255,255,255,.94);
 }
 
 .portal .main .content #journey .journey-item.page-linkable .journey-title,
@@ -175,7 +175,7 @@
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-title{
-  color:#7eb0cc;
+  color:#72a3bf;
   font-weight:700;
 }
 
@@ -193,15 +193,47 @@
 
 .portal .main .content #journey .journey-item.active{
   opacity:1;
+  position:relative;
+  isolation:isolate;
+}
+
+/* Warm atmospheric halo behind current node only (not on completed / future) */
+.portal .main .content #journey .journey-item.active::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:29px;
+  width:78px;
+  height:78px;
+  transform:translate(-50%, -50%);
+  border-radius:50%;
+  z-index:0;
+  pointer-events:none;
+  background:radial-gradient(circle at 50% 42%, rgba(255, 236, 214, 0.28) 0%, rgba(240, 205, 165, 0.1) 48%, transparent 72%);
+  box-shadow:
+    0 0 0 1px rgba(236, 205, 168, 0.48),
+    0 0 32px rgba(235, 198, 155, 0.32);
+  animation:journeyActiveHaloRing 9s ease-in-out infinite;
+}
+
+@keyframes journeyActiveHaloRing{
+  0%,100%{
+    transform:translate(-50%, -50%) scale(1);
+    opacity:.72;
+  }
+  50%{
+    transform:translate(-50%, -50%) scale(1.14);
+    opacity:.95;
+  }
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-circle{
-  background:linear-gradient(145deg,#8ec8e0 0%,#4a94be 100%);
+  background:linear-gradient(145deg,#7eb8d5 0%,#4588b0 100%);
   color:#fff;
-  border:2px solid rgba(255,255,255,.78);
+  border:2px solid rgba(255,255,255,.72);
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.32),
-    0 10px 22px rgba(45,132,179,.18);
+    0 0 0 1px rgba(255,255,255,.26),
+    0 8px 18px rgba(45,132,179,.14);
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-status{
@@ -214,28 +246,34 @@
 
 @keyframes journeyActiveBreath{
   0%,100%{
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.44),
-      0 0 0 1px rgba(218, 196, 168, 0.28),
-      0 14px 30px rgba(34, 105, 145, .34),
-      0 0 24px rgba(212, 186, 150, 0.12);
-  }
-  50%{
+    transform:translateZ(0) scale(1);
     box-shadow:
       0 0 0 1px rgba(255,255,255,.52),
-      0 0 0 1px rgba(224, 200, 172, 0.42),
-      0 17px 36px rgba(30, 112, 158, .4),
-      0 0 34px rgba(220, 192, 155, 0.2);
+      0 0 0 2px rgba(228, 198, 162, 0.42),
+      0 14px 32px rgba(26, 96, 138, .4),
+      0 0 36px rgba(232, 198, 158, 0.26),
+      0 0 52px rgba(238, 205, 170, 0.14);
+  }
+  50%{
+    transform:translateZ(0) scale(1.028);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.62),
+      0 0 0 2px rgba(236, 205, 172, 0.58),
+      0 20px 44px rgba(18, 88, 128, .5),
+      0 0 48px rgba(242, 208, 175, 0.38),
+      0 0 72px rgba(240, 200, 160, 0.22);
   }
 }
 
 .portal .main .content #journey .journey-item.active .journey-circle{
-  background:linear-gradient(152deg, #1f6f9c 0%, #3a9fd4 46%, #2d8fc4 100%);
+  position:relative;
+  z-index:1;
+  background:linear-gradient(152deg, #1a6fa8 0%, #45b0e8 46%, #2e9fd8 100%);
   color:#fff;
-  border:1px solid rgba(255,255,255,.62);
-  outline:1px solid rgba(218, 196, 168, 0.38);
-  outline-offset:2px;
-  animation:journeyActiveBreath 11s ease-in-out infinite;
+  border:1px solid rgba(255,255,255,.68);
+  outline:2px solid rgba(232, 200, 165, 0.52);
+  outline-offset:3px;
+  animation:journeyActiveBreath 9s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -250,5 +288,12 @@
 
   .portal .main .content #journey .journey-item.active .journey-circle{
     animation:none;
+    transform:none;
+  }
+
+  .portal .main .content #journey .journey-item.active::before{
+    animation:none;
+    transform:translate(-50%, -50%) scale(1);
+    opacity:.85;
   }
 }
