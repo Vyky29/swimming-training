@@ -18,6 +18,8 @@
   .water-orbit__swell,
   .water-orbit__lump,
   .water-orbit--compact::before,
+  .water-orbit--compact::after,
+  .water-orbit--hero::after,
   .water-orbit__ring,
   .progress-summary-fill,
   .portal .progress-fill,
@@ -57,6 +59,22 @@
 
 @keyframes water-swell-spin{
   to{transform:rotate(360deg);}
+}
+
+/* Rotating stream around the logo (keeps translate(-50%,-50%) so it stays centred) */
+@keyframes water-orbit-stream-spin{
+  from{transform:translate(-50%,-50%) rotate(0deg);}
+  to{transform:translate(-50%,-50%) rotate(360deg);}
+}
+
+@keyframes water-orbit-stream-spin-reverse{
+  from{transform:translate(-50%,-50%) rotate(0deg);}
+  to{transform:translate(-50%,-50%) rotate(-360deg);}
+}
+
+@keyframes water-orbit-compact-glow-spin{
+  from{transform:translate(-50%,-50%) rotate(0deg);}
+  to{transform:translate(-50%,-50%) rotate(360deg);}
 }
 
 @keyframes water-lump-orbit-1{
@@ -221,6 +239,40 @@
   animation-delay:-5s;
 }
 
+/* Hero: bright moving water band just outside the mark (above rings, under logo) */
+.water-orbit--hero::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(128%,440px);
+  height:min(128%,440px);
+  max-width:440px;
+  max-height:440px;
+  aspect-ratio:1;
+  border-radius:50%;
+  z-index:3;
+  pointer-events:none;
+  opacity:0.55;
+  mix-blend-mode:soft-light;
+  transform-origin:center center;
+  background:conic-gradient(
+    from 0deg,
+    transparent 0deg 42deg,
+    rgba(255,255,255,0.38) 68deg,
+    rgba(137,181,193,0.55) 98deg,
+    rgba(255,255,255,0.28) 124deg,
+    transparent 158deg 218deg,
+    rgba(200,230,242,0.42) 252deg,
+    rgba(255,255,255,0.22) 286deg,
+    transparent 360deg
+  );
+  animation:water-orbit-stream-spin 34s linear infinite;
+  -webkit-mask:radial-gradient(closest-side,transparent 0%,transparent 54%,#000 57%,#000 82%,transparent 86%);
+  mask:radial-gradient(closest-side,transparent 0%,transparent 54%,#000 57%,#000 82%,transparent 86%);
+}
+
 .water-orbit__logo{
   position:relative;
   z-index:4;
@@ -307,9 +359,43 @@ img.water-orbit__logo,
     rgba(255,255,255,0.22) 248deg,
     transparent 300deg 360deg
   );
-  animation:water-swell-spin 88s linear infinite;
+  animation:water-orbit-compact-glow-spin 88s linear infinite;
   -webkit-mask:radial-gradient(closest-side,transparent 38%,#000 44%,#000 82%,transparent 88%);
   mask:radial-gradient(closest-side,transparent 38%,#000 44%,#000 82%,transparent 88%);
+}
+
+/* Compact: visible moving water ring around the logo (donut + conic stream) */
+.water-orbit--compact::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(150%,300px);
+  height:min(150%,300px);
+  max-width:300px;
+  max-height:300px;
+  aspect-ratio:1;
+  border-radius:50%;
+  z-index:2;
+  pointer-events:none;
+  opacity:0.78;
+  mix-blend-mode:soft-light;
+  transform-origin:center center;
+  background:conic-gradient(
+    from 180deg,
+    transparent 0deg 36deg,
+    rgba(255,255,255,0.52) 62deg,
+    rgba(137,181,193,0.5) 92deg,
+    rgba(255,255,255,0.38) 118deg,
+    transparent 152deg 205deg,
+    rgba(230,248,255,0.48) 238deg,
+    rgba(255,255,255,0.32) 272deg,
+    transparent 310deg 360deg
+  );
+  animation:water-orbit-stream-spin-reverse 26s linear infinite;
+  -webkit-mask:radial-gradient(closest-side,transparent 0%,transparent 46%,#000 50%,#000 80%,transparent 85%);
+  mask:radial-gradient(closest-side,transparent 0%,transparent 46%,#000 50%,#000 80%,transparent 85%);
 }
 
 .brand-card .water-orbit--compact{
