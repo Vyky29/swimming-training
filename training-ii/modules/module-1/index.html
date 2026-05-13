@@ -4070,7 +4070,7 @@
           <div class="section-body">
             <p class="lead">When you are ready, complete the quiz flow to confirm understanding before moving into Module 2.</p>
             <div class="quiz-embed" style="margin-top:18px;">
-              <div class="quiz-inline quiz-inline--preview" id="quizInlineM1">
+              <div class="quiz-inline" id="quizInlineM1">
                 <div class="quiz-inline-progress">
                   <div class="progress-track"><div class="progress-fill" id="progressFillM1" style="width:100%;"></div></div>
                   <p class="progress-meta" id="progressTextM1">Quiz completion stage</p>
@@ -4086,7 +4086,7 @@
                   <p>They are developing control through every skill.</p>
                 </div>
                 <input type="checkbox" data-stage-check="quiz" id="quizStageCheckM1" hidden />
-                <button type="button" class="btn-submit" id="submitBtnM1">Complete Quiz</button>
+                <button type="button" class="btn-submit" id="submitBtnM1">Submit quiz</button>
                 <div class="score-card" id="scoreCardM1">
                   <h2>Quiz complete</h2>
                   <p class="score-value" id="scoreValueM1">Quiz passed</p>
@@ -6583,9 +6583,16 @@
           var cb = document.querySelector('.overall-check[data-stage-check="' + stage + '"]');
           if(cb){ cb.checked = true; if(cb.closest('.check-item')) cb.closest('.check-item').classList.add('clicked'); }
           var next = nextStage[stage];
-          if(next){ var sec = document.getElementById(next); if(sec) sec.classList.remove('gated-locked'); }
+          if(next){
+            var sec = document.getElementById(next);
+            if(sec) sec.classList.remove('gated-locked');
+          }
         }
       });
+      var quizSecPassed = document.getElementById('quiz');
+      if(quizSecPassed && !quizSecPassed.classList.contains('gated-locked') && currentProgress[prefix + 'quiz']){
+        quizSecPassed.classList.add('quiz-visible');
+      }
       if(typeof updateProgress === 'function') updateProgress();
     }
     function completeModule(n){

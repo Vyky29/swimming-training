@@ -145,11 +145,11 @@ PORTAL_COMMON_REPLACEMENTS = [
 TRAINING_ONE_COMMON_REPLACEMENTS = [
     (
         'src="/shared/module-completion-flow.js"',
-        'src="/shared/module-completion-flow.js?v=20260515"',
+        'src="/shared/module-completion-flow.js?v=20260512"',
     ),
     (
         "@import url('/assets/module-completion-flow.css');",
-        "@import url('/assets/module-completion-flow.css?v=20260515');",
+        "@import url('/assets/module-completion-flow.css?v=20260512');",
     ),
     ('href="../assets/training-content-containment.css"', 'href="/assets/training-content-containment.css"'),
     ('href="assets/training-content-containment.css"', 'href="/assets/training-content-containment.css"'),
@@ -223,11 +223,11 @@ TRAINING_ONE_PAGE_REPLACEMENTS = {
 TRAINING_TWO_COMMON_REPLACEMENTS = [
     (
         'src="/shared/module-completion-flow.js"',
-        'src="/shared/module-completion-flow.js?v=20260515"',
+        'src="/shared/module-completion-flow.js?v=20260512"',
     ),
     (
         "@import url('/assets/module-completion-flow.css');",
-        "@import url('/assets/module-completion-flow.css?v=20260515');",
+        "@import url('/assets/module-completion-flow.css?v=20260512');",
     ),
     ('href="assets/training-content-containment.css"', 'href="/training-ii/assets/training-content-containment.css"'),
     ('src="shared/parent-subconcept-layout.js"', 'src="/training-ii/shared/parent-subconcept-layout.js"'),

@@ -6027,6 +6027,10 @@
             if(next){ var sec = document.getElementById(next); if(sec) sec.classList.remove('gated-locked'); }
           }
         });
+        var quizSecPassed = document.getElementById('quiz');
+        if(quizSecPassed && !quizSecPassed.classList.contains('gated-locked') && currentProgress[prefix + 'quiz']){
+          quizSecPassed.classList.add('quiz-visible');
+        }
         if(typeof updateProgress === 'function') updateProgress();
       }
       function patchStageChecks(){

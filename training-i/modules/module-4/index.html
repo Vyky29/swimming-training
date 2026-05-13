@@ -9763,6 +9763,10 @@
           var quizSec = document.getElementById('quiz');
           if(quizSec) quizSec.classList.remove('gated-locked');
         }
+        var quizSecPassed = document.getElementById('quiz');
+        if(quizSecPassed && !quizSecPassed.classList.contains('gated-locked') && currentProgress[prefix + 'quiz']){
+          quizSecPassed.classList.add('quiz-visible');
+        }
         if(currentProgress[prefix + 'complete'] || currentProgress[prefix + 'completed']){
           var hid = document.querySelector('.overall-check[data-stage-check="complete"]');
           if(hid) hid.checked = true;

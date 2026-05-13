@@ -6610,9 +6610,16 @@
         var cb = document.querySelector('.overall-check[data-stage-check="' + stage + '"]');
         if(cb){ cb.checked = true; if(cb.closest('.check-item')) cb.closest('.check-item').classList.add('clicked'); }
         var next = nextStage[stage];
-        if(next){ var sec = document.getElementById(next); if(sec) sec.classList.remove('gated-locked'); }
+        if(next){
+          var sec = document.getElementById(next);
+          if(sec) sec.classList.remove('gated-locked');
+        }
       }
     });
+    var quizSecPassed = document.getElementById('quiz');
+    if(quizSecPassed && !quizSecPassed.classList.contains('gated-locked') && currentProgress[prefix + 'quiz']){
+      quizSecPassed.classList.add('quiz-visible');
+    }
     if(typeof updateProgress === 'function') updateProgress();
   }
   function completeModule(n){
