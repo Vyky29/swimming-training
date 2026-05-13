@@ -368,6 +368,11 @@
     return prefix + ' - ' + base;
   }
 
+  function moduleNumberLabel(moduleId){
+    const match = /^module(\d+)$/.exec(moduleId || '');
+    return match ? ('Module ' + match[1]) : '';
+  }
+
   function syncJourneyItems(state, pageId){
     const referenceModuleId =
       pageId !== 'introduction' && COURSE_MODULES[pageId]
@@ -385,8 +390,12 @@
       const available = isModuleAvailable(moduleId);
       const completed = isModuleComplete(moduleId, state);
       const current = pageId === moduleId || (pageId === 'introduction' && state.currentModule === moduleId);
-      const previousToCurrent = referenceIndex > 0 && moduleIndex > 0 && moduleIndex < referenceIndex;
-      const displayCompleted = !current && (completed || previousToCurrent);
+      /* Gold / highlight = earlier steps on the pathway only (not “completed” in storage). Order rules will tighten later. */
+      const displayPast =
+        !current &&
+        referenceIndex >= 0 &&
+        moduleIndex >= 0 &&
+        moduleIndex < referenceIndex;
       const inProgress = !completed && unlocked && available && (state.completedSections[moduleId] || []).length > 0;
       const titleEl = item.querySelector('.journey-title');
       const headingEl = item.querySelector('h3');
@@ -400,13 +409,14 @@
       }
 
       item.classList.toggle('active', current);
-      item.classList.toggle('completed', displayCompleted);
+      item.classList.remove('completed');
+      item.classList.toggle('journey-item--past', displayPast);
       item.classList.toggle('is-locked', !available || (!unlocked && !REVIEW_MODE));
       item.setAttribute('aria-disabled', (!available || (!unlocked && !REVIEW_MODE)) ? 'true' : 'false');
 
       if(statusEl){
-        if(displayCompleted){
-          statusEl.textContent = 'Completed module';
+        if(displayPast && pageId !== 'introduction'){
+          statusEl.textContent = moduleNumberLabel(moduleId) || statusEl.textContent;
         } else if(current){
           statusEl.textContent = 'Current Module';
         } else if(!available){

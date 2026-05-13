@@ -901,7 +901,7 @@
     box-shadow:0 14px 28px rgba(45,132,179,.24);
   }
 
-  .journey-item.completed .journey-circle{
+  .journey-item.journey-item--past .journey-circle{
     background:var(--gold);
     color:#fff;
     border:2px solid rgba(255,255,255,.95);
@@ -933,7 +933,7 @@
     text-align:center;
   }
 
-  .journey-item.completed .journey-status{
+  .journey-item.journey-item--past .journey-status{
     color:var(--gold);
   }
 
@@ -3733,7 +3733,7 @@
         <h3>Module Navigation</h3>
         <div class="nav-list">
           <a class="nav-link active" href="#overview" data-progress-key="module2_overview">Overview</a>
-          <a class="nav-link" href="#journey" data-progress-key="module2_journey">Swimming Journey</a>
+          <a class="nav-link" href="#journey" data-progress-key="module2_journey">Understanding Aquatic Practice Journey</a>
           <a class="nav-link" href="#outcomes" data-progress-key="module2_outcomes">Learning Outcomes</a>
           <a class="nav-link" href="#block1" data-progress-key="module2_block1">Block 1</a>
           <a class="nav-link" href="#block2" data-progress-key="module2_block2">Block 2</a>
@@ -3801,11 +3801,11 @@
       </div>
         <section class="section" id="journey" data-stage="journey">
           <div class="section-top">
-            <span class="section-pill">Swimming Journey</span>
+            <span class="section-pill">Understanding Aquatic Practice Journey</span>
           </div>
           <div class="section-body">
             <div class="section-title-row">
-              <h3>clubSENsational Swimming Journey</h3>
+              <h3>Understanding Aquatic Practice Journey</h3>
               <div class="section-top-actions">
                 <button class="btn btn-tts" data-tts-button="journey">🔊 Listen</button>
                 <button class="btn btn-tts" data-tts-stop="journey">⏹ Stop Audio</button>
@@ -3814,10 +3814,10 @@
 
             <div class="journey-wrap">
               <div class="journey-track">
-                <div class="journey-item completed">
+                <div class="journey-item journey-item--past">
                   <div class="journey-circle">1</div>
                   <div class="journey-title">Understanding Water</div>
-                  <div class="journey-status">Completed module</div>
+                  <div class="journey-status">Module 1</div>
                 </div>
 
                 <div class="journey-item active">
@@ -3853,7 +3853,7 @@
 
             <label class="check-item clickable-progress">
               <input type="checkbox" class="overall-check" data-stage-check="journey">
-              <span>I understand where this module sits within the wider clubSENsational Swimming journey.</span>
+              <span>I understand where this module sits within the wider Understanding Aquatic Practice pathway.</span>
             </label>
           </div>
         </section>
@@ -3863,7 +3863,7 @@
             <span class="section-pill">Learning Outcomes</span>
           </div>
           <div class="section-body">
-            <div class="section-lock-banner">Complete the Swimming Journey section to unlock Learning Outcomes.</div>
+            <div class="section-lock-banner">Complete the Understanding Aquatic Practice Journey section to unlock Learning Outcomes.</div>
             <div class="section-title-row">
               <h3>What will you understand by the end of this module?</h3>
               <div class="section-top-actions">

@@ -114,12 +114,6 @@
     }
   }
 
-  function getCompletedItemCount(state){
-    return COURSE_ORDER.reduce(function(total, moduleId){
-      return total + (state.completedSections[moduleId] || []).length;
-    }, 0);
-  }
-
   function isModuleUnlocked(moduleId, state){
     if(REVIEW_MODE && moduleId !== 'introduction') return true;
     if(moduleId === 'introduction') return true;
@@ -149,29 +143,6 @@
     return required[required.length - 1] || null;
   }
 
-  function getResumeTarget(state){
-    if(!state.introductionCompleted){
-      return {
-        href: COURSE_MODULES.introduction.file
-      };
-    }
-
-    for(var i = 1; i < COURSE_ORDER.length; i += 1){
-      var moduleId = COURSE_ORDER[i];
-      if(!isModuleUnlocked(moduleId, state)) break;
-      if(!isModuleComplete(moduleId, state)){
-        var sectionId = getFirstIncompleteSection(moduleId, state);
-        return {
-          href: COURSE_MODULES[moduleId].file + (sectionId ? ('#' + sectionId) : '')
-        };
-      }
-    }
-
-    return {
-      href: COURSE_MODULES.module6.file + '#quiz'
-    };
-  }
-
   function setButtonState(button, text, href, className, disabled){
     if(!button) return;
     button.textContent = text;
@@ -182,34 +153,6 @@
 
   function renderHub(){
     var state = loadState();
-    var total = COURSE_ORDER.reduce(function(sum, moduleId){
-      return sum + COURSE_MODULES[moduleId].sections.length;
-    }, 0);
-    var completed = getCompletedItemCount(state);
-    var percent = total ? Math.round((completed / total) * 100) : 0;
-
-    var summary = document.getElementById('progressSummary');
-    var summaryFill = document.getElementById('progressSummaryFill');
-    var summaryText = document.getElementById('progressSummaryText');
-
-    if(summary){
-      summary.classList.toggle('visible', completed > 0 || !!state.introductionCompleted);
-    }
-    if(summaryFill){
-      summaryFill.style.width = percent + '%';
-    }
-    if(summaryText){
-      summaryText.textContent = percent + '% completed • ' + completed + ' of ' + total + ' stages completed';
-    }
-
-    var resumeTarget = getResumeTarget(state);
-    var resumeButton = document.getElementById('hubResumeButton');
-    if(resumeButton && resumeTarget){
-      resumeButton.href = resumeTarget.href;
-      resumeButton.textContent = 'Start pathway';
-      resumeButton.className = 'btn btn-primary';
-      resumeButton.setAttribute('aria-disabled', 'false');
-    }
 
     document.querySelectorAll('[data-hub-module-id]').forEach(function(card){
       var moduleId = card.getAttribute('data-hub-module-id');

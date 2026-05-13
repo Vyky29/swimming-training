@@ -632,7 +632,7 @@ body.training-template-body{
   box-shadow:0 14px 28px rgba(45,132,179,.24);
 }
 
-.journey-item.completed .journey-circle{
+.journey-item.journey-item--past .journey-circle{
   background:var(--gold);
   color:#fff;
   border:2px solid rgba(255,255,255,.95);
@@ -664,7 +664,7 @@ body.training-template-body{
   text-align:center;
 }
 
-.journey-item.completed .journey-status{
+.journey-item.journey-item--past .journey-status{
   color:var(--gold);
 }
 

@@ -9,6 +9,8 @@
     completedModules: 'cs_swimming_training_completed_modules'
   };
 
+  var TRAINING_II_JOURNEY_HEADING = 'Aquatic Development & Skills Progression Journey';
+
   function getModulePage(){
     var root = document.querySelector('[data-course-page]');
     return root ? root.getAttribute('data-course-page') : 'module-shell';
@@ -218,7 +220,7 @@
 
     navList.innerHTML = [
       { id: 'overview', label: 'Overview' },
-      { id: 'journey', label: 'Swimming Journey' },
+      { id: 'journey', label: TRAINING_II_JOURNEY_HEADING },
       { id: 'outcomes', label: 'Learning Outcomes' },
       { id: 'block1', label: 'Block 1' },
       { id: 'block2', label: 'Block 2' },
@@ -293,7 +295,7 @@
 
     var heroBody = document.querySelector('#overview p');
     if(heroBody){
-      heroBody.innerHTML = 'This page now follows the same visible section structure as the Training I modules.<br><br>Add the approved Module ' + moduleMeta.number + ' content into the same sequence of Swimming Journey, Learning Outcomes, three named blocks, key concepts, recap, and completion.';
+      heroBody.innerHTML = 'This page now follows the same visible section structure as the Training I modules.<br><br>Add the approved Module ' + moduleMeta.number + ' content into the same sequence of ' + TRAINING_II_JOURNEY_HEADING + ', Learning Outcomes, three named blocks, key concepts, recap, and completion.';
     }
 
     var heroPills = document.querySelectorAll('#overview .meta-pill');
@@ -302,7 +304,10 @@
     if(heroPills[2]) heroPills[2].textContent = moduleMeta.nextId ? ('Next: ' + moduleMeta.nextLabel) : moduleMeta.nextLabel;
 
     var journeyTitle = document.querySelector('#journey .section-title-row h3');
-    if(journeyTitle) journeyTitle.textContent = 'clubSENsational Swimming Journey';
+    if(journeyTitle) journeyTitle.textContent = TRAINING_II_JOURNEY_HEADING;
+
+    var journeyPill = document.querySelector('#journey .section-top .section-pill');
+    if(journeyPill) journeyPill.textContent = TRAINING_II_JOURNEY_HEADING;
 
     var journeyPanelTitle = document.querySelector('#journey .journey-panel h4');
     if(journeyPanelTitle) journeyPanelTitle.textContent = 'Module ' + moduleMeta.number + ' - ' + moduleMeta.title;
@@ -313,7 +318,7 @@
     updateCheckText(
       'journey',
       'Journey reviewed',
-      'I understand where this module sits within the wider clubSENsational Swimming journey.'
+      'I understand where this module sits within the wider aquatic skills progression pathway.'
     );
 
     var outcomesTitle = document.querySelector('#outcomes .section-title-row h3');
