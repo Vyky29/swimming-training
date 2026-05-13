@@ -832,8 +832,23 @@
   
     .journey-item.journey-item--past .journey-status{
       color:var(--gold);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:3px;
+      min-height:36px;
     }
-  
+
+    .journey-item.journey-item--past .journey-status::after{
+      content:'completed';
+      font-size:.62rem;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:none;
+      color:var(--gold);
+      line-height:1.2;
+    }
+
     .journey-panel{
       margin-top:24px;
       border:1px solid rgba(45,132,179,.15);
@@ -3203,6 +3218,10 @@
         font-size:.7rem;
       }
   
+      .journey-item.journey-item--past .journey-status{
+        align-items:flex-start;
+      }
+  
       .concept-panel{
         padding:16px;
       }
@@ -3407,14 +3426,8 @@
             <h2>MODULE 1 - Foundations of Aquatic Skill Development</h2>
           </div>
         </div>
-        <div class="hero-meta">
-          <span class="meta-pill">Module Introduction</span>
-          <span class="meta-pill">Structure: 3 module blocks</span>
-          <span class="meta-pill">Next: Module 2 - Guiding Learning Through Scaffolding</span>
-        </div>
-
         <div class="hero-actions">
-          <button class="btn btn-primary" data-scroll="#journey">Start this journey</button>
+          <button type="button" class="btn btn-primary" data-scroll="journey">Start Module</button>
         </div>
 
       </section>

@@ -963,6 +963,21 @@
 
     .journey-item.journey-item--past .journey-status{
       color:var(--gold);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:3px;
+      min-height:36px;
+    }
+
+    .journey-item.journey-item--past .journey-status::after{
+      content:'completed';
+      font-size:.62rem;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:none;
+      color:var(--gold);
+      line-height:1.2;
     }
 
     .journey-panel{
@@ -2851,6 +2866,7 @@
       }
       .journey-title{max-width:100%;font-size:.85rem;line-height:1.3;word-wrap:break-word;overflow-wrap:break-word;}
       .journey-status{text-align:left;font-size:.7rem;}
+      .journey-item.journey-item--past .journey-status{align-items:flex-start;}
       .concept-panel{padding:16px;}
       .concept-image{margin-top:12px;}
 
@@ -3037,15 +3053,6 @@
             </div>
             <h2>Building Engagement and Connection in the Water</h2>
           </div>
-        </div>
-        <p data-tts-source="overview">
-          This module explores how engagement and connection are built and sustained in the water. You will understand how to recognise engagement, support readiness to learn, and use different approaches to maintain connection throughout a session.
-        </p>
-
-        <div class="hero-meta">
-          <span class="meta-pill">Estimated time: 20 to 25 min</span>
-          <span class="meta-pill">Format: Interactive module</span>
-          <span class="meta-pill">Structure: 3 core blocks</span>
         </div>
 
         <div class="hero-actions">

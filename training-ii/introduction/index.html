@@ -840,8 +840,23 @@
   
     .journey-item.journey-item--past .journey-status{
       color:var(--gold);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:3px;
+      min-height:36px;
     }
-  
+
+    .journey-item.journey-item--past .journey-status::after{
+      content:'completed';
+      font-size:.62rem;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:none;
+      color:var(--gold);
+      line-height:1.2;
+    }
+
     .journey-panel{
       margin-top:24px;
       border:1px solid rgba(45,132,179,.15);
@@ -3209,6 +3224,10 @@
       .journey-status{
         text-align:left;
         font-size:.7rem;
+      }
+  
+      .journey-item.journey-item--past .journey-status{
+        align-items:flex-start;
       }
   
       .concept-panel{

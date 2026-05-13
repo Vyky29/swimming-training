@@ -935,6 +935,21 @@
 
   .journey-item.journey-item--past .journey-status{
     color:var(--gold);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    min-height:36px;
+  }
+
+  .journey-item.journey-item--past .journey-status::after{
+    content:'completed';
+    font-size:.62rem;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:none;
+    color:var(--gold);
+    line-height:1.2;
   }
 
   .journey-panel{
@@ -3574,6 +3589,10 @@
       font-size:.7rem;
     }
 
+    .journey-item.journey-item--past .journey-status{
+      align-items:flex-start;
+    }
+
     .concept-panel{
       padding:16px;
     }
@@ -3773,15 +3792,6 @@
             </div>
             <h2>Understanding the Swimmer's Experience in the Water</h2>
           </div>
-        </div>
-        <p data-tts-source="overview">
-          This module explores how swimmers experience the water, focusing on how learning is accessed, how emotional state shapes engagement, and how readiness changes throughout a session.
-        </p>
-
-        <div class="hero-meta">
-          <span class="meta-pill">Estimated time: 20 to 25 min</span>
-          <span class="meta-pill">Format: Interactive module</span>
-          <span class="meta-pill">Structure: 3 core blocks</span>
         </div>
 
         <div class="hero-actions">

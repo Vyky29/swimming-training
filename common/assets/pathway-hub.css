@@ -993,6 +993,28 @@ a{
   opacity:0.88;
 }
 
+.path-card-corner-tag{
+  position:absolute;
+  display:block;
+  top:14px;
+  right:14px;
+  z-index:2;
+  margin:0;
+  max-width:118px;
+  padding:7px 9px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.94);
+  border:1px solid rgba(45,132,179,0.22);
+  box-shadow:0 4px 14px rgba(23,48,66,0.07);
+  font-size:9px;
+  font-weight:800;
+  line-height:1.25;
+  letter-spacing:0.04em;
+  color:var(--navy);
+  text-align:center;
+  text-wrap:balance;
+}
+
 .path-card-label{
   display:block;
   font-size:11px;
@@ -1009,6 +1031,7 @@ a{
   font-weight:800;
   color:var(--navy);
   margin-bottom:12px;
+  padding-right:124px;
 }
 
 .path-card > p{
@@ -1206,6 +1229,17 @@ a{
 
   .path-card{
     padding:24px 20px 22px;
+  }
+
+  .path-card h3{
+    padding-right:0;
+  }
+
+  .path-card-corner-tag{
+    position:static;
+    align-self:flex-end;
+    margin:4px 0 8px;
+    max-width:100%;
   }
 
   .portal-btn{

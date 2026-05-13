@@ -293,16 +293,6 @@
     var heroTitle = document.querySelector('#overview h2');
     if(heroTitle) heroTitle.textContent = 'Module ' + moduleMeta.number + ' - ' + moduleMeta.title;
 
-    var heroBody = document.querySelector('#overview p');
-    if(heroBody){
-      heroBody.innerHTML = 'This page now follows the same visible section structure as the Training I modules.<br><br>Add the approved Module ' + moduleMeta.number + ' content into the same sequence of ' + TRAINING_II_JOURNEY_HEADING + ', Learning Outcomes, three named blocks, key concepts, recap, and completion.';
-    }
-
-    var heroPills = document.querySelectorAll('#overview .meta-pill');
-    if(heroPills[0]) heroPills[0].textContent = 'Training I section structure';
-    if(heroPills[1]) heroPills[1].textContent = '3 named blocks with concept areas';
-    if(heroPills[2]) heroPills[2].textContent = moduleMeta.nextId ? ('Next: ' + moduleMeta.nextLabel) : moduleMeta.nextLabel;
-
     var journeyTitle = document.querySelector('#journey .section-title-row h3');
     if(journeyTitle) journeyTitle.textContent = TRAINING_II_JOURNEY_HEADING;
 

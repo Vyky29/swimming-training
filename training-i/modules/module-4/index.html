@@ -1311,6 +1311,21 @@
 
     .journey-item.journey-item--past .journey-status{
       color:var(--gold);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:3px;
+      min-height:36px;
+    }
+
+    .journey-item.journey-item--past .journey-status::after{
+      content:'completed';
+      font-size:.62rem;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:none;
+      color:var(--gold);
+      line-height:1.2;
     }
 
     .journey-panel{
@@ -4510,6 +4525,7 @@
       }
       .journey-title{max-width:100%;font-size:.85rem;line-height:1.3;word-wrap:break-word;overflow-wrap:break-word;}
       .journey-status{text-align:left;font-size:.7rem;}
+      .journey-item.journey-item--past .journey-status{align-items:flex-start;}
       .concept-panel{padding:16px;}
       .concept-image{margin-top:12px;}
 
@@ -4793,25 +4809,12 @@
               <div class="hero-badge">clubSENsational Swimming Training</div>
               <div class="hero-module-num">Module 4</div>
             </div>
-            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px;width:100%;">
-              <h2 style="margin:0;">The clubSENsational Swimming Programme</h2>
-              <div class="section-top-actions">
-                <button type="button" class="btn btn-tts" data-tts-button="module-title">🔊 Listen</button>
-                <button type="button" class="btn btn-tts" data-tts-stop="module-title">⏹ Stop Audio</button>
-              </div>
-            </div>
-            <p class="lead" data-tts-source="module-title">
-              This module introduces the programme structure, including three stages, six adaptive levels, and core principles.
-            </p>
-            <div class="hero-meta">
-              <span class="meta-pill">Estimated time: 20 to 25 min</span>
-              <span class="meta-pill">Format: Interactive module</span>
-              <span class="meta-pill">Structure: 3 core blocks</span>
-            </div>
-            <div class="hero-actions">
-              <button type="button" class="btn btn-primary" data-scroll="#journey">Start Module</button>
-            </div>
+            <h2>The clubSENsational Swimming Programme</h2>
           </div>
+        </div>
+
+        <div class="hero-actions">
+          <button type="button" class="btn btn-primary" data-scroll="#journey">Start Module</button>
         </div>
       </section>
 
