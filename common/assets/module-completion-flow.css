@@ -1,58 +1,143 @@
-/* Shared completion cards for Training I and II module endings. */
+/* Shared completion cards for Training I and II module endings (premium: waves + depth). */
 #complete .completion,
 #complete .completion-box,
 #keyideas .completion{
   position:relative;
+  isolation:isolate;
   overflow:hidden;
   border-radius:30px;
   padding:32px 34px;
-  background:linear-gradient(135deg,#2d84b3 0%,#89b5c1 72%,rgba(255,255,255,.92) 130%);
+  background:
+    radial-gradient(ellipse 72% 58% at 12% 18%,rgba(255,255,255,.14) 0%,transparent 52%),
+    radial-gradient(ellipse 58% 48% at 88% 22%,rgba(137,181,193,.22) 0%,transparent 55%),
+    linear-gradient(135deg,#2d84b3 0%,#89b5c1 72%,rgba(255,255,255,.92) 130%);
   color:#fff;
-  box-shadow:0 18px 40px rgba(18,50,71,.12);
+  box-shadow:
+    0 22px 48px rgba(18,50,71,.14),
+    0 1px 0 rgba(255,255,255,.12) inset;
   text-align:center;
 }
 
-#complete .completion::before,
-#complete .completion-box::before,
-#keyideas .completion::before,
-#complete .completion::after,
-#complete .completion-box::after,
-#keyideas .completion::after{
+#keyideas .completion{
+  margin-top:28px;
+  padding-top:32px;
+  border-top:0;
+}
+
+#complete .completion-atmosphere,
+#complete .completion-box > .completion-atmosphere,
+#keyideas .completion > .completion-atmosphere{
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+#complete .completion-atmosphere::before,
+#complete .completion-box > .completion-atmosphere::before,
+#keyideas .completion > .completion-atmosphere::before{
   content:"";
   position:absolute;
-  border-radius:50%;
-  background:rgba(255,255,255,.1);
-  pointer-events:none;
+  top:0;
+  left:-28%;
+  right:-28%;
+  bottom:-52%;
+  opacity:.18;
+  mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201200%20300%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27rgba%28255%2C255%2C255%2C0.26%29%27%20d%3D%27M0%2C108%20C200%2C62%20400%2C154%20600%2C108%20S1000%2C82%201200%2C108%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%28137%2C181%2C193%2C0.3%29%27%20d%3D%27M0%2C132%20C220%2C88%20440%2C176%20660%2C132%20S980%2C102%201200%2C132%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%2845%2C132%2C179%2C0.2%29%27%20d%3D%27M0%2C158%20C260%2C118%20520%2C198%20780%2C158%20S1060%2C128%201200%2C158%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat:repeat-x;
+  background-position:240px 100%;
+  background-size:1200px 100%;
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.38) 12%,#000 34%,#000 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.38) 12%,#000 34%,#000 100%);
+  animation:completionWaveB 38s linear infinite reverse;
+  will-change:background-position;
 }
 
-#complete .completion::before,
-#complete .completion-box::before,
-#keyideas .completion::before{
-  width:220px;
-  height:220px;
-  top:-78px;
-  right:-64px;
+@keyframes completionWaveB{
+  0%{ background-position:240px 100%; }
+  100%{ background-position:-960px 100%; }
 }
 
-#complete .completion::after,
-#complete .completion-box::after,
-#keyideas .completion::after{
-  width:140px;
-  height:140px;
-  bottom:-48px;
-  right:94px;
+#complete .completion-atmosphere::after,
+#complete .completion-box > .completion-atmosphere::after,
+#keyideas .completion > .completion-atmosphere::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-22%;
+  right:-22%;
+  bottom:-58%;
+  opacity:.32;
+  mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201200%20300%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27rgba%28255%2C255%2C255%2C0.28%29%27%20d%3D%27M0%2C118%20C200%2C72%20400%2C164%20600%2C118%20S1000%2C92%201200%2C118%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%28137%2C181%2C193%2C0.34%29%27%20d%3D%27M0%2C142%20C220%2C98%20440%2C186%20660%2C142%20S980%2C112%201200%2C142%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%2845%2C132%2C179%2C0.22%29%27%20d%3D%27M0%2C168%20C260%2C128%20520%2C208%20780%2C168%20S1060%2C138%201200%2C168%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat:repeat-x;
+  background-position:0 100%;
+  background-size:1200px 100%;
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.28) 8%,#000 28%,#000 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.28) 8%,#000 28%,#000 100%);
+  animation:completionWaveA 26s linear infinite;
+  will-change:background-position;
 }
 
-#complete .completion > *,
-#complete .completion-box > *,
-#keyideas .completion > *{
+@keyframes completionWaveA{
+  0%{ background-position:0 100%; }
+  100%{ background-position:-1200px 100%; }
+}
+
+@media (hover:hover){
+  #complete .completion:hover .completion-atmosphere::after,
+  #complete .completion-box:hover > .completion-atmosphere::after,
+  #keyideas .completion:hover > .completion-atmosphere::after,
+  #complete .completion:hover .completion-atmosphere::before,
+  #complete .completion-box:hover > .completion-atmosphere::before,
+  #keyideas .completion:hover > .completion-atmosphere::before{
+    filter:saturate(1.05) brightness(1.04);
+  }
+
+  #complete .completion:hover .completion-atmosphere::after,
+  #complete .completion-box:hover > .completion-atmosphere::after,
+  #keyideas .completion:hover > .completion-atmosphere::after{
+    opacity:.38;
+    animation-duration:17s;
+  }
+
+  #complete .completion:hover .completion-atmosphere::before,
+  #complete .completion-box:hover > .completion-atmosphere::before,
+  #keyideas .completion:hover > .completion-atmosphere::before{
+    opacity:.22;
+    animation-duration:28s;
+  }
+}
+
+#complete .completion-inner,
+#complete .completion-box > .completion-inner,
+#keyideas .completion > .completion-inner{
   position:relative;
   z-index:1;
 }
 
+#complete .completion > *:not(.completion-atmosphere),
+#complete .completion-box > *:not(.completion-atmosphere),
+#keyideas .completion > *:not(.completion-atmosphere){
+  position:relative;
+  z-index:1;
+}
+
+#complete .completion > .completion-atmosphere,
+#complete .completion-box > .completion-atmosphere,
+#keyideas .completion > .completion-atmosphere{
+  z-index:0;
+}
+
 #complete .completion h3,
 #complete .completion-box h3,
-#keyideas .completion h3{
+#keyideas .completion h3,
+#complete .completion .completion-title,
+#complete .completion-box .completion-title,
+#keyideas .completion .completion-title{
   margin:0;
   color:#fff;
   font-size:clamp(26px,3vw,36px);
@@ -63,10 +148,31 @@
 #complete .completion p,
 #complete .completion-box p,
 #keyideas .completion p{
-  max-width:760px;
+  max-width:52ch;
+  margin-left:auto;
+  margin-right:auto;
   color:rgba(255,255,255,.95);
   font-size:18px;
   line-height:1.65;
+}
+
+#complete .completion .completion-body,
+#complete .completion-box .completion-body,
+#keyideas .completion .completion-body{
+  margin-top:18px;
+}
+
+#complete .completion .completion-body .completion-lead,
+#complete .completion-box .completion-body .completion-lead,
+#keyideas .completion .completion-body .completion-lead{
+  margin-top:0;
+}
+
+#complete .completion .completion-body .completion-sub,
+#complete .completion-box .completion-body .completion-sub,
+#keyideas .completion .completion-body .completion-sub{
+  margin-top:12px;
+  color:rgba(255,255,255,.9);
 }
 
 #complete .completion .completion-badge,
@@ -85,6 +191,11 @@
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
 }
 
+#complete .completion-inner > .recap-stack,
+#complete .completion-box > .completion-inner > .recap-stack{
+  margin-top:20px;
+}
+
 #complete .completion .section-title-row,
 #complete .completion-box .section-title-row,
 #keyideas .completion .section-title-row,
@@ -96,8 +207,64 @@
   margin-bottom:0;
 }
 
-#complete .completion .completion-lead{
-  margin-top:16px;
+#complete .completion .completion-actions .btn-primary,
+#complete .completion-box .completion-actions .btn-primary,
+#keyideas .completion .completion-actions .btn-primary{
+  border:1px solid rgba(255,255,255,.34);
+  box-shadow:
+    0 12px 32px rgba(18,50,71,.24),
+    0 1px 0 rgba(255,255,255,.32) inset;
+  transition:transform .26s ease,box-shadow .3s ease,filter .28s ease,background .28s ease;
+}
+
+@media (hover:hover){
+  #complete .completion .completion-actions .btn-primary:hover,
+  #complete .completion-box .completion-actions .btn-primary:hover,
+  #keyideas .completion .completion-actions .btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:
+      0 16px 38px rgba(18,50,71,.3),
+      0 0 0 1px rgba(255,255,255,.14),
+      0 1px 0 rgba(255,255,255,.38) inset;
+    filter:brightness(1.05);
+  }
+
+  #complete .completion .completion-actions .btn-secondary:hover,
+  #complete .completion-box .completion-actions .btn-secondary:hover,
+  #keyideas .completion .completion-actions .btn-secondary:hover{
+    transform:translateY(-1px);
+    filter:brightness(1.04);
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  #complete .completion-atmosphere::before,
+  #complete .completion-atmosphere::after,
+  #complete .completion-box > .completion-atmosphere::before,
+  #complete .completion-box > .completion-atmosphere::after,
+  #keyideas .completion > .completion-atmosphere::before,
+  #keyideas .completion > .completion-atmosphere::after{
+    animation:none !important;
+  }
+
+  #complete .completion:hover .completion-atmosphere::after,
+  #complete .completion-box:hover > .completion-atmosphere::after,
+  #keyideas .completion:hover > .completion-atmosphere::after,
+  #complete .completion:hover .completion-atmosphere::before,
+  #complete .completion-box:hover > .completion-atmosphere::before,
+  #keyideas .completion:hover > .completion-atmosphere::before{
+    filter:none;
+  }
+
+  #complete .completion .completion-actions .btn-primary:hover,
+  #complete .completion-box .completion-actions .btn-primary:hover,
+  #keyideas .completion .completion-actions .btn-primary:hover,
+  #complete .completion .completion-actions .btn-secondary:hover,
+  #complete .completion-box .completion-actions .btn-secondary:hover,
+  #keyideas .completion .completion-actions .btn-secondary:hover{
+    transform:none;
+    filter:none;
+  }
 }
 
 #complete .completion .completion-actions,
@@ -116,10 +283,13 @@
   min-width:190px;
 }
 
-#complete .completion .completion-actions .btn-secondary,
+#complete .completion:not(.completion-box) .completion-actions .btn-secondary{
+  display:none !important;
+}
+
 #complete .completion-box .completion-actions .btn-secondary,
 #keyideas .completion .completion-actions .btn-secondary{
-  display:none !important;
+  display:inline-flex;
 }
 
 #complete .completion .completion-actions .btn-secondary,

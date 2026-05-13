@@ -307,39 +307,8 @@
     }
   }
 
-  function normalizeCompletionCard(context){
-    var completionCard = document.querySelector('#complete .completion, #complete .completion-box, #keyideas .completion');
-    if(!completionCard) return;
-
-    var heading = completionCard.querySelector('h3');
-    if(heading){
-      heading.textContent = 'Module ' + context.moduleNumber + ' complete';
-    }
-
-    completionCard.querySelectorAll('.recap-stack, .completion-note').forEach(function(element){
-      element.remove();
-    });
-
-    var lead = completionCard.querySelector('p');
-    if(lead){
-      lead.textContent = 'You have completed all content for Module ' + context.moduleNumber + '. Ready for the quiz?';
-    }
-
-    var actions = completionCard.querySelector('.completion-actions');
-    if(!actions){
-      actions = document.createElement('div');
-      actions.className = 'completion-actions';
-      completionCard.appendChild(actions);
-    }
-
-    actions.innerHTML = '<a class="btn btn-primary" href="#quiz">Start Quiz</a>';
-  }
-
   function initSharedModuleFlow(){
-    var context = getModuleContext();
-    if(!context) return;
-
-    normalizeCompletionCard(context);
+    /* Completion copy and layout are authored in each module; do not rewrite DOM on load. */
   }
 
   window.clubTrainingCompletion = {
