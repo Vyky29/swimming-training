@@ -7,6 +7,12 @@
   position:relative;
   isolation:isolate;
   overflow:hidden;
+  box-sizing:border-box;
+  /* Match inner width of .content (max-width + horizontal padding) */
+  width:min(100%,calc(var(--max, 1240px) - 48px));
+  max-width:calc(var(--max, 1240px) - 48px);
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .hero.hero--module-system::before,
@@ -24,24 +30,51 @@
   overflow:hidden;
 }
 
+/* Secondary mega wave layer (parallax, brighter crests) */
+.hero.hero--module-system > .module-hero__atmosphere::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-28%;
+  right:-28%;
+  bottom:-48%;
+  z-index:1;
+  pointer-events:none;
+  opacity:.22;
+  mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201200%20300%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27rgba%28255%2C255%2C255%2C0.26%29%27%20d%3D%27M0%2C108%20C200%2C62%20400%2C154%20600%2C108%20S1000%2C82%201200%2C108%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%28137%2C181%2C193%2C0.3%29%27%20d%3D%27M0%2C132%20C220%2C88%20440%2C176%20660%2C132%20S980%2C102%201200%2C132%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%2845%2C132%2C179%2C0.2%29%27%20d%3D%27M0%2C158%20C260%2C118%20520%2C198%20780%2C158%20S1060%2C128%201200%2C158%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat:repeat-x;
+  background-position:240px 100%;
+  background-size:1200px 100%;
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.4) 10%,#000 32%,#000 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.4) 10%,#000 32%,#000 100%);
+  animation:moduleHeroMegaWaveScrollB 34s linear infinite reverse;
+  will-change:background-position;
+}
+
+@keyframes moduleHeroMegaWaveScrollB{
+  0%{ background-position:240px 100%; }
+  100%{ background-position:-960px 100%; }
+}
+
 /* Full-bleed scrolling water mass (seamless 1200px tile; hover speeds motion) */
 .hero.hero--module-system > .module-hero__atmosphere::after{
   content:"";
   position:absolute;
-  top:6%;
+  top:0;
   left:-22%;
   right:-22%;
   bottom:-58%;
   z-index:1;
   pointer-events:none;
-  opacity:.28;
+  opacity:.4;
   mix-blend-mode:soft-light;
-  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201200%20300%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27rgba%28255%2C255%2C255%2C0.18%29%27%20d%3D%27M0%2C118%20C200%2C72%20400%2C164%20600%2C118%20S1000%2C92%201200%2C118%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%28137%2C181%2C193%2C0.22%29%27%20d%3D%27M0%2C142%20C220%2C98%20440%2C186%20660%2C142%20S980%2C112%201200%2C142%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%2845%2C132%2C179%2C0.14%29%27%20d%3D%27M0%2C168%20C260%2C128%20520%2C208%20780%2C168%20S1060%2C138%201200%2C168%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3C%2Fsvg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201200%20300%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27rgba%28255%2C255%2C255%2C0.28%29%27%20d%3D%27M0%2C118%20C200%2C72%20400%2C164%20600%2C118%20S1000%2C92%201200%2C118%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%28137%2C181%2C193%2C0.34%29%27%20d%3D%27M0%2C142%20C220%2C98%20440%2C186%20660%2C142%20S980%2C112%201200%2C142%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%2845%2C132%2C179%2C0.22%29%27%20d%3D%27M0%2C168%20C260%2C128%20520%2C208%20780%2C168%20S1060%2C138%201200%2C168%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3C%2Fsvg%3E");
   background-repeat:repeat-x;
   background-position:0 100%;
   background-size:1200px 100%;
-  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.55) 14%,#000 38%,#000 100%);
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.55) 14%,#000 38%,#000 100%);
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 6%,#000 26%,#000 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 6%,#000 26%,#000 100%);
   animation:moduleHeroMegaWaveScroll 24s linear infinite;
   will-change:background-position;
 }
@@ -52,10 +85,39 @@
 }
 
 @media (hover:hover){
+  .hero.hero--module-system:hover > .module-hero__atmosphere::after,
+  .hero.hero--module-system:hover > .module-hero__atmosphere::before{
+    filter:saturate(1.08) brightness(1.05);
+  }
+
   .hero.hero--module-system:hover > .module-hero__atmosphere::after{
-    opacity:.38;
+    opacity:.5;
     animation-duration:14s;
-    filter:saturate(1.08) brightness(1.04);
+  }
+
+  .hero.hero--module-system:hover > .module-hero__atmosphere::before{
+    opacity:.3;
+    animation-duration:22s;
+  }
+
+  .hero.hero--module-system:hover .module-hero__bubble{
+    opacity:.82;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.35) inset,
+      0 0 22px rgba(255,255,255,.25);
+    filter:brightness(1.12);
+  }
+
+  .hero.hero--module-system:hover .module-hero__bubble:hover{
+    opacity:1;
+    filter:brightness(1.22);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.5) inset,
+      0 0 28px rgba(255,255,255,.4);
+  }
+
+  .hero.hero--module-system:hover .module-hero__bubbles{
+    --bubble-speed:0.72;
   }
 }
 
@@ -114,7 +176,7 @@
   height:42%;
   bottom:-20%;
   z-index:1;
-  opacity:.1;
+  opacity:.14;
   background:repeating-linear-gradient(
     96deg,
     rgba(255,255,255,0) 0 28px,
@@ -128,7 +190,7 @@
 
 .module-hero__wave--2{
   bottom:-32%;
-  opacity:.09;
+  opacity:.11;
   animation-duration:44s;
   animation-direction:reverse;
   background:repeating-linear-gradient(
@@ -141,7 +203,7 @@
 .module-hero__wave--3{
   bottom:-6%;
   height:30%;
-  opacity:.07;
+  opacity:.08;
   animation-duration:56s;
   background:repeating-linear-gradient(
     88deg,
@@ -222,6 +284,46 @@
 @keyframes moduleHeroOrbFloat{
   0%,100%{ transform:translate3d(0,0,0) scale(1); }
   50%{ transform:translate3d(4px,-10px,0) scale(1.04); }
+}
+
+/* --- Glass bubbles (decorative; hero hover speeds drift) --- */
+
+.module-hero__bubbles{
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  border-radius:inherit;
+  overflow:hidden;
+  --bubble-speed:1;
+}
+
+.module-hero__bubble{
+  position:absolute;
+  left:var(--bx,10%);
+  top:var(--by,24%);
+  width:calc(12px * var(--bs,1));
+  height:calc(12px * var(--bs,1));
+  pointer-events:auto;
+  cursor:default;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.5);
+  background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.5),rgba(255,255,255,.1) 48%,rgba(255,255,255,0) 70%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.14) inset,
+    0 6px 18px rgba(18,50,71,.14);
+  opacity:.58;
+  backdrop-filter:blur(1px);
+  -webkit-backdrop-filter:blur(1px);
+  transform:translate3d(0,0,0) scale(1);
+  animation:moduleHeroBubbleDrift calc(var(--bd,9s) * var(--bubble-speed,1)) ease-in-out infinite alternate;
+  animation-delay:var(--delay,0s);
+  transition:opacity .32s ease,transform .32s ease,box-shadow .32s ease;
+}
+
+@keyframes moduleHeroBubbleDrift{
+  0%{ transform:translate3d(0,0,0) scale(1); }
+  100%{ transform:translate3d(var(--dx,6px),var(--dy,-16px),0) scale(1.08); }
 }
 
 /* --- Badge: glass, high contrast (sits in right rail) --- */
@@ -346,6 +448,11 @@
 }
 
 @media (max-width:860px){
+  .hero.hero--module-system{
+    width:min(100%,calc(var(--max, 1240px) - 24px));
+    max-width:calc(var(--max, 1240px) - 24px);
+  }
+
   .hero.hero--module-system .hero-title-line{
     flex-direction:column;
     align-items:stretch;
@@ -387,17 +494,43 @@
   }
 }
 
+@media (max-width:640px){
+  .hero.hero--module-system{
+    width:min(100%,calc(var(--max, 1240px) - 16px));
+    max-width:calc(var(--max, 1240px) - 16px);
+  }
+}
+
+@media (max-width:400px){
+  .hero.hero--module-system{
+    width:min(100%,calc(var(--max, 1240px) - 12px));
+    max-width:calc(var(--max, 1240px) - 12px);
+  }
+}
+
 @media (prefers-reduced-motion:reduce){
   .module-hero__wave,
   .module-hero__orb,
   .module-hero__signature,
   .module-hero__glow,
-  .hero.hero--module-system > .module-hero__atmosphere::after{
+  .hero.hero--module-system > .module-hero__atmosphere::after,
+  .hero.hero--module-system > .module-hero__atmosphere::before,
+  .module-hero__bubble{
     animation:none !important;
   }
 
-  .hero.hero--module-system:hover > .module-hero__atmosphere::after{
+  .hero.hero--module-system:hover > .module-hero__atmosphere::after,
+  .hero.hero--module-system:hover > .module-hero__atmosphere::before{
     filter:none;
+  }
+
+  .hero.hero--module-system:hover .module-hero__bubble{
+    transform:none;
+    opacity:.58;
+    filter:none;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.14) inset,
+      0 6px 18px rgba(18,50,71,.14);
   }
 
   .hero.hero--module-system .btn.btn-primary{
