@@ -109,6 +109,178 @@ a{
   display:none;
 }
 
+@keyframes pathwayHubFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(6px);}
+}
+
+/* Pathway hub hero: matches module pages (blueùaqua gradient, white type, soft circles) */
+.training-page .hero.hero--pathway-hub{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:linear-gradient(135deg,rgba(45,132,179,1) 0%,rgba(137,181,193,1) 72%,rgba(255,255,255,0.96) 130%);
+  border-radius:34px;
+  padding:36px 38px 40px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,0.12);
+  margin-bottom:22px;
+  color:#fff;
+}
+
+.training-page .hero.hero--pathway-hub::before,
+.training-page .hero.hero--pathway-hub::after{
+  display:block;
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  animation:pathwayHubFloat 7s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
+}
+
+.training-page .hero.hero--pathway-hub::before{
+  width:220px;
+  height:220px;
+  right:-60px;
+  top:-70px;
+}
+
+.training-page .hero.hero--pathway-hub::after{
+  width:150px;
+  height:150px;
+  right:120px;
+  bottom:-60px;
+  animation-delay:1.2s;
+}
+
+.training-page .hero.hero--pathway-hub .hero-inner--pathway-hub{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(200px,300px);
+  gap:32px;
+  align-items:center;
+  text-align:left;
+  max-width:100%;
+  margin:0;
+}
+
+.training-page .hero.hero--pathway-hub .hero-copy{
+  text-align:left;
+  min-width:0;
+}
+
+.training-page .hero.hero--pathway-hub .hero-logo-wrap{
+  padding:0;
+  justify-content:flex-end;
+  align-items:center;
+}
+
+.training-page .hero.hero--pathway-hub .hero-logo{
+  max-width:100%;
+  max-height:min(200px,28vw);
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  filter:drop-shadow(0 12px 28px rgba(23,50,78,0.18));
+}
+
+.training-page .hero.hero--pathway-hub .brand-chip{
+  display:inline-flex;
+  align-items:center;
+  margin:0 0 10px;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.2);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:#fff;
+}
+
+.training-page .hero.hero--pathway-hub h1{
+  color:#fff;
+  margin-bottom:12px;
+}
+
+.training-page .hero.hero--pathway-hub .hero-subtitle{
+  color:rgba(255,255,255,0.94);
+  margin:0;
+  max-width:52ch;
+}
+
+.training-page .hero.hero--pathway-hub .hero-actions{
+  justify-content:flex-start;
+  margin-top:22px;
+}
+
+.training-page .hero.hero--pathway-hub .btn-primary{
+  background:var(--blue-deep);
+  color:var(--white);
+  border-color:rgba(255,255,255,0.35);
+  box-shadow:0 10px 26px rgba(23,50,78,0.2);
+}
+
+.training-page .hero.hero--pathway-hub .btn-primary:hover{
+  background:#fff;
+  color:var(--blue-deep);
+  border-color:#fff;
+  transform:translateY(-1px);
+}
+
+.training-page .hero.hero--pathway-hub .btn-secondary{
+  background:rgba(255,255,255,0.16);
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.28);
+  box-shadow:none;
+}
+
+.training-page .hero.hero--pathway-hub .btn-secondary:hover{
+  background:#f3f9fc;
+  border-color:#c5d4e0;
+  color:var(--navy);
+}
+
+@media (max-width:900px){
+  .training-page .hero.hero--pathway-hub .hero-inner--pathway-hub{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+
+  .training-page .hero.hero--pathway-hub .hero-copy{
+    text-align:center;
+  }
+
+  .training-page .hero.hero--pathway-hub .brand-chip{
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .training-page .hero.hero--pathway-hub .hero-actions{
+    justify-content:center;
+  }
+
+  .training-page .hero.hero--pathway-hub .hero-logo-wrap{
+    justify-content:center;
+    padding-top:8px;
+  }
+
+  .training-page .hero.hero--pathway-hub .hero-logo{
+    max-height:min(160px,36vw);
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .training-page .hero.hero--pathway-hub::before,
+  .training-page .hero.hero--pathway-hub::after{
+    animation:none;
+  }
+}
+
 .hero-inner{
   position:relative;
   z-index:1;
@@ -207,6 +379,22 @@ a{
   box-shadow:0 1px 0 rgba(255,255,255,0.85) inset;
 }
 
+.pathway-overview.pathway-overview--compact{
+  padding:16px 20px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow-soft);
+}
+
+.pathway-overview.pathway-overview--compact h2{
+  font-size:clamp(17px,1.9vw,20px);
+  margin-bottom:8px;
+}
+
+.pathway-overview.pathway-overview--compact p{
+  font-size:14px;
+  line-height:1.55;
+}
+
 .pathway-overview h2{
   font-size:clamp(20px,2.2vw,24px);
   font-weight:800;
@@ -245,6 +433,12 @@ a{
   padding:22px 20px;
   margin:28px 0 32px;
   box-shadow:var(--shadow-soft);
+}
+
+.portal-stats.portal-stats--compact{
+  margin:14px 0 18px;
+  padding:18px 18px;
+  gap:14px;
 }
 
 .portal-stat{
@@ -665,6 +859,21 @@ a{
   box-shadow:var(--shadow-soft);
 }
 
+.bottom-note.bottom-note--soft{
+  margin-top:28px;
+  padding:18px 22px;
+  background:var(--blue-soft);
+  border:1px solid rgba(45,132,179,0.12);
+  color:var(--text);
+  font-size:14px;
+  box-shadow:0 1px 0 rgba(255,255,255,0.85) inset;
+}
+
+.training-portal .portal-hero.hero{
+  padding:8px 0 4px;
+  margin-bottom:16px;
+}
+
 .training-portal{
   width:100%;
   max-width:100%;
@@ -700,11 +909,24 @@ a{
   font-weight:500;
 }
 
+.path-section-intro.path-section-intro--compact{
+  padding:4px 12px 0;
+  margin-bottom:4px;
+}
+
+.path-section-intro.path-section-intro--compact h2{
+  margin-bottom:6px;
+}
+
 .path-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:26px;
   margin-top:26px;
+}
+
+.path-grid.path-grid--tight{
+  margin-top:12px;
 }
 
 .path-card{
@@ -843,6 +1065,11 @@ a{
     margin-bottom:22px;
   }
 
+  .training-page .hero.hero--pathway-hub{
+    padding:28px 24px 32px;
+    border-radius:26px;
+  }
+
   .hero-logo{
     max-height:176px;
   }
@@ -899,6 +1126,12 @@ a{
   .hero{
     padding:4px 0 0;
     margin-bottom:18px;
+  }
+
+  .training-page .hero.hero--pathway-hub{
+    padding:22px 18px 26px;
+    border-radius:22px;
+    margin-bottom:16px;
   }
 
   .hero-logo{

@@ -15,15 +15,8 @@
     <div class="training-wrap">
       <a href="/portal/" class="btn-back-portal">&larr; Back to Training Portal</a>
 
-      <section class="hero" aria-labelledby="pathwayHubTitle">
-        <div class="hero-inner">
-          <div class="hero-logo-wrap">
-            <img
-              class="hero-logo"
-              src="https://www.clubsensational.org/wp-content/uploads/2025/07/F-01.png"
-              alt="clubSENsational logo"
-            />
-          </div>
+      <section class="hero hero--pathway-hub" aria-labelledby="pathwayHubTitle">
+        <div class="hero-inner hero-inner--pathway-hub">
           <div class="hero-copy">
             <p class="brand-chip">clubSENsational Specialist Learning Pathway</p>
             <h1 id="pathwayHubTitle">Aquatic Development &amp; Skills Progression</h1>
@@ -33,10 +26,17 @@
               <a class="btn btn-secondary" href="#pathway-modules">Browse modules</a>
             </div>
           </div>
+          <div class="hero-logo-wrap">
+            <img
+              class="hero-logo"
+              src="https://www.clubsensational.org/wp-content/uploads/2025/07/F-01.png"
+              alt="clubSENsational logo"
+            />
+          </div>
         </div>
       </section>
 
-      <section class="pathway-overview" aria-labelledby="pathwayOverviewTitle">
+      <section class="pathway-overview pathway-overview--compact" aria-labelledby="pathwayOverviewTitle">
         <h2 id="pathwayOverviewTitle">Pathway overview</h2>
         <p>This pathway focuses on developing aquatic skills through clear progression, scaffolding, core aquatic skills, propulsion, stroke development and practical teaching application in the water.</p>
       </section>
@@ -53,113 +53,137 @@
         <div class="progress-summary-text" id="progressSummaryText">0% completed</div>
       </div>
 
-      <div class="modules-list modules-list--rows">
-        <article class="module-card module--row" data-hub-module-id="module1">
-          <div class="module-row-icon-wrap" aria-hidden="true"><span class="module-row-icon"></span></div>
-          <div class="module-row-main">
-            <div class="module-row-head">
-              <span class="module-number">Module 1</span>
-              <h3>Foundations of Aquatic Skill Development</h3>
-            </div>
+      <div class="modules-grid">
+        <article class="module-card" data-hub-module-id="module1">
+          <div class="module-top">
+            <span class="module-number">Module 1</span>
+            <h3>Foundations of Aquatic Skill Development</h3>
             <p class="module-subtitle">Understanding how aquatic learning begins.</p>
-            <p class="module-intro hub-sr-only">The first learner module after the Training Introduction, using the approved Module 1 content already in place.</p>
+            <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
           </div>
-          <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
-          <div class="module-row-cta">
-            <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-1/">Start Module</a>
-            <span class="module-row-arrow" aria-hidden="true">→</span>
+          <div class="module-body">
+            <p class="module-intro">The first learner module after the Training Introduction, focused on how aquatic learning starts and how strong foundations are built.</p>
+            <ul class="module-points">
+              <li>How aquatic learning begins in practice</li>
+              <li>Building safe, supportive early responses</li>
+              <li>Connecting theory to pool delivery</li>
+              <li>Preparing for structured progression</li>
+            </ul>
+            <div class="module-footer">
+              <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-1/">Start Module</a>
+            </div>
           </div>
         </article>
 
-        <article class="module-card module--row" data-hub-module-id="module2">
-          <div class="module-row-icon-wrap" aria-hidden="true"><span class="module-row-icon"></span></div>
-          <div class="module-row-main">
-            <div class="module-row-head">
-              <span class="module-number">Module 2</span>
-              <h3>Guiding Learning Through Scaffolding and the CS learning principle</h3>
-            </div>
+        <article class="module-card" data-hub-module-id="module2">
+          <div class="module-top">
+            <span class="module-number">Module 2</span>
+            <h3>Guiding Learning Through Scaffolding and the CS Learning Principle</h3>
             <p class="module-subtitle">Structuring support, progression and teaching decisions.</p>
-            <p class="module-intro hub-sr-only">This module shell is ready for Javier&apos;s approved content while already following the shared learning flow used across this pathway.</p>
+            <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
           </div>
-          <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
-          <div class="module-row-cta">
-            <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-2/">Start Module</a>
-            <span class="module-row-arrow" aria-hidden="true">→</span>
+          <div class="module-body">
+            <p class="module-intro">This module keeps the full flow visible so scaffolding, progression and teaching decision points can be reviewed end to end.</p>
+            <ul class="module-points">
+              <li>Scaffolding choices in live teaching</li>
+              <li>The CS learning principle in context</li>
+              <li>Progression signals and checkpoints</li>
+              <li>Reviewing decisions across a full module flow</li>
+            </ul>
+            <div class="module-footer">
+              <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-2/">Start Module</a>
+            </div>
           </div>
         </article>
 
-        <article class="module-card module--row" data-hub-module-id="module3">
-          <div class="module-row-icon-wrap" aria-hidden="true"><span class="module-row-icon"></span></div>
-          <div class="module-row-main">
-            <div class="module-row-head">
-              <span class="module-number">Module 3</span>
-              <h3>Early Aquatic Experiences</h3>
-            </div>
+        <article class="module-card" data-hub-module-id="module3">
+          <div class="module-top">
+            <span class="module-number">Module 3</span>
+            <h3>Early Aquatic Experiences</h3>
             <p class="module-subtitle">Supporting first contact, entry and exit in the water and early familiarisation.</p>
-            <p class="module-intro hub-sr-only">Module 3 is scaffolded with the same card, block and progression pattern used across the full pathway route map.</p>
+            <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
           </div>
-          <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
-          <div class="module-row-cta">
-            <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-3/">Start Module</a>
-            <span class="module-row-arrow" aria-hidden="true">→</span>
+          <div class="module-body">
+            <p class="module-intro">This module keeps the full pathway visible so the early-experience route can be reviewed before the final content is locked in.</p>
+            <ul class="module-points">
+              <li>First contact, entry and exit patterns</li>
+              <li>Early familiarisation routines</li>
+              <li>Consistent hub-to-module layout</li>
+              <li>Ready for approved final content</li>
+            </ul>
+            <div class="module-footer">
+              <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-3/">Start Module</a>
+            </div>
           </div>
         </article>
 
-        <article class="module-card module--row" data-hub-module-id="module4">
-          <div class="module-row-icon-wrap" aria-hidden="true"><span class="module-row-icon"></span></div>
-          <div class="module-row-main">
-            <div class="module-row-head">
-              <span class="module-number">Module 4</span>
-              <h3>Core Aquatic Skills</h3>
-            </div>
+        <article class="module-card" data-hub-module-id="module4">
+          <div class="module-top">
+            <span class="module-number">Module 4</span>
+            <h3>Core Aquatic Skills</h3>
             <p class="module-subtitle">Developing breathing control and submersion, floating and balance, gliding and streamlining and rotation.</p>
-            <p class="module-intro hub-sr-only">Module 4 is already structured as a complete module shell so approved final content can be added without rebuilding the layout.</p>
+            <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
           </div>
-          <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
-          <div class="module-row-cta">
-            <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-4/">Start Module</a>
-            <span class="module-row-arrow" aria-hidden="true">→</span>
+          <div class="module-body">
+            <p class="module-intro">This module keeps the full flow visible so the core-skill progression can be checked from journey to completion.</p>
+            <ul class="module-points">
+              <li>Breathing, floating, gliding and rotation</li>
+              <li>Complete module shell for content handoff</li>
+              <li>Progression across journey to completion</li>
+              <li>Skills linked to programme delivery</li>
+            </ul>
+            <div class="module-footer">
+              <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-4/">Start Module</a>
+            </div>
           </div>
         </article>
 
-        <article class="module-card module--row" data-hub-module-id="module5">
-          <div class="module-row-icon-wrap" aria-hidden="true"><span class="module-row-icon"></span></div>
-          <div class="module-row-main">
-            <div class="module-row-head">
-              <span class="module-number">Module 5</span>
-              <h3>Propulsion Development in the Water</h3>
-            </div>
+        <article class="module-card" data-hub-module-id="module5">
+          <div class="module-top">
+            <span class="module-number">Module 5</span>
+            <h3>Propulsion Development in the Water</h3>
             <p class="module-subtitle">Building functional movement through the water.</p>
-            <p class="module-intro hub-sr-only">Module 5 remains aligned to the same hub structure so the course feels like one connected pathway.</p>
+            <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
           </div>
-          <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
-          <div class="module-row-cta">
-            <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-5/">Start Module</a>
-            <span class="module-row-arrow" aria-hidden="true">→</span>
-          </div>
-        </article>
-
-        <article class="module-card module--row" data-hub-module-id="module6">
-          <div class="module-row-icon-wrap" aria-hidden="true"><span class="module-row-icon"></span></div>
-          <div class="module-row-main">
-            <div class="module-row-head">
-              <span class="module-number">Module 6</span>
-              <h3>Swimming Strokes and Advanced Techniques</h3>
+          <div class="module-body">
+            <p class="module-intro">This module keeps the full flow visible so propulsion development can be reviewed across the complete module structure.</p>
+            <ul class="module-points">
+              <li>Functional movement through the water</li>
+              <li>Hub structure aligned across the pathway</li>
+              <li>Practice-focused progression</li>
+              <li>Connecting drills to outcomes</li>
+            </ul>
+            <div class="module-footer">
+              <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-5/">Start Module</a>
             </div>
-            <p class="module-subtitle">Applying aquatic foundations to strokes and advanced skills.</p>
-            <p class="module-intro hub-sr-only">The final module in this pathway completes the structured hub-to-module progression used throughout.</p>
           </div>
-          <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
-          <div class="module-row-cta">
-            <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-6/">Start Module</a>
-            <span class="module-row-arrow" aria-hidden="true">→</span>
+        </article>
+
+        <article class="module-card" data-hub-module-id="module6">
+          <div class="module-top">
+            <span class="module-number">Module 6</span>
+            <h3>Swimming Strokes and Advanced Techniques</h3>
+            <p class="module-subtitle">Applying aquatic foundations to strokes and advanced skills.</p>
+            <span class="module-status-badge status-not-started" data-hub-status>Not started</span>
+          </div>
+          <div class="module-body">
+            <p class="module-intro">The final module keeps the full flow visible so the advanced-technique pathway can be reviewed from start to finish.</p>
+            <ul class="module-points">
+              <li>Strokes and advanced applications</li>
+              <li>Completing the hub-to-module journey</li>
+              <li>Consolidation across the pathway</li>
+              <li>Final review-ready structure</li>
+            </ul>
+            <div class="module-footer">
+              <a class="btn btn-primary" data-hub-primary href="/training-ii/modules/module-6/">Start Module</a>
+            </div>
           </div>
         </article>
       </div>
 
-      <div class="bottom-note">
+      <p class="bottom-note bottom-note--soft" role="note">
         Begin with the Training Introduction when you are ready, then work through the modules in this pathway. Each module uses the same structured hub layout for a consistent learning experience.
-      </div>
+      </p>
     </div>
   </div>
 
