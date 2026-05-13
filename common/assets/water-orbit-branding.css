@@ -17,6 +17,7 @@
   .water-orbit__flow,
   .water-orbit__swell,
   .water-orbit__lump,
+  .water-orbit--compact::before,
   .water-orbit__ring,
   .progress-summary-fill,
   .portal .progress-fill,
@@ -226,6 +227,17 @@
   display:block;
 }
 
+/* Feather any leftover square matte on raster marks (hero + sidebar) */
+img.water-orbit__logo,
+.water-orbit--compact .sidebar-logo-img{
+  -webkit-mask-image:radial-gradient(ellipse 94% 94% at 50% 48%,#000 0%,#000 86%,transparent 94%);
+  mask-image:radial-gradient(ellipse 94% 94% at 50% 48%,#000 0%,#000 86%,transparent 94%);
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-size:100% 100%;
+  mask-size:100% 100%;
+}
+
 /* Hero logo: soften square edges / fringe on non-transparent PNGs */
 .water-orbit--hero .water-orbit__logo{
   border-radius:50%;
@@ -266,9 +278,48 @@
   display:none;
 }
 
+/* Sidebar: slow rotating light band (no extra DOM; stays behind rings + logo) */
+.water-orbit--compact{
+  isolation:isolate;
+}
+
+.water-orbit--compact::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(142%,280px);
+  height:min(142%,280px);
+  max-width:280px;
+  max-height:280px;
+  aspect-ratio:1;
+  border-radius:50%;
+  z-index:0;
+  pointer-events:none;
+  opacity:0.42;
+  mix-blend-mode:soft-light;
+  background:conic-gradient(
+    from 0deg,
+    transparent 0deg 40deg,
+    rgba(255,255,255,0.35) 72deg,
+    transparent 118deg 200deg,
+    rgba(255,255,255,0.22) 248deg,
+    transparent 300deg 360deg
+  );
+  animation:water-swell-spin 88s linear infinite;
+  -webkit-mask:radial-gradient(closest-side,transparent 38%,#000 44%,#000 82%,transparent 88%);
+  mask:radial-gradient(closest-side,transparent 38%,#000 44%,#000 82%,transparent 88%);
+}
+
 .brand-card .water-orbit--compact{
   width:100%;
   max-width:100%;
+}
+
+.brand-card .water-orbit--compact .sidebar-logo-link{
+  position:relative;
+  z-index:3;
 }
 
 .brand-card .water-orbit--compact .sidebar-logo-img{
