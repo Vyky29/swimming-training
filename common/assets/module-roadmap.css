@@ -1,5 +1,5 @@
 /**
- * Inside This Module ‚Äî editorial roadmap (lightweight; not a second Journey).
+ * Inside This Module ù editorial roadmap (lightweight; not a second Journey).
  * Block index lives inside the circle (BLOCK + number); title + hint below.
  */
 
@@ -65,16 +65,18 @@
   justify-content:center;
   text-align:center;
   line-height:1;
-  padding:0 5px;
+  padding:0 6px;
   gap:2px;
   font-size:unset;
-  background:#fff;
-  border:1px solid rgba(45,132,179,.22);
-  box-shadow:0 6px 16px rgba(18,50,71,.06);
-  min-width:56px;
-  min-height:56px;
-  width:56px;
-  height:56px;
+  background:linear-gradient(155deg, #2d84b3 0%, #246f9e 42%, #1d6f99 100%);
+  border:1px solid rgba(255,255,255,.38);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 8px 20px rgba(22, 72, 108, .22);
+  min-width:64px;
+  min-height:64px;
+  width:64px;
+  height:64px;
   border-radius:50%;
   flex-shrink:0;
 }
@@ -82,21 +84,21 @@
 #inside-module a.module-roadmap__item .journey-circle .module-roadmap__node-kicker{
   display:block;
   margin:0;
-  font-size:.48rem;
+  font-size:.5rem;
   font-weight:700;
   letter-spacing:.14em;
   text-transform:uppercase;
-  color:rgba(45,132,179,.5);
+  color:rgba(255,255,255,.88);
   line-height:1.05;
 }
 
 #inside-module a.module-roadmap__item .journey-circle .module-roadmap__node-num{
   display:block;
   margin:0;
-  font-size:1.02rem;
+  font-size:1.12rem;
   font-weight:800;
   letter-spacing:-.02em;
-  color:var(--blue);
+  color:#fff;
   line-height:1;
 }
 
@@ -110,7 +112,7 @@
   width:100%;
 }
 
-/* Calm roadmap shell ‚Äî restraint vs #journey immersive wrap */
+/* Calm roadmap shell ù restraint vs #journey immersive wrap */
 #inside-module .module-roadmap-wrap.journey-wrap{
   margin-top:4px;
   border:1px solid rgba(45,132,179,.1);
@@ -125,10 +127,6 @@
   column-gap:18px;
   row-gap:8px;
   padding-top:4px;
-}
-
-#inside-module .journey-track::before{
-  background:linear-gradient(90deg,rgba(45,132,179,.16) 0%,rgba(45,132,179,.28) 100%);
 }
 
 #inside-module a.module-roadmap__item{
@@ -201,7 +199,7 @@
     position:relative;
     align-items:flex-start;
     text-align:left;
-    padding-left:62px;
+    padding-left:76px;
   }
 
   #inside-module[data-roadmap-stack="training-ii"] a.module-roadmap__item .journey-circle{
@@ -240,7 +238,7 @@
 
   #inside-module[data-roadmap-stack="training-i"] a.module-roadmap__item{
     display:grid;
-    grid-template-columns:56px minmax(0,1fr);
+    grid-template-columns:64px minmax(0,1fr);
     gap:10px 14px;
     align-items:start;
     justify-items:start;
@@ -251,15 +249,15 @@
     position:static;
     grid-row:1;
     grid-column:1;
-    width:56px;
-    height:56px;
-    min-width:56px;
-    min-height:56px;
-    max-width:56px;
-    max-height:56px;
+    width:64px;
+    height:64px;
+    min-width:64px;
+    min-height:64px;
+    max-width:64px;
+    max-height:64px;
     border-radius:50%;
     align-self:start;
-    padding:0 4px;
+    padding:0 5px;
     gap:1px;
   }
 
