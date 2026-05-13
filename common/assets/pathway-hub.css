@@ -119,7 +119,8 @@ a{
 .training-page .hero.hero--pathway-hub,
 .training-portal .hero.hero--pathway-hub{
   position:relative;
-  overflow:hidden;
+  /* Let logo orbit bubbles paint above the title column and avoid clipping */
+  overflow:visible;
   isolation:isolate;
   background:linear-gradient(135deg,rgba(45,132,179,1) 0%,rgba(137,181,193,1) 72%,rgba(255,255,255,0.96) 130%);
   border-radius:34px;
@@ -178,6 +179,8 @@ a{
 .training-portal .hero.hero--pathway-hub .hero-copy{
   text-align:left;
   min-width:0;
+  position:relative;
+  z-index:1;
 }
 
 .training-page .hero.hero--pathway-hub .hero-logo-wrap,
@@ -186,6 +189,8 @@ a{
   justify-content:flex-end;
   align-items:center;
   align-self:center;
+  position:relative;
+  z-index:4;
 }
 
 .training-page .hero.hero--pathway-hub .hero-logo,
@@ -274,6 +279,8 @@ a{
   .training-page .hero.hero--pathway-hub .hero-copy,
   .training-portal .hero.hero--pathway-hub .hero-copy{
     text-align:center;
+    position:relative;
+    z-index:1;
   }
 
   .training-page .hero.hero--pathway-hub .brand-chip,
@@ -292,6 +299,8 @@ a{
   .training-portal .hero.hero--pathway-hub .hero-logo-wrap{
     justify-content:center;
     padding-top:10px;
+    position:relative;
+    z-index:4;
   }
 
   .training-page .hero.hero--pathway-hub .hero-logo,

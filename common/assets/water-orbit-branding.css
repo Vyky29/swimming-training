@@ -75,24 +75,13 @@
 
 /* ---- Hero ---- */
 .water-orbit--hero{
-  --bubble-r-1:min(168px,40vw);
-  --bubble-r-2:min(138px,34vw);
-  --bubble-r-3:min(192px,44vw);
-  --bubble-r-4:min(122px,30vw);
-  --bubble-r-l1:min(98px,26vw);
-  --bubble-r-l2:min(112px,28vw);
-  --bubble-r-l3:min(86px,23vw);
-  /* Extra orbit radii (mid / outer / inner mix) */
-  --bubble-r-h1:min(156px,37vw);
-  --bubble-r-h2:min(182px,42vw);
-  --bubble-r-h3:min(132px,32vw);
-  --bubble-r-h4:min(200px,45vw);
-  --bubble-r-h5:min(108px,28vw);
-  --bubble-r-h6:min(172px,39vw);
-  --bubble-r-h7:min(148px,35vw);
-  --bubble-r-h8:min(118px,30vw);
-  --bubble-r-h9:min(188px,43vw);
-  --bubble-r-h10:min(104px,26vw);
+  /* Phase-locked tracks: shared radius + period + delay steps of period/n => even 360' coverage */
+  --hero-orbit-1:min(176px,41vw);
+  --hero-orbit-2:min(136px,33vw);
+  --hero-orbit-3:min(100px,26vw);
+  --hero-p1:32s;
+  --hero-p2:32s;
+  --hero-p3:28s;
 }
 
 .water-orbit--hero .water-orbit__flow{
@@ -193,41 +182,43 @@
   width:20px;
   height:20px;
   margin:-10px 0 0 -10px;
-  --bubble-r:var(--bubble-r-1);
-  animation:water-bubble-orbit 21s linear infinite;
+  --bubble-r:var(--hero-orbit-1);
+  animation:water-bubble-orbit var(--hero-p1) linear infinite;
+  animation-delay:0s;
+  opacity:0.9;
 }
 
 .water-orbit--hero .water-orbit__ring--b{
   width:14px;
   height:14px;
   margin:-7px 0 0 -7px;
-  --bubble-r:var(--bubble-r-2);
-  animation:water-bubble-orbit-rev 27s linear infinite;
-  animation-delay:-8s;
-  opacity:0.92;
+  --bubble-r:var(--hero-orbit-2);
+  animation:water-bubble-orbit-rev var(--hero-p2) linear infinite;
+  animation-delay:0s;
+  opacity:0.9;
 }
 
 .water-orbit--hero .water-orbit__ring--c{
   width:18px;
   height:18px;
   margin:-9px 0 0 -9px;
-  --bubble-r:var(--bubble-r-3);
-  animation:water-bubble-orbit 33s linear infinite;
-  animation-delay:-4s;
-  opacity:0.9;
+  --bubble-r:var(--hero-orbit-1);
+  animation:water-bubble-orbit var(--hero-p1) linear infinite;
+  animation-delay:-8s;
+  opacity:0.88;
 }
 
 .water-orbit--hero .water-orbit__ring--d{
   width:12px;
   height:12px;
   margin:-6px 0 0 -6px;
-  --bubble-r:var(--bubble-r-4);
-  animation:water-bubble-orbit-rev 16s linear infinite;
-  animation-delay:-2s;
+  --bubble-r:var(--hero-orbit-2);
+  animation:water-bubble-orbit-rev var(--hero-p2) linear infinite;
+  animation-delay:-8s;
   opacity:0.88;
 }
 
-/* Smaller bubbles (lumps) ù inner orbits */
+/* Smaller bubbles (lumps) on inner orbit track */
 .water-orbit--hero .water-orbit__lump{
   display:block;
   position:absolute;
@@ -255,30 +246,30 @@
   width:11px;
   height:11px;
   margin:-5.5px 0 0 -5.5px;
-  --bubble-r:var(--bubble-r-l1);
-  animation:water-bubble-orbit 13s linear infinite;
-  animation-delay:-1.2s;
+  --bubble-r:var(--hero-orbit-1);
+  animation:water-bubble-orbit var(--hero-p1) linear infinite;
+  animation-delay:-16s;
 }
 
 .water-orbit--hero .water-orbit__lump--2{
   width:9px;
   height:9px;
   margin:-4.5px 0 0 -4.5px;
-  --bubble-r:var(--bubble-r-l2);
-  animation:water-bubble-orbit-rev 15s linear infinite;
-  animation-delay:-5.5s;
+  --bubble-r:var(--hero-orbit-2);
+  animation:water-bubble-orbit-rev var(--hero-p2) linear infinite;
+  animation-delay:-16s;
 }
 
 .water-orbit--hero .water-orbit__lump--3{
   width:10px;
   height:10px;
   margin:-5px 0 0 -5px;
-  --bubble-r:var(--bubble-r-l3);
-  animation:water-bubble-orbit 11s linear infinite;
-  animation-delay:-3.4s;
+  --bubble-r:var(--hero-orbit-3);
+  animation:water-bubble-orbit var(--hero-p3) linear infinite;
+  animation-delay:0s;
 }
 
-/* Extra drifting bubbles (hero): lighter / varied so it never feels crowded */
+/* Extra hero bubbles: phase-locked to rings/lumps (even 360' per track) */
 .water-orbit--hero .water-orbit__bubble{
   display:block;
   position:absolute;
@@ -303,104 +294,167 @@
   );
 }
 
+/* Track 1: orbit-1, CW, 32s, 8 phases every 4s */
+.water-orbit--hero .water-orbit__bubble--h11{
+  width:9px;
+  height:9px;
+  margin:-4.5px 0 0 -4.5px;
+  --bubble-r:var(--hero-orbit-1);
+  opacity:0.5;
+  animation:water-bubble-orbit var(--hero-p1) linear infinite;
+  animation-delay:-4s;
+}
+
 .water-orbit--hero .water-orbit__bubble--h1{
   width:15px;
   height:15px;
   margin:-7.5px 0 0 -7.5px;
-  --bubble-r:var(--bubble-r-h1);
-  opacity:0.72;
-  animation:water-bubble-orbit 24s linear infinite, water-bubble-glow 6.5s ease-in-out infinite;
-  animation-delay:-2.1s,0s;
-}
-
-.water-orbit--hero .water-orbit__bubble--h2{
-  width:9px;
-  height:9px;
-  margin:-4.5px 0 0 -4.5px;
-  --bubble-r:var(--bubble-r-h2);
-  opacity:0.48;
-  animation:water-bubble-orbit-rev 31s linear infinite;
-  animation-delay:-11s;
+  --bubble-r:var(--hero-orbit-1);
+  opacity:0.68;
+  animation:water-bubble-orbit var(--hero-p1) linear infinite;
+  animation-delay:-12s;
 }
 
 .water-orbit--hero .water-orbit__bubble--h3{
   width:12px;
   height:12px;
   margin:-6px 0 0 -6px;
-  --bubble-r:var(--bubble-r-h3);
+  --bubble-r:var(--hero-orbit-1);
   opacity:0.58;
-  animation:water-bubble-orbit 18s linear infinite;
-  animation-delay:-6.8s;
-}
-
-.water-orbit--hero .water-orbit__bubble--h4{
-  width:8px;
-  height:8px;
-  margin:-4px 0 0 -4px;
-  --bubble-r:var(--bubble-r-h4);
-  opacity:0.42;
-  animation:water-bubble-orbit-rev 36s linear infinite;
-  animation-delay:-1.4s;
+  animation:water-bubble-orbit var(--hero-p1) linear infinite;
+  animation-delay:-20s;
 }
 
 .water-orbit--hero .water-orbit__bubble--h5{
   width:14px;
   height:14px;
   margin:-7px 0 0 -7px;
-  --bubble-r:var(--bubble-r-h5);
-  opacity:0.65;
-  animation:water-bubble-orbit 15s linear infinite, water-bubble-glow 8s ease-in-out infinite;
-  animation-delay:-4.2s,-2s;
-}
-
-.water-orbit--hero .water-orbit__bubble--h6{
-  width:10px;
-  height:10px;
-  margin:-5px 0 0 -5px;
-  --bubble-r:var(--bubble-r-h6);
-  opacity:0.52;
-  animation:water-bubble-orbit-rev 22s linear infinite;
-  animation-delay:-9.3s;
+  --bubble-r:var(--hero-orbit-1);
+  opacity:0.62;
+  animation:water-bubble-orbit var(--hero-p1) linear infinite;
+  animation-delay:-24s;
 }
 
 .water-orbit--hero .water-orbit__bubble--h7{
   width:11px;
   height:11px;
   margin:-5.5px 0 0 -5.5px;
-  --bubble-r:var(--bubble-r-h7);
-  opacity:0.55;
-  animation:water-bubble-orbit 28s linear infinite;
-  animation-delay:-7.6s;
+  --bubble-r:var(--hero-orbit-1);
+  opacity:0.52;
+  animation:water-bubble-orbit var(--hero-p1) linear infinite;
+  animation-delay:-28s;
+}
+
+/* Track 2: orbit-2, CCW, 32s, 8 phases */
+.water-orbit--hero .water-orbit__bubble--h12{
+  width:8px;
+  height:8px;
+  margin:-4px 0 0 -4px;
+  --bubble-r:var(--hero-orbit-2);
+  opacity:0.46;
+  animation:water-bubble-orbit-rev var(--hero-p2) linear infinite;
+  animation-delay:-4s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h2{
+  width:9px;
+  height:9px;
+  margin:-4.5px 0 0 -4.5px;
+  --bubble-r:var(--hero-orbit-2);
+  opacity:0.5;
+  animation:water-bubble-orbit-rev var(--hero-p2) linear infinite;
+  animation-delay:-12s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h4{
+  width:8px;
+  height:8px;
+  margin:-4px 0 0 -4px;
+  --bubble-r:var(--hero-orbit-2);
+  opacity:0.44;
+  animation:water-bubble-orbit-rev var(--hero-p2) linear infinite;
+  animation-delay:-20s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h6{
+  width:10px;
+  height:10px;
+  margin:-5px 0 0 -5px;
+  --bubble-r:var(--hero-orbit-2);
+  opacity:0.54;
+  animation:water-bubble-orbit-rev var(--hero-p2) linear infinite;
+  animation-delay:-24s;
 }
 
 .water-orbit--hero .water-orbit__bubble--h8{
   width:7px;
   height:7px;
   margin:-3.5px 0 0 -3.5px;
-  --bubble-r:var(--bubble-r-h8);
-  opacity:0.4;
-  animation:water-bubble-orbit-rev 19s linear infinite;
-  animation-delay:-3.1s;
+  --bubble-r:var(--hero-orbit-2);
+  opacity:0.42;
+  animation:water-bubble-orbit-rev var(--hero-p2) linear infinite;
+  animation-delay:-28s;
 }
 
+/* Track 3: orbit-3, CW, 28s, 7 phases every 4s */
 .water-orbit--hero .water-orbit__bubble--h9{
   width:13px;
   height:13px;
   margin:-6.5px 0 0 -6.5px;
-  --bubble-r:var(--bubble-r-h9);
-  opacity:0.62;
-  animation:water-bubble-orbit 34s linear infinite;
-  animation-delay:-14.2s;
+  --bubble-r:var(--hero-orbit-3);
+  opacity:0.58;
+  animation:water-bubble-orbit var(--hero-p3) linear infinite;
+  animation-delay:-4s;
 }
 
 .water-orbit--hero .water-orbit__bubble--h10{
   width:9px;
   height:9px;
   margin:-4.5px 0 0 -4.5px;
-  --bubble-r:var(--bubble-r-h10);
+  --bubble-r:var(--hero-orbit-3);
+  opacity:0.48;
+  animation:water-bubble-orbit var(--hero-p3) linear infinite;
+  animation-delay:-8s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h13{
+  width:8px;
+  height:8px;
+  margin:-4px 0 0 -4px;
+  --bubble-r:var(--hero-orbit-3);
+  opacity:0.44;
+  animation:water-bubble-orbit var(--hero-p3) linear infinite;
+  animation-delay:-12s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h14{
+  width:10px;
+  height:10px;
+  margin:-5px 0 0 -5px;
+  --bubble-r:var(--hero-orbit-3);
+  opacity:0.52;
+  animation:water-bubble-orbit var(--hero-p3) linear infinite;
+  animation-delay:-16s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h15{
+  width:7px;
+  height:7px;
+  margin:-3.5px 0 0 -3.5px;
+  --bubble-r:var(--hero-orbit-3);
+  opacity:0.4;
+  animation:water-bubble-orbit var(--hero-p3) linear infinite;
+  animation-delay:-20s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h16{
+  width:9px;
+  height:9px;
+  margin:-4.5px 0 0 -4.5px;
+  --bubble-r:var(--hero-orbit-3);
   opacity:0.46;
-  animation:water-bubble-orbit-rev 26s linear infinite, water-bubble-glow 7s ease-in-out infinite;
-  animation-delay:-5.5s,-1s;
+  animation:water-bubble-orbit var(--hero-p3) linear infinite;
+  animation-delay:-24s;
 }
 
 .water-orbit__logo{
@@ -431,17 +485,13 @@ img.water-orbit__logo,
     0 10px 36px rgba(23,50,78,0.2);
 }
 
-/* ---- Compact (sidebar / quizzes): reflection + a few bubbles ---- */
+/* ---- Compact (sidebar / quizzes): phase-locked tracks for even coverage ---- */
 .water-orbit--compact{
   isolation:isolate;
-  --bubble-c-1:min(88px,30vw);
-  --bubble-c-2:min(72px,26vw);
-  --bubble-c-3:min(100px,32vw);
-  --bubble-c-4:min(80px,28vw);
-  --bubble-c-5:min(94px,31vw);
-  --bubble-c-6:min(68px,24vw);
-  --bubble-c-7:min(106px,33vw);
-  --bubble-c-8:min(76px,27vw);
+  --compact-orbit-o:min(90px,30vw);
+  --compact-orbit-i:min(74px,25vw);
+  --compact-p-o:22s;
+  --compact-p-i:20s;
 }
 
 .water-orbit--compact .water-orbit__flow,
@@ -560,17 +610,18 @@ img.water-orbit__logo,
   width:13px;
   height:13px;
   margin:-6.5px 0 0 -6.5px;
-  --bubble-r:var(--bubble-c-1);
-  animation:water-bubble-orbit 19s linear infinite;
+  --bubble-r:var(--compact-orbit-o);
+  animation:water-bubble-orbit var(--compact-p-o) linear infinite;
+  animation-delay:0s;
 }
 
 .water-orbit--compact .water-orbit__ring--b{
   width:10px;
   height:10px;
   margin:-5px 0 0 -5px;
-  --bubble-r:var(--bubble-c-2);
-  animation:water-bubble-orbit-rev 24s linear infinite;
-  animation-delay:-6s;
+  --bubble-r:var(--compact-orbit-o);
+  animation:water-bubble-orbit var(--compact-p-o) linear infinite;
+  animation-delay:-4.4s;
   opacity:0.9;
 }
 
@@ -578,9 +629,9 @@ img.water-orbit__logo,
   width:11px;
   height:11px;
   margin:-5.5px 0 0 -5.5px;
-  --bubble-r:var(--bubble-c-3);
-  animation:water-bubble-orbit 17s linear infinite;
-  animation-delay:-3s;
+  --bubble-r:var(--compact-orbit-i);
+  animation:water-bubble-orbit-rev var(--compact-p-i) linear infinite;
+  animation-delay:0s;
   opacity:0.88;
 }
 
@@ -614,50 +665,60 @@ img.water-orbit__logo,
   width:9px;
   height:9px;
   margin:-4.5px 0 0 -4.5px;
-  --bubble-r:var(--bubble-c-4);
+  --bubble-r:var(--compact-orbit-o);
   opacity:0.52;
-  animation:water-bubble-orbit-rev 21s linear infinite;
-  animation-delay:-4.1s;
+  animation:water-bubble-orbit var(--compact-p-o) linear infinite;
+  animation-delay:-8.8s;
 }
 
 .water-orbit--compact .water-orbit__bubble--c2{
   width:7px;
   height:7px;
   margin:-3.5px 0 0 -3.5px;
-  --bubble-r:var(--bubble-c-5);
-  opacity:0.4;
-  animation:water-bubble-orbit 16s linear infinite;
-  animation-delay:-9.5s;
+  --bubble-r:var(--compact-orbit-i);
+  opacity:0.42;
+  animation:water-bubble-orbit-rev var(--compact-p-i) linear infinite;
+  animation-delay:-5s;
 }
 
 .water-orbit--compact .water-orbit__bubble--c3{
   width:8px;
   height:8px;
   margin:-4px 0 0 -4px;
-  --bubble-r:var(--bubble-c-6);
+  --bubble-r:var(--compact-orbit-o);
   opacity:0.46;
-  animation:water-bubble-orbit-rev 25s linear infinite;
-  animation-delay:-2.3s;
+  animation:water-bubble-orbit var(--compact-p-o) linear infinite;
+  animation-delay:-13.2s;
 }
 
 .water-orbit--compact .water-orbit__bubble--c4{
   width:10px;
   height:10px;
   margin:-5px 0 0 -5px;
-  --bubble-r:var(--bubble-c-7);
-  opacity:0.5;
-  animation:water-bubble-orbit 19s linear infinite, water-bubble-glow 6s ease-in-out infinite;
-  animation-delay:-7.2s,-1s;
+  --bubble-r:var(--compact-orbit-i);
+  opacity:0.48;
+  animation:water-bubble-orbit-rev var(--compact-p-i) linear infinite;
+  animation-delay:-10s;
 }
 
 .water-orbit--compact .water-orbit__bubble--c5{
   width:6px;
   height:6px;
   margin:-3px 0 0 -3px;
-  --bubble-r:var(--bubble-c-8);
-  opacity:0.36;
-  animation:water-bubble-orbit-rev 14s linear infinite;
-  animation-delay:-1.8s;
+  --bubble-r:var(--compact-orbit-o);
+  opacity:0.4;
+  animation:water-bubble-orbit var(--compact-p-o) linear infinite;
+  animation-delay:-17.6s;
+}
+
+.water-orbit--compact .water-orbit__bubble--c6{
+  width:8px;
+  height:8px;
+  margin:-4px 0 0 -4px;
+  --bubble-r:var(--compact-orbit-i);
+  opacity:0.44;
+  animation:water-bubble-orbit-rev var(--compact-p-i) linear infinite;
+  animation-delay:-15s;
 }
 
 .brand-card .water-orbit--compact{
@@ -673,6 +734,11 @@ img.water-orbit__logo,
 .brand-card .water-orbit--compact .sidebar-logo-img{
   position:relative;
   z-index:5;
+}
+
+/* Orbits extend past card edges: avoid clipping the logo halo */
+.brand-card:has(.water-orbit){
+  overflow:visible;
 }
 
 /* ---- Pathway hub progress bar ---- */
