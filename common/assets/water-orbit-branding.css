@@ -1,0 +1,198 @@
+/**
+ * clubSENsational � Water orbit identity layer
+ * Calm aquatic motion (CSS only). Respects prefers-reduced-motion.
+ */
+
+:root{
+  --water-blue:#2d84b3;
+  --water-blue-soft:#89b5c1;
+  --water-ring-hero:rgba(255,255,255,0.2);
+  --water-ring-hero-soft:rgba(255,255,255,0.1);
+  --water-ring-card:rgba(255,255,255,0.26);
+}
+
+@media (prefers-reduced-motion:reduce){
+  .water-orbit__ring,
+  .progress-summary-fill,
+  .portal .progress-fill,
+  .quiz-layout .progress-fill,
+  #complete .completion::before,
+  #complete .completion-box::before,
+  #keyideas .completion::before,
+  #complete .completion::after,
+  #complete .completion-box::after,
+  #keyideas .completion::after,
+  #quiz .score-card.module-result-card::before,
+  #quiz .score-card.module-result-card::after{
+    animation:none !important;
+  }
+}
+
+@keyframes water-orbit-breathe{
+  0%,100%{opacity:0.32;transform:translate(-50%,-50%) scale(1);}
+  50%{opacity:0.48;transform:translate(-50%,-50%) scale(1.035);}
+}
+
+@keyframes water-orbit-breathe-slow{
+  0%,100%{opacity:0.22;transform:translate(-50%,-50%) scale(1);}
+  50%{opacity:0.38;transform:translate(-50%,-50%) scale(1.02);}
+}
+
+@keyframes water-progress-flow{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+}
+
+@keyframes water-ripple-expand{
+  0%{transform:translate(-50%,-50%) scale(0.98);opacity:0.35;}
+  70%{opacity:0.12;}
+  100%{transform:translate(-50%,-50%) scale(1.12);opacity:0;}
+}
+
+/* ---- Logo frame (hero + sidebar) ---- */
+.water-orbit{
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:fit-content;
+  max-width:100%;
+  margin-inline:auto;
+}
+
+.water-orbit__ring{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  pointer-events:none;
+  box-sizing:border-box;
+  aspect-ratio:1;
+  border:1px solid var(--water-ring-hero);
+}
+
+.water-orbit--hero .water-orbit__ring--a{
+  width:min(118%,420px);
+  max-width:420px;
+  animation:water-orbit-breathe 16s ease-in-out infinite;
+}
+
+.water-orbit--hero .water-orbit__ring--b{
+  width:min(138%,480px);
+  max-width:480px;
+  border-color:var(--water-ring-hero-soft);
+  animation:water-orbit-breathe 22s ease-in-out infinite reverse;
+}
+
+.water-orbit--hero .water-orbit__ring--c{
+  width:min(104%,360px);
+  max-width:360px;
+  border-color:rgba(255,255,255,0.14);
+  animation:water-orbit-breathe-slow 13s ease-in-out infinite;
+}
+
+.water-orbit--hero .water-orbit__ring--d{
+  width:min(152%,520px);
+  max-width:520px;
+  border-color:transparent;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.08);
+  animation:water-ripple-expand 26s ease-out infinite;
+  animation-delay:-4s;
+}
+
+.water-orbit__logo{
+  position:relative;
+  z-index:2;
+  display:block;
+}
+
+/* Sidebar / compact: slower, tighter */
+.water-orbit--compact .water-orbit__ring--a{
+  width:118%;
+  max-width:220px;
+  border-color:var(--water-ring-card);
+  animation:water-orbit-breathe 24s ease-in-out infinite;
+}
+
+.water-orbit--compact .water-orbit__ring--b{
+  width:132%;
+  max-width:240px;
+  border-color:rgba(255,255,255,0.18);
+  animation:water-orbit-breathe 30s ease-in-out infinite reverse;
+}
+
+.water-orbit--compact .water-orbit__ring--c{
+  width:108%;
+  max-width:200px;
+  border-color:rgba(255,255,255,0.12);
+  animation:water-orbit-breathe-slow 18s ease-in-out infinite;
+}
+
+.water-orbit--compact .water-orbit__ring--d{
+  display:none;
+}
+
+.brand-card .water-orbit--compact{
+  width:100%;
+  max-width:100%;
+}
+
+.brand-card .water-orbit--compact .sidebar-logo-img{
+  position:relative;
+  z-index:2;
+}
+
+/* ---- Pathway hub progress bar ---- */
+.progress-summary-fill{
+  background:linear-gradient(90deg,#cc952b 0%,var(--water-blue) 52%,rgba(137,181,193,0.88) 100%);
+  background-size:220% 100%;
+  animation:water-progress-flow 28s ease-in-out infinite;
+}
+
+/* ---- Training II sidebar course progress ---- */
+.portal .progress-fill{
+  background:linear-gradient(90deg,var(--gold) 0%,var(--blue) 55%,rgba(137,181,193,0.85) 100%);
+  background-size:220% 100%;
+  animation:water-progress-flow 32s ease-in-out infinite;
+}
+
+/* ---- Training I quiz sidebar progress ---- */
+.quiz-layout .progress-fill{
+  background:linear-gradient(90deg,#cc952b,#2d84b3,rgba(137,181,193,0.85));
+  background-size:220% 100%;
+  animation:water-progress-flow 32s ease-in-out infinite;
+}
+
+/* ---- Completion & quiz celebration panels ---- */
+#complete .completion::before,
+#complete .completion-box::before,
+#keyideas .completion::before{
+  animation:water-orbit-breathe 22s ease-in-out infinite;
+}
+
+#complete .completion::after,
+#complete .completion-box::after,
+#keyideas .completion::after{
+  animation:water-orbit-breathe 18s ease-in-out infinite reverse;
+  animation-delay:-3s;
+}
+
+#quiz .score-card.module-result-card::before,
+#quiz .score-card.module-result-card::after{
+  animation:water-orbit-breathe-slow 20s ease-in-out infinite;
+}
+
+/* ---- Optional loading / transition utility ---- */
+.water-loading-ripple{
+  position:relative;
+  overflow:hidden;
+}
+
+.water-loading-ripple::after{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background:radial-gradient(circle at 50% 50%,rgba(45,132,179,0.08),transparent 55%);
+  animation:water-orbit-breathe-slow 8s ease-in-out infinite;
+  pointer-events:none;
+}
