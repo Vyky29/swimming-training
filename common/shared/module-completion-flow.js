@@ -332,14 +332,7 @@
       completionCard.appendChild(actions);
     }
 
-    if(context.trainingId === 'training-i'){
-      actions.innerHTML = [
-        '<a class="btn btn-primary" href="#quiz">Start Quiz</a>',
-        '<button type="button" class="btn btn-secondary" data-training-i-complete-preview>Complete quiz (preview)</button>'
-      ].join('');
-    } else {
-      actions.innerHTML = '<a class="btn btn-primary" href="#quiz">Start Quiz</a>';
-    }
+    actions.innerHTML = '<a class="btn btn-primary" href="#quiz">Start Quiz</a>';
   }
 
   function buildPreviewCard(context){
@@ -494,44 +487,8 @@
     });
   }
 
-  function wireTrainingIPreviewCompleteButton(context){
-    if(context.trainingId !== 'training-i') return;
-    var btn = document.querySelector('[data-training-i-complete-preview]');
-    if(!btn || btn.getAttribute('data-bound') === '1') return;
-    btn.setAttribute('data-bound', '1');
-    btn.addEventListener('click', function(){
-      var quizSection = document.getElementById('quiz');
-      var quizInline = quizSection && quizSection.querySelector('.quiz-inline');
-      var scoreCard = quizInline && quizInline.querySelector('.score-card');
-      if(!quizSection || !quizInline || !scoreCard) return;
-      markModulePassed(context);
-      revealQuizSection(quizSection);
-      quizInline.classList.add('quiz-passed-restore');
-      renderPassedState(context, scoreCard);
-      window.location.hash = 'quiz';
-      setTimeout(function(){
-        scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 80);
-    });
-  }
-
-  function restoreTrainingIPassedQuiz(context){
-    if(context.trainingId !== 'training-i') return;
-    var quizSection = document.getElementById('quiz');
-    if(!quizSection) return;
-    var quizInline = quizSection.querySelector('.quiz-inline');
-    if(!quizInline) return;
-    var scoreCard = quizInline.querySelector('.score-card');
-    if(!scoreCard || !isModulePassed(context)) return;
-    quizInline.classList.add('quiz-passed-restore');
-    revealQuizSection(quizSection);
-    renderPassedState(context, scoreCard);
-  }
-
   function ensureQuizPreview(context){
     if(context.trainingId === 'training-i'){
-      restoreTrainingIPassedQuiz(context);
-      wireTrainingIPreviewCompleteButton(context);
       return;
     }
 

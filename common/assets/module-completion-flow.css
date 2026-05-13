@@ -122,12 +122,6 @@
   display:none !important;
 }
 
-/* Training I: allow the optional quiz completion preview control */
-#complete .completion .completion-actions .btn-secondary[data-training-i-complete-preview],
-#complete .completion-box .completion-actions .btn-secondary[data-training-i-complete-preview]{
-  display:inline-flex !important;
-}
-
 #complete .completion .completion-actions .btn-secondary,
 #complete .completion-box .completion-actions .btn-secondary,
 #keyideas .completion .completion-actions .btn-secondary{
@@ -305,13 +299,6 @@
 }
 
 #quiz .quiz-inline.quiz-template-mode > .q-card{
-  display:none !important;
-}
-
-/* Training I: real inline quiz - hide chrome when learner already passed (shared flow restores result card only) */
-#quiz .quiz-inline.quiz-passed-restore .quiz-inline-progress,
-#quiz .quiz-inline.quiz-passed-restore .quiz-hero,
-#quiz .quiz-inline.quiz-passed-restore form{
   display:none !important;
 }
 
