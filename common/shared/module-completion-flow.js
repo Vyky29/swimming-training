@@ -120,7 +120,8 @@
     var moduleMatch = path.match(/module-(\d+)/);
     if(!moduleMatch) return null;
 
-    var trainingId = /\/training-ii\//.test(path) ? 'training-ii' : 'training-i';
+    // Dist build serves Training II under /training-ii/ and /swimming-training-ii/
+    var trainingId = /\/(?:training-ii|swimming-training-ii)\//.test(path) ? 'training-ii' : 'training-i';
     var key = trainingId + '-module-' + moduleMatch[1];
     return MODULE_FLOW[key] || null;
   }
@@ -310,6 +311,11 @@
   function normalizeCompletionCard(context){
     var completionCard = document.querySelector('#complete .completion, #complete .completion-box, #keyideas .completion');
     if(!completionCard) return;
+
+    // Training II module pages ship their own completion copy and recap; do not strip them.
+    if(context && context.trainingId === 'training-ii'){
+      return;
+    }
 
     var heading = completionCard.querySelector('h3');
     if(heading){

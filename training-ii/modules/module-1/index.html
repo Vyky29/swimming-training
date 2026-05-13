@@ -6047,7 +6047,8 @@
         function updateQuestionState(){
           const reviewed = gate.querySelectorAll('[data-reflection-question].clicked').length;
           if(reviewed === questions.length){
-            setGood('Reflection checkpoint complete. You can now mark Block 1 as completed.');
+            const blockLabel = block === 'block1' ? 'Block 1' : (block === 'block2' ? 'Block 2' : 'Block 3');
+            setGood('Reflection checkpoint complete. You can now mark ' + blockLabel + ' as completed.');
           } else {
             setWarn('Review all reflective questions to unlock the completion check. ' + reviewed + ' of ' + questions.length + ' reviewed.');
           }
