@@ -1,24 +1,26 @@
 /**
- * Module hero system - premium polish (mega wave, layered waves, signature, glass badge).
- * Scoped to .hero.hero--module-system only. Blue/white palette unchanged.
+ * Module hero system — mega wave layers, stripe waves, signature, glass badge.
+ * Module hero is the first child inside .content so its width matches sections (e.g. journey).
  */
 
 .hero.hero--module-system{
   position:relative;
   isolation:isolate;
   overflow:hidden;
-  box-sizing:border-box;
-  /* Match inner width of .content (max-width + horizontal padding) */
-  width:min(100%,calc(var(--max, 1240px) - 48px));
-  max-width:calc(var(--max, 1240px) - 48px);
-  margin-left:auto;
-  margin-right:auto;
 }
 
 .hero.hero--module-system::before,
 .hero.hero--module-system::after{
   content:none !important;
   display:none !important;
+}
+
+/* Hero sits inside .content so its outer edge matches journey / sections */
+.content > .hero.hero--module-system{
+  width:100%;
+  max-width:none;
+  margin-left:0;
+  margin-right:0;
 }
 
 .hero.hero--module-system > .module-hero__atmosphere{
@@ -98,26 +100,6 @@
   .hero.hero--module-system:hover > .module-hero__atmosphere::before{
     opacity:.3;
     animation-duration:22s;
-  }
-
-  .hero.hero--module-system:hover .module-hero__bubble{
-    opacity:.82;
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.35) inset,
-      0 0 22px rgba(255,255,255,.25);
-    filter:brightness(1.12);
-  }
-
-  .hero.hero--module-system:hover .module-hero__bubble:hover{
-    opacity:1;
-    filter:brightness(1.22);
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.5) inset,
-      0 0 28px rgba(255,255,255,.4);
-  }
-
-  .hero.hero--module-system:hover .module-hero__bubbles{
-    --bubble-speed:0.72;
   }
 }
 
@@ -286,46 +268,6 @@
   50%{ transform:translate3d(4px,-10px,0) scale(1.04); }
 }
 
-/* --- Glass bubbles (decorative; hero hover speeds drift) --- */
-
-.module-hero__bubbles{
-  position:absolute;
-  inset:0;
-  z-index:4;
-  pointer-events:none;
-  border-radius:inherit;
-  overflow:hidden;
-  --bubble-speed:1;
-}
-
-.module-hero__bubble{
-  position:absolute;
-  left:var(--bx,10%);
-  top:var(--by,24%);
-  width:calc(12px * var(--bs,1));
-  height:calc(12px * var(--bs,1));
-  pointer-events:auto;
-  cursor:default;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.5);
-  background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.5),rgba(255,255,255,.1) 48%,rgba(255,255,255,0) 70%);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.14) inset,
-    0 6px 18px rgba(18,50,71,.14);
-  opacity:.58;
-  backdrop-filter:blur(1px);
-  -webkit-backdrop-filter:blur(1px);
-  transform:translate3d(0,0,0) scale(1);
-  animation:moduleHeroBubbleDrift calc(var(--bd,9s) * var(--bubble-speed,1)) ease-in-out infinite alternate;
-  animation-delay:var(--delay,0s);
-  transition:opacity .32s ease,transform .32s ease,box-shadow .32s ease;
-}
-
-@keyframes moduleHeroBubbleDrift{
-  0%{ transform:translate3d(0,0,0) scale(1); }
-  100%{ transform:translate3d(var(--dx,6px),var(--dy,-16px),0) scale(1.08); }
-}
-
 /* --- Badge: glass, high contrast (sits in right rail) --- */
 
 .hero.hero--module-system .hero-heading-row{
@@ -448,11 +390,6 @@
 }
 
 @media (max-width:860px){
-  .hero.hero--module-system{
-    width:min(100%,calc(var(--max, 1240px) - 24px));
-    max-width:calc(var(--max, 1240px) - 24px);
-  }
-
   .hero.hero--module-system .hero-title-line{
     flex-direction:column;
     align-items:stretch;
@@ -494,43 +431,19 @@
   }
 }
 
-@media (max-width:640px){
-  .hero.hero--module-system{
-    width:min(100%,calc(var(--max, 1240px) - 16px));
-    max-width:calc(var(--max, 1240px) - 16px);
-  }
-}
-
-@media (max-width:400px){
-  .hero.hero--module-system{
-    width:min(100%,calc(var(--max, 1240px) - 12px));
-    max-width:calc(var(--max, 1240px) - 12px);
-  }
-}
-
 @media (prefers-reduced-motion:reduce){
   .module-hero__wave,
   .module-hero__orb,
   .module-hero__signature,
   .module-hero__glow,
   .hero.hero--module-system > .module-hero__atmosphere::after,
-  .hero.hero--module-system > .module-hero__atmosphere::before,
-  .module-hero__bubble{
+  .hero.hero--module-system > .module-hero__atmosphere::before{
     animation:none !important;
   }
 
   .hero.hero--module-system:hover > .module-hero__atmosphere::after,
   .hero.hero--module-system:hover > .module-hero__atmosphere::before{
     filter:none;
-  }
-
-  .hero.hero--module-system:hover .module-hero__bubble{
-    transform:none;
-    opacity:.58;
-    filter:none;
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,.14) inset,
-      0 6px 18px rgba(18,50,71,.14);
   }
 
   .hero.hero--module-system .btn.btn-primary{
