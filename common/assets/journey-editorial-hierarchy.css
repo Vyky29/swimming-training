@@ -1,32 +1,113 @@
 /**
- * Journey section: premium editorial panel + pathway title hierarchy.
- * Loads after module inline styles; scoped to #journey only.
+ * Journey section (#journey only): premium pathway shell, completion-parity waves,
+ * editorial panel depth, and title / node hierarchy. Scoped so Inside This Module
+ * roadmap (.journey-wrap without #journey) is untouched.
  */
 
-/* Pathway shell: slightly richer than Inside This Module roadmap */
+/* -------------------------------------------------------------------------- */
+/* Pathway shell ù same wave language as completion + module hero atmosphere   */
+/* -------------------------------------------------------------------------- */
+
 .portal .main .content #journey .journey-wrap{
-  border:1px solid rgba(45,132,179,.2);
-  background:linear-gradient(180deg,#eef6fb 0%,#f9fcfe 48%,#fff 100%);
-  box-shadow:0 16px 38px rgba(18,50,71,.09);
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border:1px solid rgba(45,132,179,.22);
+  border-radius:clamp(18px,2.6vw,26px);
+  background:
+    radial-gradient(ellipse 74% 58% at 12% 16%, rgba(255,255,255,.42) 0%, transparent 52%),
+    radial-gradient(ellipse 60% 48% at 88% 18%, rgba(137,181,193,.22) 0%, transparent 56%),
+    radial-gradient(ellipse 92% 80% at 50% 108%, rgba(29,111,153,.14) 0%, transparent 50%),
+    linear-gradient(175deg, #e4f1f9 0%, #eef7fc 34%, #f9fcfe 72%, #ffffff 100%);
+  box-shadow:
+    0 16px 40px rgba(18,50,71,.1),
+    inset 0 1px 0 rgba(255,255,255,.58),
+    inset 0 -36px 72px rgba(45,132,179,.055);
 }
 
-/* Contextual blue panel: depth, soft waves, calm motion */
+.portal .main .content #journey .journey-wrap > .journey-track,
+.portal .main .content #journey .journey-wrap > .journey-panel{
+  position:relative;
+  z-index:1;
+}
+
+/* Mega-wave stack ù same SVG + mask pattern as #complete .completion-atmosphere */
+.portal .main .content #journey .journey-wrap::before,
+.portal .main .content #journey .journey-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.portal .main .content #journey .journey-wrap::before{
+  top:0;
+  left:-28%;
+  right:-28%;
+  bottom:-48%;
+  opacity:.11;
+  mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201200%20300%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27rgba%28255%2C255%2C255%2C0.26%29%27%20d%3D%27M0%2C108%20C200%2C62%20400%2C154%20600%2C108%20S1000%2C82%201200%2C108%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%28137%2C181%2C193%2C0.3%29%27%20d%3D%27M0%2C132%20C220%2C88%20440%2C176%20660%2C132%20S980%2C102%201200%2C132%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%2845%2C132%2C179%2C0.2%29%27%20d%3D%27M0%2C158%20C260%2C118%20520%2C198%20780%2C158%20S1060%2C128%201200%2C158%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat:repeat-x;
+  background-position:240px 100%;
+  background-size:1200px 100%;
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 14%,#000 38%,#000 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 14%,#000 38%,#000 100%);
+  animation:journeyWrapWaveB 52s linear infinite reverse;
+  will-change:background-position;
+}
+
+@keyframes journeyWrapWaveB{
+  0%{ background-position:240px 100%; }
+  100%{ background-position:-960px 100%; }
+}
+
+.portal .main .content #journey .journey-wrap::after{
+  top:0;
+  left:-22%;
+  right:-22%;
+  bottom:-54%;
+  opacity:.2;
+  mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201200%20300%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27rgba%28255%2C255%2C255%2C0.28%29%27%20d%3D%27M0%2C118%20C200%2C72%20400%2C164%20600%2C118%20S1000%2C92%201200%2C118%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%28137%2C181%2C193%2C0.34%29%27%20d%3D%27M0%2C142%20C220%2C98%20440%2C186%20660%2C142%20S980%2C112%201200%2C142%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%2845%2C132%2C179%2C0.22%29%27%20d%3D%27M0%2C168%20C260%2C128%20520%2C208%20780%2C168%20S1060%2C138%201200%2C168%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat:repeat-x;
+  background-position:0 100%;
+  background-size:1200px 100%;
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.26) 10%,#000 30%,#000 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.26) 10%,#000 30%,#000 100%);
+  animation:journeyWrapWaveA 38s linear infinite;
+  will-change:background-position;
+}
+
+@keyframes journeyWrapWaveA{
+  0%{ background-position:0 100%; }
+  100%{ background-position:-1200px 100%; }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Contextual blue panel ù aligned depth stack with completion tonality       */
+/* -------------------------------------------------------------------------- */
+
 .portal .main .content #journey .journey-panel{
   margin-top:24px;
   position:relative;
   isolation:isolate;
   overflow:hidden;
-  border:1px solid rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.24);
   border-radius:22px;
   padding:22px 22px 23px;
   color:#fff;
   background:
-    radial-gradient(125% 85% at 8% -25%, rgba(255,255,255,.22) 0%, transparent 46%),
-    radial-gradient(95% 75% at 94% 5%, rgba(137,181,193,.42) 0%, transparent 44%),
-    linear-gradient(155deg, #265f82 0%, var(--blue, #2d84b3) 36%, #3d93c4 68%, #6ba8bd 100%);
+    radial-gradient(ellipse 78% 62% at 12% 16%, rgba(255,255,255,.14) 0%, transparent 50%),
+    radial-gradient(ellipse 62% 52% at 88% 20%, rgba(137,181,193,.32) 0%, transparent 58%),
+    radial-gradient(ellipse 90% 85% at 50% 118%, rgba(29,111,153,.26) 0%, transparent 48%),
+    linear-gradient(165deg, #1d6f99 0%, #246f9e 18%, #2d84b3 48%, #3a93b8 76%, #2d84b3 100%);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.26),
-    inset 0 -32px 56px rgba(0, 35, 55, .14),
+    inset 0 -48px 90px rgba(22,50,71,.12),
     0 20px 48px rgba(22, 50, 71, .2);
 }
 
@@ -37,16 +118,16 @@
   background:
     repeating-linear-gradient(108deg, rgba(255,255,255,.045) 0 2px, transparent 2px 16px),
     radial-gradient(ellipse 78% 52% at 50% 108%, rgba(255,255,255,.11), transparent 58%);
-  opacity:.5;
+  opacity:.48;
   pointer-events:none;
-  animation:journeyPanelWave 24s ease-in-out infinite alternate;
+  animation:journeyPanelWave 26s ease-in-out infinite alternate;
 }
 
 .portal .main .content #journey .journey-panel::after{
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg, rgba(255,255,255,.07), transparent 38%, rgba(8, 40, 62, .12));
+  background:linear-gradient(180deg, rgba(255,255,255,.08), transparent 38%, rgba(8, 40, 62, .12));
   mix-blend-mode:soft-light;
   pointer-events:none;
 }
@@ -77,26 +158,97 @@
   100%{ transform:translate3d(-14px, -5px, 0); }
 }
 
-/* Pathway titles: current / future / past (palette, not pure black) */
+/* -------------------------------------------------------------------------- */
+/* Pathway titles ù current brighter aquatic blue; past / future hierarchy     */
+/* -------------------------------------------------------------------------- */
+
 .portal .main .content #journey .journey-item.active .journey-title{
-  color:var(--blue, #2d84b3);
+  color:#0f6a9c;
   font-weight:800;
-  text-shadow:0 1px 0 rgba(255,255,255,.85);
+  text-shadow:0 1px 0 rgba(255,255,255,.92);
 }
 
 .portal .main .content #journey .journey-item.page-linkable .journey-title,
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-title{
-  color:#5c7a8f;
+  color:#567d94;
   font-weight:700;
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-title{
-  color:#8eb4cc;
+  color:#7eb0cc;
   font-weight:700;
 }
 
+/* -------------------------------------------------------------------------- */
+/* Nodes ù completed: calm blue only; current: aquatic blue + soft amber rim */
+/* -------------------------------------------------------------------------- */
+
+.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past){
+  opacity:.84;
+}
+
+.portal .main .content #journey .journey-item.journey-item--past{
+  opacity:1;
+}
+
+.portal .main .content #journey .journey-item.active{
+  opacity:1;
+}
+
+.portal .main .content #journey .journey-item.journey-item--past .journey-circle{
+  background:linear-gradient(145deg,#8ec8e0 0%,#4a94be 100%);
+  color:#fff;
+  border:2px solid rgba(255,255,255,.78);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.32),
+    0 10px 22px rgba(45,132,179,.18);
+}
+
+.portal .main .content #journey .journey-item.journey-item--past .journey-status{
+  color:#6a9db8;
+}
+
+.portal .main .content #journey .journey-item.journey-item--past .journey-status::after{
+  color:#7aacca;
+}
+
+@keyframes journeyActiveBreath{
+  0%,100%{
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.44),
+      0 0 0 1px rgba(218, 196, 168, 0.28),
+      0 14px 30px rgba(34, 105, 145, .34),
+      0 0 24px rgba(212, 186, 150, 0.12);
+  }
+  50%{
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.52),
+      0 0 0 1px rgba(224, 200, 172, 0.42),
+      0 17px 36px rgba(30, 112, 158, .4),
+      0 0 34px rgba(220, 192, 155, 0.2);
+  }
+}
+
+.portal .main .content #journey .journey-item.active .journey-circle{
+  background:linear-gradient(152deg, #1f6f9c 0%, #3a9fd4 46%, #2d8fc4 100%);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.62);
+  outline:1px solid rgba(218, 196, 168, 0.38);
+  outline-offset:2px;
+  animation:journeyActiveBreath 11s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce){
+  .portal .main .content #journey .journey-wrap::before,
+  .portal .main .content #journey .journey-wrap::after{
+    animation:none;
+  }
+
   .portal .main .content #journey .journey-panel::before{
+    animation:none;
+  }
+
+  .portal .main .content #journey .journey-item.active .journey-circle{
     animation:none;
   }
 }

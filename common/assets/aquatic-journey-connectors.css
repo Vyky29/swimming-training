@@ -1,12 +1,12 @@
 /**
  * Aquatic journey connectors
  * - #inside-module: static subtle paths only (no progression animation).
- * - #journey: 3-layer pathway ù base spine (thin) + completed wash (static blue) +
+ * - #journey: 3-layer pathway ÔøΩ base spine (thin) + completed wash (static blue) +
  *   active flow (::after) ONLY on the segment between previous and current module,
  *   with calm partial motion (no full-line loop).
  */
 
-/* ========== Shared SVG (blue only) ù thin base path ========== */
+/* ========== Shared SVG (blue only) ÔøΩ thin base path ========== */
 
 .portal .main .content #journey .journey-track::before,
 .portal .main .content #inside-module .journey-track::before{
@@ -33,14 +33,14 @@
   animation:none;
 }
 
-/* Layer 1 ù Journey base: calm full spine */
+/* Layer 1 ÔøΩ Journey base: calm full spine */
 .portal .main .content #journey .journey-track::before{
   opacity:.92;
   filter:drop-shadow(0 1px 0 rgba(255,255,255,.18));
   animation:none;
 }
 
-/* Layer 2 ù static ùcompleted memoryù wash (rectangular; stays off #inside-module) */
+/* Layer 2 ÔøΩ static ÔøΩcompleted memoryÔøΩ wash (rectangular; stays off #inside-module) */
 .portal .main .content #journey .journey-track{
   position:relative;
   --jx-wash-end:0%;
@@ -53,7 +53,7 @@
   background-repeat:no-repeat;
 }
 
-/* Layer 3 ù active segment only (previous ? current), thicker stroke, partial motion */
+/* Layer 3 ÔøΩ active segment only (previous ? current), thicker stroke, partial motion */
 .portal .main .content #journey .journey-track::after{
   content:"";
   position:absolute;
@@ -67,7 +67,7 @@
   border-radius:0;
   opacity:0;
   background-color:transparent;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.58' stroke-width='1.28' stroke-linecap='round' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.5' stroke-width='0.98' stroke-linecap='round' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.64' stroke-width='1.42' stroke-linecap='round' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.54' stroke-width='1.04' stroke-linecap='round' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
   background-repeat:repeat-x;
   background-size:1200px 100%;
   background-position:0 50%;
@@ -85,7 +85,7 @@
   50%{ background-position:50% -18px; opacity:.97; }
 }
 
-/* --- Training I: 5 modules ù wash + active segment (no wash on module 1 only) --- */
+/* --- Training I: 5 modules ÔøΩ wash + active segment (no wash on module 1 only) --- */
 
 .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(1).active){
   --jx-wash-end:0%;
@@ -186,45 +186,8 @@
   animation:journeyFlowMicroH 7.5s ease-in-out 0.35s infinite;
 }
 
-/* ========== Journey only: blue completed nodes (no gold/orange) ========== */
+/* Journey node surfaces (past / active / linkable): journey-editorial-hierarchy.css */
 
-.portal .main .content #journey .journey-item.page-linkable{
-  opacity:.9;
-}
-
-.portal .main .content #journey .journey-item.journey-item--past .journey-circle{
-  background:linear-gradient(145deg,#7eb8d8 0%,#4495be 100%);
-  color:#fff;
-  border:2px solid rgba(255,255,255,.82);
-  box-shadow:0 0 0 1px rgba(255,255,255,.4),0 12px 26px rgba(45,132,179,.2);
-}
-
-.portal .main .content #journey .journey-item.journey-item--past .journey-status{
-  color:#6a9db8;
-}
-
-.portal .main .content #journey .journey-item.journey-item--past .journey-status::after{
-  color:#7aacca;
-}
-
-/* ========== Current module node ù very subtle breathing ========== */
-
-@keyframes journeyCurrentHalo{
-  0%,100%{
-    box-shadow:
-      0 14px 28px rgba(45,132,179,.22),
-      0 0 0 0 rgba(137,181,193,0);
-  }
-  50%{
-    box-shadow:
-      0 15px 30px rgba(45,132,179,.25),
-      0 0 14px 2px rgba(137,181,193,.12);
-  }
-}
-
-.portal .main .content #journey .journey-item.active .journey-circle{
-  animation:journeyCurrentHalo 7.5s ease-in-out infinite;
-}
 
 /* ========== Responsive: horizontal spacing ========== */
 
@@ -248,7 +211,7 @@
   }
 }
 
-/* ========== Vertical ù Training I journey + inside static ========== */
+/* ========== Vertical ÔøΩ Training I journey + inside static ========== */
 
 @media (max-width:860px){
   .portal .main .content #journey .journey-track,
