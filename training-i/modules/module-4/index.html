@@ -1048,7 +1048,7 @@
     #journey .section-title-row,
     #outcomes .section-title-row,
     #recap .section-title-row,
-    #keyideas .section-title-row{
+    #keyideas .keyideas-primary-heading{
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
@@ -1063,7 +1063,7 @@
     #journey .section-title-row::before,
     #outcomes .section-title-row::before,
     #recap .section-title-row::before,
-    #keyideas .section-title-row::before{
+    #keyideas .keyideas-primary-heading::before{
       content:"";
       position:absolute;
       top:4px;
@@ -1077,7 +1077,7 @@
     #journey .section-title-row h3,
     #outcomes .section-title-row h3,
     #recap .section-title-row h3,
-    #keyideas .section-title-row h3{
+    #keyideas .keyideas-primary-heading h3{
       margin:0;
       flex:1 1 420px;
       min-width:0;
@@ -1093,7 +1093,7 @@
     #journey .section-title-row h3::after,
     #outcomes .section-title-row h3::after,
     #recap .section-title-row h3::after,
-    #keyideas .section-title-row h3::after{
+    #keyideas .keyideas-primary-heading h3::after{
       content:"";
       position:absolute;
       left:0;
@@ -5332,7 +5332,7 @@
           <div class="section-body">
             <div class="section-lock-banner">Complete the previous stage to unlock the recap.</div>
 
-            <div class="section-title-row">
+            <div class="section-title-row keyideas-primary-heading">
               <h3>Key Ideas to Remember</h3>
               <div class="section-top-actions">
                 <button class="btn btn-tts" data-tts-button="keyideas">🔊 Listen</button>
@@ -5375,7 +5375,7 @@
                   <h3 style="margin:0;">Module 4 complete</h3>
                 </div>
               </div>
-              <p style="margin-top:12px;">
+              <p data-tts-source="complete" style="margin-top:12px;">
                 You have completed all content for Module 4. Ready for the quiz?
               </p>
               <div class="completion-actions">
