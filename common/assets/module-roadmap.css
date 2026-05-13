@@ -1,193 +1,232 @@
 /**
- * Module Roadmap ("Inside This Module") — orientation only, no progress state.
- * Visual language aligned with .journey-track but lighter and more compact.
+ * Inside This Module roadmap - reuses Swimming Journey layout (journey-*).
+ * Orientation only: uniform circles, blue connector (no gold / completed styling).
  */
 
-.section--module-roadmap{
+#inside-module{
   scroll-margin-top:12px;
 }
 
-.section--module-roadmap .section-body{
-  padding-top:18px;
-}
-
-.module-roadmap{
-  margin:0;
-}
-
-.module-roadmap__subtitle{
-  margin:0 0 16px;
-  max-width:48rem;
-  font-size:0.92rem;
-  line-height:1.55;
-  font-weight:600;
-  color:var(--muted);
-}
-
-.module-roadmap__module{
-  margin:0 0 22px;
-  font-size:clamp(1.02rem,1.9vw,1.14rem);
-  line-height:1.28;
-  font-weight:800;
-  letter-spacing:-0.02em;
-  color:var(--ink);
-}
-
-.module-roadmap__track{
-  position:relative;
+/* Section title row: match #journey / #outcomes treatment on Training I */
+#inside-module .section-title-row{
   display:flex;
-  flex-direction:row;
-  flex-wrap:nowrap;
-  align-items:stretch;
   justify-content:space-between;
+  align-items:flex-start;
   gap:14px;
-  margin:0;
-  padding:14px 4px 8px;
-  border:1px solid var(--line);
-  border-radius:22px;
-  background:linear-gradient(180deg,#f9fcfe 0%,#ffffff 100%);
-  box-shadow:var(--shadow-soft,0 10px 26px rgba(18,50,71,.05));
-  overflow:hidden;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+  padding:4px 0 16px 18px;
+  border-bottom:1px solid rgba(45,132,179,.14);
+  position:relative;
 }
 
-.module-roadmap__track::before{
+#inside-module .section-title-row::before{
   content:"";
   position:absolute;
-  left:10%;
-  right:10%;
-  top:26px;
-  height:2px;
+  top:4px;
+  bottom:16px;
+  left:0;
+  width:3px;
   border-radius:999px;
-  background:linear-gradient(90deg,rgba(45,132,179,.16) 0%,rgba(204,149,43,.22) 100%);
-  z-index:0;
+  background:linear-gradient(180deg,var(--blue) 0%,#89b5c1 100%);
 }
 
-.module-roadmap__stop{
-  position:relative;
-  z-index:1;
-  flex:1 1 0;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  gap:10px;
-  padding:12px 8px 14px;
+#inside-module .section-title-row h3{
   margin:0;
-  border-radius:16px;
-  border:1px solid rgba(45,132,179,.1);
-  background:#fff;
-  box-shadow:0 6px 16px rgba(18,50,71,.04);
+  flex:1 1 420px;
+  min-width:0;
+  color:var(--blue);
+  font-size:clamp(1.55rem,2.3vw,1.95rem);
+  line-height:1.12;
+  letter-spacing:-.025em;
+  font-weight:800;
+  position:relative;
+  padding-bottom:11px;
+}
+
+#inside-module .section-title-row h3::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:72px;
+  height:3px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--blue) 0%,rgba(137,181,193,.9) 100%);
+  opacity:.95;
+}
+
+#inside-module .section-body > .lead{
+  margin:0 0 18px;
+}
+
+/* Timeline: same shell as Swimming Journey; three steps for module blocks */
+#inside-module .module-roadmap-wrap.journey-wrap{
+  margin-top:0;
+}
+
+#inside-module .journey-track{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+#inside-module .journey-track::before{
+  background:linear-gradient(90deg,rgba(45,132,179,.22) 0%,rgba(45,132,179,.38) 100%);
+}
+
+#inside-module a.module-roadmap__item{
   text-decoration:none;
   color:inherit;
   cursor:pointer;
-  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease;
+  transition:transform .22s ease,opacity .22s ease;
 }
 
-.module-roadmap__stop:hover{
+#inside-module a.module-roadmap__item:hover{
   transform:translateY(-2px);
-  border-color:rgba(45,132,179,.2);
-  box-shadow:0 12px 26px rgba(18,50,71,.08);
-  background:linear-gradient(180deg,#ffffff 0%,#f5fbfd 100%);
 }
 
-.module-roadmap__stop:focus-visible{
+#inside-module a.module-roadmap__item:focus-visible{
   outline:2px solid rgba(45,132,179,.45);
   outline-offset:3px;
+  border-radius:12px;
 }
 
-.module-roadmap__num{
-  width:34px;
-  height:34px;
-  min-width:34px;
-  min-height:34px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:0.82rem;
-  font-weight:800;
-  letter-spacing:-0.02em;
-  color:var(--ink);
+/* Overview: every circle reads as the same neutral step (no active / past / gold) */
+#inside-module a.module-roadmap__item .journey-circle{
   background:#fff;
-  border:1.5px solid #d6e5ee;
-  box-shadow:0 6px 14px rgba(18,50,71,.06);
-  line-height:1;
+  color:var(--ink);
+  border:2px solid #d6e5ee;
+  box-shadow:0 10px 22px rgba(18,50,71,.07);
 }
 
-.module-roadmap__text{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  min-width:0;
-  width:100%;
-  align-items:center;
-}
-
-.module-roadmap__block-title{
-  font-size:0.82rem;
+#inside-module a.module-roadmap__item .journey-title{
+  color:var(--ink);
   font-weight:800;
-  line-height:1.25;
-  color:var(--blue);
-  letter-spacing:-0.015em;
+  max-width:160px;
 }
 
-.module-roadmap__hint{
-  font-size:0.74rem;
-  line-height:1.45;
+#inside-module a.module-roadmap__item .journey-status.module-roadmap__hint{
+  min-height:auto;
+  font-size:.72rem;
   font-weight:600;
+  line-height:1.45;
   color:var(--muted);
-  max-width:18rem;
+  text-transform:none;
+  letter-spacing:normal;
+  max-width:min(220px,100%);
 }
 
-@media (max-width:920px){
-  .module-roadmap__track{
-    flex-direction:column;
-    align-items:stretch;
-    padding:18px 16px 16px;
-    gap:0;
+@media (max-width:1080px){
+  #inside-module .journey-track{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    row-gap:26px;
   }
 
-  .module-roadmap__track::before{
-    left:28px;
+  #inside-module .journey-track::before{
+    top:28px;
+    left:12%;
+    right:12%;
+  }
+}
+
+/* Training II: stack like template journey at <=780px */
+@media (max-width:780px){
+  #inside-module[data-roadmap-stack="training-ii"] .journey-track{
+    grid-template-columns:1fr;
+  }
+
+  #inside-module[data-roadmap-stack="training-ii"] .journey-track::before{
+    left:22px;
     right:auto;
-    top:22px;
-    bottom:22px;
-    width:2px;
+    top:18px;
+    bottom:18px;
+    width:3px;
     height:auto;
   }
 
-  .module-roadmap__stop{
-    flex-direction:row;
+  #inside-module[data-roadmap-stack="training-ii"] a.module-roadmap__item{
+    position:relative;
     align-items:flex-start;
     text-align:left;
-    gap:14px;
-    padding:14px 14px 14px 18px;
-    border-radius:14px;
-    border-color:rgba(45,132,179,.08);
-    box-shadow:none;
-    margin:6px 0;
+    padding-left:64px;
   }
 
-  .module-roadmap__stop + .module-roadmap__stop{
-    margin-top:2px;
+  #inside-module[data-roadmap-stack="training-ii"] a.module-roadmap__item .journey-circle{
+    position:absolute;
+    left:0;
+    top:0;
   }
 
-  .module-roadmap__text{
-    align-items:flex-start;
-  }
-
-  .module-roadmap__hint{
+  #inside-module[data-roadmap-stack="training-ii"] a.module-roadmap__item .journey-title,
+  #inside-module[data-roadmap-stack="training-ii"] a.module-roadmap__item .journey-status.module-roadmap__hint{
     max-width:none;
+    text-align:left;
+  }
+}
+
+/* Training I: stack like inline journey at <=860px */
+@media (max-width:860px){
+  #inside-module[data-roadmap-stack="training-i"] .journey-track{
+    grid-template-columns:1fr;
+    gap:14px;
+    padding-left:8px;
+  }
+
+  #inside-module[data-roadmap-stack="training-i"] .journey-track::before{
+    left:26px;
+    right:auto;
+    top:8px;
+    bottom:8px;
+    width:3px;
+    height:auto;
+  }
+
+  #inside-module[data-roadmap-stack="training-i"] a.module-roadmap__item{
+    display:grid;
+    grid-template-columns:52px minmax(0,1fr);
+    gap:10px 12px;
+    align-items:start;
+    justify-items:start;
+    text-align:left;
+  }
+
+  #inside-module[data-roadmap-stack="training-i"] a.module-roadmap__item .journey-circle{
+    position:static;
+    grid-row:1 / span 2;
+    width:52px;
+    height:52px;
+    min-width:52px;
+    min-height:52px;
+    max-width:52px;
+    max-height:52px;
+    align-self:start;
+    font-size:.9rem;
+  }
+
+  #inside-module[data-roadmap-stack="training-i"] a.module-roadmap__item .journey-title,
+  #inside-module[data-roadmap-stack="training-i"] a.module-roadmap__item .journey-status.module-roadmap__hint{
+    min-width:0;
+    max-width:100%;
+    word-break:break-word;
+    overflow-wrap:anywhere;
+    text-align:left;
+  }
+
+  #inside-module[data-roadmap-stack="training-i"] a.module-roadmap__item .journey-title{
+    font-size:.85rem;
+    line-height:1.3;
+  }
+
+  #inside-module[data-roadmap-stack="training-i"] a.module-roadmap__item .journey-status.module-roadmap__hint{
+    font-size:.7rem;
   }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .module-roadmap__stop{
+  #inside-module a.module-roadmap__item{
     transition:none;
   }
 
-  .module-roadmap__stop:hover{
+  #inside-module a.module-roadmap__item:hover{
     transform:none;
   }
 }
