@@ -1,0 +1,125 @@
+/**
+ * Aquatic flow connectors: Swimming Journey (#journey) and Inside This Module (#inside-module).
+ * Thin SVG paths behind nodes (z-index:0); blue palette only; calm drift motion.
+ */
+
+@keyframes aquaticJourneyFlowH{
+  0%{ background-position:0 50%; }
+  100%{ background-position:-1200px 50%; }
+}
+
+@keyframes aquaticJourneyFlowV{
+  0%{ background-position:50% 0; }
+  100%{ background-position:50% -720px; }
+}
+
+/* Horizontal: dual gentle curves (stretched with track width) */
+.portal .main .content #journey .journey-track::before,
+.portal .main .content #inside-module .journey-track::before{
+  content:"";
+  position:absolute;
+  z-index:0;
+  pointer-events:none;
+  left:7%;
+  right:7%;
+  top:24px;
+  height:48px;
+  width:auto;
+  border-radius:0;
+  background-color:transparent;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.38' stroke-width='1.15' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.44' stroke-width='0.9' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
+  background-repeat:repeat-x;
+  background-size:1200px 100%;
+  background-position:0 50%;
+  opacity:1;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.22));
+  animation:aquaticJourneyFlowH 88s linear infinite;
+}
+
+/* Main journey: slightly more present */
+.portal .main .content #journey .journey-track::before{
+  opacity:1;
+  animation-duration:76s;
+}
+
+/* Roadmap: same language, quieter */
+.portal .main .content #inside-module .journey-track::before{
+  opacity:.76;
+  animation-duration:108s;
+}
+
+@media (max-width:1080px){
+  .portal .main .content #journey .journey-track::before,
+  .portal .main .content #inside-module .journey-track::before{
+    left:11%;
+    right:11%;
+    top:26px;
+    height:46px;
+  }
+}
+
+@media (max-width:1024px){
+  .portal .main .content #journey .journey-track::before,
+  .portal .main .content #inside-module .journey-track::before{
+    left:6%;
+    right:6%;
+  }
+}
+
+/* Stacked layout: vertical flowing spine */
+@media (max-width:860px){
+  .portal .main .content #journey .journey-track::before,
+  .portal .main .content #inside-module[data-roadmap-stack="training-i"] .journey-track::before{
+    right:auto;
+    height:auto;
+    width:26px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.34' stroke-width='1.1' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M22 0 C14 110 30 210 22 310 S14 430 22 530 S30 630 22 720'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.4' stroke-width='0.88' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M16 0 C28 130 10 260 20 390 S32 520 18 620 S12 700 22 720'/%3E%3C/svg%3E");
+    background-repeat:repeat-y;
+    background-size:100% 720px;
+    background-position:50% 0;
+    animation:aquaticJourneyFlowV 96s linear infinite;
+    filter:drop-shadow(1px 0 0 rgba(255,255,255,.12));
+  }
+
+  .portal .main .content #journey .journey-track::before{
+    left:28px;
+    top:10px;
+    bottom:10px;
+    animation-duration:82s;
+    opacity:1;
+  }
+
+  .portal .main .content #inside-module[data-roadmap-stack="training-i"] .journey-track::before{
+    left:26px;
+    top:8px;
+    bottom:8px;
+    animation-duration:112s;
+    opacity:.78;
+  }
+}
+
+/* Training II roadmap stacks at 780px */
+@media (max-width:780px){
+  .portal .main .content #inside-module[data-roadmap-stack="training-ii"] .journey-track::before{
+    left:22px;
+    right:auto;
+    top:14px;
+    bottom:14px;
+    width:24px;
+    height:auto;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.32' stroke-width='1.05' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M22 0 C15 100 28 200 22 300 S14 420 22 520 S28 620 22 720'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.38' stroke-width='0.85' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M17 0 C26 120 12 240 18 360 S30 480 19 600 S13 690 22 720'/%3E%3C/svg%3E");
+    background-repeat:repeat-y;
+    background-size:100% 680px;
+    background-position:50% 0;
+    animation:aquaticJourneyFlowV 104s linear infinite;
+    filter:drop-shadow(1px 0 0 rgba(255,255,255,.1));
+    opacity:.72;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .portal .main .content #journey .journey-track::before,
+  .portal .main .content #inside-module .journey-track::before{
+    animation:none !important;
+  }
+}
