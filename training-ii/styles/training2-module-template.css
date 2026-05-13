@@ -3,6 +3,7 @@
 @import url('/assets/water-orbit-branding.css');
 @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
+@import url('/assets/key-ideas-recap-system.css');
 
 :root{
   --bg:#eef5fa;
@@ -776,7 +777,7 @@ body.training-template-body{
 }
 
 .block-intro-card,
-.recap-card{
+.recap-card:not(.recap-takeaway-card){
   background:#fbfdff;
   border:1px solid var(--line);
   border-radius:20px;
@@ -790,14 +791,14 @@ body.training-template-body{
 }
 
 .block-intro-card:hover,
-.recap-card:hover{
+.recap-card:not(.recap-takeaway-card):hover{
   transform:translateY(-3px);
   box-shadow:0 14px 26px rgba(18,50,71,.08);
   border-color:#c5d4e0;
 }
 
 .block-intro-card.clicked,
-.recap-card.clicked{
+.recap-card:not(.recap-takeaway-card).clicked{
   background:linear-gradient(180deg,#d6ebf7 0%,#e8f4fb 100%);
   border:2px solid var(--blue);
   box-shadow:0 6px 20px rgba(45,132,179,.25);
@@ -834,14 +835,14 @@ body.training-template-body{
 }
 
 .block-intro-card h4,
-.recap-card h4{
+.recap-card:not(.recap-takeaway-card) h4{
   margin:0 0 10px;
   font-size:1rem;
 }
 
 .block-intro-card p,
 .block-intro-card li,
-.recap-card p{
+.recap-card:not(.recap-takeaway-card) p{
   margin:0;
   color:var(--muted);
   line-height:1.75;

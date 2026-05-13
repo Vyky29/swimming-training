@@ -10,9 +10,10 @@
 @import url('/assets/water-orbit-branding.css');
     @import url('/assets/module-completion-flow.css');
   @import url('/assets/module-roadmap.css');
-  @import url('/assets/module-hero-system.css');
+@import url('/assets/module-hero-system.css');
+  @import url('/assets/key-ideas-recap-system.css');
 
-    :root{
+  :root{
       --blue:#2d84b3;
       --blueSoft:#89b5c1;
       --gold:#cc952b;
@@ -2397,7 +2398,7 @@
       gap:12px;
     }
 
-    .recap-card{
+    .recap-card:not(.recap-takeaway-card){
       background:linear-gradient(180deg,#f7fbfd 0%,#ffffff 100%);
       border:1px solid var(--line);
       border-radius:20px;
@@ -2412,7 +2413,7 @@
       min-width:0;
     }
 
-    .recap-card:hover{
+    .recap-card:not(.recap-takeaway-card):hover{
       transform:translateY(-2px);
       box-shadow:0 12px 24px rgba(18,50,71,.07);
       border-color:#c5d4e0;
@@ -2424,14 +2425,14 @@
       box-shadow:0 6px 16px rgba(45,132,179,.25);
     }
 
-    .recap-card h4{
+    .recap-card:not(.recap-takeaway-card) h4{
       margin:0;
       color:var(--blue);
       font-size:1rem;
       line-height:1.4;
     }
 
-    .recap-card p{
+    .recap-card:not(.recap-takeaway-card) p{
       margin:0;
       font-size:.93rem;
       line-height:1.75;
@@ -2705,7 +2706,7 @@
       .journey-title{font-size:.8rem;max-width:124px;}
       .concept-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
       .concept-grid[data-concept-grid="block2"]{grid-template-columns:repeat(3,minmax(0,1fr));}
-      .recap-card{grid-template-columns:220px 1fr;}
+      .recap-card:not(.recap-takeaway-card){grid-template-columns:220px 1fr;}
     }
 
     @media (max-width:860px){
@@ -2726,7 +2727,7 @@
 
       .grid-2,
       .concept-grid,
-      .recap-card{grid-template-columns:1fr;}
+      .recap-card:not(.recap-takeaway-card){grid-template-columns:1fr;}
 
       .concept-grid:has(> .concept-square:nth-child(4):last-child){
         grid-template-columns:repeat(2,minmax(0,1fr)) !important;
@@ -2840,7 +2841,7 @@
       .brand-card{padding:16px;}
       .sidebar-card{padding:12px;}
       .journey-wrap{padding:14px 10px;}
-      .recap-card h4,.recap-card p{min-width:0;}
+      .recap-card:not(.recap-takeaway-card) h4,.recap-card:not(.recap-takeaway-card) p{min-width:0;}
       .section-top{flex-direction:column;align-items:flex-start;gap:10px;}
       .section-pill{white-space:nowrap;}
       .block-header{flex-direction:column;align-items:flex-start;gap:10px;}
@@ -3667,25 +3668,22 @@
               </div>
             </div>
 
-            <div class="recap-stack" data-tts-source="recap">
-              <div class="recap-card clickable-progress">
-                <h4>Visual systems support learning</h4>
-                <p>Visual supports improve understanding and reduce reliance on verbal instruction.</p>
-              </div>
-              <div class="recap-card clickable-progress">
-                <h4>Structure, communication and confidence</h4>
-                <p>Structure and predictability support regulation, confidence and engagement. Visuals reduce cognitive load by making information easier to process. PixtoLearn is a structured visual system, not just a set of flashcards.</p>
-              </div>
-              <div class="recap-card clickable-progress">
-                <h4>Use visuals actively and purposefully</h4>
-                <p>Visual tools should be used actively before, during and after sessions. Communication, engagement and learning are closely connected. Visual schedules support transitions and independence. Sequencing helps swimmers move from isolated skills to meaningful outcomes. Effective teaching uses visuals to support clarity, not replace instruction.</p>
-              </div>
-            </div>
+            <p class="key-ideas-recap__intro">A quick recap of the principles that guide safe, structured and individual progression.</p>
+            <div class="recap-stack recap-stack--key-ideas" data-tts-source="recap"><article class="recap-card recap-takeaway-card clickable-progress"><div class="recap-takeaway-card__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M4 14c2.2-1.6 4.1 1.6 6 0s3.9-1.6 6 0 3.9 1.6 6 0M4 10c2.2-1.6 4.1 1.6 6 0s3.9-1.6 6 0 3.9 1.6 6 0"/></svg></div><div class="recap-takeaway-card__body"><h4 class="recap-takeaway-card__title">Visual systems support learning</h4><p class="recap-takeaway-card__text">Visual supports improve understanding and reduce reliance on verbal instruction.</p></div></article>
+<article class="recap-card recap-takeaway-card clickable-progress"><div class="recap-takeaway-card__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="12" cy="12" r="2.3" fill="currentColor" fill-opacity=".2" stroke="none"/><circle cx="12" cy="12" r="5.8" stroke="currentColor" opacity=".45"/><circle cx="12" cy="12" r="9.3" stroke="currentColor" opacity=".28"/></svg></div><div class="recap-takeaway-card__body"><h4 class="recap-takeaway-card__title">Structure, communication and confidence</h4><p class="recap-takeaway-card__text">Structure and predictability support regulation, confidence and engagement. Visuals reduce cognitive load by making information easier to process. PixtoLearn is a structured visual system, not just a set of flashcards.</p></div></article>
+<article class="recap-card recap-takeaway-card clickable-progress"><div class="recap-takeaway-card__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" aria-hidden="true"><path d="M5 18c3.2-5.8 6.8-8.8 14-10"/><circle cx="5" cy="18" r="1.35" fill="currentColor"/></svg></div><div class="recap-takeaway-card__body"><h4 class="recap-takeaway-card__title">Use visuals actively and purposefully</h4><p class="recap-takeaway-card__text">Visual tools should be used actively before, during and after sessions. Communication, engagement and learning are closely connected. Visual schedules support transitions and independence. Sequencing helps swimmers move from isolated skills to meaningful outcomes. Effective teaching uses visuals to support clarity, not replace instruction.</p></div></article>
+          </div>
+          <div class="key-ideas-recap__closure" role="presentation">
+            <p class="key-ideas-recap__closure-chips">Structure · Readiness · Safety · Progression</p>
+            <p class="key-ideas-recap__closure-note">These principles support every decision throughout the swimming journey.</p>
+          </div>
 
+          <div class="key-ideas-recap__footer">
             <label class="check-item clickable-progress">
               <input type="checkbox" class="overall-check gated-check" data-stage-check="recap">
               <span>I have reviewed the recap and I am ready to complete the module.</span>
             </label>
+          </div>
           </div>
         </section>
 
