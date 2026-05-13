@@ -1,6 +1,6 @@
 /**
  * clubSENsational - Sea waves behind the mark (CSS only).
- * Horizontal wave bands scroll behind the logo; the logo stays the visual centre.
+ * Wave bands sit in a ring (donut mask) around the logo; layers rotate so motion travels around the emblem.
  * Respects prefers-reduced-motion.
  */
 
@@ -39,15 +39,19 @@
 }
 
 @keyframes water-wave-scroll{
-  to{background-position:-600px 100%;}
+  to{background-position:-600px 50%;}
 }
 
 @keyframes water-wave-scroll-reverse{
-  to{background-position:520px 100%;}
+  to{background-position:520px 50%;}
 }
 
-@keyframes water-wave-scroll-slow{
-  to{background-position:-480px 100%;}
+@keyframes water-wave-ring-spin{
+  to{transform:rotate(360deg);}
+}
+
+@keyframes water-wave-ring-spin-reverse{
+  to{transform:rotate(-360deg);}
 }
 
 /* ---- Logo frame (hero + sidebar) ---- */
@@ -60,61 +64,70 @@
   margin-inline:auto;
 }
 
-/* Hero: wide ùseaù panel behind the logo (not a disc) */
+/* Hero: circular wave ring around the logo (same centre as the mark) */
 .water-orbit--hero .water-orbit__flow{
   position:absolute;
   left:50%;
   top:50%;
-  transform:translate(-50%,-46%);
-  width:min(132%,640px);
-  max-width:640px;
-  height:min(52vw,240px);
-  max-height:260px;
+  transform:translate(-50%,-50%);
+  width:min(142%,580px);
+  max-width:580px;
+  aspect-ratio:1;
   z-index:0;
   pointer-events:none;
-  overflow:hidden;
-  border-radius:clamp(18px,4vw,32px);
-  opacity:0.95;
-  background:linear-gradient(180deg,rgba(45,132,179,0.08) 0%,rgba(137,181,193,0.14) 55%,rgba(45,132,179,0.12) 100%);
+  overflow:visible;
+  border-radius:50%;
+  opacity:0.96;
+  background:radial-gradient(circle at 50% 50%,rgba(45,132,179,0.06) 0%,rgba(137,181,193,0.12) 62%,rgba(45,132,179,0.08) 100%);
+  -webkit-mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 50%,
+    #000 52%,
+    #000 64%,
+    transparent 68%
+  );
+  mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 50%,
+    #000 52%,
+    #000 64%,
+    transparent 68%
+  );
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
 }
 
-/* True wave crests ù two layers, different speed & phase */
+/* Full-disc wave textures; rotation moves crests around the logo */
 .water-orbit--hero .water-orbit__swell{
   position:absolute;
-  inset:0;
-  border-radius:0;
+  inset:-8%;
+  border-radius:50%;
   mix-blend-mode:soft-light;
-  transform:none;
-  mask:none;
-  -webkit-mask:none;
+  transform-origin:50% 50%;
+  pointer-events:none;
 }
 
 .water-orbit--hero .water-orbit__swell--1{
-  bottom:0;
-  top:auto;
-  height:58%;
-  left:-20%;
-  right:-20%;
-  width:auto;
-  opacity:0.55;
-  background:var(--water-wave-svg) repeat-x 0 100% / 280px 72px;
-  animation:water-wave-scroll 14s linear infinite;
+  opacity:0.52;
+  background:
+    var(--water-wave-svg) repeat-x 50% 50% / min(360px,120%) 72px,
+    linear-gradient(200deg,rgba(255,255,255,0.08),transparent 55%);
+  animation:
+    water-wave-ring-spin 46s linear infinite,
+    water-wave-scroll 22s linear infinite;
 }
 
 .water-orbit--hero .water-orbit__swell--2{
-  bottom:0;
-  top:auto;
-  height:48%;
-  left:-25%;
-  right:-25%;
-  width:auto;
-  opacity:0.42;
-  background:var(--water-wave-svg-soft) repeat-x 40px 100% / 240px 64px;
-  animation:water-wave-scroll-reverse 19s linear infinite;
+  inset:-12%;
+  opacity:0.38;
+  background:var(--water-wave-svg-soft) repeat-x 50% 50% / min(300px,100%) 64px;
+  animation:
+    water-wave-ring-spin-reverse 58s linear infinite,
+    water-wave-scroll-reverse 26s linear infinite;
   mix-blend-mode:screen;
 }
 
-/* Retired orbit rings / lumps / rotating conic ù keep DOM, hide visuals */
+/* Retired orbit rings / lumps / extra conic - keep DOM, hide visuals */
 .water-orbit--hero .water-orbit__ring,
 .water-orbit--hero .water-orbit__lump,
 .water-orbit--hero::after{
@@ -146,7 +159,7 @@ img.water-orbit__logo,
     0 10px 36px rgba(23,50,78,0.2);
 }
 
-/* ---- Sidebar / compact: waves only (no orbital discs) ---- */
+/* ---- Sidebar / compact: wave ring around logo ---- */
 .water-orbit--compact{
   isolation:isolate;
 }
@@ -164,35 +177,74 @@ img.water-orbit__logo,
   content:"";
   position:absolute;
   left:50%;
-  bottom:6%;
-  transform:translateX(-50%);
-  width:220%;
-  height:42%;
-  max-height:120px;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(280px,142%);
+  aspect-ratio:1;
+  max-width:300px;
   z-index:0;
   pointer-events:none;
-  opacity:0.55;
+  opacity:0.52;
   mix-blend-mode:soft-light;
-  border-radius:0;
-  background:var(--water-wave-svg) repeat-x 0 100% / 220px 56px;
-  animation:water-wave-scroll-slow 16s linear infinite;
+  border-radius:50%;
+  background:
+    var(--water-wave-svg) repeat-x 50% 50% / 220px 56px,
+    radial-gradient(circle at 50% 50%,rgba(45,132,179,0.05),rgba(137,181,193,0.1) 70%);
+  -webkit-mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 44%,
+    #000 46%,
+    #000 58%,
+    transparent 62%
+  );
+  mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 44%,
+    #000 46%,
+    #000 58%,
+    transparent 62%
+  );
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  animation:
+    water-wave-ring-spin 52s linear infinite,
+    water-wave-scroll 18s linear infinite;
 }
 
 .water-orbit--compact::after{
   content:"";
   position:absolute;
   left:50%;
-  bottom:2%;
-  transform:translateX(-50%);
-  width:240%;
-  height:36%;
-  max-height:100px;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(300px,152%);
+  aspect-ratio:1;
+  max-width:320px;
   z-index:1;
   pointer-events:none;
-  opacity:0.45;
+  opacity:0.4;
   mix-blend-mode:screen;
-  background:var(--water-wave-svg-soft) repeat-x 60px 100% / 200px 50px;
-  animation:water-wave-scroll-reverse 22s linear infinite;
+  border-radius:50%;
+  background:var(--water-wave-svg-soft) repeat-x 50% 50% / 200px 50px;
+  -webkit-mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 42%,
+    #000 44%,
+    #000 60%,
+    transparent 64%
+  );
+  mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 42%,
+    #000 44%,
+    #000 60%,
+    transparent 64%
+  );
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  animation:
+    water-wave-ring-spin-reverse 44s linear infinite,
+    water-wave-scroll-reverse 20s linear infinite;
 }
 
 .brand-card .water-orbit--compact{
