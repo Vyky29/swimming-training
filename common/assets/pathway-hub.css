@@ -976,6 +976,11 @@ a{
   overflow:hidden;
 }
 
+/* Portal pathway cards: room for absolute corner tag (matches module hero pill band) */
+.training-portal .path-card:has(> .path-card-corner-tag){
+  padding-top:96px;
+}
+
 .path-card:hover{
   transform:translateY(-3px);
   box-shadow:var(--shadow);
@@ -996,20 +1001,22 @@ a{
 .path-card-corner-tag{
   position:absolute;
   display:block;
-  top:14px;
-  right:14px;
+  top:22px;
+  left:22px;
+  right:auto;
   z-index:2;
   margin:0;
-  max-width:118px;
-  padding:7px 9px;
-  border-radius:10px;
-  background:rgba(255,255,255,0.94);
-  border:1px solid rgba(45,132,179,0.22);
+  max-width:168px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:var(--white);
+  border:1px solid var(--border);
   box-shadow:0 4px 14px rgba(23,48,66,0.07);
-  font-size:9px;
+  font-size:10px;
   font-weight:800;
   line-height:1.25;
-  letter-spacing:0.04em;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
   color:var(--navy);
   text-align:center;
   text-wrap:balance;
@@ -1031,7 +1038,7 @@ a{
   font-weight:800;
   color:var(--navy);
   margin-bottom:12px;
-  padding-right:124px;
+  padding-right:0;
 }
 
 .path-card > p{
@@ -1235,10 +1242,14 @@ a{
     padding-right:0;
   }
 
+  .training-portal .path-card:has(> .path-card-corner-tag){
+    padding-top:24px;
+  }
+
   .path-card-corner-tag{
     position:static;
-    align-self:flex-end;
-    margin:4px 0 8px;
+    align-self:flex-start;
+    margin:0 0 12px;
     max-width:100%;
   }
 
