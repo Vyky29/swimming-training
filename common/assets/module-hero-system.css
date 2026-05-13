@@ -1,0 +1,185 @@
+/**
+ * Unified module hero: shared aquatic atmosphere + typography.
+ * Scoped to the first main hero only (.hero.hero--module-system).
+ */
+
+.hero.hero--module-system{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+
+/* Retire legacy hero orbs in favour of one atmosphere layer */
+.hero.hero--module-system::before,
+.hero.hero--module-system::after{
+  content:none !important;
+  display:none !important;
+}
+
+.hero.hero--module-system > .module-hero__atmosphere{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  border-radius:inherit;
+  overflow:hidden;
+}
+
+.hero.hero--module-system > .section-top,
+.hero.hero--module-system > .hero-actions{
+  position:relative;
+  z-index:1;
+}
+
+/* --- Atmosphere: waves + soft orbs (blue / white translucency only) --- */
+
+.module-hero__atmosphere{
+  position:absolute;
+  inset:0;
+}
+
+.module-hero__wave{
+  position:absolute;
+  left:-35%;
+  width:170%;
+  height:38%;
+  bottom:-18%;
+  opacity:.16;
+  background:repeating-linear-gradient(
+    95deg,
+    rgba(255,255,255,0) 0 26px,
+    rgba(255,255,255,.055) 26px 30px
+  );
+  mask-image:radial-gradient(ellipse 85% 65% at 50% 100%,#000 38%,transparent 72%);
+  -webkit-mask-image:radial-gradient(ellipse 85% 65% at 50% 100%,#000 38%,transparent 72%);
+  animation:moduleHeroWaveDrift 26s linear infinite;
+}
+
+.module-hero__wave--2{
+  bottom:-28%;
+  opacity:.1;
+  animation-duration:34s;
+  animation-direction:reverse;
+}
+
+.module-hero__wave--3{
+  bottom:-8%;
+  height:28%;
+  opacity:.08;
+  animation-duration:42s;
+  background:repeating-linear-gradient(
+    88deg,
+    rgba(45,132,179,0) 0 40px,
+    rgba(45,132,179,.06) 40px 44px
+  );
+}
+
+.module-hero__glow{
+  position:absolute;
+  inset:-20% -10% auto -10%;
+  height:55%;
+  background:radial-gradient(ellipse 70% 55% at 18% 20%,rgba(255,255,255,.12) 0%,transparent 58%),
+    radial-gradient(ellipse 55% 50% at 88% 35%,rgba(137,181,193,.2) 0%,transparent 55%);
+  opacity:.85;
+}
+
+.module-hero__orb{
+  position:absolute;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.05);
+  box-shadow:0 0 0 1px rgba(45,132,179,.08) inset;
+  animation:moduleHeroOrbFloat 11s ease-in-out infinite;
+}
+
+.module-hero__orb--1{ width:56px;height:56px;left:8%;top:22%;animation-delay:0s;}
+.module-hero__orb--2{ width:34px;height:34px;left:22%;bottom:18%;animation-delay:1.4s;}
+.module-hero__orb--3{ width:42px;height:42px;right:14%;top:30%;animation-delay:.6s;}
+.module-hero__orb--4{ width:28px;height:28px;right:26%;bottom:26%;animation-delay:2.1s;}
+
+@keyframes moduleHeroWaveDrift{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-72px); }
+}
+
+@keyframes moduleHeroOrbFloat{
+  0%,100%{ transform:translate3d(0,0,0); opacity:.75; }
+  50%{ transform:translate3d(0,-6px,0); opacity:1; }
+}
+
+/* --- Typography & layout alignment --- */
+
+.hero.hero--module-system .hero-heading-row{
+  justify-content:flex-start;
+}
+
+.hero.hero--module-system .hero-module-num{
+  letter-spacing:.08em;
+}
+
+.hero.hero--module-system .hero-title-line{
+  gap:12px;
+}
+
+.hero.hero--module-system .section-top--hero .hero-title-line h2{
+  margin:0;
+}
+
+.hero.hero--module-system .module-hero__descriptor{
+  margin:6px 0 0;
+  max-width:52ch;
+  font-size:.97rem;
+  line-height:1.65;
+  font-weight:600;
+  color:rgba(255,255,255,.94);
+}
+
+.hero.hero--module-system .module-hero__path{
+  margin:14px 0 0;
+  padding:0;
+  max-width:100%;
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.72);
+}
+
+.hero.hero--module-system .module-hero__path-sep{
+  display:inline-block;
+  padding:0 .35em;
+  font-weight:700;
+  opacity:.55;
+}
+
+.hero.hero--module-system .hero-actions{
+  margin-top:22px;
+}
+
+.hero.hero--module-system .btn.btn-primary{
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+}
+
+.hero.hero--module-system .btn.btn-primary:hover{
+  transform:translateY(-1px);
+}
+
+@media (max-width:860px){
+  .hero.hero--module-system .module-hero__orb--1{ left:4%;top:18%;width:44px;height:44px;}
+  .hero.hero--module-system .module-hero__orb--3{ right:6%;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .module-hero__wave,
+  .module-hero__orb{
+    animation:none !important;
+  }
+
+  .hero.hero--module-system .btn.btn-primary{
+    transition:none;
+  }
+
+  .hero.hero--module-system .btn.btn-primary:hover{
+    transform:none;
+  }
+}
