@@ -1,19 +1,12 @@
 /**
- * Aquatic flow connectors: Swimming Journey (#journey) and Inside This Module (#inside-module).
- * Thin SVG paths behind nodes (z-index:0); blue palette only; calm drift motion.
+ * Aquatic journey connectors
+ * - #inside-module: static subtle paths only (overview; no progression animation).
+ * - #journey: base path (static) + active flow (::after, clipped to current module) + settle motion.
  */
 
-@keyframes aquaticJourneyFlowH{
-  0%{ background-position:0 50%; }
-  100%{ background-position:-1200px 50%; }
-}
+/* ========== Shared SVG data (blue palette only) ========== */
 
-@keyframes aquaticJourneyFlowV{
-  0%{ background-position:50% 0; }
-  100%{ background-position:50% -720px; }
-}
-
-/* Horizontal: dual gentle curves (stretched with track width) */
+/* Base: thin, calm (full-width track) */
 .portal .main .content #journey .journey-track::before,
 .portal .main .content #inside-module .journey-track::before{
   content:"";
@@ -27,30 +20,264 @@
   width:auto;
   border-radius:0;
   background-color:transparent;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.38' stroke-width='1.15' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.44' stroke-width='0.9' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.22' stroke-width='1' stroke-linecap='round' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.28' stroke-width='0.78' stroke-linecap='round' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
   background-repeat:repeat-x;
   background-size:1200px 100%;
   background-position:0 50%;
-  opacity:1;
-  filter:drop-shadow(0 1px 0 rgba(255,255,255,.22));
-  animation:aquaticJourneyFlowH 88s linear infinite;
 }
 
-/* Main journey: slightly more present */
-.portal .main .content #journey .journey-track::before{
-  opacity:1;
-  animation-duration:76s;
-}
-
-/* Roadmap: same language, quieter */
+/* Inside This Module: static, lightweight */
 .portal .main .content #inside-module .journey-track::before{
-  opacity:.76;
-  animation-duration:108s;
+  opacity:.72;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.16));
+  animation:none;
 }
+
+/* Journey: full pathway always visible, almost static */
+.portal .main .content #journey .journey-track::before{
+  opacity:.88;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.2));
+  animation:none;
+}
+
+/* ========== Journey: active progression layer (::after) ========== */
+
+.portal .main .content #journey .journey-track{
+  position:relative;
+}
+
+.portal .main .content #journey .journey-track::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  pointer-events:none;
+  left:7%;
+  right:7%;
+  top:24px;
+  height:48px;
+  width:auto;
+  border-radius:0;
+  opacity:0;
+  background-color:transparent;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.52' stroke-width='1.55' stroke-linecap='round' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.48' stroke-width='1.12' stroke-linecap='round' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
+  background-repeat:repeat-x;
+  background-size:1200px 100%;
+  background-position:0 50%;
+  clip-path:polygon(0 0,0 0,0 100%,0 100%);
+  filter:drop-shadow(0 0 10px rgba(45,132,179,.12));
+}
+
+/* Slow LTR drift on the revealed segment only (starts after reveal) */
+@keyframes aquaticActiveFlowDriftH{
+  0%{ background-position:0 50%; }
+  100%{ background-position:-1200px 50%; }
+}
+
+@keyframes aquaticActiveFlowDriftV{
+  0%{ background-position:50% 0; }
+  100%{ background-position:50% -720px; }
+}
+
+@keyframes jRevealV5n1{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 20%,0 20%);}
+}
+@keyframes jRevealV5n2{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 40%,0 40%);}
+}
+@keyframes jRevealV5n3{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 60%,0 60%);}
+}
+@keyframes jRevealV5n4{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 80%,0 80%);}
+}
+@keyframes jRevealV5n5{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}
+}
+
+@keyframes jRevealV6n1{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 16.67%,0 16.67%);}
+}
+@keyframes jRevealV6n2{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 33.33%,0 33.33%);}
+}
+@keyframes jRevealV6n3{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 50%,0 50%);}
+}
+@keyframes jRevealV6n4{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 66.67%,0 66.67%);}
+}
+@keyframes jRevealV6n5{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 83.33%,0 83.33%);}
+}
+@keyframes jRevealV6n6{
+  from{opacity:0;clip-path:polygon(0 0,100% 0,100% 0.1%,0 0.1%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}
+}
+
+/* --- Training I: 5 programme modules on journey --- */
+
+@keyframes jRevealH5n1{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,20% 0,20% 100%,0 100%);}
+}
+@keyframes jRevealH5n2{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,40% 0,40% 100%,0 100%);}
+}
+@keyframes jRevealH5n3{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,60% 0,60% 100%,0 100%);}
+}
+@keyframes jRevealH5n4{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,80% 0,80% 100%,0 100%);}
+}
+@keyframes jRevealH5n5{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}
+}
+
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(1).active)::after{
+  animation:
+    jRevealH5n1 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(2).active)::after{
+  animation:
+    jRevealH5n2 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(3).active)::after{
+  animation:
+    jRevealH5n3 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(4).active)::after{
+  animation:
+    jRevealH5n4 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(5).active)::after{
+  animation:
+    jRevealH5n5 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+
+/* --- Training II: 6 modules on journey --- */
+
+@keyframes jRevealH6n1{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,16.67% 0,16.67% 100%,0 100%);}
+}
+@keyframes jRevealH6n2{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,33.33% 0,33.33% 100%,0 100%);}
+}
+@keyframes jRevealH6n3{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,50% 0,50% 100%,0 100%);}
+}
+@keyframes jRevealH6n4{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,66.67% 0,66.67% 100%,0 100%);}
+}
+@keyframes jRevealH6n5{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,83.33% 0,83.33% 100%,0 100%);}
+}
+@keyframes jRevealH6n6{
+  from{opacity:0;clip-path:polygon(0 0,0.15% 0,0.15% 100%,0 100%);}
+  12%{opacity:1;}
+  to{opacity:.94;clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}
+}
+
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(1).active)::after{
+  animation:
+    jRevealH6n1 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(2).active)::after{
+  animation:
+    jRevealH6n2 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(3).active)::after{
+  animation:
+    jRevealH6n3 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(4).active)::after{
+  animation:
+    jRevealH6n4 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(5).active)::after{
+  animation:
+    jRevealH6n5 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(6).active)::after{
+  animation:
+    jRevealH6n6 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+    aquaticActiveFlowDriftH 72s linear 3.1s infinite;
+}
+
+/* ========== Current module: subtle aquatic focus ========== */
+
+@keyframes journeyCurrentHalo{
+  0%,100%{
+    box-shadow:
+      0 14px 28px rgba(45,132,179,.22),
+      0 0 0 0 rgba(137,181,193,0);
+  }
+  50%{
+    box-shadow:
+      0 16px 32px rgba(45,132,179,.26),
+      0 0 20px 3px rgba(137,181,193,.16);
+  }
+}
+
+.portal .main .content #journey .journey-item.active .journey-circle{
+  animation:journeyCurrentHalo 5.8s ease-in-out infinite;
+}
+
+/* ========== Responsive: horizontal spacing ========== */
 
 @media (max-width:1080px){
   .portal .main .content #journey .journey-track::before,
-  .portal .main .content #inside-module .journey-track::before{
+  .portal .main .content #inside-module .journey-track::before,
+  .portal .main .content #journey .journey-track::after{
     left:11%;
     right:11%;
     top:26px;
@@ -60,45 +287,110 @@
 
 @media (max-width:1024px){
   .portal .main .content #journey .journey-track::before,
-  .portal .main .content #inside-module .journey-track::before{
+  .portal .main .content #inside-module .journey-track::before,
+  .portal .main .content #journey .journey-track::after{
     left:6%;
     right:6%;
   }
 }
 
-/* Stacked layout: vertical flowing spine */
+/* ========== Vertical: static base + journey active only ========== */
+
 @media (max-width:860px){
   .portal .main .content #journey .journey-track::before,
   .portal .main .content #inside-module[data-roadmap-stack="training-i"] .journey-track::before{
+    top:8px;
+    bottom:8px;
+    left:26px;
     right:auto;
-    height:auto;
     width:26px;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.34' stroke-width='1.1' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M22 0 C14 110 30 210 22 310 S14 430 22 530 S30 630 22 720'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.4' stroke-width='0.88' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M16 0 C28 130 10 260 20 390 S32 520 18 620 S12 700 22 720'/%3E%3C/svg%3E");
+    height:auto;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.26' stroke-width='1' stroke-linecap='round' d='M22 0 C14 110 30 210 22 310 S14 430 22 530 S30 630 22 720'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.32' stroke-width='0.82' stroke-linecap='round' d='M16 0 C28 130 10 260 20 390 S32 520 18 620 S12 700 22 720'/%3E%3C/svg%3E");
     background-repeat:repeat-y;
     background-size:100% 720px;
     background-position:50% 0;
-    animation:aquaticJourneyFlowV 96s linear infinite;
-    filter:drop-shadow(1px 0 0 rgba(255,255,255,.12));
+    filter:drop-shadow(1px 0 0 rgba(255,255,255,.1));
   }
 
   .portal .main .content #journey .journey-track::before{
     left:28px;
     top:10px;
     bottom:10px;
-    animation-duration:82s;
-    opacity:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.28' stroke-width='1.05' stroke-linecap='round' d='M22 0 C14 110 30 210 22 310 S14 430 22 530 S30 630 22 720'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.34' stroke-width='0.85' stroke-linecap='round' d='M16 0 C28 130 10 260 20 390 S32 520 18 620 S12 700 22 720'/%3E%3C/svg%3E");
   }
 
-  .portal .main .content #inside-module[data-roadmap-stack="training-i"] .journey-track::before{
-    left:26px;
-    top:8px;
-    bottom:8px;
-    animation-duration:112s;
-    opacity:.78;
+  .portal .main .content #journey .journey-track::after{
+    left:28px;
+    right:auto;
+    top:10px;
+    bottom:10px;
+    width:26px;
+    height:auto;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.34' stroke-width='1.45' stroke-linecap='round' d='M22 0 C14 110 30 210 22 310 S14 430 22 530 S30 630 22 720'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.42' stroke-width='1.05' stroke-linecap='round' d='M16 0 C28 130 10 260 20 390 S32 520 18 620 S12 700 22 720'/%3E%3C/svg%3E");
+    background-repeat:repeat-y;
+    background-size:100% 720px;
+    background-position:50% 0;
+    clip-path:polygon(0 0,100% 0,100% 0,0 0);
+  }
+
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(1).active)::after{
+    animation:
+      jRevealV5n1 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(2).active)::after{
+    animation:
+      jRevealV5n2 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(3).active)::after{
+    animation:
+      jRevealV5n3 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(4).active)::after{
+    animation:
+      jRevealV5n4 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child):has(> .journey-item:nth-child(5).active)::after{
+    animation:
+      jRevealV5n5 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(1).active)::after{
+    animation:
+      jRevealV6n1 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(2).active)::after{
+    animation:
+      jRevealV6n2 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(3).active)::after{
+    animation:
+      jRevealV6n3 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(4).active)::after{
+    animation:
+      jRevealV6n4 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(5).active)::after{
+    animation:
+      jRevealV6n5 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
+  }
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(6)):has(> .journey-item:nth-child(6).active)::after{
+    animation:
+      jRevealV6n6 3.1s cubic-bezier(0.22,1,0.36,1) forwards,
+      aquaticActiveFlowDriftV 88s linear 3.1s infinite;
   }
 }
 
-/* Training II roadmap stacks at 780px */
 @media (max-width:780px){
   .portal .main .content #inside-module[data-roadmap-stack="training-ii"] .journey-track::before{
     left:22px;
@@ -107,19 +399,23 @@
     bottom:14px;
     width:24px;
     height:auto;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.32' stroke-width='1.05' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M22 0 C15 100 28 200 22 300 S14 420 22 520 S28 620 22 720'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.38' stroke-width='0.85' stroke-linecap='round' vector-effect='non-scaling-stroke' d='M17 0 C26 120 12 240 18 360 S30 480 19 600 S13 690 22 720'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.24' stroke-width='0.95' stroke-linecap='round' d='M22 0 C15 100 28 200 22 300 S14 420 22 520 S28 620 22 720'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.3' stroke-width='0.78' stroke-linecap='round' d='M17 0 C26 120 12 240 18 360 S30 480 19 600 S13 690 22 720'/%3E%3C/svg%3E");
     background-repeat:repeat-y;
     background-size:100% 680px;
     background-position:50% 0;
-    animation:aquaticJourneyFlowV 104s linear infinite;
-    filter:drop-shadow(1px 0 0 rgba(255,255,255,.1));
-    opacity:.72;
+    animation:none;
+    filter:drop-shadow(1px 0 0 rgba(255,255,255,.08));
+    opacity:.7;
   }
 }
 
 @media (prefers-reduced-motion:reduce){
-  .portal .main .content #journey .journey-track::before,
-  .portal .main .content #inside-module .journey-track::before{
+  .portal .main .content #journey .journey-track::after{
+    animation:none !important;
+    opacity:0 !important;
+  }
+
+  .portal .main .content #journey .journey-item.active .journey-circle{
     animation:none !important;
   }
 }
