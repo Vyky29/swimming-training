@@ -114,22 +114,25 @@ a{
   50%{transform:translateY(6px);}
 }
 
-/* Pathway hub hero: matches module pages (blueùaqua gradient, white type, soft circles) */
-.training-page .hero.hero--pathway-hub{
+/* Pathway and portal hero: matches module pages (blue-aqua gradient, white type, soft circles) */
+.training-page .hero.hero--pathway-hub,
+.training-portal .hero.hero--pathway-hub{
   position:relative;
   overflow:hidden;
   isolation:isolate;
   background:linear-gradient(135deg,rgba(45,132,179,1) 0%,rgba(137,181,193,1) 72%,rgba(255,255,255,0.96) 130%);
   border-radius:34px;
-  padding:36px 38px 40px;
+  padding:40px 42px 44px;
   box-shadow:var(--shadow);
-  border:1px solid rgba(255,255,255,0.12);
-  margin-bottom:22px;
+  border:none;
+  margin-bottom:16px;
   color:#fff;
 }
 
 .training-page .hero.hero--pathway-hub::before,
-.training-page .hero.hero--pathway-hub::after{
+.training-page .hero.hero--pathway-hub::after,
+.training-portal .hero.hero--pathway-hub::before,
+.training-portal .hero.hero--pathway-hub::after{
   display:block;
   content:"";
   position:absolute;
@@ -140,14 +143,16 @@ a{
   z-index:0;
 }
 
-.training-page .hero.hero--pathway-hub::before{
+.training-page .hero.hero--pathway-hub::before,
+.training-portal .hero.hero--pathway-hub::before{
   width:220px;
   height:220px;
   right:-60px;
   top:-70px;
 }
 
-.training-page .hero.hero--pathway-hub::after{
+.training-page .hero.hero--pathway-hub::after,
+.training-portal .hero.hero--pathway-hub::after{
   width:150px;
   height:150px;
   right:120px;
@@ -155,128 +160,150 @@ a{
   animation-delay:1.2s;
 }
 
-.training-page .hero.hero--pathway-hub .hero-inner--pathway-hub{
+.training-page .hero.hero--pathway-hub .hero-inner--pathway-hub,
+.training-portal .hero.hero--pathway-hub .hero-inner--pathway-hub{
   position:relative;
   z-index:1;
   display:grid;
-  grid-template-columns:minmax(0,1.08fr) minmax(200px,300px);
-  gap:32px;
+  grid-template-columns:minmax(0,1.08fr) minmax(240px,360px);
+  gap:36px;
   align-items:center;
   text-align:left;
   max-width:100%;
   margin:0;
 }
 
-.training-page .hero.hero--pathway-hub .hero-copy{
+.training-page .hero.hero--pathway-hub .hero-copy,
+.training-portal .hero.hero--pathway-hub .hero-copy{
   text-align:left;
   min-width:0;
 }
 
-.training-page .hero.hero--pathway-hub .hero-logo-wrap{
+.training-page .hero.hero--pathway-hub .hero-logo-wrap,
+.training-portal .hero.hero--pathway-hub .hero-logo-wrap{
   padding:0;
   justify-content:flex-end;
   align-items:center;
+  align-self:center;
 }
 
-.training-page .hero.hero--pathway-hub .hero-logo{
+.training-page .hero.hero--pathway-hub .hero-logo,
+.training-portal .hero.hero--pathway-hub .hero-logo{
   max-width:100%;
-  max-height:min(200px,28vw);
+  max-height:min(280px,38vw);
   width:auto;
   height:auto;
   object-fit:contain;
-  filter:drop-shadow(0 12px 28px rgba(23,50,78,0.18));
+  filter:drop-shadow(0 14px 32px rgba(23,50,78,0.2));
 }
 
-.training-page .hero.hero--pathway-hub .brand-chip{
-  display:inline-flex;
-  align-items:center;
-  margin:0 0 10px;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.2);
+.training-page .hero.hero--pathway-hub .brand-chip,
+.training-portal .hero.hero--pathway-hub .brand-chip{
+  display:block;
+  margin:0 0 14px;
+  padding:0;
+  background:none;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
   font-size:11px;
   font-weight:800;
-  letter-spacing:0.1em;
+  letter-spacing:0.12em;
   text-transform:uppercase;
-  color:#fff;
+  color:rgba(255,255,255,0.9);
 }
 
-.training-page .hero.hero--pathway-hub h1{
+.training-page .hero.hero--pathway-hub h1,
+.training-portal .hero.hero--pathway-hub h1{
   color:#fff;
   margin-bottom:12px;
 }
 
-.training-page .hero.hero--pathway-hub .hero-subtitle{
+.training-page .hero.hero--pathway-hub .hero-subtitle,
+.training-portal .hero.hero--pathway-hub .hero-subtitle{
   color:rgba(255,255,255,0.94);
   margin:0;
   max-width:52ch;
 }
 
-.training-page .hero.hero--pathway-hub .hero-actions{
+.training-page .hero.hero--pathway-hub .hero-actions,
+.training-portal .hero.hero--pathway-hub .hero-actions{
   justify-content:flex-start;
-  margin-top:22px;
+  margin-top:24px;
 }
 
-.training-page .hero.hero--pathway-hub .btn-primary{
+.training-page .hero.hero--pathway-hub .btn-primary,
+.training-portal .hero.hero--pathway-hub .btn-primary{
   background:var(--blue-deep);
   color:var(--white);
-  border-color:rgba(255,255,255,0.35);
-  box-shadow:0 10px 26px rgba(23,50,78,0.2);
+  border-color:transparent;
+  box-shadow:0 10px 28px rgba(23,50,78,0.22);
 }
 
-.training-page .hero.hero--pathway-hub .btn-primary:hover{
+.training-page .hero.hero--pathway-hub .btn-primary:hover,
+.training-portal .hero.hero--pathway-hub .btn-primary:hover{
   background:#fff;
   color:var(--blue-deep);
-  border-color:#fff;
+  border-color:transparent;
   transform:translateY(-1px);
 }
 
-.training-page .hero.hero--pathway-hub .btn-secondary{
-  background:rgba(255,255,255,0.16);
+.training-page .hero.hero--pathway-hub .btn-secondary,
+.training-portal .hero.hero--pathway-hub .btn-secondary{
+  background:rgba(255,255,255,0.22);
   color:#fff;
-  border:1px solid rgba(255,255,255,0.28);
+  border:1px solid transparent;
   box-shadow:none;
 }
 
-.training-page .hero.hero--pathway-hub .btn-secondary:hover{
-  background:#f3f9fc;
-  border-color:#c5d4e0;
+.training-page .hero.hero--pathway-hub .btn-secondary:hover,
+.training-portal .hero.hero--pathway-hub .btn-secondary:hover{
+  background:rgba(255,255,255,0.92);
+  border-color:transparent;
   color:var(--navy);
 }
 
 @media (max-width:900px){
-  .training-page .hero.hero--pathway-hub .hero-inner--pathway-hub{
+  .training-page .hero.hero--pathway-hub .hero-inner--pathway-hub,
+  .training-portal .hero.hero--pathway-hub .hero-inner--pathway-hub{
     grid-template-columns:1fr;
     text-align:center;
   }
 
-  .training-page .hero.hero--pathway-hub .hero-copy{
+  .training-page .hero.hero--pathway-hub .hero-copy,
+  .training-portal .hero.hero--pathway-hub .hero-copy{
     text-align:center;
   }
 
-  .training-page .hero.hero--pathway-hub .brand-chip{
+  .training-page .hero.hero--pathway-hub .brand-chip,
+  .training-portal .hero.hero--pathway-hub .brand-chip{
     margin-left:auto;
     margin-right:auto;
+    max-width:22em;
   }
 
-  .training-page .hero.hero--pathway-hub .hero-actions{
+  .training-page .hero.hero--pathway-hub .hero-actions,
+  .training-portal .hero.hero--pathway-hub .hero-actions{
     justify-content:center;
   }
 
-  .training-page .hero.hero--pathway-hub .hero-logo-wrap{
+  .training-page .hero.hero--pathway-hub .hero-logo-wrap,
+  .training-portal .hero.hero--pathway-hub .hero-logo-wrap{
     justify-content:center;
-    padding-top:8px;
+    padding-top:10px;
   }
 
-  .training-page .hero.hero--pathway-hub .hero-logo{
-    max-height:min(160px,36vw);
+  .training-page .hero.hero--pathway-hub .hero-logo,
+  .training-portal .hero.hero--pathway-hub .hero-logo{
+    max-height:min(220px,46vw);
   }
 }
 
 @media (prefers-reduced-motion:reduce){
   .training-page .hero.hero--pathway-hub::before,
-  .training-page .hero.hero--pathway-hub::after{
+  .training-page .hero.hero--pathway-hub::after,
+  .training-portal .hero.hero--pathway-hub::before,
+  .training-portal .hero.hero--pathway-hub::after{
     animation:none;
   }
 }
@@ -586,13 +613,18 @@ a{
   letter-spacing:-0.02em;
 }
 
+.section-head.section-head--tight{
+  margin-bottom:12px;
+  padding-top:0;
+}
+
 .progress-summary{
   display:none;
   background:var(--white);
   border:1px solid var(--border);
   border-radius:var(--radius-lg);
-  padding:22px 26px;
-  margin-bottom:26px;
+  padding:18px 22px;
+  margin-bottom:18px;
   box-shadow:var(--shadow-soft);
 }
 
@@ -635,15 +667,15 @@ a{
 .modules-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:26px;
-  margin-top:8px;
+  gap:22px;
+  margin-top:6px;
 }
 
 .module-card{
   background:var(--white);
-  border:1px solid var(--border-soft);
+  border:1px solid rgba(45,132,179,0.1);
   border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-soft);
+  box-shadow:0 14px 36px rgba(23,50,78,0.07);
   display:flex;
   flex-direction:column;
   min-width:0;
@@ -662,8 +694,8 @@ a{
 }
 
 .module-top{
-  padding:26px 26px 20px;
-  background:linear-gradient(180deg,#f5fafd 0%,#ffffff 100%);
+  padding:28px 28px 22px;
+  background:linear-gradient(180deg,#eef6fb 0%,#ffffff 96%);
   border-bottom:1px solid rgba(23,50,78,0.05);
 }
 
@@ -729,7 +761,7 @@ a{
 }
 
 .module-body{
-  padding:0 26px 26px;
+  padding:0 28px 28px;
   display:flex;
   flex-direction:column;
   flex:1;
@@ -860,18 +892,13 @@ a{
 }
 
 .bottom-note.bottom-note--soft{
-  margin-top:28px;
-  padding:18px 22px;
+  margin-top:24px;
+  padding:16px 20px;
   background:var(--blue-soft);
-  border:1px solid rgba(45,132,179,0.12);
+  border:1px solid rgba(45,132,179,0.08);
   color:var(--text);
   font-size:14px;
-  box-shadow:0 1px 0 rgba(255,255,255,0.85) inset;
-}
-
-.training-portal .portal-hero.hero{
-  padding:8px 0 4px;
-  margin-bottom:16px;
+  box-shadow:none;
 }
 
 .training-portal{
@@ -910,8 +937,12 @@ a{
 }
 
 .path-section-intro.path-section-intro--compact{
-  padding:4px 12px 0;
-  margin-bottom:4px;
+  padding:2px 12px 0;
+  margin-bottom:2px;
+}
+
+.training-portal .path-section-intro.path-section-intro--compact{
+  margin-top:4px;
 }
 
 .path-section-intro.path-section-intro--compact h2{
@@ -926,7 +957,7 @@ a{
 }
 
 .path-grid.path-grid--tight{
-  margin-top:12px;
+  margin-top:10px;
 }
 
 .path-card{
@@ -1065,7 +1096,8 @@ a{
     margin-bottom:22px;
   }
 
-  .training-page .hero.hero--pathway-hub{
+  .training-page .hero.hero--pathway-hub,
+  .training-portal .hero.hero--pathway-hub{
     padding:28px 24px 32px;
     border-radius:26px;
   }
@@ -1128,10 +1160,11 @@ a{
     margin-bottom:18px;
   }
 
-  .training-page .hero.hero--pathway-hub{
+  .training-page .hero.hero--pathway-hub,
+  .training-portal .hero.hero--pathway-hub{
     padding:22px 18px 26px;
     border-radius:22px;
-    margin-bottom:16px;
+    margin-bottom:14px;
   }
 
   .hero-logo{
