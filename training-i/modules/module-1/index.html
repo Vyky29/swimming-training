@@ -3869,25 +3869,31 @@
           <div class="journey-wrap module-roadmap-wrap">
             <div class="journey-track">
               <a class="journey-item module-roadmap__item" href="#block1">
-                <div class="journey-circle">1</div>
+                <div class="journey-circle">
+                  <span class="module-roadmap__node-kicker">Block</span>
+                  <span class="module-roadmap__node-num">1</span>
+                </div>
                 <div class="module-roadmap__text-stack">
-                  <span class="module-roadmap__block-tag">Block 1</span>
                   <div class="journey-title">The Nature of Water and Its Forces</div>
                   <div class="journey-status module-roadmap__hint">Explore how buoyancy, drag and lift shape movement and balance in water.</div>
                 </div>
               </a>
               <a class="journey-item module-roadmap__item" href="#block2">
-                <div class="journey-circle">2</div>
+                <div class="journey-circle">
+                  <span class="module-roadmap__node-kicker">Block</span>
+                  <span class="module-roadmap__node-num">2</span>
+                </div>
                 <div class="module-roadmap__text-stack">
-                  <span class="module-roadmap__block-tag">Block 2</span>
                   <div class="journey-title">Water Safety, Drowning Risk and Prevention</div>
                   <div class="journey-status module-roadmap__hint">Connect drowning risk, vigilance and prevention with confident, safer practice.</div>
                 </div>
               </a>
               <a class="journey-item module-roadmap__item" href="#block3">
-                <div class="journey-circle">3</div>
+                <div class="journey-circle">
+                  <span class="module-roadmap__node-kicker">Block</span>
+                  <span class="module-roadmap__node-num">3</span>
+                </div>
                 <div class="module-roadmap__text-stack">
-                  <span class="module-roadmap__block-tag">Block 3</span>
                   <div class="journey-title">The Sensory World of Water</div>
                   <div class="journey-status module-roadmap__hint">Link sensory signals in water to calmer sessions and clearer coaching cues.</div>
                 </div>
@@ -4413,9 +4419,9 @@
                   <p class="q-text">8. Click one effect, then click the matching property.</p>
                   <div class="match-game">
                     <div class="match-column match-slots">
-                      <div class="match-slot" data-correct="support"><span class="slot-label">Buoyancy</span><div class="slot-drop"></div></div>
-                      <div class="match-slot" data-correct="push"><span class="slot-label">Resistance</span><div class="slot-drop"></div></div>
-                      <div class="match-slot" data-correct="surround"><span class="slot-label">Pressure</span><div class="slot-drop"></div></div>
+                      <div class="match-slot" data-correct="support"><span class="slot-label">Buoyancy</span><div class="slot-drop"></div>
+                      <div class="match-slot" data-correct="push"><span class="slot-label">Resistance</span><div class="slot-drop"></div>
+                      <div class="match-slot" data-correct="surround"><span class="slot-label">Pressure</span><div class="slot-drop"></div>
                     </div>
                     <div class="match-column match-pool" id="pool8M1">
                       <div class="match-chip" data-value="support" draggable="true">Supports body weight</div>
@@ -5807,8 +5813,8 @@
     var content = (
       questionHtml +
       '<div class="matching-wrap">' +
-        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + config.leftTitle + '</h5><div class="match-items">' + leftHtml + '</div></div>' +
-        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + config.rightTitle + '</h5><div class="match-items">' + rightHtml + '</div></div>' +
+        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + config.leftTitle + '</h5><div class="match-items">' + leftHtml + '</div>' +
+        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + config.rightTitle + '</h5><div class="match-items">' + rightHtml + '</div>' +
       '</div>'
     );
     return buildActivityContainerShell({ variant:'matching', instruction:'Click one item on the left, then click the matching item on the right.', contentHtml: content });

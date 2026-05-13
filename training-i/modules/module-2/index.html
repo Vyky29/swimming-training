@@ -3951,25 +3951,31 @@
             <div class="journey-wrap module-roadmap-wrap">
               <div class="journey-track">
                 <a class="journey-item module-roadmap__item" href="#block1">
-                  <div class="journey-circle">1</div>
+                  <div class="journey-circle">
+                    <span class="module-roadmap__node-kicker">Block</span>
+                    <span class="module-roadmap__node-num">1</span>
+                  </div>
                   <div class="module-roadmap__text-stack">
-                    <span class="module-roadmap__block-tag">Block 1</span>
                     <div class="journey-title">Foundations for Learning in the Water</div>
                     <div class="journey-status module-roadmap__hint">Set expectations for how attention, memory and feedback work differently in water.</div>
                   </div>
                 </a>
                 <a class="journey-item module-roadmap__item" href="#block2">
-                  <div class="journey-circle">2</div>
+                  <div class="journey-circle">
+                    <span class="module-roadmap__node-kicker">Block</span>
+                    <span class="module-roadmap__node-num">2</span>
+                  </div>
                   <div class="module-roadmap__text-stack">
-                    <span class="module-roadmap__block-tag">Block 2</span>
                     <div class="journey-title">Emotional States in Water</div>
                     <div class="journey-status module-roadmap__hint">Recognise emotional states swimmers bring and how they surface during practice.</div>
                   </div>
                 </a>
                 <a class="journey-item module-roadmap__item" href="#block3">
-                  <div class="journey-circle">3</div>
+                  <div class="journey-circle">
+                    <span class="module-roadmap__node-kicker">Block</span>
+                    <span class="module-roadmap__node-num">3</span>
+                  </div>
                   <div class="module-roadmap__text-stack">
-                    <span class="module-roadmap__block-tag">Block 3</span>
                     <div class="journey-title">What Affects Emotional State</div>
                     <div class="journey-status module-roadmap__hint">Relate environment, coach actions and prior experience to swimmers&#x27; affect.</div>
                   </div>
@@ -4481,9 +4487,9 @@
                     <p class="q-text">8. Click one option, then click the matching category.</p>
                     <div class="match-game">
                       <div class="match-column match-slots">
-                        <div class="match-slot" data-correct="env"><span class="slot-label">Environmental</span><div class="slot-drop"></div></div>
-                        <div class="match-slot" data-correct="water"><span class="slot-label">Water-based</span><div class="slot-drop"></div></div>
-                        <div class="match-slot" data-correct="internal"><span class="slot-label">Internal</span><div class="slot-drop"></div></div>
+                        <div class="match-slot" data-correct="env"><span class="slot-label">Environmental</span><div class="slot-drop"></div>
+                        <div class="match-slot" data-correct="water"><span class="slot-label">Water-based</span><div class="slot-drop"></div>
+                        <div class="match-slot" data-correct="internal"><span class="slot-label">Internal</span><div class="slot-drop"></div>
                       </div>
                       <div class="match-column match-pool" id="pool8M2">
                         <div class="match-chip" data-value="env" draggable="true">Noise, people</div>
@@ -4651,8 +4657,8 @@
       var content = (
         questionHtml +
         '<div class="matching-wrap">' +
-        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + leftTitle + '</h5><div class="match-items">' + leftHtml + '</div></div>' +
-        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + rightTitle + '</h5><div class="match-items">' + rightHtml + '</div></div>' +
+        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + leftTitle + '</h5><div class="match-items">' + leftHtml + '</div>' +
+        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + rightTitle + '</h5><div class="match-items">' + rightHtml + '</div>' +
         '</div>'
       );
       return buildActivityContainerShell({ variant: 'matching', contentHtml: content });
@@ -4883,7 +4889,7 @@
           '<button type="button" class="concept-square concept-square--state-calm" data-target="b2c2_calm">Calm</button>' +
           '<button type="button" class="concept-square concept-square--state-alert" data-target="b2c2_alert">Alert</button>' +
           '<button type="button" class="concept-square concept-square--state-overloaded" data-target="b2c2_overloaded">Overloaded</button>' +
-          '</div></div>'
+          '</div>'
       },
       b2c2_calm: {
         title: 'Calm',
@@ -4951,7 +4957,7 @@
           '<button type="button" class="concept-square concept-square--factor-water" data-target="b3c2_water">Water-Based</button>' +
           '<button type="button" class="concept-square concept-square--factor-env" data-target="b3c2_env">Environmental</button>' +
           '<button type="button" class="concept-square concept-square--factor-internal" data-target="b3c2_internal">Internal</button>' +
-          '</div></div>'
+          '</div>'
       },
       b3c2_env: {
         title: 'Environmental',

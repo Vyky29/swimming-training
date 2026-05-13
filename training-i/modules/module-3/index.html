@@ -3217,25 +3217,31 @@
             <div class="journey-wrap module-roadmap-wrap">
               <div class="journey-track">
                 <a class="journey-item module-roadmap__item" href="#block1">
-                  <div class="journey-circle">1</div>
+                  <div class="journey-circle">
+                    <span class="module-roadmap__node-kicker">Block</span>
+                    <span class="module-roadmap__node-num">1</span>
+                  </div>
                   <div class="module-roadmap__text-stack">
-                    <span class="module-roadmap__block-tag">Block 1</span>
                     <div class="journey-title">Understanding Engagement</div>
                     <div class="journey-status module-roadmap__hint">Define engagement in aquatic contexts before you shape tasks or corrections.</div>
                   </div>
                 </a>
                 <a class="journey-item module-roadmap__item" href="#block2">
-                  <div class="journey-circle">2</div>
+                  <div class="journey-circle">
+                    <span class="module-roadmap__node-kicker">Block</span>
+                    <span class="module-roadmap__node-num">2</span>
+                  </div>
                   <div class="module-roadmap__text-stack">
-                    <span class="module-roadmap__block-tag">Block 2</span>
                     <div class="journey-title">Building Connection</div>
                     <div class="journey-status module-roadmap__hint">Build trust, choice and rhythm so swimmers stay with you through challenge.</div>
                   </div>
                 </a>
                 <a class="journey-item module-roadmap__item" href="#block3">
-                  <div class="journey-circle">3</div>
+                  <div class="journey-circle">
+                    <span class="module-roadmap__node-kicker">Block</span>
+                    <span class="module-roadmap__node-num">3</span>
+                  </div>
                   <div class="module-roadmap__text-stack">
-                    <span class="module-roadmap__block-tag">Block 3</span>
                     <div class="journey-title">Maintaining Engagement in Practice</div>
                     <div class="journey-status module-roadmap__hint">Sustain energy across warm-ups, tasks and transitions in real pool sessions.</div>
                   </div>
@@ -3749,9 +3755,9 @@
                     <p class="q-text">8. Click one outcome, then click the matching strategy.</p>
                     <div class="match-game">
                       <div class="match-column match-slots">
-                        <div class="match-slot" data-correct="confidence"><span class="slot-label">Observation</span><div class="slot-drop"></div></div>
-                        <div class="match-slot" data-correct="safety"><span class="slot-label">Predictable structure</span><div class="slot-drop"></div></div>
-                        <div class="match-slot" data-correct="participation"><span class="slot-label">Positive interaction</span><div class="slot-drop"></div></div>
+                        <div class="match-slot" data-correct="confidence"><span class="slot-label">Observation</span><div class="slot-drop"></div>
+                        <div class="match-slot" data-correct="safety"><span class="slot-label">Predictable structure</span><div class="slot-drop"></div>
+                        <div class="match-slot" data-correct="participation"><span class="slot-label">Positive interaction</span><div class="slot-drop"></div>
                       </div>
                       <div class="match-column match-pool" id="pool8M3">
                         <div class="match-chip" data-value="confidence" draggable="true">Builds confidence</div>
@@ -3920,8 +3926,8 @@
       var rightTitle = escapeHtml(config.rightTitle || 'Column B');
       var content = (
         '<div class="matching-wrap">' +
-        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + leftTitle + '</h5><div class="match-items">' + leftHtml + '</div></div>' +
-        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + rightTitle + '</h5><div class="match-items">' + rightHtml + '</div></div>' +
+        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + leftTitle + '</h5><div class="match-items">' + leftHtml + '</div>' +
+        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + rightTitle + '</h5><div class="match-items">' + rightHtml + '</div>' +
         '</div>'
       );
       return buildActivityContainerShell({ variant: 'matching', contentHtml: content });
@@ -4243,7 +4249,7 @@
           '<button type="button" class="concept-square concept-square--sub concept-square--approach-guide" data-target="b3c3_guide">Guided Discovery</button>' +
           '<button type="button" class="concept-square concept-square--sub concept-square--approach-intensive" data-target="b3c3_intensive">Intensive Interaction</button>' +
           '<button type="button" class="concept-square concept-square--sub concept-square--approach-play" data-target="b3c3_play">Play-Based Interaction</button>' +
-          '</div></div>'
+          '</div>'
       },
       b3c3_mod: {
         title: 'Modelling',
