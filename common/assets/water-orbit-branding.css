@@ -1,14 +1,12 @@
 /**
- * clubSENsational - Waves in orbit around the logo (CSS only).
- * Visible wave chips (rings + lumps) circle the mark; logo stays centred on top.
+ * clubSENsational - Water around the mark (CSS only).
+ * A circular ùwave lightù reflection orbits the logo; soft bubbles drift on inner/outer orbits.
  * Respects prefers-reduced-motion.
  */
 
 :root{
   --water-blue:#2d84b3;
   --water-blue-soft:#89b5c1;
-  --water-wave-svg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 48' preserveAspectRatio='none'%3E%3Cpath fill='%23ffffff' d='M0 30Q50 8 100 30T200 30L200 48L0 48Z'/%3E%3C/svg%3E");
-  --water-wave-svg-soft:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 48' preserveAspectRatio='none'%3E%3Cpath fill='%23eaf6fc' d='M0 28Q50 12 100 28T200 28L200 48L0 48Z'/%3E%3C/svg%3E");
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -16,6 +14,7 @@
   .water-orbit__swell,
   .water-orbit__ring,
   .water-orbit__lump,
+  .water-orbit--hero::after,
   .water-orbit--compact::before,
   .water-orbit--compact::after,
   .progress-summary-fill,
@@ -38,19 +37,24 @@
   50%{background-position:100% 50%;}
 }
 
-@keyframes water-wave-scroll{
-  to{background-position:-240px 50%;}
+@keyframes water-reflection-spin{
+  from{transform:translate(-50%,-50%) rotate(0deg);}
+  to{transform:translate(-50%,-50%) rotate(360deg);}
 }
 
-/* Orbit: rotate then translate outward, counter-rotate so chip stays upright */
-@keyframes water-orbit-satellite{
-  from{transform:rotate(0deg) translateX(var(--sat-r,160px)) rotate(0deg);}
-  to{transform:rotate(360deg) translateX(var(--sat-r,160px)) rotate(-360deg);}
+@keyframes water-reflection-spin-reverse{
+  from{transform:translate(-50%,-50%) rotate(0deg);}
+  to{transform:translate(-50%,-50%) rotate(-360deg);}
 }
 
-@keyframes water-orbit-satellite-rev{
-  from{transform:rotate(0deg) translateX(var(--sat-r,160px)) rotate(0deg);}
-  to{transform:rotate(-360deg) translateX(var(--sat-r,160px)) rotate(360deg);}
+@keyframes water-bubble-orbit{
+  from{transform:rotate(0deg) translateX(var(--bubble-r,120px)) rotate(0deg);}
+  to{transform:rotate(360deg) translateX(var(--bubble-r,120px)) rotate(-360deg);}
+}
+
+@keyframes water-bubble-orbit-rev{
+  from{transform:rotate(0deg) translateX(var(--bubble-r,120px)) rotate(0deg);}
+  to{transform:rotate(-360deg) translateX(var(--bubble-r,120px)) rotate(360deg);}
 }
 
 /* ---- Logo frame (hero + sidebar) ---- */
@@ -63,38 +67,86 @@
   margin-inline:auto;
 }
 
-/* Hero: orbit radii (used inside keyframes via inherited custom props) */
+/* ---- Hero ---- */
 .water-orbit--hero{
-  --sat-r-1:min(178px,42vw);
-  --sat-r-2:min(142px,34vw);
-  --sat-r-3:min(200px,46vw);
-  --sat-r-4:min(118px,28vw);
-  --sat-r-l1:min(96px,25vw);
-  --sat-r-l2:min(112px,28vw);
-  --sat-r-l3:min(84px,22vw);
+  --bubble-r-1:min(168px,40vw);
+  --bubble-r-2:min(138px,34vw);
+  --bubble-r-3:min(192px,44vw);
+  --bubble-r-4:min(122px,30vw);
+  --bubble-r-l1:min(98px,26vw);
+  --bubble-r-l2:min(112px,28vw);
+  --bubble-r-l3:min(86px,23vw);
 }
 
-/* Ambient flow (optional depth); satellites are the main read */
 .water-orbit--hero .water-orbit__flow{
   position:absolute;
   left:50%;
   top:50%;
   transform:translate(-50%,-50%);
-  width:min(150%,560px);
-  max-width:560px;
+  width:min(148%,540px);
+  max-width:540px;
   aspect-ratio:1;
   z-index:0;
   pointer-events:none;
   border-radius:50%;
-  opacity:0.35;
-  background:radial-gradient(circle at 50% 50%,rgba(45,132,179,0.12),transparent 62%);
+  opacity:0.28;
+  background:radial-gradient(circle at 50% 48%,rgba(45,132,179,0.14),transparent 58%);
 }
 
 .water-orbit--hero .water-orbit__swell{
   display:none;
 }
 
-/* Wave ìsatellitesî ó rings */
+/* Rotating caustic / wave-reflection band (donut around the logo) */
+.water-orbit--hero::after{
+  content:"";
+  display:block;
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(118%,400px);
+  max-width:400px;
+  aspect-ratio:1;
+  z-index:2;
+  pointer-events:none;
+  border-radius:50%;
+  opacity:0.62;
+  mix-blend-mode:soft-light;
+  transform:translate(-50%,-50%);
+  transform-origin:50% 50%;
+  background:conic-gradient(
+    from 0deg,
+    transparent 0deg 52deg,
+    rgba(255,255,255,0.08) 62deg,
+    rgba(255,255,255,0.55) 78deg,
+    rgba(200,236,255,0.5) 92deg,
+    rgba(255,255,255,0.22) 108deg,
+    transparent 124deg 210deg,
+    rgba(255,255,255,0.12) 228deg,
+    rgba(137,181,193,0.45) 252deg,
+    rgba(255,255,255,0.35) 268deg,
+    transparent 286deg 360deg
+  );
+  -webkit-mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 46%,
+    #000 48%,
+    #000 60%,
+    transparent 64%
+  );
+  mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 46%,
+    #000 48%,
+    #000 60%,
+    transparent 64%
+  );
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  animation:water-reflection-spin 18s linear infinite;
+}
+
+/* Bubbles = former rings */
 .water-orbit--hero .water-orbit__ring{
   display:block;
   position:absolute;
@@ -102,127 +154,121 @@
   top:50%;
   box-sizing:border-box;
   border:none;
-  border-radius:999px;
+  border-radius:50%;
   pointer-events:none;
-  z-index:3;
-  overflow:hidden;
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,0.55),
-    0 6px 20px rgba(23,50,78,0.28);
-  mix-blend-mode:normal;
+  z-index:4;
   transform-origin:50% 50%;
-  background:linear-gradient(180deg,rgba(45,132,179,0.15),rgba(255,255,255,0.35));
-}
-
-.water-orbit--hero .water-orbit__ring::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:var(--water-wave-svg) repeat-x 0 50%/min(160px,100%) 100%;
-  opacity:0.95;
-  animation:water-wave-scroll 2.8s linear infinite;
+  mix-blend-mode:normal;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.55),
+    0 4px 14px rgba(23,50,78,0.18),
+    inset 0 -3px 8px rgba(45,132,179,0.12);
+  background:radial-gradient(
+    circle at 32% 28%,
+    rgba(255,255,255,0.98) 0%,
+    rgba(255,255,255,0.35) 38%,
+    rgba(137,181,193,0.28) 72%,
+    rgba(255,255,255,0.55) 100%
+  );
 }
 
 .water-orbit--hero .water-orbit__ring--a{
-  width:86px;
-  height:34px;
-  margin:-17px 0 0 -43px;
-  --sat-r:var(--sat-r-1);
-  animation:water-orbit-satellite 17s linear infinite;
+  width:20px;
+  height:20px;
+  margin:-10px 0 0 -10px;
+  --bubble-r:var(--bubble-r-1);
+  animation:water-bubble-orbit 21s linear infinite;
 }
 
 .water-orbit--hero .water-orbit__ring--b{
-  width:72px;
-  height:28px;
-  margin:-14px 0 0 -36px;
-  --sat-r:var(--sat-r-2);
-  animation:water-orbit-satellite 23s linear infinite;
-  animation-delay:-7.5s;
+  width:14px;
+  height:14px;
+  margin:-7px 0 0 -7px;
+  --bubble-r:var(--bubble-r-2);
+  animation:water-bubble-orbit-rev 27s linear infinite;
+  animation-delay:-8s;
   opacity:0.92;
 }
 
 .water-orbit--hero .water-orbit__ring--c{
-  width:92px;
-  height:36px;
-  margin:-18px 0 0 -46px;
-  --sat-r:var(--sat-r-3);
-  animation:water-orbit-satellite-rev 29s linear infinite;
+  width:18px;
+  height:18px;
+  margin:-9px 0 0 -9px;
+  --bubble-r:var(--bubble-r-3);
+  animation:water-bubble-orbit 33s linear infinite;
   animation-delay:-4s;
   opacity:0.9;
 }
 
 .water-orbit--hero .water-orbit__ring--d{
-  width:64px;
-  height:26px;
-  margin:-13px 0 0 -32px;
-  --sat-r:var(--sat-r-4);
-  animation:water-orbit-satellite 14s linear infinite;
+  width:12px;
+  height:12px;
+  margin:-6px 0 0 -6px;
+  --bubble-r:var(--bubble-r-4);
+  animation:water-bubble-orbit-rev 16s linear infinite;
   animation-delay:-2s;
   opacity:0.88;
 }
 
-/* Smaller inner wave chips (lumps) ó faster inner orbit */
+/* Smaller bubbles (lumps) ù inner orbits */
 .water-orbit--hero .water-orbit__lump{
   display:block;
   position:absolute;
   left:50%;
   top:50%;
-  border-radius:999px;
+  border-radius:50%;
   border:none;
   pointer-events:none;
-  z-index:4;
-  overflow:hidden;
-  box-shadow:0 0 0 1px rgba(255,255,255,0.45),0 4px 14px rgba(45,132,179,0.35);
-  mix-blend-mode:normal;
+  z-index:5;
   transform-origin:50% 50%;
-  background:linear-gradient(180deg,rgba(137,181,193,0.35),rgba(255,255,255,0.5));
-}
-
-.water-orbit--hero .water-orbit__lump::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:var(--water-wave-svg-soft) repeat-x 0 50%/min(120px,100%) 100%;
-  animation:water-wave-scroll 2.1s linear infinite reverse;
+  mix-blend-mode:normal;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.45),
+    0 2px 10px rgba(45,132,179,0.22),
+    inset 0 -2px 5px rgba(45,132,179,0.1);
+  background:radial-gradient(
+    circle at 38% 30%,
+    rgba(255,255,255,0.95) 0%,
+    rgba(230,248,255,0.5) 55%,
+    rgba(137,181,193,0.35) 100%
+  );
 }
 
 .water-orbit--hero .water-orbit__lump--1{
-  width:48px;
-  height:20px;
-  margin:-10px 0 0 -24px;
-  --sat-r:var(--sat-r-l1);
-  animation:water-orbit-satellite 11.5s linear infinite;
-  animation-delay:-1s;
+  width:11px;
+  height:11px;
+  margin:-5.5px 0 0 -5.5px;
+  --bubble-r:var(--bubble-r-l1);
+  animation:water-bubble-orbit 13s linear infinite;
+  animation-delay:-1.2s;
 }
 
 .water-orbit--hero .water-orbit__lump--2{
-  width:40px;
-  height:18px;
-  margin:-9px 0 0 -20px;
-  --sat-r:var(--sat-r-l2);
-  animation:water-orbit-satellite-rev 13s linear infinite;
-  animation-delay:-5s;
+  width:9px;
+  height:9px;
+  margin:-4.5px 0 0 -4.5px;
+  --bubble-r:var(--bubble-r-l2);
+  animation:water-bubble-orbit-rev 15s linear infinite;
+  animation-delay:-5.5s;
 }
 
 .water-orbit--hero .water-orbit__lump--3{
-  width:44px;
-  height:19px;
-  margin:-9.5px 0 0 -22px;
-  --sat-r:var(--sat-r-l3);
-  animation:water-orbit-satellite 9.5s linear infinite;
-  animation-delay:-3.2s;
-}
-
-.water-orbit--hero::after{
-  display:none;
+  width:10px;
+  height:10px;
+  margin:-5px 0 0 -5px;
+  --bubble-r:var(--bubble-r-l3);
+  animation:water-bubble-orbit 11s linear infinite;
+  animation-delay:-3.4s;
 }
 
 .water-orbit__logo{
   position:relative;
   z-index:10;
   display:block;
+}
+
+.water-orbit--compact .water-orbit__logo{
+  z-index:6;
 }
 
 img.water-orbit__logo,
@@ -243,22 +289,102 @@ img.water-orbit__logo,
     0 10px 36px rgba(23,50,78,0.2);
 }
 
-/* ---- Sidebar / compact: same satellite idea, smaller orbits ---- */
+/* ---- Compact (sidebar / quizzes): reflection + a few bubbles ---- */
 .water-orbit--compact{
   isolation:isolate;
-  --sat-c-1:min(92px,30vw);
-  --sat-c-2:min(72px,26vw);
-  --sat-c-3:min(104px,34vw);
+  --bubble-c-1:min(88px,30vw);
+  --bubble-c-2:min(72px,26vw);
+  --bubble-c-3:min(100px,32vw);
 }
 
 .water-orbit--compact .water-orbit__flow,
+.water-orbit--compact .water-orbit__swell,
 .water-orbit--compact .water-orbit__lump{
   display:none;
 }
 
-.water-orbit--compact::before,
+.water-orbit--compact::before{
+  content:"";
+  display:block;
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(130%,260px);
+  max-width:260px;
+  aspect-ratio:1;
+  z-index:1;
+  pointer-events:none;
+  border-radius:50%;
+  opacity:0.55;
+  mix-blend-mode:soft-light;
+  transform:translate(-50%,-50%);
+  background:conic-gradient(
+    from 40deg,
+    transparent 0deg 70deg,
+    rgba(255,255,255,0.45) 86deg,
+    rgba(200,236,255,0.4) 100deg,
+    transparent 118deg 260deg,
+    rgba(137,181,193,0.4) 278deg,
+    rgba(255,255,255,0.28) 296deg,
+    transparent 312deg 360deg
+  );
+  -webkit-mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 42%,
+    #000 44%,
+    #000 58%,
+    transparent 62%
+  );
+  mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 42%,
+    #000 44%,
+    #000 58%,
+    transparent 62%
+  );
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  animation:water-reflection-spin-reverse 22s linear infinite;
+}
+
 .water-orbit--compact::after{
-  display:none !important;
+  content:"";
+  display:block;
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(118%,240px);
+  max-width:240px;
+  aspect-ratio:1;
+  z-index:0;
+  pointer-events:none;
+  border-radius:50%;
+  opacity:0.35;
+  mix-blend-mode:screen;
+  transform:translate(-50%,-50%);
+  background:conic-gradient(
+    from 200deg,
+    transparent 0deg 120deg,
+    rgba(255,255,255,0.25) 150deg,
+    transparent 180deg 360deg
+  );
+  -webkit-mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 44%,
+    #000 46%,
+    #000 56%,
+    transparent 60%
+  );
+  mask-image:radial-gradient(
+    closest-side circle at 50% 50%,
+    transparent 0 44%,
+    #000 46%,
+    #000 56%,
+    transparent 60%
+  );
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  animation:water-reflection-spin 34s linear infinite;
 }
 
 .water-orbit--compact .water-orbit__ring{
@@ -266,55 +392,49 @@ img.water-orbit__logo,
   position:absolute;
   left:50%;
   top:50%;
-  box-sizing:border-box;
+  border-radius:50%;
   border:none;
-  border-radius:999px;
   pointer-events:none;
-  z-index:2;
-  overflow:hidden;
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,0.5),
-    0 4px 14px rgba(23,50,78,0.2);
-  mix-blend-mode:normal;
+  z-index:3;
   transform-origin:50% 50%;
-  background:linear-gradient(180deg,rgba(45,132,179,0.12),rgba(255,255,255,0.38));
-}
-
-.water-orbit--compact .water-orbit__ring::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:var(--water-wave-svg) repeat-x 0 50%/min(130px,100%) 100%;
-  animation:water-wave-scroll 3.2s linear infinite;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.5),
+    0 2px 8px rgba(23,50,78,0.15),
+    inset 0 -2px 4px rgba(45,132,179,0.1);
+  background:radial-gradient(
+    circle at 35% 30%,
+    rgba(255,255,255,0.95) 0%,
+    rgba(230,248,255,0.45) 70%,
+    rgba(137,181,193,0.3) 100%
+  );
 }
 
 .water-orbit--compact .water-orbit__ring--a{
-  width:62px;
-  height:24px;
-  margin:-12px 0 0 -31px;
-  --sat-r:var(--sat-c-1);
-  animation:water-orbit-satellite 16s linear infinite;
+  width:13px;
+  height:13px;
+  margin:-6.5px 0 0 -6.5px;
+  --bubble-r:var(--bubble-c-1);
+  animation:water-bubble-orbit 19s linear infinite;
 }
 
 .water-orbit--compact .water-orbit__ring--b{
-  width:54px;
-  height:22px;
-  margin:-11px 0 0 -27px;
-  --sat-r:var(--sat-c-2);
-  animation:water-orbit-satellite 21s linear infinite;
+  width:10px;
+  height:10px;
+  margin:-5px 0 0 -5px;
+  --bubble-r:var(--bubble-c-2);
+  animation:water-bubble-orbit-rev 24s linear infinite;
   animation-delay:-6s;
-  opacity:0.92;
+  opacity:0.9;
 }
 
 .water-orbit--compact .water-orbit__ring--c{
-  width:58px;
-  height:23px;
-  margin:-11.5px 0 0 -29px;
-  --sat-r:var(--sat-c-3);
-  animation:water-orbit-satellite-rev 18s linear infinite;
+  width:11px;
+  height:11px;
+  margin:-5.5px 0 0 -5.5px;
+  --bubble-r:var(--bubble-c-3);
+  animation:water-bubble-orbit 17s linear infinite;
   animation-delay:-3s;
-  opacity:0.9;
+  opacity:0.88;
 }
 
 .water-orbit--compact .water-orbit__ring--d{
@@ -328,12 +448,12 @@ img.water-orbit__logo,
 
 .brand-card .water-orbit--compact .sidebar-logo-link{
   position:relative;
-  z-index:4;
+  z-index:6;
 }
 
 .brand-card .water-orbit--compact .sidebar-logo-img{
   position:relative;
-  z-index:3;
+  z-index:5;
 }
 
 /* ---- Pathway hub progress bar ---- */
