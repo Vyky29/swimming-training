@@ -122,6 +122,12 @@
   display:none !important;
 }
 
+/* Training I: allow the optional quiz completion preview control */
+#complete .completion .completion-actions .btn-secondary[data-training-i-complete-preview],
+#complete .completion-box .completion-actions .btn-secondary[data-training-i-complete-preview]{
+  display:inline-flex !important;
+}
+
 #complete .completion .completion-actions .btn-secondary,
 #complete .completion-box .completion-actions .btn-secondary,
 #keyideas .completion .completion-actions .btn-secondary{
@@ -207,6 +213,25 @@
 #quiz .score-card.module-result-card:not(.module-result-card--success):not(.module-result-card--final){
   background:linear-gradient(135deg,#2d84b3 0%,#89b5c1 100%);
   color:#fff;
+}
+
+/* Per-module inline CSS loads after this file; win on celebration states inside .quiz-inline */
+#quiz .quiz-inline .score-card.module-result-card.module-result-card--success.show,
+#quiz .quiz-inline .score-card.module-result-card.module-result-card--success{
+  display:block;
+  background:linear-gradient(135deg,#1c8a58 0%,#63c596 100%);
+  color:#fff;
+}
+
+#quiz .quiz-inline .score-card.module-result-card.module-result-card--final.show,
+#quiz .quiz-inline .score-card.module-result-card.module-result-card--final{
+  display:block;
+  background:linear-gradient(135deg,#1d6f99 0%,#2d84b3 48%,#1c8a58 100%);
+  color:#fff;
+}
+
+#quiz .quiz-inline .score-card.module-result-card.show:not(.module-result-card--success):not(.module-result-card--final){
+  display:block;
 }
 
 #quiz .score-card.module-result-card h2{
