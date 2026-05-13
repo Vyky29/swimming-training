@@ -41,7 +41,7 @@
   opacity:1;
   filter:drop-shadow(0 0 1px rgba(45,132,179,.12)) drop-shadow(0 1px 0 rgba(255,255,255,.2));
   animation:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.3' stroke-width='1.02' stroke-linecap='round' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.34' stroke-width='0.82' stroke-linecap='round' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 56' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.52' stroke-width='1.08' stroke-linecap='round' d='M0 30 C120 14 240 44 360 30 S600 16 720 30 S960 42 1080 30 S1150 22 1200 28'/%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.38' stroke-width='0.88' stroke-linecap='round' d='M0 36 C150 22 300 48 450 36 S640 26 900 36 S1080 30 1200 34'/%3E%3C/svg%3E");
 }
 
 /* #journey: no track fill ù avoids nested ùcard behind timelineù */
@@ -202,7 +202,7 @@
     left:28px;
     top:10px;
     bottom:10px;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.26' stroke-width='1.02' stroke-linecap='round' d='M22 0 C14 110 30 210 22 310 S14 430 22 530 S30 630 22 720'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.3' stroke-width='0.82' stroke-linecap='round' d='M16 0 C28 130 10 260 20 390 S32 520 18 620 S12 700 22 720'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 720' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.42' stroke-width='1.08' stroke-linecap='round' d='M22 0 C14 110 30 210 22 310 S14 430 22 530 S30 630 22 720'/%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.34' stroke-width='0.88' stroke-linecap='round' d='M16 0 C28 130 10 260 20 390 S32 520 18 620 S12 700 22 720'/%3E%3C/svg%3E");
   }
 
   .portal .main .content #journey .journey-track::after{

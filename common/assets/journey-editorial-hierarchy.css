@@ -5,7 +5,7 @@
  */
 
 /* -------------------------------------------------------------------------- */
-/* Pathway shell ‚Äî same wave language as completion + module hero atmosphere   */
+/* Pathway shell ù same wave language as completion + module hero atmosphere   */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-wrap{
@@ -31,7 +31,7 @@
   z-index:1;
 }
 
-/* Mega-wave stack ‚Äî same SVG + mask pattern as #complete .completion-atmosphere */
+/* Mega-wave stack ù same SVG + mask pattern as #complete .completion-atmosphere */
 .portal .main .content #journey .journey-wrap::before,
 .portal .main .content #journey .journey-wrap::after{
   content:"";
@@ -88,7 +88,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Journey panel ‚Äî same depth + mega-waves as #complete .completion (module-completion-flow) */
+/* Journey panel ù same depth + mega-waves as #complete .completion (module-completion-flow) */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-panel{
@@ -101,15 +101,16 @@
   padding:22px 22px 23px;
   text-align:left;
   color:#fff;
+  /* Same hue route as module / pathway hero: 135deg #2d84b3 to #89b5c1 (no deep #1d6f99 slab) */
   background:
-    radial-gradient(ellipse 78% 62% at 12% 16%, rgba(255,255,255,.12) 0%, transparent 50%),
-    radial-gradient(ellipse 62% 52% at 88% 20%, rgba(137,181,193,.24) 0%, transparent 58%),
-    radial-gradient(ellipse 90% 85% at 50% 118%, rgba(29,111,153,.32) 0%, transparent 48%),
-    linear-gradient(165deg, #1d6f99 0%, #246f9e 22%, #2d84b3 52%, #3a93b8 78%, #2d84b3 100%);
+    radial-gradient(ellipse 78% 62% at 12% 16%, rgba(255,255,255,.14) 0%, transparent 52%),
+    radial-gradient(ellipse 62% 52% at 88% 22%, rgba(255,255,255,.1) 0%, transparent 58%),
+    radial-gradient(ellipse 92% 88% at 50% 112%, rgba(45,132,179,.22) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(45,132,179,1) 0%, rgba(95,165,190,1) 52%, rgba(120,178,198,1) 78%, rgba(137,181,193,1) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.14),
-    inset 0 -48px 90px rgba(22,50,71,.14),
-    0 16px 40px rgba(18,50,71,.12);
+    inset 0 -48px 90px rgba(22,50,71,.12),
+    0 16px 40px rgba(18,50,71,.1);
 }
 
 /* Layer 1 + 2: completion-parity scrolling waves (keyframes from module-completion-flow.css) */
@@ -190,7 +191,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Pathway titles ‚Äî current brighter aquatic blue; past / future hierarchy     */
+/* Pathway titles ù current brighter aquatic blue; past / future hierarchy     */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-item.active .journey-title{
@@ -211,23 +212,29 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Nodes ‚Äî calm blue; current: aquatic blue + subtle blue pulse (no tick/dot) */
+/* Nodes ù calm blue; current: aquatic blue + subtle blue pulse (no tick/dot) */
 /* -------------------------------------------------------------------------- */
 
-.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past){
-  opacity:.84;
-}
-
-.portal .main .content #journey .journey-item.journey-item--past{
-  opacity:1;
+.portal .main .content #journey .journey-item{
+  position:relative;
+  z-index:1;
 }
 
 .portal .main .content #journey .journey-item.active{
-  opacity:1;
+  z-index:2;
   position:relative;
 }
 
+.portal .main .content #journey .journey-item.journey-item--past,
+.portal .main .content #journey .journey-item.active{
+  opacity:1;
+}
+
 .portal .main .content #journey .journey-item.journey-item--past .journey-circle{
+  position:relative;
+  z-index:1;
+  isolation:isolate;
+  opacity:1;
   background:linear-gradient(145deg,#7eb8d5 0%,#4588b0 100%);
   color:#fff;
   border:2px solid rgba(255,255,255,.72);
@@ -245,38 +252,48 @@
 }
 
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-circle{
-  background:linear-gradient(145deg,#b0c9da 0%,#6f9db8 100%);
+  position:relative;
+  z-index:1;
+  isolation:isolate;
+  opacity:1;
+  background:linear-gradient(145deg,#c5d9e8 0%,#9bbdd4 42%,#7ba8c2 100%);
   color:#fff;
-  border:1px solid rgba(255,255,255,.4);
+  border:1px solid rgba(255,255,255,.55);
   box-shadow:
-    0 0 0 1px rgba(45,132,179,.1),
-    0 6px 16px rgba(45,132,179,.12);
+    0 0 0 1px rgba(45,132,179,.12),
+    0 6px 16px rgba(45,132,179,.14);
 }
 
-@keyframes journeyActiveBreath{
+@keyframes journeyActiveOrangeAura{
   0%,100%{
     transform:translateZ(0) scale(1);
     box-shadow:
-      0 0 0 1px rgba(255,255,255,.5),
-      0 12px 28px rgba(26, 96, 138, .38),
-      0 0 28px rgba(45, 132, 179, .22);
+      0 0 0 1px rgba(255,255,255,.55),
+      0 0 0 0 rgba(204,149,43,0),
+      0 0 0 0 rgba(255,200,130,0),
+      0 12px 28px rgba(26, 96, 138, .34),
+      0 0 26px rgba(45, 132, 179, .2);
   }
   50%{
-    transform:translateZ(0) scale(1.022);
+    transform:translateZ(0) scale(1.03);
     box-shadow:
-      0 0 0 1px rgba(255,255,255,.58),
-      0 18px 38px rgba(18, 88, 128, .46),
-      0 0 36px rgba(55, 150, 200, .28);
+      0 0 0 1px rgba(255,255,255,.62),
+      0 0 0 10px rgba(204,149,43,.28),
+      0 0 0 22px rgba(204,149,43,.12),
+      0 0 44px rgba(204,149,43,.55),
+      0 18px 36px rgba(18, 88, 128, .42),
+      0 0 32px rgba(45, 132, 179, .22);
   }
 }
 
 .portal .main .content #journey .journey-item.active .journey-circle{
   position:relative;
   z-index:1;
+  isolation:isolate;
   background:linear-gradient(152deg, #1a6fa8 0%, #45b0e8 46%, #2e9fd8 100%);
   color:#fff;
   border:1px solid rgba(255,255,255,.65);
-  animation:journeyActiveBreath 9s ease-in-out infinite;
+  animation:journeyActiveOrangeAura 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -293,5 +310,10 @@
   .portal .main .content #journey .journey-item.active .journey-circle{
     animation:none;
     transform:none;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.58),
+      0 0 0 8px rgba(204,149,43,.24),
+      0 0 32px rgba(204,149,43,.4),
+      0 12px 28px rgba(26, 96, 138, .34);
   }
 }
