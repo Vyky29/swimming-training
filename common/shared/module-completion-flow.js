@@ -496,6 +496,12 @@
     var quizSection = document.getElementById('quiz');
     if(!quizSection) return;
 
+    // Module pages in review mode unlock the quiz inline and must keep the real quiz UI;
+    // skip template preview so submit controls stay available.
+    if(quizSection.classList.contains('quiz-visible') || document.documentElement.getAttribute('data-review-mode') === 'true'){
+      return;
+    }
+
     var quizInline = quizSection.querySelector('.quiz-inline');
     if(!quizInline) return;
 

@@ -4442,6 +4442,8 @@
     function enableReviewMode(){
       if(!REVIEW_MODE) return;
 
+      document.documentElement.setAttribute('data-review-mode', 'true');
+
       ['outcomes','block1','block2','block3','recap','complete','quiz'].forEach(unlockStage);
 
       Object.keys(stageChecks).forEach(function(stage){
@@ -5852,7 +5854,7 @@
           if(finishBtn.disabled) return;
           finishConcept(block, target);
         };
-        if(alreadyCompleted){
+        if(alreadyCompleted || REVIEW_MODE){
           finishBtn.disabled = false;
           finishBtn.style.opacity = '1';
           finishBtn.style.cursor = 'pointer';
@@ -5980,9 +5982,11 @@
           var subTarget = btn.getAttribute('data-overview-subtarget');
           var isDynamic = subTarget === 'b1c4';
           var isCompleted = conceptCompletion.block1.has(subTarget);
+          var isLocked = !REVIEW_MODE && isDynamic && !supportiveDone;
+          var isNext = !REVIEW_MODE && isDynamic && supportiveDone && !dynamicDone;
           btn.classList.toggle('visited', isCompleted);
-          btn.classList.toggle('is-locked', isDynamic && !supportiveDone);
-          btn.classList.toggle('is-next', isDynamic && supportiveDone && !dynamicDone);
+          btn.classList.toggle('is-locked', isLocked);
+          btn.classList.toggle('is-next', isNext);
           btn.onclick = function(){
             if(btn.classList.contains('is-locked')) return;
             renderConcept('block1', subTarget);
