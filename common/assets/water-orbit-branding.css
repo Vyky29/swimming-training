@@ -1,6 +1,6 @@
 /**
  * clubSENsational - Water around the mark (CSS only).
- * A circular ùwave lightù reflection orbits the logo; soft bubbles drift on inner/outer orbits.
+ * A circular wave-light reflection orbits the logo; soft bubbles drift on inner/outer orbits.
  * Respects prefers-reduced-motion.
  */
 
@@ -14,6 +14,7 @@
   .water-orbit__swell,
   .water-orbit__ring,
   .water-orbit__lump,
+  .water-orbit__bubble,
   .water-orbit--hero::after,
   .water-orbit--compact::before,
   .water-orbit--compact::after,
@@ -57,6 +58,11 @@
   to{transform:rotate(-360deg) translateX(var(--bubble-r,120px)) rotate(360deg);}
 }
 
+@keyframes water-bubble-glow{
+  0%,100%{filter:brightness(0.92);}
+  50%{filter:brightness(1.12);}
+}
+
 /* ---- Logo frame (hero + sidebar) ---- */
 .water-orbit{
   position:relative;
@@ -76,6 +82,17 @@
   --bubble-r-l1:min(98px,26vw);
   --bubble-r-l2:min(112px,28vw);
   --bubble-r-l3:min(86px,23vw);
+  /* Extra orbit radii (mid / outer / inner mix) */
+  --bubble-r-h1:min(156px,37vw);
+  --bubble-r-h2:min(182px,42vw);
+  --bubble-r-h3:min(132px,32vw);
+  --bubble-r-h4:min(200px,45vw);
+  --bubble-r-h5:min(108px,28vw);
+  --bubble-r-h6:min(172px,39vw);
+  --bubble-r-h7:min(148px,35vw);
+  --bubble-r-h8:min(118px,30vw);
+  --bubble-r-h9:min(188px,43vw);
+  --bubble-r-h10:min(104px,26vw);
 }
 
 .water-orbit--hero .water-orbit__flow{
@@ -261,6 +278,131 @@
   animation-delay:-3.4s;
 }
 
+/* Extra drifting bubbles (hero): lighter / varied so it never feels crowded */
+.water-orbit--hero .water-orbit__bubble{
+  display:block;
+  position:absolute;
+  left:50%;
+  top:50%;
+  border-radius:50%;
+  border:none;
+  pointer-events:none;
+  z-index:4;
+  transform-origin:50% 50%;
+  mix-blend-mode:normal;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.38),
+    0 3px 12px rgba(23,50,78,0.12),
+    inset 0 -2px 6px rgba(45,132,179,0.08);
+  background:radial-gradient(
+    circle at 34% 26%,
+    rgba(255,255,255,0.92) 0%,
+    rgba(255,255,255,0.28) 42%,
+    rgba(137,181,193,0.22) 78%,
+    rgba(255,255,255,0.4) 100%
+  );
+}
+
+.water-orbit--hero .water-orbit__bubble--h1{
+  width:15px;
+  height:15px;
+  margin:-7.5px 0 0 -7.5px;
+  --bubble-r:var(--bubble-r-h1);
+  opacity:0.72;
+  animation:water-bubble-orbit 24s linear infinite, water-bubble-glow 6.5s ease-in-out infinite;
+  animation-delay:-2.1s,0s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h2{
+  width:9px;
+  height:9px;
+  margin:-4.5px 0 0 -4.5px;
+  --bubble-r:var(--bubble-r-h2);
+  opacity:0.48;
+  animation:water-bubble-orbit-rev 31s linear infinite;
+  animation-delay:-11s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h3{
+  width:12px;
+  height:12px;
+  margin:-6px 0 0 -6px;
+  --bubble-r:var(--bubble-r-h3);
+  opacity:0.58;
+  animation:water-bubble-orbit 18s linear infinite;
+  animation-delay:-6.8s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h4{
+  width:8px;
+  height:8px;
+  margin:-4px 0 0 -4px;
+  --bubble-r:var(--bubble-r-h4);
+  opacity:0.42;
+  animation:water-bubble-orbit-rev 36s linear infinite;
+  animation-delay:-1.4s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h5{
+  width:14px;
+  height:14px;
+  margin:-7px 0 0 -7px;
+  --bubble-r:var(--bubble-r-h5);
+  opacity:0.65;
+  animation:water-bubble-orbit 15s linear infinite, water-bubble-glow 8s ease-in-out infinite;
+  animation-delay:-4.2s,-2s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h6{
+  width:10px;
+  height:10px;
+  margin:-5px 0 0 -5px;
+  --bubble-r:var(--bubble-r-h6);
+  opacity:0.52;
+  animation:water-bubble-orbit-rev 22s linear infinite;
+  animation-delay:-9.3s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h7{
+  width:11px;
+  height:11px;
+  margin:-5.5px 0 0 -5.5px;
+  --bubble-r:var(--bubble-r-h7);
+  opacity:0.55;
+  animation:water-bubble-orbit 28s linear infinite;
+  animation-delay:-7.6s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h8{
+  width:7px;
+  height:7px;
+  margin:-3.5px 0 0 -3.5px;
+  --bubble-r:var(--bubble-r-h8);
+  opacity:0.4;
+  animation:water-bubble-orbit-rev 19s linear infinite;
+  animation-delay:-3.1s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h9{
+  width:13px;
+  height:13px;
+  margin:-6.5px 0 0 -6.5px;
+  --bubble-r:var(--bubble-r-h9);
+  opacity:0.62;
+  animation:water-bubble-orbit 34s linear infinite;
+  animation-delay:-14.2s;
+}
+
+.water-orbit--hero .water-orbit__bubble--h10{
+  width:9px;
+  height:9px;
+  margin:-4.5px 0 0 -4.5px;
+  --bubble-r:var(--bubble-r-h10);
+  opacity:0.46;
+  animation:water-bubble-orbit-rev 26s linear infinite, water-bubble-glow 7s ease-in-out infinite;
+  animation-delay:-5.5s,-1s;
+}
+
 .water-orbit__logo{
   position:relative;
   z-index:10;
@@ -295,6 +437,11 @@ img.water-orbit__logo,
   --bubble-c-1:min(88px,30vw);
   --bubble-c-2:min(72px,26vw);
   --bubble-c-3:min(100px,32vw);
+  --bubble-c-4:min(80px,28vw);
+  --bubble-c-5:min(94px,31vw);
+  --bubble-c-6:min(68px,24vw);
+  --bubble-c-7:min(106px,33vw);
+  --bubble-c-8:min(76px,27vw);
 }
 
 .water-orbit--compact .water-orbit__flow,
@@ -439,6 +586,78 @@ img.water-orbit__logo,
 
 .water-orbit--compact .water-orbit__ring--d{
   display:none;
+}
+
+.water-orbit--compact .water-orbit__bubble{
+  display:block;
+  position:absolute;
+  left:50%;
+  top:50%;
+  border-radius:50%;
+  border:none;
+  pointer-events:none;
+  z-index:3;
+  transform-origin:50% 50%;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.32),
+    0 2px 7px rgba(23,50,78,0.1),
+    inset 0 -1px 4px rgba(45,132,179,0.07);
+  background:radial-gradient(
+    circle at 36% 28%,
+    rgba(255,255,255,0.88) 0%,
+    rgba(255,255,255,0.22) 48%,
+    rgba(137,181,193,0.18) 100%
+  );
+}
+
+.water-orbit--compact .water-orbit__bubble--c1{
+  width:9px;
+  height:9px;
+  margin:-4.5px 0 0 -4.5px;
+  --bubble-r:var(--bubble-c-4);
+  opacity:0.52;
+  animation:water-bubble-orbit-rev 21s linear infinite;
+  animation-delay:-4.1s;
+}
+
+.water-orbit--compact .water-orbit__bubble--c2{
+  width:7px;
+  height:7px;
+  margin:-3.5px 0 0 -3.5px;
+  --bubble-r:var(--bubble-c-5);
+  opacity:0.4;
+  animation:water-bubble-orbit 16s linear infinite;
+  animation-delay:-9.5s;
+}
+
+.water-orbit--compact .water-orbit__bubble--c3{
+  width:8px;
+  height:8px;
+  margin:-4px 0 0 -4px;
+  --bubble-r:var(--bubble-c-6);
+  opacity:0.46;
+  animation:water-bubble-orbit-rev 25s linear infinite;
+  animation-delay:-2.3s;
+}
+
+.water-orbit--compact .water-orbit__bubble--c4{
+  width:10px;
+  height:10px;
+  margin:-5px 0 0 -5px;
+  --bubble-r:var(--bubble-c-7);
+  opacity:0.5;
+  animation:water-bubble-orbit 19s linear infinite, water-bubble-glow 6s ease-in-out infinite;
+  animation-delay:-7.2s,-1s;
+}
+
+.water-orbit--compact .water-orbit__bubble--c5{
+  width:6px;
+  height:6px;
+  margin:-3px 0 0 -3px;
+  --bubble-r:var(--bubble-c-8);
+  opacity:0.36;
+  animation:water-bubble-orbit-rev 14s linear infinite;
+  animation-delay:-1.8s;
 }
 
 .brand-card .water-orbit--compact{
