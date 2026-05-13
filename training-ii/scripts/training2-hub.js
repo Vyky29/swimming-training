@@ -152,8 +152,7 @@
   function getResumeTarget(state){
     if(!state.introductionCompleted){
       return {
-        href: COURSE_MODULES.introduction.file,
-        label: 'Start Training Introduction'
+        href: COURSE_MODULES.introduction.file
       };
     }
 
@@ -163,15 +162,13 @@
       if(!isModuleComplete(moduleId, state)){
         var sectionId = getFirstIncompleteSection(moduleId, state);
         return {
-          href: COURSE_MODULES[moduleId].file + (sectionId ? ('#' + sectionId) : ''),
-          label: 'Resume Training'
+          href: COURSE_MODULES[moduleId].file + (sectionId ? ('#' + sectionId) : '')
         };
       }
     }
 
     return {
-      href: COURSE_MODULES.module6.file + '#quiz',
-      label: 'Review Completion'
+      href: COURSE_MODULES.module6.file + '#quiz'
     };
   }
 
@@ -205,17 +202,13 @@
       summaryText.textContent = percent + '% completed • ' + completed + ' of ' + total + ' stages completed';
     }
 
-    var introButton = document.getElementById('hubIntroductionButton');
-    if(introButton){
-      introButton.href = COURSE_MODULES.introduction.file;
-      introButton.textContent = state.introductionCompleted ? 'Review Training Introduction' : 'Open Training Introduction';
-    }
-
     var resumeTarget = getResumeTarget(state);
     var resumeButton = document.getElementById('hubResumeButton');
     if(resumeButton && resumeTarget){
       resumeButton.href = resumeTarget.href;
-      resumeButton.textContent = resumeTarget.label;
+      resumeButton.textContent = 'Start pathway';
+      resumeButton.className = 'btn btn-primary';
+      resumeButton.setAttribute('aria-disabled', 'false');
     }
 
     document.querySelectorAll('[data-hub-module-id]').forEach(function(card){

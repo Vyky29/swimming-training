@@ -1,187 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Swimming Training Portal</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
-    *{box-sizing:border-box;margin:0;padding:0;}
-    html{overflow-x:hidden;}
-    body{font-family:'Montserrat',sans-serif;background:linear-gradient(180deg,#f4f8fb 0%,#ffffff 100%);color:#16324f;line-height:1.6;overflow-x:hidden;}
-    .training-portal{width:100%;padding:40px 20px 70px;}
-    .training-wrap{max-width:1280px;width:100%;min-width:0;margin:0 auto;box-sizing:border-box;}
-
-    .hero{
-      background:linear-gradient(135deg,#2d84b3 0%,#89b5c1 100%);
-      border-radius:32px;padding:38px 38px 40px;color:#fff;position:relative;overflow:hidden;
-      box-shadow:0 18px 45px rgba(25,70,110,0.16);border:1px solid rgba(255,255,255,.16);
-    }
-    .hero::before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:rgba(255,255,255,0.08);top:-110px;right:-40px;}
-    .hero::after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.06);bottom:-110px;left:-50px;}
-    .hero-shell{position:relative;z-index:2;display:grid;grid-template-columns:minmax(240px,320px) minmax(0,1fr);gap:34px;align-items:center;}
-    .hero-brand-panel{
-      background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);border-radius:28px;
-      padding:22px;backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
-    }
-    .logo-box{
-      display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.12);
-      border:1px solid rgba(255,255,255,0.16);border-radius:26px;padding:26px 22px;margin-bottom:18px;min-height:220px;
-    }
-    .logo-box img{max-height:180px;width:auto;max-width:100%;display:block;}
-    .hero-content{max-width:760px;}
-    .hero-tag{display:block;font-size:13px;font-weight:800;letter-spacing:.08em;margin-bottom:12px;text-transform:uppercase;color:rgba(255,255,255,0.82);}
-    .hero-kicker{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.78);margin-bottom:10px;}
-    .hero h1{font-size:clamp(34px,5vw,54px);line-height:1.05;font-weight:800;margin-bottom:16px;}
-    .hero p{font-size:18px;max-width:680px;color:rgba(255,255,255,0.92);}
-
-    .section-intro{text-align:center;padding:34px 10px 18px;max-width:900px;margin:0 auto;}
-    .section-intro h2{font-size:clamp(26px,3vw,38px);color:#1d4f73;font-weight:800;margin-bottom:14px;}
-    .section-intro p{font-size:17px;color:#4f6780;}
-
-    .path-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin-top:24px;}
-    .path-card{
-      background:#fff;border-radius:24px;padding:34px 30px;box-shadow:0 14px 35px rgba(20,59,94,0.08);
-      border:1px solid #e7eef5;transition:transform .25s ease, box-shadow .25s ease;position:relative;overflow:hidden;
-      min-width:0;
-    }
-    .path-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(20,59,94,0.13);}
-    .path-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:7px;}
-    .path-card.swimming::before{background:#2d84b3;}
-    .card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
-    .card-label{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;padding:8px 12px;border-radius:999px;margin-bottom:18px;}
-    .swimming .card-label{background:rgba(45,132,179,.12);color:#1e6287;}
-    .card-badge{
-      display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border-radius:999px;
-      background:#f4f8fb;border:1px solid #dce8f1;color:#4d6780;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
-    }
-    .path-card h3{font-size:30px;line-height:1.15;color:#16324f;margin-bottom:14px;font-weight:800;}
-    .path-card p{font-size:16px;color:#5a6f85;margin-bottom:22px;}
-    .feature-list{list-style:none;margin-bottom:28px;}
-    .feature-list li{position:relative;padding-left:18px;margin-bottom:10px;color:#35526d;font-size:15px;font-weight:500;}
-    .feature-list li::before{content:"•";position:absolute;left:0;color:#2d84b3;font-weight:800;}
-
-    .progress-badge{
-      display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#1e6287;
-      background:rgba(45,132,179,.1);padding:8px 12px;border-radius:10px;margin-bottom:16px;
-    }
-    .progress-badge .pct{font-weight:800;}
-    .card-actions{display:flex;gap:12px;flex-wrap:wrap;}
-    .portal-btn{
-      display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:none;cursor:pointer;
-      border-radius:14px;padding:14px 20px;font-weight:700;font-size:15px;transition:all .25s ease;min-width:170px;font-family:inherit;
-    }
-    .btn-primary{background:#2d84b3;color:#fff;}
-    .btn-primary:hover{background:#236d95;}
-    .btn-secondary{background:#eef5fa;color:#2d84b3;border:1px solid #d7e5ef;}
-    .btn-secondary:hover{background:#e3eef6;}
-    .btn-continue{background:#1b7c52;color:#fff;}
-    .btn-continue:hover{background:#156b45;}
-
-    .bottom-note{margin-top:34px;text-align:center;background:#eef6fb;border:1px solid #dceaf3;border-radius:20px;padding:22px;color:#47657f;font-size:15px;font-weight:500;}
-
-    .external-modules-note{margin-top:14px;padding-top:14px;border-top:1px solid #e7eef5;}
-    .external-modules-note .small-note{font-size:13px;color:#5a6f85;margin-bottom:8px;}
-    .link-btn{background:none;border:none;color:#2d84b3;font-weight:600;font-size:13px;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline;}
-    .link-btn:hover{color:#1e6287;}
-
-    @media(max-width:1100px){
-      .path-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-    }
-    @media(max-width:700px){
-      .path-grid{grid-template-columns:1fr;}
-      .hero{padding:32px 24px;}
-      .hero-shell{grid-template-columns:1fr;gap:24px;}
-      .hero-brand-panel{text-align:center;}
-      .logo-box{min-height:160px;padding:20px;}
-      .path-card{padding:28px 22px;}
-      .portal-btn{width:100%;}
-      .card-actions{flex-direction:column;}
-    }
-    @media(max-width:640px){
-      .training-portal{padding:16px 12px 40px;}
-      .path-grid{gap:20px;}
-      .logo-box img{max-height:120px;}
-      .hero{padding:26px 18px;}
-      .hero h1{font-size:clamp(24px,5vw,32px);}
-      .hero p{font-size:16px;}
-      .section-intro{padding:24px 8px 12px;}
-      .section-intro p{font-size:15px;}
-      .path-card{padding:22px 16px;}
-      .path-card h3{font-size:24px;}
-      .bottom-note{padding:18px;margin-top:24px;}
-    }
-    @media(max-width:480px){
-      .training-portal{padding:16px 12px 40px;}
-    }
-  </style>
+  <title>clubSENsational Specialist Learning Portal</title>
+  <meta name="description" content="clubSENsational specialist learning pathways for aquatic practice and aquatic skills progression." />
+  <link rel="stylesheet" href="/assets/pathway-hub.css" />
   <link rel="stylesheet" href="/assets/training-content-containment.css" />
 </head>
 <body>
   <section class="training-portal">
     <div class="training-wrap">
 
-      <div class="hero">
-        <div class="hero-shell">
-          <div class="hero-brand-panel">
-            <div class="logo-box">
-              <img src="https://www.clubsensational.org/wp-content/uploads/2025/07/F-01.png" alt="clubSENsational logo"/>
-            </div>
+      <section class="hero" aria-labelledby="portalHeroTitle">
+        <div class="hero-inner">
+          <div class="hero-logo-wrap">
+            <img class="hero-logo" src="https://www.clubsensational.org/wp-content/uploads/2025/07/F-01.png" alt="clubSENsational logo"/>
           </div>
-          <div class="hero-content">
-            <div class="hero-tag">Training Portal</div>
-            <div class="hero-kicker">clubSENsational Swimming Training</div>
-            <h1>Swimming Training Portal</h1>
-            <p>A structured learning space for staff development, built to keep the full swimming pathway clear, consistent and easy to access.</p>
+          <div class="hero-copy">
+            <p class="brand-chip">clubSENsational Specialist Learning Pathway</p>
+            <h1 id="portalHeroTitle">Specialist learning portal</h1>
+            <p class="hero-subtitle">A calm, structured space for professional development. Choose the pathway that matches your role and learning focus.</p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="section-intro">
-        <h2>Choose your swimming pathway</h2>
-        <p>Select your current swimming training level.</p>
+      <div class="path-section-intro">
+        <h2>Choose your pathway</h2>
+        <p>Two specialist routes sit side by side. You can use either pathway according to your needs; neither is a prerequisite for the other.</p>
       </div>
 
       <div class="path-grid">
-        <div class="path-card swimming">
-          <div class="card-top">
-            <div class="card-label">Foundation Pathway</div>
-            <div class="card-badge">Level 1</div>
-          </div>
-          <h3>Swimming Training I</h3>
-          <p>Start with the first stage of the pathway and build the shared foundations for aquatic understanding and delivery.</p>
+        <article class="path-card">
+          <span class="path-card-label">Specialist Pathway</span>
+          <h3>Understanding Aquatic Practice</h3>
+          <p>Explore water, the swimmer’s experience, engagement, the clubSENsational swimming programme and the use of PixtoLearn visual support systems.</p>
           <ul class="feature-list">
-            <li>Water and aquatic environment</li>
-            <li>Swimmer's experience</li>
+            <li>Aquatic environment</li>
+            <li>Swimmer experience</li>
             <li>Engagement and connection</li>
-            <li>Swimming framework</li>
+            <li>Programme structure</li>
+            <li>PixtoLearn visual supports</li>
           </ul>
           <div class="card-actions">
-            <a href="/training-i/" class="portal-btn btn-primary">Enter Swimming Training I</a>
+            <a href="/training-i/" class="portal-btn btn-primary">Enter pathway</a>
           </div>
-        </div>
+        </article>
 
-        <div class="path-card swimming">
-          <div class="card-top">
-            <div class="card-label">Advanced Pathway</div>
-            <div class="card-badge">Level 2</div>
-          </div>
-          <h3>Swimming Training II</h3>
-          <p>Continue into the second stage of the pathway once the first training has been completed and embedded.</p>
+        <article class="path-card">
+          <span class="path-card-label">Specialist Pathway</span>
+          <h3>Aquatic Development &amp; Skills Progression</h3>
+          <p>Develop aquatic skills through structured progression, scaffolding, core aquatic skills, propulsion and stroke development.</p>
           <ul class="feature-list">
-            <li>Advanced delivery approach</li>
-            <li>Progression and session structure</li>
-            <li>Coaching communication</li>
-            <li>Performance consistency</li>
+            <li>Aquatic skill development</li>
+            <li>Scaffolding and progression</li>
+            <li>Core aquatic skills</li>
+            <li>Propulsion development</li>
+            <li>Stroke development</li>
           </ul>
           <div class="card-actions">
-            <a href="/training-ii/" class="portal-btn btn-primary">Enter Swimming Training II</a>
+            <a href="/training-ii/" class="portal-btn btn-primary">Enter pathway</a>
           </div>
-        </div>
-
+        </article>
       </div>
 
-      <div class="bottom-note">Use this portal as the shared entry point for both swimming pathways and keep the full learning journey in one place.</div>
+      <p class="bottom-note" role="note">This portal is the shared entry point for both specialist pathways. Your progress is stored separately for each route in your browser.</p>
     </div>
   </section>
 </body>
