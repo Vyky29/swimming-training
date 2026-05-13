@@ -976,9 +976,9 @@ a{
   overflow:hidden;
 }
 
-/* Portal pathway cards: room for absolute corner tag (matches module hero pill band) */
+/* Portal pathway cards: room for absolute single-line pathway tag */
 .training-portal .path-card:has(> .path-card-corner-tag){
-  padding-top:112px;
+  padding-top:72px;
 }
 
 .path-card:hover{
@@ -1005,26 +1005,25 @@ a{
   right:auto;
   z-index:2;
   box-sizing:border-box;
-  display:flex;
-  flex-direction:column;
+  display:inline-flex;
   align-items:center;
   justify-content:center;
   margin:0;
-  width:min(220px,calc(100% - 44px));
-  min-width:0;
-  min-height:84px;
-  padding:12px 14px;
+  max-width:calc(100% - 44px);
+  width:max-content;
+  padding:10px 22px;
   border-radius:999px;
   background:rgba(45,132,179,0.12);
   border:1px solid rgba(45,132,179,0.18);
   box-shadow:0 2px 12px rgba(45,132,179,0.1);
-  font-size:11px;
+  font-size:10px;
   font-weight:800;
-  line-height:1.28;
+  line-height:1.2;
   letter-spacing:0.08em;
   text-transform:uppercase;
   color:var(--blue-deep);
   text-align:center;
+  white-space:nowrap;
 }
 
 .path-card-label{
@@ -1255,8 +1254,8 @@ a{
     position:static;
     align-self:flex-start;
     margin:0 0 12px;
-    width:min(220px,100%);
-    min-height:84px;
+    max-width:100%;
+    width:max-content;
   }
 
   .portal-btn{
