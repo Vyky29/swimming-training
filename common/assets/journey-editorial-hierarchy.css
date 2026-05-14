@@ -220,6 +220,7 @@
 .portal .main .content #journey .journey-item{
   position:relative;
   z-index:1;
+  gap:8px;
 }
 
 .portal .main .content #journey .journey-item.active{
@@ -232,54 +233,131 @@
   opacity:1;
 }
 
+/* Circular node: MODULE + num stacked (editorial; no duplicate label under title) */
+.portal .main .content #journey .journey-circle{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:1px;
+  padding:0 5px;
+  font-size:unset;
+  line-height:1;
+}
+
+.portal .main .content #journey .journey-node__kicker{
+  display:block;
+  margin:0;
+  font-size:.44rem;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  line-height:1.05;
+}
+
+.portal .main .content #journey .journey-node__num{
+  display:block;
+  margin:0;
+  font-size:1.02rem;
+  font-weight:800;
+  letter-spacing:-.03em;
+  line-height:1;
+}
+
+.portal .main .content #journey .journey-status{
+  text-transform:none;
+  letter-spacing:.04em;
+  font-size:.62rem;
+  font-weight:600;
+  min-height:0;
+  margin-top:1px;
+  line-height:1.35;
+}
+
+.portal .main .content #journey .journey-status:empty{
+  display:none;
+}
+
+/* Training II introduction: long editorial lines under titles (not module index repeaters) */
+.portal[data-course-page="introduction"] .main .content #journey .journey-status{
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:.015em;
+  color:#4a6f86;
+  max-width:min(240px,26vw);
+  margin-top:4px;
+}
+
 .portal .main .content #journey .journey-item.journey-item--past .journey-circle{
   position:relative;
   z-index:1;
   isolation:isolate;
   opacity:1;
-  /* Completed: solid brand blue (same fill as current, no pulse) */
-  background:linear-gradient(152deg, #1a7ebe 0%, #3db3f0 38%, #2d84b3 58%, #1f74a8 100%);
+  /* Completed: softer illuminated blue (lower emphasis than current) */
+  background:linear-gradient(152deg,#a8d4ef 0%,#7eb9e2 38%,#559cc9 68%,#3f87b5 100%);
   color:#fff;
-  border:1px solid rgba(255,255,255,.58);
+  border:1px solid rgba(255,255,255,.55);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.32),
-    0 6px 18px rgba(45,132,179,.3);
+    inset 0 1px 0 rgba(255,255,255,.45),
+    inset 0 -12px 28px rgba(45,132,179,.12),
+    0 5px 14px rgba(45,132,179,.22);
+}
+
+.portal .main .content #journey .journey-item.journey-item--past .journey-node__kicker{
+  color:rgba(255,255,255,.88);
+}
+
+.portal .main .content #journey .journey-item.journey-item--past .journey-node__num{
+  color:#fff;
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-status{
-  color:#3d6d88;
-  font-weight:700;
+  color:#5a7d92;
+  font-weight:600;
 }
 
+/* Single-line "Completed" from JS; hide template ::after duplicate */
 .portal .main .content #journey .journey-item.journey-item--past .journey-status::after{
-  color:#4a7f9a;
-  font-weight:600;
+  content:none !important;
+  display:none !important;
 }
 
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-circle{
   position:relative;
   z-index:1;
   isolation:isolate;
-  opacity:1;
-  background:linear-gradient(180deg,#ffffff 0%,#f5fafc 100%);
-  color:#2d84b3;
-  border:2px solid rgba(45,132,179,.4);
+  background:linear-gradient(180deg,#ffffff 0%,#f4f9fc 100%);
+  border:1px solid rgba(45,132,179,.28);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.95),
-    0 4px 14px rgba(18,50,71,.07);
+    0 3px 12px rgba(18,50,71,.06);
+}
+
+.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-node__kicker{
+  color:rgba(45,132,179,.52);
+}
+
+.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-node__num{
+  color:#4d6f86;
 }
 
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past).is-locked .journey-circle{
-  background:linear-gradient(180deg,#ffffff 0%,#f2f7fa 100%);
-  color:#4a8eb8;
-  border:2px solid rgba(45,132,179,.32);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.9),
-    0 3px 10px rgba(18,50,71,.05);
+  background:linear-gradient(180deg,#fbfdfe 0%,#eef4f8 100%);
+  border:1px solid rgba(45,132,179,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past).is-locked .journey-node__kicker{
+  color:rgba(45,132,179,.42);
+}
+
+.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past).is-locked .journey-node__num{
+  color:#6a8294;
 }
 
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-status{
-  color:#4a7a94;
+  color:#6d8aa0;
   font-weight:600;
 }
 
@@ -321,16 +399,27 @@
   z-index:1;
 }
 
+.portal .main .content #journey .journey-item.active .journey-status{
+  color:#1a6a96;
+}
+
 .portal .main .content #journey .journey-item.active .journey-circle{
   position:relative;
   z-index:1;
   isolation:isolate;
   overflow:visible;
-  /* Brighter corporate blue (strong #2d84b3 family, vivid highlight) */
   background:linear-gradient(152deg, #1a7ebe 0%, #3db3f0 38%, #2d84b3 58%, #1f74a8 100%);
   color:#fff;
   border:1px solid rgba(255,255,255,.72);
   animation:journey-active-orange-aura 2.2s ease-in-out infinite;
+}
+
+.portal .main .content #journey .journey-item.active .journey-node__kicker{
+  color:rgba(255,255,255,.92);
+}
+
+.portal .main .content #journey .journey-item.active .journey-node__num{
+  color:#fff;
 }
 
 @media (prefers-reduced-motion: reduce){

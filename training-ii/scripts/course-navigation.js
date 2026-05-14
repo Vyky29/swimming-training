@@ -361,18 +361,6 @@
     window.location.href = COURSE_MODULES[moduleId].file + (targetSectionId ? ('#' + targetSectionId) : '');
   }
 
-  function composeJourneyStatus(prefix, original){
-    const base = String(original || '').trim();
-    if(!base) return prefix;
-    if(base === prefix || base.indexOf(prefix + ' - ') === 0) return base;
-    return prefix + ' - ' + base;
-  }
-
-  function moduleNumberLabel(moduleId){
-    const match = /^module(\d+)$/.exec(moduleId || '');
-    return match ? ('Module ' + match[1]) : '';
-  }
-
   function syncJourneyItems(state, pageId){
     const referenceModuleId =
       pageId !== 'introduction' && COURSE_MODULES[pageId]
@@ -414,18 +402,33 @@
       item.classList.toggle('is-locked', !available || (!unlocked && !REVIEW_MODE));
       item.setAttribute('aria-disabled', (!available || (!unlocked && !REVIEW_MODE)) ? 'true' : 'false');
 
+      const journeySection = item.closest('#journey');
+      const circle = item.querySelector('.journey-circle');
+      if(journeySection && circle && moduleId){
+        const modMatch = /^module(\d+)$/.exec(moduleId);
+        if(modMatch){
+          const numeral = modMatch[1];
+          let kicker = circle.querySelector('.journey-node__kicker');
+          let num = circle.querySelector('.journey-node__num');
+          if(!kicker || !num){
+            circle.innerHTML = '<span class="journey-node__kicker">Module</span><span class="journey-node__num">' + numeral + '</span>';
+          } else {
+            num.textContent = numeral;
+          }
+        }
+      }
+
       if(statusEl && pageId !== 'introduction'){
-        const label = moduleNumberLabel(moduleId);
         if(displayPast){
-          statusEl.textContent = label || statusEl.textContent;
+          statusEl.textContent = 'Completed';
         } else if(current){
-          statusEl.textContent = label ? (label + ' — Current module') : 'Current module';
+          statusEl.textContent = 'Current module';
         } else if(!available){
-          statusEl.textContent = label ? (label + ' — Unavailable') : 'Unavailable';
+          statusEl.textContent = 'Unavailable';
         } else if(inProgress){
-          statusEl.textContent = label ? (label + ' — In progress') : 'In progress';
+          statusEl.textContent = 'In progress';
         } else {
-          statusEl.textContent = label || statusEl.textContent;
+          statusEl.textContent = '';
         }
       }
     });
