@@ -266,24 +266,29 @@
     0 6px 16px rgba(45,132,179,.14);
 }
 
-/* Active: inset orange pulse (stronger; stays inside the disk) */
+/* Active: strong orange pulse + light outer glow (overflow visible on circle) */
 @keyframes journey-active-orange-aura{
   0%,100%{
     box-shadow:
       0 0 0 1px rgba(255,255,255,.58),
       0 8px 18px rgba(18,58,88,.26),
-      inset 0 0 0 1px rgba(255,255,255,.24),
-      inset 0 0 14px rgba(204,149,43,.22),
-      inset 0 0 0 1px rgba(204,149,43,.18);
+      0 0 12px rgba(204,149,43,.24),
+      0 0 22px rgba(204,149,43,.12),
+      inset 0 0 0 1px rgba(255,255,255,.26),
+      inset 0 0 18px rgba(204,149,43,.28),
+      inset 0 0 0 2px rgba(204,149,43,.26),
+      inset 0 -8px 20px rgba(184,110,25,.14);
   }
   50%{
     box-shadow:
-      0 0 0 1px rgba(255,255,255,.68),
+      0 0 0 1px rgba(255,255,255,.72),
       0 9px 20px rgba(18,58,88,.28),
-      inset 0 0 0 1px rgba(255,255,255,.32),
-      inset 0 0 32px rgba(204,149,43,.45),
-      inset 0 0 0 5px rgba(204,149,43,.48),
-      inset 0 -10px 24px rgba(184,110,25,.22);
+      0 0 18px rgba(204,149,43,.52),
+      0 0 36px rgba(204,149,43,.28),
+      inset 0 0 0 1px rgba(255,255,255,.36),
+      inset 0 0 46px rgba(204,149,43,.58),
+      inset 0 0 0 6px rgba(204,149,43,.55),
+      inset 0 -14px 30px rgba(184,90,18,.32);
   }
 }
 
@@ -297,11 +302,11 @@
   position:relative;
   z-index:1;
   isolation:isolate;
-  overflow:hidden;
+  overflow:visible;
   background:linear-gradient(152deg, #1a6fa8 0%, #45b0e8 46%, #2e9fd8 100%);
   color:#fff;
   border:1px solid rgba(255,255,255,.65);
-  animation:journey-active-orange-aura 2.35s ease-in-out infinite;
+  animation:journey-active-orange-aura 2.2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -318,12 +323,14 @@
   .portal .main .content #journey .journey-item.active .journey-circle{
     animation:none;
     box-shadow:
-      0 0 0 1px rgba(255,255,255,.62),
+      0 0 0 1px rgba(255,255,255,.64),
       0 8px 18px rgba(18,58,88,.26),
-      inset 0 0 0 1px rgba(255,255,255,.28),
-      inset 0 0 24px rgba(204,149,43,.34),
-      inset 0 0 0 3px rgba(204,149,43,.38),
-      inset 0 -8px 18px rgba(184,110,25,.16);
+      0 0 14px rgba(204,149,43,.38),
+      0 0 26px rgba(204,149,43,.2),
+      inset 0 0 0 1px rgba(255,255,255,.3),
+      inset 0 0 32px rgba(204,149,43,.42),
+      inset 0 0 0 4px rgba(204,149,43,.42),
+      inset 0 -10px 22px rgba(184,110,25,.2);
   }
 }
 
