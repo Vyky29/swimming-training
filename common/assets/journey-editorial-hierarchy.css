@@ -5,7 +5,7 @@
  */
 
 /* -------------------------------------------------------------------------- */
-/* Pathway shell ÔøΩ same wave language as completion + module hero atmosphere   */
+/* Pathway shell ù same wave language as completion + module hero atmosphere   */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-wrap{
@@ -32,7 +32,7 @@
   z-index:1;
 }
 
-/* Mega-wave stack ÔøΩ same SVG + mask pattern as #complete .completion-atmosphere */
+/* Mega-wave stack ù same SVG + mask pattern as #complete .completion-atmosphere */
 .portal .main .content #journey .journey-wrap::before,
 .portal .main .content #journey .journey-wrap::after{
   content:"";
@@ -89,7 +89,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Journey panel ÔøΩ same depth + mega-waves as #complete .completion (module-completion-flow) */
+/* Journey panel ù same depth + mega-waves as #complete .completion (module-completion-flow) */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-panel{
@@ -192,7 +192,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Pathway titles ÔøΩ current brighter aquatic blue; past / future hierarchy     */
+/* Pathway titles ù current brighter aquatic blue; past / future hierarchy     */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-item.active .journey-title{
@@ -213,7 +213,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Nodes ÔøΩ calm blue; current: aquatic blue + subtle blue pulse (no tick/dot) */
+/* Nodes ù calm blue; current: aquatic blue + subtle blue pulse (no tick/dot) */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-item{
@@ -236,7 +236,7 @@
   z-index:1;
   isolation:isolate;
   opacity:1;
-  /* Completed: deeper corporate blue + soft white rim ÔøΩ no gold/orange ring */
+  /* Completed: deeper corporate blue + soft white rim ù no gold/orange ring */
   background:linear-gradient(145deg,#6eb2d4 0%,#3d8eb8 42%,#2d84b3 100%);
   color:#fff;
   border:2px solid rgba(255,255,255,.88);
@@ -267,21 +267,21 @@
     0 6px 16px rgba(45,132,179,.14);
 }
 
-/* Active: two tiny orange glass bubbles ÔøΩ same orbit mechanic as .water-orbit__ring (minimal) */
-@keyframes journey-current-orbit-cw{
-  from{ transform:rotate(0deg) translateX(var(--bubble-r,38px)) rotate(0deg); }
-  to{ transform:rotate(360deg) translateX(var(--bubble-r,38px)) rotate(-360deg); }
+/* Current module: 8 + 6 orange orbit dots (box-shadow ring ù no extra DOM) */
+@keyframes journey-orbit-dots-cw{
+  from{ transform:translate(-50%, -50%) rotate(0deg); }
+  to{ transform:translate(-50%, -50%) rotate(360deg); }
 }
 
-@keyframes journey-current-orbit-ccw{
-  from{ transform:rotate(0deg) translateX(var(--bubble-r,30px)) rotate(0deg); }
-  to{ transform:rotate(-360deg) translateX(var(--bubble-r,30px)) rotate(360deg); }
+@keyframes journey-orbit-dots-ccw{
+  from{ transform:translate(-50%, -50%) rotate(0deg); }
+  to{ transform:translate(-50%, -50%) rotate(-360deg); }
 }
 
 .portal .main .content #journey .journey-item.active .journey-circle{
   position:relative;
   z-index:1;
-  isolation:auto;
+  isolation:isolate;
   overflow:visible;
   background:linear-gradient(152deg, #1a6fa8 0%, #45b0e8 46%, #2e9fd8 100%);
   color:#fff;
@@ -297,43 +297,46 @@
   position:absolute;
   left:50%;
   top:50%;
+  width:2px;
+  height:2px;
+  margin:0;
   border-radius:50%;
   pointer-events:none;
-  z-index:-1;
+  z-index:0;
   box-sizing:border-box;
   border:none;
+  background:transparent;
+  transform:translate(-50%, -50%);
   transform-origin:50% 50%;
   mix-blend-mode:normal;
   will-change:transform;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.32),
-    0 2px 7px rgba(23,50,78,.14);
-  background:radial-gradient(
-    circle at 32% 28%,
-    rgba(255,255,255,.65) 0%,
-    rgba(255,255,255,.14) 36%,
-    rgba(204,149,43,.44) 68%,
-    rgba(204,149,43,.18) 100%
-  );
 }
 
+/* Outer ring: 8 dots ù radius ~46px so discs sit clearly outside the 58px blue node */
 .portal .main .content #journey .journey-item.active .journey-circle::before{
-  width:8px;
-  height:8px;
-  margin:-4px 0 0 -4px;
-  --bubble-r:38px;
-  opacity:.58;
-  animation:journey-current-orbit-cw 20s linear infinite;
+  box-shadow:
+    46px 0 0 4px rgba(204,149,43,.98),
+    33px 33px 0 4px rgba(204,149,43,.96),
+    0 46px 0 4px rgba(204,149,43,.98),
+    -33px 33px 0 4px rgba(204,149,43,.96),
+    -46px 0 0 4px rgba(204,149,43,.98),
+    -33px -33px 0 4px rgba(204,149,43,.96),
+    0 -46px 0 4px rgba(204,149,43,.98),
+    33px -33px 0 4px rgba(204,149,43,.96);
+  animation:journey-orbit-dots-cw 22s linear infinite;
 }
 
+/* Inner ring: 6 dots ù radius ~34px, still clearly orange */
 .portal .main .content #journey .journey-item.active .journey-circle::after{
-  width:6px;
-  height:6px;
-  margin:-3px 0 0 -3px;
-  --bubble-r:30px;
-  opacity:.48;
-  animation:journey-current-orbit-ccw 16s linear infinite;
-  animation-delay:-4.5s;
+  box-shadow:
+    34px 0 0 3.5px rgba(204,149,43,.94),
+    17px 29px 0 3.5px rgba(204,149,43,.92),
+    -17px 29px 0 3.5px rgba(204,149,43,.92),
+    -34px 0 0 3.5px rgba(204,149,43,.94),
+    -17px -29px 0 3.5px rgba(204,149,43,.92),
+    17px -29px 0 3.5px rgba(204,149,43,.92);
+  animation:journey-orbit-dots-ccw 17s linear infinite;
+  animation-delay:-2.2s;
 }
 
 @media (prefers-reduced-motion: reduce){
