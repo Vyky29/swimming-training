@@ -11,8 +11,7 @@
 .portal .main .content #journey .journey-wrap{
   position:relative;
   isolation:isolate;
-  /* visible so active-node orbit dots (outside the 58px circle) are not clipped */
-  overflow:visible;
+  overflow:hidden;
   border:1px solid rgba(45,132,179,.22);
   border-radius:clamp(18px,2.6vw,26px);
   background:
@@ -208,7 +207,7 @@
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-title{
-  color:#5a7f96;
+  color:#647d91;
   font-weight:700;
 }
 
@@ -236,22 +235,22 @@
   z-index:1;
   isolation:isolate;
   opacity:1;
-  /* Completed: deeper corporate blue + soft white rim ù no gold/orange ring */
-  background:linear-gradient(145deg,#6eb2d4 0%,#3d8eb8 42%,#2d84b3 100%);
+  /* Completed: soft desaturated blue ó clearly not the vivid current node */
+  background:linear-gradient(165deg,#cfe4ef 0%,#aacfe0 38%,#8eb9d2 100%);
   color:#fff;
-  border:2px solid rgba(255,255,255,.88);
+  border:2px solid rgba(255,255,255,.82);
   box-shadow:
-    0 1px 0 rgba(255,255,255,.35) inset,
-    0 8px 18px rgba(18,50,71,.14);
+    inset 0 1px 0 rgba(255,255,255,.45),
+    0 6px 14px rgba(18,50,71,.1);
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-status{
-  color:#6a8db5;
+  color:#6f8494;
   font-weight:700;
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-status::after{
-  color:#7a9db8;
+  color:#7d91a0;
 }
 
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-circle{
@@ -267,76 +266,41 @@
     0 6px 16px rgba(45,132,179,.14);
 }
 
-/* Current module: 8 + 6 orange orbit dots (box-shadow ring ù no extra DOM) */
-@keyframes journey-orbit-dots-cw{
-  from{ transform:translate(-50%, -50%) rotate(0deg); }
-  to{ transform:translate(-50%, -50%) rotate(360deg); }
+/* Active: subtle inset orange pulse (contained in the disk ó no spill on title/status) */
+@keyframes journey-active-orange-aura{
+  0%,100%{
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.58),
+      0 8px 18px rgba(18,58,88,.26),
+      inset 0 0 0 1px rgba(255,255,255,.22),
+      inset 0 0 10px rgba(204,149,43,.12),
+      inset 0 0 0 0 rgba(204,149,43,0);
+  }
+  50%{
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.64),
+      0 9px 20px rgba(18,58,88,.28),
+      inset 0 0 0 1px rgba(255,255,255,.28),
+      inset 0 0 16px rgba(204,149,43,.22),
+      inset 0 0 0 3px rgba(204,149,43,.28);
+  }
 }
 
-@keyframes journey-orbit-dots-ccw{
-  from{ transform:translate(-50%, -50%) rotate(0deg); }
-  to{ transform:translate(-50%, -50%) rotate(-360deg); }
+.portal .main .content #journey .journey-item.active .journey-title,
+.portal .main .content #journey .journey-item.active .journey-status{
+  position:relative;
+  z-index:1;
 }
 
 .portal .main .content #journey .journey-item.active .journey-circle{
   position:relative;
   z-index:1;
   isolation:isolate;
-  overflow:visible;
+  overflow:hidden;
   background:linear-gradient(152deg, #1a6fa8 0%, #45b0e8 46%, #2e9fd8 100%);
   color:#fff;
   border:1px solid rgba(255,255,255,.65);
-  box-shadow:
-    0 12px 28px rgba(26, 96, 138, .36),
-    0 0 22px rgba(45, 132, 179, .22);
-}
-
-.portal .main .content #journey .journey-item.active .journey-circle::before,
-.portal .main .content #journey .journey-item.active .journey-circle::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:2px;
-  height:2px;
-  margin:0;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:0;
-  box-sizing:border-box;
-  border:none;
-  background:transparent;
-  transform:translate(-50%, -50%);
-  transform-origin:50% 50%;
-  mix-blend-mode:normal;
-  will-change:transform;
-}
-
-/* Outer ring: 8 dots ù radius ~46px so discs sit clearly outside the 58px blue node */
-.portal .main .content #journey .journey-item.active .journey-circle::before{
-  box-shadow:
-    46px 0 0 4px rgba(204,149,43,.98),
-    33px 33px 0 4px rgba(204,149,43,.96),
-    0 46px 0 4px rgba(204,149,43,.98),
-    -33px 33px 0 4px rgba(204,149,43,.96),
-    -46px 0 0 4px rgba(204,149,43,.98),
-    -33px -33px 0 4px rgba(204,149,43,.96),
-    0 -46px 0 4px rgba(204,149,43,.98),
-    33px -33px 0 4px rgba(204,149,43,.96);
-  animation:journey-orbit-dots-cw 22s linear infinite;
-}
-
-/* Inner ring: 6 dots ù radius ~34px, still clearly orange */
-.portal .main .content #journey .journey-item.active .journey-circle::after{
-  box-shadow:
-    34px 0 0 3.5px rgba(204,149,43,.94),
-    17px 29px 0 3.5px rgba(204,149,43,.92),
-    -17px 29px 0 3.5px rgba(204,149,43,.92),
-    -34px 0 0 3.5px rgba(204,149,43,.94),
-    -17px -29px 0 3.5px rgba(204,149,43,.92),
-    17px -29px 0 3.5px rgba(204,149,43,.92);
-  animation:journey-orbit-dots-ccw 17s linear infinite;
-  animation-delay:-2.2s;
+  animation:journey-active-orange-aura 2.8s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -350,16 +314,14 @@
     animation:none;
   }
 
-  .portal .main .content #journey .journey-item.active .journey-circle::before,
-  .portal .main .content #journey .journey-item.active .journey-circle::after{
-    animation:none !important;
-    opacity:0;
-  }
-
   .portal .main .content #journey .journey-item.active .journey-circle{
+    animation:none;
     box-shadow:
-      0 12px 28px rgba(26, 96, 138, .36),
-      0 0 0 1px rgba(255,255,255,.58),
-      0 0 18px rgba(45,132,179,.18);
+      0 0 0 1px rgba(255,255,255,.6),
+      0 8px 18px rgba(18,58,88,.26),
+      inset 0 0 0 1px rgba(255,255,255,.24),
+      inset 0 0 14px rgba(204,149,43,.18),
+      inset 0 0 0 2px rgba(204,149,43,.22);
   }
 }
+
