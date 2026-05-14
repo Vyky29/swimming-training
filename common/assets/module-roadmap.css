@@ -198,6 +198,12 @@
   padding-top:4px;
 }
 
+/* Exactly four roadmap nodes (e.g. Training I Module 4): one row, not 3+1 */
+#inside-module .journey-track:has(> :nth-child(4):last-child){
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  column-gap:clamp(10px,1.6vw,16px);
+}
+
 #inside-module a.module-roadmap__item{
   text-decoration:none;
   color:inherit;
@@ -242,10 +248,20 @@
     row-gap:22px;
   }
 
+  #inside-module .journey-track:has(> :nth-child(4):last-child){
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    row-gap:18px;
+  }
+
   #inside-module .journey-track::before{
     top:28px;
     left:11%;
     right:11%;
+  }
+
+  #inside-module .journey-track:has(> :nth-child(4):last-child)::before{
+    left:8%;
+    right:8%;
   }
 }
 
