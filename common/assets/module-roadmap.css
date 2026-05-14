@@ -115,11 +115,80 @@
 /* Calm roadmap shell  restraint vs #journey immersive wrap */
 #inside-module .module-roadmap-wrap.journey-wrap{
   margin-top:4px;
-  border:1px solid rgba(45,132,179,.1);
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border:1px solid rgba(45,132,179,.2);
   border-radius:22px;
-  background:linear-gradient(180deg,#fdfefe 0%,#f8fbfd 52%,#fff 100%);
-  box-shadow:0 10px 28px rgba(18,50,71,.045);
+  background:
+    radial-gradient(ellipse 74% 58% at 12% 16%, rgba(255,255,255,.42) 0%, transparent 52%),
+    radial-gradient(ellipse 60% 48% at 88% 18%, rgba(137,181,193,.2) 0%, transparent 56%),
+    radial-gradient(ellipse 92% 80% at 50% 108%, rgba(29,111,153,.1) 0%, transparent 50%),
+    linear-gradient(175deg, #e4f1f9 0%, #eef7fc 38%, #f9fcfe 72%, #fbfdff 100%);
+  box-shadow:
+    0 12px 32px rgba(18,50,71,.07),
+    inset 0 1px 0 rgba(255,255,255,.55),
+    inset 0 -32px 64px rgba(45,132,179,.05);
   padding:22px 20px 20px;
+}
+
+#inside-module .module-roadmap-wrap.journey-wrap > .journey-track{
+  position:relative;
+  z-index:1;
+}
+
+#inside-module .module-roadmap-wrap.journey-wrap::before,
+#inside-module .module-roadmap-wrap.journey-wrap::after{
+  content:"";
+  position:absolute;
+  border-radius:inherit;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+#inside-module .module-roadmap-wrap.journey-wrap::before{
+  top:0;
+  left:-28%;
+  right:-28%;
+  bottom:-48%;
+  opacity:.18;
+  mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201200%20300%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27rgba%28255%2C255%2C255%2C0.26%29%27%20d%3D%27M0%2C108%20C200%2C62%20400%2C154%20600%2C108%20S1000%2C82%201200%2C108%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%28137%2C181%2C193%2C0.3%29%27%20d%3D%27M0%2C132%20C220%2C88%20440%2C176%20660%2C132%20S980%2C102%201200%2C132%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%2845%2C132%2C179%2C0.2%29%27%20d%3D%27M0%2C158%20C260%2C118%20520%2C198%20780%2C158%20S1060%2C128%201200%2C158%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat:repeat-x;
+  background-position:240px 100%;
+  background-size:1200px 100%;
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.4) 10%,#000 32%,#000 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.4) 10%,#000 32%,#000 100%);
+  animation:insideModuleRoadmapWaveB 34s linear infinite reverse;
+  will-change:background-position;
+}
+
+#inside-module .module-roadmap-wrap.journey-wrap::after{
+  top:0;
+  left:-22%;
+  right:-22%;
+  bottom:-58%;
+  opacity:.32;
+  mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%201200%20300%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27rgba%28255%2C255%2C255%2C0.28%29%27%20d%3D%27M0%2C118%20C200%2C72%20400%2C164%20600%2C118%20S1000%2C92%201200%2C118%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%28137%2C181%2C193%2C0.34%29%27%20d%3D%27M0%2C142%20C220%2C98%20440%2C186%20660%2C142%20S980%2C112%201200%2C142%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3Cpath%20fill%3D%27rgba%2845%2C132%2C179%2C0.22%29%27%20d%3D%27M0%2C168%20C260%2C128%20520%2C208%20780%2C168%20S1060%2C138%201200%2C168%20L1200%2C300%20L0%2C300%20Z%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat:repeat-x;
+  background-position:0 100%;
+  background-size:1200px 100%;
+  mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 6%,#000 26%,#000 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.32) 6%,#000 26%,#000 100%);
+  animation:insideModuleRoadmapWaveA 24s linear infinite;
+  will-change:background-position;
+}
+
+@keyframes insideModuleRoadmapWaveB{
+  0%{ background-position:240px 100%; }
+  100%{ background-position:-960px 100%; }
+}
+
+@keyframes insideModuleRoadmapWaveA{
+  0%{ background-position:0 100%; }
+  100%{ background-position:-1200px 100%; }
 }
 
 #inside-module .journey-track{
@@ -303,5 +372,10 @@
 
   #inside-module a.module-roadmap__item:hover{
     transform:none;
+  }
+
+  #inside-module .module-roadmap-wrap.journey-wrap::before,
+  #inside-module .module-roadmap-wrap.journey-wrap::after{
+    animation:none !important;
   }
 }
