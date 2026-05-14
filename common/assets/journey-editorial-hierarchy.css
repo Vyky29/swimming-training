@@ -207,8 +207,8 @@
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-title{
-  color:#3d7a9e;
-  font-weight:800;
+  color:#5a7f96;
+  font-weight:700;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -235,24 +235,22 @@
   z-index:1;
   isolation:isolate;
   opacity:1;
-  /* Done: corporate blue + crisp white ring + gold trim (reads clearly vs soft future nodes) */
-  background:linear-gradient(145deg,#3a9bc9 0%,#2d84b3 38%,#246d96 100%);
+  /* Completed: deeper corporate blue + soft white rim ù no gold/orange ring */
+  background:linear-gradient(145deg,#6eb2d4 0%,#3d8eb8 42%,#2d84b3 100%);
   color:#fff;
-  border:3px solid #fff;
+  border:2px solid rgba(255,255,255,.88);
   box-shadow:
-    0 0 0 2px rgba(204,149,43,.72),
-    0 0 18px rgba(204,149,43,.28),
-    0 10px 22px rgba(18,50,71,.18),
-    inset 0 2px 0 rgba(255,255,255,.32);
+    0 1px 0 rgba(255,255,255,.35) inset,
+    0 8px 18px rgba(18,50,71,.14);
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-status{
-  color:#b8832f;
-  font-weight:800;
+  color:#6a8db5;
+  font-weight:700;
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-status::after{
-  color:#cc952b;
+  color:#7a9db8;
 }
 
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-circle{
@@ -268,12 +266,7 @@
     0 6px 16px rgba(45,132,179,.14);
 }
 
-@keyframes journeyGoldBubbleDrift{
-  from{ transform:rotate(0deg); }
-  to{ transform:rotate(360deg); }
-}
-
-/* Active: gold-orbit bubbles (logo-style); masked ring keeps the numeral readable */
+/* Active: two tiny orange glass bubbles ù same orbit mechanic as .water-orbit__ring (minimal) */
 .portal .main .content #journey .journey-item.active .journey-circle{
   position:relative;
   z-index:1;
@@ -287,49 +280,51 @@
     0 0 22px rgba(45, 132, 179, .22);
 }
 
-.portal .main .content #journey .journey-item.active .journey-circle::before{
-  content:"";
-  position:absolute;
-  inset:-36px;
-  border-radius:50%;
-  z-index:-1;
-  pointer-events:none;
-  transform-origin:50% 50%;
-  -webkit-mask-image:radial-gradient(circle at 50% 50%,transparent 28px,#000 30px,#000 100%);
-  mask-image:radial-gradient(circle at 50% 50%,transparent 28px,#000 30px,#000 100%);
-  background:
-    radial-gradient(circle at 50% 6%,rgba(255,252,245,.98) 0%,rgba(204,149,43,.55) 22%,transparent 30%),
-    radial-gradient(circle at 90% 30%,rgba(255,236,200,.95) 0%,rgba(204,149,43,.52) 18%,transparent 26%),
-    radial-gradient(circle at 10% 36%,rgba(255,245,224,.98) 0%,rgba(204,149,43,.48) 18%,transparent 26%),
-    radial-gradient(circle at 76% 10%,rgba(246,214,160,.9) 0%,rgba(204,149,43,.42) 16%,transparent 24%),
-    radial-gradient(circle at 24% 88%,rgba(204,149,43,.7) 0%,rgba(255,230,190,.35) 20%,transparent 28%),
-    radial-gradient(circle at 86% 78%,rgba(255,240,210,.92) 0%,rgba(204,149,43,.45) 17%,transparent 25%),
-    radial-gradient(circle at 48% 94%,rgba(204,149,43,.58) 0%,transparent 22%),
-    radial-gradient(circle at 32% 14%,rgba(255,220,170,.88) 0%,rgba(204,149,43,.38) 15%,transparent 22%),
-    radial-gradient(circle at 66% 52%,rgba(255,255,255,.55) 0%,transparent 10%),
-    conic-gradient(from 40deg at 50% 50%,rgba(204,149,43,.14),transparent 32%,rgba(255,236,200,.1),transparent 68%,rgba(204,149,43,.12));
-  animation:journeyGoldBubbleDrift 14s linear infinite;
-}
-
+.portal .main .content #journey .journey-item.active .journey-circle::before,
 .portal .main .content #journey .journey-item.active .journey-circle::after{
   content:"";
   position:absolute;
-  inset:-42px;
+  left:50%;
+  top:50%;
   border-radius:50%;
-  z-index:-2;
   pointer-events:none;
+  z-index:-1;
+  box-sizing:border-box;
+  border:none;
   transform-origin:50% 50%;
-  opacity:.88;
-  -webkit-mask-image:radial-gradient(circle at 50% 50%,transparent 30px,#000 32px,#000 99%,transparent 100%);
-  mask-image:radial-gradient(circle at 50% 50%,transparent 30px,#000 32px,#000 99%,transparent 100%);
-  background:
-    radial-gradient(circle at 18% 22%,rgba(255,255,255,.75) 0%,transparent 9%),
-    radial-gradient(circle at 72% 18%,rgba(255,255,255,.65) 0%,transparent 8%),
-    radial-gradient(circle at 40% 70%,rgba(255,255,255,.55) 0%,transparent 7%),
-    radial-gradient(circle at 88% 62%,rgba(255,255,255,.5) 0%,transparent 7%),
-    radial-gradient(circle at 12% 78%,rgba(255,255,255,.45) 0%,transparent 6%),
-    radial-gradient(circle at 58% 40%,rgba(204,149,43,.2) 0%,transparent 45%);
-  animation:journeyGoldBubbleDrift 20s linear infinite reverse;
+  mix-blend-mode:normal;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.28),
+    0 2px 6px rgba(23,50,78,.12);
+  background:radial-gradient(
+    circle at 32% 28%,
+    rgba(255,255,255,.55) 0%,
+    rgba(255,255,255,.12) 38%,
+    rgba(204,149,43,.22) 72%,
+    rgba(204,149,43,.08) 100%
+  );
+}
+
+/* Outer track ù CW (uses keyframes from water-orbit-branding.css) */
+.portal .main .content #journey .journey-item.active .journey-circle::before{
+  width:7px;
+  height:7px;
+  margin:-3.5px 0 0 -3.5px;
+  --bubble-r:31px;
+  opacity:.42;
+  animation:water-bubble-orbit 22s linear infinite;
+  animation-delay:0s;
+}
+
+/* Inner track ù CCW, smaller + softer */
+.portal .main .content #journey .journey-item.active .journey-circle::after{
+  width:5px;
+  height:5px;
+  margin:-2.5px 0 0 -2.5px;
+  --bubble-r:24px;
+  opacity:.34;
+  animation:water-bubble-orbit-rev 17s linear infinite;
+  animation-delay:-5.5s;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -345,15 +340,14 @@
 
   .portal .main .content #journey .journey-item.active .journey-circle::before,
   .portal .main .content #journey .journey-item.active .journey-circle::after{
-    animation:none;
-    transform:none;
+    animation:none !important;
+    opacity:0;
   }
 
   .portal .main .content #journey .journey-item.active .journey-circle{
     box-shadow:
       0 12px 28px rgba(26, 96, 138, .36),
       0 0 0 1px rgba(255,255,255,.58),
-      0 0 0 7px rgba(204,149,43,.22),
-      0 0 28px rgba(204,149,43,.32);
+      0 0 18px rgba(45,132,179,.18);
   }
 }
