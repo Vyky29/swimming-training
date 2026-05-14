@@ -1497,11 +1497,19 @@
     }
 
     .concept-grid[data-concept-grid="block2"]{
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      justify-content:center;
+      max-width:min(860px,100%);
+      margin-left:auto;
+      margin-right:auto;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
     }
 
     .concept-grid[data-concept-grid="block3"]{
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      justify-content:center;
+    }
+
+    .concept-grid[data-concept-grid="block4"]{
       grid-template-columns:repeat(3,minmax(0,1fr));
     }
 
@@ -2302,7 +2310,7 @@
       display:block;
       max-width:100%;
     }
-    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square{
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square{
       flex-direction:column;
       align-items:center;
       justify-content:center;
@@ -2310,7 +2318,7 @@
       text-align:center;
       padding:20px 18px;
     }
-    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square .concept-square-stage-kicker{
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square .concept-square-stage-kicker{
       display:block;
       font-size:.76rem;
       font-weight:800;
@@ -2318,7 +2326,7 @@
       text-transform:uppercase;
       opacity:.9;
     }
-    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square .concept-square-stage-title{
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square .concept-square-stage-title{
       display:block;
       max-width:100%;
       line-height:1.25;
@@ -2733,11 +2741,11 @@
     .concept-square.level-card--basic.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #ea8f22; }
     .concept-square.level-card--structured.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #4A86B4; }
     .concept-square.level-card--core.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #8a3fb0; }
-    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square.level-card--structured:hover,
-    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square.level-card--structured:focus-visible,
-    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square.level-card--structured.visited,
-    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square.level-card--structured.visited:hover,
-    .concept-stage > .concept-grid[data-concept-grid="block2"] > .concept-square.level-card--structured.visited:focus-visible{
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured:hover,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured:focus-visible,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured.visited,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured.visited:hover,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured.visited:focus-visible{
       background:#4A86B4;
       color:#fff;
       border-color:#4A86B4;
@@ -3280,7 +3288,8 @@
       width:100%;
     }
     .concept-panel[data-concept-flow="flat"] .concept-grid[data-concept-grid="block1"],
-    .concept-panel[data-concept-flow="flat"] .concept-grid[data-concept-grid="block3"]{
+    .concept-panel[data-concept-flow="flat"] .concept-grid[data-concept-grid="block2"],
+    .concept-panel[data-concept-flow="flat"] .concept-grid[data-concept-grid="block4"]{
       max-width:100%;
     }
 
@@ -4615,7 +4624,9 @@
       .journey-title{font-size:.8rem;max-width:124px;}
       .concept-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
       .concept-grid.b3c2-subconcept-buttons{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .concept-grid[data-concept-grid="block2"]{grid-template-columns:1fr;}
       .concept-grid[data-concept-grid="block3"]{grid-template-columns:1fr;}
+      .concept-grid[data-concept-grid="block4"]{grid-template-columns:1fr;}
       .recap-card:not(.recap-takeaway-card){grid-template-columns:220px 1fr;}
     }
 
@@ -4974,6 +4985,7 @@
           <a class="nav-link" href="#block1" data-progress-key="module4_block1">Block 1</a>
           <a class="nav-link" href="#block2" data-progress-key="module4_block2">Block 2</a>
           <a class="nav-link" href="#block3" data-progress-key="module4_block3">Block 3</a>
+          <a class="nav-link" href="#block4" data-progress-key="module4_block4">Block 4</a>
           <a class="nav-link" href="#keyideas" data-progress-key="module4_keyideas">Key Ideas to Remember</a>
           <a class="nav-link" href="#quiz" data-progress-key="module4_quiz">Quiz</a>
         </div>
@@ -4986,7 +4998,7 @@
         </div>
         <div class="progress-meta">
           <span id="overallProgressText">0% completed</span>
-          <span id="overallProgressCount">0 / 6</span>
+          <span id="overallProgressCount">0 / 7</span>
         </div>
         <p class="small-note">Complete each stage to unlock the next one and see clear progress through the programme content.</p>
       </div>
@@ -5177,14 +5189,24 @@
                     <span class="module-roadmap__node-num">2</span>
                   </div>
                   <div class="module-roadmap__text-stack">
-                    <div class="journey-title">Program Structure</div>
-                    <div class="journey-status module-roadmap__hint">Explore stages, levels and development areas across the pathway.</div>
+                    <div class="journey-title">Core Development Areas</div>
+                    <div class="journey-status module-roadmap__hint">Regulation, independence, and learning &amp; engagement across the programme.</div>
                   </div>
                 </a>
                 <a class="journey-item module-roadmap__item" href="#block3">
                   <div class="journey-circle">
                     <span class="module-roadmap__node-kicker">Block</span>
                     <span class="module-roadmap__node-num">3</span>
+                  </div>
+                  <div class="module-roadmap__text-stack">
+                    <div class="journey-title">Program Structure</div>
+                    <div class="journey-status module-roadmap__hint">Explore stages and levels from Swim Confidence to Swim Structured.</div>
+                  </div>
+                </a>
+                <a class="journey-item module-roadmap__item" href="#block4">
+                  <div class="journey-circle">
+                    <span class="module-roadmap__node-kicker">Block</span>
+                    <span class="module-roadmap__node-num">4</span>
                   </div>
                   <div class="module-roadmap__text-stack">
                     <div class="journey-title">Interpreting Progress</div>
@@ -5319,7 +5341,7 @@
           </div>
         </section>
 
-        <!-- BLOCK 2: STAGES -->
+        <!-- BLOCK 2: CORE DEVELOPMENT AREAS -->
         <section class="section gated-block gated-locked" id="block2" data-stage="block2">
           <div class="section-top">
             <span class="section-pill">Block 2</span>
@@ -5329,7 +5351,7 @@
 
             <div class="block-header">
               <div class="block-title-wrap">
-                <h3>Program Structure</h3>
+                <h3>Core Development Areas</h3>
               </div>
               <div class="section-top-actions">
                 <button class="btn btn-tts" data-tts-button="block2">🔊 Listen</button>
@@ -5338,10 +5360,135 @@
             </div>
 
             <p class="lead" data-tts-source="block2">
-              This block explores the three stages of the clubSENsational Swimming Programme. You will see how each stage organises the journey, what defines the typical swimmer profile, and how stages connect emotional readiness with skill focus.
+              Three lenses run through every stage and level: how regulated the swimmer feels, how much support they need for independence, and how they engage with learning. Use them to interpret progress beyond technique alone.
             </p>
 
             <div class="grid-2 block-intro-cards" data-block-intro="block2">
+              <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
+                <div class="card-icon">◎</div>
+                <h4>Block Focus</h4>
+                <ul>
+                  <li>Connect regulation, independence, and learning &amp; engagement to planning, observation, and conversations with families.</li>
+                </ul>
+              </div>
+              <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
+                <div class="card-icon">≡</div>
+                <h4>What This Block Covers</h4>
+                <ul>
+                  <li>Regulation</li>
+                  <li>Independence</li>
+                  <li>Learning &amp; Engagement</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="concept-stage">
+              <h4>Explore the key concepts</h4>
+              <p>Open each concept in any order. Read the introduction, review the visual, work through the key ideas, then complete the short activity.</p>
+
+              <div class="concept-grid concept-grid--core" data-concept-grid="block2">
+                <button class="concept-square concept-square--core level-card--core level-tone-1" data-target="b2core1"><span class="concept-square-stage-title">Regulation</span></button>
+                <button class="concept-square concept-square--core level-card--core level-tone-2" data-target="b2core2"><span class="concept-square-stage-title">Independence</span></button>
+                <button class="concept-square concept-square--core level-card--core level-tone-3" data-target="b2core3"><span class="concept-square-stage-title">Learning &amp; Engagement</span></button>
+              </div>
+
+              <div class="concept-panel" data-panel-for="block2">
+                <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">← Back</button></div>
+                <div class="concept-panel-title-row">
+                  <h4 class="concept-panel-title"></h4>
+                  <div class="concept-panel-tts">
+                    <button type="button" class="btn-tts-inline" data-concept-tts aria-label="Listen">🔊 Listen</button>
+                    <button type="button" class="btn-tts-stop-inline" data-concept-tts-stop aria-label="Stop">⏹ Stop</button>
+                  </div>
+                </div>
+                <div class="concept-panel-desc"></div>
+
+                <div class="concept-intro-media" data-concept-intro-media style="display:none;"></div>
+
+                <div class="concept-points-box">
+                  <h4>Key Ideas for Instructors</h4>
+                  <p class="key-ideas-instruction">Review each key idea below.</p>
+                  <ul></ul>
+                </div>
+
+                <div class="concept-slide-block">
+                  <div class="concept-image" data-concept-primary-image></div>
+                  <div class="concept-slide-actions">
+                    <button class="media-btn" type="button" data-expand-media>Expand slide</button>
+                  </div>
+                </div>
+
+                <div class="concept-media-actions">
+                  <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                </div>
+
+                <div class="concept-actions">
+                  <div class="concept-mini-track">
+                    <div class="concept-mini-fill" data-mini-fill="block2"></div>
+                  </div>
+                  <div class="concept-progress">
+                    <span data-mini-text="block2">0 of 3 concepts completed</span>
+                    <span>Core Development Areas</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lock-box" data-lock-box="block2">
+              <div class="lock-message">
+                <strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.
+              </div>
+            </div>
+
+            <div class="reflection-gate" data-gate="block2">
+              <h4>Reflection checkpoint</h4>
+              <div class="option-grid">
+                <label class="option">
+                  <input type="radio" name="gate2" value="wrong">
+                  <span>Core development areas only matter once swimmers are working on stroke technique.</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="gate2" value="correct">
+                  <span>Regulation, independence, and learning &amp; engagement help you interpret each swimmer across all stages and levels — not only on technical skills.</span>
+                </label>
+                <label class="option">
+                  <input type="radio" name="gate2" value="wrong">
+                  <span>These areas replace the need for stages and levels when you plan sessions.</span>
+                </label>
+              </div>
+              <div class="feedback" data-feedback="block2"></div>
+            </div>
+
+            <label class="check-item clickable-progress">
+              <input type="checkbox" class="overall-check gated-check" data-stage-check="block2" data-check-for="block2" disabled>
+              <span>I have completed Core Development Areas.</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- BLOCK 3: PROGRAM STRUCTURE -->
+        <section class="section gated-block gated-locked" id="block3" data-stage="block3">
+          <div class="section-top">
+            <span class="section-pill">Block 3</span>
+          </div>
+          <div class="section-body">
+            <div class="section-lock-banner">Complete the previous stage to unlock this block.</div>
+
+            <div class="block-header">
+              <div class="block-title-wrap">
+                <h3>Program Structure</h3>
+              </div>
+              <div class="section-top-actions">
+                <button class="btn btn-tts" data-tts-button="block3">🔊 Listen</button>
+                <button class="btn btn-tts" data-tts-stop="block3">⏹ Stop Audio</button>
+              </div>
+            </div>
+
+            <p class="lead" data-tts-source="block3">
+              This block explores the three stages of the clubSENsational Swimming Programme. You will see how each stage organises the journey, what defines the typical swimmer profile, and how stages connect emotional readiness with skill focus.
+            </p>
+
+            <div class="grid-2 block-intro-cards" data-block-intro="block3">
               <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
                 <div class="card-icon">◎</div>
                 <h4>Block Focus</h4>
@@ -5354,7 +5501,6 @@
                 <h4>What This Block Covers</h4>
                 <ul>
                   <li>Swim Confidence → Swim Basic → Swim Structured</li>
-                  <li>Core Development Areas</li>
                   <li>Within each stage: Overview, Focus Areas, and Activities in Practice</li>
                 </ul>
               </div>
@@ -5364,7 +5510,7 @@
               <h4>Explore the key concepts</h4>
               <p>Click a concept to open its explanation underneath. Each stage uses the same values and principles but focuses on different readiness and skills.</p>
 
-              <div class="concept-slide-block block-intro-slide" data-block-intro-slide="block2">
+              <div class="concept-slide-block block-intro-slide" data-block-intro-slide="block3">
                 <div class="concept-image">
                   <img src="/assets/images/module-4/programme-structure-overview.png" alt="Programme structure overview" />
                 </div>
@@ -5373,16 +5519,15 @@
                 </div>
               </div>
 
-              <div class="concept-grid" data-concept-grid="block2">
+              <div class="concept-grid" data-concept-grid="block3">
                 <button class="concept-square level-card--confidence" data-target="b2c1"><span class="concept-square-stage-kicker">Stage 1</span><span class="concept-square-stage-title">Swim Confidence</span></button>
                 <button class="concept-square level-card--basic" data-target="b2c2"><span class="concept-square-stage-kicker">Stage 2</span><span class="concept-square-stage-title">Swim Basic</span></button>
                 <button class="concept-square level-card--structured" data-target="b2c3"><span class="concept-square-stage-kicker">Stage 3</span><span class="concept-square-stage-title">Swim Structured</span></button>
-                <button class="concept-square level-card--core" data-target="b2c4"><span class="concept-square-stage-title">Core Development Areas</span></button>
               </div>
 
             </div>
 
-            <div class="concept-panel" data-panel-for="block2">
+            <div class="concept-panel" data-panel-for="block3">
               <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">← Back</button></div>
               <div class="concept-level-badge" data-concept-level-badge aria-hidden="true"></div>
               <div class="concept-panel-title-row">
@@ -5428,51 +5573,51 @@
 
               <div class="concept-actions">
                 <div class="concept-mini-track">
-                  <div class="concept-mini-fill" data-mini-fill="block2"></div>
+                  <div class="concept-mini-fill" data-mini-fill="block3"></div>
                 </div>
                 <div class="concept-progress">
-                  <span data-mini-text="block2">0 of 30 concepts completed</span>
+                  <span data-mini-text="block3">0 of 30 concepts completed</span>
                   <span>Program Structure</span>
                 </div>
               </div>
             </div>
 
-            <div class="lock-box" data-lock-box="block2">
+            <div class="lock-box" data-lock-box="block3">
               <div class="lock-message">
                 <strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.
               </div>
             </div>
 
-            <div class="reflection-gate" data-gate="block2">
+            <div class="reflection-gate" data-gate="block3">
               <h4>Reflection checkpoint</h4>
               <div class="option-grid">
                 <label class="option">
-                  <input type="radio" name="gate2" value="wrong">
+                  <input type="radio" name="gate3" value="wrong">
                   <span>All swimmers should move through stages at the same speed because the structure is fixed.</span>
                 </label>
                 <label class="option">
-                  <input type="radio" name="gate2" value="correct">
+                  <input type="radio" name="gate3" value="correct">
                   <span>Stages give a clear journey, but progression through them should stay flexible and respond to each swimmer’s profile and regulation.</span>
                 </label>
                 <label class="option">
-                  <input type="radio" name="gate2" value="wrong">
+                  <input type="radio" name="gate3" value="wrong">
                   <span>Stages are only about technical difficulty and do not relate to emotional readiness or safety.</span>
                 </label>
               </div>
-              <div class="feedback" data-feedback="block2"></div>
+              <div class="feedback" data-feedback="block3"></div>
             </div>
 
             <label class="check-item clickable-progress">
-              <input type="checkbox" class="overall-check gated-check" data-stage-check="block2" data-check-for="block2" disabled>
+              <input type="checkbox" class="overall-check gated-check" data-stage-check="block3" data-check-for="block3" disabled>
               <span>I have completed Program Structure.</span>
             </label>
           </div>
         </section>
 
-        <!-- BLOCK 3: INTERPRETING PROGRESS -->
-        <section class="section gated-block gated-locked" id="block3" data-stage="block3">
+        <!-- BLOCK 4: INTERPRETING PROGRESS -->
+        <section class="section gated-block gated-locked" id="block4" data-stage="block4">
           <div class="section-top">
-            <span class="section-pill">Block 3</span>
+            <span class="section-pill">Block 4</span>
           </div>
           <div class="section-body">
             <div class="section-lock-banner">Complete the previous stage to unlock this block.</div>
@@ -5482,16 +5627,16 @@
                 <h3>Interpreting Progress</h3>
               </div>
               <div class="section-top-actions">
-                <button class="btn btn-tts" data-tts-button="block3">🔊 Listen</button>
-                <button class="btn btn-tts" data-tts-stop="block3">⏹ Stop Audio</button>
+                <button class="btn btn-tts" data-tts-button="block4">🔊 Listen</button>
+                <button class="btn btn-tts" data-tts-stop="block4">⏹ Stop Audio</button>
               </div>
             </div>
 
-            <p class="lead" data-tts-source="block3">
+            <p class="lead" data-tts-source="block4">
               Understand how development is read within the programme, why progression is not always a straight line, and how to use the framework when you plan and review.
             </p>
 
-            <div class="grid-2 block-intro-cards" data-block-intro="block3">
+            <div class="grid-2 block-intro-cards" data-block-intro="block4">
               <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
                 <div class="card-icon">◎</div>
                 <h4>Block Focus</h4>
@@ -5514,18 +5659,18 @@
               <h4>Explore the key concepts</h4>
               <p>Click a concept to open it. The first and third concepts are single views. The second is the only concept that opens sub-paths — use the subconcept buttons below its key ideas when you are ready to go deeper.</p>
 
-              <div class="concept-grid" data-concept-grid="block3">
+              <div class="concept-grid" data-concept-grid="block4">
                 <button class="concept-square" data-target="b3c1">Development Is Not Linear</button>
                 <button class="concept-square" data-target="b3c2">Why Some Swimmers Access Skills Differently</button>
                 <button class="concept-square" data-target="b3c3">Using the Framework to Review Progress</button>
               </div>
 
-              <div class="concept-panel" data-panel-for="block3">
+              <div class="concept-panel" data-panel-for="block4">
                 <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">← Back</button></div>
                 <div class="concept-panel-title-row">
                   <h4 class="concept-panel-title"></h4>
                   <div class="concept-breadcrumb" data-concept-breadcrumb aria-label="You are here"></div>
-<div class="concept-panel-tts">
+                  <div class="concept-panel-tts">
                     <button type="button" class="btn-tts-inline" data-concept-tts aria-label="Listen">🔊 Listen</button>
                     <button type="button" class="btn-tts-stop-inline" data-concept-tts-stop aria-label="Stop">⏹ Stop</button>
                   </div>
@@ -5544,50 +5689,50 @@
 
                 <div class="concept-parent-subconcepts concept-section-card" data-parent-subconcept-nav hidden></div>
 
-              <div class="concept-media-actions">
+                <div class="concept-media-actions">
                   <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                   <button class="concept-finish" type="button" data-finish-concept>Done</button>
                 </div>
 
                 <div class="concept-actions">
                   <div class="concept-mini-track">
-                    <div class="concept-mini-fill" data-mini-fill="block3"></div>
+                    <div class="concept-mini-fill" data-mini-fill="block4"></div>
                   </div>
                   <div class="concept-progress">
-                    <span data-mini-text="block3">0 of 3 concepts completed</span>
+                    <span data-mini-text="block4">0 of 3 concepts completed</span>
                     <span>Interpreting Progress</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="lock-box" data-lock-box="block3">
+            <div class="lock-box" data-lock-box="block4">
               <div class="lock-message">
                 <strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.
               </div>
             </div>
 
-            <div class="reflection-gate" data-gate="block3">
+            <div class="reflection-gate" data-gate="block4">
               <h4>Reflection checkpoint</h4>
               <div class="option-grid">
                 <label class="option">
-                  <input type="radio" name="gate3" value="wrong">
+                  <input type="radio" name="gate4" value="wrong">
                   <span>Levels are fixed for each swimmer once chosen and should not be revisited.</span>
                 </label>
                 <label class="option">
-                  <input type="radio" name="gate3" value="wrong">
+                  <input type="radio" name="gate4" value="wrong">
                   <span>Levels are only about distance and speed, not about regulation, safety, or control.</span>
                 </label>
                 <label class="option">
-                  <input type="radio" name="gate3" value="correct">
+                  <input type="radio" name="gate4" value="correct">
                   <span>Levels refine how we teach within stages, allowing swimmers to move forwards or consolidate as their regulation, independence, and learning change.</span>
                 </label>
               </div>
-              <div class="feedback" data-feedback="block3"></div>
+              <div class="feedback" data-feedback="block4"></div>
             </div>
 
             <label class="check-item clickable-progress">
-              <input type="checkbox" class="overall-check gated-check" data-stage-check="block3" data-check-for="block3" disabled>
+              <input type="checkbox" class="overall-check gated-check" data-stage-check="block4" data-check-for="block4" disabled>
               <span>I have completed Interpreting Progress.</span>
             </label>
           </div>
@@ -5911,7 +6056,7 @@
         imageHTML: `
           <div class="levels-section">
             <div class="levels-section-title">Levels 1 and 2</div>
-            <div class="concept-grid concept-grid--levels" data-concept-grid="block2">
+            <div class="concept-grid concept-grid--levels" data-concept-grid="block3">
               <button class="concept-square concept-square--level level-card--confidence level-tone-1" data-target="b2l1">
                 <span class="concept-square-level-kicker">Level 1</span>
                 <span class="concept-square-level-title">Early Sensory Exploration</span>
@@ -5935,7 +6080,7 @@
         imageHTML: `
           <div class="levels-section">
             <div class="levels-section-title">Levels 3 and 4</div>
-            <div class="concept-grid concept-grid--levels" data-concept-grid="block2">
+            <div class="concept-grid concept-grid--levels" data-concept-grid="block3">
               <button class="concept-square concept-square--level level-card--basic level-tone-1" data-target="b2l3">
                 <span class="concept-square-level-kicker">Level 3</span>
                 <span class="concept-square-level-title">Fundamental Skills</span>
@@ -5959,7 +6104,7 @@
         imageHTML: `
           <div class="levels-section">
             <div class="levels-section-title">Levels 5 and 6</div>
-            <div class="concept-grid concept-grid--levels" data-concept-grid="block2">
+            <div class="concept-grid concept-grid--levels" data-concept-grid="block3">
               <button class="concept-square concept-square--level level-card--structured level-tone-1" data-target="b2l5">
                 <span class="concept-square-level-kicker">Level 5</span>
                 <span class="concept-square-level-title">Technique &amp; Independence</span>
@@ -5972,58 +6117,41 @@
           </div>
         `
       },
-      b2c4: {
-        title: 'Core Development Areas',
-        text: '',
-        points: [],
-        focus: 'The development areas that run through all stages and levels of the programme.',
-        whatThisLooksLike: '<p><strong>Regulation</strong>, <strong>Independence</strong>, and <strong>Learning &amp; Engagement</strong>—three areas that help you interpret each swimmer\'s journey beyond distance or speed. Choose an area below to explore its Overview.</p>',
-        instructorPriorities: '<ul><li>Understand each swimmer\'s journey through regulation, independence, and learning &amp; engagement</li><li>Use these areas to interpret progress beyond technique alone</li><li>Support clearer conversations with families about how and why a swimmer is progressing</li></ul>',
-        goal: '<p><strong>Clearer planning and communication.</strong> These areas help you observe, plan, and talk about progress in ways that match each swimmer\'s development.</p>',
-        imageHTML: `
-          <div class="levels-section">
-            <div class="concept-grid concept-grid--core" data-concept-grid="block2">
-              <button class="concept-square concept-square--core level-card--core level-tone-1" data-target="b2core1">Regulation</button>
-              <button class="concept-square concept-square--core level-card--core level-tone-2" data-target="b2core2">Independence</button>
-              <button class="concept-square concept-square--core level-card--core level-tone-3" data-target="b2core3">Learning &amp; Engagement</button>
-            </div>
-          </div>
-        `
-      },
-
-      // Core Development Areas – single Overview per area (one slide, then back to b2c4)
       b2core1: {
-        title: 'Regulation – Overview',
+        title: 'Regulation',
         text: '<p><strong>Regulation</strong> is how calm, safe, and emotionally available the swimmer feels in the water. It changes with environment, sensory load, and task demand.</p><p>Use it to decide when to <strong>increase challenge</strong> and when to <strong>slow down or repeat</strong>.</p>',
         points: [
           'Observe how calm, safe, and emotionally available the swimmer is in the water.',
           'Regulation changes with environment, sensory load, and task demand: keep checking in.',
           'Use regulation as your guide for when to add challenge and when to support or repeat.'
         ],
-        imageHTML: '<div class="concept-activity-box" style="margin-top:0;padding:1rem;background:#f8fbfd;border:1px solid rgba(22,50,71,.12);border-radius:12px;"><h5 style="margin:0 0 8px;font-size:.95rem;color:var(--ink);">Instructor thinking</h5><p style="margin:0 0 10px;font-size:.93rem;">A swimmer was regulated at the start but is now tense and avoiding eye contact. What should you do?</p><p style="margin:0;font-size:.93rem;"><strong>Slow down or simplify the task; reduce sensory load if possible. Prioritise re-regulation before continuing.</strong></p></div><p style="margin-top:1rem;font-weight:600;color:var(--ink);"><strong>Why this matters:</strong> Reading regulation helps you keep the session safe and effective and avoid pushing when the swimmer is no longer available.</p>'
+        introMediaHTML: '<div class="concept-image"><div style="min-height:200px;border-radius:14px;background:linear-gradient(135deg,#fbf3fe 0%,#e8d4f4 100%);border:1px solid rgba(138,63,176,.35);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;box-sizing:border-box;"><p style="margin:0;font-weight:700;color:#5a2877;max-width:32ch;line-height:1.45;">Regulation is how safe and available the swimmer feels before skill demand rises.</p></div></div>',
+        imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core1"><p class="activity-question">A swimmer was regulated at the start but is now tense and avoiding eye contact. What should you do first?</p><div class="option-grid"><label class="option"><input type="radio" name="b2core1_act" value="A"><span>A. Push the planned main set to build resilience.</span></label><label class="option"><input type="radio" name="b2core1_act" value="B"><span>B. Slow down or simplify the task; reduce sensory load and prioritise re-regulation.</span></label><label class="option"><input type="radio" name="b2core1_act" value="C"><span>C. Add competition-style pressure to refocus attention.</span></label></div><div class="feedback" data-activity-feedback="b2core1"></div></div>'
       },
       b2core2: {
-        title: 'Independence – Overview',
+        title: 'Independence',
         text: '<p><strong>Independence</strong> is how much support the swimmer needs for position, movement, and safety. It includes physical support, prompts, and shared control.</p><p>Use it to see when a swimmer may be ready to <strong>shift level</strong> or <strong>consolidate</strong>.</p>',
         points: [
           'Notice how much physical support, prompting, or shared control the swimmer needs.',
           'Independence can grow in small steps: observe over time, not only in one session.',
           'Use it alongside regulation and engagement to decide when to progress or consolidate.'
         ],
-        imageHTML: '<div class="concept-activity-box" style="margin-top:0;padding:1rem;background:#f8fbfd;border:1px solid rgba(22,50,71,.12);border-radius:12px;"><h5 style="margin:0 0 8px;font-size:.95rem;color:var(--ink);">Instructor thinking</h5><p style="margin:0 0 10px;font-size:.93rem;">True or false: Independence only matters for physical skills, not for safety or engagement.</p><p style="margin:0;font-size:.93rem;"><strong>False.</strong> Independence affects how much support is needed for position, movement, and safety: it is linked to both skill and safety decisions.</p></div><p style="margin-top:1rem;font-weight:600;color:var(--ink);"><strong>Why this matters:</strong> Observing independence helps you plan support and communicate progress to families in clear, concrete terms.</p>'
+        introMediaHTML: '<div class="concept-image"><div style="min-height:200px;border-radius:14px;background:linear-gradient(135deg,#f5eefb 0%,#dcc4ee 100%);border:1px solid rgba(138,63,176,.35);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;box-sizing:border-box;"><p style="margin:0;font-weight:700;color:#5a2877;max-width:32ch;line-height:1.45;">Independence tracks support for movement, position, and safety — not only “can they do the stroke”.</p></div></div>',
+        imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core2"><p class="activity-question">True or false: Independence only matters for physical skills, not for safety or engagement.</p><div class="option-grid option-grid--two"><label class="option"><input type="radio" name="b2core2_act" value="T"><span>True</span></label><label class="option"><input type="radio" name="b2core2_act" value="F"><span>False</span></label></div><div class="feedback" data-activity-feedback="b2core2"></div></div>'
       },
       b2core3: {
-        title: 'Learning & Engagement – Overview',
+        title: 'Learning & Engagement',
         text: '<p><strong>Learning &amp; engagement</strong> is how the swimmer participates, attends, and responds to teaching. It includes motivation, focus, and staying with tasks.</p><p>Use it to see whether you are <strong>matching teaching</strong> to their current capacity.</p>',
         points: [
           'Observe participation, attention, and response to teaching: not only compliance.',
           'Motivation and focus show whether the swimmer is available for learning.',
           'Use it to adjust pace, demand, and how you present the next activity.'
         ],
-        imageHTML: '<div class="concept-activity-box" style="margin-top:0;padding:1rem;background:#f8fbfd;border:1px solid rgba(22,50,71,.12);border-radius:12px;"><h5 style="margin:0 0 8px;font-size:.95rem;color:var(--ink);">Instructor thinking</h5><p style="margin:0 0 10px;font-size:.93rem;">A swimmer is physically able to do the task but keeps drifting off. What does this suggest?</p><p style="margin:0;font-size:.93rem;"><strong>Learning & engagement may be low: check regulation and match your demand.</strong></p></div><p style="margin-top:1rem;font-weight:600;color:var(--ink);"><strong>Why this matters:</strong> Reading learning & engagement helps you match teaching to what the swimmer can access.</p>'
+        introMediaHTML: '<div class="concept-image"><div style="min-height:200px;border-radius:14px;background:linear-gradient(135deg,#faf5ff 0%,#e6d2f8 100%);border:1px solid rgba(138,63,176,.35);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;box-sizing:border-box;"><p style="margin:0;font-weight:700;color:#5a2877;max-width:32ch;line-height:1.45;">Learning &amp; engagement shows whether demand matches what the swimmer can access right now.</p></div></div>',
+        imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core3"><p class="activity-question">A swimmer is physically able to do the task but keeps drifting off. What does this suggest?</p><div class="option-grid"><label class="option"><input type="radio" name="b2core3_act" value="A"><span>A. They need a harder task to stay interested.</span></label><label class="option"><input type="radio" name="b2core3_act" value="B"><span>B. Learning &amp; engagement may be low: check regulation and match your demand.</span></label><label class="option"><input type="radio" name="b2core3_act" value="C"><span>C. Ignore attention if technique looks correct.</span></label></div><div class="feedback" data-activity-feedback="b2core3"></div></div>'
       },
 
-      // BLOCK 2 – LEVEL ENTRY (L1–L6): identical shell — Introduction → Focus Areas → Activities (see setupB2LevelProgrammeInteractive)
+      // BLOCK 3 pathway – LEVEL ENTRY (L1–L6): identical shell — Introduction → Focus Areas → Activities (see setupB2LevelProgrammeInteractive)
       b2l1: {
         title: 'Level 1 – Early Sensory Exploration',
         headerSubtitle: 'Calm first water contact built around regulation, trust, and fully supported exploration.',
@@ -6240,7 +6368,7 @@
         text: '<p>Simple overview of this level.</p><p>Click each <strong>focus area</strong> to read a short explanation.</p>',
         points: [],
         imageHTML: `
-          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block2">
+          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block3">
             <button class="concept-square concept-square--sublevel level-card--confidence level-tone-1" data-target="b2l1_f1"><span class="focus-label">Water Familiarisation I</span></button>
             <button class="concept-square concept-square--sublevel level-card--confidence level-tone-1" data-target="b2l1_f2"><span class="focus-label">Water Adaptation I</span></button>
             <button class="concept-square concept-square--sublevel level-card--confidence level-tone-1" data-target="b2l1_f3"><span class="focus-label">Breathing Control I</span></button>
@@ -6318,7 +6446,7 @@
         text: '<p>Simple overview of this level.</p><p>Click each <strong>focus area</strong> to read a short explanation.</p>',
         points: [],
         imageHTML: `
-          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block2">
+          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block3">
             <button class="concept-square concept-square--sublevel level-card--confidence level-tone-2" data-target="b2l2_f1"><span class="focus-label">Water Familiarisation II</span></button>
             <button class="concept-square concept-square--sublevel level-card--confidence level-tone-2" data-target="b2l2_f2"><span class="focus-label">Water Adaptation II</span></button>
             <button class="concept-square concept-square--sublevel level-card--confidence level-tone-2" data-target="b2l2_f3"><span class="focus-label">Breathing Control II</span></button>
@@ -6396,7 +6524,7 @@
         text: '<p>Simple overview of this level.</p><p>Click each <strong>focus area</strong> to read a short explanation.</p>',
         points: [],
         imageHTML: `
-          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block2">
+          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block3">
             <button class="concept-square concept-square--sublevel level-card--basic level-tone-1" data-target="b2l3_f1"><span class="focus-label">Floating & Balance I</span></button>
             <button class="concept-square concept-square--sublevel level-card--basic level-tone-1" data-target="b2l3_f2"><span class="focus-label">Streamlining & Rotation I</span></button>
             <button class="concept-square concept-square--sublevel level-card--basic level-tone-1" data-target="b2l3_f3"><span class="focus-label">Propulsion I</span></button>
@@ -6474,7 +6602,7 @@
         text: '<p>Simple overview of this level.</p><p>Click each <strong>focus area</strong> to read a short explanation.</p>',
         points: [],
         imageHTML: `
-          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block2">
+          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block3">
             <button class="concept-square concept-square--sublevel level-card--basic level-tone-2" data-target="b2l4_f1"><span class="focus-label">Floating & Balance II</span></button>
             <button class="concept-square concept-square--sublevel level-card--basic level-tone-2" data-target="b2l4_f2"><span class="focus-label">Streamlining II</span></button>
             <button class="concept-square concept-square--sublevel level-card--basic level-tone-2" data-target="b2l4_f3"><span class="focus-label">Propulsion II</span></button>
@@ -6553,7 +6681,7 @@
         text: '<p>Simple overview of this level.</p><p>Click each <strong>focus area</strong> to read a short explanation.</p>',
         points: [],
         imageHTML: `
-          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block2">
+          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block3">
             <button class="concept-square concept-square--sublevel level-card--structured level-tone-1" data-target="b2l5_f1"><span class="focus-label">Streamline & Rotation</span></button>
             <button class="concept-square concept-square--sublevel level-card--structured level-tone-1" data-target="b2l5_f2"><span class="focus-label">Swimming Strokes</span></button>
             <button class="concept-square concept-square--sublevel level-card--structured level-tone-1" data-target="b2l5_f3"><span class="focus-label">Starts, Turns & Push Off</span></button>
@@ -6632,7 +6760,7 @@
         text: '<p>Simple overview of this level.</p><p>Click each <strong>focus area</strong> to read a short explanation.</p>',
         points: [],
         imageHTML: `
-          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block2">
+          <div class="concept-grid concept-grid--sublevels concept-grid--focus-2x2" data-concept-grid="block3">
             <button class="concept-square concept-square--sublevel level-card--structured level-tone-2" data-target="b2l6_f1"><span class="focus-label">Stroke Refinement</span></button>
             <button class="concept-square concept-square--sublevel level-card--structured level-tone-2" data-target="b2l6_f2"><span class="focus-label">Timing & Rhythm</span></button>
             <button class="concept-square concept-square--sublevel level-card--structured level-tone-2" data-target="b2l6_f3"><span class="focus-label">Distance & Endurance</span></button>
@@ -7027,7 +7155,7 @@
       }
     };
 
-    const stageOrder = ['journey','outcomes','block1','block2','block3','keyideas'];
+    const stageOrder = ['journey','outcomes','block1','block2','block3','block4','keyideas'];
     const stageChecks = {};
     const REVIEW_MODE = true;
     document.querySelectorAll('.overall-check').forEach(input => {
@@ -7039,14 +7167,16 @@
       outcomes: 'block1',
       block1: 'block2',
       block2: 'block3',
-      block3: 'keyideas',
+      block3: 'block4',
+      block4: 'keyideas',
       keyideas: 'quiz'
     };
 
     const conceptGroups = {
       block1: { total: 3, visited: new Set(), order: ['b1c1','b1c2','b1c3'] },
-      // Block 2: completion in order (30 completable concepts: 6 levels × 5 each + 3 core)
-      block2: {
+      block2: { total: 3, visited: new Set(), order: ['b2core1','b2core2','b2core3'] },
+      // Block 3 pathway: completion in order (30 “ordered” steps for progress; full order includes stages/levels for navigation)
+      block3: {
         total: 30,
         visited: new Set(),
         order: [
@@ -7055,23 +7185,22 @@
           'b2c2', 'b2l3','b2l3_focus','b2l3_f1','b2l3_f2','b2l3_f3','b2l3_f4','b2l3_activities',
           'b2l4','b2l4_focus','b2l4_f1','b2l4_f2','b2l4_f3','b2l4_f4','b2l4_activities',
           'b2c3', 'b2l5','b2l5_focus','b2l5_f1','b2l5_f2','b2l5_f3','b2l5_f4','b2l5_activities',
-          'b2l6','b2l6_focus','b2l6_f1','b2l6_f2','b2l6_f3','b2l6_f4','b2l6_activities',
-          'b2c4', 'b2core1', 'b2core2', 'b2core3'
+          'b2l6','b2l6_focus','b2l6_f1','b2l6_f2','b2l6_f3','b2l6_f4','b2l6_activities'
         ]
       },
-      // Block 3: Interpreting Progress (3 main concepts)
-      block3: { total: 3, visited: new Set(), order: ['b3c1','b3c2','b3c3'] }
+      block4: { total: 3, visited: new Set(), order: ['b3c1','b3c2','b3c3'] }
     };
 
     const conceptCompletion = {
       block1: new Set(),
       block2: new Set(),
-      block3: new Set()
+      block3: new Set(),
+      block4: new Set()
     };
 
     const principlesReviewed = new Set();
 
-    const conceptHistory = { block1: [], block2: [], block3: [] };
+    const conceptHistory = { block1: [], block2: [], block3: [], block4: [] };
 
     const block2LevelGroups = [
       ['b2l1_f1','b2l1_f2','b2l1_f3','b2l1_f4','b2l1_activities'],
@@ -7082,15 +7211,14 @@
       ['b2l6_f1','b2l6_f2','b2l6_f3','b2l6_f4','b2l6_activities']
     ];
     const block2LevelIds = ['b2l1','b2l2','b2l3','b2l4','b2l5','b2l6'];
-    const block2CoreIds = ['b2core1','b2core2','b2core3'];
     function isLevelFullyCompleted(levelId){
       if(!block2LevelIds.includes(levelId)) return false;
       var idx = block2LevelIds.indexOf(levelId);
       var group = block2LevelGroups[idx];
-      if(!group.every(function(key){ return conceptCompletion.block2.has(key); })) return false;
+      if(!group.every(function(key){ return conceptCompletion.block3.has(key); })) return false;
       for(var i = 0; i < idx; i++){
         var prevGroup = block2LevelGroups[i];
-        if(!prevGroup.every(function(key){ return conceptCompletion.block2.has(key); })) return false;
+        if(!prevGroup.every(function(key){ return conceptCompletion.block3.has(key); })) return false;
       }
       return true;
     }
@@ -7104,40 +7232,31 @@
       if(stageId === 'b2c3') return isStageFullyCompleted('b2c2') && levelIds.every(function(lid){ return isLevelFullyCompleted(lid); });
       return false;
     }
-    function isCoreFullyCompleted(coreId){
-      if(block2CoreIds.indexOf(coreId) === -1) return false;
-      if(!conceptCompletion.block2.has(coreId)) return false;
-      if(coreId === 'b2core1') return isStageFullyCompleted('b2c3');
-      if(coreId === 'b2core2') return isCoreFullyCompleted('b2core1');
-      if(coreId === 'b2core3') return isCoreFullyCompleted('b2core2');
-      return false;
-    }
-    var block2CompletionOrder = [
+    var pathwayCompletionOrder = [
       'b2l1_f1','b2l1_f2','b2l1_f3','b2l1_f4','b2l1_activities',
       'b2l2_f1','b2l2_f2','b2l2_f3','b2l2_f4','b2l2_activities',
       'b2l3_f1','b2l3_f2','b2l3_f3','b2l3_f4','b2l3_activities',
       'b2l4_f1','b2l4_f2','b2l4_f3','b2l4_f4','b2l4_activities',
       'b2l5_f1','b2l5_f2','b2l5_f3','b2l5_f4','b2l5_activities',
-      'b2l6_f1','b2l6_f2','b2l6_f3','b2l6_f4','b2l6_activities',
-      'b2core1', 'b2core2', 'b2core3'
+      'b2l6_f1','b2l6_f2','b2l6_f3','b2l6_f4','b2l6_activities'
     ];
-    function getBlock2CompletedInOrderCount(){
-      var set = conceptCompletion.block2;
+    function getPathwayCompletedInOrderCount(){
+      var set = conceptCompletion.block3;
       var count = 0;
-      for(var i = 0; i < block2CompletionOrder.length; i++){
-        if(!set.has(block2CompletionOrder[i])) break;
+      for(var i = 0; i < pathwayCompletionOrder.length; i++){
+        if(!set.has(pathwayCompletionOrder[i])) break;
         count++;
       }
       return count;
     }
     function updateStageCompletedStates(){
-      document.querySelectorAll('[data-concept-grid="block2"] .concept-square[data-target]').forEach(function(btn){
+      document.querySelectorAll('[data-concept-grid="block3"] .concept-square[data-target]').forEach(function(btn){
         var t = btn.dataset.target;
         btn.classList.toggle('stage-completed', block2StageIds.indexOf(t) !== -1 && isStageFullyCompleted(t));
       });
     }
     function getNextInLevelGroup(block, target){
-      if(block !== 'block2') return null;
+      if(block !== 'block3') return null;
       for(const group of block2LevelGroups){
         const i = group.indexOf(target);
         if(i >= 0 && i < group.length - 1) return group[i + 1];
@@ -7162,34 +7281,25 @@
     }
     function getBlock2StageTarget(target){
       if(!target || !target.startsWith('b2')) return null;
-      if(target === 'b2c1' || target === 'b2c2' || target === 'b2c3' || target === 'b2c4') return target;
+      if(target === 'b2c1' || target === 'b2c2' || target === 'b2c3') return target;
       if(target.startsWith('b2l1')) return 'b2c1';
       if(target.startsWith('b2l2')) return 'b2c1';
       if(target.startsWith('b2l3')) return 'b2c2';
       if(target.startsWith('b2l4')) return 'b2c2';
       if(target.startsWith('b2l5')) return 'b2c3';
       if(target.startsWith('b2l6')) return 'b2c3';
-      if(target.startsWith('b2core')) return 'b2c4';
       return null;
-    }
-    function getBlock2CoreLabel(target){
-      if(!target || !target.startsWith('b2core')) return '';
-      if(target.startsWith('b2core1')) return 'Regulation';
-      if(target.startsWith('b2core2')) return 'Independence';
-      if(target.startsWith('b2core3')) return 'Learning & Engagement';
-      return '';
     }
     function getBlock2Theme(target){
       const stage = getBlock2StageTarget(target);
       if(stage === 'b2c1') return 'confidence';
       if(stage === 'b2c2') return 'basic';
       if(stage === 'b2c3') return 'structured';
-      if(stage === 'b2c4') return 'core';
       return 'core';
     }
     function getBlock2HeaderSubtitle(target, data){
       if(!target || !data) return '';
-      if(['b2c1','b2c2','b2c3','b2c4'].indexOf(target) !== -1) return data.focus || '';
+      if(['b2c1','b2c2','b2c3'].indexOf(target) !== -1) return data.focus || '';
       if(/^b2l[1-6]$/.test(target)) return data.headerSubtitle || '';
       return '';
     }
@@ -7299,20 +7409,12 @@
     function getBlock2Breadcrumb(target){
       const stage = getBlock2StageTarget(target);
       const level = getBlock2Level(target);
-      const coreLabel = getBlock2CoreLabel(target);
-      const stageLabels = { b2c1: 'Stage 1 – Swim Confidence', b2c2: 'Stage 2 – Swim Basic', b2c3: 'Stage 3 – Swim Structured', b2c4: 'Core Development Areas' };
+      const stageLabels = { b2c1: 'Stage 1 – Swim Confidence', b2c2: 'Stage 2 – Swim Basic', b2c3: 'Stage 3 – Swim Structured' };
       const levelLabels = { 1: 'Level 1', 2: 'Level 2', 3: 'Level 3', 4: 'Level 4', 5: 'Level 5', 6: 'Level 6' };
       const subLabels = { overview: 'Overview', focus: 'Focus Areas', activities: 'Activities in Practice' };
       let parts = [];
       if(stage && target === stage) return parts;
       if(level && target === ('b2l' + level)) return parts;
-      if(stage === 'b2c4' && coreLabel){
-        parts.push({ label: stageLabels[stage], active: target === 'b2c4', key: 'stage' });
-        parts.push({ label: coreLabel, active: target.match(/^b2core\d$/) && !target.match(/_/), key: 'core' });
-        const sub = target.match(/_(overview|focus|activities)$/);
-        if(sub) parts.push({ label: subLabels[sub[1]] || sub[1], active: true, key: sub[1] });
-        return parts;
-      }
       if(stage && !level) parts.push({ label: stageLabels[stage] || stage, active: !target.match(/_/), key: 'stage' });
       if(level){
         parts.push({ label: levelLabels[level] || 'Level ' + level, active: target === ('b2l' + level), key: 'level' });
@@ -7332,7 +7434,10 @@
 
     function getNextActionLabel(block, target){
       if(block === 'block2'){
-        var isContainer = ['b2c1','b2c2','b2c3','b2l1_focus','b2l2_focus','b2l3_focus','b2l4_focus','b2l5_focus','b2l6_focus','b2c4'].includes(target);
+        if(['b2core1','b2core2','b2core3'].indexOf(target) !== -1) return 'Done';
+      }
+      if(block === 'block3'){
+        var isContainer = ['b2c1','b2c2','b2c3','b2l1_focus','b2l2_focus','b2l3_focus','b2l4_focus','b2l5_focus','b2l6_focus'].includes(target);
         if(isContainer) return 'Choose an option above';
         var focusReturn = getBlock2FocusReturnTarget(target);
         if(focusReturn) return 'Done';
@@ -7343,9 +7448,9 @@
           return 'Continue';
         }
         var nextTarget = getNextConceptTarget(block, target);
-        if(nextTarget === 'b2c1' || nextTarget === 'b2c2' || nextTarget === 'b2c3' || nextTarget === 'b2c4') return 'Done';
+        if(nextTarget === 'b2c1' || nextTarget === 'b2c2' || nextTarget === 'b2c3') return 'Done';
       }
-      if(block === 'block3'){
+      if(block === 'block4'){
         if(['b3c1','b3c2','b3c3'].indexOf(target) !== -1) return 'Done';
       }
       var nextTarget = getNextConceptTarget(block, target);
@@ -7355,14 +7460,16 @@
 
     const correctFeedback = {
       block1: 'Correct. Functional goals, values, and principles keep progression individual, inclusive, and guided by safety, regulation, and readiness — not by technique lists alone.',
-      block2: 'Correct. Stages organise the journey, with Levels 1–2 in Swim Confidence, 3–4 in Swim Basic, and 5–6 in Swim Structured, all supported by the core development areas.',
-      block3: 'Correct. Interpreting progress through development areas, thoughtful level decisions, and clear term reviews keeps the programme meaningful for each swimmer.'
+      block2: 'Correct. Regulation, independence, and learning & engagement help you read each swimmer’s journey and keep teaching matched to what they can access.',
+      block3: 'Correct. Stages organise the journey, with Levels 1–2 in Swim Confidence, 3–4 in Swim Basic, and 5–6 in Swim Structured — all read alongside those development lenses.',
+      block4: 'Correct. Interpreting progress through development areas, thoughtful level decisions, and clear term reviews keeps the programme meaningful for each swimmer.'
     };
 
     const wrongFeedback = {
       block1: 'Not quite. Revisit Programme Foundations: purpose and values first, then how principles and wider development guide what “progress” means.',
-      block2: 'Not quite. Revisit how each stage links to its levels and how regulation, independence, and learning & engagement run through the whole programme.',
-      block3: 'Not quite. Revisit how term reviews, stage/level decisions, and conversations with families help you interpret and share progress over time.'
+      block2: 'Not quite. Revisit how regulation, independence, and learning & engagement show up in sessions and in how you talk about progress with families.',
+      block3: 'Not quite. Revisit how each stage links to its levels and how the programme pathway builds from confidence to structured swimming.',
+      block4: 'Not quite. Revisit how term reviews, stage/level decisions, and conversations with families help you interpret and share progress over time.'
     };
 
     const mediaModal = document.getElementById('mediaModal');
@@ -7428,7 +7535,7 @@
     if(typeof window !== 'undefined') window.enableReviewMode = enableReviewMode;
 
     function tryUnlockBlockGate(block){
-      var count = block === 'block2' ? getBlock2CompletedInOrderCount() : (block === 'block3' ? getBlock3MainConceptCompletedCount() : conceptCompletion[block].size);
+      var count = block === 'block3' ? getPathwayCompletedInOrderCount() : (block === 'block4' ? getBlock4MainConceptCompletedCount() : conceptCompletion[block].size);
       var total = conceptGroups[block].total;
       if(count !== total) return;
       if(!sectionDwellElapsed[block]) return;
@@ -7442,7 +7549,7 @@
     }
 
     function setupDwellTime(){
-      var stagesWithDwell = ['journey','outcomes','block1','block2','block3','keyideas'];
+      var stagesWithDwell = ['journey','outcomes','block1','block2','block3','block4','keyideas'];
       stagesWithDwell.forEach(function(stage){
         var section = document.getElementById(stage);
         var cb = stageChecks[stage];
@@ -7491,13 +7598,13 @@
               cb.removeAttribute('data-dwell-required');
             }
             if(stage === 'outcomes' && updateOutcomeStateRef) updateOutcomeStateRef();
-            if(['block1','block2','block3'].indexOf(stage) >= 0) tryUnlockBlockGate(stage);
+            if(['block1','block2','block3','block4'].indexOf(stage) >= 0) tryUnlockBlockGate(stage);
           } else {
             var secLeft = Math.max(0, Math.ceil((dwellMs - elapsed) / 1000));
             var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]');
             if(countdownEl) countdownEl.textContent = 'Please spend a moment reviewing (' + secLeft + 's)';
             var lockBox = document.querySelector('[data-lock-box="' + stage + '"]');
-            var count = stage === 'block2' ? getBlock2CompletedInOrderCount() : (conceptCompletion[stage] ? conceptCompletion[stage].size : 0);
+            var count = stage === 'block3' ? getPathwayCompletedInOrderCount() : (stage === 'block4' ? getBlock4MainConceptCompletedCount() : (conceptCompletion[stage] ? conceptCompletion[stage].size : 0));
             var total = conceptGroups[stage] ? conceptGroups[stage].total : 0;
             if(lockBox && count === total){
               var msg = lockBox.querySelector('.lock-message');
@@ -7506,7 +7613,7 @@
           }
         });
       }, 1000);
-      function tickDwell(){ var now = Date.now(); stagesWithDwell.forEach(function(stage){ if(!sectionDwellStart[stage]) return; if(sectionDwellElapsed[stage]) return; var elapsed = now - sectionDwellStart[stage]; var dwellMs = stage === 'journey' ? MIN_JOURNEY_DWELL_MS : (stage === 'outcomes' ? MIN_OUTCOMES_DWELL_MS : MIN_SECTION_DWELL_MS); if(elapsed >= dwellMs){ sectionDwellElapsed[stage] = true; var cb = stageChecks[stage]; var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = ''; if(['journey','keyideas'].indexOf(stage) >= 0 && cb){ cb.disabled = false; cb.removeAttribute('data-dwell-required'); } if(stage === 'outcomes' && updateOutcomeStateRef) updateOutcomeStateRef(); if(['block1','block2','block3'].indexOf(stage) >= 0) tryUnlockBlockGate(stage); } else { var secLeft = Math.max(0, Math.ceil((dwellMs - elapsed) / 1000)); var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = 'Please spend a moment reviewing (' + secLeft + 's)'; var lockBox = document.querySelector('[data-lock-box="' + stage + '"]'); var count = stage === 'block2' ? getBlock2CompletedInOrderCount() : (conceptCompletion[stage] ? conceptCompletion[stage].size : 0); var total = conceptGroups[stage] ? conceptGroups[stage].total : 0; if(lockBox && count === total){ var msg = lockBox.querySelector('.lock-message'); if(msg && !lockBox.classList.contains('ready')) msg.innerHTML = 'Unlocks in <strong>' + secLeft + 's</strong>. Please review the block first.'; } } }); }
+      function tickDwell(){ var now = Date.now(); stagesWithDwell.forEach(function(stage){ if(!sectionDwellStart[stage]) return; if(sectionDwellElapsed[stage]) return; var elapsed = now - sectionDwellStart[stage]; var dwellMs = stage === 'journey' ? MIN_JOURNEY_DWELL_MS : (stage === 'outcomes' ? MIN_OUTCOMES_DWELL_MS : MIN_SECTION_DWELL_MS); if(elapsed >= dwellMs){ sectionDwellElapsed[stage] = true; var cb = stageChecks[stage]; var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = ''; if(['journey','keyideas'].indexOf(stage) >= 0 && cb){ cb.disabled = false; cb.removeAttribute('data-dwell-required'); } if(stage === 'outcomes' && updateOutcomeStateRef) updateOutcomeStateRef(); if(['block1','block2','block3','block4'].indexOf(stage) >= 0) tryUnlockBlockGate(stage); } else { var secLeft = Math.max(0, Math.ceil((dwellMs - elapsed) / 1000)); var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = 'Please spend a moment reviewing (' + secLeft + 's)'; var lockBox = document.querySelector('[data-lock-box="' + stage + '"]'); var count = stage === 'block3' ? getPathwayCompletedInOrderCount() : (stage === 'block4' ? getBlock4MainConceptCompletedCount() : (conceptCompletion[stage] ? conceptCompletion[stage].size : 0)); var total = conceptGroups[stage] ? conceptGroups[stage].total : 0; if(lockBox && count === total){ var msg = lockBox.querySelector('.lock-message'); if(msg && !lockBox.classList.contains('ready')) msg.innerHTML = 'Unlocks in <strong>' + secLeft + 's</strong>. Please review the block first.'; } } }); }
       document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'visible') tickDwell(); });
     }
 
@@ -7555,14 +7662,14 @@
       }
     }
 
-    function getBlock3MainConceptCompletedCount(){
-      var order = conceptGroups.block3 && conceptGroups.block3.order ? conceptGroups.block3.order : [];
-      var set = conceptCompletion.block3;
+    function getBlock4MainConceptCompletedCount(){
+      var order = conceptGroups.block4 && conceptGroups.block4.order ? conceptGroups.block4.order : [];
+      var set = conceptCompletion.block4;
       return order.filter(function(k){ return set.has(k); }).length;
     }
 
     function updateConceptProgress(block){
-      const count = block === 'block2' ? getBlock2CompletedInOrderCount() : (block === 'block3' ? getBlock3MainConceptCompletedCount() : conceptCompletion[block].size);
+      const count = block === 'block3' ? getPathwayCompletedInOrderCount() : (block === 'block4' ? getBlock4MainConceptCompletedCount() : conceptCompletion[block].size);
       const total = conceptGroups[block].total;
       const percent = Math.round((count / total) * 100);
 
@@ -7578,7 +7685,7 @@
       if(count === total){
         tryUnlockBlockGate(block);
       }
-      if(block === 'block2') updateStageCompletedStates();
+      if(block === 'block3') updateStageCompletedStates();
     }
 
     function markConceptComplete(block, target){
@@ -7586,7 +7693,7 @@
       const button = document.querySelector(`[data-concept-grid="${block}"] [data-target="${target}"]`);
       if(button) button.classList.add('visited');
       updateConceptProgress(block);
-      if(block === 'block2') updateStageCompletedStates();
+      if(block === 'block3') updateStageCompletedStates();
     }
 
     function releaseActiveConceptControl(){
@@ -7688,7 +7795,7 @@
     }
 
     function getNextConceptTarget(block, currentTarget){
-      if(block === 'block2' && currentTarget && currentTarget.endsWith('_activities')){
+      if(block === 'block3' && currentTarget && currentTarget.endsWith('_activities')){
         var levelNum = currentTarget.match(/b2l(\d)_activities/);
         if(levelNum){
           var n = parseInt(levelNum[1], 10);
@@ -7697,10 +7804,9 @@
           if(n === 3) return 'b2c2';
           if(n === 4) return 'b2c3';
           if(n === 5) return 'b2c3';
-          if(n === 6) return 'b2c4';
+          if(n === 6) return null;
         }
       }
-      if(block === 'block2' && ['b2core1','b2core2','b2core3'].indexOf(currentTarget) !== -1) return 'b2c4';
       const order = conceptGroups[block].order;
       const currentIndex = order.indexOf(currentTarget);
       if(currentIndex === -1) return null;
@@ -7833,46 +7939,52 @@
     function finishConcept(block, target){
       markConceptComplete(block, target);
 
-      if(block === 'block3'){
-        var b3 = conceptCompletion.block3;
-        if(b3 && b3.has('b3c2_physical') && b3.has('b3c2_motor') && b3.has('b3c2_cognitive') && !b3.has('b3c2')){
-          markConceptComplete('block3', 'b3c2');
+      if(block === 'block4'){
+        var b4 = conceptCompletion.block4;
+        if(b4 && b4.has('b3c2_physical') && b4.has('b3c2_motor') && b4.has('b3c2_cognitive') && !b4.has('b3c2')){
+          markConceptComplete('block4', 'b3c2');
         }
       }
 
       const nextTarget = getNextConceptTarget(block, target);
-      var completedSecondLevelOfStage = block === 'block2' && ['b2l2_activities','b2l4_activities','b2l6_activities'].indexOf(target) !== -1;
+      var completedSecondLevelOfStage = block === 'block3' && ['b2l2_activities','b2l4_activities','b2l6_activities'].indexOf(target) !== -1;
 
-      // Block 3: improve flow – after a subconcept, return to parent choice; after a full concept menu, return to block 3 grid
-      if(block === 'block3'){
-        // b3c2 factor screens: return to Why Some Swimmers Access (choose Physical / Motor / Cognitive)
+      if(block === 'block2' && ['b2core1','b2core2','b2core3'].indexOf(target) !== -1){
+        var panelCore = document.querySelector('[data-panel-for="block2"]');
+        if(panelCore) panelCore.classList.remove('show');
+        conceptHistory.block2 = [];
+        var secCore = document.getElementById('block2');
+        if(secCore) secCore.querySelector('.concept-stage')?.scrollIntoView({ behavior:'smooth', block:'start' });
+        return;
+      }
+
+      // Block 4: after a subconcept, return to parent choice; after a full concept menu, return to block 4 grid
+      if(block === 'block4'){
         if(['b3c2_physical','b3c2_motor','b3c2_cognitive'].indexOf(target) !== -1){
-          renderConcept('block3', 'b3c2');
-          conceptHistory.block3 = [];
+          renderConcept('block4', 'b3c2');
+          conceptHistory.block4 = [];
           return;
         }
-        // b3c3 step screens: return to framework overview
         if(['b3c3_step1','b3c3_step2','b3c3_step3'].indexOf(target) !== -1){
-          markConceptComplete('block3', 'b3c3');
-          renderConcept('block3', 'b3c3');
-          conceptHistory.block3 = [];
+          markConceptComplete('block4', 'b3c3');
+          renderConcept('block4', 'b3c3');
+          conceptHistory.block4 = [];
           return;
         }
-        // Main concept menus (b3c1, b3c2, b3c3): close panel and show block 3 grid to choose another concept
         if(['b3c1','b3c2','b3c3'].indexOf(target) !== -1){
-          var panel = document.querySelector('[data-panel-for="block3"]');
+          var panel = document.querySelector('[data-panel-for="block4"]');
           if(panel) panel.classList.remove('show');
-          conceptHistory.block3 = [];
-          var section = document.getElementById('block3');
+          conceptHistory.block4 = [];
+          var section = document.getElementById('block4');
           if(section) section.querySelector('.concept-stage')?.scrollIntoView({ behavior:'smooth', block:'start' });
           return;
         }
       }
 
-      if(nextTarget && block === 'block2' && completedSecondLevelOfStage){
-        var panel = document.querySelector('[data-panel-for="block2"]');
+      if(nextTarget && block === 'block3' && completedSecondLevelOfStage){
+        var panel = document.querySelector('[data-panel-for="block3"]');
         if(panel) panel.classList.remove('show');
-        var section = document.getElementById('block2');
+        var section = document.getElementById('block3');
         var stageEl = section ? section.querySelector('.concept-stage') : null;
         if(stageEl) stageEl.scrollIntoView({ behavior:'smooth', block:'start' });
       } else if(nextTarget){
@@ -8057,6 +8169,9 @@
       b1c1: 'Review the prompt and select the most appropriate response.',
       b1c2: 'Select True or False.',
       b1c3: 'Match the situation with the correct principle. Click one principle, then click a situation box.',
+      b2core1: 'Single choice: select the best first response.',
+      b2core2: 'Select True or False.',
+      b2core3: 'Single choice: select the best interpretation.',
       b3c1: 'Select True or False.',
       b3c2_physical: 'Classification: drag each card into the correct column, or tap a card then tap a column.',
       b3c2_motor: 'Scenario-based: choose the best instructor response for each situation.',
@@ -8197,11 +8312,11 @@
         const hist = conceptHistory[block];
         if(hist) hist.push(prevTarget);
         // When returning from a level's Activities to the stage, mark the whole level complete so Level 1/2 etc. show white border
-        if(block === 'block2' && prevTarget.endsWith('_activities')){
+        if(block === 'block3' && prevTarget.endsWith('_activities')){
           const mLevel = prevTarget.match(/^(b2l\d)_activities$/);
           if(mLevel && block2LevelIds.indexOf(mLevel[1]) !== -1){
             const group = block2LevelGroups[block2LevelIds.indexOf(mLevel[1])];
-            if(group) group.forEach(function(key){ conceptCompletion.block2.add(key); });
+            if(group) group.forEach(function(key){ conceptCompletion.block3.add(key); });
             updateStageCompletedStates();
           }
         }
@@ -8218,14 +8333,14 @@
       panel.classList.add('show');
       panel.dataset.currentTarget = target;
       panel.dataset.currentBlock = block;
-      panel.dataset.conceptFlow = (block === 'block1' || block === 'block3') ? 'flat' : '';
+      panel.dataset.conceptFlow = (block === 'block1' || block === 'block2' || block === 'block4') ? 'flat' : '';
       const titleEl = panel.querySelector('.concept-panel-title');
-      const stageSubtitle = block === 'block2' ? getBlock2HeaderSubtitle(target, data) : '';
+      const stageSubtitle = block === 'block3' ? getBlock2HeaderSubtitle(target, data) : '';
       if(titleEl){
         setConceptTitle(titleEl, data.title || '', target, block, stageSubtitle);
         titleEl.style.display = '';
       }
-      if(block === 'block2'){
+      if(block === 'block3'){
         panel.dataset.stageTheme = getBlock2Theme(target);
         panel.dataset.level = getBlock2Level(target) || '';
         applyStageTitleChrome(panel, panel.dataset.stageTheme, panel.dataset.level || '');
@@ -8251,11 +8366,7 @@
         const levelBadgeEl = panel.querySelector('[data-concept-level-badge]');
         if(levelBadgeEl){
           const lvl = getBlock2Level(target);
-          const coreLabel = getBlock2CoreLabel(target);
-          if(coreLabel){
-            levelBadgeEl.innerHTML = `<span class="level-badge-pill level-badge--core">${coreLabel}</span>`;
-            levelBadgeEl.style.display = '';
-          } else if(lvl){
+          if(lvl){
             levelBadgeEl.innerHTML = '';
             levelBadgeEl.style.display = 'none';
           } else {
@@ -8263,6 +8374,18 @@
             levelBadgeEl.style.display = 'none';
           }
         }
+      } else if(block === 'block2'){
+        panel.dataset.stageTheme = 'core';
+        panel.dataset.level = '';
+        applyStageTitleChrome(panel, 'core', '');
+        const breadcrumbEl = panel.querySelector('[data-concept-breadcrumb]');
+        if(breadcrumbEl){
+          breadcrumbEl.innerHTML = '';
+          breadcrumbEl.style.display = 'none';
+        }
+        document.querySelectorAll(`[data-concept-grid="${block}"] .concept-square`).forEach(btn => btn.classList.remove('current-stage'));
+        const levelBadgeEl = panel.querySelector('[data-concept-level-badge]');
+        if(levelBadgeEl){ levelBadgeEl.innerHTML = ''; levelBadgeEl.style.display = 'none'; }
       } else {
         panel.removeAttribute('data-stage-theme');
         panel.removeAttribute('data-level');
@@ -8276,10 +8399,10 @@
         if(levelBadgeEl){ levelBadgeEl.innerHTML = ''; levelBadgeEl.style.display = 'none'; }
         document.querySelectorAll(`[data-concept-grid="${block}"] .concept-square`).forEach(btn => btn.classList.remove('current-stage'));
       }
-      const isBlock2Stage = block === 'block2' && (target === 'b2c1' || target === 'b2c2' || target === 'b2c3' || target === 'b2c4');
+      const isPathwayStage = block === 'block3' && (target === 'b2c1' || target === 'b2c2' || target === 'b2c3');
       const stageIntroWrap = panel.querySelector('[data-stage-intro]');
       if(stageIntroWrap){
-        if(isBlock2Stage){
+        if(isPathwayStage){
           stageIntroWrap.setAttribute('aria-hidden', 'false');
           var stageTitleEl = stageIntroWrap.querySelector('.stage-intro-title');
           var stageFocusEl = stageIntroWrap.querySelector('[data-stage-focus]');
@@ -8328,8 +8451,8 @@
       const descEl = panel.querySelector('.concept-panel-desc');
       if(descEl){
         descEl.innerHTML = formatConceptCopy(data.text || '');
-        const isBlock2LevelRoot = block === 'block2' && /^b2l[1-6]$/.test(target || '');
-        descEl.style.display = (isBlock2Stage || isBlock2LevelRoot) ? 'none' : '';
+        const isBlock2LevelRoot = block === 'block3' && /^b2l[1-6]$/.test(target || '');
+        descEl.style.display = (isPathwayStage || isBlock2LevelRoot) ? 'none' : '';
       }
 
       const introMediaEl = panel.querySelector('[data-concept-intro-media]');
@@ -8423,7 +8546,7 @@
           actionEl.setAttribute('hidden', '');
           if(actionTextEl) actionTextEl.textContent = '';
         }
-        if(isBlock2Stage){ pointsBox.style.display = 'none'; }
+        if(isPathwayStage){ pointsBox.style.display = 'none'; }
         else {
           var keyIdeasH4 = pointsBox.querySelector('h4');
           if(keyIdeasH4){
@@ -8442,7 +8565,7 @@
       var primaryImgSlot = panel.querySelector('[data-concept-primary-image]');
       if(primaryImgSlot){
         primaryImgSlot.innerHTML = stripInstructorAndWhy(data.imageHTML || '');
-        if(block === 'block2' && /^b2l[1-6]$/.test(target || '')){
+        if(block === 'block3' && /^b2l[1-6]$/.test(target || '')){
           var levelSummaryBox = primaryImgSlot.querySelector('.b2l1-intro-box');
           if(levelSummaryBox){
             levelSummaryBox.classList.add('is-summary-in-title');
@@ -8478,17 +8601,18 @@
       enforceUnifiedConceptFlow(panel);
       // Instructor thinking / why-matters blocks intentionally removed by request
       if(block === 'block1') setupBlock1ConceptActivities(panel);
-      if(block === 'block3') setupBlock3ConceptActivities(panel);
+      if(block === 'block2') setupBlock2CoreConceptActivities(panel);
+      if(block === 'block4') setupBlock3ConceptActivities(panel);
       setupB3c2FactorExplore(panel);
       setupB2LevelProgrammeInteractive(panel, block, target);
 
       const slideActions = panel.querySelector('.concept-slide-actions');
       if(slideActions){
-        slideActions.style.display = (block === 'block1' || block === 'block3') ? 'none' : '';
+        slideActions.style.display = (block === 'block1' || block === 'block2' || block === 'block4') ? 'none' : '';
       }
 
-      // Block 2: any concept-square with data-target inside the panel (stages: level boxes + core boxes + sub-level Overview/Focus/Activities)
-      if(block === 'block2'){
+      // Block 3 pathway: concept-square targets inside stage panels (levels, focus, activities)
+      if(block === 'block3'){
         const innerButtons = panel.querySelectorAll('.concept-image .concept-square[data-target]');
         innerButtons.forEach(button => {
           const btTarget = button.dataset.target;
@@ -8500,20 +8624,18 @@
           if(btTarget === 'b2l4_focus' && !conceptCompletion[block].has('b2l4_focus') && conceptCompletion[block].has('b2l4_f1') && conceptCompletion[block].has('b2l4_f2') && conceptCompletion[block].has('b2l4_f3') && conceptCompletion[block].has('b2l4_f4')) button.classList.add('visited');
           if(btTarget === 'b2l5_focus' && !conceptCompletion[block].has('b2l5_focus') && conceptCompletion[block].has('b2l5_f1') && conceptCompletion[block].has('b2l5_f2') && conceptCompletion[block].has('b2l5_f3') && conceptCompletion[block].has('b2l5_f4')) button.classList.add('visited');
           if(btTarget === 'b2l6_focus' && !conceptCompletion[block].has('b2l6_focus') && conceptCompletion[block].has('b2l6_f1') && conceptCompletion[block].has('b2l6_f2') && conceptCompletion[block].has('b2l6_f3') && conceptCompletion[block].has('b2l6_f4')) button.classList.add('visited');
-          button.classList.toggle('level-completed', (block2LevelIds.indexOf(btTarget) !== -1 && isLevelFullyCompleted(btTarget)) || (block2CoreIds.indexOf(btTarget) !== -1 && isCoreFullyCompleted(btTarget)));
+          button.classList.toggle('level-completed', block2LevelIds.indexOf(btTarget) !== -1 && isLevelFullyCompleted(btTarget));
           button.onclick = () => {
             const levelTarget = button.dataset.target;
             if(!levelTarget || !conceptContent[levelTarget]) return;
             prepareConceptTransition(button);
-            if(block2LevelIds.indexOf(levelTarget) !== -1) renderConcept('block2', levelTarget);
-            else if(block2CoreIds.indexOf(levelTarget) !== -1) renderConcept('block2', levelTarget);
-            else renderConcept('block2', levelTarget);
+            renderConcept('block3', levelTarget);
           };
         });
       }
 
-      // Block 3: inner tiles for interpreting progress (development not linear, access differences, framework use)
-      if(block === 'block3'){
+      // Block 4: inner tiles for interpreting progress (development not linear, access differences, framework use)
+      if(block === 'block4'){
         const innerButtons3 = panel.querySelectorAll('[data-parent-subconcept-nav] .concept-square[data-target], [data-concept-primary-image] .concept-square[data-target], .concept-image .concept-square[data-target]');
         innerButtons3.forEach(button => {
           const btTarget = button.dataset.target;
@@ -8523,7 +8645,7 @@
             const nextTarget = button.dataset.target;
             if(!nextTarget || !conceptContent[nextTarget]) return;
             prepareConceptTransition(button);
-            renderConcept('block3', nextTarget);
+            renderConcept('block4', nextTarget);
           };
         });
       }
@@ -8550,7 +8672,7 @@
           var title = panel.querySelector('.concept-panel-title')?.textContent?.trim() || panel.querySelector('[data-concept-breadcrumb] .breadcrumb-part.current')?.textContent?.trim() || data.title || '';
           var body = '';
           var points = '';
-          if(isBlock2Stage){
+          if(isPathwayStage){
             var focusEl = panel.querySelector('[data-stage-focus]');
             var activePanel = panel.querySelector('.stage-intro-panel.active');
             body = (focusEl ? focusEl.textContent.trim() + '. ' : '') + (activePanel ? activePanel.textContent.trim() : '');
@@ -8578,16 +8700,15 @@
       }
 
       const finishBtn = panel.querySelector('[data-finish-concept]');
-      const isBlock2Container = block === 'block2' && ['b2c1','b2c2','b2c3','b2l1_focus','b2l2_focus','b2l3_focus','b2l4_focus','b2l5_focus','b2l6_focus','b2c4'].includes(target);
-      const block2Complete = block === 'block2' && getBlock2CompletedInOrderCount() === block2CompletionOrder.length;
-      const hideFinishBtn = block2Complete && target === 'b2c4';
-      const focusReturn = block === 'block2' ? getBlock2FocusReturnTarget(target) : null;
-      const nextInLevel = !focusReturn && block === 'block2' ? getNextInLevelGroup(block, target) : null;
+      const isBlock3PathwayContainer = block === 'block3' && ['b2c1','b2c2','b2c3','b2l1_focus','b2l2_focus','b2l3_focus','b2l4_focus','b2l5_focus','b2l6_focus'].includes(target);
+      const hideFinishBtn = false;
+      const focusReturn = block === 'block3' ? getBlock2FocusReturnTarget(target) : null;
+      const nextInLevel = !focusReturn && block === 'block3' ? getNextInLevelGroup(block, target) : null;
       if(finishBtn){
         finishBtn.style.display = hideFinishBtn ? 'none' : '';
         var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
         var inPracticeOk = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
-        if(isBlock2Container){
+        if(isBlock3PathwayContainer){
           finishBtn.disabled = true;
           finishBtn.style.opacity = '.55';
           finishBtn.style.cursor = 'not-allowed';
@@ -9125,6 +9246,64 @@
       }
     }
 
+    function setupBlock2CoreConceptActivities(panel){
+      if(!panel) return;
+      var ac1 = panel.querySelector('[data-activity="b2core1"]');
+      if(ac1 && ac1.getAttribute('data-m4-b2core1-bound') !== '1'){
+        ac1.setAttribute('data-m4-b2core1-bound','1');
+        var fb1 = ac1.querySelector('[data-activity-feedback="b2core1"]');
+        ac1.querySelectorAll('input[name="b2core1_act"]').forEach(function(r){
+          r.addEventListener('change', function(){
+            var v = ac1.querySelector('input[name="b2core1_act"]:checked');
+            if(!v || !fb1) return;
+            if(v.value === 'B'){
+              fb1.textContent = 'Correct. Re-regulation comes before demand — simplify the task and the sensory load first.';
+              fb1.className = 'feedback show good';
+            } else {
+              fb1.textContent = v.value === 'A' ? 'Not quite. Pushing the main set while the swimmer is tense usually worsens regulation.' : 'Not quite. Random challenge does not rebuild safety — reduce load and support re-regulation first.';
+              fb1.className = 'feedback show warn';
+            }
+          });
+        });
+      }
+      var ac2 = panel.querySelector('[data-activity="b2core2"]');
+      if(ac2 && ac2.getAttribute('data-m4-b2core2-bound') !== '1'){
+        ac2.setAttribute('data-m4-b2core2-bound','1');
+        var fb2 = ac2.querySelector('[data-activity-feedback="b2core2"]');
+        ac2.querySelectorAll('input[name="b2core2_act"]').forEach(function(r){
+          r.addEventListener('change', function(){
+            var v = ac2.querySelector('input[name="b2core2_act"]:checked');
+            if(!v || !fb2) return;
+            if(v.value === 'F'){
+              fb2.textContent = 'Correct. Independence links support for movement, position, and safety — not only “physical skills”.';
+              fb2.className = 'feedback show good';
+            } else {
+              fb2.textContent = 'Incorrect. False is correct. Independence is about how much support is needed across movement and safety.';
+              fb2.className = 'feedback show warn';
+            }
+          });
+        });
+      }
+      var ac3 = panel.querySelector('[data-activity="b2core3"]');
+      if(ac3 && ac3.getAttribute('data-m4-b2core3-bound') !== '1'){
+        ac3.setAttribute('data-m4-b2core3-bound','1');
+        var fb3 = ac3.querySelector('[data-activity-feedback="b2core3"]');
+        ac3.querySelectorAll('input[name="b2core3_act"]').forEach(function(r){
+          r.addEventListener('change', function(){
+            var v = ac3.querySelector('input[name="b2core3_act"]:checked');
+            if(!v || !fb3) return;
+            if(v.value === 'B'){
+              fb3.textContent = 'Correct. Drifting off often signals engagement or regulation mismatch — check demand and supports before adding difficulty.';
+              fb3.className = 'feedback show good';
+            } else {
+              fb3.textContent = v.value === 'A' ? 'Not quite. Harder tasks rarely fix disengagement if regulation or clarity is off.' : 'Not quite. Attention matters for access — match demand to what the swimmer can attend to.';
+              fb3.className = 'feedback show warn';
+            }
+          });
+        });
+      }
+    }
+
     function setupB3c2FactorExplore(panel){
       if(!panel) return;
       var wrap = panel.querySelector('.b3c2-factor-explore');
@@ -9377,7 +9556,7 @@
     }
 
     function setupB2LevelProgrammeInteractive(panel, block, target){
-      if(!panel || block !== 'block2' || !/^b2l[1-6]$/.test(target)) return;
+      if(!panel || block !== 'block3' || !/^b2l[1-6]$/.test(target)) return;
       var focusDataByLevel = {
         b2l1: {
           wf: { title: 'Water Familiarisation I', points: ['Enters water with predictable supported routine', 'Tolerates splash and water contact on body', 'Accepts face wetting with support'] },
@@ -9627,7 +9806,7 @@
 
     function setupSidebarActiveState(){
       const links = document.querySelectorAll('.nav-link');
-      const targets = ['module-title','journey','outcomes','block1','block2','block3','keyideas','quiz']
+      const targets = ['module-title','journey','outcomes','block1','block2','block3','block4','keyideas','quiz']
         .map(id => document.getElementById(id))
         .filter(Boolean);
 
@@ -9917,6 +10096,7 @@
       setupReflection('block1','gate1');
       setupReflection('block2','gate2');
       setupReflection('block3','gate3');
+      setupReflection('block4','gate4');
       setupChecks();
       setupDwellTime();
       setupSmoothScroll();
@@ -10021,13 +10201,13 @@
       }
       function applySavedProgressToGates(){
         var prefix = 'module' + MODULE_NUMBER + '_';
-        var nextStage = { journey:'outcomes', outcomes:'block1', block1:'block2', block2:'block3', block3:'keyideas', keyideas:'quiz' };
+        var nextStage = { journey:'outcomes', outcomes:'block1', block1:'block2', block2:'block3', block3:'block4', block4:'keyideas', keyideas:'quiz' };
         function stageIsSaved(stage){
           if(currentProgress[prefix + stage]) return true;
           if(stage === 'keyideas' && currentProgress[prefix + 'recap']) return true;
           return false;
         }
-        ['journey','outcomes','block1','block2','block3','keyideas'].forEach(function(stage){
+        ['journey','outcomes','block1','block2','block3','block4','keyideas'].forEach(function(stage){
           if(!stageIsSaved(stage)) return;
           var cb = document.querySelector('.overall-check[data-stage-check="' + stage + '"]');
           if(cb){
