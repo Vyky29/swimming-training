@@ -1637,7 +1637,7 @@ body:has(.training-portal > .training-wrap){
   opacity:1.05;
 }
 
-.path-card > *{
+.path-card > *:not(.path-card-corner-tag){
   position:relative;
   z-index:1;
 }
