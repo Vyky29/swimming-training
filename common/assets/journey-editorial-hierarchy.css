@@ -5,13 +5,14 @@
  */
 
 /* -------------------------------------------------------------------------- */
-/* Pathway shell ù same wave language as completion + module hero atmosphere   */
+/* Pathway shell ÔøΩ same wave language as completion + module hero atmosphere   */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-wrap{
   position:relative;
   isolation:isolate;
-  overflow:hidden;
+  /* visible so active-node orbit dots (outside the 58px circle) are not clipped */
+  overflow:visible;
   border:1px solid rgba(45,132,179,.22);
   border-radius:clamp(18px,2.6vw,26px);
   background:
@@ -31,7 +32,7 @@
   z-index:1;
 }
 
-/* Mega-wave stack ù same SVG + mask pattern as #complete .completion-atmosphere */
+/* Mega-wave stack ÔøΩ same SVG + mask pattern as #complete .completion-atmosphere */
 .portal .main .content #journey .journey-wrap::before,
 .portal .main .content #journey .journey-wrap::after{
   content:"";
@@ -88,7 +89,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Journey panel ù same depth + mega-waves as #complete .completion (module-completion-flow) */
+/* Journey panel ÔøΩ same depth + mega-waves as #complete .completion (module-completion-flow) */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-panel{
@@ -191,7 +192,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Pathway titles ù current brighter aquatic blue; past / future hierarchy     */
+/* Pathway titles ÔøΩ current brighter aquatic blue; past / future hierarchy     */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-item.active .journey-title{
@@ -212,7 +213,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Nodes ù calm blue; current: aquatic blue + subtle blue pulse (no tick/dot) */
+/* Nodes ÔøΩ calm blue; current: aquatic blue + subtle blue pulse (no tick/dot) */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-item{
@@ -235,7 +236,7 @@
   z-index:1;
   isolation:isolate;
   opacity:1;
-  /* Completed: deeper corporate blue + soft white rim ù no gold/orange ring */
+  /* Completed: deeper corporate blue + soft white rim ÔøΩ no gold/orange ring */
   background:linear-gradient(145deg,#6eb2d4 0%,#3d8eb8 42%,#2d84b3 100%);
   color:#fff;
   border:2px solid rgba(255,255,255,.88);
@@ -266,7 +267,17 @@
     0 6px 16px rgba(45,132,179,.14);
 }
 
-/* Active: two tiny orange glass bubbles ù same orbit mechanic as .water-orbit__ring (minimal) */
+/* Active: two tiny orange glass bubbles ÔøΩ same orbit mechanic as .water-orbit__ring (minimal) */
+@keyframes journey-current-orbit-cw{
+  from{ transform:rotate(0deg) translateX(var(--bubble-r,38px)) rotate(0deg); }
+  to{ transform:rotate(360deg) translateX(var(--bubble-r,38px)) rotate(-360deg); }
+}
+
+@keyframes journey-current-orbit-ccw{
+  from{ transform:rotate(0deg) translateX(var(--bubble-r,30px)) rotate(0deg); }
+  to{ transform:rotate(-360deg) translateX(var(--bubble-r,30px)) rotate(360deg); }
+}
+
 .portal .main .content #journey .journey-item.active .journey-circle{
   position:relative;
   z-index:1;
@@ -293,38 +304,36 @@
   border:none;
   transform-origin:50% 50%;
   mix-blend-mode:normal;
+  will-change:transform;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,.28),
-    0 2px 6px rgba(23,50,78,.12);
+    0 0 0 1px rgba(255,255,255,.32),
+    0 2px 7px rgba(23,50,78,.14);
   background:radial-gradient(
     circle at 32% 28%,
-    rgba(255,255,255,.55) 0%,
-    rgba(255,255,255,.12) 38%,
-    rgba(204,149,43,.22) 72%,
-    rgba(204,149,43,.08) 100%
+    rgba(255,255,255,.65) 0%,
+    rgba(255,255,255,.14) 36%,
+    rgba(204,149,43,.44) 68%,
+    rgba(204,149,43,.18) 100%
   );
 }
 
-/* Outer track ù CW (uses keyframes from water-orbit-branding.css) */
 .portal .main .content #journey .journey-item.active .journey-circle::before{
-  width:7px;
-  height:7px;
-  margin:-3.5px 0 0 -3.5px;
-  --bubble-r:31px;
-  opacity:.42;
-  animation:water-bubble-orbit 22s linear infinite;
-  animation-delay:0s;
+  width:8px;
+  height:8px;
+  margin:-4px 0 0 -4px;
+  --bubble-r:38px;
+  opacity:.58;
+  animation:journey-current-orbit-cw 20s linear infinite;
 }
 
-/* Inner track ù CCW, smaller + softer */
 .portal .main .content #journey .journey-item.active .journey-circle::after{
-  width:5px;
-  height:5px;
-  margin:-2.5px 0 0 -2.5px;
-  --bubble-r:24px;
-  opacity:.34;
-  animation:water-bubble-orbit-rev 17s linear infinite;
-  animation-delay:-5.5s;
+  width:6px;
+  height:6px;
+  margin:-3px 0 0 -3px;
+  --bubble-r:30px;
+  opacity:.48;
+  animation:journey-current-orbit-ccw 16s linear infinite;
+  animation-delay:-4.5s;
 }
 
 @media (prefers-reduced-motion: reduce){
