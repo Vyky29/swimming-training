@@ -200,15 +200,17 @@
   text-shadow:0 1px 0 rgba(255,255,255,.94);
 }
 
+/* Upcoming / not yet on the pathway: cooler slate (distinct from ùpastù) */
 .portal .main .content #journey .journey-item.page-linkable .journey-title,
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-title{
-  color:#567d94;
-  font-weight:700;
+  color:#5f6f7d;
+  font-weight:600;
 }
 
+/* Steps already passed on the journey: clearer ink + slightly warmer than future */
 .portal .main .content #journey .journey-item.journey-item--past .journey-title{
-  color:#647d91;
-  font-weight:700;
+  color:#3d5a6e;
+  font-weight:800;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -236,21 +238,23 @@
   isolation:isolate;
   opacity:1;
   /* Completed: soft desaturated blue ù clearly not the vivid current node */
-  background:linear-gradient(165deg,#cfe4ef 0%,#aacfe0 38%,#8eb9d2 100%);
-  color:#fff;
-  border:2px solid rgba(255,255,255,.82);
+  background:linear-gradient(165deg,#f6fbfd 0%,#e4f2fa 40%,#cce6f2 100%);
+  color:#1f4a63;
+  border:2px solid rgba(45,132,179,.38);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.45),
-    0 6px 14px rgba(18,50,71,.1);
+    inset 0 1px 0 rgba(255,255,255,.9),
+    inset 0 -10px 24px rgba(45,132,179,.06),
+    0 4px 12px rgba(18,50,71,.08);
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-status{
-  color:#6f8494;
+  color:#3d6d88;
   font-weight:700;
 }
 
 .portal .main .content #journey .journey-item.journey-item--past .journey-status::after{
-  color:#7d91a0;
+  color:#4a7f9a;
+  font-weight:600;
 }
 
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-circle{
@@ -258,12 +262,24 @@
   z-index:1;
   isolation:isolate;
   opacity:1;
-  background:linear-gradient(145deg,#c5d9e8 0%,#9bbdd4 42%,#7ba8c2 100%);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.55);
+  background:linear-gradient(160deg,#eef2f5 0%,#dde5ec 45%,#c9d4de 100%);
+  color:#4a5664;
+  border:1px dashed rgba(74,92,108,.42);
   box-shadow:
-    0 0 0 1px rgba(45,132,179,.12),
-    0 6px 16px rgba(45,132,179,.14);
+    inset 0 1px 0 rgba(255,255,255,.55),
+    0 4px 12px rgba(18,40,58,.06);
+}
+
+.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past).is-locked .journey-circle{
+  background:linear-gradient(160deg,#f0f3f6 0%,#e2e7ed 50%,#d5dce3 100%);
+  color:#6a7580;
+  border:1px dashed rgba(90,102,114,.38);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-status{
+  color:#6d7c89;
+  font-weight:600;
 }
 
 /* Active: strong orange pulse + light outer glow (overflow visible on circle) */
