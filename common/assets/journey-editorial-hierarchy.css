@@ -303,9 +303,10 @@
   z-index:1;
   isolation:isolate;
   overflow:visible;
-  background:linear-gradient(152deg, #1a6fa8 0%, #45b0e8 46%, #2e9fd8 100%);
+  /* Brighter corporate blue (strong #2d84b3 family, vivid highlight) */
+  background:linear-gradient(152deg, #1a7ebe 0%, #3db3f0 38%, #2d84b3 58%, #1f74a8 100%);
   color:#fff;
-  border:1px solid rgba(255,255,255,.65);
+  border:1px solid rgba(255,255,255,.72);
   animation:journey-active-orange-aura 2.2s ease-in-out infinite;
 }
 
