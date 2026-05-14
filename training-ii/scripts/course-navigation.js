@@ -414,17 +414,18 @@
       item.classList.toggle('is-locked', !available || (!unlocked && !REVIEW_MODE));
       item.setAttribute('aria-disabled', (!available || (!unlocked && !REVIEW_MODE)) ? 'true' : 'false');
 
-      if(statusEl){
-        if(displayPast && pageId !== 'introduction'){
-          statusEl.textContent = moduleNumberLabel(moduleId) || statusEl.textContent;
+      if(statusEl && pageId !== 'introduction'){
+        const label = moduleNumberLabel(moduleId);
+        if(displayPast){
+          statusEl.textContent = label || statusEl.textContent;
         } else if(current){
-          statusEl.textContent = 'Current Module';
+          statusEl.textContent = label ? (label + ' — Current module') : 'Current module';
         } else if(!available){
-          statusEl.textContent = 'Unavailable';
+          statusEl.textContent = label ? (label + ' — Unavailable') : 'Unavailable';
         } else if(inProgress){
-          statusEl.textContent = '';
+          statusEl.textContent = label ? (label + ' — In progress') : 'In progress';
         } else {
-          statusEl.textContent = '';
+          statusEl.textContent = label || statusEl.textContent;
         }
       }
     });
