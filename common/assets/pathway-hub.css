@@ -1377,14 +1377,305 @@ a{
   html{
     scroll-behavior:auto;
   }
+  body:has(.training-page),
+  body:has(.training-portal > .training-wrap){
+    animation:none;
+  }
   .module-card,
+  .path-card,
   .btn,
   .progress-summary-fill{
     transition:none;
   }
+  .module-card::after,
+  .path-card::after,
+  .module-card .module-top::before{
+    animation:none;
+  }
   .module-card:hover,
+  .path-card:hover,
   .btn-primary:hover,
   .btn-continue:hover{
     transform:none;
+  }
+}
+
+/* =============================================================================
+   Portal atmosphere  aquatic glass, soft depth, module accents (visual only)
+   ============================================================================= */
+
+@keyframes portalBodyDrift{
+  0%,100%{background-position:0% 28%,100% 72%,12% 88%,0 0;}
+  50%{background-position:100% 36%,0% 64%,88% 92%,0 0;}
+}
+
+@keyframes portalCardAtmosphere{
+  0%,100%{opacity:0.038;transform:translate3d(0,0,0) scale(1);}
+  50%{opacity:0.068;transform:translate3d(-5px,4px,0) scale(1.015);}
+}
+
+@keyframes portalTopSheen{
+  0%,100%{opacity:0.42;transform:translate3d(0,0,0);}
+  50%{opacity:0.58;transform:translate3d(-10px,0,0);}
+}
+
+body:has(.training-page),
+body:has(.training-portal > .training-wrap){
+  background:
+    radial-gradient(ellipse 118% 82% at 50% -12%,rgba(137,181,193,0.13) 0%,transparent 56%),
+    radial-gradient(ellipse 78% 52% at 94% 22%,rgba(45,132,179,0.065) 0%,transparent 52%),
+    radial-gradient(ellipse 72% 48% at 5% 68%,rgba(100,186,214,0.05) 0%,transparent 46%),
+    linear-gradient(180deg,#f2f8fc 0%,#ffffff 52%,#fafcfd 100%);
+  background-size:135% 135%,125% 125%,130% 130%,100% 100%;
+  animation:portalBodyDrift 56s ease-in-out infinite alternate;
+}
+
+.module-card[data-module-number="1"],
+.module-card[data-hub-module-id="module1"]{
+  --portal-mod-rgb:62,184,201;
+  --portal-mod-line:linear-gradient(90deg,rgba(62,184,201,0.95) 0%,rgba(45,132,179,0.55) 100%);
+}
+
+.module-card[data-module-number="2"],
+.module-card[data-hub-module-id="module2"]{
+  --portal-mod-rgb:46,157,148;
+  --portal-mod-line:linear-gradient(90deg,rgba(46,157,148,0.92) 0%,rgba(45,132,179,0.5) 100%);
+}
+
+.module-card[data-module-number="3"],
+.module-card[data-hub-module-id="module3"]{
+  --portal-mod-rgb:107,143,191;
+  --portal-mod-line:linear-gradient(90deg,rgba(107,143,191,0.92) 0%,rgba(74,120,168,0.55) 100%);
+}
+
+.module-card[data-module-number="4"],
+.module-card[data-hub-module-id="module4"]{
+  --portal-mod-rgb:36,112,158;
+  --portal-mod-line:linear-gradient(90deg,rgba(36,112,158,0.95) 0%,rgba(26,88,128,0.6) 100%);
+}
+
+.module-card[data-module-number="5"],
+.module-card[data-hub-module-id="module5"]{
+  --portal-mod-rgb:61,184,216;
+  --portal-mod-line:linear-gradient(90deg,rgba(61,184,216,0.92) 0%,rgba(45,132,179,0.55) 100%);
+}
+
+.module-card[data-hub-module-id="module6"]{
+  --portal-mod-rgb:74,155,168;
+  --portal-mod-line:linear-gradient(90deg,rgba(74,155,168,0.9) 0%,rgba(45,132,179,0.52) 100%);
+}
+
+.module-card{
+  --portal-mod-rgb:45,132,179;
+  --portal-mod-line:linear-gradient(90deg,var(--blue-deep) 0%,var(--blue-mid) 100%);
+  position:relative;
+  isolation:isolate;
+  border-radius:clamp(20px,2.4vw,26px);
+  background:
+    linear-gradient(168deg,rgba(255,255,255,0.98) 0%,rgba(248,252,255,0.94) 42%,rgba(255,255,255,0.99) 100%);
+  border:1px solid rgba(255,255,255,0.72);
+  box-shadow:
+    0 0 0 1px rgba(45,132,179,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.92),
+    0 18px 42px rgba(23,50,78,0.075),
+    0 6px 16px rgba(45,132,179,0.045);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transition:transform 0.38s cubic-bezier(0.22,1,0.36,1),box-shadow 0.38s cubic-bezier(0.22,1,0.36,1),border-color 0.38s ease;
+}
+
+.module-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height:3px;
+  border-radius:clamp(20px,2.4vw,26px) clamp(20px,2.4vw,26px) 0 0;
+  background:var(--portal-mod-line);
+  opacity:0.88;
+  z-index:4;
+  pointer-events:none;
+  box-shadow:0 1px 0 rgba(255,255,255,0.35) inset;
+}
+
+.module-card::after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:inherit;
+  background:
+    radial-gradient(ellipse 85% 55% at 92% 108%,rgba(var(--portal-mod-rgb),0.09) 0%,transparent 52%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 160' preserveAspectRatio='none'%3E%3Cpath fill='rgba(45,132,179,0.04)' d='M0 96c80-28 160 36 240 8s160-20 240 4v52H0z'/%3E%3Cpath fill='rgba(137,181,193,0.05)' d='M0 112c100-20 200 24 300 0s140-16 180 8v40H0z'/%3E%3C/svg%3E")
+    no-repeat 100% 100% / 92% 42%;
+  opacity:1;
+  z-index:0;
+  pointer-events:none;
+  animation:portalCardAtmosphere 38s ease-in-out infinite alternate;
+}
+
+.module-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(var(--portal-mod-rgb),0.22);
+  box-shadow:
+    0 0 0 1px rgba(var(--portal-mod-rgb),0.08),
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    0 22px 50px rgba(23,50,78,0.09),
+    0 10px 28px rgba(var(--portal-mod-rgb),0.12);
+}
+
+.module-card:hover::after{
+  opacity:1.12;
+}
+
+.module-card > .module-top,
+.module-card > .module-body{
+  position:relative;
+  z-index:2;
+}
+
+.module-card .module-top{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  padding:28px 28px 22px;
+  background:
+    radial-gradient(ellipse 120% 90% at 88% -8%,rgba(var(--portal-mod-rgb),0.07) 0%,transparent 52%),
+    linear-gradient(185deg,rgba(255,255,255,0.55) 0%,rgba(244,250,253,0.92) 55%,rgba(255,255,255,0.98) 100%);
+  border-bottom:1px solid rgba(23,50,78,0.045);
+}
+
+.module-card .module-top::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 18% 22%,rgba(255,255,255,0.55) 0%,transparent 38%),
+    radial-gradient(ellipse 70% 45% at 72% 0%,rgba(var(--portal-mod-rgb),0.06) 0%,transparent 55%),
+    repeating-conic-gradient(from 210deg at 108% -20%,transparent 0deg,rgba(45,132,179,0.018) 2deg,transparent 5deg);
+  opacity:0.85;
+  z-index:0;
+  pointer-events:none;
+  animation:portalTopSheen 48s ease-in-out infinite alternate;
+}
+
+.module-card .module-top > *{
+  position:relative;
+  z-index:1;
+}
+
+.module-card .module-number{
+  background:rgba(var(--portal-mod-rgb),0.1);
+  border:1px solid rgba(var(--portal-mod-rgb),0.14);
+  box-shadow:0 1px 0 rgba(255,255,255,0.65) inset;
+}
+
+.module-card.module--row::after{
+  animation:none;
+  opacity:0.55;
+}
+
+.path-grid--tight .path-card:nth-child(1){
+  --path-rgb:62,184,201;
+  --path-line:linear-gradient(90deg,rgba(62,184,201,0.95) 0%,rgba(45,132,179,0.55) 100%);
+}
+
+.path-grid--tight .path-card:nth-child(2){
+  --path-rgb:46,157,148;
+  --path-line:linear-gradient(90deg,rgba(46,157,148,0.92) 0%,rgba(45,132,179,0.5) 100%);
+}
+
+.path-card{
+  --path-rgb:45,132,179;
+  border-radius:clamp(22px,2.5vw,28px);
+  background:
+    linear-gradient(172deg,rgba(255,255,255,0.97) 0%,rgba(248,252,255,0.93) 45%,rgba(255,255,255,0.99) 100%);
+  border:1px solid rgba(255,255,255,0.7);
+  box-shadow:
+    0 0 0 1px rgba(45,132,179,0.045),
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    0 16px 40px rgba(23,50,78,0.07),
+    0 6px 14px rgba(45,132,179,0.04);
+  backdrop-filter:blur(11px);
+  -webkit-backdrop-filter:blur(11px);
+  transition:transform 0.38s cubic-bezier(0.22,1,0.36,1),box-shadow 0.38s cubic-bezier(0.22,1,0.36,1),border-color 0.38s ease;
+}
+
+.path-card::before{
+  height:3px;
+  background:var(--path-line,var(--portal-mod-line,linear-gradient(90deg,var(--blue-deep) 0%,var(--blue-mid) 100%)));
+  opacity:0.92;
+  box-shadow:0 1px 0 rgba(255,255,255,0.4) inset;
+}
+
+.path-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:
+    radial-gradient(ellipse 70% 50% at 8% 102%,rgba(var(--path-rgb),0.06) 0%,transparent 48%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 140' preserveAspectRatio='none'%3E%3Cpath fill='rgba(45,132,179,0.035)' d='M0 88c66-22 134 28 200 6s134-18 200 10v36H0z'/%3E%3C/svg%3E")
+    no-repeat 0 100% / 55% 36%;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.9;
+  animation:portalCardAtmosphere 44s ease-in-out infinite alternate;
+}
+
+.path-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(var(--path-rgb),0.18);
+  box-shadow:
+    0 0 0 1px rgba(var(--path-rgb),0.06),
+    inset 0 1px 0 rgba(255,255,255,0.94),
+    0 22px 48px rgba(23,50,78,0.085),
+    0 8px 22px rgba(var(--path-rgb),0.1);
+}
+
+.path-card:hover::after{
+  opacity:1.05;
+}
+
+.path-card > *{
+  position:relative;
+  z-index:1;
+}
+
+.path-card-corner-tag{
+  z-index:3;
+}
+
+.btn-back-portal{
+  background:rgba(255,255,255,0.72);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(45,132,179,0.22);
+  box-shadow:0 1px 0 rgba(255,255,255,0.85) inset,0 8px 20px rgba(23,50,78,0.05);
+  transition:background 0.32s ease,border-color 0.32s ease,box-shadow 0.32s ease,color 0.32s ease;
+}
+
+.btn-back-portal:hover{
+  background:rgba(255,255,255,0.92);
+  border-color:rgba(45,132,179,0.35);
+  box-shadow:0 1px 0 rgba(255,255,255,0.95) inset,0 10px 26px rgba(45,132,179,0.08);
+}
+
+.bottom-note.bottom-note--soft{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,0.55) 0%,rgba(234,244,248,0.92) 100%);
+  border:1px solid rgba(45,132,179,0.1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.75),0 10px 28px rgba(23,50,78,0.04);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+
+@media (max-width:767px){
+  .module-card{
+    border-radius:18px;
+  }
+
+  .module-card::before{
+    border-radius:18px 18px 0 0;
   }
 }
