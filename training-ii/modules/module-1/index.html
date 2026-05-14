@@ -989,7 +989,10 @@
       gap:14px;
     }
     [data-concept-grid="block1"]{
-      grid-template-columns:repeat(2,minmax(0,1fr));
+      grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+    [data-concept-grid="block2"]{
+      grid-template-columns:repeat(3,minmax(0,1fr));
     }
     .overview-subconcept-shell{
       margin-top:14px;
@@ -2143,8 +2146,6 @@
       border:1px solid rgba(29,53,87,.10);
       border-radius:14px;
     }
-    [data-concept-activity][data-activity-concept-target="b1c4"] .activity-container .activity-question,
-    [data-concept-activity][data-activity-concept-target="b2c4"] .activity-container .activity-question,
     [data-concept-activity][data-activity-concept-target="b3c4"] .activity-container .activity-question{
       padding:0;
       margin-bottom:24px;
@@ -3332,6 +3333,12 @@
     #quiz .quiz-inline .quiz-next-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;margin-top:24px;padding:16px 32px;font-size:16px;font-weight:700;color:#fff;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.6);border-radius:14px;text-decoration:none;font-family:inherit;transition:var(--transition);}
     #quiz .quiz-inline .quiz-next-btn:hover{background:rgba(255,255,255,.35);border-color:#fff;}
     @media(max-width:600px){#quiz .quiz-inline{padding:20px 16px;}#quiz .quiz-inline .q-card{padding:20px;}#quiz .quiz-inline .match-game{grid-template-columns:1fr;}}
+    .concept-grid:has(> .concept-square:nth-child(3):last-child){
+      grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    }
+    .concept-grid:has(> .concept-square:nth-child(3):last-child) > .concept-square{
+      min-width:0;
+    }
     /* Exactly four concept squares: one row only (never 3+1 or 2×2) */
     .concept-grid:has(> .concept-square:nth-child(4):last-child){
       grid-template-columns:repeat(4,minmax(0,1fr)) !important;
@@ -3399,7 +3406,7 @@
               <div class="hero-badge">clubSENsational Swimming Training</div>
               <div class="hero-module-num">Module 1</div>
             </div>
-            <h2>MODULE 1 - Foundations of Aquatic Skill Development</h2>
+            <h2>MODULE 1 — Foundations of Aquatic Skill Development</h2>
           </div>
         </div>
         <div class="hero-meta">
@@ -3477,9 +3484,9 @@
               </div>
 
               <div class="journey-panel" id="journeyPanel" data-tts-source="journey">
-                <h4>MODULE 1 - Foundations of Aquatic Skill Development</h4>
-                <p>This module is the starting point of the training pathway.<br>
-                After this module, instructors will understand how swimmers experience the aquatic environment and how to interpret their responses before applying structured teaching approaches in Module 2 - Guiding Learning Through Scaffolding.</p>
+                <h4>MODULE 1 — Foundations of Aquatic Skill Development</h4>
+                <p>This module opens the pathway with developmental foundations: participation, readiness, regulation, support and progression within the aquatic environment.<br>
+                It leads into Module 2 — Guiding Learning Through Scaffolding, where structured teaching approaches build on what you observe here.</p>
               </div>
             </div>
 
@@ -3503,10 +3510,9 @@
               </div>
             </div>
             <p class="lead" data-tts-source="module-overview">
-              This module introduces the foundations of aquatic development by focusing on how swimmers experience, respond to, and engage with the aquatic environment.<br>
-              Rather than prioritising structured movement or stroke performance, this module focuses on behaviour, regulation, readiness and control as the foundations of learning in water.<br>
-              Aquatic development is understood as a progressive process where confidence, stability, engagement and independence are developed gradually through supported experiences and adapted teaching.<br>
-              These principles form the foundation for all future aquatic learning throughout the training pathway.
+              This module introduces the developmental foundations that influence how swimmers experience, engage with and progress within the aquatic environment.<br>
+              This training has been designed around the understanding that swimmers experience, process and respond to the aquatic environment differently.<br>
+              It explores aquatic development through a broader neuroinclusive and developmental lens, helping instructors understand participation, readiness, regulation, support and progression before focusing on structured swimming performance.
             </p>
           </div>
         </section>
@@ -3529,19 +3535,19 @@
             <div class="outcomes" data-outcomes-group="outcomes">
               <div class="outcome clickable-progress" data-outcome-item="1">
                 <span class="outcome-index">&bull;</span>
-                <div>Understand aquatic development as a behaviour based learning process</div>
+                <div>Recognise how developmental foundations shape aquatic participation, regulation, engagement and familiarisation.</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="2">
                 <span class="outcome-index">&bull;</span>
-                <div>Observe swimmer responses and identify readiness</div>
+                <div>Interpret functional aquatic participation and readiness before prioritising structured swimming movement.</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="3">
                 <span class="outcome-index">&bull;</span>
-                <div>Recognise when to progress, maintain or reduce task demand</div>
+                <div>Observe interconnected factors in the water and adapt progression when demand overwhelms participation.</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="4">
                 <span class="outcome-index">&bull;</span>
-                <div>Support independence through structured and adapted support</div>
+                <div>Support gradual reduction of support, recovery and safer self management alongside meaningful participation.</div>
               </div>
             </div>
 
@@ -3566,35 +3572,35 @@
                 <button class="btn btn-tts" data-tts-stop="key-concepts">&#9209; Stop Audio</button>
               </div>
             </div>
-            <p class="lead" data-tts-source="key-concepts">These core concepts frame how clubSENsational understands aquatic learning at the start of the pathway.</p>
+            <p class="lead" data-tts-source="key-concepts">These ideas summarise the specialist aquatic development lens used across this module.</p>
 
             <div class="grid-2 block-intro-cards">
               <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-module-key-card="1">
                 <div class="card-icon">1</div>
-                <h4>Understanding the Swimmer</h4>
+                <h4>Foundations influencing development</h4>
                 <ul>
-                  <li>Aquatic learning begins by observing how the swimmer experiences and responds to water.</li>
+                  <li>Developmental, observational and aquatic specific foundations—participation, regulation, engagement and gradual progression.</li>
                 </ul>
               </div>
               <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-module-key-card="2">
                 <div class="card-icon">2</div>
-                <h4>Behaviour and Regulation</h4>
+                <h4>Understanding aquatic development</h4>
                 <ul>
-                  <li>Behaviour reflects how the swimmer engages, copes and manages the aquatic environment.</li>
+                  <li>Functional participation and readiness before structured swimming; progression stays individual.</li>
                 </ul>
               </div>
               <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-module-key-card="3">
                 <div class="card-icon">3</div>
-                <h4>Readiness Before Progression</h4>
+                <h4>Independence, regulation and support</h4>
                 <ul>
-                  <li>Progression depends on control and response, not visible performance.</li>
+                  <li>Aquatic self management, recovery, gradual reduction of support and safe participation with supervision.</li>
                 </ul>
               </div>
               <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-module-key-card="4">
                 <div class="card-icon">4</div>
-                <h4>Independence as the Goal</h4>
+                <h4>Specialist pathway framing</h4>
                 <ul>
-                  <li>Learning is guided towards confidence, self management and reduced reliance on support.</li>
+                  <li>Neuroinclusive and developmental—focused on observable water behaviour, not generic labels or technique drilling in isolation.</li>
                 </ul>
               </div>
             </div>
@@ -3609,7 +3615,7 @@
             <div class="section-lock-banner">Complete the Learning Outcomes section to unlock this block.</div>
             <div class="block-header">
               <div class="block-title-wrap">
-                <h3>Block 1 - Aquatic Skills vs Structured Swimming</h3>
+                <h3>Block 1 — Foundations Influencing Aquatic Development</h3>
               </div>
               <div class="section-top-actions">
                 <button class="btn btn-tts" data-tts-button="block1">🔊 Listen</button>
@@ -3617,25 +3623,25 @@
               </div>
             </div>
 
-            <p class="lead" data-tts-source="block1">This block explores the difference between learning to function in water and learning structured swimming, including stroke development.<br>
-              Meaningful progress is not defined only through visible movement or formal technique. Swimmers first develop confidence, regulation, interaction and control before structured swimming can be introduced successfully.</p>
+            <p class="lead" data-tts-source="block1">This block explores developmental foundations that influence how swimmers participate in water, including regulation, engagement, sensory experience, familiarisation and confidence.<br>
+              Observation should extend beyond movement alone. The aquatic environment can support, challenge, regulate or overwhelm the swimmer, and development is interconnected and rarely linear.</p>
 
             <div class="grid-2 block-intro-cards" data-block-intro="block1">
               <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
                 <div class="card-icon">&#9678;</div>
                 <h4>Block Focus</h4>
                 <ul>
-                  <li>Understanding swimming as functional interaction with water rather than structured swimming performance.</li>
+                  <li>Developmental, observational, neuroinclusive and aquatic specific foundations—not therapy heavy framing.</li>
                 </ul>
               </div>
               <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
                 <div class="card-icon">&#8801;</div>
                 <h4>What This Block Covers</h4>
                 <ul>
-                  <li>Two ways of understanding swimming</li>
-                  <li>Skills before structure</li>
-                  <li>Individual progression</li>
-                  <li>Instructor role</li>
+                  <li>Developmental foundations and aquatic participation</li>
+                  <li>Regulation, engagement and sensory experience</li>
+                  <li>Familiarisation, confidence and broad observation</li>
+                  <li>Interconnected development and gradual progression</li>
                 </ul>
               </div>
             </div>
@@ -3645,10 +3651,9 @@
               <p>Select each concept to review it in sequence. Completed concepts are marked with a tick to support clear progress tracking.</p>
 
               <div class="concept-grid" data-concept-grid="block1">
-                <button class="concept-square" data-target="b1c1">Two Ways of Understanding Swimming</button>
-                <button class="concept-square" data-target="b1c2">Skills Come Before Structure</button>
-                <button class="concept-square" data-target="b1c3">Progression Is Individual</button>
-                <button class="concept-square" data-target="b1c4">Readiness Before Structured Swimming</button>
+                <button class="concept-square" data-target="b1c1">Development Is Multi Layered</button>
+                <button class="concept-square" data-target="b1c2">Foundational Factors of Aquatic Development</button>
+                <button class="concept-square" data-target="b1c3">Development Requires Gradual Progression</button>
               </div>
 
               <div class="concept-panel" data-panel-for="block1">
@@ -3683,7 +3688,7 @@
                     <div class="concept-mini-fill" data-mini-fill="block1"></div>
                   </div>
                   <div class="concept-progress">
-                    <span data-mini-text="block1">0 of 4 concepts completed</span>
+                    <span data-mini-text="block1">0 of 3 concepts completed</span>
                     <span>Block 1</span>
                   </div>
                 </div>
@@ -3694,31 +3699,31 @@
               <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
             </div>
 
-            <p class="lead">Understanding readiness, regulation and interaction in water prepares instructors to recognise the key areas that shape aquatic development.</p>
+            <p class="lead">These foundations set up how you will interpret function, readiness and individual progression in the next block.</p>
 
             <div class="reflection-gate" data-gate="block1" data-reflection-type="questions">
               <h4>Reflection Checkpoint</h4>
-              <p class="reflection-prompt">Review each question below and use them to reflect on how you would interpret readiness and progression in practice.</p>
+              <p class="reflection-prompt">Use the questions below to connect broad observation with participation and regulation in your own teaching context.</p>
               <div class="grid-2 block-intro-cards">
                 <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
                   <div class="card-icon">1</div>
                   <h4>Question 1</h4>
                   <ul>
-                    <li>Why is calm interaction with water more important than structured movement in early aquatic development?</li>
+                    <li>What might you notice beyond movement if the aquatic environment is supporting versus overwhelming a swimmer today?</li>
                   </ul>
                 </div>
                 <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
                   <div class="card-icon">2</div>
                   <h4>Question 2</h4>
                   <ul>
-                    <li>A swimmer performs strong kicking movements but becomes distressed when coordination is added. What should the instructor prioritise next?</li>
+                    <li>How do regulation and engagement help you decide whether to hold, simplify or progress an activity?</li>
                   </ul>
                 </div>
                 <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
                   <div class="card-icon">3</div>
                   <h4>Question 3</h4>
                   <ul>
-                    <li>What signs might indicate that a swimmer is not yet ready for structured swimming?</li>
+                    <li>Where could gradual progression show up in your next session without rushing a visible outcome?</li>
                   </ul>
                 </div>
               </div>
@@ -3741,7 +3746,7 @@
 
             <div class="block-header">
               <div class="block-title-wrap">
-                <h3>Block 2 - Key Areas of Aquatic Development</h3>
+                <h3>Block 2 — Understanding Aquatic Development</h3>
               </div>
               <div class="section-top-actions">
                 <button class="btn btn-tts" data-tts-button="block2">🔊 Listen</button>
@@ -3749,27 +3754,26 @@
               </div>
             </div>
 
-            <p class="lead" data-tts-source="block2">This block explores the key areas that influence aquatic development.<br>
-              Aquatic learning is shaped by multiple interconnected areas working together. Breathing, balance, familiarisation, regulation, confidence and movement constantly influence how the swimmer experiences and manages the aquatic environment.<br>
-              These areas are not isolated aquatic skills themselves. They are the foundations that allow aquatic skills such as floating, submersion, gliding, rotation and propulsion to develop later.<br>
-              Understanding these interactions helps instructors interpret swimmer responses more accurately before deciding how learning should later be structured, adapted and progressed.</p>
+            <p class="lead" data-tts-source="block2">This block focuses on functional aquatic participation, readiness and meaningful progression before structured swimming intensifies.<br>
+              Visible movement does not always indicate readiness; structured swimming should emerge gradually as control and recovery stabilise.<br>
+              Progression stays individual and non linear, so instructors match demand, support and equipment to the swimmer in view.</p>
 
             <div class="grid-2 block-intro-cards" data-block-intro="block2">
               <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
                 <div class="card-icon">&#9678;</div>
                 <h4>Block Focus</h4>
                 <ul>
-                  <li>Understanding aquatic development as a connected and multi layered process.</li>
+                  <li>Functional participation and readiness before performance-led teaching.</li>
                 </ul>
               </div>
               <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
                 <div class="card-icon">&#8801;</div>
                 <h4>What This Block Covers</h4>
                 <ul>
-                  <li>Multi layered aquatic development</li>
-                  <li>Key foundational areas</li>
-                  <li>Interconnection between areas</li>
-                  <li>Development over time</li>
+                  <li>Functioning in water versus structured swimming</li>
+                  <li>Readiness before structured tasks</li>
+                  <li>Individual progression and adaptive support</li>
+                  <li>Participation valued ahead of stroke shape alone</li>
                 </ul>
               </div>
             </div>
@@ -3779,10 +3783,9 @@
               <p>Click a concept to open its explanation underneath. Completed concepts show in white with a tick so progress is easy to follow.</p>
 
               <div class="concept-grid" data-concept-grid="block2">
-                <button class="concept-square" data-target="b2c1">Development Is Multi Layered</button>
-                <button class="concept-square" data-target="b2c2">The Key Areas</button>
-                <button class="concept-square" data-target="b2c3">Areas Work Together</button>
-                <button class="concept-square" data-target="b2c4">Development Requires Time</button>
+                <button class="concept-square" data-target="b2c1">Functioning in Water vs Structured Swimming</button>
+                <button class="concept-square" data-target="b2c2">Readiness Before Structured Swimming</button>
+                <button class="concept-square" data-target="b2c3">Progression Is Individual</button>
               </div>
 
               <div class="concept-panel" data-panel-for="block2">
@@ -3815,7 +3818,7 @@
                     <div class="concept-mini-fill" data-mini-fill="block2"></div>
                   </div>
                   <div class="concept-progress">
-                    <span data-mini-text="block2">0 of 4 concepts completed</span>
+                    <span data-mini-text="block2">0 of 3 concepts completed</span>
                     <span>Block 2</span>
                   </div>
                 </div>
@@ -3826,31 +3829,31 @@
               <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
             </div>
 
-            <p class="lead">Understanding how aquatic areas interact helps instructors support safer and more meaningful independence within the aquatic environment.</p>
+            <p class="lead">You can now connect participation signals to when structured swimming should intensify, before moving into independence and support.</p>
 
             <div class="reflection-gate" data-gate="block2" data-reflection-type="questions">
               <h4>Reflection Checkpoint</h4>
-              <p class="reflection-prompt">Review each question below and use them to strengthen how you interpret connected aquatic development, readiness and adaptation in practice.</p>
+              <p class="reflection-prompt">Use the questions to check how you separate function, readiness and visible effort in everyday coaching.</p>
               <div class="grid-2 block-intro-cards">
                 <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
                   <div class="card-icon">1</div>
                   <h4>Question 1</h4>
                   <ul>
-                    <li>Why should aquatic difficulties not be viewed through one skill alone?</li>
+                    <li>How would you describe functional aquatic participation for a group you teach this week, without naming a stroke?</li>
                   </ul>
                 </div>
                 <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
                   <div class="card-icon">2</div>
                   <h4>Question 2</h4>
                   <ul>
-                    <li>How might breathing uncertainty affect the swimmer&#39;s overall aquatic response?</li>
+                    <li>When might visible effort mislead you about readiness for a structured task?</li>
                   </ul>
                 </div>
                 <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
                   <div class="card-icon">3</div>
                   <h4>Question 3</h4>
                   <ul>
-                    <li>A swimmer takes several sessions before comfortably placing their face in the water. What does this tell the instructor about readiness, progression and adaptation?</li>
+                    <li>How could you adapt the same activity for two swimmers who are progressing at different rates?</li>
                   </ul>
                 </div>
               </div>
@@ -3873,7 +3876,7 @@
 
             <div class="block-header">
               <div class="block-title-wrap">
-                <h3>Block 3 - Independence, Regulation and Support</h3>
+                <h3>Block 3 — Independence, Regulation and Support</h3>
               </div>
               <div class="section-top-actions">
                 <button class="btn btn-tts" data-tts-button="block3">🔊 Listen</button>
@@ -3881,18 +3884,16 @@
               </div>
             </div>
 
-            <p class="lead" data-tts-source="block3">This block explores independence, regulation, support and safety within aquatic development.<br>
-              Independence is not the absence of support. It is the swimmer&#39;s growing ability to manage the aquatic environment with increasing control, regulation, confidence and self organisation.<br>
-              Quiet behaviour does not always indicate regulation, and fearless behaviour does not always indicate readiness or safety. Confidence alone does not always indicate readiness for greater demand.<br>
-              Aquatic independence is dynamic: support adapts as the swimmer responds, recovers and gradually takes on safer self management.<br>
-              Water safety is strengthened through independence and self management, including the ability to regulate, recover and respond within the water.</p>
+            <p class="lead" data-tts-source="block3">This block focuses on aquatic independence and self management in water: control, stability, recovery and the gradual reduction of reliance on instructor or equipment support.<br>
+              Disengagement from support means progressively needing less scaffold while participation stays safe—not emotional refusal or behavioural withdrawal.<br>
+              Supervision remains essential; confidence and fearless movement still require clear boundaries, recovery practice and matched demand.</p>
 
             <div class="grid-2 block-intro-cards" data-block-intro="block3">
               <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
                 <div class="card-icon">&#9678;</div>
                 <h4>Block Focus</h4>
                 <ul>
-                  <li>Independence, regulation, support and safer self management within the aquatic environment.</li>
+                  <li>Aquatic independence, self management, support reduction and safe participation—methodological and operational, not therapy led analysis.</li>
                 </ul>
               </div>
               <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
@@ -3900,9 +3901,9 @@
                 <h4>What This Block Covers</h4>
                 <ul>
                   <li>Understanding aquatic independence</li>
-                  <li>Interpreting regulation, quiet and fearless behaviour</li>
-                  <li>Adapting and reducing support over time</li>
-                  <li>Water safety through independence and self management</li>
+                  <li>Control, stability and recovery in water</li>
+                  <li>Support and gradual independence from scaffolds</li>
+                  <li>Water safety through independence and supervision</li>
                 </ul>
               </div>
             </div>
@@ -3913,7 +3914,7 @@
 
               <div class="concept-grid" data-concept-grid="block3">
                 <button class="concept-square" data-target="b3c1">Understanding Aquatic Independence</button>
-                <button class="concept-square" data-target="b3c2">Regulation, Engagement and Recovery</button>
+                <button class="concept-square" data-target="b3c2">Control, Stability and Recovery</button>
                 <button class="concept-square" data-target="b3c3">Support and Gradual Independence</button>
                 <button class="concept-square" data-target="b3c4">Water Safety Through Independence</button>
               </div>
@@ -3961,27 +3962,27 @@
 
             <div class="reflection-gate" data-gate="block3" data-reflection-type="questions">
               <h4>Reflection Checkpoint</h4>
-              <p class="reflection-prompt">Review each question below and use them to reflect on independence, regulation, quiet or fearless behaviour, support and water safety in practice.</p>
+              <p class="reflection-prompt">Use the questions to link independence, support reduction, recovery and supervision without drifting into emotional labelling.</p>
               <div class="grid-2 block-intro-cards">
                 <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
                   <div class="card-icon">1</div>
                   <h4>Question 1</h4>
                   <ul>
-                    <li>Why is independence not the same as the absence of support?</li>
+                    <li>How would you explain gradual disengagement from support to a colleague using pool behaviour examples only?</li>
                   </ul>
                 </div>
                 <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
                   <div class="card-icon">2</div>
                   <h4>Question 2</h4>
                   <ul>
-                    <li>Why should instructors avoid assuming that quiet or fearless behaviour always means regulation, readiness or safety?</li>
+                    <li>What recovery or stability cues tell you a swimmer is managing a small challenge versus needing support stepped back up?</li>
                   </ul>
                 </div>
                 <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
                   <div class="card-icon">3</div>
                   <h4>Question 3</h4>
                   <ul>
-                    <li>How can adapted support, recovery and gradual independence strengthen water safety and self management in water?</li>
+                    <li>When might confident movement still require close supervision and clearer safety structure?</li>
                   </ul>
                 </div>
               </div>
@@ -4012,16 +4013,16 @@
 
             <div class="recap-stack" data-tts-source="recap">
               <div class="recap-card clickable-progress">
-                <h4>Swimming is about functioning in water</h4>
+                <h4>Layered foundations shape participation</h4>
               </div>
               <div class="recap-card clickable-progress">
-                <h4>Readiness guides progression</h4>
+                <h4>Function and readiness before structured swimming</h4>
               </div>
               <div class="recap-card clickable-progress">
-                <h4>Development is individual and multi layered</h4>
+                <h4>Progression is individual and adaptive</h4>
               </div>
               <div class="recap-card clickable-progress">
-                <h4>Behaviour guides decision making</h4>
+                <h4>Independence, recovery and gradual support change</h4>
               </div>
             </div>
 
@@ -4049,26 +4050,26 @@
 
               <div class="recap-stack" data-tts-source="complete">
                 <div class="recap-card clickable-progress">
-                  <h4>Progression before performance - readiness first</h4>
+                  <h4>Observe participation, regulation and engagement first</h4>
                 </div>
                 <div class="recap-card clickable-progress">
-                  <h4>Skills before structured swimming - foundations first</h4>
+                  <h4>Value functional water skills ahead of stroke performance</h4>
                 </div>
                 <div class="recap-card clickable-progress">
-                  <h4>Individual pathways - no fixed route</h4>
+                  <h4>Let readiness—not visible busyness—set the pace</h4>
                 </div>
                 <div class="recap-card clickable-progress">
-                  <h4>Regulation before demand - behaviour guides teaching</h4>
+                  <h4>Coach recovery and stability as aquatic behaviours</h4>
                 </div>
                 <div class="recap-card clickable-progress">
-                  <h4>Independence - long term goal</h4>
+                  <h4>Reduce support gradually while safety stays explicit</h4>
                 </div>
                 <div class="recap-card clickable-progress">
-                  <h4>Adaptation - continuous and responsive</h4>
+                  <h4>Match supervision to confidence, not only to skill</h4>
                 </div>
               </div>
 
-              <p data-tts-source="complete" style="margin-top:16px;">These observations and decisions form the foundation for structured teaching, which will be developed in the next module.</p>
+              <p data-tts-source="complete" style="margin-top:16px;">These foundations prepare you for structured teaching approaches in the next module.</p>
 
               <div class="completion-actions">
                 <a class="btn btn-primary" href="#quiz">Start Quiz</a>
@@ -4127,150 +4128,124 @@
   <script>
     const conceptContent = {
       b1c1: {
-        title: 'Concept 1 - Two Ways of Understanding Swimming',
-        text: '<p>Swimming is often understood as structured swimming, including stroke development.</p><p>In this training, swimming is understood more broadly as the ability to function effectively in water through regulation, confidence and interaction with the aquatic environment.</p><p>Aquatic interaction, engagement and regulation form the foundation for later structured swimming development.</p>',
+        title: 'Concept 1 - Development Is Multi Layered',
+        text: '<p>A swimmer&#39;s participation in water is shaped by many influences at once: familiarisation, sensory experience, regulation, engagement, confidence and how demand is introduced.</p><p>These layers interact continuously, so a single cue in the water rarely explains the whole picture.</p><p>This concept supports broad, aquatic specific observation before teaching decisions narrow onto technique.</p>',
         points: [
-          'Structured movement does not always indicate stronger aquatic development',
-          'Swimming is more than structured swimming',
-          'Function comes before structured movement',
-          'Readiness is not always visible',
-          'In Practice: A swimmer moves calmly and confidently around the pool without structured strokes. The instructor recognises strong aquatic confidence and does not introduce technique before control and readiness are established.'
+          'The aquatic environment can support, challenge, regulate or overwhelm the swimmer',
+          'Observation should extend beyond movement alone',
+          'Development is interconnected across participation, regulation and engagement',
+          'Progression is rarely linear',
+          'In Practice: A swimmer joins happily but freezes when the set changes. The instructor notices engagement shifting with environment and demand, not only leg kick quality.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><img src="../../assets/module-1-concept-1-two-ways-swimming.png" alt="Visual comparison between structured swimming and functional swimming." />'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Layered Aquatic Moment</strong><span>One pool moment with familiarisation, sensory load, regulation, engagement and task demand visually layered as simultaneous influences on participation.</span></div></div>'
       },
       b1c2: {
-        title: 'Concept 2 - Skills Come Before Structure',
-        text: '<p>Structured swimming requires readiness.</p><p>Before structured movement is introduced, the swimmer needs control, regulation and confidence within the aquatic environment. If these foundations are not secure, structured movement can become forced, inconsistent or overwhelming.</p>',
+        title: 'Concept 2 - Foundational Factors of Aquatic Development',
+        text: '<p>Foundational factors organise how a swimmer accesses the session: comfort, predictability, sensory load, regulation, engagement and the quality of support.</p><p>Regulation and engagement sit centrally because they signal whether the swimmer can take in information, tolerate proximity and attempt tasks without the water feeling unsafe or chaotic.</p><p>When these foundations wobble, structured performance is rarely the right next step.</p>',
         points: [
-          'Readiness determines progression',
-          'Progression must be gradual',
-          'Control comes before movement',
-          'Structure should not be rushed',
-          'In Practice: A swimmer kicks strongly with a float but loses body position and becomes dysregulated when asked to coordinate movement. The instructor returns to balance and body control instead of progressing.'
+          'Regulation and engagement are central organising factors',
+          'Sensory experience and familiarisation shape early participation',
+          'Broad observation links confidence, participation and readiness',
+          'Interconnected development means change in one factor shifts others',
+          'In Practice: A swimmer clings to the rail after a busy pool arrival. The instructor reduces proximity demand and rebuilds engagement before reintroducing travel tasks.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><img src="../../assets/module-1-concept-2-skills-before-structure.png" alt="Visual comparison between structured movement and balance and control foundations." />'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Framework at a Glance</strong><span>Regulation and engagement at the centre, linked to familiarisation, sensory experience, support, confidence and progression decisions around the edge.</span></div></div>'
       },
       b1c3: {
-        title: 'Concept 3 - Progression Is Individual',
-        text: '<p>Each swimmer progresses differently.</p><p>Aquatic development does not follow one fixed route and should be adapted to the swimmer&#39;s response. Progress may be seen through confidence, regulation, participation, control or independence rather than only through structured swimming outcomes.</p>',
+        title: 'Concept 3 - Development Requires Gradual Progression',
+        text: '<p>Meaningful aquatic development accumulates through repeated, successful experiences where demand stays inside what the swimmer can regulate.</p><p>Gradual progression protects participation: small wins stabilise confidence, familiarisation deepens and the swimmer learns what recovery feels like in water.</p><p>Rushing visible outcomes often trades short term movement for fragile foundations.</p>',
         points: [
-          'Progress is not linear',
-          'Each swimmer has a unique pathway',
-          'Development may not lead to structured swimming',
-          'Progression is individual',
-          'In Practice: A swimmer enjoys splashing and movement but avoids putting their face in the water. The instructor allows gradual exposure over multiple sessions rather than forcing submersion.'
+          'Meaningful development occurs gradually through successful experiences',
+          'Confidence and familiarity build across sessions, not single pushes',
+          'Recovery time in the set supports the next attempt',
+          'Progression should follow participation signals, not a fixed calendar',
+          'In Practice: Face wetting expands from shoulders, to chin, to brief dips across several visits. The instructor marks steadier breathing as progress, not speed to submersion.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><img src="../../assets/module-1-concept-3-progression-is-individual.png" alt="Progression is individual: water familiarisation, supported floating and independent movement, with the message that progression does not follow one fixed route." />'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Progress Across Sessions</strong><span>A simple timeline from first entry, to playful participation, to calmer travel, showing confidence and familiarity growing through repeated aquatic experiences.</span></div></div>'
       },
-      b1c4: {
-        title: 'Concept 4 - Readiness Before Structured Swimming',
-        text: '<p>Readiness should guide progression within aquatic development.</p><p>Before structured swimming is introduced, the swimmer needs control, regulation and confidence within the aquatic environment.</p><p>Readiness should be understood through how the swimmer engages, responds and manages the aquatic environment rather than through visible performance alone.</p>',
-        points: [
-          'Readiness determines progression',
-          'Regulation supports learning',
-          'Visible movement does not always indicate readiness',
-          'Structure should not be rushed',
-          'In Practice: A swimmer attempts structured kicking with a float but becomes tense, lifts their head repeatedly and loses control. The instructor recognises that the swimmer is not yet ready for structured swimming and returns to simpler aquatic experiences focused on regulation, balance and confidence.'
-        ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><img src="../../assets/module-1-concept-4-readiness-before-structured-swimming.png" alt="Readiness before structured swimming: not ready, build readiness, and ready for structure, with readiness shown through how the swimmer responds." />'
-      },
-
       b2c1: {
-        title: 'Concept 1 - Development Is Multi Layered',
-        text: '<p>Aquatic ability develops through multiple interconnected areas working together rather than through isolated skills.</p><p>A swimmer&#39;s response in the water is rarely linked to one area alone. Breathing, balance, regulation, familiarisation, confidence and movement continuously interact and influence how the swimmer experiences aquatic learning and manages the aquatic environment.</p><p>This understanding helps instructors observe the swimmer more broadly rather than focusing only on visible movement or performance.</p><p>Understanding these interactions forms the foundation for later teaching decisions, progression and scaffolding approaches.</p>',
+        title: 'Concept 1 - Functioning in Water vs Structured Swimming',
+        text: '<p>Functional aquatic participation describes how a swimmer manages the water for the task at hand: orientation, breathing timing, balance, recovery, communication and safe movement within the activity design.</p><p>Structured swimming narrows toward stroke shapes, formal drills and performance criteria that assume those foundations are already reliable.</p><p>Valuing function first keeps teaching aligned with readiness rather than with how movement looks from the side.</p>',
         points: [
-          'Development is not isolated',
-          'Multiple areas interact continuously',
-          'One area can influence another',
-          'Observation should remain broad',
-          'In Practice: A swimmer struggles to float because they hold their breath and become tense, which affects body position, balance and confidence. The instructor recognises that the difficulty is not only related to floating itself, but also to breathing control and regulation within the aquatic environment.'
+          'Meaningful aquatic participation should be valued before formal swimming performance',
+          'Functional interaction within water is meaningful development',
+          'Structured swimming builds on control, recovery and participation',
+          'Visible movement does not always indicate readiness',
+          'In Practice: A swimmer sculls and changes direction confidently but cannot sustain an ordered kick pattern. The instructor reinforces functional control before drill progression.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Interconnected Factors</strong><span>A swimmer attempting to float while breathing, balance, confidence and body tension are visually represented as interconnected factors influencing one another.</span></div></div>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><img src="../../assets/module-1-concept-1-two-ways-swimming.png" alt="Comparison between functional aquatic participation and structured swimming movement." />'
       },
       b2c2: {
-        title: 'Concept 2 - The Key Areas',
-        text: '<p>Aquatic development includes multiple foundational areas that support learning and progression in the water.</p><p>These areas influence how the swimmer experiences comfort, regulation, control, orientation, recovery and movement within the aquatic environment.</p><p>Understanding these foundational areas helps instructors identify what may be affecting the swimmer&#39;s response and where support, adaptation or reduced demand may be needed.</p><p>These areas should be viewed as interconnected foundations rather than isolated aquatic skills.</p>',
+        title: 'Concept 2 - Readiness Before Structured Swimming',
+        text: '<p>Readiness is observed through how the swimmer regulates, engages, recovers and repeats tasks—not only through kick counts or mimicry of a model stroke.</p><p>When readiness is incomplete, structured tasks increase noise: corrections stack, support rises and participation can drop.</p><p>Structured swimming should emerge gradually as function stabilises.</p>',
         points: [
-          'Familiarisation supports comfort',
-          'Breathing supports regulation',
-          'Balance supports stability',
-          'Movement develops through control',
-          'In Practice: A swimmer repeatedly avoids face contact with water and lifts their head during activities. The instructor recognises that breathing uncertainty and regulation are influencing the swimmer&#39;s ability to remain calm, stable and engaged within the activity.'
+          'Visible movement does not always indicate readiness',
+          'Structured swimming should emerge gradually',
+          'Readiness shows in regulation, recovery and consistent engagement',
+          'Participation signals should guide when to layer formal criteria',
+          'In Practice: A swimmer produces big splashing legs yet holds their breath and rushes recovery. The instructor delays stroke drills and returns to rhythm, exhale and stable body line.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Foundational Areas</strong><span>A visual showing interconnected aquatic areas including breathing, familiarisation, balance, regulation and movement visually influencing the swimmer&#39;s overall aquatic response.</span></div></div>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><img src="../../assets/module-1-concept-4-readiness-before-structured-swimming.png" alt="Instructor observing readiness before introducing structured swimming tasks." />'
       },
       b2c3: {
-        title: 'Concept 3 - Areas Work Together',
-        text: '<p>Aquatic development areas are interconnected and continuously influence one another throughout learning.</p><p>Progress or difficulty in one area can directly affect how the swimmer manages another area. For this reason, instructors should avoid viewing aquatic difficulties in isolation.</p><p>Understanding these connections helps instructors interpret behaviour more accurately and make more effective decisions when adapting support, challenge and progression.</p>',
+        title: 'Concept 3 - Progression Is Individual',
+        text: '<p>Each swimmer carries a different history with water, support, sensory load and confidence, so timelines diverge even when group plans look uniform.</p><p>Progression is individual and non linear: a session can consolidate, a week can surge, and a plateau can still hold important regulation gains.</p><p>Adaptive support keeps demand matched to the swimmer in front of you.</p>',
         points: [
-          'Areas influence each other',
-          'Progress in one area may support another',
-          'Difficulties may originate from another interconnected area',
-          'Development should be viewed as connected',
-          'In Practice: A swimmer repeatedly lifts their head during floating because they feel uncertain about breathing control, which then affects balance and stability. Rather than correcting body position immediately, the instructor recognises that breathing confidence may need to be addressed first.'
+          'Progression is individual and non linear',
+          'The same activity lands differently depending on readiness and support',
+          'Celebrate participation and recovery gains, not only stroke outcomes',
+          'Adapt equipment, distance and coaching density to the swimmer',
+          'In Practice: Two swimmers share a lane goal; one adds face contact first while the other deepens leg rhythm. The instructor splits feedback and equipment rather than forcing one path.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Connected Response</strong><span>A swimmer lifting their head during floating, demonstrating how breathing uncertainty affects balance, body position and confidence.</span></div></div>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><img src="../../assets/module-1-concept-3-progression-is-individual.png" alt="Different swimmers progressing differently with adaptive support." />'
       },
-      b2c4: {
-        title: 'Concept 4 - Development Requires Time',
-        text: '<p>Aquatic development progresses at different rates depending on the swimmer&#39;s readiness, confidence, regulation and previous experiences within the water.</p><p>Some swimmers require repeated exposure, recovery opportunities and gradual progression before a skill becomes calm, controlled and reliable.</p><p>Progression should remain gradual and adapted to the swimmer&#39;s response rather than being rushed towards visible outcomes.</p><p>Allowing time for familiarity, recovery and successful experiences helps create stronger long term foundations for future learning.</p>',
-        points: [
-          'Progress takes time',
-          'Development varies between swimmers',
-          'Rushing limits foundations',
-          'Adaptation is continuous',
-          'In Practice: A swimmer takes several sessions before comfortably placing their face in the water. The instructor maintains gradual exposure, celebrates small signs of progress and avoids increasing the demand too quickly, allowing confidence and regulation to develop naturally.'
-        ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Progress Over Time</strong><span>A swimmer gradually progressing across multiple sessions from splashing, to face contact, to brief controlled submersion.</span></div></div>'
-      },
-
       b3c1: {
         title: 'Concept 1 - Understanding Aquatic Independence',
-        text: '<p>Independence is not the absence of support.</p><p>It is the swimmer&#39;s growing ability to manage the aquatic environment with increasing control, regulation, confidence and self organisation.</p><p>Support may still be present during independent behaviour, while the swimmer gradually relies less on external assistance over time.</p>',
+        text: '<p>Aquatic independence is the swimmer&#39;s growing capacity to organise movement, position and recovery in water with appropriate supervision still in place.</p><p>Independence is not the absence of support: meaningful participation often develops while hands, equipment or proximity remain available.</p><p>Instructors watch for self management cues—pausing, adjusting line, seeking stable support—rather than only distance from the wall.</p>',
         points: [
           'Independence is not the absence of support',
-          'Independence is self management',
-          'Aquatic independence is dynamic',
-          'Support may still be present',
-          'In Practice: A swimmer enters the water calmly with minimal physical guidance and pauses briefly before moving. The instructor remains close, allows time for self organisation and only supports if needed. The swimmer&#39;s level of independence may vary depending on the environment, activity and support available.'
+          'Meaningful participation often develops before full independence',
+          'Support reduction depends on the swimmer',
+          'Confidence does not always indicate safe independence',
+          'In Practice: A swimmer pushes off, self corrects line, then taps the instructor once. The instructor treats the tap as information, not failure, and keeps scaffolded challenge.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Independent Engagement</strong><span>A swimmer engaging with the water independently while the instructor remains close enough to support safety without over assisting.</span></div></div>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Supported Independence</strong><span>Swimmer travelling with clear structure while equipment or close supervision remains part of the safe operating picture.</span></div></div>'
       },
       b3c2: {
-        title: 'Concept 2 - Regulation, Engagement and Recovery',
-        text: '<p>Quiet behaviour does not always indicate regulation.</p><p>Regulation is not the same as simply appearing calm.</p><p>Some swimmers may appear quiet or compliant while still experiencing uncertainty, overload or internal dysregulation. In aquatic development, regulation is better understood through how the swimmer engages, responds and recovers within the aquatic environment.</p><p>Recovery is a key part of independence because it shows the swimmer&#39;s ability to regain control after challenge or instability.</p>',
+        title: 'Concept 2 - Control, Stability and Recovery',
+        text: '<p>Control in water is practical: maintaining line, managing breathing rhythm, predicting support and knowing how to regain stability after a wobble.</p><p>Recovery is an aquatic behaviour—replanting the feet, resetting exhale, shortening the next length—not a commentary on personality.</p><p>Small controlled challenges build self management when the swimmer experiences success after brief instability.</p>',
         points: [
-          'Quiet behaviour does not always indicate regulation',
-          'Engagement gives important information',
-          'Recovery supports self organisation',
-          'Water can support regulation',
-          'In Practice: A swimmer appears quiet during a task but stops responding, avoids movement and becomes passive. The instructor recognises that the swimmer may not be regulated, reduces demand and uses a familiar water activity to rebuild engagement. The water itself may also help support regulation through movement, sensory input and familiar aquatic experiences.'
+          'Recovery supports confidence and independence',
+          'Small controlled challenges support self management',
+          'Loss of control often increases reliance on support',
+          'Stability returns faster when tasks stay inside current capacity',
+          'In Practice: After a balance loss, the swimmer steadies, exhales and restarts with a shorter push. The instructor notes recovery quality before adding distance.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Regulation Through Water</strong><span>A swimmer using the water to regulate through floating, movement or repeated familiar actions while the instructor observes engagement and response.</span></div></div>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Aquatic Recovery</strong><span>Swimmer regaining stable line and breathing after a small instability, with the instructor monitoring space and equipment, not interpreting emotion.</span></div></div>'
       },
       b3c3: {
         title: 'Concept 3 - Support and Gradual Independence',
-        text: '<p>Support plays an important role in aquatic development and must adapt to the swimmer&#39;s response.</p><p>Support may be human, equipment based, or a combination of both. The type of support used should reflect the swimmer&#39;s regulation, confidence, safety needs and tolerance of physical guidance.</p><p>Support should be reduced gradually over time so that independence can develop without creating uncertainty, dysregulation or unnecessary dependence.</p>',
+        text: '<p>Support includes human contact, equipment, verbal pacing and environmental choices such as depth, lane traffic and task length.</p><p>Disengagement from support here means gradually reducing reliance on those scaffolds as self management strengthens—not emotional refusal.</p><p>Reduction stays tied to participation, recovery and safety, with room to reinstate support whenever demand spikes.</p>',
         points: [
-          'Support must adapt continuously',
-          'Different support types serve different needs',
-          'Reduction should be gradual',
-          'Over support may limit independence',
-          'In Practice: A swimmer becomes tense when physical support is reduced but remains regulated when using a noodle for stability. The instructor combines light physical guidance with equipment support before gradually reducing assistance over time. Some swimmers may organise themselves more effectively through equipment support than through direct physical guidance.'
+          'Disengagement from support should occur gradually',
+          'Support reduction depends on the swimmer',
+          'Fearless participation may still require support',
+          'Reintroducing support protects progression when load rises',
+          'In Practice: A swimmer moves from two noodles to one, then to fingertip touch, with the instructor ready to step support back up on the next length if line drifts.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Support Progression</strong><span>A visual progression showing human physical support, equipment support, combined support and reduced support leading towards greater independent control.</span></div></div>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Support Stepping Down</strong><span>Sequence showing equipment and proximity reducing over time while safety cues and supervision remain explicit.</span></div></div>'
       },
       b3c4: {
         title: 'Concept 4 - Water Safety Through Independence',
-        text: '<p>Water safety is strengthened through independence and self management. It is not created only through supervision or external control.</p><p>Aquatic safety is strengthened when swimmers become more able to regulate, recover, respond and manage themselves within the aquatic environment.</p><p>Fearless behaviour does not always indicate readiness or safety. Confidence alone does not always indicate readiness. Some swimmers may appear highly confident or fearless in the water while still lacking the regulation, awareness or aquatic control needed to participate safely and independently.</p>',
+        text: '<p>Water safety grows when swimmers can pause, recover, follow agreed boundaries and call for help when needed—even while still learning strokes.</p><p>Confident movement can outpace judgement of depth, other swimmers or fatigue, so supervision stays non negotiable.</p><p>Safe independence pairs skill with self management and context awareness.</p>',
         points: [
-          'Safety develops through self management',
-          'Fearless behaviour does not always indicate readiness or safety',
-          'Confidence alone does not always indicate readiness',
-          'Recovery supports safer participation',
-          'In Practice: A swimmer enters the water impulsively and appears highly confident, but struggles to respond to instruction and loses control during activities. The instructor reduces complexity, introduces clearer structure and maintains adapted support while gradually rebuilding safer participation and independence. Aquatic independence requires not only participation and movement, but also the ability to respond, recover and manage the environment safely.'
+          'Confidence does not always indicate safe independence',
+          'Fearless participation may still require support',
+          'Safety develops through self management and clear expectations',
+          'Recovery supports safer participation when plans change',
+          'In Practice: A swimmer races entries confidently yet misses stops. The instructor tightens structure, rehearses stop signals and keeps close supervision despite high energy.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Safe Aquatic Independence</strong><span>Examples include pausing before entry, recovering after loss of balance, using support appropriately and re engaging after a challenge.</span></div></div>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Confident but Supervised</strong><span>High energy swimmer with visible confidence while boundaries, stops and instructor positioning remain actively managed.</span></div></div>'
       }
     };
 
@@ -4293,8 +4268,8 @@
     };
   
     const conceptGroups = {
-      block1: { total: 4, visited: new Set(), order: ['b1c1','b1c2','b1c3','b1c4'] },
-      block2: { total: 4, visited: new Set(), order: ['b2c1','b2c2','b2c3','b2c4'] },
+      block1: { total: 3, visited: new Set(), order: ['b1c1','b1c2','b1c3'] },
+      block2: { total: 3, visited: new Set(), order: ['b2c1','b2c2','b2c3'] },
       block3: { total: 4, visited: new Set(), order: ['b3c1','b3c2','b3c3','b3c4'] }
     };
   
@@ -4306,15 +4281,15 @@
     const conceptHistory = { block1: [], block2: [], block3: [] };
   
     const correctFeedback = {
-      block1: 'Correct. Swimmer B demonstrates stronger aquatic development because calm, confident interaction with water shows readiness more clearly than stroke shape alone.',
-      block2: 'Correct. You have linked each observation to the relevant foundational areas and shown how they work together in the swimmer&#39;s aquatic response.',
-      block3: 'Correct. You have linked independence, regulation, support and safety in a way that matches how clubSENsational interprets behaviour in the water.'
+      block1: 'Correct. You connected developmental observations to participation, regulation and gradual progression in the aquatic environment.',
+      block2: 'Correct. You distinguished functional participation from structured swimming and used readiness signals rather than visible effort alone.',
+      block3: 'Correct. You linked aquatic independence, controlled recovery, gradual support reduction and supervision to safer self management.'
     };
 
     const wrongFeedback = {
-      block1: 'Not quite. A correct stroke pattern does not automatically show stronger aquatic development if tension and instability are present.',
-      block2: 'Not quite. Revisit how breathing, balance, familiarisation and regulation can combine to shape what you observe in the water.',
-      block3: 'Not quite. Revisit how regulation, support type and readiness interact when interpreting confidence, independence and safety in water.'
+      block1: 'Not quite. Revisit how layered influences, regulation and engagement shape participation before technique decisions.',
+      block2: 'Not quite. Revisit how readiness, functional control and individual pathways should guide when structured swimming intensifies.',
+      block3: 'Not quite. Revisit how support, recovery and confidence each relate to safe independence—not one factor on its own.'
     };
 
     const mediaModal = document.getElementById('mediaModal');
@@ -5263,143 +5238,109 @@
 
     const conceptActivityBank = {
       b1c1: {
-        title: 'Activity - Recognition Task',
-        q: 'Two swimmers are observed. Swimmer A performs a correct stroke pattern but shows tension and instability. Swimmer B moves freely and calmly but without structured technique. Which swimmer demonstrates stronger aquatic development?',
-        options: [
-          { id: 'a', text: 'Swimmer A' },
-          { id: 'b', text: 'Swimmer B' }
-        ],
-        correct: 'b',
-        ok: 'Correct. Swimmer B demonstrates stronger aquatic development because calm, confident interaction with water shows readiness more clearly than stroke shape alone.',
-        bad: 'Not quite. A correct stroke pattern does not automatically show stronger aquatic development when tension and instability are present.',
-        variant: 'reflection'
+        type: 'matching',
+        q: 'Match each observation focus to what it helps you interpret in the water.',
+        leftTitle: 'Observation focus',
+        rightTitle: 'Helps you interpret',
+        pairs: [
+          { id: '1', left: 'Engagement shifts when music or poolside noise increases', right: 'How sensory load may be affecting participation' },
+          { id: '2', left: 'Shoulders lift and breathing becomes rushed before a skill fails', right: 'Regulation and readiness before adding structure' },
+          { id: '3', left: 'Swimmer repeats a familiar entry routine calmly', right: 'Familiarisation supporting confidence for the next step' }
+        ]
       },
       b1c2: {
-        title: 'Activity - Decision Making Task',
-        q: 'A swimmer is moving actively but cannot maintain control when a float is introduced. Decide whether to progress to more structured kicking or return to balance and control work.',
+        title: 'Activity - Interpretation Task',
+        q: 'A swimmer participates happily in shallow games but withdraws when depth increases slightly. Which response best matches a developmental, observational reading?',
         options: [
-          { id: 'a', text: 'Progress to more structured kicking' },
-          { id: 'b', text: 'Return to balance and control work' }
+          { id: 'a', text: 'Label the swimmer as unwilling and insist on the deeper task' },
+          { id: 'b', text: 'Treat depth change as increased demand; rebuild familiar participation then progress gradually' }
         ],
         correct: 'b',
-        ok: 'Correct. Returning to balance and control work protects regulation and readiness before more structure is introduced.',
-        bad: 'Not quite. When control is lost, the priority is to reduce demand and re-establish balance, comfort, and confidence.',
-        variant: 'scenario'
-      },
-      b1c3: {
-        type: 'matching',
-        q: 'Review a swimmer who enjoys movement but avoids face contact. Match each prompt to the most appropriate interpretation.',
-        leftTitle: 'Identify',
-        rightTitle: 'Best Match',
-        pairs: [
-          { id: '1', left: 'What progress currently looks like', right: 'Enjoyment of movement, splashing, and confidence in water engagement' },
-          { id: '2', left: 'What should not be rushed', right: 'Face contact and submersion' },
-          { id: '3', left: 'What the instructor should prioritise next', right: 'Gradual exposure over multiple sessions' }
-        ]
-      },
-      b1c4: {
-        title: 'Activity - Reflection & Interpretation Task',
-        q: 'Two swimmers are observed.<br><strong>Swimmer A</strong><br>Performs recognisable stroke movements but appears tense and unstable.<br><strong>Swimmer B</strong><br>Moves calmly, responds consistently and remains engaged during simple aquatic activities.<br>Identify which swimmer demonstrates greater readiness, what behaviours support your interpretation, and why visible movement alone may not indicate aquatic readiness. Then select the response below that best answers the first question.',
-        options: [
-          { id: 'a', text: 'Swimmer A demonstrates greater readiness' },
-          { id: 'b', text: 'Swimmer B demonstrates greater readiness' }
-        ],
-        correct: 'b',
-        ok: 'Correct. Swimmer B demonstrates greater readiness through calm engagement, consistent response and regulated participation in simple activities.',
-        bad: 'Not quite. Visible stroke movement does not always indicate readiness when tension and instability are present.',
+        ok: 'Correct. Demand changed; rebuild regulated participation before expecting the same engagement in a harder context.',
+        bad: 'Not quite. Withdrawal often signals load, not attitude. Reduce demand and restore engagement first.',
         variant: 'reflection'
       },
-      b2c1: {
-        type: 'matching',
-        q: 'Observe a swimmer who struggles to float. Identify which areas may be influencing the difficulty, then consider how they may be interacting together.',
-        leftTitle: 'Area',
-        rightTitle: 'May Be Involved',
-        pairs: [
-          { id: '1', left: 'Breathing', right: 'Holding the breath, tension and uncertainty affecting regulation' },
-          { id: '2', left: 'Balance', right: 'Difficulty staying level and stable in the water' },
-          { id: '3', left: 'Body position', right: 'Alignment shifts that make floating feel less secure' },
-          { id: '4', left: 'Confidence', right: 'Uncertainty that affects calm engagement with the task' }
+      b1c3: {
+        type: 'sequencing',
+        q: 'Order these coaching moves to protect gradual progression after a wobble.',
+        sequence: [
+          'Acknowledge the wobble without rushing the next attempt',
+          'Return to a familiar, successful water activity',
+          'Re establish regulation and engagement',
+          'Reintroduce a smaller version of the challenge',
+          'Consolidate before increasing distance or speed'
         ]
       },
+      b2c1: {
+        type: 'truefalse',
+        q: 'Functional aquatic participation only counts when a recognisable stroke is visible.',
+        correct: 'false',
+        ok: 'Correct. Function includes orientation, breathing, balance and recovery—often before formal stroke criteria appear.',
+        bad: 'Not quite. Visible stroke shape is only one slice of functioning in water.'
+      },
       b2c2: {
-        type: 'matching',
-        q: 'Match each swimmer response to the likely area most visibly affected (A. Breathing, B. Balance, C. Familiarisation). Then reflect on what other areas may also be influencing the response.',
-        leftTitle: 'Swimmer Response',
-        rightTitle: 'Likely Area',
-        pairs: [
-          { id: '1', left: 'Avoids face in water', right: 'A. Breathing' },
-          { id: '2', left: 'Lifts head when floating', right: 'B. Balance' },
-          { id: '3', left: 'Hesitates moving independently', right: 'C. Familiarisation' }
-        ]
+        title: 'Activity - Decision Task',
+        q: 'A swimmer executes fast legs but cannot steady their head or exhale rhythm during a drill. What should come next?',
+        options: [
+          { id: 'a', text: 'Add another drill to fix the legs' },
+          { id: 'b', text: 'Reduce structured demand and rebuild readiness through breathing, line and recovery' }
+        ],
+        correct: 'b',
+        ok: 'Correct. Readiness cues trump visible effort; rebuild foundations before structured swimming layers on.',
+        bad: 'Not quite. Busy legs without stable breathing and line usually mean readiness—not leg strength—is the limiter.',
+        variant: 'scenario'
       },
       b2c3: {
         type: 'matching',
-        q: 'A swimmer lifts their head every time they attempt to float. Match each prompt to the best interpretation.',
-        leftTitle: 'Identify',
-        rightTitle: 'Best Interpretation',
+        q: 'Match each swimmer profile to the adaptation that best supports individual progression.',
+        leftTitle: 'Swimmer profile',
+        rightTitle: 'Best adaptation',
         pairs: [
-          { id: '1', left: 'Which area is most visibly affected', right: 'Balance and stability during floating' },
-          { id: '2', left: 'Which other areas may be contributing', right: 'Breathing uncertainty and regulation' },
-          { id: '3', left: 'Why the difficulty should not be viewed in isolation', right: 'One area is affecting how another area is managed' },
-          { id: '4', left: 'What the instructor should observe before progressing', right: 'Regulation, confidence and response to demand across connected areas' }
-        ]
-      },
-      b2c4: {
-        type: 'matching',
-        q: 'Think about a swimmer who requires more time with one aquatic skill. Match each prompt to the most appropriate reflection.',
-        leftTitle: 'Identify',
-        rightTitle: 'Best Reflection',
-        pairs: [
-          { id: '1', left: 'What small progress currently looks like', right: 'Calmer response and brief successful attempts' },
-          { id: '2', left: 'What should not be rushed', right: 'Demand for faster or more visible outcomes' },
-          { id: '3', left: 'How confidence and regulation can be protected during progression', right: 'Gradual exposure, recovery time and celebrating small gains' }
+          { id: '1', left: 'Needs longer warm up before new tasks', right: 'Extra familiarisation time before changing equipment or depth' },
+          { id: '2', left: 'Progresses faster with visual pacing cues', right: 'Clear count ins and mirrored demonstrations at poolside' },
+          { id: '3', left: 'Fatigues quickly when distances stack', right: 'Shorter repeats with recovery built into the set' }
         ]
       },
       b3c1: {
         type: 'matching',
-        q: 'Identify signs of developing aquatic independence below. Match each sign to what it may show about growing independence.',
+        q: 'Match each independence sign to what it suggests in the water.',
         leftTitle: 'Sign',
-        rightTitle: 'What It May Show',
+        rightTitle: 'Suggests',
         pairs: [
-          { id: '1', left: 'Reduced reliance on instructor contact', right: 'Growing self management as the swimmer organises movement with less direct physical guidance' },
-          { id: '2', left: 'Ability to pause and reorganise', right: 'Increasing capacity to self correct and sequence actions before continuing' },
-          { id: '3', left: 'Safe response to the environment', right: 'Awareness and control that support safer participation in the task context' },
-          { id: '4', left: 'Continued engagement with appropriate support', right: 'Independence developing within a regulated level of challenge and assistance' }
+          { id: '1', left: 'Swimmer self selects a slower push after a wobble', right: 'Growing self management of challenge' },
+          { id: '2', left: 'Uses agreed hand signal before leaving the wall', right: 'Safer participation within structured support' },
+          { id: '3', left: 'Still accepts light touch on turns', right: 'Independence developing with appropriate support present' }
         ]
       },
       b3c2: {
-        type: 'matching',
-        q: 'A swimmer appears calm but becomes passive and stops responding during a new activity. Match each prompt to the best response.',
-        leftTitle: 'Identify',
-        rightTitle: 'Best Response',
-        pairs: [
-          { id: '1', left: 'What this behaviour may indicate', right: 'Possible overload, withdrawal or dysregulation rather than calm readiness' },
-          { id: '2', left: 'What the instructor should observe', right: 'Engagement, breathing pattern, pace of response and signs of shutdown or avoidance' },
-          { id: '3', left: 'How the task could be adapted to support regulation', right: 'Reduce demand, simplify the task and return to a familiar water activity before rebuilding challenge' }
-        ]
+        type: 'truefalse',
+        q: 'Recovering stability in water after a small balance loss is an aquatic skill instructors should observe and coach.',
+        correct: 'true',
+        ok: 'Correct. Recovery behaviours are practical markers of control and readiness for the next demand.',
+        bad: 'Not quite. Recovery is part of aquatic control, not a side issue.'
       },
       b3c3: {
         type: 'matching',
-        q: 'A swimmer becomes dysregulated when physical support is removed but remains engaged when equipment support is introduced. Match each decision prompt to the most appropriate response.',
-        leftTitle: 'Decide',
-        rightTitle: 'Most Appropriate Response',
+        q: 'Match each situation to the most appropriate support response.',
+        leftTitle: 'Situation',
+        rightTitle: 'Support response',
         pairs: [
-          { id: '1', left: 'What type of support should be prioritised', right: 'Equipment-based support combined with light physical guidance until regulation is stable' },
-          { id: '2', left: 'Whether support should be reduced further at this point', right: 'Not yet; consolidate engagement first, then reduce support gradually' },
-          { id: '3', left: 'How independence can still be encouraged safely', right: 'Small progression steps with time to self organise between assists' }
+          { id: '1', left: 'Line drifts when a noodle is removed', right: 'Reinstate equipment or shorten task until stability returns' },
+          { id: '2', left: 'Swimmer completes three clean lengths with one noodle', right: 'Plan a small step down in support on the next session' },
+          { id: '3', left: 'New skill spikes effort and breaks rhythm', right: 'Pause progression; rebuild rhythm before layering detail' }
         ]
       },
       b3c4: {
-        type: 'matching',
-        q: 'A swimmer enters the water impulsively and appears highly confident, but struggles to respond to instruction and loses control during activities. Match each prompt to the best reflection.',
-        leftTitle: 'Identify',
-        rightTitle: 'Best Reflection',
-        pairs: [
-          { id: '1', left: 'Why confidence alone may not indicate readiness', right: 'Confidence can mask limited regulation, awareness or aquatic control for the demand' },
-          { id: '2', left: 'What safety concerns may be present', right: 'Impulsive entry, poor response to instruction and loss of control during activities' },
-          { id: '3', left: 'What support or adaptations may still be needed', right: 'Clearer structure, adapted support and reduced complexity while skills consolidate' },
-          { id: '4', left: 'How independence can be developed safely over time', right: 'Gradual progression with recovery, explicit expectations and regulation first' }
-        ]
+        title: 'Activity - Safest interpretation',
+        q: 'A swimmer repeatedly enters ahead of the count, moves well, but ignores stop calls. Which statement fits this training?',
+        options: [
+          { id: 'a', text: 'High skill means supervision can relax' },
+          { id: 'b', text: 'Confidence outrunning boundaries still needs structured supervision and clearer stop rehearsal' }
+        ],
+        correct: 'b',
+        ok: 'Correct. Visible confidence does not replace judgement of safety behaviours and agreed stops.',
+        bad: 'Not quite. Safety depends on self management and rule following, not only movement quality.',
+        variant: 'reflection'
       }
     };
 
@@ -5495,7 +5436,7 @@
         '<div class="sequence-list" data-sequence-list>' + stepsHtml + '</div>' +
         '<div class="sequence-progress" data-sequence-progress></div>'
       );
-      return buildActivityContainerShell({ variant:'sequencing', instruction:'Select the steps in order to build a strong prevention routine.', contentHtml: content });
+      return buildActivityContainerShell({ variant:'sequencing', instruction:'Select each step in the correct order.', contentHtml: content });
     }
   
     function buildTrueFalseActivityHTML(config){
@@ -5744,18 +5685,15 @@
       }
   
       var activityGuideText = 'Review the prompt and complete the activity below.';
-      if(target === 'b1c3') activityGuideText = 'Review the scenario and choose the most accurate interpretation.';
-      else if(target === 'b2c2') activityGuideText = 'Classify each profile according to level of risk.';
-      else if(target === 'b2c3') activityGuideText = 'Identify the correct link between each profile and the associated risk.';
-      else if(target === 'b3c2') activityGuideText = 'Choose the statement that best explains sensory processing in water.';
-      else if(target === 'b3c3') activityGuideText = 'Identify the best explanation for each observed situation.';
+      if(target === 'b1c2') activityGuideText = 'Read the scenario and choose the response that best fits a developmental, observational reading.';
+      else if(target === 'b2c1') activityGuideText = 'Decide whether the statement is accurate for functional aquatic participation.';
+      else if(target === 'b2c2') activityGuideText = 'Read the scenario and choose the coaching decision that protects readiness.';
+      else if(target === 'b3c2') activityGuideText = 'Decide whether the statement reflects how recovery and control are coached in water.';
+      else if(target === 'b3c4') activityGuideText = 'Read the scenario and choose the statement that best matches safe supervision.';
       else if(data.requiresMatching) activityGuideText = 'Select one item from the left column, then select its corresponding match on the right.';
       else if(data.requiresCategorize) activityGuideText = 'Place each item into the most appropriate category.';
       else if(data.requiresSequenceActivity) activityGuideText = 'Select each step in the correct sequence.';
       else if(data.requiresChoiceActivity && String(conceptActivityBank[target]?.type || '') === 'truefalse') activityGuideText = 'Select True or False.';
-      else if(target === 'b1c4') activityGuideText = 'Read the scenario, then select which swimmer demonstrates greater readiness.';
-      else if(target === 'b2c4') activityGuideText = 'Read the scenario and choose the concern that best matches supervision distance and response time.';
-      else if(target === 'b3c4') activityGuideText = 'Read the behaviour described and choose the interpretation that best fits sensory differences.';
       else if(data.requiresChoiceActivity) activityGuideText = 'Review the prompt and select the most appropriate response.';
   
       if(activityGuideEl){
@@ -5986,26 +5924,6 @@
         });
         host.appendChild(expandImgBtn);
       });
-  
-      if(block === 'block1' && target === 'b1c2'){
-        var subButtons = panel.querySelectorAll('[data-overview-subtarget]');
-        var supportiveDone = conceptCompletion.block1.has('b1c3');
-        var dynamicDone = conceptCompletion.block1.has('b1c4');
-        subButtons.forEach(function(btn){
-          var subTarget = btn.getAttribute('data-overview-subtarget');
-          var isDynamic = subTarget === 'b1c4';
-          var isCompleted = conceptCompletion.block1.has(subTarget);
-          var isLocked = !REVIEW_MODE && isDynamic && !supportiveDone;
-          var isNext = !REVIEW_MODE && isDynamic && supportiveDone && !dynamicDone;
-          btn.classList.toggle('visited', isCompleted);
-          btn.classList.toggle('is-locked', isLocked);
-          btn.classList.toggle('is-next', isNext);
-          btn.onclick = function(){
-            if(btn.classList.contains('is-locked')) return;
-            renderConcept('block1', subTarget);
-          };
-        });
-      }
   
       updateConceptFinishState(panel, block, target);
   
@@ -6696,7 +6614,7 @@
           passed: true,
           isFinalModule: false,
           trainingLabel: 'Swimming Training II',
-          moduleLabel: 'Module 1 - Foundations of Aquatic Skill Development',
+          moduleLabel: 'Module 1 — Foundations of Aquatic Skill Development',
           successMessage: 'You completed the Module 1 quiz flow. Continue into Module 2 when you are ready.',
           scoreLabel: 'Quiz passed'
         });
