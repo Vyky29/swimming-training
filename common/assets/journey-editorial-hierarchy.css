@@ -200,10 +200,10 @@
   text-shadow:0 1px 0 rgba(255,255,255,.94);
 }
 
-/* Upcoming / not yet on the pathway: cooler slate (distinct from ùpastù) */
-.portal .main .content #journey .journey-item.page-linkable .journey-title,
+/* Upcoming: titles in brand blue (past uses .journey-item--past below) */
+.portal .main .content #journey .journey-item.page-linkable:not(.journey-item--past) .journey-title,
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-title{
-  color:#5f6f7d;
+  color:#3d6d88;
   font-weight:600;
 }
 
@@ -262,24 +262,33 @@
   z-index:1;
   isolation:isolate;
   opacity:1;
-  background:linear-gradient(160deg,#eef2f5 0%,#dde5ec 45%,#c9d4de 100%);
-  color:#4a5664;
-  border:1px dashed rgba(74,92,108,.42);
+  background:linear-gradient(158deg,#eaf4fa 0%,#d6eaf4 42%,#bdddf0 100%);
+  color:#1a4a66;
+  border:1px solid rgba(45,132,179,.48);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.55),
-    0 4px 12px rgba(18,40,58,.06);
+    inset 0 1px 0 rgba(255,255,255,.65),
+    0 0 0 1px rgba(45,132,179,.1),
+    0 6px 16px rgba(45,132,179,.12);
 }
 
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past).is-locked .journey-circle{
-  background:linear-gradient(160deg,#f0f3f6 0%,#e2e7ed 50%,#d5dce3 100%);
-  color:#6a7580;
-  border:1px dashed rgba(90,102,114,.38);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.5);
+  background:linear-gradient(158deg,#f0f7fb 0%,#e0eef6 50%,#d0e4f0 100%);
+  color:#35607a;
+  border:1px solid rgba(45,132,179,.38);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.6),
+    0 4px 12px rgba(45,132,179,.08);
 }
 
 .portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-status{
-  color:#6d7c89;
+  color:#4a7a94;
   font-weight:600;
+}
+
+/* Locked upcoming: keep blue typography (course-navigation used --muted grey) */
+.portal .main .content #journey .journey-item.is-locked:not(.active):not(.journey-item--past) .journey-title,
+.portal .main .content #journey .journey-item.is-locked:not(.active):not(.journey-item--past) .journey-status{
+  color:#4580a0;
 }
 
 /* Active: strong orange pulse + light outer glow (overflow visible on circle) */
