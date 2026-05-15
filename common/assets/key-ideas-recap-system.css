@@ -1,14 +1,14 @@
 /**
- * Key Ideas to Remember ó premium recap refinement
- * Scoped to recap sections only (#recap, #keyideas). Does not affect completion or other recap-stack uses.
+ * Key Ideas to Remember ù editorial recap (Training I & II)
+ * Scoped to #recap / #keyideas. Does not affect other .recap-stack uses.
  */
 
 #recap .key-ideas-recap__intro,
 #keyideas .key-ideas-recap__intro{
-  margin:0 0 16px;
+  margin:0 0 20px;
   max-width:52ch;
-  font-size:.92rem;
-  line-height:1.68;
+  font-size:.94rem;
+  line-height:1.72;
   font-weight:500;
   color:var(--muted,#70808f);
   letter-spacing:.01em;
@@ -16,32 +16,65 @@
 
 #recap .key-ideas-recap__intro + .lead,
 #keyideas .key-ideas-recap__intro + .lead{
-  margin-top:-6px;
-  margin-bottom:14px;
-  font-size:.88rem;
+  margin-top:-4px;
+  margin-bottom:20px;
+  font-size:.9rem;
+  line-height:1.7;
   color:var(--muted,#70808f);
 }
 
+/* Editorial grid: 2 + 2 (+ optional full-width row); not a rigid 3ù2 */
 #recap .recap-stack--key-ideas,
 #keyideas .recap-stack--key-ideas{
-  margin-top:4px;
+  margin-top:6px;
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:14px 16px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:clamp(18px,2.4vw,28px);
+  row-gap:clamp(20px,2.8vw,28px);
   align-items:stretch;
 }
 
-@media (min-width:960px){
-  #recap .recap-stack--key-ideas,
-  #keyideas .recap-stack--key-ideas{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-  }
+#recap .recap-stack--key-ideas > .recap-takeaway-card:nth-child(3):nth-last-child(1),
+#keyideas .recap-stack--key-ideas > .recap-takeaway-card:nth-child(3):nth-last-child(1){
+  grid-column:1 / -1;
+  max-width:min(720px,100%);
+  margin-inline:auto;
 }
 
-@media (max-width:640px){
+#recap .recap-stack--key-ideas > .recap-takeaway-card:nth-child(5):nth-last-child(1),
+#keyideas .recap-stack--key-ideas > .recap-takeaway-card:nth-child(5):nth-last-child(1){
+  grid-column:1 / -1;
+  max-width:min(920px,100%);
+  margin-inline:auto;
+}
+
+#recap .recap-stack--key-ideas > .recap-takeaway-card:only-child,
+#keyideas .recap-stack--key-ideas > .recap-takeaway-card:only-child{
+  grid-column:1 / -1;
+  max-width:min(720px,100%);
+  margin-inline:auto;
+}
+
+@media (max-width:720px){
   #recap .recap-stack--key-ideas,
   #keyideas .recap-stack--key-ideas{
     grid-template-columns:1fr;
+  }
+
+  #recap .recap-stack--key-ideas > .recap-takeaway-card:nth-child(3):nth-last-child(1),
+  #keyideas .recap-stack--key-ideas > .recap-takeaway-card:nth-child(3):nth-last-child(1),
+  #recap .recap-stack--key-ideas > .recap-takeaway-card:nth-child(5):nth-last-child(1),
+  #keyideas .recap-stack--key-ideas > .recap-takeaway-card:nth-child(5):nth-last-child(1){
+    grid-column:auto;
+    max-width:none;
+    margin-inline:0;
+  }
+
+  #recap .recap-takeaway-card,
+  #keyideas .recap-takeaway-card{
+    flex-direction:column;
+    align-items:flex-start;
+    min-height:0;
   }
 }
 
@@ -49,124 +82,155 @@
 #keyideas .recap-takeaway-card{
   position:relative;
   display:flex;
-  flex-direction:column;
-  gap:12px;
+  flex-direction:row;
+  align-items:flex-start;
+  gap:clamp(16px,2vw,22px);
   min-width:0;
-  padding:16px 16px 18px;
+  min-height:clamp(108px,12vw,128px);
+  padding:clamp(20px,2.4vw,26px) clamp(20px,2.6vw,28px);
   text-align:left;
-  background:linear-gradient(180deg,#f8fbfd 0%,#ffffff 100%);
-  border:1px solid var(--line,rgba(22,50,71,.12));
-  border-radius:20px;
-  box-shadow:0 8px 22px rgba(18,50,71,.05);
+  background:linear-gradient(165deg,#f9fcfe 0%,#ffffff 52%,#f5fafd 100%);
+  border:1px solid rgba(45,132,179,.14);
+  border-radius:clamp(20px,2.2vw,24px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 10px 28px rgba(18,50,71,.06);
   cursor:pointer;
-  transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease,background .28s ease;
+  transition:transform .32s ease,box-shadow .32s ease,border-color .28s ease,background .28s ease;
 }
 
 #recap .recap-takeaway-card:hover,
 #keyideas .recap-takeaway-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 28px rgba(18,50,71,.09);
-  border-color:rgba(45,132,179,.22);
-  background:linear-gradient(180deg,#f4fafd 0%,#ffffff 100%);
+  transform:translateY(-3px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 16px 36px rgba(18,50,71,.09);
+  border-color:rgba(45,132,179,.26);
+  background:linear-gradient(165deg,#f4fafd 0%,#ffffff 55%,#f2f8fc 100%);
 }
 
 #recap .recap-takeaway-card.clicked,
 #keyideas .recap-takeaway-card.clicked{
   border:2px solid var(--blue,#2d84b3);
-  background:linear-gradient(180deg,#e4f2f8 0%,#f0f8fc 100%);
-  box-shadow:0 8px 24px rgba(45,132,179,.18);
+  background:linear-gradient(165deg,#e8f4fb 0%,#f2f9fc 100%);
+  box-shadow:0 10px 30px rgba(45,132,179,.16);
 }
 
 #recap .recap-takeaway-card__icon,
 #keyideas .recap-takeaway-card__icon{
-  width:40px;
-  height:40px;
-  border-radius:12px;
+  width:clamp(42px,4.2vw,48px);
+  height:clamp(42px,4.2vw,48px);
+  border-radius:14px;
   display:flex;
   align-items:center;
   justify-content:center;
   flex-shrink:0;
   color:var(--blue,#2d84b3);
-  background:rgba(45,132,179,.08);
-  border:1px solid rgba(45,132,179,.12);
+  background:rgba(45,132,179,.09);
+  border:1px solid rgba(45,132,179,.14);
   transition:transform .35s ease,background .28s ease,border-color .28s ease;
 }
 
 #recap .recap-takeaway-card:hover .recap-takeaway-card__icon,
 #keyideas .recap-takeaway-card:hover .recap-takeaway-card__icon{
   transform:translateY(-1px);
-  background:rgba(45,132,179,.11);
-  border-color:rgba(45,132,179,.18);
+  background:rgba(45,132,179,.12);
+  border-color:rgba(45,132,179,.2);
 }
 
 #recap .recap-takeaway-card__icon svg,
 #keyideas .recap-takeaway-card__icon svg{
   display:block;
-  opacity:.88;
+  opacity:.9;
 }
 
 #recap .recap-takeaway-card__body,
 #keyideas .recap-takeaway-card__body{
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:10px;
   min-width:0;
+  flex:1;
 }
 
 #recap .recap-takeaway-card__title,
 #keyideas .recap-takeaway-card__title{
   margin:0;
-  font-size:1.02rem;
-  line-height:1.35;
-  font-weight:700;
-  letter-spacing:-.015em;
+  font-size:clamp(1.05rem,1.35vw,1.14rem);
+  line-height:1.32;
+  font-weight:800;
+  letter-spacing:-.02em;
   color:var(--blue,#2d84b3);
 }
 
 #recap .recap-takeaway-card__text,
 #keyideas .recap-takeaway-card__text{
   margin:0;
-  font-size:.9rem;
-  line-height:1.72;
+  font-size:clamp(.9rem,1.05vw,.95rem);
+  line-height:1.68;
   font-weight:500;
   color:var(--text,#314555);
 }
 
+/* Featured closing ù principles framework (not footer-chips) */
 #recap .key-ideas-recap__closure,
 #keyideas .key-ideas-recap__closure{
-  margin:22px 0 0;
-  padding:14px 16px 16px;
-  border-radius:16px;
-  border:1px solid rgba(45,132,179,.14);
-  background:linear-gradient(180deg,rgba(237,246,251,.85) 0%,rgba(255,255,255,.92) 100%);
-  box-shadow:0 6px 18px rgba(18,50,71,.04);
+  margin:clamp(28px,4vw,40px) 0 0;
+  padding:clamp(28px,4vw,44px) clamp(22px,4vw,48px);
+  border-radius:clamp(22px,2.5vw,28px);
+  border:1px solid rgba(45,132,179,.16);
+  background:
+    radial-gradient(ellipse 88% 72% at 50% 0%,rgba(255,255,255,.72) 0%,transparent 55%),
+    linear-gradient(175deg,rgba(237,246,251,.95) 0%,rgba(255,255,255,.98) 45%,rgba(244,250,253,.92) 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.88) inset,
+    0 14px 40px rgba(18,50,71,.07);
+  text-align:center;
 }
 
-#recap .key-ideas-recap__closure-chips,
-#keyideas .key-ideas-recap__closure-chips{
-  margin:0 0 8px;
-  font-size:.68rem;
+#recap .key-ideas-recap__principles,
+#keyideas .key-ideas-recap__principles{
+  list-style:none;
+  margin:0 auto clamp(18px,2.4vw,24px);
+  padding:0;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:12px clamp(10px,2vw,20px);
+  max-width:min(52rem,100%);
+}
+
+#recap .key-ideas-recap__principles li,
+#keyideas .key-ideas-recap__principles li{
+  margin:0;
+  padding:10px clamp(14px,2vw,22px);
+  border-radius:999px;
+  font-size:clamp(.68rem,.95vw,.76rem);
   font-weight:800;
-  letter-spacing:.16em;
+  letter-spacing:.14em;
   text-transform:uppercase;
-  color:rgba(45,132,179,.75);
-  line-height:1.5;
+  color:var(--blue,#2d84b3);
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(45,132,179,.18);
+  box-shadow:0 1px 0 rgba(255,255,255,.95) inset;
 }
 
 #recap .key-ideas-recap__closure-note,
 #keyideas .key-ideas-recap__closure-note{
-  margin:0;
-  font-size:.86rem;
-  line-height:1.65;
+  margin:0 auto;
+  max-width:min(44rem,100%);
+  font-size:clamp(.95rem,1.15vw,1.05rem);
+  line-height:1.72;
   font-weight:500;
-  color:var(--muted,#70808f);
-  max-width:48ch;
+  color:var(--text,#314555);
+  letter-spacing:.01em;
 }
 
 #recap .key-ideas-recap__footer,
 #keyideas .key-ideas-recap__footer{
-  margin-top:20px;
-  padding-top:4px;
+  margin-top:clamp(22px,3vw,32px);
+  padding-top:6px;
 }
 
 #recap .key-ideas-recap__footer .check-item,

@@ -416,6 +416,7 @@ body.training-template-body{
   padding:24px 24px 26px;
   margin-bottom:18px;
   min-width:0;
+  overflow:hidden;
 }
 
 .section h3{

@@ -14,11 +14,12 @@
 }
 
 .portal .main .content > section#complete.section > .section-body{
-  padding:0;
+  padding:0 clamp(14px,3vw,28px) clamp(18px,2.5vw,28px);
+  box-sizing:border-box;
 }
 
 .portal .main .content > section#complete.section > .section-body > .section-lock-banner{
-  margin:14px 24px 0;
+  margin:14px 0 0;
 }
 
 .portal .main .content > section#complete.section > .section-body > .section-lock-banner + .completion,
@@ -32,7 +33,6 @@
   max-width:none;
   margin-left:0;
   margin-right:0;
-  border-radius:0;
 }
 
 #complete .completion,
@@ -41,7 +41,7 @@
   position:relative;
   isolation:isolate;
   overflow:hidden;
-  border-radius:0;
+  border-radius:clamp(22px,2.6vw,28px);
   padding:clamp(28px,4vw,44px) clamp(22px,4vw,40px);
   width:100%;
   max-width:none;
@@ -645,11 +645,11 @@
   #keyideas .completion,
   #quiz .score-card.module-result-card{
     padding:24px 18px;
-    border-radius:0;
+    border-radius:clamp(18px,4vw,22px);
   }
 
   #keyideas .completion{
-    border-radius:0 0 18px 18px;
+    border-radius:0 0 clamp(18px,4vw,22px) clamp(18px,4vw,22px);
   }
 
   #complete .completion .completion-pathway,

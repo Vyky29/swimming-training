@@ -16,9 +16,12 @@ INTRO = (
 
 CLOSURE = (
     '<div class="key-ideas-recap__closure" role="presentation">\n'
-    "            <p class=\"key-ideas-recap__closure-chips\">"
-    "Structure \u00b7 Readiness \u00b7 Safety \u00b7 Progression"
-    "</p>\n"
+    '            <ul class="key-ideas-recap__principles" aria-label="Core programme principles">\n'
+    "              <li>Structure</li>\n"
+    "              <li>Readiness</li>\n"
+    "              <li>Safety</li>\n"
+    "              <li>Progression</li>\n"
+    "            </ul>\n"
     "            <p class=\"key-ideas-recap__closure-note\">"
     "These principles support every decision throughout the swimming journey."
     "</p>\n"
