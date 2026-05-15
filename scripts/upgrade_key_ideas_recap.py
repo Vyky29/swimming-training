@@ -14,30 +14,8 @@ INTRO = (
     "</p>"
 )
 
-CLOSURE = (
-    '<div class="key-ideas-recap__closure" role="presentation">\n'
-    '            <ul class="key-ideas-recap__principles" aria-label="Core programme principles">\n'
-    "              <li>Structure</li>\n"
-    "              <li>Readiness</li>\n"
-    "              <li>Safety</li>\n"
-    "              <li>Progression</li>\n"
-    "            </ul>\n"
-    "            <p class=\"key-ideas-recap__closure-note\">"
-    "These principles support every decision throughout the swimming journey."
-    "</p>\n"
-    "          </div>"
-)
 
-ICONS = [
-    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M4 14c2.2-1.6 4.1 1.6 6 0s3.9-1.6 6 0 3.9 1.6 6 0M4 10c2.2-1.6 4.1 1.6 6 0s3.9-1.6 6 0 3.9 1.6 6 0"/></svg>',
-    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="12" cy="12" r="2.3" fill="currentColor" fill-opacity=".2" stroke="none"/><circle cx="12" cy="12" r="5.8" stroke="currentColor" opacity=".45"/><circle cx="12" cy="12" r="9.3" stroke="currentColor" opacity=".28"/></svg>',
-    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" aria-hidden="true"><path d="M5 18c3.2-5.8 6.8-8.8 14-10"/><circle cx="5" cy="18" r="1.35" fill="currentColor"/></svg>',
-    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.4l6.8 3.1v5.2c0 4.3-2.9 7.9-6.8 9.1-3.9-1.2-6.8-4.8-6.8-9.1V6.5l6.8-3.1z"/></svg>',
-    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><circle cx="12" cy="12" r="7.5" opacity=".38"/><path d="M12 7.5l1 3.8 3.8 1-3.8 1L12 17l-1-3.7-3.8-1 3.8-1 1-3.8z" stroke-linejoin="round"/></svg>',
-]
-
-
-def transform_one_card(raw: str, idx: int) -> str:
+def transform_one_card(raw: str) -> str:
     raw = raw.strip()
     m = re.match(r"<(div|article)(\s+[^>]+)>([\s\S]*)</\1>\s*$", raw, re.IGNORECASE)
     if not m:
@@ -57,10 +35,8 @@ def transform_one_card(raw: str, idx: int) -> str:
     p_block = ""
     if pm:
         p_block = f'<p class="recap-takeaway-card__text">{pm.group(1).strip()}</p>'
-    icon = ICONS[idx % len(ICONS)]
     return (
         f"<article{attrs2}>"
-        f'<div class="recap-takeaway-card__icon" aria-hidden="true">{icon}</div>'
         f'<div class="recap-takeaway-card__body">'
         f'<h4 class="recap-takeaway-card__title">{h4_inner}</h4>{p_block}'
         f"</div></article>"
@@ -116,7 +92,7 @@ def upgrade_section_body_content(body_inner: str) -> str | None:
     )
     if not cards:
         return None
-    new_cards = "\n".join(transform_one_card(c, idx) for idx, c in enumerate(cards))
+    new_cards = "\n".join(transform_one_card(c) for c in cards)
     stack_open_full = stack_a + stack_rest
     if "recap-stack--key-ideas" not in stack_open_full:
         stack_open_full = stack_open_full.replace(
@@ -124,14 +100,13 @@ def upgrade_section_body_content(body_inner: str) -> str | None:
             'class="recap-stack recap-stack--key-ideas"',
             1,
         )
-    closure_block = CLOSURE + "\n\n          "
     footer = f'<div class="key-ideas-recap__footer">\n            {label.strip()}\n          </div>'
     stack_html = f"{stack_open_full}{new_cards}\n          {stack_close.strip()}\n          "
     intro_block = (intro_opt or "").strip()
     if not intro_block:
         intro_block = INTRO
     lead_part = lead_opt or ""
-    middle = f"{title_block}{intro_block}\n            {lead_part}{stack_html}{closure_block}{footer}"
+    middle = f"{title_block}{intro_block}\n            {lead_part}{stack_html}{footer}"
     return f"{prefix}{middle}{suffix}"
 
 
