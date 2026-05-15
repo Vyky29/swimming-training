@@ -106,40 +106,35 @@
       title: 'Guiding Learning Through Scaffolding and the CS Learning Principle',
       nextId: 'module3',
       nextLabel: 'Module 3 - Early Aquatic Experiences',
-      journeyText: 'This module sits after Module 1 and introduces a clearer learning structure around scaffolding, guidance, and the CS Learning Principle before the course moves into early aquatic experiences.',
-      completionText: 'You have completed all content for Module 2. Ready for the quiz?'
+      journeyText: 'This module sits after Module 1 and introduces a clearer learning structure around scaffolding, guidance, and the CS Learning Principle before the course moves into early aquatic experiences.'
     },
     module3: {
       number: 3,
       title: 'Early Aquatic Experiences',
       nextId: 'module4',
       nextLabel: 'Module 4 - Core Aquatic Skills',
-      journeyText: 'This module sits after Module 2 and before Module 4. Use this page to map the approved early-experience content into the same section and concept structure used across Training I.',
-      completionText: 'You have completed all content for Module 3. Ready for the quiz?'
+      journeyText: 'This module sits after Module 2 and before Module 4. Use this page to map the approved early-experience content into the same section and concept structure used across Training I.'
     },
     module4: {
       number: 4,
       title: 'Core Aquatic Skills',
       nextId: 'module5',
       nextLabel: 'Module 5 - Propulsion Development in the Water',
-      journeyText: 'This module sits after Module 3 and before Module 5. Use this page to organise the approved core-skills content with the same headings, blocks, and concept rhythm as Training I.',
-      completionText: 'You have completed all content for Module 4. Ready for the quiz?'
+      journeyText: 'This module sits after Module 3 and before Module 5. Use this page to organise the approved core-skills content with the same headings, blocks, and concept rhythm as Training I.'
     },
     module5: {
       number: 5,
       title: 'Propulsion Development in the Water',
       nextId: 'module6',
       nextLabel: 'Module 6 - Swimming Strokes and Advanced Techniques',
-      journeyText: 'This module sits after Module 4 and before Module 6. Use this page to organise propulsion content using the same visible section titles and concept flow as the Training I modules.',
-      completionText: 'You have completed all content for Module 5. Ready for the quiz?'
+      journeyText: 'This module sits after Module 4 and before Module 6. Use this page to organise propulsion content using the same visible section titles and concept flow as the Training I modules.'
     },
     module6: {
       number: 6,
       title: 'Swimming Strokes and Advanced Techniques',
       nextId: null,
       nextLabel: 'Final module of the Training II pathway',
-      journeyText: 'This is the final module in the Training II pathway. Use this page to bring the approved stroke and advanced-technique content into the same structured section and concept layout used in Training I.',
-      completionText: 'You have completed all content for Module 6. Ready for the quiz?'
+      journeyText: 'This is the final module in the Training II pathway. Use this page to bring the approved stroke and advanced-technique content into the same structured section and concept layout used in Training I.'
     }
   };
 
@@ -352,11 +347,19 @@
       'I have reviewed the recap and I am ready to complete the module.'
     );
 
-    var completionTitle = document.querySelector('#complete .completion-box h3');
-    if(completionTitle) completionTitle.textContent = 'Module ' + moduleMeta.number + ' complete';
+    /* Match Training I keyideas completion strip: title + two lines + Start Quiz (module-completion-flow.css). */
+    var completionTitle = document.querySelector('#complete .completion-title, #complete .completion-box h3');
+    if(completionTitle) completionTitle.textContent = 'Ready for the Quiz';
 
-    var completionText = document.querySelector('#complete .completion-box p');
-    if(completionText) completionText.textContent = moduleMeta.completionText;
+    var completionLead = document.querySelector('#complete .completion-lead');
+    if(completionLead){
+      completionLead.textContent = 'You have completed the module content and reviewed the core concepts.';
+    }
+
+    var completionSub = document.querySelector('#complete .completion-sub');
+    if(completionSub){
+      completionSub.textContent = 'Open the quiz to consolidate your understanding and continue your progression journey.';
+    }
 
     var completionActions = document.querySelector('#complete .completion-actions');
     if(completionActions){
