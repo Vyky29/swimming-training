@@ -589,12 +589,47 @@
     .section-title-row{
       display:flex;
       justify-content:space-between;
-      align-items:center;
-      gap:12px;
+      align-items:flex-start;
+      gap:14px;
       flex-wrap:wrap;
-      margin-bottom:10px;
+      margin-bottom:16px;
+      padding:4px 0 16px 18px;
+      border-bottom:1px solid rgba(45,132,179,.14);
+      position:relative;
     }
-    .section-title-row h3{ margin:0; }
+    .section-title-row::before{
+      content:"";
+      position:absolute;
+      top:4px;
+      bottom:16px;
+      left:0;
+      width:3px;
+      border-radius:999px;
+      background:linear-gradient(180deg,var(--blue) 0%,#89b5c1 100%);
+    }
+    .section-title-row h3{
+      margin:0;
+      flex:1 1 420px;
+      min-width:0;
+      color:var(--blue);
+      font-size:clamp(1.55rem,2.3vw,1.95rem);
+      line-height:1.12;
+      letter-spacing:-.025em;
+      font-weight:800;
+      position:relative;
+      padding-bottom:11px;
+    }
+    .section-title-row h3::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:72px;
+      height:3px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--blue) 0%,rgba(137,181,193,.9) 100%);
+      opacity:.95;
+    }
   
     .section-body{
       padding:20px 28px 28px;
@@ -608,9 +643,21 @@
       color:var(--blue);
       font-weight:800;
     }
+    .section .section-title-row h3{
+      margin:0;
+      font-size:clamp(1.55rem,2.3vw,1.95rem);
+      line-height:1.12;
+      letter-spacing:-.025em;
+    }
   
     .lead{
       margin:0;
+      line-height:1.82;
+      color:var(--muted);
+      font-size:.97rem;
+    }
+    .outcomes-intro{
+      margin:0 0 14px;
       line-height:1.82;
       color:var(--muted);
       font-size:.97rem;
@@ -3392,7 +3439,6 @@
         <div class="nav-list">
           <a class="nav-link active" href="#overview" data-progress-key="module1_overview">Module Introduction</a>
           <a class="nav-link" href="#journey" data-progress-key="module1_journey">Training Journey</a>
-          <a class="nav-link" href="#module-overview">Module Overview</a>
           <a class="nav-link" href="#outcomes" data-progress-key="module1_outcomes">Learning Outcomes</a>
           <a class="nav-link" href="#key-concepts">Explore the Key Concepts</a>
           <a class="nav-link" href="#block1" data-progress-key="module1_block1">Block 1</a>
@@ -3526,41 +3572,22 @@
           </div>
         </section>
 
-                <section class="section" id="module-overview">
-          <div class="section-top">
-            <span class="section-pill">Module Overview</span>
-          </div>
-          <div class="section-body">
-            <div class="section-title-row">
-              <h3>Module Overview</h3>
-              <div class="section-top-actions">
-                <button class="btn btn-tts" data-tts-button="module-overview">&#128266; Listen</button>
-                <button class="btn btn-tts" data-tts-stop="module-overview">&#9209; Stop Audio</button>
-              </div>
-            </div>
-            <p class="lead" data-tts-source="module-overview">
-              Traditional swimming models often define progression through visible swimming performance, technical refinement and organised swimming development.<br>
-              At clubSENsational, aquatic development is understood more broadly. Within neuroinclusive aquatic development, progression may first appear through safer participation, stronger aquatic stability, improved recovery, growing confidence and more consistent interaction within water long before organised swimming develops.
-            </p>
-          </div>
-        </section>
-  
                 <section class="section gated-locked" id="outcomes" data-stage="outcomes">
           <div class="section-top">
             <span class="section-pill">Learning Outcomes</span>
           </div>
           <div class="section-body">
-            <div class="section-lock-banner">Complete the Training Journey section to unlock Learning Outcomes.</div>
+            <div class="section-lock-banner">Complete the Understanding Aquatic Development Journey section to unlock Learning Outcomes.</div>
             <div class="section-title-row">
-              <h3>Learning Outcomes</h3>
+              <h3>What will you understand by the end of this module?</h3>
               <div class="section-top-actions">
                 <button class="btn btn-tts" data-tts-button="outcomes">🔊 Listen</button>
                 <button class="btn btn-tts" data-tts-stop="outcomes">⏹ Stop Audio</button>
               </div>
             </div>
-            <p class="lead" data-tts-source="outcomes">By the end of this module, instructors should understand:</p>
+            <p class="outcomes-intro">By the end of this module, instructors should understand:</p>
 
-            <div class="outcomes" data-outcomes-group="outcomes">
+            <div class="outcomes" data-outcomes-group="outcomes" data-tts-source="outcomes">
               <div class="outcome clickable-progress" data-outcome-item="1">
                 <span class="outcome-index">&bull;</span>
                 <div>Why aquatic development extends beyond visible swimming performance</div>
@@ -6190,7 +6217,7 @@
   
     function setupSidebarActiveState(){
       const links = document.querySelectorAll('.nav-link');
-      const targets = ['overview','journey','module-overview','outcomes','key-concepts','block1','block2','block3','recap','complete','quiz']
+      const targets = ['overview','journey','outcomes','key-concepts','block1','block2','block3','recap','complete','quiz']
         .map(id => document.getElementById(id))
         .filter(Boolean);
   
