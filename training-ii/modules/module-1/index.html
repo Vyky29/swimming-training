@@ -662,6 +662,9 @@
       color:var(--muted);
       font-size:.97rem;
     }
+    .outcomes-intro + .outcomes{
+      margin-top:12px;
+    }
   
     .section-pill{
       display:inline-flex;
@@ -1264,6 +1267,17 @@
       font-size:0.88rem;
       color:var(--muted);
       margin:0 0 12px;
+    }
+    .key-ideas-instruction + ul{
+      margin-top:12px;
+    }
+    .concept-examples-wrap{
+      display:grid;
+      gap:12px;
+      margin-top:12px;
+    }
+    .concept-examples-wrap .key-ideas-action{
+      margin-top:0;
     }
   
     .concept-points-box .key-idea-item{
@@ -3508,7 +3522,7 @@
       </div>
                 <section class="section" id="journey" data-stage="journey">
           <div class="section-top">
-            <span class="section-pill">Understanding Aquatic Development Journey</span>
+            <span class="section-pill">UNDERSTANDING AQUATIC DEVELOPMENT JOURNEY</span>
           </div>
           <div class="section-body">
             <div class="section-title-row">
@@ -3561,7 +3575,7 @@
               <div class="journey-panel" id="journeyPanel" data-tts-source="journey">
                 <h4>MODULE 1 — Foundations of Meaningful Aquatic Development</h4>
                 <p>Module 1 establishes the foundations of meaningful aquatic development beyond visible swimming performance.<br><br>
-                It introduces how participation, stability, recovery, confidence and interaction within water create the foundation for later aquatic progression and organised swimming development.</p>
+                It introduces how participation, stability, recovery, confidence and interaction within water support later aquatic progression and organised swimming development.</p>
               </div>
             </div>
 
@@ -3590,19 +3604,19 @@
             <div class="outcomes" data-outcomes-group="outcomes" data-tts-source="outcomes">
               <div class="outcome clickable-progress" data-outcome-item="1">
                 <span class="outcome-index">&bull;</span>
-                <div>Why aquatic development extends beyond visible swimming performance</div>
+                <div>Why aquatic development extends beyond visible swimming performance.</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="2">
                 <span class="outcome-index">&bull;</span>
-                <div>Different forms of aquatic progression</div>
+                <div>Different forms of aquatic progression.</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="3">
                 <span class="outcome-index">&bull;</span>
-                <div>The aquatic foundations influencing progression</div>
+                <div>The aquatic foundations influencing progression.</div>
               </div>
               <div class="outcome clickable-progress" data-outcome-item="4">
                 <span class="outcome-index">&bull;</span>
-                <div>How aquatic development strengthens through integration and independence</div>
+                <div>How aquatic development strengthens through integration and independence.</div>
               </div>
             </div>
 
@@ -3698,7 +3712,7 @@
               <p>Select each concept to review it in sequence. Completed concepts are marked with a tick to support clear progress tracking.</p>
 
               <div class="concept-grid" data-concept-grid="block1">
-                <button class="concept-square" data-target="b1c1">Performance Based vs Developmental Progression</button>
+                <button class="concept-square" data-target="b1c1">Standardised vs Developmental Aquatic Progression</button>
                 <button class="concept-square" data-target="b1c2">Different Forms of Aquatic Success</button>
                 <button class="concept-square" data-target="b1c3">Aquatic Foundations Influencing Progression</button>
               </div>
@@ -4200,13 +4214,13 @@
   <script>
     const conceptContent = {
       b1c1: {
-        title: 'Concept 1 - Performance Based vs Developmental Progression',
-        text: '<p>Traditional swimming progression is often measured through visible performance, swimming distance and organised swimming development.</p><p>Within the clubSENsational model, progression is understood more broadly through how swimmers participate, respond and interact within water according to their profile and needs.</p><p>Aquatic development may emerge long before organised swimming develops.</p>',
+        title: 'Concept 1 - Standardised vs Developmental Aquatic Progression',
+        text: '<p>Traditional swimming progression is often measured through standardised swimming outcomes, visible performance and organised swimming development.</p><p>Within the clubSENsational model, progression is understood more broadly through how swimmers participate, respond and interact within water according to their profile and needs.</p><p>Aquatic development may emerge long before organised swimming develops.</p>',
         points: [
-          'Progression extends beyond visible performance',
-          'Aquatic participation represents development',
-          'Visible performance does not always reflect aquatic readiness',
-          'Organised swimming is not the only progression outcome',
+          'Progression extends beyond visible performance.',
+          'Aquatic participation represents development.',
+          'Standardised outcomes do not always reflect aquatic readiness.',
+          'Organised swimming is not the only progression outcome.',
           'In Practice — Functional Aquatic Development: A swimmer confidently enters the water, explores floating positions and participates calmly during aquatic activities without demonstrating organised swimming. The instructor recognises these experiences as meaningful aquatic development.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><img src="/training-ii/assets/module-1-concept-1-two-ways-swimming.png" alt="Two ways of understanding swimming: structured swimming and functional swimming." />'
@@ -4215,34 +4229,36 @@
         title: 'Concept 2 - Different Forms of Aquatic Success',
         text: '<p>Within neuroinclusive aquatic development, progression does not always depend on organised swimming or independent aquatic performance.</p><p>Progress may involve tolerating water contact, improving balance and recovery, participating more safely, developing stronger aquatic confidence or increasing independent participation.</p><p>Some swimmers may later develop organised swimming, while others continue progressing through stronger aquatic confidence, recovery and safer participation according to their profile and needs. Some swimmers may demonstrate progression through very small but meaningful developmental changes.</p>',
         points: [
-          'Aquatic success may look different for every swimmer',
-          'Progression is not defined only through organised swimming',
-          'Water safety and confidence remain essential outcomes',
-          'Supported participation may still represent independence',
+          'Aquatic success may look different for every swimmer.',
+          'Progression is not defined only through organised swimming.',
+          'Water safety and confidence remain essential outcomes.',
+          'Supported participation may still represent independence.',
           'In Practice — Different Outcomes: One swimmer later develops organised swimming, while another progresses through stronger recovery, safer participation and increasing aquatic confidence. Both swimmers are demonstrating meaningful aquatic progression.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Panel 1</strong><span>Swimmer calmly tolerating water on the face.</span></div><div class="force-card"><strong>Panel 2</strong><span>Swimmer independently recovering balance after instability.</span></div><div class="force-card"><strong>Panel 3</strong><span>Swimmer confidently participating within a supported aquatic activity.</span></div><div class="force-card"><strong>Panel 4</strong><span>Swimmer later demonstrating more organised and integrated swimming movement. Each panel equally valuable and visually balanced.</span></div></div>'
       },
       b1c3: {
         title: 'Concept 3 - Aquatic Foundations Influencing Progression',
-        text: '<p>Aquatic progression develops through multiple interconnected aquatic foundations influencing how swimmers participate, respond and adapt within water.</p><p>Breathing, balance, confidence, familiarity, recovery, sensory experience and movement coordination continuously influence participation and progression over time.</p><p>These foundations influence one another continuously rather than developing in isolation.</p>',
+        text: '<p>Aquatic progression is influenced by multiple aquatic foundations that support how swimmers participate, respond and adapt within water.</p><p>Breathing control, balance, confidence, familiarity, recovery, sensory experience and movement coordination all contribute to aquatic participation and progression over time.</p><p>Different swimmers may demonstrate strengths and support needs across different aquatic foundations according to their profile and needs.</p>',
         points: [
-          'Aquatic progression involves multiple connected foundations',
-          'Different foundations influence one another continuously',
-          'Difficulties may involve more than one foundation',
-          'Progression should be viewed holistically',
-          'In Practice — Floating Instability: A swimmer struggles to maintain floating stability because breathing becomes inconsistent and body tension increases during participation. The instructor recognises that multiple aquatic foundations are influencing progression simultaneously.'
+          'Multiple aquatic foundations support progression.',
+          'Different swimmers demonstrate different aquatic profiles.',
+          'Strengths and difficulties may appear across different foundations.',
+          'Progression should be viewed holistically.',
+          'In Practice — Different Aquatic Profiles: One swimmer demonstrates strong confidence and participation but struggles with balance and recovery. Another swimmer demonstrates calmer breathing control and stability but requires additional support with movement coordination. The instructor recognises that aquatic progression may develop differently across multiple foundations.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Aquatic systems visual</strong><span>Swimmer calmly participating at the centre. Foundations flowing and interacting dynamically: Breathing Control; Balance and Stability; Confidence and Participation; Familiarity and Adaptation; Recovery and Aquatic Self Management; Movement Coordination; Sensory Experience. Fluid, interconnected and experiential—not diagram heavy.</span></div></div>'
       },
       b2c1: {
         title: 'Concept 1 - Aquatic Development as a Dynamic System',
-        text: '<p>Aquatic progression does not emerge through one isolated skill alone.</p><p>Changes within one aquatic foundation may directly influence participation within another area. Breathing instability may affect floating control, reduced confidence may affect movement participation, and recovery difficulties may influence balance and interaction within water.</p>',
+        text: '<p>Aquatic progression does not emerge through one isolated skill alone.</p><p>Changes within one aquatic foundation may immediately influence stability, participation and organisation within another area. Breathing instability may affect floating control, reduced confidence may affect movement participation, and recovery difficulties may influence balance and interaction within water.</p>',
         points: [
-          'Aquatic foundations influence one another continuously',
-          'One instability may affect multiple areas simultaneously',
-          'Difficulties may involve interacting foundations',
-          'Participation should be viewed dynamically rather than through isolated skills',
+          'Aquatic foundations influence one another continuously.',
+          'One instability may affect multiple areas simultaneously.',
+          'Difficulties may involve interacting foundations.',
+          'Participation should be viewed dynamically rather than through isolated skills.',
+          'Example 1 — A swimmer lifts the head repeatedly during floating activities due to uncertainty with breathing control. As breathing becomes inconsistent, floating stability also becomes less stable.',
+          'Example 2 — A swimmer confidently kicks across short distances but becomes unstable during direction changes and recovery. The instructor recognises that movement confidence is currently stronger than balance recovery and aquatic organisation.',
           'In Practice — Breathing and Floating Interaction: A swimmer lifts the head repeatedly during floating activities due to uncertainty with breathing control. As breathing becomes inconsistent, floating stability also becomes less stable.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Dynamic aquatic interaction</strong><span>Swimmer participating calmly at the centre with foundations dynamically influencing one another—e.g. breathing instability influencing floating, reduced confidence influencing movement, instability affecting recovery. Fluid, responsive and experiential.</span></div></div>'
@@ -4251,22 +4267,22 @@
         title: 'Concept 2 - Aquatic Foundations Supporting Progression',
         text: '<p>Several aquatic foundations support safer, calmer and more consistent participation.</p><p>These foundations influence how swimmers organise movement, manage instability, control breathing, interact with water and participate within increasingly complex aquatic experiences.</p>',
         points: [
-          'Different aquatic foundations influence progression differently',
-          'Foundations may strengthen or limit participation',
-          'Stronger foundations support safer progression',
-          'Progression develops through gradual strengthening and interaction',
+          'Different aquatic foundations influence progression differently.',
+          'Foundations may strengthen or limit participation.',
+          'Stronger foundations support safer progression.',
+          'Progression develops through gradual strengthening and interaction.',
           'In Practice — Different Aquatic Profiles: One swimmer demonstrates strong movement confidence but struggles with breathing control and balance. Another swimmer demonstrates calmer interaction but slower movement coordination.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Methodology framework</strong><span>Aquatic Participation at the centre. Surrounding structured framework: Comfort and Confidence; Recovery and Aquatic Self Management; Breathing Control; Balance and Stability; Movement Coordination; Familiarity and Adaptation; Independence and Participation; Water Safety Awareness. Clean, minimal and system based.</span></div></div>'
       },
       b2c3: {
         title: 'Concept 3 - Progression Beyond Organised Swimming',
-        text: '<p>Aquatic progression may emerge before organised swimming develops.</p><p>Some swimmers may first demonstrate progression through improved recovery, stronger balance, safer participation, reduced support needs, calmer interaction or more stable aquatic participation long before coordinated aquatic movement becomes consistent.</p>',
+        text: '<p>Meaningful aquatic progression may become visible before organised swimming develops.</p><p>Some swimmers may first demonstrate progress through improved recovery, stronger balance, safer participation, reduced support needs, calmer interaction or more stable aquatic participation long before coordinated aquatic movement becomes consistent.</p><p>Small developmental changes may represent significant progress when understood in relation to the swimmer&#39;s profile, needs and starting point.</p>',
         points: [
-          'Progression is not defined only through organised swimming',
-          'Small developmental changes may represent major progress',
-          'Water safety and confidence remain essential outcomes',
-          'Supported participation may still represent independence',
+          'Progression is not defined only through organised swimming.',
+          'Small developmental changes may represent major progress.',
+          'Water safety and confidence remain essential outcomes.',
+          'Supported participation may still represent independence.',
           'In Practice — Meaningful Progression: A swimmer using flotation support demonstrates stronger recovery, calmer interaction and safer aquatic participation over time. These changes still represent meaningful aquatic progression.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Scene 1</strong><span>Swimmer calmly tolerating water contact.</span></div><div class="force-card"><strong>Scene 2</strong><span>Swimmer independently recovering after instability.</span></div><div class="force-card"><strong>Scene 3</strong><span>Swimmer confidently participating with reduced support.</span></div><div class="force-card"><strong>Scene 4</strong><span>Swimmer later demonstrating more organised and integrated swimming movement. Progression through strengthening participation, not only swimming refinement.</span></div></div>'
@@ -4275,10 +4291,12 @@
         title: 'Concept 4 - Gradual Integration Within Aquatic Development',
         text: '<p>Aquatic foundations do not always strengthen or integrate at the same rate.</p><p>Some swimmers may initially require stronger breathing control, balance, recovery or familiarity before more complex movement integration becomes stable and consistent.</p><p>Stronger foundations allow participation to become more stable, integrated and adaptable over time.</p>',
         points: [
-          'Aquatic foundations may strengthen unevenly',
-          'Some foundations require reinforcement before integration',
-          'Integration should remain gradual and manageable',
-          'Progression should not overwhelm participation',
+          'Aquatic foundations may strengthen unevenly.',
+          'Some foundations require reinforcement before integration.',
+          'Integration should remain gradual and manageable.',
+          'Progression should not overwhelm participation.',
+          'Example 1 — A swimmer initially develops floating stability separately before gradually combining breathing, balance and movement together. The instructor strengthens foundations before increasing complexity.',
+          'Example 2 — A swimmer first develops controlled breathing while standing before later combining breathing control with floating and movement activities. Progression remains gradual so participation stays stable and organised.',
           'In Practice — Gradual Integration: A swimmer initially develops floating stability separately before gradually combining breathing, balance and movement together. The instructor strengthens foundations before increasing complexity.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Stage 1</strong><span>Swimmer working on breathing, floating or balance separately through simple aquatic participation.</span></div><div class="force-card"><strong>Stage 2</strong><span>Swimmer beginning to combine two foundations, such as breathing and floating.</span></div><div class="force-card"><strong>Stage 3</strong><span>Swimmer integrating breathing, balance and movement within more coordinated aquatic participation. Gradual strengthening over time.</span></div></div>'
@@ -4287,10 +4305,10 @@
         title: 'Concept 1 - Understanding Aquatic Independence',
         text: '<p>Aquatic independence does not simply mean swimming alone without support.</p><p>Some swimmers may continue requiring flotation, instructor proximity or predictable structure while still demonstrating increasing confidence, stronger participation and safer aquatic interaction.</p><p>Aquatic independence develops progressively according to the swimmer&#39;s profile and needs.</p>',
         points: [
-          'Independence is broader than unsupported swimming',
-          'Support may still exist within progression',
-          'The right support may increase safer participation and functional independence',
-          'Aquatic confidence and participation support independence',
+          'Independence is broader than unsupported swimming.',
+          'Support may still exist within progression.',
+          'The right support may increase safer participation and functional independence.',
+          'Aquatic confidence and participation support independence.',
           'In Practice — Independence Through Support: A swimmer uses flotation equipment and predictable instructor positioning to move, recover balance and participate more independently within aquatic activities. The support helps create safer and more successful aquatic participation.',
           'In Practice — Confidence Without Readiness: A swimmer confidently jumps and moves actively within water but struggles to recover balance or maintain breathing control during instability. Confidence alone does not always reflect aquatic control or readiness.'
         ],
@@ -4300,10 +4318,10 @@
         title: 'Concept 2 - Recovery and Aquatic Self Management',
         text: '<p>Aquatic independence relies on the ability to recover, reorganise and maintain control during aquatic participation.</p><p>Recovery after instability, maintaining breathing control and regaining balance all support safer and more confident aquatic interaction over time.</p><p>These abilities strengthen aquatic self management and reduce reliance on immediate external support.</p>',
         points: [
-          'Recovery strengthens aquatic confidence',
-          'Self management develops progressively',
-          'Small recovery experiences support progression',
-          'Stability and confidence support safer participation',
+          'Recovery strengthens aquatic confidence.',
+          'Self management develops progressively.',
+          'Small recovery experiences support progression.',
+          'Stability and confidence support safer participation.',
           'In Practice — Recovery Opportunities: A swimmer briefly loses balance during floating activities but reorganises posture and regains stability before seeking instructor support. Repeated recovery opportunities gradually strengthen confidence and independence within water.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Recovery and self management</strong><span>Swimmer experiences brief instability, then reorganises movement, recovers balance and continues participation. Instructor nearby, adjusting support only when necessary. Growing self management—not failure or distress.</span></div></div>'
@@ -4312,10 +4330,10 @@
         title: 'Concept 3 - Gradual Support Reduction',
         text: '<p>Support should reduce progressively according to the swimmer&#39;s confidence, stability, recovery and participation within water.</p><p>Removing support too quickly may reduce aquatic control, increase instability and compromise safer participation.</p><p>Gradual support reduction helps swimmers strengthen aquatic independence while maintaining confidence and stability throughout progression.</p>',
         points: [
-          'Support reduction should remain gradual',
-          'Progression should not compromise stability',
-          'Different swimmers require different levels of support',
-          'Independence develops progressively through successful experiences',
+          'Support reduction should remain gradual.',
+          'Progression should not compromise stability.',
+          'Different swimmers require different levels of support.',
+          'Independence develops progressively through successful experiences.',
           'In Practice — Gradual Independence: A swimmer initially requires close instructor support during floating activities. As confidence, recovery and stability strengthen, support gradually reduces while participation remains safe and consistent.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Progressive support reduction</strong><span>Sequence showing support gradually reducing across repeated aquatic experiences while the swimmer remains safe, stable and increasingly independent. Instructor adjusts flotation, guidance and proximity according to development.</span></div></div>'
@@ -5286,7 +5304,7 @@
           var rest = paras.slice(1).join(' ');
           var items = rest.split(/\. +/).map(function(s){ return s.trim(); }).filter(Boolean);
           if(items.length >= 2){
-            return '<p>' + intro + '</p><ul>' + items.map(function(it){ return '<li>' + it.replace(/\.$/,'') + '</li>'; }).join('') + '</ul>';
+            return '<p>' + intro + '</p><ul>' + items.map(function(it){ var t = it.trim(); if(t && !/[.!?]$/.test(t)) t += '.'; return '<li>' + t + '</li>'; }).join('') + '</ul>';
           }
         }
         return raw;
@@ -5294,7 +5312,7 @@
       var sentences = raw.split(/\. +/).map(function(s){ return s.trim(); }).filter(Boolean);
       if(sentences.length >= 2){
         var introLine = sentences.shift().replace(/\.$/,'') + '.';
-        return '<p>' + introLine + '</p><ul>' + sentences.map(function(s){ return '<li>' + s.replace(/\.$/,'') + '</li>'; }).join('') + '</ul>';
+        return '<p>' + introLine + '</p><ul>' + sentences.map(function(s){ var t = s.trim(); if(t && !/[.!?]$/.test(t)) t += '.'; return '<li>' + t + '</li>'; }).join('') + '</ul>';
       }
       return '<p>' + raw + '</p>';
     }
@@ -5553,10 +5571,12 @@
     }
 
     var inPracticeLinePattern = /^in\s+practice\s*(?:[\u2014\u2013\u002d\u2012\-–:]\s*)/i;
+    var exampleLinePattern = /^example\s*\d+\s*(?:[\u2014\u2013\u002d\u2012\-–:]\s*)/i;
 
     function splitConceptPoints(points){
       var keyIdeas = [];
       var inPracticeParts = [];
+      var exampleParts = [];
       (points || []).forEach(function(point){
         var plain = stripHtmlToPlain(point);
         if(!plain) return;
@@ -5565,9 +5585,19 @@
           if(body) inPracticeParts.push(capitalizeFirstLetter(body));
           return;
         }
+        if(exampleLinePattern.test(plain)){
+          var exMatch = plain.match(/^example\s*(\d+)\s*(?:[\u2014\u2013\u002d\u2012\-–:]\s*)?([\s\S]*)$/i);
+          if(exMatch){
+            exampleParts.push({
+              label: 'Example ' + exMatch[1],
+              text: capitalizeFirstLetter((exMatch[2] || '').trim())
+            });
+          }
+          return;
+        }
         keyIdeas.push(point);
       });
-      return { keyIdeas: keyIdeas, inPracticeParts: inPracticeParts };
+      return { keyIdeas: keyIdeas, inPracticeParts: inPracticeParts, exampleParts: exampleParts };
     }
   
     function inPracticeActionIconHtml(done){
@@ -5668,8 +5698,14 @@
       var splitPoints = splitConceptPoints(rawKeyIdeas);
       var keyIdeas = splitPoints.keyIdeas;
       var inPracticeParts = splitPoints.inPracticeParts;
+      var exampleParts = splitPoints.exampleParts || [];
+      function ensureKeyIdeaPeriod(point){
+        var plain = stripHtmlToPlain(point);
+        if(!plain || /[.!?]$/.test(plain)) return point;
+        return String(point).trim() + '.';
+      }
       if(ideasShellEl || pointsBoxEl){
-        var showIdeasShell = keyIdeas.length > 0 || inPracticeParts.length > 0;
+        var showIdeasShell = keyIdeas.length > 0 || inPracticeParts.length > 0 || exampleParts.length > 0;
         panel.dataset.keyIdeasRequired = keyIdeas.length ? 'true' : 'false';
         panel.dataset.keyIdeasDone = keyIdeas.length ? 'false' : 'true';
         if(ideasShellEl){
@@ -5679,7 +5715,7 @@
           pointsBoxEl.style.display = keyIdeas.length > 0 ? '' : 'none';
         }
         if(keyIdeas.length){
-          if(ul) ul.innerHTML = keyIdeas.map((point, i) => `<li class="key-idea-item" role="button" tabindex="0"><span class="key-idea-index" aria-hidden="true">${i + 1}</span><div class="key-idea-text">${point}</div></li>`).join('');
+          if(ul) ul.innerHTML = keyIdeas.map((point, i) => `<li class="key-idea-item" role="button" tabindex="0"><span class="key-idea-index" aria-hidden="true">${i + 1}</span><div class="key-idea-text">${ensureKeyIdeaPeriod(point)}</div></li>`).join('');
           panel.querySelectorAll('.key-idea-item').forEach(li => {
             li.addEventListener('click', function(){
               this.classList.add('clicked');
@@ -5700,6 +5736,31 @@
         }
         var instrEl = pointsBoxEl ? pointsBoxEl.querySelector('.key-ideas-instruction') : null;
         if(instrEl) instrEl.style.display = keyIdeas.length ? '' : 'none';
+        var examplesWrap = panel.querySelector('[data-concept-examples-wrap]');
+        if(!examplesWrap && ideasShellEl){
+          examplesWrap = document.createElement('div');
+          examplesWrap.setAttribute('data-concept-examples-wrap', '');
+          examplesWrap.className = 'concept-examples-wrap';
+          if(inPracticeEl && inPracticeEl.parentNode){
+            inPracticeEl.parentNode.insertBefore(examplesWrap, inPracticeEl);
+          } else if(pointsBoxEl && pointsBoxEl.parentNode){
+            pointsBoxEl.parentNode.appendChild(examplesWrap);
+          }
+        }
+        if(examplesWrap){
+          examplesWrap.innerHTML = '';
+          if(exampleParts.length){
+            exampleParts.forEach(function(ex){
+              var box = document.createElement('div');
+              box.className = 'key-ideas-action concept-example-box';
+              box.innerHTML = '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true"></span><span class="label">' + ex.label + '</span></div><div class="text"><p class="key-ideas-action-para">' + ex.text + '</p></div>';
+              examplesWrap.appendChild(box);
+            });
+            examplesWrap.style.display = '';
+          } else {
+            examplesWrap.style.display = 'none';
+          }
+        }
         var actionEl = inPracticeEl;
         if(actionEl){
           var actionText = actionEl.querySelector('.text');
