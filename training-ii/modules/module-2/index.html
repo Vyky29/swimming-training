@@ -3428,7 +3428,7 @@
         </div>
         <div class="progress-meta">
           <span id="overallProgressText">0% completed</span>
-          <span id="overallProgressCount">0 / 7</span>
+          <span id="overallProgressCount">0 / 6</span>
         </div>
         <p class="small-note">Click through the module and complete each stage to see visible progress across the course.</p>
       </div>
@@ -3955,7 +3955,7 @@
               <p data-tts-source="complete" style="margin-top:16px;">You are ready to continue into Module 3 — Early Aquatic Experiences.</p>
 
               <div class="completion-actions">
-                <a class="btn btn-primary" href="/training-ii/modules/module-3/">Go to Module 3</a>
+                <a class="btn btn-primary" href="/training-ii/modules/module-3/" data-course-next-module-button="module3">Go to Module 3</a>
               </div>
             </div>
           </div>
@@ -5280,6 +5280,108 @@
       }
       return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"><path d="M2 10c2.2-1.3 4.6-1.3 6.8 0 2.2 1.3 4.6 1.3 6.8 0 2.2-1.3 4.6-1.3 6.8 0 2.2 1.3 4.6 1.3 6.8 0"/><path d="M2 15.5c2.2-1.3 4.6-1.3 6.8 0 2.2 1.3 4.6 1.3 6.8 0 2.2-1.3 4.6-1.3 6.8 0 2.2 1.3 4.6 1.3 6.8 0"/></svg>';
     }
+
+    function buildActivityContainerShell(opts){
+      var variant = opts && opts.variant ? String(opts.variant) : '';
+      var contentHtml = (opts && opts.contentHtml) ? opts.contentHtml : '';
+      return (
+        '<div class="activity-container" data-activity-container data-variant="' + variant + '">' +
+          '<div class="activity-content">' + contentHtml + '</div>' +
+          '<div class="activity-feedback hidden" data-activity-feedback></div>' +
+        '</div>'
+      );
+    }
+
+    function buildChoiceActivityHTML(config){
+      if(!config || !config.options || !config.options.length) return '';
+      var variant = config.variant || 'single';
+      var isTwoCol = (variant === 'grid' || variant === 'classification-2');
+      var optCount = config.options.length;
+      var optionsClass = 'activity-option-grid';
+      if(isTwoCol) optionsClass += ' grid-2';
+      else if(optCount === 3 && variant !== 'scenario' && variant !== 'scenario-risk') optionsClass += ' grid-3';
+      var optionsHtml = config.options.map(function(opt, idx){
+        var badge = String.fromCharCode(65 + idx);
+        return (
+          '<button type="button" class="activity-option" data-choice-option="' + opt.id + '">' +
+            '<span class="opt-badge" aria-hidden="true">' + badge + '</span>' +
+            '<span class="opt-text">' + opt.text + '</span>' +
+          '</button>'
+        );
+      }).join('');
+
+      var questionHtml = config.q ? ('<p class="activity-question">' + config.q + '</p>') : '';
+      var content = (
+        questionHtml +
+        '<div data-choice-activity class="' + optionsClass + '">' + optionsHtml + '</div>'
+      );
+      return buildActivityContainerShell({ variant: variant, contentHtml: content });
+    }
+
+    function buildMatchingActivityHTML(config){
+      var leftHtml = config.pairs.map(function(p){ return '<button class="match-item" data-match-id="' + p.id + '" type="button">' + p.left + '</button>'; }).join('');
+      var rightHtml = config.pairs.slice().reverse().map(function(p){ return '<button class="match-item" data-match-id="' + p.id + '" type="button">' + p.right + '</button>'; }).join('');
+      var questionHtml = config.q ? ('<p class="activity-question">' + config.q + '</p>') : '';
+      var content = (
+        questionHtml +
+        '<div class="matching-wrap">' +
+          '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + config.leftTitle + '</h5><div class="match-items">' + leftHtml + '</div></div>' +
+          '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + config.rightTitle + '</h5><div class="match-items">' + rightHtml + '</div></div>' +
+        '</div>'
+      );
+      return buildActivityContainerShell({ variant:'matching', contentHtml: content });
+    }
+
+    function buildSortingActivityHTML(config){
+      var itemsHtml = config.items.map(function(item){ return '<div class="categorize-item" draggable="true" data-category="' + item.cat + '">' + item.text + '</div>'; }).join('');
+      var questionHtml = config.q ? ('<p class="activity-question">' + config.q + '</p>') : '';
+      var content = (
+        questionHtml +
+        '<div class="categorize-activity" data-categorize-activity>' +
+          '<div class="categorize-zones">' +
+            '<div class="categorize-zone categorize-zone-hyper" data-zone="hyper">' +
+              '<h5 class="categorize-zone-title">' + config.zoneA + '</h5>' +
+              '<div class="categorize-zone-items" data-zone-items="hyper" data-drop-target></div>' +
+            '</div>' +
+            '<div class="categorize-zone categorize-zone-hypo" data-zone="hypo">' +
+              '<h5 class="categorize-zone-title">' + config.zoneB + '</h5>' +
+              '<div class="categorize-zone-items" data-zone-items="hypo" data-drop-target></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="categorize-pool" data-categorize-pool>' +
+            '<div class="categorize-pool-items" data-drop-target>' + itemsHtml + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="categorize-feedback" data-categorize-feedback></p>'
+      );
+      return buildActivityContainerShell({ variant:'sorting', contentHtml: content });
+    }
+
+    function buildSequenceActivityHTML(config){
+      var stepsHtml = config.sequence.map(function(step){
+        return '<button type="button" class="sequence-step" data-sequence-step="' + step + '">' + step + '</button>';
+      }).join('');
+      var questionHtml = config.q ? ('<p class="activity-question">' + config.q + '</p>') : '';
+      var content = (
+        questionHtml +
+        '<div class="sequence-list" data-sequence-list>' + stepsHtml + '</div>' +
+        '<div class="sequence-progress" data-sequence-progress></div>'
+      );
+      return buildActivityContainerShell({ variant:'sequencing', contentHtml: content });
+    }
+
+    function buildTrueFalseActivityHTML(config){
+      if(!config) return '';
+      var questionHtml = config.q ? ('<p class="activity-question">' + config.q + '</p>') : '';
+      var content = (
+        questionHtml +
+        '<div class="tf-toggle" data-choice-activity>' +
+          '<button type="button" class="activity-option" data-choice-option="true"><span class="opt-badge" aria-hidden="true">T</span><span class="opt-text">True</span></button>' +
+          '<button type="button" class="activity-option" data-choice-option="false"><span class="opt-badge" aria-hidden="true">F</span><span class="opt-text">False</span></button>' +
+        '</div>'
+      );
+      return buildActivityContainerShell({ variant:'toggle', contentHtml: content });
+    }
   
     function renderConcept(block, target, fromBack, opts){
       opts = opts || {};
@@ -5503,6 +5605,7 @@
             if(actionText) actionText.textContent = '';
           }
         }
+      }
       const insightEl = panel.querySelector('.concept-insight-box');
       if (insightEl) {
         insightEl.innerHTML = '';
@@ -5942,11 +6045,21 @@
       });
     }
 
+    function notifyCourseSectionComplete(stage){
+      var pageEl = document.querySelector('[data-course-page]');
+      var moduleId = pageEl ? pageEl.getAttribute('data-course-page') : null;
+      if(!moduleId || !stage) return;
+      window.dispatchEvent(new CustomEvent('club-course-section-complete', {
+        detail: { moduleId: moduleId, sectionId: stage }
+      }));
+    }
+
     function handleStageCompletion(stage){
       const next = gatedUnlocks[stage];
       if(next){
         unlockStage(next);
       }
+      notifyCourseSectionComplete(stage);
       updateProgress();
     }
   
@@ -6038,14 +6151,22 @@
     }
 
     function setupModuleKeyConceptCards(){
+      var blockMap = { '1': 'block1', '2': 'block2' };
       document.querySelectorAll('#key-concepts [data-module-key-card]').forEach(card => {
-        card.addEventListener('click', () => {
-          card.classList.toggle('clicked');
-        });
+        function activate(){
+          card.classList.add('clicked');
+          var blockId = blockMap[card.getAttribute('data-module-key-card')];
+          if(!blockId) return;
+          var section = document.getElementById(blockId);
+          if(!section) return;
+          section.classList.remove('gated-locked');
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        card.addEventListener('click', activate);
         card.addEventListener('keydown', e => {
           if(e.key === 'Enter' || e.key === ' '){
             e.preventDefault();
-            card.click();
+            activate();
           }
         });
       });

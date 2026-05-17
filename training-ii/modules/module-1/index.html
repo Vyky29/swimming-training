@@ -5857,6 +5857,7 @@
             if(actionText) actionText.textContent = '';
           }
         }
+      }
       const insightEl = panel.querySelector('.concept-insight-box');
       if (insightEl) {
         insightEl.innerHTML = '';
@@ -6296,11 +6297,21 @@
       });
     }
 
+    function notifyCourseSectionComplete(stage){
+      var pageEl = document.querySelector('[data-course-page]');
+      var moduleId = pageEl ? pageEl.getAttribute('data-course-page') : null;
+      if(!moduleId || !stage) return;
+      window.dispatchEvent(new CustomEvent('club-course-section-complete', {
+        detail: { moduleId: moduleId, sectionId: stage }
+      }));
+    }
+
     function handleStageCompletion(stage){
       const next = gatedUnlocks[stage];
       if(next){
         unlockStage(next);
       }
+      notifyCourseSectionComplete(stage);
       updateProgress();
     }
   
@@ -6392,14 +6403,22 @@
     }
 
     function setupModuleKeyConceptCards(){
+      var blockMap = { '1': 'block1', '2': 'block2', '3': 'block3' };
       document.querySelectorAll('#key-concepts [data-module-key-card]').forEach(card => {
-        card.addEventListener('click', () => {
-          card.classList.toggle('clicked');
-        });
+        function activate(){
+          card.classList.add('clicked');
+          var blockId = blockMap[card.getAttribute('data-module-key-card')];
+          if(!blockId) return;
+          var section = document.getElementById(blockId);
+          if(!section) return;
+          section.classList.remove('gated-locked');
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        card.addEventListener('click', activate);
         card.addEventListener('keydown', e => {
           if(e.key === 'Enter' || e.key === ' '){
             e.preventDefault();
-            card.click();
+            activate();
           }
         });
       });

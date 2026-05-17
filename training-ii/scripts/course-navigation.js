@@ -27,7 +27,7 @@
       id: 'module2',
       title: 'Module 2 - Guiding Learning Through Scaffolding and the CS Learning Principle',
       file: '/training-ii/modules/module-2/',
-      sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'quiz'],
+      sections: ['journey', 'outcomes', 'block1', 'block2', 'recap', 'complete'],
       available: true
     },
     module3: {
@@ -689,6 +689,21 @@
     }
   }
 
+  function markModuleFullyComplete(moduleId, state){
+    if(!COURSE_MODULES[moduleId] || moduleId === 'introduction') return;
+    COURSE_MODULES[moduleId].sections.forEach(function(sectionId){
+      if(state.completedSections[moduleId].indexOf(sectionId) === -1){
+        state.completedSections[moduleId].push(sectionId);
+      }
+    });
+    if(state.completedModules.indexOf(moduleId) === -1){
+      state.completedModules.push(moduleId);
+    }
+    state.courseCompleted = state.completedModules.indexOf('module6') >= 0;
+    state.currentModule = moduleId;
+    saveState(state);
+  }
+
   function setupModuleCompletionTracking(moduleId){
     document.querySelectorAll('input[data-stage-check]').forEach(function(input){
       if(input.getAttribute('data-course-stage-bound') === '1') return;
@@ -696,9 +711,25 @@
 
       input.addEventListener('change', function(){
         const sectionId = input.getAttribute('data-stage-check');
-        if(!sectionId || sectionId === 'complete') return;
+        if(!sectionId) return;
 
         const liveState = loadState();
+        if(sectionId === 'complete'){
+          if(input.checked){
+            markModuleFullyComplete(moduleId, liveState);
+          } else {
+            liveState.completedSections[moduleId] = [];
+            liveState.completedModules = (liveState.completedModules || []).filter(function(entry){
+              return entry !== moduleId;
+            });
+            liveState.courseCompleted = liveState.completedModules.indexOf('module6') >= 0;
+            saveState(liveState);
+          }
+          syncJourneyItems(liveState, moduleId);
+          syncNextModuleButtons(moduleId, liveState);
+          return;
+        }
+
         if(input.checked){
           markSectionComplete(moduleId, sectionId, liveState);
         } else {
@@ -809,6 +840,17 @@
         syncNextModuleButtons(pageId, liveState);
         applyReviewModeOverrides(pageId);
       }
+    });
+
+    window.addEventListener('club-course-section-complete', function(event){
+      const detail = event && event.detail ? event.detail : {};
+      const targetModuleId = detail.moduleId || pageId;
+      const sectionId = detail.sectionId;
+      if(!targetModuleId || !sectionId || targetModuleId === 'introduction') return;
+      const liveState = loadState();
+      markSectionComplete(targetModuleId, sectionId, liveState);
+      syncJourneyItems(liveState, targetModuleId);
+      syncNextModuleButtons(targetModuleId, liveState);
     });
   }
 
