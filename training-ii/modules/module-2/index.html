@@ -1421,6 +1421,59 @@
     .key-ideas-action .text .key-ideas-action-para:last-child{
       margin-bottom:0;
     }
+    .key-ideas-action .text .in-practice-lead{
+      margin:0 0 8px;
+    }
+    .key-ideas-action .text .in-practice-lead:last-child{
+      margin-bottom:0;
+    }
+    .in-practice-examples{
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid rgba(45,107,40,.18);
+    }
+    .in-practice-examples-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px 14px;
+      align-items:start;
+    }
+    @media (max-width:640px){
+      .in-practice-examples-grid{
+        grid-template-columns:1fr;
+      }
+    }
+    .in-practice-example + .in-practice-example{
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid rgba(45,107,40,.12);
+    }
+    .in-practice-examples-grid .in-practice-example + .in-practice-example{
+      margin-top:0;
+      padding-top:0;
+      border-top:none;
+    }
+    .in-practice-example-title{
+      margin:0 0 4px;
+      font-size:.8rem;
+      font-weight:700;
+      color:var(--ink);
+      line-height:1.35;
+    }
+    .in-practice-example-list{
+      margin:0;
+      padding:0 0 0 1.1em;
+      list-style:disc;
+    }
+    .in-practice-example-list li{
+      margin:0 0 3px;
+      font-size:.86rem;
+      line-height:1.4;
+      color:var(--text);
+    }
+    .in-practice-example-list li:last-child{
+      margin-bottom:0;
+    }
     .concept-ideas-shell{
       margin-top:18px;
     }
@@ -5273,6 +5326,78 @@
       });
       return { keyIdeas: keyIdeas, inPracticeParts: inPracticeParts, exampleParts: exampleParts };
     }
+
+    function parseTitleColonBody(text){
+      var lead = String(text || '').trim();
+      var colon = lead.indexOf(':');
+      if(colon > 0 && colon < 120){
+        return {
+          title: capitalizeFirstLetter(lead.slice(0, colon).trim()),
+          body: lead.slice(colon + 1).trim()
+        };
+      }
+      return { title: '', body: lead };
+    }
+
+    function splitIntoBullets(text){
+      var t = String(text || '').trim();
+      if(!t) return [];
+      return t.split(/\.\s+/).map(function(chunk){
+        chunk = chunk.trim();
+        if(!chunk) return '';
+        if(!/[.!?]$/.test(chunk)) chunk += '.';
+        return capitalizeFirstLetter(chunk);
+      }).filter(Boolean);
+    }
+
+    function buildUnifiedInPracticeInnerHtml(inPracticeParts, exampleParts){
+      inPracticeParts = inPracticeParts || [];
+      exampleParts = exampleParts || [];
+      var html = '';
+      var exampleBlocks = [];
+
+      if(inPracticeParts.length > 1){
+        for(var i = 1; i < inPracticeParts.length; i++){
+          var parsed = parseTitleColonBody(inPracticeParts[i]);
+          exampleBlocks.push({
+            label: 'Example ' + (exampleBlocks.length + 1) + (parsed.title ? ' \u2014 ' + parsed.title : ''),
+            bullets: splitIntoBullets(parsed.body || inPracticeParts[i])
+          });
+        }
+      }
+
+      exampleParts.forEach(function(ex){
+        var exParsed = parseTitleColonBody(ex.text);
+        var label = ex.label;
+        if(exParsed.title){ label = ex.label + ' \u2014 ' + exParsed.title; }
+        exampleBlocks.push({
+          label: label,
+          bullets: splitIntoBullets(exParsed.body || ex.text)
+        });
+      });
+
+      if(inPracticeParts.length){
+        html += '<p class="in-practice-lead key-ideas-action-para">' + formatActionParagraphHtml(inPracticeParts[0]) + '</p>';
+      }
+
+      if(exampleBlocks.length){
+        var gridClass = exampleBlocks.length >= 2 ? ' in-practice-examples-grid' : '';
+        html += '<div class="in-practice-examples' + gridClass + '">';
+        exampleBlocks.forEach(function(block){
+          html += '<div class="in-practice-example">';
+          html += '<p class="in-practice-example-title">' + escapeHtml(block.label) + '</p>';
+          if(block.bullets.length){
+            html += '<ul class="in-practice-example-list">';
+            block.bullets.forEach(function(b){ html += '<li>' + escapeHtml(b) + '</li>'; });
+            html += '</ul>';
+          }
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      return html;
+    }
   
     function inPracticeActionIconHtml(done){
       if(done){
@@ -5525,75 +5650,40 @@
         }
         if(examplesWrap){
           examplesWrap.innerHTML = '';
-          if(exampleParts.length){
-            var examplesBox = document.createElement('div');
-            examplesBox.className = 'key-ideas-action concept-examples-combined';
-            var examplesHtml = '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true"></span><span class="label">Examples</span></div><div class="text">';
-            exampleParts.forEach(function(ex){
-              examplesHtml += '<p class="key-ideas-action-para"><strong>' + escapeHtml(ex.label) + '</strong> ' + escapeHtml(ex.text) + '</p>';
-            });
-            examplesHtml += '</div>';
-            examplesBox.innerHTML = examplesHtml;
-            examplesWrap.appendChild(examplesBox);
-            examplesWrap.style.display = '';
-          } else {
-            examplesWrap.style.display = 'none';
-          }
+          examplesWrap.style.display = 'none';
         }
         function bindInPracticeBox(box){
           if(box.getAttribute('data-in-practice-bound') === '1') return;
           box.setAttribute('data-in-practice-bound','1');
           box.addEventListener('click', function(){
             panel.dataset.inPracticeDone = 'true';
-            panel.querySelectorAll('.concept-in-practice-wrap .concept-in-practice-box, [data-concept-in-practice].concept-in-practice-box').forEach(function(b){
-              if(b.hasAttribute('hidden')) return;
-              b.classList.add('is-completed');
-              var ic = b.querySelector('.icon'); if(ic) ic.innerHTML = inPracticeActionIconHtml(true);
-            });
+            var mainBox = panel.querySelector('[data-concept-in-practice]');
+            if(mainBox && !mainBox.hasAttribute('hidden')){
+              mainBox.classList.add('is-completed');
+              var ic = mainBox.querySelector('.icon'); if(ic) ic.innerHTML = inPracticeActionIconHtml(true);
+            }
             updateConceptFinishState(panel, block, panel.dataset.currentTarget || target);
           });
         }
-        function buildInPracticeBoxHtml(part){
-          return '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true"></span><span class="label">In Practice</span></div><div class="text"><p class="key-ideas-action-para">' + formatActionParagraphHtml(part) + '</p></div>';
-        }
         var inPracticeWrap = panel.querySelector('[data-concept-in-practice-wrap]');
-        if(!inPracticeWrap && ideasShellEl){
-          inPracticeWrap = document.createElement('div');
-          inPracticeWrap.setAttribute('data-concept-in-practice-wrap', '');
-          inPracticeWrap.className = 'concept-in-practice-wrap';
-          if(inPracticeEl && inPracticeEl.parentNode){
-            inPracticeEl.parentNode.insertBefore(inPracticeWrap, inPracticeEl);
-          }
+        if(inPracticeWrap){
+          inPracticeWrap.innerHTML = '';
+          inPracticeWrap.style.display = 'none';
         }
-        if(inPracticeWrap) inPracticeWrap.innerHTML = '';
         var actionEl = inPracticeEl;
-        if(inPracticeParts.length){
+        var hasInPracticeContent = inPracticeParts.length > 0 || exampleParts.length > 0;
+        if(hasInPracticeContent && actionEl){
           panel.dataset.inPracticeRequired = 'true';
           panel.dataset.inPracticeDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) ? 'true' : 'false';
           var practiceDone = panel.dataset.inPracticeDone === 'true';
-          if(inPracticeParts.length === 1 && actionEl){
-            var actionText = actionEl.querySelector('.text');
-            var iconEl = actionEl.querySelector('.icon');
-            if(iconEl && !iconEl.innerHTML.trim()) iconEl.innerHTML = inPracticeActionIconHtml(practiceDone);
-            if(actionText){ actionText.innerHTML = '<p class="key-ideas-action-para">' + formatActionParagraphHtml(inPracticeParts[0]) + '</p>'; }
-            actionEl.removeAttribute('hidden');
-            actionEl.style.display = '';
-            actionEl.classList.toggle('is-completed', practiceDone);
-            bindInPracticeBox(actionEl);
-            if(inPracticeWrap) inPracticeWrap.style.display = 'none';
-          } else if(inPracticeWrap){
-            if(actionEl){ actionEl.setAttribute('hidden',''); actionEl.style.display = 'none'; }
-            inPracticeParts.forEach(function(part){
-              var box = document.createElement('div');
-              box.className = 'key-ideas-action concept-in-practice-box';
-              box.innerHTML = buildInPracticeBoxHtml(part);
-              box.classList.toggle('is-completed', practiceDone);
-              var ic = box.querySelector('.icon'); if(ic) ic.innerHTML = inPracticeActionIconHtml(practiceDone);
-              bindInPracticeBox(box);
-              inPracticeWrap.appendChild(box);
-            });
-            inPracticeWrap.style.display = '';
-          }
+          var actionText = actionEl.querySelector('.text');
+          var iconEl = actionEl.querySelector('.icon');
+          if(iconEl && !iconEl.innerHTML.trim()) iconEl.innerHTML = inPracticeActionIconHtml(practiceDone);
+          if(actionText){ actionText.innerHTML = buildUnifiedInPracticeInnerHtml(inPracticeParts, exampleParts); }
+          actionEl.removeAttribute('hidden');
+          actionEl.style.display = '';
+          actionEl.classList.toggle('is-completed', practiceDone);
+          bindInPracticeBox(actionEl);
         } else {
           panel.dataset.inPracticeRequired = 'false';
           panel.dataset.inPracticeDone = 'true';
