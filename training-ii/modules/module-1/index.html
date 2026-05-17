@@ -1280,6 +1280,15 @@
     .concept-examples-wrap .key-ideas-action-para + .key-ideas-action-para{
       margin-top:12px;
     }
+    .concept-in-practice-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:12px;
+    }
+    .concept-in-practice-wrap .key-ideas-action{
+      margin-top:0;
+    }
     .key-ideas-action-para strong{
       font-weight:700;
       color:var(--ink);
@@ -4262,9 +4271,8 @@
           'One instability may affect multiple areas simultaneously.',
           'Difficulties may involve interacting foundations.',
           'Participation should be viewed dynamically rather than through isolated skills.',
-          'Example 1 — A swimmer lifts the head repeatedly during floating activities due to uncertainty with breathing control. As breathing becomes inconsistent, floating stability also becomes less stable.',
-          'Example 2 — A swimmer confidently kicks across short distances but becomes unstable during direction changes and recovery. The instructor recognises that movement confidence is currently stronger than balance recovery and aquatic organisation.',
-          'In Practice — Breathing and Floating Interaction: A swimmer lifts the head repeatedly during floating activities due to uncertainty with breathing control. As breathing becomes inconsistent, floating stability also becomes less stable.'
+          'In Practice — Breathing and Floating Interaction: A swimmer lifts the head repeatedly during floating activities due to uncertainty with breathing control. As breathing becomes inconsistent, floating stability also becomes less stable.',
+          'In Practice — Balance and propulsion interaction: A swimmer confidently kicks across short distances but becomes unstable during direction changes and recovery. The instructor recognises that movement confidence is currently stronger than balance recovery and aquatic organisation.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span><span>Concept Image</span></div><div class="force-cards"><div class="force-card"><strong>Dynamic aquatic interaction</strong><span>Swimmer participating calmly at the centre with foundations dynamically influencing one another—e.g. breathing instability influencing floating, reduced confidence influencing movement, instability affecting recovery. Fluid, responsive and experiential.</span></div></div>'
       },
@@ -5784,47 +5792,71 @@
             examplesWrap.style.display = 'none';
           }
         }
-        var actionEl = inPracticeEl;
-        if(actionEl){
-          var actionText = actionEl.querySelector('.text');
-          var iconEl = actionEl.querySelector('.icon');
-          if(iconEl && !iconEl.innerHTML.trim()) iconEl.innerHTML = inPracticeActionIconHtml(false);
-          if(inPracticeParts.length && actionText){
-            panel.dataset.inPracticeRequired = 'true';
-            panel.dataset.inPracticeDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) ? 'true' : 'false';
-            actionText.textContent = '';
-            inPracticeParts.forEach(function(part){
-              var para = document.createElement('p');
-              para.className = 'key-ideas-action-para';
-              para.innerHTML = formatActionParagraphHtml(part);
-              actionText.appendChild(para);
-            });
-            actionEl.removeAttribute('hidden');
-            actionEl.classList.toggle('is-completed', panel.dataset.inPracticeDone === 'true');
-            if(iconEl) iconEl.innerHTML = inPracticeActionIconHtml(panel.dataset.inPracticeDone === 'true');
-            if(actionEl.getAttribute('data-in-practice-bound') !== '1'){
-              actionEl.setAttribute('data-in-practice-bound','1');
-              actionEl.addEventListener('click', function(){
-                panel.dataset.inPracticeDone = 'true';
-                actionEl.classList.add('is-completed');
-                var ic = actionEl.querySelector('.icon'); if(ic) ic.innerHTML = inPracticeActionIconHtml(true);
-                updateConceptFinishState(panel, block, panel.dataset.currentTarget || target);
-              });
-            }
-          } else {
-            panel.dataset.inPracticeRequired = 'false';
+        function bindInPracticeBox(box){
+          if(box.getAttribute('data-in-practice-bound') === '1') return;
+          box.setAttribute('data-in-practice-bound','1');
+          box.addEventListener('click', function(){
             panel.dataset.inPracticeDone = 'true';
-            actionEl.setAttribute('hidden','');
-            if(actionText) actionText.textContent = '';
-            actionEl.classList.remove('is-completed');
-            if(iconEl) iconEl.innerHTML = inPracticeActionIconHtml(false);
+            panel.querySelectorAll('.concept-in-practice-wrap .concept-in-practice-box, [data-concept-in-practice].concept-in-practice-box').forEach(function(b){
+              if(b.hasAttribute('hidden')) return;
+              b.classList.add('is-completed');
+              var ic = b.querySelector('.icon'); if(ic) ic.innerHTML = inPracticeActionIconHtml(true);
+            });
+            updateConceptFinishState(panel, block, panel.dataset.currentTarget || target);
+          });
+        }
+        function buildInPracticeBoxHtml(part){
+          return '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true"></span><span class="label">In Practice</span></div><div class="text"><p class="key-ideas-action-para">' + formatActionParagraphHtml(part) + '</p></div>';
+        }
+        var inPracticeWrap = panel.querySelector('[data-concept-in-practice-wrap]');
+        if(!inPracticeWrap && ideasShellEl){
+          inPracticeWrap = document.createElement('div');
+          inPracticeWrap.setAttribute('data-concept-in-practice-wrap', '');
+          inPracticeWrap.className = 'concept-in-practice-wrap';
+          if(inPracticeEl && inPracticeEl.parentNode){
+            inPracticeEl.parentNode.insertBefore(inPracticeWrap, inPracticeEl);
+          }
+        }
+        if(inPracticeWrap) inPracticeWrap.innerHTML = '';
+        var actionEl = inPracticeEl;
+        if(inPracticeParts.length){
+          panel.dataset.inPracticeRequired = 'true';
+          panel.dataset.inPracticeDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) ? 'true' : 'false';
+          var practiceDone = panel.dataset.inPracticeDone === 'true';
+          if(inPracticeParts.length === 1 && actionEl){
+            var actionText = actionEl.querySelector('.text');
+            var iconEl = actionEl.querySelector('.icon');
+            if(iconEl && !iconEl.innerHTML.trim()) iconEl.innerHTML = inPracticeActionIconHtml(practiceDone);
+            if(actionText){ actionText.innerHTML = '<p class="key-ideas-action-para">' + formatActionParagraphHtml(inPracticeParts[0]) + '</p>'; }
+            actionEl.removeAttribute('hidden');
+            actionEl.style.display = '';
+            actionEl.classList.toggle('is-completed', practiceDone);
+            bindInPracticeBox(actionEl);
+            if(inPracticeWrap) inPracticeWrap.style.display = 'none';
+          } else if(inPracticeWrap){
+            if(actionEl){ actionEl.setAttribute('hidden',''); actionEl.style.display = 'none'; }
+            inPracticeParts.forEach(function(part){
+              var box = document.createElement('div');
+              box.className = 'key-ideas-action concept-in-practice-box';
+              box.innerHTML = buildInPracticeBoxHtml(part);
+              box.classList.toggle('is-completed', practiceDone);
+              var ic = box.querySelector('.icon'); if(ic) ic.innerHTML = inPracticeActionIconHtml(practiceDone);
+              bindInPracticeBox(box);
+              inPracticeWrap.appendChild(box);
+            });
+            inPracticeWrap.style.display = '';
           }
         } else {
           panel.dataset.inPracticeRequired = 'false';
           panel.dataset.inPracticeDone = 'true';
+          if(inPracticeWrap) inPracticeWrap.style.display = 'none';
+          if(actionEl){
+            actionEl.setAttribute('hidden','');
+            actionEl.style.display = 'none';
+            var actionText = actionEl.querySelector('.text');
+            if(actionText) actionText.textContent = '';
+          }
         }
-      }
-  
       const insightEl = panel.querySelector('.concept-insight-box');
       if (insightEl) {
         insightEl.innerHTML = '';
