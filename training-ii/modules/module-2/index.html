@@ -4142,150 +4142,92 @@
         "imageHTML": "<div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">🎯</span><span>Concept Image</span></div><p class=\"concept-image-meta\"><strong>Applying One Progression Structure Across Aquatic Development</strong><br><span class=\"muted\">Understanding how the same progression logic supports multiple aquatic learning areas and aquatic skills.</span></p><div class=\"force-cards\"><div class=\"force-card\"><strong>Water Familiarisation</strong><span>Static interaction → movement through water → dynamic environmental exploration → integrated aquatic participation.</span></div><div class=\"force-card\"><strong>Water Entry</strong><span>Seated poolside entry → moving entry → entry combined with recovery and movement → coordinated aquatic participation.</span></div><div class=\"force-card\"><strong>Breathing</strong><span>Static blowing → breathing while moving → breathing integrated within aquatic movement → coordinated breathing participation.</span></div><div class=\"force-card\"><strong>Floating</strong><span>Supported floating → floating with movement → floating integrated with recovery and coordination → adaptable floating participation.</span></div><div class=\"force-card\"><strong>Propulsion</strong><span>Static kicking → propulsion while travelling → propulsion integrated with breathing and movement → coordinated aquatic propulsion.</span></div><div class=\"force-card\"><strong>Final Visual Goal</strong><span>The framework should communicate one adaptable progression structure applied across multiple aquatic learning situations and aquatic skills. The visual should feel organised, scalable and methodology based.</span></div></div>"
       }
     };
-    const conceptActivityBank =     {
-      "b1c1": {
-        "title": "Activity — Reflection Task",
-        "q": "You use an activity regularly. Which approach best reflects progressive scaffolding?",
-        "options": [
-          {
-            "id": "a",
-            "text": "Begin with full coordinated performance so the swimmer adapts quickly"
-          },
-          {
-            "id": "b",
-            "text": "Begin simply, increase complexity gradually and keep learning manageable throughout"
-          }
+    const conceptActivityBank = {
+      b1c1: {
+        title: 'Activity — Reflection Task',
+        q: 'You use an activity regularly. Which approach best reflects progressive scaffolding?',
+        options: [
+          { id: 'a', text: 'Begin with full coordinated performance so the swimmer adapts quickly.' },
+          { id: 'b', text: 'Begin simply, increase complexity gradually and keep learning manageable throughout.' }
         ],
-        "correct": "b",
-        "ok": "Correct. Identify how the activity could begin simply, how complexity could increase gradually and how learning could remain manageable.",
-        "bad": "Not quite. Scaffolding builds through manageable layers before full integration.",
-        "variant": "reflection"
+        correct: 'b',
+        ok: 'Correct. Identify how the activity could begin simply, how complexity could increase gradually and how learning could remain manageable.',
+        bad: 'Not quite. Scaffolding builds through manageable layers before full integration.',
+        variant: 'reflection'
       },
-      "b1c2": {
-        "title": "Activity — Practical Design Task",
-        "q": "You choose one activity to redesign. Which plan best separates complexity before reintegration?",
-        "options": [
-          {
-            "id": "a",
-            "text": "Introduce all elements together from the start"
-          },
-          {
-            "id": "b",
-            "text": "Identify elements to separate initially, reduce overload and rebuild coordination progressively"
-          }
-        ],
-        "correct": "b",
-        "ok": "Correct. Identify which elements could separate initially, which layers feel too complex and how progression could remain manageable.",
-        "bad": "Not quite. Separate manageable layers before progressive reintegration.",
-        "variant": "reflection"
+      b1c2: {
+        type: 'matching',
+        q: 'Match each instructor move to the scaffolding idea it best reflects.',
+        leftTitle: 'Instructor move',
+        rightTitle: 'Scaffolding idea',
+        pairs: [
+          { id: '1', left: 'Practise throwing and catching separately before combining them.', right: 'Separate complexity before reintegration.' },
+          { id: '2', left: 'Introduce breathing only after arm action is stable.', right: 'Reinforce a limiting variable before wider integration.' },
+          { id: '3', left: 'Combine every element in the first attempt to save time.', right: 'Increase overload by combining demands too early.' }
+        ]
       },
-      "b1c3": {
-        "title": "Activity — Observation Task",
-        "q": "A learner struggles during a coordinated activity. What should the instructor do first?",
-        "options": [
-          {
-            "id": "a",
-            "text": "Repeat the full activity until it improves"
-          },
-          {
-            "id": "b",
-            "text": "Identify the limiting variable, reinforce it separately, then reintegrate"
-          }
-        ],
-        "correct": "b",
-        "ok": "Correct. Identify which component may limit progression, which variable needs reinforcement and how learning could become more stable.",
-        "bad": "Not quite. Reinforce the limiting micro skill before wider reintegration.",
-        "variant": "reflection"
+      b1c3: {
+        type: 'truefalse',
+        q: 'When a coordinated activity keeps failing, the instructor should always repeat the full activity until it improves.',
+        correct: 'false',
+        ok: 'Correct. Identify the limiting variable, reinforce it separately, then reintegrate into wider learning.',
+        bad: 'Not quite. Reinforce the limiting micro skill before expecting full coordinated performance again.'
       },
-      "b1c4": {
-        "title": "Activity — Adaptation Task",
-        "q": "A learner succeeds in isolated layers but loses stability when layers combine. What is the best response?",
-        "options": [
-          {
-            "id": "a",
-            "text": "Push integrated progression to build resilience"
-          },
-          {
-            "id": "b",
-            "text": "Reinforce the layer that needs stability and simplify progression temporarily"
-          }
-        ],
-        "correct": "b",
-        "ok": "Correct. Identify which layer may require reinforcement, which progression layer may simplify temporarily and how progression could remain manageable.",
-        "bad": "Not quite. Maintain earlier stability while reintegration stays gradual.",
-        "variant": "reflection"
+      b1c4: {
+        type: 'sequencing',
+        q: 'Put these steps in the order that best reflects progressive reintegration.',
+        sequence: [
+          'Practise the skill component in isolation.',
+          'Confirm stability in that isolated layer.',
+          'Introduce the next demand gradually.',
+          'Integrate with earlier stable layers.'
+        ]
       },
-      "b2c1": {
-        "title": "Activity — Reflection Task",
-        "q": "A swimmer loses stability when multiple demands combine. Which response best reflects the learning principle?",
-        "options": [
-          {
-            "id": "a",
-            "text": "Keep combined demands so the swimmer adapts to overload"
-          },
-          {
-            "id": "b",
-            "text": "Identify which demands feel too complex, separate elements and keep progression manageable"
-          }
-        ],
-        "correct": "b",
-        "ok": "Correct. Identify which demands feel too complex, which elements may require separation and how progression could remain manageable.",
-        "bad": "Not quite. Separate demands when combined coordination becomes unstable.",
-        "variant": "reflection"
+      b2c1: {
+        type: 'matching',
+        q: 'Match each situation to the response that best reflects the learning principle.',
+        leftTitle: 'Situation',
+        rightTitle: 'Best response',
+        pairs: [
+          { id: '1', left: 'Multiple demands combine and coordination becomes unstable.', right: 'Separate elements and reduce combined load.' },
+          { id: '2', left: 'The learner is stable in isolated components.', right: 'Increase demands gradually while stability holds.' },
+          { id: '3', left: 'Full coordination fails despite isolated success.', right: 'Identify and reinforce the limiting variable first.' }
+        ]
       },
-      "b2c2": {
-        "title": "Activity — Scenario Analysis",
-        "q": "A swimmer loses stability when movement and breathing combine. What should the instructor prioritise?",
-        "options": [
-          {
-            "id": "a",
-            "text": "Add more demands to build coordination under pressure"
-          },
-          {
-            "id": "b",
-            "text": "Identify which demands feel too complex, reduce variables temporarily and progress gradually"
-          }
+      b2c2: {
+        type: 'sorting',
+        q: 'Sort each instructor response into the category that best fits when learning becomes unstable.',
+        zoneA: 'Reduce demand when unstable',
+        zoneB: 'Keep or increase demand when unstable',
+        items: [
+          { text: 'Return to a simpler isolated layer temporarily.', cat: 'hyper' },
+          { text: 'Reduce movement or environmental load.', cat: 'hyper' },
+          { text: 'Repeat the full combined activity until it works.', cat: 'hypo' },
+          { text: 'Add further coordination to build resilience.', cat: 'hypo' }
         ],
-        "correct": "b",
-        "ok": "Correct. Identify which demands feel too complex, which variables could temporarily reduce and how progression could remain manageable.",
-        "bad": "Not quite. Reduce complexity first so stability can return before integration.",
-        "variant": "reflection"
+        ok: 'Correct. When learning is unstable, reduce demand first so stability can return before integration continues.'
       },
-      "b2c3": {
-        "title": "Activity — Application Task",
-        "q": "For one activity, which mapping best matches the three progression states?",
-        "options": [
-          {
-            "id": "a",
-            "text": "Static control is skipped; dynamic application is introduced first"
-          },
-          {
-            "id": "b",
-            "text": "Static control stabilises learning; movement integration adds demand; dynamic application integrates coordination adaptively"
-          }
-        ],
-        "correct": "b",
-        "ok": "Correct. Identify static control, movement integration and dynamic application, and explain why earlier layers reduce complexity.",
-        "bad": "Not quite. Progress through static control, movement integration and dynamic application adaptively.",
-        "variant": "reflection"
+      b2c3: {
+        type: 'sequencing',
+        q: 'Order the three progression states from first to last.',
+        sequence: [
+          'Static control of the skill.',
+          'Movement integration with manageable demand.',
+          'Dynamic application within coordinated participation.'
+        ]
       },
-      "b2c4": {
-        "title": "Activity — Application Task",
-        "q": "You choose one aquatic skill. Which plan best applies the learning principle across development?",
-        "options": [
-          {
-            "id": "a",
-            "text": "Begin with full integrated performance for every skill"
-          },
-          {
-            "id": "b",
-            "text": "Begin simply, increase gradually and integrate previous layers over time"
-          }
+      b2c4: {
+        title: 'Activity — Application Scenario',
+        q: 'You plan progression for a new aquatic skill. Which plan best applies the learning principle?',
+        options: [
+          { id: 'a', text: 'Begin with full integrated performance for every swimmer.' },
+          { id: 'b', text: 'Begin simply, increase gradually and integrate previous layers over time.' },
+          { id: 'c', text: 'Keep complexity high so swimmers adapt quickly to realistic demands.' }
         ],
-        "correct": "b",
-        "ok": "Correct. Identify how the skill could begin simply, how progression could increase gradually and how previous layers could integrate over time.",
-        "bad": "Not quite. The same gradual progression logic applies across aquatic skills.",
-        "variant": "reflection"
+        correct: 'b',
+        ok: 'Correct. Identify how the skill could begin simply, how progression could increase gradually and how previous layers could integrate over time.',
+        bad: 'Not quite. The same gradual progression logic applies across aquatic skills and learning situations.',
+        variant: 'scenario'
       }
     };
 
@@ -5751,9 +5693,7 @@
       }
   
       var activityGuideText = 'Review the prompt and complete the activity below.';
-      if(target === 'b1c2') activityGuideText = 'Read the scenario and choose the response that best fits a developmental, observational reading.';
-      else if(target === 'b2c2') activityGuideText = 'Compare the two aquatic profiles and select the most appropriate interpretation.';
-      else if(data.requiresMatching) activityGuideText = 'Select one item from the left column, then select its corresponding match on the right.';
+      if(data.requiresMatching) activityGuideText = 'Select one item from the left column, then select its corresponding match on the right.';
       else if(data.requiresCategorize) activityGuideText = 'Place each item into the most appropriate category.';
       else if(data.requiresSequenceActivity) activityGuideText = 'Select each step in the correct sequence.';
       else if(data.requiresChoiceActivity && String(conceptActivityBank[target]?.type || '') === 'truefalse') activityGuideText = 'Select True or False.';
