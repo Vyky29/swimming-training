@@ -1272,12 +1272,17 @@
       margin-top:12px;
     }
     .concept-examples-wrap{
-      display:grid;
-      gap:12px;
       margin-top:12px;
     }
     .concept-examples-wrap .key-ideas-action{
       margin-top:0;
+    }
+    .concept-examples-wrap .key-ideas-action-para + .key-ideas-action-para{
+      margin-top:12px;
+    }
+    .key-ideas-action-para strong{
+      font-weight:700;
+      color:var(--ink);
     }
   
     .concept-points-box .key-idea-item{
@@ -5568,6 +5573,23 @@
       return t.charAt(0).toUpperCase() + t.slice(1);
     }
 
+    function escapeHtml(str){
+      return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function formatActionParagraphHtml(text){
+      var t = String(text || '').trim();
+      if(!t) return '';
+      var lead = t.charAt(0).toUpperCase() + t.slice(1);
+      var colon = lead.indexOf(':');
+      if(colon > 0 && colon < 120){
+        var heading = lead.slice(0, colon + 1);
+        var body = lead.slice(colon + 1).trim();
+        return '<strong>' + escapeHtml(heading) + '</strong> ' + escapeHtml(body);
+      }
+      return escapeHtml(lead);
+    }
+
     var inPracticeLinePattern = /^in\s+practice\s*(?:[\u2014\u2013\u002d\u2012\-–:]\s*)/i;
     var exampleLinePattern = /^example\s*\d+\s*(?:[\u2014\u2013\u002d\u2012\-–:]\s*)/i;
 
@@ -5580,7 +5602,7 @@
         if(!plain) return;
         if(inPracticeLinePattern.test(plain)){
           var body = plain.replace(inPracticeLinePattern, '').trim();
-          if(body) inPracticeParts.push(capitalizeFirstLetter(body));
+          if(body) inPracticeParts.push(body);
           return;
         }
         if(exampleLinePattern.test(plain)){
@@ -5748,12 +5770,15 @@
         if(examplesWrap){
           examplesWrap.innerHTML = '';
           if(exampleParts.length){
+            var examplesBox = document.createElement('div');
+            examplesBox.className = 'key-ideas-action concept-examples-combined';
+            var examplesHtml = '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true"></span><span class="label">Examples</span></div><div class="text">';
             exampleParts.forEach(function(ex){
-              var box = document.createElement('div');
-              box.className = 'key-ideas-action concept-example-box';
-              box.innerHTML = '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true"></span><span class="label">' + ex.label + '</span></div><div class="text"><p class="key-ideas-action-para">' + ex.text + '</p></div>';
-              examplesWrap.appendChild(box);
+              examplesHtml += '<p class="key-ideas-action-para"><strong>' + escapeHtml(ex.label) + '</strong> ' + escapeHtml(ex.text) + '</p>';
             });
+            examplesHtml += '</div>';
+            examplesBox.innerHTML = examplesHtml;
+            examplesWrap.appendChild(examplesBox);
             examplesWrap.style.display = '';
           } else {
             examplesWrap.style.display = 'none';
@@ -5771,7 +5796,7 @@
             inPracticeParts.forEach(function(part){
               var para = document.createElement('p');
               para.className = 'key-ideas-action-para';
-              para.textContent = part;
+              para.innerHTML = formatActionParagraphHtml(part);
               actionText.appendChild(para);
             });
             actionEl.removeAttribute('hidden');
