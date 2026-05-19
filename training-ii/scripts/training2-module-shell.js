@@ -209,21 +209,42 @@
     }
   }
 
+  function getBlockNavTitle(blockNumber){
+    var section = document.getElementById('block' + blockNumber);
+    if(!section) return '';
+    var heading = section.querySelector('.block-title-wrap h3');
+    if(!heading) return '';
+    var text = (heading.textContent || '').trim();
+    return text.replace(new RegExp('^Block\\s+' + blockNumber + '\\s*[-–—]\\s*', 'i'), '').trim() || text;
+  }
+
+  function buildBlockNavLink(id, blockNumber, isActive){
+    var title = getBlockNavTitle(blockNumber) || ('Block ' + blockNumber);
+    return '<a class="nav-link nav-link--block' + (isActive ? ' active' : '') + '" href="#' + id + '" data-stage="' + id + '" data-scroll="' + id + '">' +
+      '<span class="nav-link__block-label">Block ' + blockNumber + '</span>' +
+      '<span class="nav-link__block-name">' + title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</span></a>';
+  }
+
   function normalizeModuleNavigation(){
     var navList = document.querySelector('.nav-list');
     if(!navList) return;
 
-    navList.innerHTML = [
+    var items = [
       { id: 'overview', label: 'Overview' },
       { id: 'journey', label: TRAINING_II_JOURNEY_HEADING },
       { id: 'outcomes', label: 'Learning Outcomes' },
-      { id: 'block1', label: 'Block 1' },
-      { id: 'block2', label: 'Block 2' },
-      { id: 'block3', label: 'Block 3' },
+      { id: 'block1', block: 1 },
+      { id: 'block2', block: 2 },
+      { id: 'block3', block: 3 },
       { id: 'recap', label: 'Recap' },
       { id: 'complete', label: 'Completion' },
       { id: 'quiz', label: 'Quiz' }
-    ].map(function(item, index){
+    ];
+
+    navList.innerHTML = items.map(function(item, index){
+      if(item.block){
+        return buildBlockNavLink(item.id, item.block, index === 0);
+      }
       return '<a class="nav-link' + (index === 0 ? ' active' : '') + '" href="#' + item.id + '" data-stage="' + item.id + '" data-scroll="' + item.id + '">' + item.label + '</a>';
     }).join('');
   }
@@ -775,6 +796,9 @@
     setupTts();
     syncCourseState(moduleId);
     updateProgress(stageOrder);
+    if(typeof window.enhanceModuleBlockNav === 'function'){
+      window.enhanceModuleBlockNav();
+    }
   }
 
   if(document.readyState === 'loading'){

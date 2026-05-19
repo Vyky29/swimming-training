@@ -1,0 +1,28 @@
+/* Block labels in module sidebar navigation (Swimming Training) */
+.nav-link.nav-link--block{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:3px;
+  line-height:1.35;
+}
+
+.nav-link__block-label{
+  font-size:.7rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted, #6b7f92);
+}
+
+.nav-link__block-name{
+  font-size:.88rem;
+  font-weight:700;
+  color:var(--ink, #163247);
+}
+
+.nav-link.nav-link--block:hover .nav-link__block-name,
+.nav-link.nav-link--block.active .nav-link__block-name,
+.nav-link.nav-link--block.done .nav-link__block-name{
+  color:inherit;
+}
