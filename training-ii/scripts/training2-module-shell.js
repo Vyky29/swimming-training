@@ -224,10 +224,7 @@
       { id: 'complete', label: 'Completion' },
       { id: 'quiz', label: 'Quiz' }
     ].map(function(item, index){
-      return '<a class="nav-link nav-link--academy' + (index === 0 ? ' active' : '') + '" href="#' + item.id + '" data-stage="' + item.id + '" data-scroll="' + item.id + '">' +
-        '<span class="nav-link__rail" aria-hidden="true"></span>' +
-        '<span class="nav-link__body"><span class="nav-link__label">' + item.label + '</span><span class="nav-meta nav-link__meta">Open</span></span>' +
-        '<span class="nav-link__badge" aria-hidden="true"></span></a>';
+      return '<a class="nav-link' + (index === 0 ? ' active' : '') + '" href="#' + item.id + '" data-stage="' + item.id + '" data-scroll="' + item.id + '">' + item.label + '</a>';
     }).join('');
   }
 
@@ -533,27 +530,10 @@
     if(count) count.textContent = completed + ' / ' + total;
 
     document.querySelectorAll('.nav-link[data-stage]').forEach(function(link){
-      var stageId = link.getAttribute('data-stage');
-      var done = !!document.querySelector('input[data-stage-check="' + stageId + '"]:checked');
-      var section = document.getElementById(stageId);
-      var locked = !!(section && section.classList.contains('gated-locked') && !section.classList.contains('is-unlocked'));
+      var done = !!document.querySelector('input[data-stage-check="' + link.getAttribute('data-stage') + '"]:checked');
       link.classList.toggle('done', done);
-      link.classList.toggle('completed', done);
-      link.classList.toggle('is-locked', locked);
       var meta = link.querySelector('.nav-meta');
-      if(meta) meta.textContent = done ? 'Done' : (locked ? 'Locked' : 'Open');
-    });
-
-    document.querySelectorAll('#inside-module .module-roadmap__item').forEach(function(item){
-      var href = item.getAttribute('href');
-      if(!href || href.charAt(0) !== '#') return;
-      var stageId = href.slice(1);
-      var input = document.querySelector('input[data-stage-check="' + stageId + '"]');
-      var section = document.getElementById(stageId);
-      var done = !!(input && input.checked);
-      var locked = !!(section && section.classList.contains('gated-locked') && !section.classList.contains('is-unlocked'));
-      item.classList.toggle('is-completed', done);
-      item.classList.toggle('is-locked', locked);
+      if(meta) meta.textContent = done ? 'Done' : 'Open';
     });
   }
 
@@ -696,12 +676,7 @@
       if(!visible.length) return;
       var id = visible[0].target.id;
       links.forEach(function(link){
-        var match = link.getAttribute('data-stage') === id;
-        link.classList.toggle('active', match);
-        link.classList.toggle('is-current', match);
-      });
-      document.querySelectorAll('#inside-module .module-roadmap__item').forEach(function(item){
-        item.classList.toggle('is-current', item.getAttribute('href') === '#' + id);
+        link.classList.toggle('active', link.getAttribute('data-stage') === id);
       });
     }, {
       root: null,
