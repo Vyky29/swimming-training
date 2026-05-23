@@ -1044,6 +1044,9 @@
     [data-concept-grid="block2"]{
       grid-template-columns:repeat(4,minmax(0,1fr));
     }
+    [data-concept-grid="block3"]{
+      grid-template-columns:repeat(3,minmax(0,1fr));
+    }
 .overview-subconcept-shell{
       margin-top:14px;
     }
@@ -3255,6 +3258,9 @@
       [data-concept-grid="block1"]{
         grid-template-columns:1fr;
       }
+      [data-concept-grid="block3"]{
+        grid-template-columns:1fr;
+      }
       .overview-subconcept-grid{
         grid-template-columns:1fr;
       }
@@ -3472,6 +3478,10 @@
           <a class="nav-link" href="#outcomes" data-progress-key="module3_outcomes">Learning Outcomes</a>
           <a class="nav-link" href="#key-concepts">Inside This Module</a>
           <a class="nav-link" href="#block1" data-progress-key="module3_block1">Block 1</a>
+          <a class="nav-link" href="#block2" data-progress-key="module3_block2">Block 2</a>
+          <a class="nav-link" href="#block3" data-progress-key="module3_block3">Block 3</a>
+          <a class="nav-link" href="#recap" data-progress-key="module3_recap">Recap</a>
+          <a class="nav-link" href="#complete" data-progress-key="module3_completed">Completion</a>
         </div>
       </div>
 
@@ -3482,13 +3492,14 @@
         </div>
         <div class="progress-meta">
           <span id="overallProgressText">0% completed</span>
-          <span id="overallProgressCount">0 / 3</span>
+          <span id="overallProgressCount">0 / 7</span>
         </div>
         <p class="small-note">Click through the module and complete each stage to see visible progress across the course.</p>
       </div>
 
       <div class="sidebar-card save-progress-card">
         <h3>Save progress</h3>
+        <input type="checkbox" class="overall-check gated-check" data-stage-check="complete" id="completeCheckHidden" hidden>
         <button type="button" class="btn-save-progress" id="saveProgressBtnSidebar">Save progress</button>
       </div>
     </aside>
@@ -3813,6 +3824,353 @@
             </label>
           </div>
         </section>
+
+        <section class="section gated-block gated-locked" id="block2" data-stage="block2">
+          <div class="section-top">
+            <span class="section-pill">Block 2</span>
+          </div>
+          <div class="section-body">
+            <div class="section-lock-banner">Complete the previous stage to unlock this block.</div>
+            <div class="block-header">
+              <div class="block-title-wrap">
+                <h3>Block 2 — First Water Interaction</h3>
+              </div>
+              <div class="section-top-actions">
+                <button class="btn btn-tts" data-tts-button="block2">🔊 Listen</button>
+                <button class="btn btn-tts" data-tts-stop="block2">⏹ Stop Audio</button>
+              </div>
+            </div>
+
+            <p class="lead" data-tts-source="block2">This block focuses on how swimmers first interact directly with water through gradual exposure, predictable interaction and early environmental orientation.<br><br>
+              The emphasis is on helping swimmers begin direct contact with water while learning to use stable reference points and feel increasingly organised within the aquatic environment.</p>
+
+            <div class="grid-2 block-intro-cards" data-block-intro="block2">
+              <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
+                <div class="card-icon">&#9678;</div>
+                <h4>Block Focus</h4>
+                <ul>
+                  <li>Understanding how swimmers first interact with water and begin orientating themselves within the aquatic environment.</li>
+                </ul>
+              </div>
+              <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
+                <div class="card-icon">&#8801;</div>
+                <h4>What This Block Covers</h4>
+                <ul>
+                  <li>First water contact.</li>
+                  <li>Early water exploration.</li>
+                  <li>Environmental orientation.</li>
+                  <li>Early familiarisation.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="concept-stage">
+              <h4>Explore the Key Concepts</h4>
+              <p>Select each concept to review it in sequence. Completed concepts are marked with a tick to support clear progress tracking.</p>
+
+              <div class="concept-grid" data-concept-grid="block2">
+                <button class="concept-square" data-target="b2c1">First Water Contact</button>
+                <button class="concept-square" data-target="b2c2">Environmental Orientation</button>
+              </div>
+
+              <div class="concept-panel" data-panel-for="block2">
+                <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                <div class="concept-heading-row">
+                  <div class="concept-panel-tts">
+                    <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
+                    <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
+                  </div>
+                  <h4></h4>
+                </div>
+                <p></p>
+
+                <div class="concept-ideas-shell">
+                  <div class="concept-points-box">
+                    <h4>Key Ideas for Instructors</h4>
+                    <p class="key-ideas-instruction">Review each key idea below.</p>
+                    <ul></ul>
+                  </div>
+                  <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                    <div class="key-ideas-action-head">
+                      <span class="icon" aria-hidden="true"></span>
+                      <span class="label">In Practice</span>
+                    </div>
+                    <div class="text"></div>
+                  </div>
+                </div>
+
+                <div class="concept-insight-box" data-concept-insight></div>
+                <div class="concept-image"></div>
+                <div class="concept-micro-check" data-concept-micro-check></div>
+                <div class="concept-why-matters" data-concept-why></div>
+
+                <div class="concept-media-actions">
+                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
+                  <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                </div>
+
+                <div class="concept-actions">
+                  <div class="concept-mini-track">
+                    <div class="concept-mini-fill" data-mini-fill="block2"></div>
+                  </div>
+                  <div class="concept-progress">
+                    <span data-mini-text="block2">0 of 2 concepts completed</span>
+                    <span>Block 2</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lock-box" data-lock-box="block2">
+              <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
+            </div>
+
+            <p class="lead">These ideas prepare you to explore water familiarisation and adaptation in the next block.</p>
+
+            <div class="reflection-gate" data-gate="block2" data-reflection-type="questions">
+              <h4>Reflection Checkpoint — Block 2</h4>
+              <p class="reflection-prompt">Review each question and use it to reflect on first water interaction in your teaching context.</p>
+              <div class="grid-2 block-intro-cards">
+                <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
+                  <div class="card-icon">1</div>
+                  <h4>Question 1</h4>
+                  <ul>
+                    <li>How does the swimmer respond to first contact with water?</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
+                  <div class="card-icon">2</div>
+                  <h4>Question 2</h4>
+                  <ul>
+                    <li>Which reference points currently help the swimmer feel more organised within the environment?</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
+                  <div class="card-icon">3</div>
+                  <h4>Question 3</h4>
+                  <ul>
+                    <li>What shows that environmental orientation is beginning to improve?</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="feedback" data-feedback="block2"></div>
+            </div>
+
+            <label class="check-item clickable-progress">
+              <input type="checkbox" class="overall-check gated-check" data-stage-check="block2" data-check-for="block2" disabled>
+              <span>I have completed Block 2.</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section gated-block gated-locked" id="block3" data-stage="block3">
+          <div class="section-top">
+            <span class="section-pill">Block 3</span>
+          </div>
+          <div class="section-body">
+            <div class="section-lock-banner">Complete the previous stage to unlock this block.</div>
+            <div class="block-header">
+              <div class="block-title-wrap">
+                <h3>Block 3 — Water Familiarisation &amp; Adaptation</h3>
+              </div>
+              <div class="section-top-actions">
+                <button class="btn btn-tts" data-tts-button="block3">🔊 Listen</button>
+                <button class="btn btn-tts" data-tts-stop="block3">⏹ Stop Audio</button>
+              </div>
+            </div>
+
+            <p class="lead" data-tts-source="block3">This block focuses on how swimmers become more settled, more mobile and increasingly adaptable within water before formal aquatic skill development begins.<br><br>
+              The emphasis remains on helping swimmers feel increasingly organised, familiar and comfortable within the aquatic environment through repeated successful experiences.</p>
+
+            <div class="grid-2 block-intro-cards" data-block-intro="block3">
+              <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
+                <div class="card-icon">&#9678;</div>
+                <h4>Block Focus</h4>
+                <ul>
+                  <li>Building comfort, movement and early adaptation within the aquatic environment.</li>
+                </ul>
+              </div>
+              <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
+                <div class="card-icon">&#8801;</div>
+                <h4>What This Block Covers</h4>
+                <ul>
+                  <li>Settling within water.</li>
+                  <li>Face contact and water interaction.</li>
+                  <li>Movement within water.</li>
+                  <li>Early adaptation to the aquatic environment.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="concept-stage">
+              <h4>Explore the Key Concepts</h4>
+              <p>Select each concept to review it in sequence. Completed concepts are marked with a tick to support clear progress tracking.</p>
+
+              <div class="concept-grid" data-concept-grid="block3">
+                <button class="concept-square" data-target="b3c1">Settling Within Water</button>
+                <button class="concept-square" data-target="b3c2">Face Contact &amp; Water Interaction</button>
+                <button class="concept-square" data-target="b3c3">Movement Within Water</button>
+              </div>
+
+              <div class="concept-panel" data-panel-for="block3">
+                <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                <div class="concept-heading-row">
+                  <div class="concept-panel-tts">
+                    <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
+                    <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
+                  </div>
+                  <h4></h4>
+                </div>
+                <p></p>
+
+                <div class="concept-ideas-shell">
+                  <div class="concept-points-box">
+                    <h4>Key Ideas for Instructors</h4>
+                    <p class="key-ideas-instruction">Review each key idea below.</p>
+                    <ul></ul>
+                  </div>
+                  <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                    <div class="key-ideas-action-head">
+                      <span class="icon" aria-hidden="true"></span>
+                      <span class="label">In Practice</span>
+                    </div>
+                    <div class="text"></div>
+                  </div>
+                </div>
+
+                <div class="concept-insight-box" data-concept-insight></div>
+                <div class="concept-image"></div>
+                <div class="concept-micro-check" data-concept-micro-check></div>
+                <div class="concept-why-matters" data-concept-why></div>
+
+                <div class="concept-media-actions">
+                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
+                  <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                </div>
+
+                <div class="concept-actions">
+                  <div class="concept-mini-track">
+                    <div class="concept-mini-fill" data-mini-fill="block3"></div>
+                  </div>
+                  <div class="concept-progress">
+                    <span data-mini-text="block3">0 of 3 concepts completed</span>
+                    <span>Block 3</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lock-box" data-lock-box="block3">
+              <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
+            </div>
+
+            <p class="lead">These ideas help you reflect on how swimmers become more settled, mobile and adaptable within water before formal aquatic skill development begins.</p>
+
+            <div class="reflection-gate" data-gate="block3" data-reflection-type="questions">
+              <h4>Reflection Checkpoint — Block 3</h4>
+              <p class="reflection-prompt">Review each question and use it to reflect on water familiarisation and adaptation in your teaching context.</p>
+              <div class="grid-2 block-intro-cards">
+                <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
+                  <div class="card-icon">1</div>
+                  <h4>Question 1</h4>
+                  <ul>
+                    <li>How does the swimmer respond to staying, moving and adapting within water?</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
+                  <div class="card-icon">2</div>
+                  <h4>Question 2</h4>
+                  <ul>
+                    <li>What shows that the swimmer is becoming more settled and organised?</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-reflection-question role="button" tabindex="0">
+                  <div class="card-icon">3</div>
+                  <h4>Question 3</h4>
+                  <ul>
+                    <li>What shows that early aquatic adaptation is beginning to develop?</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="feedback" data-feedback="block3"></div>
+            </div>
+
+            <label class="check-item clickable-progress">
+              <input type="checkbox" class="overall-check gated-check" data-stage-check="block3" data-check-for="block3" disabled>
+              <span>I have completed Block 3.</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section gated-locked" id="recap" data-stage="recap">
+          <div class="section-top">
+            <span class="section-pill">Recap</span>
+          </div>
+          <div class="section-body">
+            <div class="section-lock-banner">Complete the previous stage to unlock the recap.</div>
+
+            <div class="section-title-row">
+              <h3>Key Ideas to Remember</h3>
+              <div class="section-top-actions">
+                <button class="btn btn-tts" data-tts-button="recap">🔊 Listen</button>
+                <button class="btn btn-tts" data-tts-stop="recap">⏹ Stop Audio</button>
+              </div>
+            </div>
+
+            <div class="recap-stack" data-tts-source="recap">
+              <div class="recap-card clickable-progress">
+                <h4>Early aquatic experiences shape later progression.</h4>
+              </div>
+              <div class="recap-card clickable-progress">
+                <h4>Predictable interaction supports organisation and familiarity.</h4>
+              </div>
+              <div class="recap-card clickable-progress">
+                <h4>Gradual exposure supports confidence and control.</h4>
+              </div>
+              <div class="recap-card clickable-progress">
+                <h4>Adaptation prepares later aquatic skill development.</h4>
+              </div>
+              <div class="recap-card clickable-progress">
+                <h4>Early aquatic experiences should remain safe, structured and repeatable.</h4>
+              </div>
+            </div>
+
+            <label class="check-item clickable-progress">
+              <input type="checkbox" class="overall-check" data-stage-check="recap">
+              <span>I have reviewed the key ideas and I am ready to continue.</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="section gated-locked" id="complete" data-stage="complete">
+          <div class="section-top">
+            <span class="section-pill">Completion</span>
+          </div>
+          <div class="section-body">
+            <div class="section-lock-banner">Complete the recap before continuing.</div>
+
+            <div class="completion completion-box">
+              <div class="section-title-row" style="margin-bottom:0;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div class="completion-badge">&#10003;</div>
+                  <h3>Module 3 complete</h3>
+                </div>
+              </div>
+
+              <div data-tts-source="complete" style="margin-top:22px;position:relative;z-index:1;">
+                <h3 style="margin:0 0 14px;font-size:1.35rem;line-height:1.35;color:#fff;">Final Principle</h3>
+                <p style="margin:0 auto;max-width:760px;font-size:1.06rem;line-height:1.85;color:#fff;">Before swimmers develop formal aquatic skills, they must first become organised, familiar and increasingly confident within the aquatic environment.</p>
+              </div>
+
+              <p style="margin-top:18px;">You are ready to continue into Module 4 — Core Aquatic Skills.</p>
+
+              <div class="completion-actions">
+                <a class="btn btn-primary" href="/training-ii/modules/module-4/" data-course-next-module-button="module4">Go to Module 4</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
     </main>
   </div>
@@ -3856,6 +4214,76 @@
           "Example 2 — Transition Closure: The swimmer resists leaving the water after preferred activities. A repeated exit sequence is introduced consistently. Calm prompting supports transition organisation. Exit participation becomes more predictable over time."
         ],
         "imageHTML": "<div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">🎯</span><span>Concept Image</span></div><p class=\"concept-image-meta\"><strong>Structured Exit &amp; Transition From Water</strong><br><span class=\"muted\">Understanding how structured and predictable exit routines may support safer and more organised aquatic participation.</span></p><div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">📐</span><span>Visual Structure</span></div><div class=\"force-cards\"><div class=\"force-card\"><strong>Highly Supported Exit</strong><span><em>Examples:</em> Instructor supported lift; Guided body turn; Stable poolside positioning. The swimmer exits with high levels of support and predictability.</span></div><div class=\"force-card\"><strong>Ladder Exit</strong><span><em>Examples:</em> Hands on ladder; One step at a time; Controlled movement sequencing. The swimmer demonstrates more independent exit organisation.</span></div><div class=\"force-card\"><strong>Poolside Exit Progression</strong><span><em>Examples:</em> Elbows on poolside; Lift to belly; Controlled climb out. Movement, body organisation and recovery progressively integrate together.</span></div><div class=\"force-card\"><strong>Final Visual Goal</strong><span><em>Examples:</em> . The framework should communicate progressively more organised and independent exit experiences while maintaining safety and predictability. The visual should feel premium, developmental and methodology based.</span></div></div>"
+      },
+      "b2c1": {
+        "title": "Concept 1 — First Water Contact",
+        "text": "<p>First water contact introduces the swimmer to the feel of water directly.</p><p>For some swimmers, this is challenging because the sensation feels unfamiliar and may initially feel difficult to organise or control.</p>",
+        "points": [
+          "Water contact should develop gradually.",
+          "Interaction should remain predictable.",
+          "Experiences should match swimmer readiness.",
+          "Progress may appear through greater tolerance, calmer response or reduced support.",
+          "In Practice — Early Water Interaction: The instructor gradually increases water interaction while maintaining predictable routines and manageable exposure.",
+          "Example 1 — Gradual Contact Development: Water observation introduced first. Hand contact repeated consistently. Shared splash interaction explored gradually. Repeated successful contact supports increasing familiarity.",
+          "Example 2 — Poolside Interaction Before Entry: The swimmer avoids entering the water fully. Poolside toy interaction is introduced first. Throwing and retrieving objects supports engagement. Direct interaction develops progressively through repeated successful experiences."
+        ],
+        "imageHTML": "<div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">🎯</span><span>Concept Image</span></div><p class=\"concept-image-meta\"><strong>Developing Early Water Contact &amp; Interaction</strong><br><span class=\"muted\">Understanding how gradual and predictable water interaction may support confidence, environmental familiarity and aquatic participation.</span></p><div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">📐</span><span>Visual Structure</span></div><div class=\"force-cards\"><div class=\"force-card\"><strong>Observe Water</strong><span><em>Examples:</em> Watching water movement from poolside; Observing instructor interaction; Remaining close to stable reference points. The swimmer begins interacting visually with the aquatic environment without direct contact demands.</span></div><div class=\"force-card\"><strong>Touch Water</strong><span><em>Examples:</em> Hands into the water briefly; Pause and repeat interaction; Small predictable contact routines. The swimmer begins direct sensory interaction with water gradually.</span></div><div class=\"force-card\"><strong>Supported Splash Interaction</strong><span><em>Examples:</em> Controlled splash play; Water cans and pouring activities; Shared interaction with instructor support. The swimmer experiences more active interaction while maintaining predictability.</span></div><div class=\"force-card\"><strong>Shared Water Play &amp; Repeated Contact</strong><span><em>Examples:</em> Throwing floating objects; Reaching for toys; Repeating short successful routines. The swimmer demonstrates increasingly organised and familiar interaction with water.</span></div><div class=\"force-card\"><strong>Final Visual Goal</strong><span>The framework should communicate gradual increases in water interaction, environmental familiarity and organised participation through predictable exposure. The visual should feel premium, structured and developmental.</span></div></div>"
+      },
+      "b2c2": {
+        "title": "Concept 2 — Environmental Orientation in Water",
+        "text": "<p>Before swimmers move more freely within water, many first need to understand where they are, what feels stable and which environmental reference points help them remain organised.</p><p>This concept focuses on orientation through the wall, pool floor, shallow water space and predictable movement pathways.</p>",
+        "points": [
+          "Orientation develops progressively through predictable reference points.",
+          "Wall, floor and shallow space may initially support organisation.",
+          "Human support or equipment may initially support exploration and stability.",
+          "Progress may appear through calmer exploration, stronger orientation or reduced reliance on fixed support.",
+          "In Practice — Early Environmental Orientation: The instructor gradually increases environmental exploration while maintaining stable orientation points.",
+          "Example 1 — Wall Based Orientation: Wall interaction introduced first. Monkey walking explored gradually. Side stepping added progressively. Independent orientation develops through repeated successful exploration.",
+          "Example 2 — Reference Point Progression: The swimmer remains calm near the wall. Movement between nearby reference points is introduced. Human support remains available where needed. Environmental confidence develops progressively through repeated movement pathways."
+        ],
+        "imageHTML": "<div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">🎯</span><span>Concept Image</span></div><p class=\"concept-image-meta\"><strong>Developing Orientation Within The Aquatic Environment</strong><br><span class=\"muted\">Understanding how stable reference points and predictable exploration may support confidence, familiarity and early aquatic organisation.</span></p><div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">📐</span><span>Visual Structure</span></div><div class=\"force-cards\"><div class=\"force-card\"><strong>Stable Reference Points</strong><span><em>Examples:</em> Holding the wall; Standing near shallow water edges; Remaining close to instructor support. The swimmer develops familiarity through stable environmental positioning.</span></div><div class=\"force-card\"><strong>Supported Environmental Movement</strong><span><em>Examples:</em> Monkey walk along the wall; Side stepping through shallow water; Moving between nearby reference points. Movement and environmental awareness increase gradually.</span></div><div class=\"force-card\"><strong>Pool Floor Awareness</strong><span><em>Examples:</em> Touching the floor repeatedly; Regaining standing position calmly; Exploring shallow movement pathways. The swimmer develops increasing awareness of body position and environmental organisation.</span></div><div class=\"force-card\"><strong>Independent Orientation</strong><span><em>Examples:</em> Short movement away from the wall; Moving between reference points independently; Maintaining organisation without fixed support. The swimmer demonstrates more adaptable environmental orientation and movement organisation.</span></div><div class=\"force-card\"><strong>Final Visual Goal</strong><span>The framework should communicate how environmental orientation develops progressively through predictable exploration, stable reference points and organised movement. The visual should feel premium, instructional and methodology based.</span></div></div>"
+      },
+      "b3c1": {
+        "title": "Concept 1 — Settling Within Water",
+        "text": "<p>Some swimmers can enter and interact with water successfully, but still do not yet feel consistently settled within the aquatic environment.</p><p>This concept focuses on how repeated calm experiences help swimmers remain within water more comfortably and with greater organisation over time.</p>",
+        "points": [
+          "Settling within water may take time.",
+          "Calm repeated routines support organisation.",
+          "Familiarity develops through repeated successful experiences.",
+          "Progress may appear through longer tolerance, calmer pacing or greater willingness to remain within water.",
+          "In Practice — Building Comfort Within Water: The instructor maintains calm predictable routines while gradually increasing participation time within water.",
+          "Example 1 — Short Supported Participation: Short supported stays introduced first. Repeated calm routines maintained consistently. Time within the environment increased gradually. Settled participation develops progressively through familiarity.",
+          "Example 2 — Familiar Routine Reinforcement: The swimmer becomes calmer when the same sequence repeats consistently. The instructor maintains predictable pacing and transitions. Small changes are introduced gradually. Participation becomes increasingly organised over time."
+        ],
+        "imageHTML": "<div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">🎯</span><span>Concept Image</span></div><p class=\"concept-image-meta\"><strong>Becoming More Settled Within Water</strong><br><span class=\"muted\">Understanding how repeated calm routines and predictable experiences may support greater comfort, organisation and participation within water.</span></p><div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">📐</span><span>Visual Structure</span></div><div class=\"force-cards\"><div class=\"force-card\"><strong>Initial Water Presence</strong><span><em>Examples:</em> Standing briefly in shallow water; Remaining close to support; Short periods of participation. The swimmer demonstrates initial tolerance but limited settling within the environment.</span></div><div class=\"force-card\"><strong>Repeated Calm Routines</strong><span><em>Examples:</em> Repeating the same simple sequence; Short supported stays in water; Calm predictable interaction. The swimmer develops greater familiarity and organisation progressively.</span></div><div class=\"force-card\"><strong>Increasing Comfort &amp; Participation</strong><span><em>Examples:</em> Remaining longer within the water; More relaxed pacing and movement; Reduced urgency to leave the environment. The swimmer demonstrates increasingly settled and organised aquatic participation.</span></div><div class=\"force-card\"><strong>Final Visual Goal</strong><span>The framework should communicate how familiarity and comfort develop progressively through repeated successful aquatic experiences. The visual should feel calm, developmental and instructional.</span></div></div>"
+      },
+      "b3c2": {
+        "title": "Concept 2 — Face Contact &amp; Water Interaction",
+        "text": "<p>Face contact often feels more demanding than general water interaction because it influences breathing, awareness and comfort more quickly than other early aquatic experiences.</p><p>At this stage, the focus remains on gradual tolerance and predictable exposure rather than formal breathing control or submersion development.</p>",
+        "points": [
+          "Face contact should develop gradually.",
+          "Exposure should remain predictable.",
+          "Experiences should match swimmer readiness.",
+          "Progress may appear through greater tolerance, calmer response or reduced support.",
+          "In Practice — Gradual Facial Exposure: The instructor gradually increases facial exposure while maintaining calm predictable interaction.",
+          "Example 1 — Repeated Exposure: Cheek and chin exposure repeated consistently. Lip and nose contact introduced gradually. Successful exposure repeated before progression increases. Greater tolerance develops progressively through repeated calm interaction.",
+          "Example 2 — Maintaining Stability: The swimmer tolerates low level exposure calmly. The instructor avoids progressing too quickly. Exposure remains predictable and successful. Organisation and tolerance strengthen over time."
+        ],
+        "imageHTML": "<div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">🎯</span><span>Concept Image</span></div><p class=\"concept-image-meta\"><strong>Gradual Face Contact &amp; Exposure</strong><br><span class=\"muted\">Understanding how predictable facial exposure may support tolerance, familiarity and calmer aquatic participation.</span></p><div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">📐</span><span>Visual Structure</span></div><div class=\"force-cards\"><div class=\"force-card\"><strong>Early Facial Exposure</strong><span><em>Examples:</em> Water on cheeks; Chin contact with water; Small predictable splash interaction. The swimmer develops tolerance through manageable exposure.</span></div><div class=\"force-card\"><strong>Progressive Face Contact</strong><span><em>Examples:</em> Lips and nose exposure; Repeated short contact; Calm supported interaction. Facial exposure increases gradually while predictability remains stable.</span></div><div class=\"force-card\"><strong>Increasing Tolerance &amp; Organisation</strong><span><em>Examples:</em> Eyes briefly in contact with water; Reduced hesitation during exposure; Calmer response to repeated interaction. The swimmer demonstrates increasingly organised and adaptable face contact participation.</span></div><div class=\"force-card\"><strong>Final Visual Goal</strong><span>The framework should communicate gradual increases in facial exposure while maintaining calm predictable interaction and organised participation. The visual should feel structured, developmental and methodology based.</span></div></div>"
+      },
+      "b3c3": {
+        "title": "Concept 3 — Movement Within Water",
+        "text": "<p>Once swimmers become more settled within water, movement begins to develop as its own challenge.</p><p>Water changes balance, pacing and body organisation, so this concept focuses on organised early movement rather than formal aquatic skills.</p>",
+        "points": [
+          "Movement should develop progressively.",
+          "Experiences should match swimmer readiness.",
+          "Movement demands should remain manageable.",
+          "Progress may appear through improved balance, calmer movement or reduced reliance on support.",
+          "In Practice — Organised Early Movement: The instructor gradually increases movement demands while maintaining stability and organisation.",
+          "Example 1 — Early Movement Progression: Simple walking introduced first. Direction changes explored gradually. Lean and recovery activities introduced progressively. Organised movement develops through repeated successful exploration.",
+          "Example 2 — Managing Movement Complexity: The swimmer walks calmly in shallow water. Direction changes temporarily reduce organisation. The instructor simplifies movement again. Complexity increases progressively once stability returns."
+        ],
+        "imageHTML": "<div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">🎯</span><span>Concept Image</span></div><p class=\"concept-image-meta\"><strong>Developing Organised Movement Within Water</strong><br><span class=\"muted\">Understanding how early movement develops progressively through controlled exploration, balance and recovery within water.</span></p><div class=\"concept-section-head\"><span class=\"icon\" aria-hidden=\"true\">📐</span><span>Visual Structure</span></div><div class=\"force-cards\"><div class=\"force-card\"><strong>Early Organised Movement</strong><span><em>Examples:</em> Standing and pausing; Walking through shallow water; Controlled forward movement. Movement remains simple and organised.</span></div><div class=\"force-card\"><strong>Increasing Movement Demands</strong><span><em>Examples:</em> Direction changes; Movement around objects; Simple exploration pathways. Movement organisation and environmental interaction increase gradually.</span></div><div class=\"force-card\"><strong>Adaptation &amp; Recovery</strong><span><em>Examples:</em> Leaning forwards and recovering; Small balance adjustments; Repositioning calmly after movement changes. The swimmer develops increasingly adaptable and organised movement participation.</span></div><div class=\"force-card\"><strong>Final Visual Goal</strong><span>The framework should communicate how organised aquatic movement develops progressively through exploration, balance, recovery and environmental adaptation. The visual should feel premium, developmental and instructional.</span></div></div>"
       }
     };
     const conceptActivityBank = {
@@ -3881,9 +4309,62 @@
           'Organised exit with support.',
           'Increasing independence during transition out of the water.'
         ]
+      },
+      b2c1: {
+        title: 'Activity — Apply Your Understanding',
+        q: 'Compare the Difference — Swimmer A touches the water briefly but withdraws once splash interaction increases. Swimmer B maintains calm hand interaction and repeats the same short routine successfully. Which observation best reflects more organised interaction during early water contact?',
+        options: [
+          { id: 'a', text: 'Swimmer A currently demonstrates greater tolerance and more organised interaction.' },
+          { id: 'b', text: 'Swimmer B currently demonstrates greater tolerance and more organised interaction.' },
+          { id: 'c', text: 'Both swimmers currently demonstrate identical interaction.' }
+        ],
+        correct: 'b',
+        ok: 'Correct. Swimmer B currently demonstrates greater tolerance and more organised interaction during early water contact.',
+        bad: 'Not quite. Compare which swimmer maintains calm, repeated interaction as splash demands increase.',
+        variant: 'reflection'
+      },
+      b2c2: {
+        type: 'sequencing',
+        q: 'Short Orientation Pathway — Order these steps from first to last.',
+        sequence: [
+          'Stable reference points.',
+          'Pool floor interaction.',
+          'Shallow water movement.',
+          'Gradual movement away from the wall.'
+        ]
+      },
+      b3c1: {
+        type: 'sequencing',
+        q: 'Design a Settling Routine — Order these steps from first to last.',
+        sequence: [
+          'Calm predictable interaction.',
+          'Repeated successful experiences.',
+          'Short supported participation.',
+          'Gradual increase in time within water.'
+        ]
+      },
+      b3c2: {
+        type: 'sequencing',
+        q: 'Progressive Exposure Pathway — Order these steps from first to last.',
+        sequence: [
+          'Predictable interaction.',
+          'Repeated successful exposure.',
+          'Gradual increase in facial contact.',
+          'Increasing independence.'
+        ]
+      },
+      b3c3: {
+        type: 'sequencing',
+        q: 'Structured Movement Activity — Order these steps from first to last.',
+        sequence: [
+          'Exploration.',
+          'Repeated movement.',
+          'Small position changes.',
+          'Calm recovery and repositioning.'
+        ]
       }
     };
-const stageOrder = ['journey','outcomes','block1'];
+const stageOrder = ['journey','outcomes','block1','block2','block3','recap','complete'];
     const stageChecks = {};
     const REVIEW_MODE = true;
     var updateOutcomeStateRef = null;
@@ -3893,24 +4374,36 @@ const stageOrder = ['journey','outcomes','block1'];
   
     const gatedUnlocks = {
       journey: 'outcomes',
-      outcomes: 'block1'
+      outcomes: 'block1',
+      block1: 'block2',
+      block2: 'block3',
+      block3: 'recap',
+      recap: 'complete'
     };
   
     const conceptGroups = {
-      block1: { total: 2, visited: new Set(), order: ['b1c1','b1c2'] }
+      block1: { total: 2, visited: new Set(), order: ['b1c1','b1c2'] },
+      block2: { total: 2, visited: new Set(), order: ['b2c1','b2c2'] },
+      block3: { total: 3, visited: new Set(), order: ['b3c1','b3c2','b3c3'] }
     };
   
     const conceptCompletion = {
-      block1: new Set()
+      block1: new Set(),
+      block2: new Set(),
+      block3: new Set()
     };
-    const conceptHistory = { block1: [] };
+    const conceptHistory = { block1: [], block2: [], block3: [] };
   
     const correctFeedback = {
-      block1: 'Correct. You recognised how entry and exit experiences influence confidence, safety and aquatic readiness.'
+      block1: 'Correct. You recognised how entry and exit experiences influence confidence, safety and aquatic readiness.',
+      block2: 'Correct. You recognised how gradual water contact and environmental orientation support early aquatic organisation.',
+      block3: 'Correct. You recognised how settling, face contact tolerance and organised movement support early aquatic adaptation.'
     };
 
     const wrongFeedback = {
-      block1: 'Not quite. Revisit predictable entry routines, structured exit progression and gradual independence.'
+      block1: 'Not quite. Revisit predictable entry routines, structured exit progression and gradual independence.',
+      block2: 'Not quite. Revisit gradual water contact, stable reference points and progressive environmental orientation.',
+      block3: 'Not quite. Revisit settling routines, gradual facial exposure and organised early movement within water.'
     };
 
     const mediaModal = document.getElementById('mediaModal');
@@ -3943,7 +4436,7 @@ const stageOrder = ['journey','outcomes','block1'];
         return;
       }
 
-      var stagesWithDwell = ['journey','outcomes','block1'];
+      var stagesWithDwell = ['journey','outcomes','block1','block2','block3','recap'];
       stagesWithDwell.forEach(function(stage){
         var section = document.getElementById(stage);
         var cb = stageChecks[stage];
@@ -3994,7 +4487,7 @@ const stageOrder = ['journey','outcomes','block1'];
               cb.removeAttribute('data-dwell-required');
             }
             if(stage === 'outcomes' && updateOutcomeStateRef) updateOutcomeStateRef();
-            if(['block1'].indexOf(stage) >= 0) tryUnlockBlockGate(stage);
+            if(['block1','block2','block3'].indexOf(stage) >= 0) tryUnlockBlockGate(stage);
           } else {
             var secLeft = Math.max(0, Math.ceil((dwellMs - elapsed) / 1000));
             var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]');
@@ -4007,7 +4500,7 @@ const stageOrder = ['journey','outcomes','block1'];
           }
         });
       }, 1000);
-      function tickDwell(){ var now = Date.now(); stagesWithDwell.forEach(function(stage){ if(!sectionDwellStart[stage]) return; if(sectionDwellElapsed[stage]) return; var elapsed = now - sectionDwellStart[stage]; var dwellMs = stage === 'journey' ? MIN_JOURNEY_DWELL_MS : (stage === 'outcomes' ? MIN_OUTCOMES_DWELL_MS : MIN_SECTION_DWELL_MS); if(elapsed >= dwellMs){ sectionDwellElapsed[stage] = true; var cb = stageChecks[stage]; var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = ''; if(['journey','recap'].indexOf(stage) >= 0 && cb){ cb.disabled = false; cb.removeAttribute('data-dwell-required'); } if(stage === 'outcomes' && updateOutcomeStateRef) updateOutcomeStateRef(); if(['block1'].indexOf(stage) >= 0) tryUnlockBlockGate(stage); } else { var secLeft = Math.max(0, Math.ceil((dwellMs - elapsed) / 1000)); var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = 'Please spend a moment reviewing (' + secLeft + 's)'; var lockBox = document.querySelector('[data-lock-box="' + stage + '"]'); if(lockBox && conceptCompletion[stage] && conceptCompletion[stage].size === conceptGroups[stage].total){ var msg = lockBox.querySelector('.lock-message'); if(msg && !lockBox.classList.contains('ready')) msg.innerHTML = 'Unlocks in <strong>' + secLeft + 's</strong>. Please review the block first.'; } } }); }
+      function tickDwell(){ var now = Date.now(); stagesWithDwell.forEach(function(stage){ if(!sectionDwellStart[stage]) return; if(sectionDwellElapsed[stage]) return; var elapsed = now - sectionDwellStart[stage]; var dwellMs = stage === 'journey' ? MIN_JOURNEY_DWELL_MS : (stage === 'outcomes' ? MIN_OUTCOMES_DWELL_MS : MIN_SECTION_DWELL_MS); if(elapsed >= dwellMs){ sectionDwellElapsed[stage] = true; var cb = stageChecks[stage]; var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = ''; if(['journey','recap'].indexOf(stage) >= 0 && cb){ cb.disabled = false; cb.removeAttribute('data-dwell-required'); } if(stage === 'outcomes' && updateOutcomeStateRef) updateOutcomeStateRef(); if(['block1','block2','block3'].indexOf(stage) >= 0) tryUnlockBlockGate(stage); } else { var secLeft = Math.max(0, Math.ceil((dwellMs - elapsed) / 1000)); var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = 'Please spend a moment reviewing (' + secLeft + 's)'; var lockBox = document.querySelector('[data-lock-box="' + stage + '"]'); if(lockBox && conceptCompletion[stage] && conceptCompletion[stage].size === conceptGroups[stage].total){ var msg = lockBox.querySelector('.lock-message'); if(msg && !lockBox.classList.contains('ready')) msg.innerHTML = 'Unlocks in <strong>' + secLeft + 's</strong>. Please review the block first.'; } } }); }
       document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'visible') tickDwell(); });
     }
   
@@ -4023,7 +4516,7 @@ const stageOrder = ['journey','outcomes','block1'];
   
       let label = 'Start the module';
       if(percent > 0 && percent < 100) label = 'In progress';
-      if(percent === 100) label = 'Block 1 completed';
+      if(percent === 100) label = 'Module completed';
   
       document.getElementById('moduleProgressText').textContent = percent + '% completed • ' + label;
   
@@ -4051,7 +4544,7 @@ const stageOrder = ['journey','outcomes','block1'];
 
       document.documentElement.setAttribute('data-review-mode', 'true');
 
-      ['outcomes','block1'].forEach(unlockStage);
+      ['outcomes','block1','block2','block3','recap','complete'].forEach(unlockStage);
 
       Object.keys(stageChecks).forEach(function(stage){
         if(stageChecks[stage]){
@@ -4192,6 +4685,26 @@ const stageOrder = ['journey','outcomes','block1'];
         if(gate){
           setTimeout(function(){
             gate.scrollIntoView({ behavior:'smooth', block:'start' });
+          }, 120);
+        }
+        return;
+      }
+
+      if(block === 'block2' && isLastRequiredConcept){
+        var gate2 = document.querySelector('[data-gate="block2"]');
+        if(gate2){
+          setTimeout(function(){
+            gate2.scrollIntoView({ behavior:'smooth', block:'start' });
+          }, 120);
+        }
+        return;
+      }
+
+      if(block === 'block3' && isLastRequiredConcept){
+        var gate3 = document.querySelector('[data-gate="block3"]');
+        if(gate3){
+          setTimeout(function(){
+            gate3.scrollIntoView({ behavior:'smooth', block:'start' });
           }, 120);
         }
         return;
@@ -5758,7 +6271,7 @@ const stageOrder = ['journey','outcomes','block1'];
   
     function setupSidebarActiveState(){
       const links = document.querySelectorAll('.nav-link');
-      const targets = ['overview','journey','outcomes','key-concepts','block1']
+      const targets = ['overview','journey','outcomes','key-concepts','block1','block2','block3','recap','complete']
         .map(id => document.getElementById(id))
         .filter(Boolean);
   
@@ -6090,6 +6603,8 @@ const stageOrder = ['journey','outcomes','block1'];
     setupConcepts();
     setupCarousels();
     setupReflection('block1','gate1');
+    setupReflection('block2','gate2');
+    setupReflection('block3','gate3');
         setupChecks();
     setupDwellTime();
     setupSmoothScroll();
