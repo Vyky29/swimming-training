@@ -881,6 +881,7 @@ body.training-template-body{
   margin-bottom:18px;
 }
 
+/* Concept-stage atmosphere + concept-square navigation: see /assets/concept-stage-system.css (loaded after this file). */
 .concept-stage{
   margin-top:18px;
   background:linear-gradient(180deg,#f7fbfd 0%,#ffffff 100%);
