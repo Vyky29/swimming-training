@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 import shutil
 
 
@@ -10,7 +11,7 @@ PORTAL_ROOT = PROJECT_ROOT / "portal"
 COMMON_ROOT = PROJECT_ROOT / "common"
 TRAINING_ONE_ROOT = PROJECT_ROOT / "training-i"
 TRAINING_TWO_ROOT = PROJECT_ROOT / "training-ii"
-CONCEPT_STAGE_CSS_VERSION = "20260601"
+CONCEPT_STAGE_CSS_VERSION = "20260602"
 CONCEPT_STAGE_CSS_FILE = COMMON_ROOT / "assets" / "concept-stage-system.css"
 
 
@@ -352,9 +353,10 @@ def concept_stage_stylesheet_href() -> str:
 def enhance_training_html(html: str) -> str:
     """Version the shared concept-stage CSS and inline it so deploys are not blocked by CDN/browser cache."""
     css_href = concept_stage_stylesheet_href()
-    html = html.replace(
-        'href="/assets/concept-stage-system.css"',
+    html = re.sub(
+        r'href="/assets/concept-stage-system\.css(?:\?v=[^"]*)?"',
         f'href="{css_href}"',
+        html,
     )
     link_tag = f'<link rel="stylesheet" href="{css_href}" />'
     inline_marker = 'data-concept-stage-system'

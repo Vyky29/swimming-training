@@ -44,11 +44,19 @@
   z-index:1;
 }
 
+/* Shared water-wave icon (same for every concept picker) */
+:root{
+  --concept-nav-icon-on-blue:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%3E%3Cpath%20d%3D%27M4%2014c2-1.4%203.8%201.4%206%200s4-1.4%206%200%204%201.4%206%200M4%2010c2-1.4%203.8%201.4%206%200s4-1.4%206%200%204%201.4%206%200%27%20stroke%3D%27%23ffffff%27%20stroke-width%3D%271.45%27%20stroke-linecap%3D%27round%27/%3E%3C%2Fsvg%3E");
+  --concept-nav-icon-on-light:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%20fill%3D%27none%27%3E%3Cpath%20d%3D%27M4%2014c2-1.4%203.8%201.4%206%200s4-1.4%206%200%204%201.4%206%200M4%2010c2-1.4%203.8%201.4%206%200s4-1.4%206%200%204%201.4%206%200%27%20stroke%3D%27%232d84b3%27%20stroke-width%3D%271.45%27%20stroke-linecap%3D%27round%27/%3E%3C%2Fsvg%3E");
+}
+
 /* ----- Main concept pickers (Training I/II block grids) ----- */
 .portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]),
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]{
-  min-height:120px;
-  padding:16px 14px;
+  flex-direction:column;
+  gap:10px;
+  min-height:128px;
+  padding:14px 14px 16px;
   border-radius:20px;
   border:2px solid rgba(45,132,179,.18);
   background:var(--gradBlue, linear-gradient(135deg,#2d84b3 0%,#89b5c1 100%));
@@ -69,6 +77,23 @@
   font-weight:700 !important;
 }
 
+.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"])::before,
+.portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]::before{
+  content:'';
+  display:block;
+  flex-shrink:0;
+  width:34px;
+  height:34px;
+  border-radius:11px;
+  background-color:rgba(255,255,255,.16);
+  background-image:var(--concept-nav-icon-on-blue);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:18px 18px;
+  border:1px solid rgba(255,255,255,.24);
+  box-shadow:0 2px 8px rgba(18,50,71,.06);
+}
+
 .portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):hover,
 .portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):focus-visible,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]:hover,
@@ -79,6 +104,17 @@
   border-color:#c5d4e0 !important;
   box-shadow:0 16px 28px rgba(18,50,71,.1) !important;
   outline:none;
+}
+
+.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):hover::before,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):focus-visible::before,
+.portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]:hover::before,
+.portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]:focus-visible::before,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).visited::before,
+.portal .overview-subconcept-grid > .concept-square[data-overview-subtarget].visited::before{
+  background-color:rgba(45,132,179,.1);
+  background-image:var(--concept-nav-icon-on-light);
+  border-color:rgba(45,132,179,.18);
 }
 
 .portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):active,
