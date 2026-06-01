@@ -11,8 +11,10 @@ PORTAL_ROOT = PROJECT_ROOT / "portal"
 COMMON_ROOT = PROJECT_ROOT / "common"
 TRAINING_ONE_ROOT = PROJECT_ROOT / "training-i"
 TRAINING_TWO_ROOT = PROJECT_ROOT / "training-ii"
-CONCEPT_STAGE_CSS_VERSION = "20260602"
+CONCEPT_STAGE_CSS_VERSION = "20260603"
 CONCEPT_STAGE_CSS_FILE = COMMON_ROOT / "assets" / "concept-stage-system.css"
+CONCEPT_STAGE_ORIGIN = "https://swimming-training.vercel.app"
+CONCEPT_STAGE_STYLE_MARKER = "/* concept-stage-system: injected at build */"
 
 
 def dist_paths(*relative_paths: str) -> list[Path]:
@@ -351,20 +353,44 @@ def concept_stage_stylesheet_href() -> str:
 
 
 def enhance_training_html(html: str) -> str:
-    """Version the shared concept-stage CSS and inline it so deploys are not blocked by CDN/browser cache."""
+    """Inject concept-stage CSS inline and add cache-busted stylesheet links (relative + Vercel absolute fallback)."""
+    if not CONCEPT_STAGE_CSS_FILE.exists() or '<div class="portal">' not in html:
+        return html
+
+    css = CONCEPT_STAGE_CSS_FILE.read_text(encoding="utf-8")
     css_href = concept_stage_stylesheet_href()
+    abs_href = f"{CONCEPT_STAGE_ORIGIN}{css_href}"
+
     html = re.sub(
         r'href="/assets/concept-stage-system\.css(?:\?v=[^"]*)?"',
         f'href="{css_href}"',
         html,
     )
-    link_tag = f'<link rel="stylesheet" href="{css_href}" />'
-    inline_marker = 'data-concept-stage-system'
-    if link_tag not in html or inline_marker in html or not CONCEPT_STAGE_CSS_FILE.exists():
-        return html
-    css = CONCEPT_STAGE_CSS_FILE.read_text(encoding="utf-8")
-    inline_block = f'<style {inline_marker}>{css}</style>'
-    return html.replace(link_tag, link_tag + "\n" + inline_block, 1)
+    html = re.sub(
+        rf'href="{re.escape(CONCEPT_STAGE_ORIGIN)}/assets/concept-stage-system\.css(?:\?v=[^"]*)?"',
+        f'href="{abs_href}"',
+        html,
+    )
+
+    if CONCEPT_STAGE_STYLE_MARKER not in html:
+        portal_idx = html.find('<div class="portal">')
+        style_end = html.rfind('</style>', 0, portal_idx)
+        if style_end != -1:
+            html = html[:style_end] + f"\n{CONCEPT_STAGE_STYLE_MARKER}\n{css}\n" + html[style_end:]
+
+    rel_link = f'<link rel="stylesheet" href="{css_href}" />'
+    abs_link = f'<link rel="stylesheet" href="{abs_href}" crossorigin="anonymous" />'
+    inline_block = f'<style data-concept-stage-system>{css}</style>'
+
+    if rel_link not in html:
+        html = html.replace('<div class="portal">', rel_link + "\n" + abs_link + "\n" + inline_block + "\n<div class=\"portal\">", 1)
+    else:
+        if abs_href not in html:
+            html = html.replace(rel_link, rel_link + "\n" + abs_link, 1)
+        if 'data-concept-stage-system' not in html:
+            html = html.replace(rel_link, rel_link + "\n" + inline_block, 1)
+
+    return html
 
 
 def write_text(destination_path: Path, content: str) -> None:
