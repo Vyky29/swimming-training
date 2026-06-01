@@ -10,6 +10,8 @@ PORTAL_ROOT = PROJECT_ROOT / "portal"
 COMMON_ROOT = PROJECT_ROOT / "common"
 TRAINING_ONE_ROOT = PROJECT_ROOT / "training-i"
 TRAINING_TWO_ROOT = PROJECT_ROOT / "training-ii"
+CONCEPT_STAGE_CSS_VERSION = "20260601"
+CONCEPT_STAGE_CSS_FILE = COMMON_ROOT / "assets" / "concept-stage-system.css"
 
 
 def dist_paths(*relative_paths: str) -> list[Path]:
@@ -343,6 +345,26 @@ def apply_replacements(text: str, replacements: list[tuple[str, str]]) -> str:
     return updated
 
 
+def concept_stage_stylesheet_href() -> str:
+    return f"/assets/concept-stage-system.css?v={CONCEPT_STAGE_CSS_VERSION}"
+
+
+def enhance_training_html(html: str) -> str:
+    """Version the shared concept-stage CSS and inline it so deploys are not blocked by CDN/browser cache."""
+    css_href = concept_stage_stylesheet_href()
+    html = html.replace(
+        'href="/assets/concept-stage-system.css"',
+        f'href="{css_href}"',
+    )
+    link_tag = f'<link rel="stylesheet" href="{css_href}" />'
+    inline_marker = 'data-concept-stage-system'
+    if link_tag not in html or inline_marker in html or not CONCEPT_STAGE_CSS_FILE.exists():
+        return html
+    css = CONCEPT_STAGE_CSS_FILE.read_text(encoding="utf-8")
+    inline_block = f'<style {inline_marker}>{css}</style>'
+    return html.replace(link_tag, link_tag + "\n" + inline_block, 1)
+
+
 def write_text(destination_path: Path, content: str) -> None:
     destination_path.parent.mkdir(parents=True, exist_ok=True)
     destination_path.write_text(content, encoding="utf-8")
@@ -358,6 +380,7 @@ def build_pages(
         html = source_path.read_text(encoding="utf-8")
         html = apply_replacements(html, common_replacements)
         html = apply_replacements(html, page_replacements.get(page_key, []))
+        html = enhance_training_html(html)
         for destination_path in destination_paths:
             write_text(destination_path, html)
 
