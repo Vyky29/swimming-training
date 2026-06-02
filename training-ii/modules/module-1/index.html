@@ -6324,8 +6324,9 @@
       document.querySelectorAll('.clickable-progress').forEach(item => {
         if(item.tagName === 'LABEL') return;
         if(item.classList.contains('block-intro-card')) return;
+        if(item.classList.contains('outcome')) return;
         item.addEventListener('click', () => {
-          item.classList.toggle('clicked');
+          item.classList.add('clicked');
         });
       });
       setupBlockIntroCards();
@@ -6593,6 +6594,7 @@
       });
     });
   </script>
+  <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
 

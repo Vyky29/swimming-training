@@ -98,6 +98,34 @@
   box-shadow:0 10px 30px rgba(45,132,179,.16);
 }
 
+#recap .recap-takeaway-card.clicked::after,
+#keyideas .recap-takeaway-card.clicked::after{
+  content:'\2713';
+  position:absolute;
+  top:clamp(20px,2.4vw,26px);
+  right:clamp(20px,2.6vw,28px);
+  font-weight:700;
+  color:var(--blue,#2d84b3);
+  font-size:1.1rem;
+  line-height:1;
+}
+
+.outcome.clicked .outcome-index{
+  background:var(--blue,#2d84b3);
+  color:#fff;
+}
+
+.outcome.clicked::after{
+  content:'\2713';
+  font-weight:700;
+  color:var(--blue,#2d84b3);
+  margin-left:auto;
+  flex-shrink:0;
+  align-self:center;
+  font-size:1.1rem;
+  line-height:1;
+}
+
 #recap .recap-takeaway-card__body,
 #keyideas .recap-takeaway-card__body{
   display:flex;
