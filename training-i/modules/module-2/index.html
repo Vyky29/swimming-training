@@ -4049,7 +4049,6 @@
               <div class="concept-micro-check" data-concept-micro-check></div>
               <div class="concept-why-matters" data-concept-why></div>
               <div class="concept-media-actions">
-                <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                 <button class="concept-finish" type="button" data-finish-concept>Done</button>
               </div>
               <div class="concept-actions">
@@ -4164,7 +4163,6 @@
                 <div class="concept-why-matters" data-concept-why></div>
                 <div class="concept-parent-subconcepts concept-section-card" data-parent-subconcept-nav hidden></div>
                 <div class="concept-media-actions">
-                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                   <button class="concept-finish" type="button" data-finish-concept>Done</button>
                 </div>
                 <div class="concept-actions">
@@ -4277,7 +4275,6 @@
                 <div class="concept-why-matters" data-concept-why></div>
                 <div class="concept-parent-subconcepts concept-section-card" data-parent-subconcept-nav hidden></div>
                 <div class="concept-media-actions">
-                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                   <button class="concept-finish" type="button" data-finish-concept>Done</button>
                 </div>
                 <div class="concept-actions">
@@ -6324,8 +6321,6 @@
         ttsStopBtn.onclick = () => { if(window.speechSynthesis) window.speechSynthesis.cancel(); };
       }
 
-      const expandBtn = panel.querySelector('[data-expand-media]');
-
       const backBtn = panel.querySelector('[data-concept-back]');
       if(backBtn){
         backBtn.onclick = () => {
@@ -6421,20 +6416,6 @@
       }
 
       updateConceptFinishState(panel, block, target);
-
-      if(expandBtn){
-        var expandableHtml = getExpandableMediaHTML(panel);
-        var hasExpandable = !!(expandableHtml && expandableHtml.trim()) && !data.requiresFullCarousel;
-        if(!hasExpandable){
-          expandBtn.style.display = 'none';
-        } else {
-          expandBtn.style.display = 'inline-block';
-          expandBtn.onclick = function(){
-            var html = getExpandableMediaHTML(panel);
-            if(html) openMediaModal(html, (panel.querySelector('h4') && panel.querySelector('h4').textContent) ? panel.querySelector('h4').textContent.trim() : 'Expanded slide');
-          };
-        }
-      }
 
       panel.querySelectorAll('.img-expand-btn').forEach(function(b){ b.remove(); });
       panel.querySelectorAll('.concept-image img, [data-concept-primary-image] img').forEach(function(img){

@@ -3312,7 +3312,6 @@
                 <div class="concept-image"></div>
 
                 <div class="concept-media-actions">
-                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                   <button class="concept-finish" type="button" data-finish-concept>Done</button>
                 </div>
 
@@ -3428,7 +3427,6 @@
                 <div class="concept-image"></div>
 
                 <div class="concept-media-actions">
-                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                   <button class="concept-finish" type="button" data-finish-concept>Done</button>
                 </div>
 
@@ -3545,7 +3543,6 @@
                 <div class="concept-why-matters" data-concept-why></div>
                 <div class="concept-parent-subconcepts concept-section-card" data-parent-subconcept-nav hidden></div>
                 <div class="concept-media-actions">
-                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                   <button class="concept-finish" type="button" data-finish-concept>Done</button>
                 </div>
                 <div class="concept-actions">
@@ -5569,24 +5566,6 @@
       }
       if(!alreadyCompleted && data.requiresReflectAck){
         setupReflectAckActivity(panel, block, target);
-      }
-
-      var expandBtn = panel.querySelector('[data-expand-media]');
-      if(expandBtn){
-        var expandableHtml = getExpandableMediaHTML(panel);
-        var hasExpandable = !!(expandableHtml && expandableHtml.trim()) && !data.requiresCarousel;
-        if(!hasExpandable){
-          expandBtn.style.display = 'none';
-        } else {
-          expandBtn.style.display = '';
-          expandBtn.onclick = function(){
-            var html = getExpandableMediaHTML(panel);
-            if(html){
-              var mh = panel.querySelector('.concept-heading-row h4') || panel.querySelector('.concept-panel > h4') || panel.querySelector('h4');
-              openMediaModal(html, (mh && mh.textContent) ? mh.textContent.trim() : 'Expanded slide');
-            }
-          };
-        }
       }
 
       panel.querySelectorAll('.img-expand-btn').forEach(function(b){ b.remove(); });

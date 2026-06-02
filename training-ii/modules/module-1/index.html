@@ -3758,7 +3758,6 @@
                 <div class="concept-why-matters" data-concept-why></div>
 
                 <div class="concept-media-actions">
-                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                   <button class="concept-finish" type="button" data-finish-concept>Done</button>
                 </div>
 
@@ -3885,7 +3884,6 @@
                 <div class="concept-why-matters" data-concept-why></div>
 
                 <div class="concept-media-actions">
-                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                   <button class="concept-finish" type="button" data-finish-concept>Done</button>
                 </div>
 
@@ -4012,7 +4010,6 @@
                 <div class="concept-why-matters" data-concept-why></div>
 
                 <div class="concept-media-actions">
-                  <button class="media-btn" type="button" data-expand-media>Expand slide</button>
                   <button class="concept-finish" type="button" data-finish-concept>Done</button>
                 </div>
 
@@ -5905,8 +5902,6 @@
         ttsStopBtn.onclick = () => { if(window.speechSynthesis) window.speechSynthesis.cancel(); };
       }
   
-      const expandBtn = panel.querySelector('[data-expand-media]');
-  
       const backBtn = panel.querySelector('[data-concept-back]');
       if(backBtn){
         backBtn.onclick = () => {
@@ -6009,21 +6004,6 @@
           finishBtn.disabled = true;
           finishBtn.style.opacity = '.55';
           finishBtn.style.cursor = 'not-allowed';
-        }
-      }
-  
-      if(expandBtn){
-        var hasExpandableImage = (data.imageHTML && data.imageHTML.trim().indexOf('<img') !== -1 && !data.requiresCarousel) || getExpandableMediaHTML(panel);
-        if(data.requiresCarousel || !hasExpandableImage){
-          expandBtn.style.display = 'none';
-        } else {
-          expandBtn.style.display = 'inline-block';
-          expandBtn.onclick = function(){
-            var html = getExpandableMediaHTML(panel);
-            if(html){
-              openMediaModal(html, panel.querySelector('h4')?.textContent?.trim() || 'Expanded slide');
-            }
-          };
         }
       }
   
