@@ -1527,38 +1527,61 @@
     border-radius:12px;
   }
   .concept-intro-slot.concept-insight-intro-shell{
-    margin-top:16px;
-    padding:8px 0 4px;
+    margin-top:18px;
+    padding:12px 0 8px;
     border:0;
     background:transparent;
   }
   .concept-insight-intro{
     padding:0;
-    margin:0 0 6px;
+    margin:0 0 8px;
   }
-  .concept-insight-intro__label{
+  .concept-insight-intro__overview-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0 0 20px;
+  }
+  .concept-insight-intro__overview-icon{
+    width:36px;
+    height:36px;
+    border-radius:12px;
+    background:var(--gradBlue);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    box-shadow:0 8px 16px rgba(45,132,179,.18);
+  }
+  .concept-insight-intro__overview-icon svg{
+    width:20px;
+    height:20px;
     display:block;
-    font-size:.74rem;
+  }
+  .concept-insight-intro__overview-label{
+    font-size:.76rem;
     font-weight:800;
-    letter-spacing:.08em;
+    letter-spacing:.06em;
     text-transform:uppercase;
     color:var(--blue);
-    margin:0 0 12px;
   }
   .concept-insight-intro__title{
-    margin:0 0 14px;
-    font-size:1.35rem;
-    line-height:1.25;
+    margin:0 0 18px;
+    font-size:clamp(1.45rem, 2.5vw, 1.85rem);
+    line-height:1.12;
     font-weight:800;
-    color:var(--ink);
-    letter-spacing:-.01em;
+    color:var(--blue);
+    letter-spacing:.045em;
+    text-transform:uppercase;
   }
   .concept-insight-intro__statement{
-    margin:0 0 22px;
+    margin:0 0 24px;
     font-size:1rem;
-    line-height:1.55;
+    line-height:1.6;
     font-weight:700;
     color:var(--blue);
+    max-width:52rem;
   }
   .concept-insight-intro__cards{
     display:grid;
@@ -3414,11 +3437,17 @@
     }
 
     .concept-insight-intro__title{
-      font-size:1.2rem;
+      font-size:1.35rem;
+      letter-spacing:.04em;
+      margin-bottom:14px;
     }
 
     .concept-insight-intro__statement{
-      margin-bottom:18px;
+      margin-bottom:20px;
+    }
+
+    .concept-insight-intro__overview-head{
+      margin-bottom:16px;
     }
 
     .carousel-controls{
@@ -4344,7 +4373,7 @@
     b1c1: {
       title: 'Water as an Active Environment',
       introInsight: {
-        label: 'Concept 1',
+        overviewLabel: 'Concept Overview',
         title: 'Water is Never Passive',
         statement: 'Water continuously influences how the body moves, balances, and responds.',
         pillars: [
@@ -5537,6 +5566,8 @@
     });
   }
 
+  const conceptOverviewRippleIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" aria-hidden="true"><path d="M3 13c2.4-1.9 4.8-1.9 7.2 0s4.8 1.9 7.2 0"/><path d="M2 17.5c3.1-2.3 6.2-2.3 9.3 0s6.2 2.3 9.3 0" opacity=".72"/><circle cx="12" cy="8.5" r="1.35" fill="currentColor" stroke="none" opacity=".45"/></svg>';
+
   const conceptInsightIcons = {
     movement: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h10"/><path d="M13 8l4 4-4 4"/><path d="M5 7v10" opacity=".45"/></svg>',
     balance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16"/><path d="M6 9h12"/><path d="M4 9l-2.5 5h5L4 9z"/><path d="M20 9l-2.5 5h5L20 9z"/></svg>',
@@ -5558,7 +5589,10 @@
     }).join('');
     return [
       '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
-        '<span class="concept-insight-intro__label">' + (insight.label || '') + '</span>',
+        '<div class="concept-insight-intro__overview-head">',
+          '<span class="concept-insight-intro__overview-icon">' + conceptOverviewRippleIcon + '</span>',
+          '<span class="concept-insight-intro__overview-label">' + (insight.overviewLabel || 'Concept Overview') + '</span>',
+        '</div>',
         '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + insight.title + '</h5>',
         '<p class="concept-insight-intro__statement">' + insight.statement + '</p>',
         '<div class="concept-insight-intro__cards">' + pillars + '</div>',
@@ -5568,9 +5602,7 @@
 
   function buildConceptInsightSpeech(insight){
     if(!insight) return '';
-    var parts = [];
-    if(insight.label) parts.push(insight.label + '.');
-    parts.push(insight.title + '.', insight.statement);
+    var parts = [(insight.overviewLabel || 'Concept Overview') + '.', insight.title + '.', insight.statement];
     (insight.pillars || []).forEach(function(pillar){
       parts.push(pillar.title + '. ' + pillar.text);
     });
