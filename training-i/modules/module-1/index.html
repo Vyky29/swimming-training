@@ -1526,6 +1526,118 @@
     background:linear-gradient(180deg,#f5fbff 0%, #ffffff 100%);
     border-radius:12px;
   }
+  .concept-intro-slot.concept-insight-intro-shell{
+    margin-top:10px;
+    padding:0;
+    border:0;
+    background:transparent;
+  }
+  .concept-insight-intro{
+    border:1px solid rgba(45,132,179,.22);
+    border-radius:16px;
+    background:linear-gradient(180deg,#f5fbff 0%, #ffffff 100%);
+    padding:16px;
+    box-shadow:0 10px 28px rgba(45,132,179,.10);
+  }
+  .concept-insight-intro__title{
+    margin:0 0 8px;
+    font-size:1.35rem;
+    line-height:1.25;
+    font-weight:800;
+    color:var(--ink);
+    letter-spacing:-.01em;
+  }
+  .concept-insight-intro__statement{
+    margin:0 0 16px;
+    font-size:1rem;
+    line-height:1.55;
+    font-weight:700;
+    color:var(--blue);
+  }
+  .concept-insight-intro__cards{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+  }
+  .concept-insight-pillar{
+    border:1px solid rgba(45,132,179,.18);
+    border-radius:14px;
+    background:#fff;
+    padding:14px 12px;
+    box-shadow:0 6px 18px rgba(45,132,179,.08);
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+  .concept-insight-pillar__icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:var(--gradBlue);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 8px 16px rgba(45,132,179,.22);
+    flex-shrink:0;
+  }
+  .concept-insight-pillar__icon svg{
+    width:22px;
+    height:22px;
+    display:block;
+  }
+  .concept-insight-pillar__title{
+    margin:0;
+    font-size:.95rem;
+    line-height:1.3;
+    font-weight:800;
+    color:var(--ink);
+  }
+  .concept-insight-pillar__text{
+    margin:0;
+    font-size:.88rem;
+    line-height:1.55;
+    color:var(--ink);
+    opacity:.92;
+  }
+  .concept-insight-intro__reminder{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:12px;
+    border:1px solid rgba(45,132,179,.24);
+    border-left:4px solid var(--blue);
+    background:linear-gradient(135deg,rgba(45,132,179,.08) 0%, rgba(137,181,193,.14) 100%);
+  }
+  .concept-insight-intro__reminder-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:.74rem;
+    font-weight:800;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--blue);
+    margin:0 0 6px;
+  }
+  .concept-insight-intro__reminder-label .icon{
+    width:20px;
+    height:20px;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(45,132,179,.14);
+    font-size:.85rem;
+  }
+  .concept-insight-intro__reminder p{
+    margin:0;
+    font-size:.92rem;
+    line-height:1.55;
+    font-weight:600;
+    color:var(--ink);
+  }
   .concept-intro-kicker,
   .concept-section-head{
     display:inline-flex;
@@ -3327,6 +3439,14 @@
       margin-top:12px;
     }
 
+    .concept-insight-intro__cards{
+      grid-template-columns:1fr;
+    }
+
+    .concept-insight-intro__title{
+      font-size:1.2rem;
+    }
+
     .carousel-controls{
       justify-content:center;
     }
@@ -3761,7 +3881,7 @@
                 </div>
                 <h4></h4>
               </div>
-              <p></p>
+              <div class="concept-intro-slot"></div>
 
               <div class="concept-points-box">
                 <h4>Key Ideas for Instructors</h4>
@@ -3881,7 +4001,7 @@
                 </div>
                 <h4></h4>
               </div>
-              <p></p>
+              <div class="concept-intro-slot"></div>
 
               <div class="concept-points-box">
                 <h4>Key Ideas for Instructors</h4>
@@ -3998,7 +4118,7 @@
                 </div>
                 <h4></h4>
               </div>
-              <p></p>
+              <div class="concept-intro-slot"></div>
 
               <div class="concept-points-box">
                 <h4>Key Ideas for Instructors</h4>
@@ -4249,7 +4369,19 @@
   const conceptContent = {
     b1c1: {
       title: 'Water as an Active Environment',
-      text: '<p>Water is not just the setting for aquatic activities. It actively influences how the body moves, balances, and responds.</p><p>Every movement, position, and action is affected by the properties of water.</p><p>Even when a swimmer appears still, the body is continuously adapting to the environment.</p>',
+      introInsight: {
+        title: 'Water is Never Passive',
+        statement: 'Water continuously influences how the body moves, balances, and responds.',
+        pillars: [
+          { icon: 'movement', title: 'Moves', text: 'Water changes direction, speed, and effort.' },
+          { icon: 'balance', title: 'Balances', text: 'The body must constantly adjust to remain controlled.' },
+          { icon: 'response', title: 'Responds', text: 'Even when still, the body is actively reacting to the environment.' }
+        ],
+        reminder: {
+          label: 'Instructor Reminder',
+          text: 'Instability is often part of adaptation, not lack of ability.'
+        }
+      },
       points: [
         'Water continuously influences the body.',
         'Maintaining position in water requires active control.',
@@ -5434,6 +5566,52 @@
     });
   }
 
+  const conceptInsightIcons = {
+    movement: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h10"/><path d="M13 8l4 4-4 4"/><path d="M5 7v10" opacity=".45"/></svg>',
+    balance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16"/><path d="M6 9h12"/><path d="M4 9l-2.5 5h5L4 9z"/><path d="M20 9l-2.5 5h5L20 9z"/></svg>',
+    response: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="2"/><circle cx="12" cy="12" r="5.5" opacity=".55"/><circle cx="12" cy="12" r="9" opacity=".28"/></svg>'
+  };
+
+  function buildConceptInsightIntroHTML(insight){
+    if(!insight) return '';
+    var pillars = (insight.pillars || []).map(function(pillar, index){
+      var iconKey = pillar.icon || '';
+      var iconMarkup = conceptInsightIcons[iconKey] || conceptInsightIcons.response;
+      return [
+        '<article class="concept-insight-pillar">',
+          '<div class="concept-insight-pillar__icon">' + iconMarkup + '</div>',
+          '<h6 class="concept-insight-pillar__title">' + pillar.title + '</h6>',
+          '<p class="concept-insight-pillar__text">' + pillar.text + '</p>',
+        '</article>'
+      ].join('');
+    }).join('');
+    var reminder = insight.reminder || {};
+    return [
+      '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
+        '<span class="concept-intro-kicker"><span class="icon" aria-hidden="true">📘</span>Introduction</span>',
+        '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + insight.title + '</h5>',
+        '<p class="concept-insight-intro__statement">' + insight.statement + '</p>',
+        '<div class="concept-insight-intro__cards">' + pillars + '</div>',
+        '<aside class="concept-insight-intro__reminder">',
+          '<div class="concept-insight-intro__reminder-label"><span class="icon" aria-hidden="true">💡</span><span>' + (reminder.label || 'Instructor Reminder') + '</span></div>',
+          '<p>' + (reminder.text || '') + '</p>',
+        '</aside>',
+      '</div>'
+    ].join('');
+  }
+
+  function buildConceptInsightSpeech(insight){
+    if(!insight) return '';
+    var parts = ['Introduction.', insight.title + '.', insight.statement];
+    (insight.pillars || []).forEach(function(pillar){
+      parts.push(pillar.title + '. ' + pillar.text);
+    });
+    if(insight.reminder && insight.reminder.text){
+      parts.push((insight.reminder.label || 'Instructor Reminder') + '. ' + insight.reminder.text);
+    }
+    return parts.join(' ');
+  }
+
   function formatConceptCopy(text){
     if(!text) return '';
     var raw = String(text).trim();
@@ -5799,12 +5977,18 @@
     panel.dataset.currentTarget = target;
     panel.dataset.currentBlock = block;
     setConceptTitle(panel.querySelector('h4'), data.title, target, block);
-    const pEl = panel.querySelector('p');
-    if(pEl){
-      pEl.innerHTML = formatConceptCopy(data.text || '');
-      pEl.classList.add('concept-intro-line');
-      if(!pEl.querySelector('.concept-intro-kicker')){
-        pEl.insertAdjacentHTML('afterbegin', '<span class="concept-intro-kicker"><span class="icon" aria-hidden="true">📘</span>Introduction</span>');
+    const introEl = panel.querySelector('.concept-intro-slot');
+    if(introEl){
+      introEl.className = 'concept-intro-slot';
+      if(data.introInsight){
+        introEl.innerHTML = buildConceptInsightIntroHTML(data.introInsight);
+        introEl.classList.add('concept-insight-intro-shell');
+      } else {
+        introEl.innerHTML = formatConceptCopy(data.text || '');
+        introEl.classList.add('concept-intro-line');
+        if(!introEl.querySelector('.concept-intro-kicker')){
+          introEl.insertAdjacentHTML('afterbegin', '<span class="concept-intro-kicker"><span class="icon" aria-hidden="true">📘</span>Introduction</span>');
+        }
       }
     }
 
@@ -5982,10 +6166,8 @@
       const pointsHeading = pointsBoxEl.querySelector('h4');
       if(pointsHeading) pointsHeading.innerHTML = '<span class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span><span>Key Ideas for Instructors</span></span>';
     }
-    const introEl = Array.from(panel.children).find(function(child){
-      return child.tagName === 'P';
-    });
-    if(introEl && imageEl) introEl.insertAdjacentElement('afterend', imageEl);
+    const introSlotEl = panel.querySelector('.concept-intro-slot');
+    if(introSlotEl && imageEl) introSlotEl.insertAdjacentElement('afterend', imageEl);
     if(imageEl && pointsBoxEl) imageEl.insertAdjacentElement('afterend', pointsBoxEl);
     if(pointsBoxEl && activityTitleEl) pointsBoxEl.insertAdjacentElement('afterend', activityTitleEl);
     if(activityTitleEl && activityGuideEl) activityTitleEl.appendChild(activityGuideEl);
@@ -6024,8 +6206,9 @@
       ttsBtn.onclick = () => {
         const titleEl = panel.querySelector('.concept-heading-row h4') || panel.querySelector('h4');
         const title = titleEl?.textContent?.trim() || '';
-        const descEl = panel.querySelector('.concept-panel-desc') || panel.querySelector('.concept-heading-row + p') || panel.querySelector('p');
-        const body = descEl?.textContent?.trim() || '';
+        const body = data.introInsight
+          ? buildConceptInsightSpeech(data.introInsight)
+          : ((panel.querySelector('.concept-panel-desc') || panel.querySelector('.concept-intro-slot') || panel.querySelector('p'))?.textContent?.trim() || '');
         const points = Array.from(panel.querySelectorAll('.concept-points-box .key-idea-text')).map(el => el.textContent.trim()).join('. ') || Array.from(panel.querySelectorAll('.concept-points-box li')).map(li => li.textContent.trim()).join('. ');
         speakConceptNarration(title, body, points);
       };
