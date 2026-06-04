@@ -1262,19 +1262,66 @@
   .concept-heading-row{
     display:flex;
     flex-direction:column;
-    align-items:flex-start;
-    gap:8px;
+    align-items:stretch;
+    gap:0;
     margin-bottom:12px;
+  }
+  .concept-panel-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px;
+    width:100%;
   }
   .concept-heading-row h4{
     margin:0;
-    width:100%;
-    order:1;
+    flex:1;
+    min-width:0;
   }
-  .concept-heading-row .concept-panel-tts{
+  .concept-panel-utilities{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+    flex-shrink:0;
+  }
+  .concept-meta-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:6px 11px;
+    border-radius:999px;
+    border:1px solid rgba(45,132,179,.18);
+    background:#f7fbfd;
+    color:var(--blue);
+    font-size:.72rem;
+    font-weight:700;
+    letter-spacing:.03em;
+    line-height:1.2;
+    white-space:nowrap;
+    box-shadow:0 2px 8px rgba(45,132,179,.06);
+  }
+  .concept-meta-badge[hidden]{
+    display:none !important;
+  }
+  .concept-panel--insight-layout .concept-heading-row{
+    margin-bottom:6px;
+  }
+  .concept-panel--insight-layout .concept-heading-row h4{
+    font-size:.98rem;
+    font-weight:500;
+    color:var(--ink);
+    line-height:1.45;
+  }
+  .concept-panel--insight-layout .concept-title-icon{
+    display:none;
+  }
+  .concept-panel--insight-layout .concept-panel-tts{
     margin:0;
-    order:2;
-    justify-content:flex-start;
+    justify-content:flex-end;
+  }
+  .concept-panel--insight-layout .concept-panel-tts .btn-tts{
+    font-size:.78rem;
+    padding:7px 11px;
   }
 
   .concept-panel p,
@@ -1527,8 +1574,8 @@
     border-radius:12px;
   }
   .concept-intro-slot.concept-insight-intro-shell{
-    margin-top:18px;
-    padding:12px 0 8px;
+    margin-top:4px;
+    padding:6px 0 8px;
     border:0;
     background:transparent;
   }
@@ -1536,43 +1583,13 @@
     padding:0;
     margin:0 0 8px;
   }
-  .concept-insight-intro__overview-head{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin:0 0 20px;
-  }
-  .concept-insight-intro__overview-icon{
-    width:36px;
-    height:36px;
-    border-radius:12px;
-    background:var(--gradBlue);
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-    box-shadow:0 8px 16px rgba(45,132,179,.18);
-  }
-  .concept-insight-intro__overview-icon svg{
-    width:20px;
-    height:20px;
-    display:block;
-  }
-  .concept-insight-intro__overview-label{
-    font-size:.76rem;
-    font-weight:800;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    color:var(--blue);
-  }
   .concept-insight-intro__title{
-    margin:0 0 18px;
-    font-size:clamp(1.45rem, 2.5vw, 1.85rem);
-    line-height:1.12;
+    margin:10px 0 20px;
+    font-size:clamp(1.6rem, 3vw, 2.05rem);
+    line-height:1.1;
     font-weight:800;
     color:var(--blue);
-    letter-spacing:.045em;
+    letter-spacing:.05em;
     text-transform:uppercase;
   }
   .concept-insight-intro__statement{
@@ -3437,17 +3454,26 @@
     }
 
     .concept-insight-intro__title{
-      font-size:1.35rem;
-      letter-spacing:.04em;
-      margin-bottom:14px;
+      font-size:1.45rem;
+      letter-spacing:.045em;
+      margin:8px 0 16px;
     }
 
     .concept-insight-intro__statement{
       margin-bottom:20px;
     }
 
-    .concept-insight-intro__overview-head{
-      margin-bottom:16px;
+    .concept-panel-header{
+      flex-direction:column;
+      align-items:stretch;
+      gap:12px;
+    }
+
+    .concept-panel-utilities{
+      flex-direction:row;
+      align-items:center;
+      justify-content:space-between;
+      width:100%;
     }
 
     .carousel-controls{
@@ -3878,11 +3904,16 @@
             <div class="concept-panel" data-panel-for="block1">
               <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">← Back</button></div>
               <div class="concept-heading-row">
-                <div class="concept-panel-tts">
-                  <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
-                  <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
+                <div class="concept-panel-header">
+                  <h4></h4>
+                  <div class="concept-panel-utilities">
+                    <div class="concept-meta-badge" data-concept-meta hidden></div>
+                    <div class="concept-panel-tts">
+                      <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
+                      <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
+                    </div>
+                  </div>
                 </div>
-                <h4></h4>
               </div>
               <div class="concept-intro-slot"></div>
 
@@ -3998,11 +4029,16 @@
             <div class="concept-panel" data-panel-for="block2">
               <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">← Back</button></div>
               <div class="concept-heading-row">
-                <div class="concept-panel-tts">
-                  <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
-                  <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
+                <div class="concept-panel-header">
+                  <h4></h4>
+                  <div class="concept-panel-utilities">
+                    <div class="concept-meta-badge" data-concept-meta hidden></div>
+                    <div class="concept-panel-tts">
+                      <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
+                      <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
+                    </div>
+                  </div>
                 </div>
-                <h4></h4>
               </div>
               <div class="concept-intro-slot"></div>
 
@@ -4115,11 +4151,16 @@
             <div class="concept-panel" data-panel-for="block3">
               <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">← Back</button></div>
               <div class="concept-heading-row">
-                <div class="concept-panel-tts">
-                  <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
-                  <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
+                <div class="concept-panel-header">
+                  <h4></h4>
+                  <div class="concept-panel-utilities">
+                    <div class="concept-meta-badge" data-concept-meta hidden></div>
+                    <div class="concept-panel-tts">
+                      <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
+                      <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
+                    </div>
+                  </div>
                 </div>
-                <h4></h4>
               </div>
               <div class="concept-intro-slot"></div>
 
@@ -4373,7 +4414,6 @@
     b1c1: {
       title: 'Water as an Active Environment',
       introInsight: {
-        overviewLabel: 'Concept Overview',
         title: 'Water is Never Passive',
         statement: 'Water continuously influences how the body moves, balances, and responds.',
         pillars: [
@@ -5566,8 +5606,6 @@
     });
   }
 
-  const conceptOverviewRippleIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" aria-hidden="true"><path d="M3 13c2.4-1.9 4.8-1.9 7.2 0s4.8 1.9 7.2 0"/><path d="M2 17.5c3.1-2.3 6.2-2.3 9.3 0s6.2 2.3 9.3 0" opacity=".72"/><circle cx="12" cy="8.5" r="1.35" fill="currentColor" stroke="none" opacity=".45"/></svg>';
-
   const conceptInsightIcons = {
     movement: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h10"/><path d="M13 8l4 4-4 4"/><path d="M5 7v10" opacity=".45"/></svg>',
     balance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16"/><path d="M6 9h12"/><path d="M4 9l-2.5 5h5L4 9z"/><path d="M20 9l-2.5 5h5L20 9z"/></svg>',
@@ -5589,10 +5627,6 @@
     }).join('');
     return [
       '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
-        '<div class="concept-insight-intro__overview-head">',
-          '<span class="concept-insight-intro__overview-icon">' + conceptOverviewRippleIcon + '</span>',
-          '<span class="concept-insight-intro__overview-label">' + (insight.overviewLabel || 'Concept Overview') + '</span>',
-        '</div>',
         '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + insight.title + '</h5>',
         '<p class="concept-insight-intro__statement">' + insight.statement + '</p>',
         '<div class="concept-insight-intro__cards">' + pillars + '</div>',
@@ -5602,7 +5636,7 @@
 
   function buildConceptInsightSpeech(insight){
     if(!insight) return '';
-    var parts = [(insight.overviewLabel || 'Concept Overview') + '.', insight.title + '.', insight.statement];
+    var parts = [insight.title + '.', insight.statement];
     (insight.pillars || []).forEach(function(pillar){
       parts.push(pillar.title + '. ' + pillar.text);
     });
@@ -5869,6 +5903,35 @@
     return icons[icon] || icons.spark;
   }
 
+  function getConceptGridMeta(block, target){
+    var buttons = Array.from(document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square[data-target]'));
+    var idx = buttons.findIndex(function(button){ return button.dataset.target === target; });
+    if(idx < 0) return null;
+    return { index: idx + 1, total: buttons.length };
+  }
+
+  function updateConceptPanelLayout(panel, block, target, data){
+    if(!panel) return;
+    var metaBadge = panel.querySelector('[data-concept-meta]');
+    var meta = getConceptGridMeta(block, target);
+    if(data && data.introInsight){
+      panel.classList.add('concept-panel--insight-layout');
+      if(metaBadge && meta){
+        metaBadge.textContent = meta.total > 1 ? ('Concept ' + meta.index + ' of ' + meta.total) : ('Concept ' + meta.index);
+        metaBadge.hidden = false;
+      } else if(metaBadge){
+        metaBadge.hidden = true;
+        metaBadge.textContent = '';
+      }
+    } else {
+      panel.classList.remove('concept-panel--insight-layout');
+      if(metaBadge){
+        metaBadge.hidden = true;
+        metaBadge.textContent = '';
+      }
+    }
+  }
+
   function setConceptTitle(el, title, target, block){
     if(!el) return;
     el.textContent = '';
@@ -5974,6 +6037,7 @@
     panel.dataset.currentTarget = target;
     panel.dataset.currentBlock = block;
     setConceptTitle(panel.querySelector('h4'), data.title, target, block);
+    updateConceptPanelLayout(panel, block, target, data);
     const introEl = panel.querySelector('.concept-intro-slot');
     if(introEl){
       introEl.className = 'concept-intro-slot';
