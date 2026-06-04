@@ -1273,55 +1273,91 @@
     gap:16px;
     width:100%;
   }
+  .concept-panel-title-stack{
+    flex:1;
+    min-width:0;
+  }
   .concept-heading-row h4{
     margin:0;
     flex:1;
     min-width:0;
   }
-  .concept-panel-utilities{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-end;
-    gap:8px;
-    flex-shrink:0;
-  }
   .concept-meta-badge{
     display:inline-flex;
     align-items:center;
-    padding:6px 11px;
+    padding:5px 10px;
     border-radius:999px;
-    border:1px solid rgba(45,132,179,.18);
+    border:1px solid rgba(45,132,179,.16);
     background:#f7fbfd;
     color:var(--blue);
-    font-size:.72rem;
+    font-size:.7rem;
     font-weight:700;
     letter-spacing:.03em;
     line-height:1.2;
     white-space:nowrap;
-    box-shadow:0 2px 8px rgba(45,132,179,.06);
   }
   .concept-meta-badge[hidden]{
     display:none !important;
   }
   .concept-panel--insight-layout .concept-heading-row{
-    margin-bottom:6px;
+    margin-bottom:0;
+  }
+  .concept-panel--insight-layout .concept-panel-header{
+    display:grid;
+    grid-template-columns:minmax(0, 1fr) auto;
+    grid-template-rows:auto;
+    gap:0 12px;
+    align-items:start;
+    margin-bottom:0;
+  }
+  .concept-panel--insight-layout .concept-panel-title-stack{
+    grid-column:1;
+    grid-row:1;
+    padding-right:0;
+  }
+  .concept-panel--insight-layout .concept-meta-badge{
+    grid-column:2;
+    grid-row:1;
+    justify-self:end;
   }
   .concept-panel--insight-layout .concept-heading-row h4{
-    font-size:.98rem;
+    font-size:1.02rem;
     font-weight:500;
     color:var(--ink);
-    line-height:1.45;
+    line-height:1.4;
+    margin:0 0 8px;
   }
   .concept-panel--insight-layout .concept-title-icon{
     display:none;
   }
   .concept-panel--insight-layout .concept-panel-tts{
-    margin:0;
-    justify-content:flex-end;
+    margin:0 0 8px;
+    justify-content:flex-start;
+    gap:6px;
   }
   .concept-panel--insight-layout .concept-panel-tts .btn-tts{
-    font-size:.78rem;
-    padding:7px 11px;
+    font-size:.72rem;
+    padding:4px 9px;
+    min-height:0;
+    box-shadow:none;
+  }
+  .concept-panel:not(.concept-panel--insight-layout) .concept-panel-header{
+    align-items:flex-start;
+  }
+  .concept-panel:not(.concept-panel--insight-layout) .concept-panel-title-stack{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+    width:100%;
+  }
+  .concept-panel:not(.concept-panel--insight-layout) .concept-panel-title-stack h4{
+    margin:0;
+  }
+  .concept-panel:not(.concept-panel--insight-layout) .concept-panel-tts{
+    margin:0;
+    flex-shrink:0;
+    justify-content:flex-end;
   }
 
   .concept-panel p,
@@ -1574,8 +1610,8 @@
     border-radius:12px;
   }
   .concept-intro-slot.concept-insight-intro-shell{
-    margin-top:4px;
-    padding:6px 0 8px;
+    margin-top:0;
+    padding:0 0 8px;
     border:0;
     background:transparent;
   }
@@ -1584,7 +1620,7 @@
     margin:0 0 8px;
   }
   .concept-insight-intro__title{
-    margin:10px 0 20px;
+    margin:0 0 16px;
     font-size:clamp(1.6rem, 3vw, 2.05rem);
     line-height:1.1;
     font-weight:800;
@@ -3456,24 +3492,11 @@
     .concept-insight-intro__title{
       font-size:1.45rem;
       letter-spacing:.045em;
-      margin:8px 0 16px;
+      margin:0 0 14px;
     }
 
     .concept-insight-intro__statement{
       margin-bottom:20px;
-    }
-
-    .concept-panel-header{
-      flex-direction:column;
-      align-items:stretch;
-      gap:12px;
-    }
-
-    .concept-panel-utilities{
-      flex-direction:row;
-      align-items:center;
-      justify-content:space-between;
-      width:100%;
     }
 
     .carousel-controls{
@@ -3905,14 +3928,14 @@
               <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">← Back</button></div>
               <div class="concept-heading-row">
                 <div class="concept-panel-header">
-                  <h4></h4>
-                  <div class="concept-panel-utilities">
-                    <div class="concept-meta-badge" data-concept-meta hidden></div>
+                  <div class="concept-panel-title-stack">
+                    <h4></h4>
                     <div class="concept-panel-tts">
                       <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
                       <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
                     </div>
                   </div>
+                  <div class="concept-meta-badge" data-concept-meta hidden></div>
                 </div>
               </div>
               <div class="concept-intro-slot"></div>
@@ -4030,14 +4053,14 @@
               <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">← Back</button></div>
               <div class="concept-heading-row">
                 <div class="concept-panel-header">
-                  <h4></h4>
-                  <div class="concept-panel-utilities">
-                    <div class="concept-meta-badge" data-concept-meta hidden></div>
+                  <div class="concept-panel-title-stack">
+                    <h4></h4>
                     <div class="concept-panel-tts">
                       <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
                       <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
                     </div>
                   </div>
+                  <div class="concept-meta-badge" data-concept-meta hidden></div>
                 </div>
               </div>
               <div class="concept-intro-slot"></div>
@@ -4152,14 +4175,14 @@
               <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">← Back</button></div>
               <div class="concept-heading-row">
                 <div class="concept-panel-header">
-                  <h4></h4>
-                  <div class="concept-panel-utilities">
-                    <div class="concept-meta-badge" data-concept-meta hidden></div>
+                  <div class="concept-panel-title-stack">
+                    <h4></h4>
                     <div class="concept-panel-tts">
                       <button class="btn btn-tts" type="button" data-concept-tts>🔊 Listen</button>
                       <button class="btn btn-tts" type="button" data-concept-tts-stop>⏹ Stop</button>
                     </div>
                   </div>
+                  <div class="concept-meta-badge" data-concept-meta hidden></div>
                 </div>
               </div>
               <div class="concept-intro-slot"></div>
