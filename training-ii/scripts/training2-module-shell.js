@@ -328,7 +328,7 @@
     );
 
     var outcomesTitle = document.querySelector('#outcomes .section-title-row h3');
-    if(outcomesTitle) outcomesTitle.textContent = 'What will you understand by the end of this module?';
+    if(outcomesTitle) outcomesTitle.textContent = 'By the end of this module, you will understand:';
 
     var outcomesLead = document.querySelector('#outcomes .lead');
     if(outcomesLead) outcomesLead.textContent = 'Add the approved learning outcomes for Module ' + moduleMeta.number + ' below.';
