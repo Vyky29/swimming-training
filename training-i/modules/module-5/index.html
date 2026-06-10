@@ -5006,8 +5006,8 @@
       shell.className = 'concept-section-card section-activity-shell';
       if(attrs && attrs['data-m5-b2-choice-mount']) shell.setAttribute('data-m5-b2-choice-mount', attrs['data-m5-b2-choice-mount']);
       if(attrs && attrs['data-m5-b2-nested-key']) shell.setAttribute('data-m5-b2-nested-key', attrs['data-m5-b2-nested-key']);
-      shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity', 'Activity - Apply your understanding')) ||
-        '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
+      shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
+        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>';
       if(cfg.activityType){
         var typeLine = document.createElement('p');
         typeLine.className = 'activity-type-label';
@@ -5050,8 +5050,8 @@
       var shell = document.createElement('div');
       shell.className = 'concept-section-card section-activity-shell';
       shell.setAttribute('data-concept-activity-title', '');
-      shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity', 'Activity - Apply your understanding')) ||
-        '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
+      shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
+        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>';
       if(cfg.activityType){
         var typeLine = document.createElement('p');
         typeLine.className = 'activity-type-label';
@@ -5103,8 +5103,8 @@
         shell.className = 'concept-section-card section-activity-shell';
         shell.setAttribute('data-concept-activity-title', '');
         shell.setAttribute('data-m5-b2-choice-mount', 'b2c1');
-        shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity', 'Activity - Apply your understanding')) ||
-        '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
+        shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
+        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>';
         if(bank.activityType){
           var typeB2c1 = document.createElement('p');
           typeB2c1.className = 'activity-type-label';
@@ -6554,7 +6554,7 @@
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260627"></script>
+<script src="/shared/concept-section-icons.js?v=20260630"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>

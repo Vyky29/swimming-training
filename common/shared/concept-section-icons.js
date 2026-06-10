@@ -1,26 +1,34 @@
 (function () {
   'use strict';
 
+  var DEFAULT_LABELS = {
+    keyIdeas: 'Key ideas for instructors',
+    activity: 'Check your understanding',
+    visual: 'Concept visual'
+  };
+
+  /* Lightbulb ù insight / key ideas */
   var KEY_IDEAS_SVG =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<path d="M9 18h6"/>' +
       '<path d="M10 22h4"/>' +
-      '<path d="M8.5 14a5 5 0 1 1 7 0c-.8 1.15-1.28 2.42-1.38 3.75H9.88C9.78 16.42 9.3 15.15 8.5 14z"/>' +
+      '<path d="M12 2a6 6 0 0 0-3.4 10.9c.55.52.9 1.2.9 1.95V16h5V14.85c0-.75.35-1.43.9-1.95A6 6 0 0 0 12 2z"/>' +
     '</svg>';
 
+  /* Clipboard with check ù interactive activity */
   var ACTIVITY_SVG =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<rect x="6" y="4.5" width="12" height="15" rx="2"/>' +
-      '<path d="M9 4V2.8h6V4"/>' +
-      '<path d="M8.5 10h7"/>' +
-      '<path d="M8.5 14h4.5"/>' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>' +
+      '<rect x="9" y="3" width="6" height="4" rx="1.2"/>' +
+      '<path d="m9 13 2 2 4-4.5"/>' +
     '</svg>';
 
+  /* Image frame ó concept visual */
   var VISUAL_SVG =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<rect x="3.5" y="5.5" width="17" height="13" rx="2"/>' +
-      '<circle cx="9" cy="10" r="1.35"/>' +
-      '<path d="M20.5 16.5 15 11l-3.5 3.5-2-2-5.5 5.5"/>' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<rect x="3" y="5" width="18" height="14" rx="2.2"/>' +
+      '<circle cx="8.5" cy="10" r="1.5"/>' +
+      '<path d="M21 16 16 11l-4 4-2.5-2.5L3 17"/>' +
     '</svg>';
 
   var EMOJI_TYPES = {
@@ -45,10 +53,17 @@
     return '';
   }
 
+  function headModifierClass(type) {
+    if (type === 'activity') return ' concept-section-head--activity';
+    if (type === 'visual') return ' concept-section-head--visual';
+    if (type === 'keyIdeas') return ' concept-section-head--key-ideas';
+    return '';
+  }
+
   function detectType(iconEl, headEl) {
     if (!iconEl) return '';
     if (iconEl.classList.contains('icon--key-ideas')) return 'keyIdeas';
-    if (iconEl.classList.contains('icon--activity')) return 'icon--activity';
+    if (iconEl.classList.contains('icon--activity')) return 'activity';
     if (iconEl.classList.contains('icon--visual')) return 'visual';
 
     var text = (iconEl.textContent || '').trim();
@@ -56,7 +71,7 @@
 
     var headText = ((headEl && headEl.textContent) || '').toLowerCase();
     if (/key ideas/.test(headText)) return 'keyIdeas';
-    if (/activity/.test(headText)) return 'activity';
+    if (/activity|check your understanding|apply your understanding/.test(headText)) return 'activity';
     if (/visual|concept image/.test(headText)) return 'visual';
     return '';
   }
@@ -68,13 +83,18 @@
     var type = detectType(iconEl, headEl);
     if (!type) return false;
 
-    if (iconEl.querySelector('svg') && iconEl.classList.contains(modifierClass(type))) {
+    var mod = modifierClass(type);
+    if (iconEl.querySelector('svg') && iconEl.classList.contains(mod)) {
       return false;
     }
 
-    iconEl.className = 'icon ' + modifierClass(type);
+    iconEl.className = 'icon ' + mod;
     iconEl.setAttribute('aria-hidden', 'true');
     iconEl.innerHTML = svgFor(type);
+
+    if (headEl && headModifierClass(type)) {
+      headEl.classList.add(headModifierClass(type).trim());
+    }
     return true;
   }
 
@@ -82,12 +102,18 @@
     (root || document).querySelectorAll('.concept-section-head .icon').forEach(upgradeIcon);
   }
 
+  function resolveLabel(type, label) {
+    if (label != null && String(label).trim()) return String(label).trim();
+    return DEFAULT_LABELS[type] || '';
+  }
+
   function headHtml(type, label, tagName) {
     tagName = tagName || 'div';
+    var resolved = resolveLabel(type, label);
     return (
-      '<' + tagName + ' class="concept-section-head">' +
+      '<' + tagName + ' class="concept-section-head' + headModifierClass(type) + '">' +
         '<span class="icon ' + modifierClass(type) + '" aria-hidden="true">' + svgFor(type) + '</span>' +
-        '<span>' + label + '</span>' +
+        '<span>' + resolved + '</span>' +
       '</' + tagName + '>'
     );
   }
@@ -99,7 +125,7 @@
   function headInlineHtml(type, label) {
     return (
       '<span class="icon ' + modifierClass(type) + '" aria-hidden="true">' + svgFor(type) + '</span>' +
-      label
+      resolveLabel(type, label)
     );
   }
 
@@ -131,6 +157,7 @@
   }
 
   window.ConceptSectionIcons = {
+    labels: DEFAULT_LABELS,
     svg: svgFor,
     headHtml: headHtml,
     nestedHeadHtml: nestedHeadHtml,

@@ -5967,7 +5967,7 @@
       points.classList.add('concept-section-card','section-ideas');
       var ph = points.querySelector('h4');
       if(ph){
-        ph.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.nestedHeadHtml('keyIdeas', 'Key Ideas for Instructors')) ||
+        ph.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.nestedHeadHtml('keyIdeas')) ||
           '<span class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span><span>Key Ideas for Instructors</span></span>';
       }
     }
@@ -5977,8 +5977,8 @@
       activityTitleEl = document.createElement('div');
       activityTitleEl.setAttribute('data-concept-activity-title', '');
       activityTitleEl.className = 'concept-section-card section-activity-shell';
-      activityTitleEl.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity', 'Activity - Apply your understanding')) ||
-        '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
+      activityTitleEl.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
+        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>';
     }
     var activityGuideEl = panel.querySelector('[data-concept-activity-guide]');
     if(!activityGuideEl){
@@ -6067,7 +6067,7 @@
       activityGuideEl.textContent = activityGuideText;
       var activityHeadLabel = activityTitleEl.querySelector('.concept-section-head > span:not(.icon)');
       if(activityHeadLabel){
-        activityHeadLabel.textContent = target === 'b3c2_water' ? 'Activity – Sort the Water Based Factors' : 'Activity - Apply your understanding';
+        activityHeadLabel.textContent = target === 'b3c2_water' ? 'Sort the water-based factors' : 'Check your understanding';
       }
     }
 
@@ -6789,7 +6789,7 @@
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260627"></script>
+<script src="/shared/concept-section-icons.js?v=20260630"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>

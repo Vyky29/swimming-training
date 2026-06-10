@@ -8166,7 +8166,7 @@
       ideas.classList.add('concept-section-card','section-ideas');
       var h4 = ideas.querySelector('h4');
       if(h4){
-        h4.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.nestedHeadHtml('keyIdeas', 'Key Ideas for Instructors')) ||
+        h4.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.nestedHeadHtml('keyIdeas')) ||
           '<span class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span><span>Key Ideas for Instructors</span></span>';
       }
     }
@@ -8184,8 +8184,8 @@
       activityHost.innerHTML = '';
       activityHost.style.display = '';
       activityHost.classList.add('concept-section-card','section-activity-shell');
-      activityHost.insertAdjacentHTML('afterbegin', (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity', 'Activity – Apply your understanding')) ||
-        '<div class="concept-section-head activity-shell-head"><span class="icon" aria-hidden="true">✓</span><span>Activity – Apply your understanding</span></div>');
+      activityHost.insertAdjacentHTML('afterbegin', (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
+        '<div class="concept-section-head concept-section-head--activity activity-shell-head"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>');
       var guideEl = document.createElement('p');
       guideEl.className = 'activity-mini-guide';
       guideEl.textContent = getActivityMiniGuideText(embeddedActivities[0]);
@@ -10075,7 +10075,7 @@
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260627"></script>
+<script src="/shared/concept-section-icons.js?v=20260630"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>

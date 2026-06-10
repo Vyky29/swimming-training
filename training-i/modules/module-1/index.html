@@ -5997,8 +5997,8 @@
       activityTitleEl = document.createElement('div');
       activityTitleEl.setAttribute('data-concept-activity-title', '');
       activityTitleEl.className = 'concept-section-card section-activity-shell';
-      activityTitleEl.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity', 'Activity - Apply your understanding')) ||
-        '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
+      activityTitleEl.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
+        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>';
       if(whyEl && whyEl.parentNode){
         whyEl.insertAdjacentElement('afterend', activityTitleEl);
       } else if(imageEl && imageEl.parentNode){
@@ -6074,8 +6074,8 @@
     if(pointsBoxEl && keyIdeas.length){
       pointsBoxEl.classList.add('concept-section-card','section-ideas');
       const pointsHeading = pointsBoxEl.querySelector('h4');
-      if(pointsHeading) pointsHeading.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.nestedHeadHtml('keyIdeas', 'Key Ideas for Instructors')) ||
-        '<span class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span><span>Key Ideas for Instructors</span></span>';
+      if(pointsHeading) pointsHeading.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.nestedHeadHtml('keyIdeas')) ||
+        '<span class="concept-section-head concept-section-head--key-ideas"><span class="icon icon--key-ideas" aria-hidden="true"></span><span>Key ideas for instructors</span></span>';
     }
     const introSlotEl = panel.querySelector('.concept-intro-slot');
     if(introSlotEl && imageEl) introSlotEl.insertAdjacentElement('afterend', imageEl);
@@ -6668,7 +6668,7 @@
 <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260627"></script>
+<script src="/shared/concept-section-icons.js?v=20260630"></script>
 <script src="/shared/concept-visual-expand-system.js?v=20260627"></script>
 <script src="/shared/concept-insight-intro.js?v=20260622"></script>
 <script src="/shared/review-item-clicks.js"></script>
