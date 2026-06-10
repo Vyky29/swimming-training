@@ -503,6 +503,7 @@
           '<div class="concept-insight-pillar__icon">' + iconMarkup + '</div>',
           '<h6 class="concept-insight-pillar__title">' + cleanInsightText(pillar.title) + '</h6>',
           '<p class="concept-insight-pillar__text">' + cleanInsightText(pillar.text) + '</p>',
+          '<span class="card-click-hint" aria-hidden="true">Click to review</span>',
         '</article>'
       ].join('');
     }).join('');

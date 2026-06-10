@@ -8,6 +8,7 @@
  */
 
 @import url('/assets/tts-controls.css');
+@import url('/assets/clickable-card-hint.css');
 
 /* ----- Global box model ----- */
 *,

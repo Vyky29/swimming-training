@@ -1,0 +1,28 @@
+/* Subtle tap hint on clickable review cards — low prominence, hidden once reviewed */
+
+.portal .card-click-hint,
+.portal .outcome:not(.clicked) > div::after,
+.portal .key-idea-item:not(.clicked) .key-idea-text::after {
+  display: block;
+  margin-top: 8px;
+  font-size: .67rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  line-height: 1.25;
+  color: rgba(74, 122, 150, .68);
+}
+
+.portal .outcome:not(.clicked) > div::after,
+.portal .key-idea-item:not(.clicked) .key-idea-text::after {
+  content: 'Click to review';
+}
+
+.portal .concept-insight-pillar .card-click-hint {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: .66rem;
+}
+
+.portal .concept-insight-pillar.clicked .card-click-hint {
+  display: none;
+}
