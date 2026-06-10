@@ -93,7 +93,7 @@
 /* Grouped Listen / Stop in section toolbars */
 .portal .block-tools-inline,
 .portal .concept-panel-tts,
-.portal .concept-panel-toolbar .concept-panel-tts {
+.portal .concept-panel-title-display .concept-panel-tts {
   display: inline-flex;
   align-items: center;
   flex-wrap: nowrap;

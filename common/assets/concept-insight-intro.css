@@ -18,13 +18,79 @@
   gap:10px;
   width:100%;
 }
-.portal .concept-panel--insight-layout .concept-panel-toolbar{
+.portal .concept-panel .concept-panel-header{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:10px;
+  width:100%;
+}
+.portal .concept-panel .concept-panel-title-display,
+.portal .concept-panel--insight-layout .concept-panel-title-display{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
   width:100%;
-  min-height:32px;
+  min-width:0;
+}
+.portal .concept-panel .concept-panel-title-display h4,
+.portal .concept-panel .concept-panel-title-display .concept-panel-title,
+.portal .concept-panel--insight-layout .concept-panel-title-display h4,
+.portal .concept-panel--insight-layout .concept-panel-title-display .concept-panel-title{
+  display:block !important;
+  flex:1 1 auto;
+  min-width:0;
+  margin:0;
+  padding:0;
+  padding-right:8px;
+  text-align:left;
+  grid-area:unset !important;
+  width:auto !important;
+  order:unset !important;
+}
+.portal .concept-panel .concept-panel-title-display .concept-panel-tts,
+.portal .concept-panel--insight-layout .concept-panel-title-display .concept-panel-tts{
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex:0 0 auto;
+  flex-wrap:nowrap;
+  gap:8px;
+  margin:0 !important;
+  width:auto !important;
+  align-self:center;
+  grid-area:unset !important;
+  order:unset !important;
+}
+.portal .concept-panel--insight-layout .concept-panel-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  width:100%;
+  min-height:0;
+}
+.portal .concept-panel--insight-layout .concept-panel-toolbar:has(.concept-meta-badge[hidden]){
+  display:none;
+}
+.portal .concept-panel--insight-layout .concept-panel-title-display h4,
+.portal .concept-panel--insight-layout .concept-panel-title-display .concept-panel-title{
+  display:block !important;
+  flex:1 1 auto;
+  min-width:0;
+  margin:0;
+  padding:0;
+  padding-right:8px;
+  font-size:clamp(1rem, 1.65vw, 1.18rem);
+  font-weight:600;
+  color:#1e4d68;
+  line-height:1.35;
+  letter-spacing:.01em;
+  text-align:left;
+  background:transparent;
+  border:0;
+  box-shadow:none;
 }
 .portal .concept-panel--insight-layout .concept-meta-badge{
   flex:0 0 auto;
@@ -39,25 +105,6 @@
   letter-spacing:.06em;
   text-transform:uppercase;
   line-height:1.2;
-}
-.portal .concept-panel--insight-layout .concept-panel-title-display{
-  width:100%;
-  min-width:0;
-}
-.portal .concept-panel--insight-layout .concept-panel-title-display h4,
-.portal .concept-panel--insight-layout .concept-panel-title-display .concept-panel-title{
-  display:block !important;
-  margin:0;
-  padding:0;
-  font-size:clamp(1rem, 1.65vw, 1.18rem);
-  font-weight:600;
-  color:#1e4d68;
-  line-height:1.35;
-  letter-spacing:.01em;
-  text-align:left;
-  background:transparent;
-  border:0;
-  box-shadow:none;
 }
 .portal .concept-panel--insight-layout .concept-title-main{
   display:inline-flex;
@@ -92,15 +139,6 @@
   border-radius:999px;
   background:#2d84b3;
   opacity:.85;
-}
-.portal .concept-panel--insight-layout .concept-panel-tts{
-  display:inline-flex;
-  align-items:center;
-  justify-content:flex-end;
-  flex-wrap:nowrap;
-  gap:8px;
-  margin:0;
-  flex:0 0 auto;
 }
 
 .concept-meta-badge{
@@ -141,16 +179,6 @@
   letter-spacing:.01em;
   text-transform:none;
   max-width:38rem;
-}
-.concept-insight-intro__title::before{
-  content:'Key insight';
-  display:block;
-  margin-bottom:6px;
-  font-size:.66rem;
-  font-weight:600;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:#4a7a96;
 }
 .concept-insight-intro__title::after{
   content:'';
@@ -237,12 +265,12 @@
   color:var(--text, #314555);
 }
 @media (max-width:768px){
-  .portal .concept-panel--insight-layout .concept-panel-toolbar{
-    flex-wrap:wrap;
-    gap:8px;
+  .portal .concept-panel--insight-layout .concept-panel-title-display{
+    align-items:flex-start;
   }
-  .portal .concept-panel--insight-layout .concept-panel-tts{
+  .portal .concept-panel--insight-layout .concept-panel-title-display .concept-panel-tts{
     margin-left:auto;
+    padding-top:2px;
   }
   .concept-insight-intro__cards{
     flex-direction:column;

@@ -429,6 +429,15 @@
     return polishInsight({ title: title, statement: '', pillars: pillars });
   }
 
+  function cleanInsightText(text){
+    if(text == null) return '';
+    return String(text)
+      .replace(/\uFFFD/g, ' ù ')
+      .replace(/\u009D/g, ' ù ')
+      .replace(/  +/g, ' ')
+      .trim();
+  }
+
   function buildConceptInsightIntroHTML(insight){
     if(!insight) return '';
     var pillarList = insight.pillars || [];
@@ -438,17 +447,17 @@
       return [
         '<article class="concept-insight-pillar">',
           '<div class="concept-insight-pillar__icon">' + iconMarkup + '</div>',
-          '<h6 class="concept-insight-pillar__title">' + pillar.title + '</h6>',
-          '<p class="concept-insight-pillar__text">' + pillar.text + '</p>',
+          '<h6 class="concept-insight-pillar__title">' + cleanInsightText(pillar.title) + '</h6>',
+          '<p class="concept-insight-pillar__text">' + cleanInsightText(pillar.text) + '</p>',
         '</article>'
       ].join('');
     }).join('');
     var statementHtml = insight.statement
-      ? '<p class="concept-insight-intro__statement">' + insight.statement + '</p>'
+      ? '<p class="concept-insight-intro__statement">' + cleanInsightText(insight.statement) + '</p>'
       : '';
     return [
       '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
-        '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + insight.title + '</h5>',
+        '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + cleanInsightText(insight.title) + '</h5>',
         statementHtml,
         '<div class="concept-insight-intro__cards" data-pillar-count="' + pillarList.length + '">' + pillars + '</div>',
       '</div>'
@@ -473,33 +482,44 @@
   }
 
   function restructureConceptPanelHeader(header){
-    if(!header || header.dataset.headerStructured === '1') return;
+    if(!header) return;
 
     var h4 = header.querySelector('.concept-panel-title-display h4')
+      || header.querySelector('.concept-panel-title-display .concept-panel-title')
       || header.querySelector('.concept-panel-title-stack h4')
-      || header.querySelector('h4')
+      || header.querySelector('.concept-panel-title-stack .concept-panel-title')
+      || header.querySelector('h4:not(.concept-section-head)')
       || header.querySelector('.concept-panel-title');
     var tts = header.querySelector('.concept-panel-tts');
     var badge = header.querySelector('[data-concept-meta]') || header.querySelector('.concept-meta-badge');
 
-    if(header.querySelector('.concept-panel-toolbar')) {
-      header.dataset.headerStructured = '1';
-      return;
+    var toolbar = header.querySelector('.concept-panel-toolbar');
+    if(!toolbar){
+      toolbar = document.createElement('div');
+      toolbar.className = 'concept-panel-toolbar';
+      header.insertBefore(toolbar, header.firstChild);
     }
 
-    var toolbar = document.createElement('div');
-    toolbar.className = 'concept-panel-toolbar';
-    if(badge) toolbar.appendChild(badge);
-    if(tts) toolbar.appendChild(tts);
+    var titleDisplay = header.querySelector('.concept-panel-title-display');
+    if(!titleDisplay){
+      titleDisplay = document.createElement('div');
+      titleDisplay.className = 'concept-panel-title-display';
+      header.appendChild(titleDisplay);
+    }
 
-    var titleDisplay = document.createElement('div');
-    titleDisplay.className = 'concept-panel-title-display';
-    if(h4) titleDisplay.appendChild(h4);
+    if(badge && badge.parentElement !== toolbar) toolbar.appendChild(badge);
+    if(h4 && h4.parentElement !== titleDisplay) titleDisplay.appendChild(h4);
+    if(tts && tts.parentElement !== titleDisplay) titleDisplay.appendChild(tts);
 
-    header.innerHTML = '';
-    header.appendChild(toolbar);
-    header.appendChild(titleDisplay);
-    header.dataset.headerStructured = '1';
+    if(header.firstElementChild !== toolbar) header.insertBefore(toolbar, header.firstChild);
+    if(titleDisplay.parentElement !== header) header.appendChild(titleDisplay);
+    else if(header.lastElementChild !== titleDisplay) header.appendChild(titleDisplay);
+
+    header.querySelectorAll('.concept-panel-title-stack').forEach(function(stack){
+      if(!stack.querySelector('h4, .concept-panel-title')) stack.remove();
+    });
+
+    header.dataset.headerStructured = '3';
   }
 
   function ensureConceptPanelInsightChrome(panel){
@@ -513,16 +533,24 @@
       var tts = headingRow.querySelector('.concept-panel-tts');
       var header = document.createElement('div');
       header.className = 'concept-panel-header';
-      var stack = document.createElement('div');
-      stack.className = 'concept-panel-title-stack';
-      if(h4) stack.appendChild(h4);
-      if(tts) stack.appendChild(tts);
-      header.appendChild(stack);
+
       var badge = document.createElement('div');
       badge.className = 'concept-meta-badge';
       badge.setAttribute('data-concept-meta', '');
       badge.hidden = true;
-      header.appendChild(badge);
+
+      var toolbar = document.createElement('div');
+      toolbar.className = 'concept-panel-toolbar';
+      toolbar.appendChild(badge);
+
+      var titleDisplay = document.createElement('div');
+      titleDisplay.className = 'concept-panel-title-display';
+      if(h4) titleDisplay.appendChild(h4);
+      if(tts) titleDisplay.appendChild(tts);
+
+      header.appendChild(toolbar);
+      header.appendChild(titleDisplay);
+      header.dataset.headerStructured = '3';
       headingRow.innerHTML = '';
       headingRow.appendChild(header);
     } else if(!headingRow.querySelector('[data-concept-meta]')){

@@ -586,6 +586,74 @@ body {
   box-shadow: none;
 }
 
+.portal .concept-panel > .concept-heading-row:has(.concept-panel-header),
+.portal .concept-panel > .concept-panel-title-row:has(.concept-panel-header) {
+  display: block;
+  grid-template-columns: unset;
+  grid-template-areas: none;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.portal .concept-panel--insight-layout > .concept-heading-row:has(.concept-panel-header),
+.portal .concept-panel--insight-layout > .concept-panel-title-row:has(.concept-panel-header) {
+  margin: 0 0 12px;
+  padding: 0 0 12px;
+  border: 0;
+  border-bottom: 1px solid rgba(45, 132, 179, 0.1);
+}
+
+.portal .concept-panel-header {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+}
+
+.portal .concept-panel-header .concept-panel-tts,
+.portal .concept-panel-header h4,
+.portal .concept-panel-header .concept-panel-title {
+  grid-area: unset !important;
+  width: auto !important;
+  max-width: none !important;
+  justify-self: unset !important;
+  order: unset !important;
+}
+
+.portal .concept-panel > .concept-heading-row:not(:has(.concept-panel-header)),
+.portal .concept-panel > .concept-panel-title-row:not(:has(.concept-panel-header)) {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px;
+  grid-template-columns: unset !important;
+  grid-template-areas: none !important;
+}
+
+.portal .concept-panel > .concept-heading-row:not(:has(.concept-panel-header)) h4,
+.portal .concept-panel > .concept-panel-title-row:not(:has(.concept-panel-header)) .concept-panel-title,
+.portal .concept-panel > .concept-panel-title-row:not(:has(.concept-panel-header)) h4 {
+  order: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 !important;
+}
+
+.portal .concept-panel > .concept-heading-row:not(:has(.concept-panel-header)) .concept-panel-tts,
+.portal .concept-panel > .concept-panel-title-row:not(:has(.concept-panel-header)) .concept-panel-tts {
+  order: 2;
+  flex: 0 0 auto;
+  margin: 0 !important;
+  width: auto !important;
+  justify-content: flex-end !important;
+}
+
 .portal .concept-panel > .concept-heading-row h4,
 .portal .concept-panel > .concept-panel-title-row .concept-panel-title,
 .portal .concept-panel > h4:not(.concept-section-head),
