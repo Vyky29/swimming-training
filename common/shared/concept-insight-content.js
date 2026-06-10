@@ -7,11 +7,11 @@
    * Titles and pillar labels are instructor-focused; pillar text comes from approved concept copy.
    */
   var CURATED = {
-    // ?? MODULE 1 ‚Äî Block 1 ??
+    // MODULE 1 ù Block 1 ??
     '1:b1c1': {
       title: 'Water Is Never Passive',
       pillars: [
-        { icon: 'movement', title: 'Constant Influence', text: 'Water continuously influences the body ‚Äî direction, speed, and effort all change in response to it.' },
+        { icon: 'movement', title: 'Constant Influence', text: 'Water continuously influences the body ù direction, speed, and effort all change in response to it.' },
         { icon: 'balance', title: 'Active Control', text: 'Maintaining position in water requires active control, not passive floating.' },
         { icon: 'response', title: 'Adaptation, Not Failure', text: 'Early instability often reflects adaptation to water rather than lack of ability.' }
       ]
@@ -29,25 +29,25 @@
       pillars: [
         { icon: 'balance', title: 'Buoyancy Lifts', text: 'Buoyancy reduces how heavy the body feels and can help swimmers feel safer.' },
         { icon: 'response', title: 'Pressure Surrounds', text: 'Water pressure surrounds the body and can support awareness and organisation.' },
-        { icon: 'focus', title: 'Support ‚Üí Control', text: 'Support can increase confidence, but it does not always lead to control.' }
+        { icon: 'focus', title: 'Support vs Control', text: 'Support can increase confidence, but it does not always lead to control.' }
       ]
     },
     '1:b1c4': {
       title: 'Resistance Shapes Movement',
       pillars: [
-        { icon: 'movement', title: 'Water Resists', text: 'Water resists movement in all directions ‚Äî faster movement increases resistance.' },
+        { icon: 'movement', title: 'Water Resists', text: 'Water resists movement in all directions ù faster movement increases resistance.' },
         { icon: 'balance', title: 'Less Predictable', text: 'Movement in water is less stable and more demanding than on land.' },
-        { icon: 'shield', title: 'Control Before Speed', text: 'Movement in water requires control, not just effort ‚Äî prioritise control before increasing speed.' }
+        { icon: 'shield', title: 'Control Before Speed', text: 'Movement in water requires control, not just effort ù prioritise control before increasing speed.' }
       ]
     },
 
-    // ?? MODULE 1 ‚Äî Block 2 ??
+    // MODULE 1 ù Block 2 ??
     '1:b2c1': {
       title: 'Often Silent, Rarely Obvious',
       pillars: [
         { icon: 'shield', title: 'Quick and Unseen', text: 'Drowning can happen quickly and often without obvious signs.' },
-        { icon: 'movement', title: 'Not Dramatic', text: 'It is not always dramatic, noisy, or easy to recognise.' },
-        { icon: 'focus', title: 'Subtle Warning Signs', text: 'Risk often appears through subtle changes in position, response, or movement ‚Äî stay continuously aware.' }
+        { icon: 'movement', title: 'Not Always Dramatic', text: 'It is not always dramatic, noisy, or easy to recognise.' },
+        { icon: 'focus', title: 'Watch for Subtle Signs', text: 'Risk often appears through subtle changes in position, response, or movement. Stay continuously aware.' }
       ]
     },
     '1:b2c2': {
@@ -55,7 +55,7 @@
       pillars: [
         { icon: 'balance', title: 'Not Equal Risk', text: 'Not all swimmers experience the same level of risk in water.' },
         { icon: 'shield', title: 'Individual Factors', text: 'Reduced awareness, limited confidence, or difficulty following instructions can increase vulnerability.' },
-        { icon: 'focus', title: 'Look Beyond Appearance', text: 'Vulnerability is not always obvious ‚Äî consider the swimmer\'s real level of understanding and control.' }
+        { icon: 'focus', title: 'Look Beyond Appearance', text: 'Vulnerability is not always obvious ù consider the swimmer\'s real level of understanding and control.' }
       ]
     },
     '1:b2c3': {
@@ -63,41 +63,41 @@
       pillars: [
         { icon: 'connect', title: 'Additional Considerations', text: 'Some neurodiverse swimmers may present additional factors that affect safety and awareness in water.' },
         { icon: 'balance', title: 'Factors, Not Labels', text: 'These factors do not define the swimmer, but they may increase vulnerability in aquatic settings.' },
-        { icon: 'focus', title: 'Adapt Your Practice', text: 'Sensory, communication, awareness, and behavioural differences can all influence safety ‚Äî adapt accordingly.' }
+        { icon: 'focus', title: 'Adapt Your Practice', text: 'Sensory, communication, awareness, and behavioural differences can all influence safety ù adapt accordingly.' }
       ]
     },
     '1:b2c4': {
       title: 'Safety Through Prevention',
       pillars: [
         { icon: 'shield', title: 'Prevent, Don\'t React', text: 'Safety in water is based on prevention, not reaction once problems appear.' },
-        { icon: 'focus', title: 'Systems Over Response', text: 'You cannot rely on reacting to problems ‚Äî safety must be built through consistent systems.' },
+        { icon: 'focus', title: 'Systems Over Response', text: 'You cannot rely on reacting to problems ù safety must be built through consistent systems.' },
         { icon: 'movement', title: 'Reduce Risk Early', text: 'Structured sessions, active supervision, and proximity reduce risk before it develops.' }
       ]
     },
 
-    // ?? MODULE 1 ‚Äî Block 3 ??
+    // MODULE 1 ù Block 3 ??
     '1:b3c1': {
       title: 'Everything Changes at Entry',
       pillars: [
-        { icon: 'response', title: 'Immediate Shift', text: 'Entering water immediately changes how the body feels ‚Äî temperature, pressure, movement, and balance all shift at once.' },
+        { icon: 'response', title: 'Immediate Shift', text: 'Entering water immediately changes how the body feels ù temperature, pressure, movement, and balance all shift at once.' },
         { icon: 'balance', title: 'Time to Adapt', text: 'The body must begin adapting straight away before organised movement can happen.' },
-        { icon: 'focus', title: 'Sensory, Not Behavioural', text: 'Initial hesitation or discomfort is often sensory, not behavioural ‚Äî allow time before adding demands.' }
+        { icon: 'focus', title: 'Sensory, Not Behavioural', text: 'Initial hesitation or discomfort is often sensory, not behavioural ù allow time before adding demands.' }
       ]
     },
     '1:b3c2': {
-      title: 'Senses Work Together',
+      title: 'A Full Sensory Shift',
       pillars: [
-        { icon: 'balance', title: 'Multiple Systems', text: 'Movement and regulation depend on multiple sensory systems working together, not muscles alone.' },
-        { icon: 'response', title: 'Changed in Water', text: 'Pressure, buoyancy, movement, and body position all affect how senses process information in water.' },
-        { icon: 'focus', title: 'Observe Before Assuming', text: 'Swimmers may need more time to process and respond ‚Äî observe sensory reactions before assuming readiness.' }
+        { icon: 'balance', title: 'Beyond Muscles Alone', text: 'Movement and regulation depend on multiple sensory systems working together, not muscles alone.' },
+        { icon: 'response', title: 'Water Alters Input', text: 'Balance, body awareness, and touch are especially affected by pressure, buoyancy, and changing body position.' },
+        { icon: 'focus', title: 'Observe Before Assuming', text: 'Sensory input may feel stronger, reduced, or harder to organise. Allow time to process before expecting a response.' }
       ]
     },
     '1:b3c3': {
       title: 'Water Feels Different',
       pillars: [
         { icon: 'balance', title: 'Different Feedback', text: 'What feels stable and familiar on land may feel less predictable in water.' },
-        { icon: 'movement', title: 'Balance Changes', text: 'Water changes balance, feedback, and body awareness ‚Äî swimmers need time to reorganise.' },
-        { icon: 'focus', title: 'No Instant Transfer', text: 'Do not expect immediate transfer of land skills to water ‚Äî adaptation takes time.' }
+        { icon: 'movement', title: 'Balance Changes', text: 'Water changes balance, feedback, and body awareness ù swimmers need time to reorganise.' },
+        { icon: 'focus', title: 'No Instant Transfer', text: 'Do not expect immediate transfer of land skills to water ù adaptation takes time.' }
       ]
     },
     '1:b3c4': {
@@ -109,7 +109,7 @@
       ]
     },
 
-    // ?? MODULE 2 ‚Äî Block 1 ??
+    // MODULE 2 ù Block 1 ??
     '2:b1c1': {
       title: 'Learning Requires Readiness',
       pillars: [
@@ -123,7 +123,7 @@
       pillars: [
         { icon: 'balance', title: 'State Before Skill', text: 'For learning to happen, the swimmer must be in a state where they can engage and respond.' },
         { icon: 'response', title: 'Dysregulation Limits Learning', text: 'When regulation is not in place, the swimmer may struggle to process instructions regardless of ability.' },
-        { icon: 'focus', title: 'Adapt, Don\'t Push', text: 'Teaching must adapt to the swimmer\'s state ‚Äî not just follow a fixed plan.' }
+        { icon: 'focus', title: 'Adapt, Don\'t Push', text: 'Teaching must adapt to the swimmer\'s state ù not just follow a fixed plan.' }
       ]
     },
     '2:b1c3': {
@@ -143,7 +143,7 @@
       ]
     },
 
-    // ?? MODULE 2 ‚Äî Block 2 ??
+    // MODULE 2 ù Block 2 ??
     '2:b2c1': {
       title: 'State Shapes Engagement',
       pillars: [
@@ -163,8 +163,8 @@
     '2:b2c2_calm': {
       title: 'Regulated and Ready',
       pillars: [
-        { icon: 'balance', title: 'Most Accessible', text: 'In a calm state, the swimmer is regulated, comfortable, and able to engage ‚Äî learning is most accessible here.' },
-        { icon: 'movement', title: 'Introduce New Skills', text: 'The swimmer can process information and respond with control ‚Äî a good time to introduce new skills.' },
+        { icon: 'balance', title: 'Most Accessible', text: 'In a calm state, the swimmer is regulated, comfortable, and able to engage ù learning is most accessible here.' },
+        { icon: 'movement', title: 'Introduce New Skills', text: 'The swimmer can process information and respond with control ù a good time to introduce new skills.' },
         { icon: 'focus', title: 'Maintain Regulation', text: 'Progress learning steadily while maintaining regulation.' }
       ]
     },
@@ -172,20 +172,20 @@
       title: 'Engaged With Rising Demand',
       pillars: [
         { icon: 'movement', title: 'Still Engaged', text: 'The swimmer is still engaged but beginning to experience increased demand.' },
-        { icon: 'balance', title: 'Less Stable', text: 'Control, attention, and consistency may reduce ‚Äî learning becomes more sensitive to how the task is presented.' },
+        { icon: 'balance', title: 'Less Stable', text: 'Control, attention, and consistency may reduce ù learning becomes more sensitive to how the task is presented.' },
         { icon: 'shield', title: 'Manage Demand', text: 'Maintain structure and avoid increasing demand too quickly.' }
       ]
     },
     '2:b2c2_overloaded': {
-      title: 'Overwhelmed ‚Äî Reduce Demand',
+      title: 'Overwhelmed ù Reduce Demand',
       pillars: [
-        { icon: 'shield', title: 'Not Learning Now', text: 'In an overloaded state, learning is not accessible ‚Äî the focus is on coping, not progressing.' },
+        { icon: 'shield', title: 'Not Learning Now', text: 'In an overloaded state, learning is not accessible ù the focus is on coping, not progressing.' },
         { icon: 'response', title: 'Overload, Not Refusal', text: 'Withdrawal or resistance reflects overload, not refusal or lack of ability.' },
         { icon: 'focus', title: 'Prioritise Regulation', text: 'Reduce expectations and prioritise regulation before returning to the task.' }
       ]
     },
 
-    // ?? MODULE 2 ‚Äî Block 3 ??
+    // MODULE 2 ù Block 3 ??
     '2:b3c1': {
       title: 'Many Influences Interact',
       pillars: [
@@ -206,7 +206,7 @@
       title: 'The Environment Matters',
       pillars: [
         { icon: 'balance', title: 'Noise and Space', text: 'Noise, space, movement, and the presence of others can support engagement or increase demand.' },
-        { icon: 'focus', title: 'Predictability', text: 'Predictability of the environment matters ‚Äî adjust positioning and structure where possible.' },
+        { icon: 'focus', title: 'Predictability', text: 'Predictability of the environment matters ù adjust positioning and structure where possible.' },
         { icon: 'shield', title: 'Reduce Demand', text: 'When the environment increases demand, simplify tasks or reduce sensory input.' }
       ]
     },
@@ -240,7 +240,7 @@
     ]},
     '3:b1c3': { title: 'Connect Before You Teach', pillars: [
       { icon: 'shield', title: 'Limited Impact', text: 'Teaching has limited impact when the swimmer is not engaged or available.' },
-      { icon: 'balance', title: 'More Pressure ‚Üí Learning', text: 'When engagement is low, more instruction often increases pressure instead of improving learning.' },
+      { icon: 'balance', title: 'Pressure Over Learning', text: 'When engagement is low, more instruction often increases pressure instead of improving learning.' },
       { icon: 'connect', title: 'Reconnect First', text: 'Pause, reduce pressure, and rebuild engagement before continuing.' }
     ]},
     '3:b2c1': { title: 'Connection Sustains Engagement', pillars: [
@@ -611,7 +611,7 @@
 
     '4:b2l6': { title: 'Efficiency and Fluency', pillars: [
       { icon: 'movement', title: 'Consistent Over Distance', text: 'Skills performed with consistency and control over longer distances.' },
-      { icon: 'balance', title: 'Efficiency and Fluency', text: 'Focus on efficient movement, rhythm, and full independence.' },
+      { icon: 'balance', title: 'Rhythm and Control', text: 'Focus on efficient movement, rhythm, and full independence.' },
       { icon: 'focus', title: 'Increase With Stability', text: 'Extend length and density only when fluency and self-regulation stay stable.' }
     ]},
     '4:b2l6_overview': { title: 'Fluency Over Distance', pillars: [
@@ -707,4 +707,4 @@
       return !!this.get(moduleNum, conceptId);
     }
   };
-})(typeof window !== 'undefined' ‚Üí window : this);
+})(typeof window !== 'undefined' ? window : this);

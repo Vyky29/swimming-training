@@ -252,23 +252,105 @@
     });
   }
 
-  function buildPillarFromPoint(point, iconKey){
+  function isBadPillarTitle(title){
+    if(!title) return true;
+    var cleaned = String(title).trim();
+    if(cleaned.length < 4) return true;
+    if(/[,;:]$/.test(cleaned)) return true;
+    if(/\b(Or|And|Are|The|A|An|To|In|Of|Not|It|Is|May|Can|Some|Many)$/i.test(cleaned)) return true;
+    if(cleaned.split(/\s+/).length < 2) return true;
+    return false;
+  }
+
+  function isTitleTruncatedFromText(title, text){
+    var tWords = normalizeForCompare(title).split(' ').filter(Boolean);
+    var sWords = normalizeForCompare(text).split(' ').filter(Boolean);
+    if(tWords.length < 2 || tWords.length > 6) return false;
+    for(var i = 0; i < tWords.length; i++){
+      if(tWords[i] !== sWords[i]) return false;
+    }
+    return sWords.length > tWords.length;
+  }
+
+  function derivePillarTitle(text, index, usedTitles){
+    usedTitles = usedTitles || {};
+    var candidates = [];
+    if(/depend|require|based on|not just/i.test(text)) candidates.push('What This Means');
+    if(/observe|look for|recogni|notice|watch/i.test(text)) candidates.push('What to Observe');
+    if(/adapt|adjust|respond|change your|modify/i.test(text)) candidates.push('How to Respond');
+    if(/not always|may feel|can happen|often|sometimes/i.test(text)) candidates.push('Important Distinction');
+    if(/instructor|teach|session|practice/i.test(text)) candidates.push('For Your Session');
+    if(/safety|risk|prevent|protect/i.test(text)) candidates.push('Safety Implication');
+    if(/swimmer|individual|each person/i.test(text)) candidates.push('For the Swimmer');
+    candidates.push('Core Idea', 'Key Point', 'Why It Matters', 'Practical Note', 'What Changes');
+    var i, c, norm;
+    for(i = 0; i < candidates.length; i++){
+      c = candidates[(index + i) % candidates.length];
+      norm = normalizeForCompare(c);
+      if(!usedTitles[norm]) return c;
+    }
+    return 'Insight ' + (index + 1);
+  }
+
+  function polishInsight(insight){
+    if(!insight || !insight.pillars || !insight.pillars.length) return insight;
+    var usedTitles = {};
+    var polished = [];
+    insight.pillars.forEach(function(pillar, idx){
+      var title = String(pillar.title || '').trim();
+      var text = String(pillar.text || '').trim();
+      if(!text) return;
+
+      if(isRedundantWithTitle(insight.title, title) || isBadPillarTitle(title) || isTitleTruncatedFromText(title, text)){
+        title = derivePillarTitle(text, idx, usedTitles);
+      }
+
+      var guard = 0;
+      while((usedTitles[normalizeForCompare(title)] || isRedundantWithTitle(insight.title, title) || isBadPillarTitle(title)) && guard < 12){
+        title = derivePillarTitle(text, idx + guard, usedTitles);
+        guard++;
+      }
+
+      var norm = normalizeForCompare(title);
+      if(usedTitles[norm]) return;
+      usedTitles[norm] = true;
+      polished.push({
+        icon: pillar.icon || ICON_CYCLE[polished.length % ICON_CYCLE.length],
+        title: title,
+        text: text
+      });
+    });
+
+    insight.pillars = polished.slice(0, 3);
+    if(insight.statement && isRedundantWithTitle(insight.title, insight.statement)) insight.statement = '';
+    return insight;
+  }
+
+  function buildPillarFromPoint(point, iconKey, index, usedTitles){
     var text = stripHtml(point);
     var dashMatch = text.match(/^(.+?)\s*[\u2013\-]\s*(.+)$/);
     if(dashMatch){
+      var dashTitle = dashMatch[1].trim();
+      if(isBadPillarTitle(dashTitle) || isTitleTruncatedFromText(dashTitle, dashMatch[2])){
+        dashTitle = derivePillarTitle(dashMatch[2], index || 0, usedTitles);
+      }
       return {
         icon: iconKey,
-        title: dashMatch[1].trim(),
+        title: dashTitle,
         text: dashMatch[2].trim().replace(/[.!?]+$/, '') + '.'
       };
     }
-    return buildPillar(text, iconKey);
+    return buildPillar(text, iconKey, index, usedTitles);
   }
 
-  function buildPillar(text, iconKey){
+  function buildPillar(text, iconKey, index, usedTitles){
+    var title = makePillarTitle(text);
+    if(isBadPillarTitle(title) || isTitleTruncatedFromText(title, text)){
+      title = derivePillarTitle(text, index || 0, usedTitles);
+    }
     return {
       icon: iconKey,
-      title: makePillarTitle(text),
+      title: title,
       text: text
     };
   }
@@ -286,7 +368,7 @@
       if(sents.length >= 2){
         list.splice(longestIdx, 1);
         sents.forEach(function(s){
-          list.push(buildPillar(s, ICON_CYCLE[list.length % ICON_CYCLE.length]));
+          list.push(buildPillar(s, ICON_CYCLE[list.length % ICON_CYCLE.length], list.length, {}));
         });
       } else {
         break;
@@ -300,7 +382,7 @@
 
     if(typeof global.ConceptInsightContent !== 'undefined' && moduleNum && conceptId){
       var curated = global.ConceptInsightContent.get(moduleNum, conceptId);
-      if(curated) return { title: curated.title, statement: '', pillars: curated.pillars.slice() };
+      if(curated) return polishInsight({ title: curated.title, statement: '', pillars: curated.pillars.slice() });
     }
 
     if(data.introInsight){
@@ -310,7 +392,7 @@
         pillars: (data.introInsight.pillars || []).slice()
       };
       if(isRedundantWithTitle(manual.title, manual.statement)) manual.statement = '';
-      return manual;
+      return polishInsight(manual);
     }
 
     if(data.focus || data.goal){
@@ -319,7 +401,7 @@
       if(data.focus) stagePillars.push({ icon: 'focus', title: 'Focus at This Level', text: stripHtml(data.focus) });
       if(data.whatThisLooksLike) stagePillars.push({ icon: 'movement', title: 'What It Looks Like', text: stripHtml(data.whatThisLooksLike).replace(/\.\s+/g, '. ').slice(0, 220) });
       if(data.goal) stagePillars.push({ icon: 'shield', title: 'Level Goal', text: stripHtml(data.goal) });
-      if(stagePillars.length) return { title: CONCEPT_HEADLINES[stageTitle] || stageTitle, statement: '', pillars: stagePillars.slice(0, 3) };
+      if(stagePillars.length) return polishInsight({ title: CONCEPT_HEADLINES[stageTitle] || stageTitle, statement: '', pillars: stagePillars.slice(0, 3) });
     }
 
     var paras = extractParagraphs(data.text || '');
@@ -327,23 +409,24 @@
     if(!paras.length && !points.length) return null;
 
     var pillars = [];
+    var usedTitles = {};
     var title = makeInsightTitle(data.title || '', paras[0] || '', paras[1] || '');
 
     if(points.length >= 2){
       pillars = points.slice(0, 3).map(function(p, idx){
-        return buildPillarFromPoint(p, ICON_CYCLE[idx % ICON_CYCLE.length]);
+        return buildPillarFromPoint(p, ICON_CYCLE[idx % ICON_CYCLE.length], idx, usedTitles);
       });
     } else {
       var pillarTexts = collectPillarTexts(paras, '');
       pillarTexts.forEach(function(text){
-        pillars.push(buildPillar(text, ICON_CYCLE[pillars.length % ICON_CYCLE.length]));
+        pillars.push(buildPillar(text, ICON_CYCLE[pillars.length % ICON_CYCLE.length], pillars.length, usedTitles));
       });
     }
 
     pillars = expandPillarsToThree(pillars);
     if(!title || !pillars.length) return null;
 
-    return { title: title, statement: '', pillars: pillars };
+    return polishInsight({ title: title, statement: '', pillars: pillars });
   }
 
   function buildConceptInsightIntroHTML(insight){
