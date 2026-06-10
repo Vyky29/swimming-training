@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
-  @import url('/assets/concept-insight-intro.css?v=20260610b');
+  @import url('/assets/concept-insight-intro.css?v=20260610d');
 
   :root{
       --blue:#2d84b3;
@@ -3065,7 +3065,7 @@
       margin:0 0 14px !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260610b" />
+  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260610d" />
   <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260707" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
@@ -3909,41 +3909,105 @@
       });
     }
 
-    function upgradeNestedFolderIntros(scope){
-      if(!scope) return;
-      scope.querySelectorAll('.b2-screen .folder-page > .concept-section-card.section-intro').forEach(function(intro){
-        if(intro.dataset.proIntroReady === 'true') return;
-        var paragraphs = Array.from(intro.querySelectorAll(':scope > p')).map(function(p){
-          return (p.textContent || '').trim();
-        }).filter(Boolean);
-        if(!paragraphs.length){
-          var fallback = (intro.textContent || '').trim();
-          if(!fallback) return;
-          paragraphs = [fallback];
+    function stripVisualImageLabel(card){
+      if(!card) return;
+      card.querySelectorAll(':scope > .concept-section-head').forEach(function(head){
+        if((head.textContent || '').toLowerCase().includes('visual image')){
+          head.remove();
         }
-        intro.dataset.proIntroReady = 'true';
+      });
+    }
 
-        var screen = intro.closest('.b2-screen');
-        var screenId = screen ? screen.getAttribute('data-b2-screen') : '';
+    function insertNestedVisualCard(page, visualEl){
+      if(!page || !visualEl) return;
+      var before = page.querySelector('.concept-points-box, .b2pl-cat-grid, .b2-nav, .section-activity, .section-activity-shell');
+      if(before){
+        before.insertAdjacentElement('beforebegin', visualEl);
+      } else {
+        page.appendChild(visualEl);
+      }
+    }
+
+    function wrapLooseNestedVisualBox(page){
+      if(!page) return;
+      page.querySelectorAll(':scope > .concept-activity-box').forEach(function(box){
+        if(box.closest('.concept-section-card')) return;
+        if(box.querySelector('p, ul, button')) return;
+        var card = document.createElement('div');
+        card.className = 'concept-section-card m5-screen-visual-card';
+        page.insertBefore(card, box);
+        card.appendChild(box);
+      });
+    }
+
+    function normalizeNestedFolderOverviewPages(wrapper){
+      if(!wrapper || wrapper.dataset.nestedLayoutReady === 'true') return;
+      wrapper.dataset.nestedLayoutReady = 'true';
+      stripNestedFolderSectionIntros(wrapper);
+      wrapper.querySelectorAll('.b2-screen').forEach(function(screen){
+        var page = screen.querySelector('.folder-page') || screen;
+        wrapLooseNestedVisualBox(page);
+        page.querySelectorAll('.concept-section-card').forEach(function(card){
+          if(card.classList.contains('section-intro')) return;
+          if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid, .concept-points-box, .b2-nav, .section-activity')){
+            stripVisualImageLabel(card);
+          }
+        });
+      });
+    }
+
+    function stripNestedFolderSectionIntros(scope){
+      if(!scope) return;
+      hideNestedPageTitles(scope);
+      scope.querySelectorAll('.folder-page > .concept-section-card.section-intro').forEach(function(intro){
+        intro.remove();
+      });
+      scope.querySelectorAll('.folder-page > .concept-intro-slot').forEach(function(intro){
+        intro.remove();
+      });
+    }
+
+    function renderNestedScreenIntro(panel, block, conceptTarget, screenId){
+      if(!panel || !window.ConceptInsightIntro) return null;
+      if(ConceptInsightIntro.ensurePanelChrome){
+        ConceptInsightIntro.ensurePanelChrome(panel);
+      }
+      var introSlot = panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-panel-desc');
+      if(!introSlot) return null;
+
+      var insight = null;
+      var alreadyCompleted = conceptCompletion[block] && conceptCompletion[block].has(conceptTarget);
+
+      if(screenId === 'home'){
+        var data = conceptContent[conceptTarget];
+        insight = ConceptInsightIntro.renderIntro(panel, data, 5, conceptTarget, { restoreComplete: !!alreadyCompleted });
+      } else {
         var nestedEntry = (window.ConceptInsightNestedM5 && ConceptInsightNestedM5.get)
           ? ConceptInsightNestedM5.get(screenId)
           : null;
-        var insight = null;
         if(nestedEntry && nestedEntry.insight){
+          introSlot.className = 'concept-intro-slot concept-insight-intro-shell';
+          introSlot.innerHTML = ConceptInsightIntro.buildHTML(nestedEntry.insight);
+          introSlot.style.display = '';
+          ConceptInsightIntro.bindPillarCards(introSlot, panel, { restoreComplete: !!alreadyCompleted });
           insight = nestedEntry.insight;
-        } else if(window.ConceptInsightIntro && ConceptInsightIntro.buildInsightFromParagraphs){
-          var folderPage = intro.closest('.folder-page');
-          var pageTitleEl = folderPage ? folderPage.querySelector('.b2pl-folder-h, .b2pl-cathead') : null;
-          var pageTitle = pageTitleEl ? (pageTitleEl.textContent || '').trim() : '';
-          insight = ConceptInsightIntro.buildInsightFromParagraphs(pageTitle, paragraphs);
+        } else {
+          introSlot.innerHTML = '';
+          introSlot.classList.remove('concept-insight-intro-shell');
+          panel.dataset.insightPillarsRequired = 'false';
+          panel.dataset.insightPillarsDone = 'true';
         }
-        if(!insight || !window.ConceptInsightIntro || !ConceptInsightIntro.buildHTML) return;
+      }
 
-        intro.className = 'concept-intro-slot concept-insight-intro-shell m5-nested-intro';
-        intro.innerHTML = ConceptInsightIntro.buildHTML(insight);
-        ConceptInsightIntro.bindPillarCards(intro, { dataset: {} }, { restoreComplete: false });
-      });
-      hideNestedPageTitles(scope);
+      var hasInsight = !!insight;
+      ConceptInsightIntro.updatePanelLayout(panel, block, conceptTarget, hasInsight);
+      panel.classList.toggle('concept-panel--insight-layout', hasInsight);
+      updateConceptFinishStateM5(panel, block, conceptTarget);
+      return insight;
+    }
+
+    function upgradeNestedFolderIntros(scope){
+      normalizeNestedFolderOverviewPages(scope);
       scope.querySelectorAll('.folder-page .concept-points-box > h4').forEach(function(h4){
         if(h4.dataset.proHeadReady === 'true') return;
         if(h4.querySelector('.icon.icon--key-ideas')) return;
@@ -4043,7 +4107,7 @@
     </div>
   </div>
   <div class="b2-screen" data-b2-screen="f1"><div class="folder-page"><h5 class="b2pl-folder-h b2pl-folder-h--f1"><span class="b2pl-folder-ico b2pl-folder-ico--page" aria-hidden="true"><svg class="b2-folder-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/></svg></span><span class="b2pl-folder-h-txt">Water Adaptation</span></h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Water adaptation is the foundation of all aquatic learning. It focuses on helping swimmers feel safe, comfortable and confident in the water before introducing more complex skills.</p><p>This stage supports emotional regulation, sensory adjustment and early engagement with the aquatic environment.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-7.jpeg" alt="PixtoLearn Folder 1 Water Adaptation visual"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-f1-1" type="button" data-b2-go="f1-s1">Enter &amp; Exit in the Water Safely</button><button class="b2pl-lvl-btn b2pl-cat-f1-2" type="button" data-b2-go="f1-s2">Water Movement</button><button class="b2pl-lvl-btn b2pl-cat-f1-3" type="button" data-b2-go="f1-s3">Aquatic Breathing &amp; Submersion</button></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back to Categories</button></div></div></div>
-  <div class="b2-screen" data-b2-screen="f2"><div class="folder-page"><h5 class="b2pl-folder-h b2pl-folder-h--f2"><span class="b2pl-folder-ico b2pl-folder-ico--page" aria-hidden="true"><svg class="b2-folder-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/></svg></span><span class="b2pl-folder-h-txt">Floating, Streamlining &amp; Water Safety</span></h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>This folder focuses on developing body control, balance and safety in the water. These skills are essential for efficient movement and progression.</p><p>Floating, streamlining, rotation, sculling and water safety all support swimmers to understand their body position, maintain control and respond more safely in the water.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-8.jpeg" alt="PixtoLearn Folder 2 Floating Streamlining and Water Safety visual"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-f2-1" type="button" data-b2-go="f2-s1">Floating &amp; Balance</button><button class="b2pl-lvl-btn b2pl-cat-f2-2" type="button" data-b2-go="f2-s2">Streamlining</button><button class="b2pl-lvl-btn b2pl-cat-f2-2" type="button" data-b2-go="f2-s3">Rotation &amp; Sculling</button><button class="b2pl-lvl-btn b2pl-cat-f2-3" type="button" data-b2-go="f2-s4">Water Safety</button></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back to Categories</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="f2"><div class="folder-page"><h5 class="b2pl-folder-h b2pl-folder-h--f2"><span class="b2pl-folder-ico b2pl-folder-ico--page" aria-hidden="true"><svg class="b2-folder-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/></svg></span><span class="b2pl-folder-h-txt">Floating, Streamlining &amp; Water Safety</span></h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>This folder focuses on developing body control, balance and safety in the water. These skills are essential for efficient movement and progression.</p><p>Floating, streamlining, rotation, sculling and water safety all support swimmers to understand their body position, maintain control and respond more safely in the water.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-8.jpeg" alt="PixtoLearn Folder 2 Floating Streamlining and Water Safety visual"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-f2-1" type="button" data-b2-go="f2-s1">Floating &amp; Balance</button><button class="b2pl-lvl-btn b2pl-cat-f2-2" type="button" data-b2-go="f2-s2">Streamlining, Rotation &amp; Sculling</button><button class="b2pl-lvl-btn b2pl-cat-f2-3" type="button" data-b2-go="f2-s3">Water Safety</button></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back to Categories</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f3"><div class="folder-page"><h5 class="b2pl-folder-h b2pl-folder-h--f3"><span class="b2pl-folder-ico b2pl-folder-ico--page" aria-hidden="true"><svg class="b2-folder-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/></svg></span><span class="b2pl-folder-h-txt">Swimming Strokes, Diving, Starts &amp; Turns</span></h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>This folder develops structured and coordinated swimming skills, building on foundational aquatic abilities.</p><p>These skills should be introduced once swimmers have developed enough confidence, body control, breathing control and movement readiness.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-9.jpeg" alt="PixtoLearn Folder 3 Swimming Strokes Diving Starts and Turns visual"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-f3-1" type="button" data-b2-go="f3-s1">Swimming Strokes</button><button class="b2pl-lvl-btn b2pl-cat-f3-2" type="button" data-b2-go="f3-s2">Diving</button><button class="b2pl-lvl-btn b2pl-cat-f3-2" type="button" data-b2-go="f3-s3">Starts &amp; Turns</button></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back to Categories</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f4"><div class="folder-page"><h5 class="b2pl-folder-h b2pl-folder-h--f4"><span class="b2pl-folder-ico b2pl-folder-ico--page" aria-hidden="true"><svg class="b2-folder-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/></svg></span><span class="b2pl-folder-h-txt">Games, Toys &amp; Equipment and Extras</span></h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>This folder supports engagement, motivation, communication and session flexibility.</p><p>It includes playful learning tools, equipment based activities and additional visual supports that help swimmers stay regulated, make choices and understand routines.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-10.jpeg" alt="PixtoLearn Folder 4 Games Toys Equipment and Extras visual"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-f4-1" type="button" data-b2-go="f4-s1">Games</button><button class="b2pl-lvl-btn b2pl-cat-f4-2 b2pl-cat--on-light" type="button" data-b2-go="f4-s2">Toys &amp; Equipment</button><button class="b2pl-lvl-btn b2pl-cat-f4-3" type="button" data-b2-go="f4-s3">Extras</button></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back to Categories</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f5"><div class="folder-page"><h5 class="b2pl-folder-h b2pl-folder-h--f5"><span class="b2pl-folder-ico b2pl-folder-ico--page" aria-hidden="true"><svg class="b2-folder-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/></svg></span><span class="b2pl-folder-h-txt">Session Plans</span></h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The Session Plan folder brings together all elements of the PixtoLearn system into a structured and practical format for real session delivery.</p><p>It allows instructors to organise activities, sequence skills and create clear, predictable sessions using visual supports.</p><p>Rather than selecting isolated activities, session plans connect skills, visuals, structure and progression.</p><p>This helps swimmers understand what will happen, in what order and what is expected, while supporting instructors in delivering consistent and purposeful sessions.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-5.jpeg" alt="PixtoLearn Session Plan folder visual"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Session plans organise learning into a clear sequence.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Visual structure supports understanding and engagement.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Activities should be connected, not random.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Session plans support transitions between tasks.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Structure should adapt to the swimmer, not the other way around.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back to Categories</button></div></div></div>
@@ -4051,9 +4115,8 @@
   <div class="b2-screen" data-b2-screen="f1-s2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f1-2">Water Movement</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Water movement helps swimmers explore how their body behaves in the water. This builds familiarity, confidence and the foundation for future movement skills.</p><p>Early movement does not need to look like formal swimming. It may include walking, splashing, jumping, reaching, turning or moving with support.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Water Movement visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Movement builds familiarity and confidence.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Exploration supports early learning.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Control develops gradually.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Water movement links to future propulsion.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f1">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f1-s3"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f1-3">Aquatic Breathing &amp; Submersion</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Aquatic breathing and submersion help swimmers manage water contact with the face and develop controlled breathing patterns. This is essential for regulation, confidence and progression.</p><p>Breathing skills should be introduced gradually, using playful and structured activities such as blowing, humming, bubbles, face contact and controlled submersion.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Aquatic Breathing and Submersion visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Breathing supports calmness and regulation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Exhaling in water reduces anxiety.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Submersion must be gradual and controlled.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Avoid encouraging swimmers to hold their breath for too long.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f1">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f2-s1"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f2-1">Floating &amp; Balance</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Floating allows swimmers to remain stable and supported in the water. It builds confidence, trust in buoyancy and reduces reliance on external support.</p><p>Balance helps swimmers maintain control in different positions and prepares them for movement, transitions and safety skills.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Floating and Balance visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Floating supports safety and confidence.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Body position affects buoyancy.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Relaxation is essential.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Floating is a foundation for movement.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f2">← Back</button></div></div></div>
-  <div class="b2-screen" data-b2-screen="f2-s2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f2-2">Streamlining</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Streamlining focuses on body alignment to reduce resistance and improve efficiency in the water.</p><p>It helps swimmers understand how body shape affects movement and prepares them for gliding, propulsion and later stroke development.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Streamlining visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Streamlining reduces drag.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Body alignment improves efficiency.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Streamlining requires control before speed.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">It prepares swimmers for propulsion.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f2">← Back</button></div></div></div>
-  <div class="b2-screen" data-b2-screen="f2-s3"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f2-2">Rotation &amp; Sculling</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Rotation and sculling help swimmers develop fine control, balance adjustments and feel for the water. These skills support body awareness and more efficient movement in later strokes and turns.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Rotation and sculling visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Sculling refines hand and forearm feel for the water.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Rotation links balance to efficient propulsion.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Build rotation from stable, supported starts.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Control matters before adding speed or resistance.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f2">← Back</button></div></div></div>
-  <div class="b2-screen" data-b2-screen="f2-s4"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f2-3">Water Safety</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Water safety skills help swimmers remain safe, manage fatigue and respond to unexpected situations.</p><p>These skills should not be treated as separate from learning. They should be embedded throughout sessions so swimmers develop practical confidence and safer responses in water.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Water Safety visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Safety is essential at every level.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Floating supports survival.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Breathing control is critical in stressful situations.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Water safety builds independence and confidence.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f2">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="f2-s2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f2-2">Streamlining, Rotation &amp; Sculling</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Streamlining focuses on body alignment to reduce resistance and improve efficiency in the water.</p><p>Rotation and sculling help swimmers develop fine control, balance adjustments and feel for the water.</p><p>Together, these skills support body awareness and more efficient movement in later strokes and turns.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Streamlining visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Streamlining reduces drag.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Body alignment improves efficiency.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Sculling refines hand and forearm feel for the water.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Rotation links balance to efficient propulsion.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f2">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="f2-s3"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f2-3">Water Safety</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Water safety skills help swimmers remain safe, manage fatigue and respond to unexpected situations.</p><p>These skills should not be treated as separate from learning. They should be embedded throughout sessions so swimmers develop practical confidence and safer responses in water.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Water Safety visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Safety is essential at every level.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Floating supports survival.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Breathing control is critical in stressful situations.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Water safety builds independence and confidence.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f2">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f3-s1"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f3-1">Swimming Strokes</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Swimming strokes combine movement, breathing, coordination and body position to create efficient propulsion.</p><p>Strokes should be developed progressively, ensuring that swimmers do not simply copy movements but understand how each part connects.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Swimming Strokes visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Strokes depend on strong foundations.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Coordination and timing are essential.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Breathing must be integrated gradually.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Efficiency comes from control, not speed.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f3">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f3-s2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f3-2">Diving</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Diving develops confidence and control when entering the water dynamically.</p><p>It requires readiness, body control, confidence with submersion and a clear understanding of safety expectations.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Diving visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Diving must be introduced safely and progressively.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Confidence with water entry is essential.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Body control affects safety and success.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Not every swimmer will be ready at the same stage.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f3">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f3-s3"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f3-2">Starts &amp; Turns</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Starts and turns help swimmers transition efficiently during structured swimming.</p><p>They require timing, body control, spatial awareness and confidence with movement changes in the water.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Starts and Turns visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Starts and turns improve efficiency.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">They require coordination and control.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Visual sequencing can support timing.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">They should be introduced progressively.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f3">← Back</button></div></div></div>
@@ -4179,7 +4242,7 @@
       }
     };
 
-    const M5B2C2_NESTED_KEYS = ['f1-s1','f1-s2','f1-s3','f2-s1','f2-s2','f2-s3','f2-s4','f3-s1','f3-s2','f3-s3','f4-s1','f4-s2','f4-s3','f5'];
+    const M5B2C2_NESTED_KEYS = ['f1-s1','f1-s2','f1-s3','f2-s1','f2-s2','f2-s3','f3-s1','f3-s2','f3-s3','f4-s1','f4-s2','f4-s3','f5'];
     const M5B2C3_NESTED_KEYS = ['fc31','fc32','fc33','fc34','fc35','fc36'];
 
     const conceptActivityBankBlock2 = {
@@ -4282,20 +4345,6 @@
           bad: 'Not quite. The key idea is: introduce glide or propulsion only when the body shape and control are ready. Try a version of that in your own words, or the suggested line in the key ideas.'
         },
         'f2-s3': {
-          format: 'reorder',
-          activityType: 'Drag and order (reorder in place)',
-          guideText: 'Use the up and down controls until the list follows the best teaching order for introducing rotation.',
-          q: 'Place the steps in the best order for introducing rotation (top to bottom).',
-          order: [
-            'Stable float',
-            'Supported rotation',
-            'Controlled transition',
-            'Independent rotation attempt'
-          ],
-          ok: 'That order is sensible: stability first, then help, then control, and finally a freer try.',
-          bad: 'Not quite. Start with stability, then add supported rotation, then a controlled change, and only then an independent attempt.'
-        },
-        'f2-s4': {
           format: 'scenario2',
           activityType: 'Scenario response',
           guideText: 'Think about safety. You can type a line or use the quick support below (no A/B/C/D).',
@@ -5898,13 +5947,14 @@
         wrapper.querySelectorAll('.b2-screen').forEach(screen => {
           screen.classList.toggle('active', screen.getAttribute('data-b2-screen') === id);
         });
+        var activeScreen = wrapper.querySelector('.b2-screen.active');
+        if(activeScreen){
+          wrapLooseNestedVisualBox(activeScreen.querySelector('.folder-page') || activeScreen);
+        }
         updateNestedPanelTitle(panel, target, id);
         panel.classList.toggle('m5-nested-active', id !== 'home');
+        renderNestedScreenIntro(panel, panel.dataset.currentBlock || 'block2', target, id);
         if(target === 'b2c3' || target === 'b2c2' || target === 'b3c1'){
-          const introSlot = panel.querySelector('.concept-intro-slot:not(.m5-nested-intro)');
-          if(introSlot){
-            introSlot.style.display = (id === 'home') ? '' : 'none';
-          }
           const pointsBox = panel.querySelector(':scope > .concept-points-box');
           if(pointsBox){
             pointsBox.style.display = (id === 'home') ? '' : 'none';
@@ -5968,7 +6018,6 @@
         'f2-s1': ['https://www.clubsensational.org/wp-content/uploads/2026/04/pack-2-6.jpeg'],
         'f2-s2': ['https://www.clubsensational.org/wp-content/uploads/2026/04/pack-2-26.jpeg'],
         'f2-s3': ['https://www.clubsensational.org/wp-content/uploads/2026/04/pack-2-64.jpeg'],
-        'f2-s4': ['https://www.clubsensational.org/wp-content/uploads/2026/04/pack-2-64.jpeg'],
         'f3-s1': [
           'https://www.clubsensational.org/wp-content/uploads/2026/04/pack-3-6.jpeg',
           'https://www.clubsensational.org/wp-content/uploads/2026/04/pack-3-20.jpeg',
@@ -5985,10 +6034,9 @@
         const screen = wrapper.querySelector(`.b2-screen[data-b2-screen="${screenId}"]`);
         if(!screen) return;
         const page = screen.querySelector('.folder-page') || screen;
-        const introCard = page.querySelector('.concept-section-card.section-intro');
-        if(!introCard) return;
 
         page.querySelectorAll('.concept-section-card').forEach(function(card){
+          if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')) return;
           stripNestedVisualImageCard(card);
         });
 
@@ -6000,19 +6048,19 @@
 
         if(urls.length === 1){
           const visualCard = document.createElement('div');
-          visualCard.className = 'concept-section-card';
+          visualCard.className = 'concept-section-card m5-screen-visual-card';
           const box = document.createElement('div');
           box.className = 'concept-activity-box b2c2-direct-image';
           box.innerHTML = `<img src="${urls[0]}" alt="${screenId} index visual" />`;
           visualCard.appendChild(box);
-          introCard.insertAdjacentElement('afterend', visualCard);
+          insertNestedVisualCard(page, visualCard);
           return;
         }
 
         const group = document.createElement('div');
         group.className = 'b2c2-direct-image-group';
         const visualCard = document.createElement('div');
-        visualCard.className = 'concept-section-card';
+        visualCard.className = 'concept-section-card m5-screen-visual-card';
         urls.forEach((src, idx) => {
           const box = document.createElement('div');
           box.className = 'concept-activity-box b2c2-direct-image';
@@ -6020,7 +6068,7 @@
           visualCard.appendChild(box);
         });
         group.appendChild(visualCard);
-        introCard.insertAdjacentElement('afterend', group);
+        insertNestedVisualCard(page, group);
       });
     }
 
@@ -6056,17 +6104,15 @@
         }
 
         page.querySelectorAll('.concept-section-card').forEach(function(card){
+          if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')) return;
           stripNestedVisualImageCard(card);
         });
-
-        const introCard = page.querySelector('.concept-section-card.section-intro');
-        if(!introCard) return;
 
         let imageBox = page.querySelector('.b2c3-direct-image');
         let visualCard = page.querySelector('.b2c3-visual-card');
         if(!visualCard){
           visualCard = document.createElement('div');
-          visualCard.className = 'concept-section-card b2c3-visual-card';
+          visualCard.className = 'concept-section-card b2c3-visual-card m5-screen-visual-card';
         }
         if(!imageBox){
           imageBox = document.createElement('div');
@@ -6077,7 +6123,7 @@
           visualCard.appendChild(imageBox);
         }
         if(!visualCard.parentElement){
-          introCard.insertAdjacentElement('afterend', visualCard);
+          insertNestedVisualCard(page, visualCard);
         }
       });
     }
@@ -6095,7 +6141,6 @@
       var nestedScreens = imageEl ? imageEl.querySelector('[data-b2-screens], .b2-screens') : null;
 
       if(nestedScreens){
-        upgradeNestedFolderIntros(nestedScreens);
         nestedScreens.querySelectorAll('.concept-section-card .concept-section-head').forEach(function(head){
           var label = (head.textContent || '').trim().toLowerCase();
           if(label.includes('visual image') && window.ConceptSectionIcons){
@@ -6293,9 +6338,9 @@
 
       // Inicializar carruseles que vivan dentro de este concepto (por ejemplo, los subconceptos de Block 1)
       setupCarousels(panel, block, target);
-      setupB2NestedScreens(panel, target);
       refineB2C2CategoryVisuals(panel, target);
       refineB2C3Visuals(panel, target);
+      setupB2NestedScreens(panel, target);
 
       if(block === 'block2'){
         mountBlock2ChoiceActivities(panel, block, target);

@@ -74,28 +74,17 @@
       }
     },
     'f2-s2': {
-      panelTitle: 'Streamlining',
+      panelTitle: 'Streamlining, Rotation & Sculling',
       insight: {
-        title: 'Efficient Body Shape',
+        title: 'Efficient Body Control',
         pillars: [
           { icon: 'movement', title: 'Reduce Resistance', text: 'Streamlining focuses on body alignment to reduce resistance and improve efficiency in the water.' },
-          { icon: 'focus', title: 'Shape Affects Movement', text: 'It helps swimmers understand how body shape affects movement and prepares them for gliding, propulsion and later stroke development.' },
-          { icon: 'balance', title: 'Control Before Speed', text: 'Streamlining should be practised with control and alignment before swimmers add speed or distance.' }
+          { icon: 'balance', title: 'Feel for the Water', text: 'Rotation and sculling help swimmers develop fine control, balance adjustments and feel for the water.' },
+          { icon: 'focus', title: 'Control Before Speed', text: 'These skills support body awareness and more efficient movement in later strokes and turns.' }
         ]
       }
     },
     'f2-s3': {
-      panelTitle: 'Rotation & Sculling',
-      insight: {
-        title: 'Fine Control in the Water',
-        pillars: [
-          { icon: 'movement', title: 'Feel for the Water', text: 'Rotation and sculling help swimmers develop fine control, balance adjustments and feel for the water.' },
-          { icon: 'balance', title: 'Body Awareness', text: 'These skills support body awareness and more efficient movement in later strokes and turns.' },
-          { icon: 'focus', title: 'Refined Adjustments', text: 'Small hand and body adjustments build the control needed for efficient propulsion and transitions.' }
-        ]
-      }
-    },
-    'f2-s4': {
       panelTitle: 'Water Safety',
       insight: {
         title: 'Safety Embedded in Learning',
