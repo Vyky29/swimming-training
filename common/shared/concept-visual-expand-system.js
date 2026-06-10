@@ -24,13 +24,123 @@
     ':scope > .b3c2-concept-hero, :scope > figure, :scope > img';
 
   var modalOpener = null;
+  var builtinModal = null;
 
   function setModalOpener(fn) {
     modalOpener = typeof fn === 'function' ? fn : null;
   }
 
+  function bindModalOpenerFromWindow() {
+    if (typeof modalOpener === 'function') return;
+    if (typeof window.openMediaModal === 'function') {
+      modalOpener = window.openMediaModal;
+    }
+  }
+
   function escapeAttr(value) {
     return String(value || '').replace(/"/g, '&quot;');
+  }
+
+  function isImageOnlyModalHTML(html) {
+    if (!html || typeof html !== 'string') return false;
+    try {
+      var doc = new DOMParser().parseFromString(html.trim(), 'text/html');
+      var body = doc.body;
+      return !!(
+        body &&
+        body.children.length === 1 &&
+        body.firstElementChild &&
+        body.firstElementChild.tagName === 'IMG'
+      );
+    } catch (err) {
+      return false;
+    }
+  }
+
+  function openPageMediaModal(html, title) {
+    var mediaModal = document.getElementById('mediaModal');
+    var mediaModalBody = document.getElementById('mediaModalBody');
+    var mediaModalTitle = document.getElementById('mediaModalTitle');
+    if (!mediaModal || !mediaModalBody) return false;
+
+    mediaModalBody.innerHTML = html;
+    var imageOnly = isImageOnlyModalHTML(html);
+
+    if (mediaModalTitle) {
+      if (imageOnly) {
+        mediaModalTitle.textContent = '';
+        mediaModalTitle.setAttribute('aria-hidden', 'true');
+      } else {
+        mediaModalTitle.textContent = title || 'Expanded slide';
+        mediaModalTitle.removeAttribute('aria-hidden');
+      }
+    }
+
+    var dlg = mediaModal.querySelector('.media-modal-dialog');
+    if (dlg) {
+      if (imageOnly) dlg.setAttribute('aria-label', 'Expanded image');
+      else dlg.removeAttribute('aria-label');
+    }
+
+    mediaModal.classList.toggle('media-modal--image-only', imageOnly);
+    mediaModal.classList.add('open');
+    mediaModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    return true;
+  }
+
+  function closeBuiltinModal() {
+    if (!builtinModal) return;
+    builtinModal.classList.remove('open');
+    builtinModal.setAttribute('aria-hidden', 'true');
+    var body = builtinModal.querySelector('.concept-expand-fallback-body');
+    if (body) body.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+
+  function ensureBuiltinModal() {
+    if (builtinModal) return builtinModal;
+
+    builtinModal = document.createElement('div');
+    builtinModal.className = 'concept-expand-fallback-modal';
+    builtinModal.id = 'conceptExpandFallbackModal';
+    builtinModal.setAttribute('aria-hidden', 'true');
+    builtinModal.innerHTML =
+      '<div class="concept-expand-fallback-dialog" role="dialog" aria-modal="true" aria-label="Expanded image">' +
+        '<button type="button" class="concept-expand-fallback-close" aria-label="Close">Close</button>' +
+        '<div class="concept-expand-fallback-body"></div>' +
+      '</div>';
+
+    document.body.appendChild(builtinModal);
+
+    builtinModal.querySelector('.concept-expand-fallback-close').addEventListener('click', closeBuiltinModal);
+    builtinModal.addEventListener('click', function (event) {
+      if (event.target === builtinModal) closeBuiltinModal();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && builtinModal.classList.contains('open')) closeBuiltinModal();
+    });
+
+    return builtinModal;
+  }
+
+  function openBuiltinModal(html, title) {
+    var modal = ensureBuiltinModal();
+    var body = modal.querySelector('.concept-expand-fallback-body');
+    if (body) body.innerHTML = html;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function resolveModalOpener(options) {
+    bindModalOpenerFromWindow();
+    if (options && typeof options.openModal === 'function') return options.openModal;
+    if (typeof modalOpener === 'function') return modalOpener;
+    if (typeof window.openMediaModal === 'function') return window.openMediaModal;
+    return function (html, title) {
+      if (!openPageMediaModal(html, title)) openBuiltinModal(html, title);
+    };
   }
 
   function defaultTitle(panel, img) {
@@ -43,9 +153,13 @@
     return (titleEl && titleEl.textContent && titleEl.textContent.trim()) || 'Expanded image';
   }
 
+  function imageSrc(img) {
+    return (img && (img.currentSrc || img.getAttribute('src') || img.src)) || '';
+  }
+
   function shouldSkipImage(img, options) {
     if (!img || img.tagName !== 'IMG') return true;
-    if (!(img.getAttribute('src') || '').trim()) return true;
+    if (!imageSrc(img).trim()) return true;
     if (img.closest('[data-parent-subconcept-nav]')) return true;
     if (img.closest('[data-expand-media]')) return true;
 
@@ -250,17 +364,28 @@
     section.setAttribute('data-visual-section-ready', 'true');
   }
 
-  function syncVisualSections(root) {
-    root = root || document;
+  function collectVisualSections(root) {
     var sections = new Set();
 
     root.querySelectorAll('.img-expand-btn').forEach(function (btn) {
-      var host = btn.parentElement;
-      var section = getVisualSection(host);
+      var section = getVisualSection(btn.parentElement);
       if (section) sections.add(section);
     });
 
-    sections.forEach(ensureVisualSection);
+    root.querySelectorAll('.concept-section-card').forEach(function (card) {
+      var head = card.querySelector(':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head');
+      if (head && isVisualHead(head)) sections.add(card);
+    });
+
+    root.querySelectorAll('.concept-image, [data-concept-primary-image], [data-concept-intro-media], .b3c2-concept-hero').forEach(function (slot) {
+      if (slot.querySelector('img[src], img[srcset]')) sections.add(slot);
+    });
+
+    return sections;
+  }
+
+  function syncVisualSections(root) {
+    collectVisualSections(root || document).forEach(ensureVisualSection);
   }
 
   function clearExpandables(root) {
@@ -285,6 +410,17 @@
     });
   }
 
+  function openExpandedImage(img, panel, options) {
+    var src = imageSrc(img);
+    if (!src) return;
+    var alt = img.alt || 'Expanded image';
+    var opener = resolveModalOpener(options);
+    opener(
+      '<img src="' + escapeAttr(src) + '" alt="' + escapeAttr(alt) + '" />',
+      (options && options.getTitle ? options.getTitle(panel, img) : defaultTitle(panel, img))
+    );
+  }
+
   function createExpandButton(img, panel, options) {
     var btn = document.createElement('button');
     btn.type = 'button';
@@ -294,13 +430,7 @@
     btn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
-      var opener = (options && options.openModal) || modalOpener;
-      if (!opener) return;
-      var alt = img.alt || 'Expanded image';
-      opener(
-        '<img src="' + img.src + '" alt="' + escapeAttr(alt) + '" />',
-        (options && options.getTitle ? options.getTitle(panel, img) : defaultTitle(panel, img))
-      );
+      openExpandedImage(img, panel, options);
     });
     return btn;
   }
@@ -310,6 +440,7 @@
     root = root || document;
     if (!root.querySelectorAll) return;
 
+    bindModalOpenerFromWindow();
     clearExpandables(root);
 
     var panel = options.panel || root.closest('.concept-panel') || null;
@@ -338,21 +469,31 @@
     }
   }
 
-  function initObservers() {
-    /* Expand buttons are wired explicitly from each module's renderConcept. */
+  function wireBlockIntroSlides() {
+    document.querySelectorAll('.block-intro-slide').forEach(function (slide) {
+      wire(slide);
+    });
+  }
+
+  function initDocument() {
+    bindModalOpenerFromWindow();
+    wireBlockIntroSlides();
   }
 
   window.ConceptVisualExpand = {
     setModalOpener: setModalOpener,
     wire: wire,
     syncVisualSections: syncVisualSections,
+    wireBlockIntroSlides: wireBlockIntroSlides,
     hintCopy: HINT_COPY,
     visualLabel: VISUAL_LABEL
   };
 
+  bindModalOpenerFromWindow();
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initObservers);
+    document.addEventListener('DOMContentLoaded', initDocument);
   } else {
-    initObservers();
+    initDocument();
   }
 })();

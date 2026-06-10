@@ -2,7 +2,7 @@
  * Unified primary imagery across Training I / II modules.
  * Infographics and concept visuals show in full (contain) — no 16:9 crop or inner scroll.
  */
-@import url('/assets/concept-visual-expand.css?v=20260705');
+@import url('/assets/concept-visual-expand.css?v=20260706');
 
 .portal [data-expand-media] {
   display: none !important;
@@ -55,6 +55,19 @@
   border: 1px solid rgba(45, 132, 179, .14);
   border-radius: 14px;
   overflow: hidden;
+}
+
+.portal .concept-panel [data-expandable-visual].concept-activity-box,
+.portal .concept-panel [data-expandable-visual].b2c2-direct-image,
+.portal .concept-panel [data-expandable-visual].b2c3-direct-image,
+.portal .concept-panel [data-expandable-visual].entry-exit-fan-item,
+.portal .concept-panel [data-expandable-visual] figure {
+  overflow: visible;
+}
+
+.portal .concept-panel [data-expandable-visual] > img,
+.portal .concept-panel [data-expandable-visual] figure > img {
+  border-radius: 14px;
 }
 
 .portal .section-visual-shell .concept-activity-box,
