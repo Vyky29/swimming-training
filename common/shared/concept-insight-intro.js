@@ -472,6 +472,22 @@
     return { index: idx + 1, total: buttons.length };
   }
 
+  function normalizeConceptTtsButtons(panel){
+    if(!panel) return;
+    var listenIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+    var stopIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="1.5"/></svg>';
+    panel.querySelectorAll('[data-concept-tts]').forEach(function(btn){
+      if(btn.dataset.ttsStyled === '1') return;
+      btn.dataset.ttsStyled = '1';
+      btn.innerHTML = '<span class="btn-tts__icon" aria-hidden="true">' + listenIcon + '</span><span class="btn-tts__label">Listen</span>';
+    });
+    panel.querySelectorAll('[data-concept-tts-stop]').forEach(function(btn){
+      if(btn.dataset.ttsStyled === '1') return;
+      btn.dataset.ttsStyled = '1';
+      btn.innerHTML = '<span class="btn-tts__icon" aria-hidden="true">' + stopIcon + '</span><span class="btn-tts__label">Stop</span>';
+    });
+  }
+
   function ensureConceptPanelInsightChrome(panel){
     if(!panel || panel.dataset.insightChromeReady === '1') return;
     panel.dataset.insightChromeReady = '1';
@@ -513,6 +529,7 @@
       slot.className = 'concept-intro-slot';
       headingRow.insertAdjacentElement('afterend', slot);
     }
+    normalizeConceptTtsButtons(panel);
   }
 
   function updateConceptPanelLayout(panel, block, target, hasInsight){

@@ -1,4 +1,113 @@
 /* Visual concept introduction  insight cards + Concept N of M badge */
+
+/* ?? Premium slim header (insight layout) ?? */
+.portal .concept-panel--insight-layout > .concept-heading-row,
+.portal .concept-panel--insight-layout > .concept-panel-title-row{
+  margin:0 0 10px;
+  padding:0 0 10px;
+  border:0;
+  border-bottom:1px solid rgba(45,132,179,.1);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.portal .concept-panel--insight-layout .concept-panel-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  width:100%;
+  min-height:36px;
+}
+.portal .concept-panel--insight-layout .concept-meta-badge{
+  order:1;
+  flex:0 0 auto;
+  margin:0;
+  padding:4px 10px;
+  border-radius:6px;
+  border:1px solid rgba(45,132,179,.14);
+  background:rgba(255,255,255,.92);
+  color:#4a7a96;
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  line-height:1.2;
+}
+.portal .concept-panel--insight-layout .concept-panel-title-stack{
+  order:2;
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:0;
+  min-width:0;
+  padding:0;
+}
+.portal .concept-panel--insight-layout .concept-heading-row h4,
+.portal .concept-panel--insight-layout .concept-panel-title-row h4,
+.portal .concept-panel--insight-layout .concept-panel-title{
+  display:none !important;
+}
+.portal .concept-panel--insight-layout .concept-heading-row h4::after,
+.portal .concept-panel--insight-layout .concept-panel-title-row .concept-panel-title::after{
+  display:none !important;
+}
+.portal .concept-panel--insight-layout .concept-title-icon{
+  display:none !important;
+}
+.portal .concept-panel--insight-layout .concept-panel-tts{
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:nowrap;
+  gap:8px;
+  margin:0;
+}
+.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-height:32px;
+  min-width:84px;
+  padding:0 12px;
+  margin:0;
+  border-radius:8px;
+  border:1px solid rgba(45,132,179,.18);
+  background:#fff;
+  color:#2d6f94;
+  font-size:.74rem;
+  font-weight:600;
+  letter-spacing:.02em;
+  line-height:1;
+  box-shadow:0 1px 2px rgba(18,50,71,.04);
+  transition:background .15s ease, border-color .15s ease, color .15s ease;
+}
+.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts:hover{
+  background:#f7fbfd;
+  border-color:rgba(45,132,179,.28);
+  color:#163247;
+}
+.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts__icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:14px;
+  height:14px;
+  flex-shrink:0;
+  color:currentColor;
+}
+.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts__icon svg{
+  width:14px;
+  height:14px;
+  display:block;
+}
+.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts__label{
+  display:inline-block;
+  line-height:1;
+}
+
 .concept-meta-badge{
   display:inline-flex;
   align-items:center;
@@ -74,23 +183,24 @@
   text-align:center;
 }
 .concept-insight-intro__title{
-  margin:0 auto 16px;
-  font-size:clamp(1.08rem, 1.9vw, 1.22rem);
+  margin:0 auto 14px;
+  font-size:clamp(1.02rem, 1.75vw, 1.18rem);
   line-height:1.35;
-  font-weight:700;
-  color:var(--blue, #2d84b3);
-  letter-spacing:.015em;
+  font-weight:600;
+  color:#1e4d68;
+  letter-spacing:.01em;
   text-transform:none;
   max-width:38rem;
 }
 .concept-insight-intro__title::after{
   content:'';
   display:block;
-  width:42px;
-  height:3px;
-  margin:10px auto 0;
+  width:28px;
+  height:2px;
+  margin:8px auto 0;
   border-radius:999px;
-  background:linear-gradient(90deg, var(--blue, #2d84b3) 0%, var(--blueSoft, #89b5c1) 100%);
+  background:#2d84b3;
+  opacity:.85;
 }
 .concept-insight-intro__statement{
   margin:0 auto 20px;
@@ -109,11 +219,11 @@
   margin:0 auto;
 }
 .concept-insight-pillar{
-  border:1px solid rgba(45,132,179,.16);
-  border-radius:12px;
+  border:1px solid rgba(45,132,179,.1);
+  border-radius:10px;
   background:#fff;
-  padding:14px 14px 16px;
-  box-shadow:0 4px 14px rgba(45,132,179,.07);
+  padding:14px 14px 15px;
+  box-shadow:0 1px 3px rgba(18,50,71,.04);
   min-height:100%;
   display:flex;
   flex-direction:column;
@@ -136,15 +246,15 @@
   max-width:260px;
 }
 .concept-insight-pillar__icon{
-  width:38px;
-  height:38px;
-  border-radius:10px;
-  background:var(--gradBlue, linear-gradient(135deg,var(--blue) 0%,var(--blueSoft) 100%));
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  background:linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%);
   color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 6px 14px rgba(45,132,179,.18);
+  box-shadow:none;
   flex-shrink:0;
 }
 .concept-insight-pillar__icon svg{
@@ -167,6 +277,18 @@
   color:var(--text, #314555);
 }
 @media (max-width:768px){
+  .portal .concept-panel--insight-layout .concept-panel-header{
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .portal .concept-panel--insight-layout .concept-meta-badge{
+    order:1;
+  }
+  .portal .concept-panel--insight-layout .concept-panel-title-stack{
+    order:2;
+    width:100%;
+    justify-content:flex-end;
+  }
   .concept-insight-intro__cards{
     flex-direction:column;
     align-items:center;

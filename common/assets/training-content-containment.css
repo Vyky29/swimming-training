@@ -572,6 +572,28 @@ body {
   justify-self: start;
 }
 
+/* Insight layout: slim toolbar instead of hero title card */
+.portal .concept-panel--insight-layout > .concept-heading-row,
+.portal .concept-panel--insight-layout > .concept-panel-title-row {
+  margin: 0 0 10px;
+  padding: 0 0 10px;
+  border: 0;
+  border-bottom: 1px solid rgba(45, 132, 179, 0.1);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.portal .concept-panel--insight-layout > .concept-heading-row h4,
+.portal .concept-panel--insight-layout > .concept-panel-title-row .concept-panel-title {
+  display: none !important;
+}
+
+.portal .concept-panel--insight-layout > .concept-heading-row h4::after,
+.portal .concept-panel--insight-layout > .concept-panel-title-row .concept-panel-title::after {
+  display: none !important;
+}
+
 .portal .concept-panel > .concept-heading-row h4,
 .portal .concept-panel > .concept-panel-title-row .concept-panel-title,
 .portal .concept-panel > h4:not(.concept-section-head),
