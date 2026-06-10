@@ -1,36 +1,17 @@
 /**
- * Unified layout for clickable review cards across Training I & II.
- * Centered icons, titles, and body copy; consistent completion tick.
+ * Concept insight pillar cards - centered icons, titles, and copy.
  */
 
-.portal .concept-insight-pillar,
-.portal .outcome,
-.portal .key-idea-item {
+.portal .concept-insight-pillar {
   position: relative;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 10px;
-}
-
-.portal .concept-insight-pillar {
-  align-items: center;
   padding: 16px 16px 18px;
 }
 
-.portal .outcome {
-  align-items: center;
-  padding: 16px 16px 18px;
-}
-
-.portal .key-idea-item {
-  align-items: center;
-  padding: 16px 16px 18px;
-}
-
-.portal .concept-insight-pillar__icon,
-.portal .outcome-index,
-.portal .key-idea-index {
+.portal .concept-insight-pillar__icon {
   width: 34px;
   height: 34px;
   margin: 0;
@@ -45,77 +26,13 @@
   box-shadow: none;
 }
 
-.portal .outcome > div,
-.portal .key-idea-text {
-  width: 100%;
-  text-align: center;
-}
-
 .portal .concept-insight-pillar__title,
 .portal .concept-insight-pillar__text {
   width: 100%;
   text-align: center;
 }
 
-.portal .concept-points-box:not(:has(.key-ideas-instruction)) > ul:not(:empty)::before {
-  content: "Read each point below, then click to confirm you've read it.";
-  display: block;
-  margin: 0 0 14px;
-  font-size: .84rem;
-  font-weight: 500;
-  line-height: 1.5;
-  letter-spacing: .01em;
-  color: rgba(74, 122, 150, .82);
-  text-align: center;
-}
-
-.portal .concept-points-box > h4,
-.portal .concept-points-box > .concept-section-head {
-  text-align: center;
-}
-
-.portal .concept-section-head {
-  display: inline-flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.portal #recap .recap-takeaway-card,
-.portal #keyideas .recap-takeaway-card {
-  align-items: center;
-  text-align: center;
-}
-
-.portal #recap .recap-takeaway-card__body,
-.portal #keyideas .recap-takeaway-card__body {
-  align-items: center;
-  text-align: center;
-}
-
-.portal #recap .recap-takeaway-card__title,
-.portal #keyideas .recap-takeaway-card__title {
-  text-align: center;
-  width: 100%;
-}
-
-.portal #recap .recap-takeaway-card.clicked::after,
-.portal #keyideas .recap-takeaway-card.clicked::after {
-  top: 10px;
-  right: 10px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #2d84b3;
-  color: #fff;
-  font-size: .72rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.portal .concept-insight-pillar.clicked::after,
-.portal .outcome.clicked::after,
-.portal .key-idea-item.clicked::after {
+.portal .concept-insight-pillar.clicked::after {
   content: '\2713';
   position: absolute;
   top: 10px;
@@ -132,29 +49,48 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  align-self: auto;
   box-shadow: 0 2px 6px rgba(45, 132, 179, .28);
 }
 
-.portal .outcome.clicked .outcome-index,
-.portal .key-idea-item.clicked .key-idea-index {
-  background: linear-gradient(145deg, #2d84b3 0%, #1e6a94 100%);
-  color: #fff;
-}
-
-.portal .outcome.clicked,
-.portal .key-idea-item.clicked,
 .portal .concept-insight-pillar.clicked {
   border: 2px solid #2d84b3;
   background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%);
   box-shadow: 0 4px 12px rgba(45, 132, 179, .2);
 }
 
+.portal .concept-insight-pillar.clicked .concept-insight-pillar__icon {
+  background: linear-gradient(145deg, #2d84b3 0%, #1e6a94 100%);
+}
+
+/* Block Focus + What This Block Covers */
+.portal .block-intro-card[data-card-type="focus"],
+.portal .block-intro-card[data-card-type="breakdown"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.portal .block-intro-card[data-card-type="focus"] .card-icon,
+.portal .block-intro-card[data-card-type="breakdown"] .card-icon {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.portal .block-intro-card[data-card-type="focus"] h4,
+.portal .block-intro-card[data-card-type="breakdown"] h4 {
+  text-align: center;
+  width: 100%;
+}
+
+.portal .block-intro-card[data-card-type="focus"] ul,
+.portal .block-intro-card[data-card-type="breakdown"] ul {
+  width: 100%;
+  text-align: left;
+}
+
 @media (max-width: 768px) {
-  .portal .concept-insight-pillar,
-  .portal .outcome,
-  .portal .key-idea-item {
+  .portal .concept-insight-pillar {
     padding: 14px 14px 16px;
   }
 }

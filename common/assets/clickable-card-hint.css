@@ -14,10 +14,10 @@
   line-height: 1.5;
   letter-spacing: .01em;
   color: rgba(74, 122, 150, .82);
-  text-align: center;
 }
 
 .portal .concept-insight-intro .cards-review-hint {
   max-width: 40rem;
   margin: 0 auto 14px;
+  text-align: center;
 }

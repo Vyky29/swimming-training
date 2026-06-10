@@ -7,9 +7,9 @@
  * Prefer `gap` over per-child margin for stacks (cards, activities, quiz).
  */
 
-@import url('/assets/tts-controls.css?v=20260621');
-@import url('/assets/clickable-card-hint.css?v=20260621');
-@import url('/assets/review-cards-visual-system.css?v=20260621');
+@import url('/assets/tts-controls.css?v=20260622');
+@import url('/assets/clickable-card-hint.css?v=20260622');
+@import url('/assets/review-cards-visual-system.css?v=20260622');
 
 /* ----- Global box model ----- */
 *,
