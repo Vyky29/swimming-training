@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
-  @import url('/assets/concept-insight-intro.css?v=20260617');
+  @import url('/assets/concept-insight-intro.css?v=20260709');
 
   :root{
       --blue:#2d84b3;
@@ -3026,7 +3026,46 @@
     .concept-panel[data-panel-for="block2"] > .concept-points-box{
       display:none !important;
     }
+
+    /* Insight pillar icons + visual section headers (M5 must not collapse these) */
+    .portal .concept-insight-pillar__icon{
+      display:inline-flex !important;
+      visibility:visible !important;
+      width:34px !important;
+      height:34px !important;
+      min-width:34px !important;
+      min-height:34px !important;
+      border-radius:8px !important;
+      background:linear-gradient(145deg,#3a8fbb 0%,#2d84b3 100%) !important;
+      color:#fff !important;
+      align-items:center !important;
+      justify-content:center !important;
+      flex-shrink:0 !important;
+      margin:0 !important;
+    }
+    .portal .concept-insight-pillar__icon svg{
+      width:20px !important;
+      height:20px !important;
+      display:block !important;
+      visibility:visible !important;
+      opacity:1 !important;
+    }
+    .portal .concept-panel .m5-screen-visual-card > .concept-section-head,
+    .portal .concept-panel .b2-screens .section-visual-shell > .concept-section-head,
+    .portal .concept-panel .b2-screens .m5-screen-visual-card > .concept-section-head{
+      display:inline-flex !important;
+      visibility:visible !important;
+      margin:0 0 10px !important;
+    }
+    .portal .concept-panel .m5-screen-visual-card > .concept-visual-guide,
+    .portal .concept-panel .b2-screens .section-visual-shell > .concept-visual-guide,
+    .portal .concept-panel .b2-screens .m5-screen-visual-card > .concept-visual-guide{
+      display:block !important;
+      visibility:visible !important;
+      margin:0 0 14px !important;
+    }
   </style>
+  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260709" />
   <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260707" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
@@ -3932,7 +3971,7 @@
         ],
         imageHTML: `<div class="b2-screens" data-b2-screens="b2c2">
   <div class="b2-screen active" data-b2-screen="home">
-    <div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-5.jpeg" alt="PixtoLearn Swimming folders overview"></div>
+    <div class="concept-section-card m5-screen-visual-card section-visual-shell"><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-5.jpeg" alt="PixtoLearn Swimming folders overview"></div></div>
     <div class="b2pl-folder-grid">
       <button class="b2pl-lvl-btn b2pl-f--1" type="button" data-b2-go="f1"><span class="b2pl-folder-ico" aria-hidden="true">📁</span><span class="b2pl-lvl-lbl">Water Adaptation</span></button>
       <button class="b2pl-lvl-btn b2pl-f--2" type="button" data-b2-go="f2"><span class="b2pl-folder-ico" aria-hidden="true">📁</span><span class="b2pl-lvl-lbl">Floating, Streamlining &amp; Water Safety</span></button>
@@ -5753,7 +5792,7 @@
       if(!nested) return;
       var screen = nested.querySelector('.b2-screen.active') || nested.querySelector('.b2-screen');
       if(!screen) return;
-      screen.querySelectorAll('.folder-page > .concept-activity-box, .b2-screen > .concept-activity-box').forEach(function(box){
+      screen.querySelectorAll('.folder-page > .concept-activity-box, :scope > .concept-activity-box').forEach(function(box){
         if(box.closest('.concept-section-card')) return;
         if(!box.querySelector('img[src]') || box.querySelector('p, ul, button')) return;
         var card = document.createElement('div');
@@ -5774,6 +5813,7 @@
       ConceptVisualExpand.wire(scope, {
         panel: panel,
         clearRoot: panel,
+        syncRoot: panel,
         exclude: ['[data-b2-screen="f1-s1"]']
       });
     }
@@ -6190,6 +6230,7 @@
       }
 
       if(window.ConceptVisualExpand){
+        wrapNestedOverviewVisuals(panel);
         rewireConceptVisualExpand(panel);
       }
       if(typeof ParentSubconceptLayout !== 'undefined'){
@@ -6918,7 +6959,7 @@
     })();
   </script>
   
-  <script src="/shared/concept-visual-expand-system.js?v=20260708"></script>
+  <script src="/shared/concept-visual-expand-system.js?v=20260709"></script>
 </body>
 </html>
 

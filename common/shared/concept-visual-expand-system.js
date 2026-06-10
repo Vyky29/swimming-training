@@ -533,7 +533,7 @@
       host.appendChild(createExpandButton(img, panel, options));
     });
 
-    syncVisualSections(root);
+    syncVisualSections(options.syncRoot || root);
     if (window.ConceptSectionIcons) {
       ConceptSectionIcons.scan(root);
     }
