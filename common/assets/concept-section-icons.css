@@ -56,38 +56,37 @@
 }
 
 .portal .concept-section-head--activity {
-  text-transform: none;
-  letter-spacing: 0.01em;
-  font-size: 0.84rem;
-  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
 .portal .concept-section-head--key-ideas {
-  text-transform: none;
-  letter-spacing: 0.01em;
-  font-size: 0.82rem;
-  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
-/* Training-wide section title typography (Title Case, not ALL CAPS) */
+/* Training-wide section titles — match Module 5 (uppercase labels) */
 .portal .concept-panel .concept-section-head,
 .portal .concept-panel .concept-intro-kicker,
 .portal .concept-panel h4.concept-section-head,
 .portal .concept-panel h5.concept-section-head,
 .portal .section-visual-shell > .concept-section-head,
 .portal .section-activity-shell > .concept-section-head {
-  text-transform: none !important;
-  letter-spacing: 0.01em !important;
-  font-weight: 700 !important;
-  font-size: 0.84rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 800 !important;
+  font-size: 0.78rem !important;
   line-height: 1.35 !important;
+  font-family: 'Montserrat', sans-serif !important;
+  color: var(--blue, #2d84b3);
 }
 
 .portal .concept-section-head--visual {
-  text-transform: none;
-  letter-spacing: 0.01em;
-  font-size: 0.84rem;
-  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
 @media (prefers-reduced-motion: reduce) {

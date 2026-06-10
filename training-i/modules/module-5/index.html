@@ -2867,12 +2867,12 @@
 
     /* Final typography lock for concept internals (match compact modules) */
     .concept-panel .concept-section-head{
-      font-size:.84rem !important;
-      font-weight:700 !important;
-      letter-spacing:.01em !important;
+      font-size:.78rem !important;
+      font-weight:800 !important;
+      letter-spacing:.06em !important;
       line-height:1.35 !important;
       font-family:'Montserrat',sans-serif !important;
-      text-transform:none !important;
+      text-transform:uppercase !important;
     }
     .concept-panel .concept-section-head .icon{
       font-size:.9rem !important;
@@ -3007,7 +3007,7 @@
       display:none !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260704" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260705" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css" />
@@ -5680,6 +5680,14 @@
       });
     }
 
+    function rewireConceptVisualExpand(panel){
+      if(!panel || !window.ConceptVisualExpand) return;
+      ConceptVisualExpand.wire(panel, {
+        panel: panel,
+        exclude: ['[data-b2-screen="f1-s1"]']
+      });
+    }
+
     function setupB2NestedScreens(panel, target){
       if(!panel || (target !== 'b2c2' && target !== 'b2c3' && target !== 'b3c1')) return;
       const wrapper = panel.querySelector('[data-b2-screens="' + target + '"]');
@@ -5709,6 +5717,7 @@
             rootDesc.style.display = (id === 'home') ? '' : 'none';
           }
         }
+        rewireConceptVisualExpand(panel);
       }
 
       wrapper.addEventListener('click', function(e){
@@ -6130,10 +6139,7 @@
       }
 
       if(window.ConceptVisualExpand){
-        ConceptVisualExpand.wire(panel, {
-          panel: panel,
-          exclude: ['[data-b2-screen="f1-s1"]']
-        });
+        rewireConceptVisualExpand(panel);
       }
       if(typeof ParentSubconceptLayout !== 'undefined'){
         ParentSubconceptLayout.lockStandardConceptOrder(panel);
@@ -6561,7 +6567,7 @@
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260704"></script>
+<script src="/shared/concept-section-icons.js?v=20260705"></script>
   <script src="/shared/parent-subconcept-layout.js"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
@@ -6861,7 +6867,7 @@
     })();
   </script>
   
-  <script src="/shared/concept-visual-expand-system.js?v=20260704"></script>
+  <script src="/shared/concept-visual-expand-system.js?v=20260705"></script>
 </body>
 </html>
 

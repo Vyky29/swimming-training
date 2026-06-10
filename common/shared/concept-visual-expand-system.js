@@ -57,17 +57,26 @@
   }
 
   function getExpandHost(img) {
-    return (
-      img.closest('figure') ||
-      img.closest('.entry-exit-fan-item') ||
+    var direct =
       img.closest('.b2c2-direct-image') ||
       img.closest('.b2c3-direct-image') ||
-      img.closest('.concept-activity-box') ||
-      img.closest('.concept-section-card') ||
+      img.closest('.entry-exit-fan-item') ||
+      img.closest('figure') ||
+      img.closest('.concept-activity-box');
+    if (direct) return direct;
+
+    var card = img.closest('.concept-section-card');
+    if (card && card.querySelector('.concept-points-box, .concept-activity-section, [data-activity], .concept-activity-interactive')) {
+      return img.closest('.concept-activity-box') || img.parentElement;
+    }
+
+    return (
+      card ||
       img.closest('[data-concept-primary-image]') ||
       img.closest('[data-concept-intro-media]') ||
       img.closest('.b3c2-concept-hero') ||
-      img.closest('.concept-image')
+      img.closest('.concept-image') ||
+      img.parentElement
     );
   }
 
@@ -128,7 +137,7 @@
 
   function shouldSkipMediaWrap(img) {
     return !!(
-      img.closest('.entry-exit-fan-grid, .entry-exit-fan-item, .carousel-slide, .carousel-inline-slide, .b2pl-folder-grid, .b2-screens, .subconcept-box')
+      img.closest('.entry-exit-fan-grid, .entry-exit-fan-item, .carousel-slide, .carousel-inline-slide, .b2pl-folder-grid, .subconcept-box')
     );
   }
 
@@ -205,6 +214,13 @@
 
   function shouldSkipVisualSection(section) {
     if (!section) return true;
+    if (
+      section.classList.contains('b2c2-direct-image') ||
+      section.classList.contains('b2c3-direct-image') ||
+      section.classList.contains('b2c2-direct-image-group')
+    ) {
+      return true;
+    }
     if (section.classList.contains('section-activity-shell') || section.classList.contains('section-ideas')) {
       return true;
     }
@@ -265,7 +281,7 @@
     });
     root.querySelectorAll('[data-visual-section-ready]').forEach(function (section) {
       section.removeAttribute('data-visual-section-ready');
-      section.classList.remove('section-visual-shell');
+      section.classList.remove('section-visual-shell', 'visual-direct');
     });
   }
 
