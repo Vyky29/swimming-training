@@ -1,13 +1,14 @@
 /**
  * Unified primary imagery across Training I / II modules.
- * Loaded last so it overrides per-module .concept-image img rules.
- * 16:9 frame + object-fit: cover keeps mixed source ratios visually consistent.
+ * Infographics and concept visuals show in full (contain) — no 16:9 crop or inner scroll.
  */
-@import url('/assets/concept-visual-expand.css?v=20260627');
+@import url('/assets/concept-visual-expand.css?v=20260704');
 
-.portal [data-expand-media]{
-  display:none !important;
+.portal [data-expand-media] {
+  display: none !important;
 }
+
+/* ----- Full infographic / concept visual (default) ----- */
 .portal .concept-panel .concept-image > img,
 .portal .concept-slide-block .concept-image > img,
 .portal .concept-panel [data-concept-primary-image] > img,
@@ -20,30 +21,65 @@
 .portal .concept-panel [data-concept-intro-media] > figure > img,
 .portal .block-intro-slide .concept-image > figure > img,
 .portal .concept-panel .concept-image.concept-section-card > img,
-.portal .concept-panel .concept-image.concept-section-card figure > img {
+.portal .concept-panel .concept-image.concept-section-card figure > img,
+.portal .concept-panel .concept-activity-box > img,
+.portal .concept-panel .concept-activity-box figure > img,
+.portal .concept-panel [data-expandable-visual] > img,
+.portal .concept-panel [data-expandable-visual] figure > img,
+.portal .section-visual-shell .concept-activity-box > img,
+.portal .section-visual-shell [data-expandable-visual] > img,
+.portal .b3c2-concept-hero > img {
   width: 100%;
   max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: center top;
+  aspect-ratio: unset;
+}
+
+.portal .concept-panel .concept-image,
+.portal .concept-panel [data-concept-primary-image],
+.portal .concept-panel [data-concept-intro-media],
+.portal .section-visual-shell,
+.portal .section-visual-shell .concept-activity-box,
+.portal .section-visual-shell [data-expandable-visual] {
+  overflow: visible;
+  max-height: none;
+}
+
+.portal .concept-panel .concept-activity-box {
+  position: relative;
+  padding: 0;
+  background: #fff;
+  border: 1px solid rgba(45, 132, 179, .14);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.portal .section-visual-shell .concept-activity-box,
+.portal .section-visual-shell.visual-direct .concept-activity-box {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Wide photo strips (opt-in only) */
+.portal .concept-media-photo > img,
+.portal .concept-media-photo img {
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center;
-  display: block;
 }
 
 .portal .carousel-slide img,
 .portal .carousel-inline-slide img,
 .portal .carousel-slides-container .carousel-slide img {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-
-.portal .b3c2-concept-hero > img {
-  width: 100%;
-  max-width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  object-position: center;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: center top;
   display: block;
 }

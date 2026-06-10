@@ -2,9 +2,10 @@
   'use strict';
 
   var DEFAULT_LABELS = {
-    keyIdeas: 'Key ideas for instructors',
+    keyIdeas: 'Key Ideas for Instructors',
     activity: 'Activity \u2014 Apply your understanding',
-    visual: 'Concept visual'
+    visual: 'Visual Image',
+    intro: 'Introduction'
   };
 
   /* Lightbulb  insight / key ideas */
@@ -132,9 +133,34 @@
     });
   }
 
+  function normalizeSectionHeads(root) {
+    (root || document).querySelectorAll('.concept-section-head, .concept-intro-kicker').forEach(function (head) {
+      var text = (head.textContent || '').toLowerCase().replace(/\s+/g, ' ').trim();
+      var type = '';
+      if (/key ideas for instructors/.test(text)) type = 'keyIdeas';
+      else if (/^visual image|^visual$|concept image/.test(text)) type = 'visual';
+      else if (/activity|apply your understanding/.test(text)) type = 'activity';
+      else if (/^introduction$|^intro$/.test(text.replace(/[^\w\s\u2014-]/g, '').trim())) type = 'intro';
+
+      if (!type) return;
+
+      var label = resolveLabel(type);
+      if (type === 'intro') {
+        var introText = head.querySelector(':scope > span:not(.icon)');
+        if (introText) introText.textContent = label;
+        else if (!head.querySelector('.icon')) head.textContent = label;
+        return;
+      }
+
+      var tag = head.tagName.toLowerCase();
+      head.outerHTML = headHtml(type, label, tag);
+    });
+  }
+
   function scan(root) {
     var scope = root || document;
     scope.querySelectorAll('.concept-section-head .icon').forEach(upgradeIcon);
+    normalizeSectionHeads(scope);
     upgradeMatchColumnIcons(scope);
     repairBrokenHeads(scope);
   }

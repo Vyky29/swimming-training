@@ -69,6 +69,27 @@
   font-weight: 700;
 }
 
+/* Training-wide section title typography (Title Case, not ALL CAPS) */
+.portal .concept-panel .concept-section-head,
+.portal .concept-panel .concept-intro-kicker,
+.portal .concept-panel h4.concept-section-head,
+.portal .concept-panel h5.concept-section-head,
+.portal .section-visual-shell > .concept-section-head,
+.portal .section-activity-shell > .concept-section-head {
+  text-transform: none !important;
+  letter-spacing: 0.01em !important;
+  font-weight: 700 !important;
+  font-size: 0.84rem !important;
+  line-height: 1.35 !important;
+}
+
+.portal .concept-section-head--visual {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .portal .concept-section-head .icon--key-ideas,
   .portal .concept-section-head .icon--activity {

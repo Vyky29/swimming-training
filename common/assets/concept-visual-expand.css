@@ -1,13 +1,21 @@
 /**
  * Visual section shell + shared expand-button styling.
- * Title + guide follow the same pattern as Activity sections.
+ * Matches Module 5 "Why Visual Learning Works" pattern training-wide.
  */
 
 .portal .concept-section-card.section-visual-shell {
   border-color: rgba(45, 132, 179, .22);
   background: linear-gradient(180deg, #f5fbff 0%, #ffffff 100%);
   padding: 14px;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.portal .concept-section-card.section-visual-shell.visual-direct {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
 }
 
 .portal .section-visual-shell > .concept-section-head {

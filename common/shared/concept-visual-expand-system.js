@@ -93,9 +93,19 @@
 
   function isVisualOnlySection(section) {
     if (!section) return false;
-    if (section.classList.contains('concept-image')) return true;
     if (section.matches('[data-concept-primary-image], [data-concept-intro-media], .b3c2-concept-hero')) {
       return true;
+    }
+    if (section.classList.contains('concept-image')) {
+      if (
+        section.querySelector(
+          '[data-parent-subconcept-nav], [data-concept-grid], .concept-activity-section, ' +
+          '[data-activity], .concept-points-box, .concept-activity-interactive'
+        )
+      ) {
+        return false;
+      }
+      return !!section.querySelector('img[src], img[srcset]');
     }
     var head = section.querySelector(':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head');
     if (!head || !isVisualHead(head)) return false;
@@ -114,6 +124,24 @@
       if (node) return node;
     }
     return null;
+  }
+
+  function shouldSkipMediaWrap(img) {
+    return !!(
+      img.closest('.entry-exit-fan-grid, .entry-exit-fan-item, .carousel-slide, .carousel-inline-slide, .b2pl-folder-grid, .b2-screens, .subconcept-box')
+    );
+  }
+
+  function ensureVisualMediaBox(img) {
+    if (!img || img.tagName !== 'IMG' || shouldSkipMediaWrap(img)) return null;
+    if (img.closest('.concept-activity-box')) return img.closest('.concept-activity-box');
+    var parent = img.parentElement;
+    if (!parent) return null;
+    var box = document.createElement('div');
+    box.className = 'concept-activity-box';
+    parent.insertBefore(box, img);
+    box.appendChild(img);
+    return box;
   }
 
   function buildVisualHeadHtml(label, tagName) {
@@ -200,7 +228,7 @@
     ensureVisualGuide(section, head);
 
     if (isVisualOnlySection(section)) {
-      section.classList.add('section-visual-shell');
+      section.classList.add('section-visual-shell', 'visual-direct');
     }
 
     section.setAttribute('data-visual-section-ready', 'true');
@@ -275,6 +303,8 @@
       if (shouldSkipImage(img, options)) return;
       if (panel && !panel.contains(img)) return;
 
+      ensureVisualMediaBox(img);
+
       var host = getExpandHost(img);
       if (!host || wiredHosts.has(host)) return;
 
@@ -287,6 +317,9 @@
     });
 
     syncVisualSections(root);
+    if (window.ConceptSectionIcons) {
+      ConceptSectionIcons.scan(root);
+    }
   }
 
   function initObservers() {
