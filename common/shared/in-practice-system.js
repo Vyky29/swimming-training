@@ -21,6 +21,8 @@
       '<path fill="currentColor" d="M0 88c24-10 48-10 72 0s48 10 72 0 48-10 72 0 48 10 72 0v32H0z" opacity=".35"/>' +
     '</svg>';
 
+  var observerPaused = false;
+
   function iconHtml(done) {
     return done ? ICON_DONE : ICON_POOL;
   }
@@ -118,6 +120,7 @@
     var fallback = defaultStaticCopy(screenKey);
     if (!fallback) return false;
 
+    observerPaused = true;
     var actionEl = document.createElement('div');
     actionEl.className = 'key-ideas-action';
     actionEl.dataset.inPracticeTarget = screenKey;
@@ -128,7 +131,8 @@
     }
     pointsBox.appendChild(actionEl);
     bindStaticAction(actionEl);
-    enhanceAction(actionEl);
+    enhanceAction(actionEl, true);
+    observerPaused = false;
     return true;
   }
 
@@ -147,14 +151,23 @@
     var current = (textEl.textContent || '').trim();
     if (!current) return;
     var refined = resolveCopy(actionEl, current);
-    if (refined && refined !== current) textEl.textContent = refined;
-    else if (refined) textEl.textContent = refined;
+    if (refined && refined !== current) {
+      observerPaused = true;
+      textEl.textContent = refined;
+      observerPaused = false;
+    }
   }
 
   function refreshIcon(actionEl, done) {
     if (!actionEl) return;
-    var iconEl = actionEl.querySelector('.icon');
-    if (iconEl) iconEl.innerHTML = iconHtml(!!done);
+    var iconEl = actionEl.querySelector('.key-ideas-action-head .icon');
+    if (!iconEl) return;
+    var state = done ? '1' : '0';
+    if (iconEl.dataset.inPracticeDone === state) return;
+    iconEl.dataset.inPracticeDone = state;
+    observerPaused = true;
+    iconEl.innerHTML = iconHtml(!!done);
+    observerPaused = false;
   }
 
   function ensureStructure(actionEl) {
@@ -164,7 +177,10 @@
     var text = textEl ? textEl.textContent : '';
     var done = actionEl.classList.contains('is-completed');
 
+    observerPaused = true;
     actionEl.innerHTML = shellInnerHtml(done);
+    observerPaused = false;
+
     textEl = actionEl.querySelector('.text');
     if (textEl && text) textEl.textContent = text;
 
@@ -173,9 +189,22 @@
     return true;
   }
 
-  function enhanceAction(actionEl) {
+  function isStructureReady(actionEl) {
+    return !!(
+      actionEl &&
+      actionEl.querySelector('.key-ideas-action__content') &&
+      actionEl.querySelector('.key-ideas-action__wave') &&
+      actionEl.querySelector('.key-ideas-action__scenario .text')
+    );
+  }
+
+  function enhanceAction(actionEl, force) {
     if (!actionEl || !actionEl.classList.contains('key-ideas-action')) return;
     if (actionEl.hasAttribute('hidden')) return;
+    if (!force && actionEl.dataset.inPracticeReady === '1' && isStructureReady(actionEl)) {
+      refreshIcon(actionEl, actionEl.classList.contains('is-completed'));
+      return;
+    }
 
     ensureStructure(actionEl);
 
@@ -185,49 +214,82 @@
     var wave = actionEl.querySelector('.key-ideas-action__wave');
     if (!wave) {
       var body = actionEl.querySelector('.key-ideas-action__body') || actionEl;
+      observerPaused = true;
       wave = document.createElement('div');
       wave.className = 'key-ideas-action__wave';
       wave.innerHTML = WAVE_SVG;
       body.insertBefore(wave, body.firstChild);
+      observerPaused = false;
     }
 
     var scenario = actionEl.querySelector('.key-ideas-action__scenario');
     var textEl = actionEl.querySelector('.text');
     if (textEl && scenario && textEl.parentElement !== scenario) {
+      observerPaused = true;
       scenario.appendChild(textEl);
+      observerPaused = false;
     }
 
     applyScenarioCopy(actionEl);
     refreshIcon(actionEl, actionEl.classList.contains('is-completed'));
+    actionEl.dataset.inPracticeReady = '1';
   }
 
   function scan(root) {
-    (root || document).querySelectorAll('.key-ideas-action:not([hidden])').forEach(enhanceAction);
+    (root || document).querySelectorAll('.key-ideas-action:not([hidden])').forEach(function (el) {
+      enhanceAction(el);
+    });
   }
 
-  var observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-      if (mutation.type === 'attributes' && mutation.target.classList && mutation.target.classList.contains('key-ideas-action')) {
-        enhanceAction(mutation.target);
-        return;
-      }
+  var pendingNodes = [];
+  var flushScheduled = false;
 
-      if (mutation.type === 'characterData' || mutation.type === 'childList') {
-        var action = mutation.target.closest && mutation.target.closest('.key-ideas-action');
-        if (action) {
-          setTimeout(function () { enhanceAction(action); }, 0);
-        }
-      }
-
-      mutation.addedNodes.forEach(function (node) {
+  function scheduleFlush() {
+    if (flushScheduled || observerPaused) return;
+    flushScheduled = true;
+    requestAnimationFrame(function () {
+      flushScheduled = false;
+      if (observerPaused || !pendingNodes.length) return;
+      var nodes = pendingNodes.slice();
+      pendingNodes = [];
+      nodes.forEach(function (node) {
         if (node.nodeType !== 1) return;
-        if (node.classList && node.classList.contains('key-ideas-action')) enhanceAction(node);
-        else if (node.querySelectorAll) {
-          node.querySelectorAll('.key-ideas-action').forEach(enhanceAction);
+        if (node.classList && node.classList.contains('key-ideas-action')) {
+          enhanceAction(node);
+          return;
+        }
+        if (node.querySelectorAll) {
+          node.querySelectorAll('.key-ideas-action:not([hidden])').forEach(enhanceAction);
           ensureStaticPointsBoxes(node);
         }
       });
     });
+  }
+
+  var observer = new MutationObserver(function (mutations) {
+    if (observerPaused) return;
+
+    mutations.forEach(function (mutation) {
+      if (mutation.type === 'attributes') {
+        if (
+          mutation.attributeName === 'hidden' &&
+          mutation.target.classList &&
+          mutation.target.classList.contains('key-ideas-action')
+        ) {
+          if (!mutation.target.hasAttribute('hidden')) {
+            pendingNodes.push(mutation.target);
+          }
+        }
+        return;
+      }
+
+      mutation.addedNodes.forEach(function (node) {
+        if (node.nodeType !== 1) return;
+        pendingNodes.push(node);
+      });
+    });
+
+    scheduleFlush();
   });
 
   function boot() {
@@ -237,9 +299,21 @@
     observer.observe(root, {
       childList: true,
       subtree: true,
-      characterData: true,
       attributes: true,
-      attributeFilter: ['hidden', 'class']
+      attributeFilter: ['hidden']
+    });
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') {
+        observer.disconnect();
+      } else {
+        observer.observe(root, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['hidden']
+        });
+      }
     });
   }
 

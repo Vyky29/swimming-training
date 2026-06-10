@@ -118,6 +118,16 @@
     document.querySelectorAll('.portal').forEach(function (portal) {
       observer.observe(portal, { childList: true, subtree: true });
     });
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') {
+        observer.disconnect();
+      } else {
+        document.querySelectorAll('.portal').forEach(function (portal) {
+          observer.observe(portal, { childList: true, subtree: true });
+        });
+      }
+    });
   }
 
   window.ConceptSectionIcons = {
