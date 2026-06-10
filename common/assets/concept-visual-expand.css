@@ -1,0 +1,90 @@
+/**
+ * Visual expand guidance + shared expand-button styling.
+ */
+
+.portal .concept-visual-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(232, 244, 251, .72) 0%, rgba(248, 252, 254, .42) 100%);
+  border: 1px solid rgba(45, 132, 179, .12);
+  font-size: .84rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: .01em;
+  color: rgba(74, 122, 150, .88);
+}
+
+.portal .concept-section-card.visual-direct > .concept-visual-hint {
+  margin-top: 0;
+}
+
+.portal .concept-section-card > .concept-section-head + .concept-visual-hint {
+  margin-top: -2px;
+}
+
+.portal .concept-visual-hint__text {
+  flex: 1;
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.portal .concept-visual-hint__icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(45, 132, 179, .2);
+}
+
+.portal .concept-visual-hint__icon svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.portal .img-expand-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(45, 132, 179, .22);
+  background: rgba(255, 255, 255, .96);
+  color: #2d84b3;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15, 40, 58, .12);
+  z-index: 2;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.portal .img-expand-btn:hover {
+  background: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(45, 132, 179, .18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal .img-expand-btn {
+    transition: none;
+  }
+
+  .portal .img-expand-btn:hover {
+    transform: none;
+  }
+}
