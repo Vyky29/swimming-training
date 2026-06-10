@@ -6,6 +6,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
 @import url('/assets/key-ideas-recap-system.css');
+@import url('/assets/concept-insight-intro.css');
 
 :root{
     --blue:#2d84b3;
@@ -5933,11 +5934,15 @@
     return { index: idx + 1, total: buttons.length };
   }
 
-  function updateConceptPanelLayout(panel, block, target, data){
+  function updateConceptPanelLayout(panel, block, target, hasInsight){
+    if(typeof ConceptInsightIntro !== 'undefined'){
+      ConceptInsightIntro.updatePanelLayout(panel, block, target, hasInsight);
+      return;
+    }
     if(!panel) return;
     var metaBadge = panel.querySelector('[data-concept-meta]');
     var meta = getConceptGridMeta(block, target);
-    if(data && data.introInsight){
+    if(hasInsight){
       panel.classList.add('concept-panel--insight-layout');
       if(metaBadge && meta){
         metaBadge.textContent = meta.total > 1 ? ('Concept ' + meta.index + ' of ' + meta.total) : ('Concept ' + meta.index);
@@ -6060,21 +6065,18 @@
     panel.dataset.currentTarget = target;
     panel.dataset.currentBlock = block;
     setConceptTitle(panel.querySelector('h4'), data.title, target, block);
-    updateConceptPanelLayout(panel, block, target, data);
-    const introEl = panel.querySelector('.concept-intro-slot');
-    if(introEl){
-      introEl.className = 'concept-intro-slot';
-      if(data.introInsight){
+    var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
+      ? ConceptInsightIntro.renderIntro(panel, data)
+      : null;
+    if(!resolvedInsight && data.introInsight){
+      resolvedInsight = data.introInsight;
+      var introEl = panel.querySelector('.concept-intro-slot');
+      if(introEl){
         introEl.innerHTML = buildConceptInsightIntroHTML(data.introInsight);
         introEl.classList.add('concept-insight-intro-shell');
-      } else {
-        introEl.innerHTML = formatConceptCopy(data.text || '');
-        introEl.classList.add('concept-intro-line');
-        if(!introEl.querySelector('.concept-intro-kicker')){
-          introEl.insertAdjacentHTML('afterbegin', '<span class="concept-intro-kicker"><span class="icon" aria-hidden="true">📘</span>Introduction</span>');
-        }
       }
     }
+    updateConceptPanelLayout(panel, block, target, !!resolvedInsight);
 
     const pointsBoxEl = panel.querySelector('.concept-points-box');
     const ul = pointsBoxEl ? pointsBoxEl.querySelector('ul') : null;
@@ -6290,8 +6292,10 @@
       ttsBtn.onclick = () => {
         const titleEl = panel.querySelector('.concept-heading-row h4') || panel.querySelector('h4');
         const title = titleEl?.textContent?.trim() || '';
-        const body = data.introInsight
-          ? buildConceptInsightSpeech(data.introInsight)
+        const body = resolvedInsight
+          ? (typeof ConceptInsightIntro !== 'undefined'
+            ? ConceptInsightIntro.buildSpeech(resolvedInsight)
+            : buildConceptInsightSpeech(resolvedInsight))
           : ((panel.querySelector('.concept-panel-desc') || panel.querySelector('.concept-intro-slot') || panel.querySelector('p'))?.textContent?.trim() || '');
         const points = Array.from(panel.querySelectorAll('.concept-points-box .key-idea-text')).map(el => el.textContent.trim()).join('. ') || Array.from(panel.querySelectorAll('.concept-points-box li')).map(li => li.textContent.trim()).join('. ');
         speakConceptNarration(title, body, points);
@@ -6854,6 +6858,7 @@
     });
   });
 </script>
+<script src="/shared/concept-insight-intro.js"></script>
 <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>

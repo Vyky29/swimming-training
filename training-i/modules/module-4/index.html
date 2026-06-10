@@ -12,6 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css');
+  @import url('/assets/concept-insight-intro.css');
 
   :root{
       --blue:#2d84b3;
@@ -8428,9 +8429,17 @@
           if(hiddenStageFocusEl) hiddenStageFocusEl.style.display = '';
         }
       }
-      const descEl = panel.querySelector('.concept-panel-desc');
-      if(descEl){
+      var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
+        ? ConceptInsightIntro.renderIntro(panel, data)
+        : null;
+      if(typeof ConceptInsightIntro !== 'undefined'){
+        ConceptInsightIntro.updatePanelLayout(panel, block, target, !!resolvedInsight);
+      }
+      const descEl = panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-panel-desc');
+      if(descEl && !resolvedInsight){
         descEl.innerHTML = formatConceptCopy(data.text || '');
+      }
+      if(descEl){
         const isBlock2LevelRoot = block === 'block3' && /^b2l[1-6]$/.test(target || '');
         descEl.style.display = (isPathwayStage || isBlock2LevelRoot) ? 'none' : '';
       }
@@ -8657,7 +8666,9 @@
             var activePanel = panel.querySelector('.stage-intro-panel.active');
             body = (focusEl ? focusEl.textContent.trim() + '. ' : '') + (activePanel ? activePanel.textContent.trim() : '');
           } else {
-            body = panel.querySelector('.concept-panel-desc')?.textContent?.trim() || '';
+            body = resolvedInsight
+              ? ConceptInsightIntro.buildSpeech(resolvedInsight)
+              : (panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-panel-desc'))?.textContent?.trim() || '';
             points = Array.from(panel.querySelectorAll('.concept-points-box .key-idea-text')).map(el => el.textContent.trim()).join('. ') || Array.from(panel.querySelectorAll('.concept-points-box li')).map(li => li.textContent.trim()).join('. ');
           }
           speakText(points ? `${title}. ${body}. Key ideas. ${points}.` : `${title}. ${body}.`);
@@ -10082,6 +10093,7 @@
     } catch(err) { console.error('Module 4 script error:', err); }
     });
   </script>
+  <script src="/shared/concept-insight-intro.js"></script>
   <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>

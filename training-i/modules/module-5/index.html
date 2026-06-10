@@ -12,6 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css');
+  @import url('/assets/concept-insight-intro.css');
 
   :root{
       --blue:#2d84b3;
@@ -5998,11 +5999,18 @@
       panel.dataset.currentTarget = target;
       panel.dataset.currentBlock = block;
       setConceptTitle(panel.querySelector('h4'), data.title, target, block);
-      const descEl = panel.querySelector('.concept-panel-desc');
-      if(descEl){
-        descEl.innerHTML = (data.text || '')
-          .replace(/Intro \+ Explain/g, 'Introduction')
-          .replace(/<h5>Intro<\/h5>/g, '<h5>Introduction</h5>');
+      var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
+        ? ConceptInsightIntro.renderIntro(panel, data)
+        : null;
+      if(typeof ConceptInsightIntro !== 'undefined'){
+        ConceptInsightIntro.updatePanelLayout(panel, block, target, !!resolvedInsight);
+      } else {
+        const descEl = panel.querySelector('.concept-panel-desc');
+        if(descEl){
+          descEl.innerHTML = (data.text || '')
+            .replace(/Intro \+ Explain/g, 'Introduction')
+            .replace(/<h5>Intro<\/h5>/g, '<h5>Introduction</h5>');
+        }
       }
 
       const ul = panel.querySelector(':scope > .concept-points-box ul');
@@ -6175,7 +6183,9 @@
       if(ttsBtn){
         ttsBtn.onclick = () => {
           const title = panel.querySelector('h4')?.textContent?.trim() || '';
-          let body = panel.querySelector('.concept-panel-desc')?.textContent?.trim() || '';
+          let body = resolvedInsight
+            ? ConceptInsightIntro.buildSpeech(resolvedInsight)
+            : (panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-panel-desc'))?.textContent?.trim() || '';
           const b2root = panel.querySelector('.b2-screens');
           const activeB2 = b2root && panel.querySelector('.b2-screen.active');
           if(!body && activeB2){
@@ -6550,6 +6560,7 @@
       });
     });
   </script>
+  <script src="/shared/concept-insight-intro.js"></script>
   <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>

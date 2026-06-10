@@ -12,6 +12,7 @@
   @import url('/assets/module-roadmap.css');
   @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css');
+  @import url('/assets/concept-insight-intro.css');
 
   :root{
     --blue:#2d84b3;
@@ -6197,8 +6198,15 @@
       delete panel.dataset.sequenceComplete;
       var titleHeading = panel.querySelector('.concept-heading-row h4') || panel.querySelector('h4');
       if(titleHeading) setConceptTitle(titleHeading, data.title, target, block);
-      const pEl = panel.querySelector('.concept-panel-desc') || panel.querySelector('.concept-heading-row + p');
-      if(pEl) pEl.innerHTML = formatConceptCopy(data.text || '');
+      var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
+        ? ConceptInsightIntro.renderIntro(panel, data)
+        : null;
+      if(typeof ConceptInsightIntro !== 'undefined'){
+        ConceptInsightIntro.updatePanelLayout(panel, block, target, !!resolvedInsight);
+      } else {
+        const pEl = panel.querySelector('.concept-panel-desc') || panel.querySelector('.concept-heading-row + p');
+        if(pEl) pEl.innerHTML = formatConceptCopy(data.text || '');
+      }
 
       const ul = panel.querySelector('.concept-points-box ul');
       var pointsRaw = Array.isArray(data.points) ? data.points.slice() : [];
@@ -6311,8 +6319,10 @@
         ttsBtn.onclick = () => {
           var titleEl = panel.querySelector('.concept-heading-row h4') || panel.querySelector('h4');
           var title = (titleEl && titleEl.textContent) ? titleEl.textContent.trim() : '';
-          var descEl = panel.querySelector('.concept-panel-desc') || panel.querySelector('.concept-heading-row + p');
-          var body = (descEl && descEl.textContent) ? descEl.textContent.trim() : '';
+          var descEl = panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-panel-desc') || panel.querySelector('.concept-heading-row + p');
+          var body = resolvedInsight
+            ? ConceptInsightIntro.buildSpeech(resolvedInsight)
+            : ((descEl && descEl.textContent) ? descEl.textContent.trim() : '');
           const points = Array.from(panel.querySelectorAll('.concept-points-box .key-idea-text')).map(el => el.textContent.trim()).join('. ') || Array.from(panel.querySelectorAll('.concept-points-box li')).map(li => li.textContent.trim()).join('. ');
           speakConceptNarration(title, body, points);
         };
@@ -6847,6 +6857,7 @@
       });
     });
   </script>
+  <script src="/shared/concept-insight-intro.js"></script>
   <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
