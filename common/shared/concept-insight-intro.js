@@ -30,22 +30,129 @@
     return parts.map(function(w){ return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
   }
 
+  var PILLAR_TITLE_RULES = [
+    [/more vulnerable because of/i, 'Factors That Increase Risk'],
+    [/vulnerab(?:ility|le).*not always obvious|not always obvious.*vulnerab/i, 'Hidden Risk'],
+    [/look beyond appearance|beyond appearance/i, 'Look Beyond Appearance'],
+    [/real level of understanding and control/i, 'Assess True Ability'],
+    [/reduced awareness|limited confidence|difficulty understanding instructions/i, 'Individual Differences'],
+    [/respond safely in the environment/i, 'Safe Response Capacity'],
+    [/interpret swimmer behaviour|interpret.*behavio/i, 'Read Behaviour Accurately'],
+    [/forces interact|forces act on the body/i, 'Forces Work Together'],
+    [/support the body.*challenge and instability|support.*while others create/i, 'Support and Challenge'],
+    [/continuously influence movement/i, 'Shape Movement and Posture'],
+    [/not always dramatic|without obvious signs|silent/i, 'Often Silent'],
+    [/subtle changes in position|continuous awareness/i, 'Stay Alert to Subtle Signs'],
+    [/prevention.*reaction|not based on reaction/i, 'Prevent, Don\u2019t React'],
+    [/regulation is not in place|dysregulation/i, 'Regulation Comes First'],
+    [/readiness is not fixed|readiness fluctuates|readiness can change/i, 'Readiness Changes'],
+    [/emotional state|states affect engagement/i, 'State Shapes Engagement'],
+    [/trust is built|building trust/i, 'Trust Through Consistency'],
+    [/engagement is not fixed|engagement changes/i, 'Engagement Shifts'],
+    [/disengagement is a signal/i, 'Disengagement Signals Change'],
+    [/visual learning|process information more efficiently/i, 'Visual Processing'],
+    [/cognitive load|reduce.*load/i, 'Reduce Cognitive Load'],
+    [/buoyancy lifts|supportive forces/i, 'Supportive Forces'],
+    [/resistance and instability|water resists movement/i, 'Resistance and Instability'],
+    [/sensory changes|seven senses|hypo.*hyper/i, 'Sensory Experience'],
+    [/land vs water|different from land/i, 'Different From Land'],
+    [/learning depends on|learning is not automatic/i, 'Learning Needs Readiness'],
+    [/teaching must adapt|adjust their approach/i, 'Adapt Your Approach'],
+    [/behaviour has meaning|behaviour reflects/i, 'Behaviour Has Meaning']
+  ];
+
+  function titleCase(str){
+    return String(str || '').split(/\s+/).map(function(w){
+      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+    }).join(' ');
+  }
+
+  function makePillarTitle(text){
+    var t = String(text || '').replace(/[.!?]+$/, '').trim();
+    if(!t) return 'Key Point';
+
+    var rule;
+    for(var i = 0; i < PILLAR_TITLE_RULES.length; i++){
+      rule = PILLAR_TITLE_RULES[i];
+      if(rule[0].test(t)) return rule[1];
+    }
+
+    var becauseMatch = t.match(/\bbecause of (.+?)(?:,\s*which|\.\s*$)/i);
+    if(becauseMatch){
+      var factors = becauseMatch[1].split(/\s*,\s*|\s+or\s+/)[0].trim();
+      if(factors.length <= 36) return titleCase(factors);
+      return 'Underlying Factors';
+    }
+
+    var whichMatch = t.match(/,\s*which is why (.+)/i);
+    if(whichMatch){
+      var why = whichMatch[1].replace(/[.!?]+$/, '').trim();
+      if(why.length <= 34) return titleCase(makeShortTitle(why, 4));
+      return 'Why It Matters';
+    }
+
+    if(/^(Some|Many|Not all|It is|These|This|Understanding|Recognising|Even when|As swimmers|A swimmer|In many cases|For many)/i.test(t)){
+      var commaParts = t.split(/,\s+/);
+      if(commaParts.length >= 2){
+        var second = commaParts[1].replace(/[.!?]+$/, '').trim();
+        if(/^(which|who|where|when|because)/i.test(second)){
+          if(commaParts.length >= 3) second = commaParts[2].replace(/[.!?]+$/, '').trim();
+        }
+        if(second.length <= 36 && second.split(/\s+/).length <= 5){
+          return titleCase(makeShortTitle(second, 4));
+        }
+      }
+    }
+
+    var words = t.split(/\s+/);
+    if(words.length >= 6){
+      var mid = words.slice(Math.floor(words.length / 2) - 1, Math.floor(words.length / 2) + 2).join(' ');
+      return titleCase(mid);
+    }
+
+    return titleCase(makeShortTitle(t, 2));
+  }
+
   function makeInsightTitle(conceptTitle, firstPara, secondPara){
+    var first = splitSentences(firstPara)[0] || conceptTitle || '';
+    first = first.replace(/\.$/, '');
+
+    if(/not all swimmers experience the same level of risk/i.test(first)){
+      return 'Risk Varies Between Swimmers';
+    }
+    if(/drowning can happen quickly/i.test(first)){
+      return 'Drowning Can Happen Quickly';
+    }
+    if(/in water, multiple forces act/i.test(first)){
+      return 'Multiple Forces Act Together';
+    }
+    if(/learning in water is not automatic/i.test(first)){
+      return 'Learning Requires Readiness';
+    }
+    if(/engagement is more than being physically present/i.test(first)){
+      return 'Engagement Goes Deeper';
+    }
+    if(/entering water immediately changes/i.test(first)){
+      return 'Water Changes Everything';
+    }
+    if(/safety in water is not based on reaction/i.test(first)){
+      return 'Safety Through Prevention';
+    }
+
     if(secondPara){
       var secondSents = splitSentences(secondPara);
       var hook = secondSents[0] || '';
       if(/^(It is|This means|These|Understanding|Recognising|For many|Some|Not all|Even when|As swimmers|A swimmer|In many cases)/i.test(firstPara) && hook){
         hook = hook.replace(/\.$/, '');
-        if(hook.length <= 72) return hook;
+        if(hook.length <= 56) return titleCase(makeShortTitle(hook, 6));
       }
     }
-    var first = splitSentences(firstPara)[0] || conceptTitle || '';
+
     first = first.replace(/^(In water|When entering water|When|For many|Some|Not all|The way|Learning|Entering|As swimmers|Even when|A swimmer|An|A|The)\s*,?\s*/i, '');
-    first = first.replace(/\.$/, '');
-    if(first.length > 72){
-      first = makeShortTitle(first, 6);
+    if(first.length > 56){
+      return titleCase(makeShortTitle(first, 5));
     }
-    return first;
+    return titleCase(first);
   }
 
   function extractParagraphs(html){
@@ -74,7 +181,7 @@
   function buildPillar(text, iconKey){
     return {
       icon: iconKey,
-      title: makeShortTitle(text, 3),
+      title: makePillarTitle(text),
       text: text
     };
   }
@@ -154,7 +261,8 @@
 
   function buildConceptInsightIntroHTML(insight){
     if(!insight) return '';
-    var pillars = (insight.pillars || []).map(function(pillar){
+    var pillarList = insight.pillars || [];
+    var pillars = pillarList.map(function(pillar){
       var iconKey = pillar.icon || 'response';
       var iconMarkup = conceptInsightIcons[iconKey] || conceptInsightIcons.response;
       return [
@@ -169,7 +277,7 @@
       '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
         '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + insight.title + '</h5>',
         '<p class="concept-insight-intro__statement">' + insight.statement + '</p>',
-        '<div class="concept-insight-intro__cards">' + pillars + '</div>',
+        '<div class="concept-insight-intro__cards" data-pillar-count="' + pillarList.length + '">' + pillars + '</div>',
       '</div>'
     ].join('');
   }
