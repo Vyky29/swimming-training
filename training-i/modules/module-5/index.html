@@ -3861,8 +3861,8 @@
           'Visuals provide clarity when verbal instruction is limited.',
           'Swimmers often process images more easily than spoken instructions.',
           'Visuals reduce misunderstanding during activities.',
-          'Instructors should show, not only tell.'
-        ],
+          'Instructors should show, not only tell.',
+          'In practice: Show the visual before you explain. Let the image carry expectation when words are hard to process.'],
         imageHTML: '<div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/ChatGPT-Image-Apr-27-2026-06_03_43-PM.png" alt="Why visual learning works: instructor using visual cards and step sequence with learner in the pool; benefits include reduced cognitive load, attention, confidence, participation, and progress"></div>'
       },
       b1c2: {
@@ -3872,8 +3872,8 @@
           'Break skills into small, visible steps.',
           'Use visuals to guide attention.',
           'Avoid giving too many verbal instructions at once.',
-          'Structure supports confidence and participation.'
-        ],
+          'Structure supports confidence and participation.',
+          'In practice: Present one visible step at a time rather than stacking several verbal instructions.'],
         imageHTML: '<div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/22bf3eb1-89cc-4c75-8bfd-e5b25f287615.png" alt="How structure helps: overwhelmed verbal instruction versus calm success using visual cards and a step-by-step sequence at the pool"></div>'
       },
       b1c3: {
@@ -3883,8 +3883,8 @@
           'Predictability increases participation.',
           'Visual progress builds motivation.',
           'Clear steps reduce frustration.',
-          'Engagement improves when swimmers understand the session.'
-        ],
+          'Engagement improves when swimmers understand the session.',
+          'In practice: Use the schedule to show what comes next so participation is driven by predictability, not pressure.'],
         imageHTML: '<div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/ChatGPT-Image-Apr-27-2026-06_08_31-PM.png" alt="Swimming instructor using visual sequence cards and a handheld card while a child in the pool practises catching a ball, showing visual supports in action"></div>'
       },
       b2c1: {
@@ -3895,7 +3895,8 @@
           'Consistency creates predictability and understanding.',
           'Visual structure reduces cognitive load.',
           'The system supports regulation, not just learning.',
-          'Visuals should be used actively throughout the session.'
+          'Visuals should be used actively throughout the session.',
+          'In practice: Show the PixtoLearn system before you explain it. Let visuals carry expectation when words are hard to process.'
         ],
         imageHTML: `<!-- VISUAL 1: PixtoLearn Swimming Kit overview. --><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-4.jpeg" alt="PixtoLearn Swimming Kit overview"></div>`
       },
@@ -3906,7 +3907,8 @@
           'Structured folder pathways.',
           'Clear progression by category.',
           'Consistent session planning.',
-          'Focused instructor decisions.'
+          'Focused instructor decisions.',
+          'In practice: Choose folder and category before the session starts so progression stays predictable.'
         ],
         imageHTML: `<div class="b2-screens" data-b2-screens="b2c2">
   <div class="b2-screen active" data-b2-screen="home">
@@ -3946,7 +3948,8 @@
           'Flashcards support instruction, communication and session flow.',
           'Different flashcards serve different practical purposes.',
           'The same visual system can support regulation and progression.',
-          'Flashcards should be accessible throughout the session.'
+          'Flashcards should be accessible throughout the session.',
+          'In practice: Keep flashcards within reach and match card type to the moment: instruction, choice, regulation, or closure.'
         ],
         imageHTML: `<div class="b2-screens" data-b2-screens="b2c3">
   <div class="b2-screen active" data-b2-screen="home">
@@ -3993,8 +3996,8 @@
           'Teach each skill individually before linking them.',
           'Build sequences progressively.',
           'Use visual schedules to support the sequence.',
-          'Ensure transitions between actions are clear and controlled.'
-        ],
+          'Ensure transitions between actions are clear and controlled.',
+          'In practice: Teach each skill alone before you link flashcards into a continuous sequence.'],
         imageHTML: '<div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-30.jpeg" alt="PixtoLearn Swimming Sequence: three steps from goal to flashcards to a progressive first, next, then sequence"></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-29.jpeg" alt="PixtoLearn Swimming Sequence example: linking flashcards for a complex outcome with top tips for teaching skills individually before combining"></div><h5>Activity</h5><p><strong>Instructor Thinking</strong></p><div class="concept-activity-box"><p>You want a swimmer to move from floating to standing independently.</p><p>Which individual skills are required? How would you sequence them using flashcards? At what point would you link them into one continuous action?</p></div>'
       },
       b3c3: {
@@ -4007,8 +4010,8 @@
           'Use flashcards to support each part of the session.',
           'Structure the session into clear phases: Entry & Warm Up, Main Activity, Cool Down & Exit.',
           'Keep the session flexible while maintaining structure.',
-          'Use visuals to support understanding and transitions.'
-        ],
+          'Use visuals to support understanding and transitions.',
+          'In practice: Anchor the session to one main outcome, then break it into visible phases with flashcards.'],
         imageHTML: '<div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-31.jpeg" alt="PixtoLearn Swimming session plan: steps for level assessment, outcomes and flashcards, with a sample completed plan template"></div><h5>Activity</h5><p><strong>Planning Task</strong></p><div class="concept-activity-box"><p>You are planning a session for a swimmer who is developing water confidence.</p><p>What would your main outcome be? What two or three learning outcomes would support this goal? Which flashcards would you select? How would you structure the session into entry, main activity and exit?</p></div>'
       }
     };
@@ -5694,9 +5697,15 @@
         const next = btn.getAttribute('data-b2-go');
         if(!next) return;
         showScreen(next);
+        if(window.InPracticeSystem && InPracticeSystem.ensureStaticPointsBoxes){
+          InPracticeSystem.ensureStaticPointsBoxes(wrapper);
+        }
       });
 
       showScreen('home');
+      if(window.InPracticeSystem && InPracticeSystem.ensureStaticPointsBoxes){
+        InPracticeSystem.ensureStaticPointsBoxes(wrapper);
+      }
     }
 
     function refineB2C2CategoryVisuals(panel, target){

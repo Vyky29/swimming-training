@@ -46,12 +46,98 @@
   }
 
   function resolveCopy(actionEl, fallback) {
-    var panel = actionEl && actionEl.closest('.concept-panel');
-    var target = panel && panel.dataset.currentTarget;
+    var target = actionEl && actionEl.dataset.inPracticeTarget;
+    if (!target) {
+      var panel = actionEl && actionEl.closest('.concept-panel');
+      target = panel && panel.dataset.currentTarget;
+    }
     if (window.InPracticeCopy && typeof InPracticeCopy.resolve === 'function') {
       return InPracticeCopy.resolve(target, fallback);
     }
     return fallback || '';
+  }
+
+  function staticScreenKey(pointsBox) {
+    var screen = pointsBox.closest('[data-b2-screen]');
+    if (!screen) return '';
+    var id = screen.getAttribute('data-b2-screen') || '';
+    if (!id || id === 'home') return '';
+    return id;
+  }
+
+  function defaultStaticCopy(screenKey) {
+    var defaults = {
+      f5: 'Build the session plan before swimmers arrive so visuals, sequence, and outcomes stay aligned.',
+      'f1-s1': 'Model the entry routine visually before you ask the swimmer to attempt it.',
+      'f1-s2': 'Use movement exploration to build familiarity before you name formal skills.',
+      'f1-s3': 'Introduce face and breath work playfully in short steps tied to regulation.',
+      'f2-s1': 'Let buoyancy and support do the work before you expect independent float holds.',
+      'f2-s2': 'Show the long body shape visually before you ask the swimmer to glide.',
+      'f2-s3': 'Keep sculling and rotation drills short so feel for water builds without overload.',
+      'f2-s4': 'Embed safety cues inside every activity block, not as a separate lecture.',
+      'f3-s1': 'Break stroke into visible parts before you expect a full coordinated pattern.',
+      'f3-s2': 'Confirm readiness and submersion comfort before you introduce any dynamic entry.',
+      'f3-s3': 'Teach wall skills as repeatable sequences with visuals before you add pace.',
+      'f4-s1': 'Choose games that rehearse the session outcome, not just fill time.',
+      'f4-s2': 'Match equipment to the learning goal and fade it when the skill holds without it.',
+      'f4-s3': 'Use routine and communication cards at transitions when demand or uncertainty rises.',
+      fc31: 'Show Main first for the whole picture, then flip to Break It Down when step-by-step support is needed.',
+      fc32: 'Introduce equipment with the flashcard before you hand it over so the activity purpose stays clear.',
+      fc33: 'Offer Break Time and Choosing cards when regulation or autonomy needs rise.',
+      fc34: 'Check in with How Do You Feel and Where cards when communication slows or distress appears.',
+      fc35: 'Use white cards for swimmer-specific needs that the standard kit does not cover yet.',
+      fc36: 'Signal Finished clearly at activity end so the swimmer knows what comes next.',
+      vs1: 'Use First and Then for two-step sequences until the swimmer follows both parts reliably.',
+      vs2: 'Add the middle step on the schedule once First and Then is stable across sessions.',
+      vs3: 'Expand to four or more activities only when transitions stay calm with shorter schedules.'
+    };
+    return defaults[screenKey] || '';
+  }
+
+  function bindStaticAction(actionEl) {
+    if (!actionEl || actionEl.getAttribute('data-in-practice-bound') === '1') return;
+    actionEl.setAttribute('data-in-practice-bound', '1');
+    actionEl.addEventListener('click', function () {
+      actionEl.classList.add('is-completed');
+      refreshIcon(actionEl, true);
+    });
+    actionEl.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        actionEl.click();
+      }
+    });
+  }
+
+  function ensureStaticPointsBox(pointsBox) {
+    if (!pointsBox || pointsBox.querySelector('.key-ideas-action')) return false;
+    var items = pointsBox.querySelectorAll('.key-idea-item');
+    if (!items.length) return false;
+
+    var screenKey = staticScreenKey(pointsBox);
+    var fallback = defaultStaticCopy(screenKey);
+    if (!fallback) return false;
+
+    var actionEl = document.createElement('div');
+    actionEl.className = 'key-ideas-action';
+    actionEl.dataset.inPracticeTarget = screenKey;
+    actionEl.innerHTML = shellInnerHtml(false);
+    var textEl = actionEl.querySelector('.text');
+    if (textEl) {
+      textEl.textContent = resolveCopy(actionEl, fallback);
+    }
+    pointsBox.appendChild(actionEl);
+    bindStaticAction(actionEl);
+    enhanceAction(actionEl);
+    return true;
+  }
+
+  function ensureStaticPointsBoxes(root) {
+    var changed = false;
+    (root || document).querySelectorAll('.concept-points-box').forEach(function (box) {
+      if (ensureStaticPointsBox(box)) changed = true;
+    });
+    return changed;
   }
 
   function applyScenarioCopy(actionEl) {
@@ -136,7 +222,10 @@
       mutation.addedNodes.forEach(function (node) {
         if (node.nodeType !== 1) return;
         if (node.classList && node.classList.contains('key-ideas-action')) enhanceAction(node);
-        else if (node.querySelectorAll) node.querySelectorAll('.key-ideas-action').forEach(enhanceAction);
+        else if (node.querySelectorAll) {
+          node.querySelectorAll('.key-ideas-action').forEach(enhanceAction);
+          ensureStaticPointsBoxes(node);
+        }
       });
     });
   });
@@ -144,6 +233,7 @@
   function boot() {
     var root = document.querySelector('.portal') || document.body;
     scan(root);
+    ensureStaticPointsBoxes(root);
     observer.observe(root, {
       childList: true,
       subtree: true,
@@ -160,7 +250,8 @@
     ensureStructure: ensureStructure,
     enhanceAction: enhanceAction,
     applyScenarioCopy: applyScenarioCopy,
-    resolveCopy: resolveCopy
+    resolveCopy: resolveCopy,
+    ensureStaticPointsBoxes: ensureStaticPointsBoxes
   };
 
   window.inPracticeActionIconHtml = iconHtml;
