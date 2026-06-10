@@ -1,5 +1,10 @@
 /* Section hints before clickable review groups */
 
+.portal .outcomes[data-outcomes-group]::before {
+  content: none !important;
+  display: none !important;
+}
+
 .portal .cards-review-hint,
 .portal .key-ideas-instruction {
   display: block;

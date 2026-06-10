@@ -5,7 +5,7 @@
  */
 
 /* -------------------------------------------------------------------------- */
-/* Pathway shell ù same wave language as completion + module hero atmosphere   */
+/* Pathway shell  -  same wave language as completion + module hero atmosphere   */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-wrap{
@@ -31,7 +31,7 @@
   z-index:1;
 }
 
-/* Mega-wave stack ù same SVG + mask pattern as #complete .completion-atmosphere */
+/* Mega-wave stack  -  same SVG + mask pattern as #complete .completion-atmosphere */
 .portal .main .content #journey .journey-wrap::before,
 .portal .main .content #journey .journey-wrap::after{
   content:"";
@@ -88,7 +88,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Journey panel ù same depth + mega-waves as #complete .completion (module-completion-flow) */
+/* Journey panel  -  same depth + mega-waves as #complete .completion (module-completion-flow) */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-panel{
@@ -191,7 +191,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Pathway titles ù current brighter aquatic blue; past / future hierarchy     */
+/* Pathway titles  -  current brighter aquatic blue; past / future hierarchy     */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-item.active .journey-title{
@@ -214,7 +214,7 @@
 }
 
 /* -------------------------------------------------------------------------- */
-/* Nodes ù calm blue; current: aquatic blue + subtle blue pulse (no tick/dot) */
+/* Nodes  -  calm blue; current: aquatic blue + subtle blue pulse (no tick/dot) */
 /* -------------------------------------------------------------------------- */
 
 .portal .main .content #journey .journey-item{

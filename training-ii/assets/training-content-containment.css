@@ -1,7 +1,7 @@
 /* Minimal shared containment layer for Training 2 pages. */
-@import url('/assets/tts-controls.css');
-@import url('/assets/clickable-card-hint.css');
-@import url('/assets/review-cards-visual-system.css');
+@import url('/assets/tts-controls.css?v=20260621');
+@import url('/assets/clickable-card-hint.css?v=20260621');
+@import url('/assets/review-cards-visual-system.css?v=20260621');
 *,
 *::before,
 *::after{

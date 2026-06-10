@@ -432,8 +432,8 @@
   function cleanInsightText(text){
     if(text == null) return '';
     return String(text)
-      .replace(/\uFFFD/g, ' ù ')
-      .replace(/\u009D/g, ' ù ')
+      .replace(/\uFFFD/g, ' - ')
+      .replace(/\u009D/g, '')
       .replace(/  +/g, ' ')
       .trim();
   }

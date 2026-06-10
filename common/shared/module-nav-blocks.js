@@ -21,7 +21,7 @@
   function cleanBlockTitle(raw, blockNum) {
     var text = String(raw || '').trim();
     if (!text) return '';
-    var stripped = text.replace(new RegExp('^Block\\s+' + blockNum + '\\s*[-–—]\\s*', 'i'), '').trim();
+    var stripped = text.replace(new RegExp('^Block\\s+' + blockNum + '\\s*[-\\u2013\\u2014]\\s*', 'i'), '').trim();
     return stripped || text;
   }
 

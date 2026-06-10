@@ -1,15 +1,15 @@
 /**
- * clubSENsational ? shared training content containment
- * Load this stylesheet AFTER each page?s inline <style> block so safe
+ * clubSENsational - shared training content containment
+ * Load this stylesheet AFTER each page's inline <style> block so safe
  * layout rules win on equal specificity where needed.
  *
  * Spacing: use --training-space-* and --training-*-gap on flex/grid parents.
  * Prefer `gap` over per-child margin for stacks (cards, activities, quiz).
  */
 
-@import url('/assets/tts-controls.css');
-@import url('/assets/clickable-card-hint.css');
-@import url('/assets/review-cards-visual-system.css');
+@import url('/assets/tts-controls.css?v=20260621');
+@import url('/assets/clickable-card-hint.css?v=20260621');
+@import url('/assets/review-cards-visual-system.css?v=20260621');
 
 /* ----- Global box model ----- */
 *,
