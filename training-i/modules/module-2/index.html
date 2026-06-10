@@ -4581,10 +4581,13 @@
 
     /** Water waves (pool) when pending; check when marked done — fits swimming instructor context. */
     function inPracticeActionIconHtml(done){
-      if(done){
-        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
-      }
-      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"><path d="M2 10c2.2-1.3 4.6-1.3 6.8 0 2.2 1.3 4.6 1.3 6.8 0 2.2-1.3 4.6-1.3 6.8 0 2.2 1.3 4.6 1.3 6.8 0"/><path d="M2 15.5c2.2-1.3 4.6-1.3 6.8 0 2.2 1.3 4.6 1.3 6.8 0 2.2-1.3 4.6-1.3 6.8 0 2.2 1.3 4.6 1.3 6.8 0"/></svg>';
+      return window.InPracticeSystem ? InPracticeSystem.iconHtml(!!done) : '';
+    }
+
+    function inPracticeShellHtml(done){
+      return window.InPracticeSystem
+        ? InPracticeSystem.shellInnerHtml(!!done)
+        : '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true">' + inPracticeActionIconHtml(!!done) + '</span><span class="label">In Practice</span></div><div class="text"></div>';
     }
 
     function buildActivityContainerShell(opts){
@@ -6257,10 +6260,10 @@
           actionEl = document.createElement('div');
           actionEl.className = 'key-ideas-action';
           actionEl.setAttribute('hidden', '');
-          actionEl.innerHTML = '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true">' + inPracticeActionIconHtml(false) + '</span><span class="label">In Practice</span></div><div class="text"></div>';
+          actionEl.innerHTML = inPracticeShellHtml(false);
           pointsBox.appendChild(actionEl);
-        } else if(!actionEl.querySelector('.key-ideas-action-head')){
-          actionEl.innerHTML = '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true">' + inPracticeActionIconHtml(false) + '</span><span class="label">In Practice</span></div><div class="text"></div>';
+        } else if(!actionEl.querySelector('.key-ideas-action__body')){
+          actionEl.innerHTML = inPracticeShellHtml(panel.dataset.inPracticeDone === 'true');
           actionEl.removeAttribute('data-in-practice-bound');
         }
         var actionTextEl = actionEl.querySelector('.text');
@@ -6870,6 +6873,7 @@
   </script>
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
+  <script src="/shared/in-practice-system.js?v=20260624"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>

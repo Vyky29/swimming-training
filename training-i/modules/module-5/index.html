@@ -5972,6 +5972,16 @@
       }
     }
 
+    function inPracticeActionIconHtml(done){
+      return window.InPracticeSystem ? InPracticeSystem.iconHtml(!!done) : '';
+    }
+
+    function inPracticeShellHtml(done){
+      return window.InPracticeSystem
+        ? InPracticeSystem.shellInnerHtml(!!done)
+        : '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true">' + inPracticeActionIconHtml(!!done) + '</span><span class="label">In Practice</span></div><div class="text"></div>';
+    }
+
     function renderConcept(block, target, fromBack){
       const data = conceptContent[target];
       const panel = document.querySelector(`[data-panel-for="${block}"]`);
@@ -6076,8 +6086,11 @@
           actionEl = document.createElement('div');
           actionEl.className = 'key-ideas-action';
           actionEl.setAttribute('hidden', '');
-          actionEl.innerHTML = '<span class="icon" aria-hidden="true">▶</span><div><span class="label">In Practice</span><span class="text"></span></div>';
+          actionEl.innerHTML = inPracticeShellHtml(false);
           pointsBox.appendChild(actionEl);
+        } else if(!actionEl.querySelector('.key-ideas-action__body')){
+          actionEl.innerHTML = inPracticeShellHtml(panel.dataset.inPracticeDone === 'true');
+          actionEl.removeAttribute('data-in-practice-bound');
         }
         var actionTextEl = actionEl.querySelector('.text');
         if(inPracticeLine && actionTextEl){
@@ -6087,13 +6100,13 @@
           actionEl.removeAttribute('hidden');
           actionEl.classList.toggle('is-completed', panel.dataset.inPracticeDone === 'true');
           var iconEl = actionEl.querySelector('.icon');
-          if(iconEl) iconEl.textContent = panel.dataset.inPracticeDone === 'true' ? '✓' : '▶';
+          if(iconEl) iconEl.innerHTML = inPracticeActionIconHtml(panel.dataset.inPracticeDone === 'true');
           if(actionEl.getAttribute('data-in-practice-bound') !== '1'){
             actionEl.setAttribute('data-in-practice-bound', '1');
             actionEl.addEventListener('click', function(){
               panel.dataset.inPracticeDone = 'true';
               actionEl.classList.add('is-completed');
-              var ic = actionEl.querySelector('.icon'); if(ic) ic.textContent = '✓';
+              var ic = actionEl.querySelector('.icon'); if(ic) ic.innerHTML = inPracticeActionIconHtml(true);
               updateConceptFinishStateM5(panel, block, target);
             });
           }
@@ -6572,6 +6585,7 @@
   </script>
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
+  <script src="/shared/in-practice-system.js?v=20260624"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
