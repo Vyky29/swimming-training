@@ -5552,53 +5552,50 @@
   };
 
   const conceptActivityBank = {
-    b1c1: { type:'truefalse', variant:'toggle', q:'A swimmer who appears unstable in water lacks ability.', correct:'false', ok:'Correct. Early instability often reflects adaptation, not lack of ability.', bad:'Not quite. Early instability often reflects adaptation, not lack of ability.' },
+    b1c1: { type:'truefalse', variant:'toggle', q:'Early instability in water always means the swimmer lacks physical ability.', correct:'false', ok:'Correct. Early instability often reflects adaptation to a new environment, not lack of ability.', bad:'Not quite. Instability at first often shows the body is still adapting to water forces.' },
     b1c3: { type:'choice', variant:'scenario', q:'A swimmer begins to float but struggles to stay stable. What is the most accurate interpretation?', options:[
       {id:'a', text:'The swimmer has full control'},
-      {id:'b', text:'The swimmer is supported but not yet organised'},
-      {id:'c', text:'The swimmer is not being supported'}
-    ], correct:'b', ok:'Correct. The swimmer may be supported by buoyancy and pressure but still developing organisation and control.', bad:'Not quite. The most accurate interpretation is that the swimmer is supported but not yet organised.' },
-    b1c4: { type:'choice', variant:'scenario', q:'A swimmer increases speed but becomes less controlled and more unstable. What is the most accurate explanation?', options:[
-      {id:'a', text:'The swimmer is distracted'},
-      {id:'b', text:'The water is increasing resistance and reducing control'},
-      {id:'c', text:'The swimmer forgot the technique'}
-    ], correct:'b', ok:'Correct. The water is increasing resistance and reducing control as speed rises.', bad:'Not quite. The most accurate explanation is that the water is increasing resistance and reducing control.' },
+      {id:'b', text:'The swimmer is supported by buoyancy but not yet organised'},
+      {id:'c', text:'The swimmer is not being supported at all'}
+    ], correct:'b', ok:'Correct. Buoyancy and pressure can support the body while organisation and control are still developing.', bad:'Not quite. Support from the water does not automatically mean the swimmer is fully organised or in control.' },
+    b1c4: { type:'sorting', q:'Sort each statement into Supportive forces or Dynamic forces.', zoneA:'Supportive forces', zoneB:'Dynamic forces', items:[
+      {text:'Buoyancy lifts the body and can reduce effort', cat:'hyper'},
+      {text:'Water pressure surrounds and can stabilise the body', cat:'hyper'},
+      {text:'Drag increases as movement speed rises', cat:'hypo'},
+      {text:'Turbulence reduces stability during movement', cat:'hypo'}
+    ], ok:'Supportive forces help the body feel held; dynamic forces create resistance and challenge control.' },
 
-    b2c1: { type:'truefalse', variant:'toggle', q:'Drowning is usually loud and easy to recognise.', correct:'false', ok:'Correct. Drowning is often silent, subtle, and easy to miss without active observation.', bad:'Not quite. Drowning is often silent and not always obvious.' },
-    b2c2: { type:'sorting', q:'', zoneA:'Higher Risk', zoneB:'Lower Risk', items:[
+    b2c1: { type:'truefalse', variant:'toggle', q:'Drowning is usually loud and easy to recognise from the poolside.', correct:'false', ok:'Correct. Drowning is often silent, subtle, and easy to miss without active observation.', bad:'Not quite. Drowning is often quiet and may not look like what people expect.' },
+    b2c2: { type:'sorting', q:'Sort each factor by how it typically affects drowning risk during a session.', zoneA:'Higher risk', zoneB:'Lower risk', items:[
       {text:'Limited awareness of danger', cat:'hyper'},
       {text:'Strong independence and control', cat:'hypo'},
       {text:'Difficulty following instructions', cat:'hyper'},
       {text:'Consistent response to guidance', cat:'hypo'}
-    ], ok:'Correct. Risk level should be judged by awareness, understanding, and response, not appearance alone.'},
-    b2c3: { type:'matching', q:'', leftTitle:'Profile', rightTitle:'Associated risk', pairs:[
+    ], ok:'Risk should be judged by awareness, understanding, and response — not appearance alone.'},
+    b2c3: { type:'matching', q:'Match each profile to the associated risk pattern.', leftTitle:'Profile', rightTitle:'Associated risk', pairs:[
       {id:'1', left:'Limited awareness', right:'Reduced recognition of danger'},
       {id:'2', left:'Impulsivity', right:'Unpredictable movement'},
       {id:'3', left:'Sensory differences', right:'Altered perception of danger'},
-      {id:'4', left:'Communication challenges', right:'Delayed response'}
+      {id:'4', left:'Communication challenges', right:'Delayed response to instruction'}
     ]},
     b2c4: { type:'choice', variant:'scenario-risk', q:'A swimmer moves independently in the water while the instructor remains positioned far away. What is the main safety concern?', options:[
       {id:'a', text:'The swimmer may lose motivation'},
-      {id:'b', text:'The instructor may not be able to respond quickly if needed'},
+      {id:'b', text:'The instructor may not be able to respond quickly if support is needed'},
       {id:'c', text:'The swimmer is developing independence'}
-    ], correct:'b', ok:'Correct. Distance reduces response speed and increases risk if support is needed urgently.', bad:'Not quite. The main concern is delayed response due to instructor distance.' },
+    ], correct:'b', ok:'Correct. Distance reduces response speed and increases risk if urgent support is needed.', bad:'Not quite. The main concern is whether the instructor can respond in time if something changes.' },
 
-    b3c1: { type:'truefalse', variant:'toggle', q:'When a swimmer hesitates entering the water, it is usually a behavioural issue.', correct:'false', ok:'Correct. Hesitation is often linked to sensory adaptation, not behaviour alone.', bad:'Not quite. Early hesitation often reflects sensory change and adaptation demand.' },
+    b3c1: { type:'truefalse', variant:'toggle', q:'When a swimmer hesitates entering the water, it is usually a behavioural issue.', correct:'false', ok:'Correct. Hesitation is often linked to sensory adaptation and unfamiliar input, not behaviour alone.', bad:'Not quite. Early hesitation often reflects sensory change and the demand to adapt in water.' },
     b3c2: { type:'choice', variant:'scenario', q:'Which statement best explains why sensory processing may feel different in water?', options:[
       {id:'a', text:'Water removes the need for sensory processing'},
       {id:'b', text:'Water changes how the body receives and organises sensory input'},
       {id:'c', text:'Sensory systems work exactly the same in all environments'}
-    ], correct:'b', ok:'Correct. Water changes sensory input and how it is organised by the body.', bad:'Not quite. Water alters sensory input and organisation, which changes processing.'},
-    b3c3: { type:'matching', q:'', leftTitle:'Situation', rightTitle:'Explanation', pairs:[
+    ], correct:'b', ok:'Correct. Water changes temperature, pressure, balance, and movement feedback — all of which alter sensory processing.', bad:'Not quite. Water alters the sensory input the body receives and how it is organised.'},
+    b3c3: { type:'matching', q:'Match each observation to the most likely sensory explanation.', leftTitle:'Observation', rightTitle:'Sensory explanation', pairs:[
       {id:'1', left:'Feels unstable in water', right:'Changed perception of balance'},
       {id:'2', left:'Hesitates to move', right:'Unfamiliar sensory feedback'},
-      {id:'3', left:'Moves differently than on land', right:'Adaptation required'}
+      {id:'3', left:'Moves differently than on land', right:'Adaptation to a new environment is required'}
     ]},
-    b3c4: { type:'choice', variant:'scenario', q:'A swimmer splashes constantly and moves quickly around the pool. What is the most appropriate interpretation?', options:[
-      {id:'a', text:'The swimmer is misbehaving'},
-      {id:'b', text:'The swimmer may be seeking sensory input'},
-      {id:'c', text:'The swimmer is not listening'}
-    ], correct:'b', ok:'Correct. The swimmer may be seeking sensory input.', bad:'Not quite. Consider sensory needs before assuming intentional misbehaviour.' }
+    b3c4: { type:'truefalse', variant:'toggle', q:'Constant splashing and rapid movement always mean a swimmer is misbehaving.', correct:'false', ok:'Correct. These behaviours may reflect sensory seeking or dysregulation, not intentional defiance.', bad:'Not quite. Consider sensory needs and regulation before labelling behaviour as misbehaviour.' }
   };
 
   function buildActivityContainerShell(opts){

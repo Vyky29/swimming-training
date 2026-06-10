@@ -5267,50 +5267,45 @@
           { id: 'b', text: 'Swimmer B' }
         ],
         correct: 'b',
-        ok: 'Correct. Swimmer B demonstrates stronger aquatic development because calm, confident interaction with water shows readiness more clearly than stroke shape alone.',
+        ok: 'Correct. Calm, confident interaction with water shows readiness more clearly than stroke shape alone when tension and instability are present.',
         bad: 'Not quite. A correct stroke pattern does not automatically show stronger aquatic development when tension and instability are present.',
         variant: 'reflection'
       },
       b1c2: {
         title: 'Activity - Decision Making Task',
-        q: 'A swimmer is moving actively but cannot maintain control when a float is introduced. Decide whether to progress to more structured kicking or return to balance and control work.',
+        q: 'A swimmer is moving actively but cannot maintain control when a float is introduced. Should you progress to more structured kicking or return to balance and control work?',
         options: [
           { id: 'a', text: 'Progress to more structured kicking' },
           { id: 'b', text: 'Return to balance and control work' }
         ],
         correct: 'b',
-        ok: 'Correct. Returning to balance and control work protects regulation and readiness before more structure is introduced.',
-        bad: 'Not quite. When control is lost, the priority is to reduce demand and re-establish balance, comfort, and confidence.',
+        ok: 'Correct. Returning to balance and control protects regulation and readiness before more structure is introduced.',
+        bad: 'Not quite. When control is lost, re-establish balance, comfort, and confidence before increasing structure.',
         variant: 'scenario'
       },
       b1c3: {
         type: 'matching',
-        q: 'Review a swimmer who enjoys movement but avoids face contact. Match each prompt to the most appropriate interpretation.',
+        q: 'A swimmer enjoys movement but avoids face contact. Match each prompt to the most appropriate interpretation.',
         leftTitle: 'Identify',
-        rightTitle: 'Best Match',
+        rightTitle: 'Best match',
         pairs: [
-          { id: '1', left: 'What progress currently looks like', right: 'Enjoyment of movement, splashing, and confidence in water engagement' },
+          { id: '1', left: 'What progress currently looks like', right: 'Enjoyment of movement and confidence in water engagement' },
           { id: '2', left: 'What should not be rushed', right: 'Face contact and submersion' },
           { id: '3', left: 'What the instructor should prioritise next', right: 'Gradual exposure over multiple sessions' }
         ]
       },
       b1c4: {
-        title: 'Activity - Decision Making Task',
-        q: 'A swimmer is active and confident during free movement but becomes tense and dysregulated when asked to follow a structured swimming task. Decide whether to continue with structured swimming or return to foundational aquatic work.',
-        options: [
-          { id: 'a', text: 'Continue with structured swimming' },
-          { id: 'b', text: 'Return to foundational aquatic work' }
-        ],
-        correct: 'b',
-        ok: 'Correct. When structured demand reduces control and regulation, the instructor should return to foundational aquatic work until readiness is more secure.',
-        bad: 'Not quite. Movement alone does not show readiness. If the swimmer becomes tense and dysregulated, structured swimming is being introduced too early.',
-        variant: 'scenario'
+        type: 'truefalse',
+        q: 'When a swimmer becomes tense during structured swimming, continuing with the same structured demand is usually the best way to build readiness.',
+        correct: 'false',
+        ok: 'Correct. When structured demand reduces regulation, return to foundational aquatic work until readiness is more secure.',
+        bad: 'Not quite. Tension and dysregulation signal that structured demand may be too high — foundational work should come first.'
       },
       b2c1: {
         type: 'matching',
-        q: 'Observe a swimmer who struggles to float. Match each area to what may be involved in the response.',
+        q: 'A swimmer struggles to float. Match each area to what may be involved in the response.',
         leftTitle: 'Area',
-        rightTitle: 'May Be Involved',
+        rightTitle: 'May be involved',
         pairs: [
           { id: '1', left: 'Breathing', right: 'Holding breath and increasing tension' },
           { id: '2', left: 'Balance', right: 'Difficulty staying level in the water' },
@@ -5319,79 +5314,87 @@
         ]
       },
       b2c2: {
-        type: 'matching',
-        q: 'Match each swimmer response to the likely area.',
-        leftTitle: 'Swimmer Response',
-        rightTitle: 'Likely Area',
-        pairs: [
-          { id: '1', left: 'Avoids face in water', right: 'A. Breathing' },
-          { id: '2', left: 'Lifts head when floating', right: 'B. Balance' },
-          { id: '3', left: 'Hesitates moving', right: 'C. Familiarisation' }
-        ]
+        title: 'Activity - Area identification',
+        q: 'A swimmer lifts their head every time they try to float on their back. Which area is most likely involved first?',
+        options: [
+          { id: 'a', text: 'Breathing — holding breath and increasing tension' },
+          { id: 'b', text: 'Balance — difficulty staying level in the water' },
+          { id: 'c', text: 'Familiarisation — reluctance to enter the water' }
+        ],
+        correct: 'b',
+        ok: 'Correct. Head lift during floating often reflects balance and stability difficulty in the water.',
+        bad: 'Not quite. Lifting the head during a float attempt is most often linked to balance and staying level.',
+        variant: 'scenario'
       },
       b2c3: {
-        type: 'matching',
-        q: 'A swimmer lifts their head every time they try to float. Match each prompt to the best interpretation.',
-        leftTitle: 'Identify',
-        rightTitle: 'Best Interpretation',
-        pairs: [
-          { id: '1', left: 'Which area is most visible', right: 'Balance and stability during floating' },
-          { id: '2', left: 'Which area may be influencing it', right: 'Breathing uncertainty and regulation' },
-          { id: '3', left: 'Why the difficulty should be viewed as connected', right: 'One area is affecting how another area is managed' }
-        ]
+        type: 'sorting',
+        q: 'Sort each statement into what the connected-areas view emphasises or what it avoids.',
+        zoneA: 'What it emphasises',
+        zoneB: 'What it avoids',
+        items: [
+          { text: 'One area can affect how another is managed', cat: 'hyper' },
+          { text: 'Breathing uncertainty can influence balance', cat: 'hyper' },
+          { text: 'Treating each difficulty in complete isolation', cat: 'hypo' },
+          { text: 'Rushing to a single technical fix without context', cat: 'hypo' }
+        ],
+        ok: 'Aquatic difficulties are often connected — one area can influence how another is managed.'
       },
       b2c4: {
-        type: 'matching',
-        q: 'Think about a swimmer who needs more time with one skill. Match each prompt to the most appropriate reflection.',
-        leftTitle: 'Identify',
-        rightTitle: 'Best Reflection',
-        pairs: [
-          { id: '1', left: 'What small progress looks like', right: 'Calmer response and brief successful attempts' },
-          { id: '2', left: 'What should not be rushed', right: 'Demand for faster or more advanced performance' },
-          { id: '3', left: 'How the instructor can maintain confidence', right: 'Celebrate small gains and keep exposure gradual' }
-        ]
+        title: 'Activity - Reflection check',
+        q: 'A swimmer needs more time with one skill. Which statement best reflects appropriate instructor thinking?',
+        options: [
+          { id: 'a', text: 'Celebrate small gains, keep exposure gradual, and avoid rushing advanced performance' },
+          { id: 'b', text: 'Push for faster progress so the swimmer keeps up with peers' },
+          { id: 'c', text: 'Move on once a single attempt looks close enough' }
+        ],
+        correct: 'a',
+        ok: 'Correct. Small calm gains and gradual exposure maintain confidence while skills develop.',
+        bad: 'Not quite. More time with a skill calls for celebrating small progress and keeping exposure gradual.',
+        variant: 'reflection'
       },
       b3c1: {
         type: 'matching',
-        q: 'Identify signs of independence in the following.',
+        q: 'Match each sign to what it shows about growing independence.',
         leftTitle: 'Sign',
-        rightTitle: 'What It Shows',
+        rightTitle: 'What it shows',
         pairs: [
           { id: '1', left: 'Calm entry into the water', right: 'Regulation and readiness at the start' },
-          { id: '2', left: 'Reduced reliance on instructor contact', right: 'Support is adapting and self management is increasing' },
+          { id: '2', left: 'Reduced reliance on instructor contact', right: 'Self-management is increasing' },
           { id: '3', left: 'Ability to pause and recover', right: 'The swimmer can reorganise with less help' },
-          { id: '4', left: 'Remaining engaged during challenge', right: 'Independence is being maintained under demand' }
+          { id: '4', left: 'Remaining engaged during challenge', right: 'Independence is maintained under demand' }
         ]
       },
       b3c2: {
-        type: 'matching',
-        q: 'Design a simple activity where a swimmer can safely practise each of the following.',
-        leftTitle: 'Practise',
-        rightTitle: 'Activity Design',
-        pairs: [
-          { id: '1', left: 'Small loss of balance', right: 'A controlled floating task with a brief wobble' },
-          { id: '2', left: 'Recovery', right: 'Time and space to regain position before assisting' },
-          { id: '3', left: 'Regaining control', right: 'Returning to a stable position with minimal prompt' }
-        ]
+        type: 'sorting',
+        q: 'When designing safe independence practice, sort each element.',
+        zoneA: 'Include in the design',
+        zoneB: 'Avoid as the main focus',
+        items: [
+          { text: 'Controlled floating with a brief wobble', cat: 'hyper' },
+          { text: 'Time and space to regain position', cat: 'hyper' },
+          { text: 'Returning to a stable position with minimal prompt', cat: 'hyper' },
+          { text: 'Maximum speed before recovery is secure', cat: 'hypo' }
+        ],
+        ok: 'Safe independence practice builds gradual control, recovery time, and minimal prompting — not speed before readiness.'
       },
       b3c3: {
         title: 'Activity - Decision Making Task',
-        q: 'A swimmer becomes tense when support is reduced. Decide whether to remove support completely or restore light support and reduce again more gradually.',
+        q: 'A swimmer becomes tense when support is reduced. Should you remove support completely or restore light support and reduce again more gradually?',
         options: [
           { id: 'a', text: 'Remove support completely' },
           { id: 'b', text: 'Restore light support and reduce again more gradually' }
         ],
         correct: 'b',
-        ok: 'Correct. Restoring light support protects regulation and allows support to be reduced again at a pace the swimmer can manage.',
-        bad: 'Not quite. Removing support too quickly can reduce control and confidence when the swimmer is already showing tension.',
+        ok: 'Correct. Restoring light support protects regulation and allows support to be reduced at a pace the swimmer can manage.',
+        bad: 'Not quite. Removing support too quickly can reduce control and confidence when tension is already present.',
         variant: 'scenario'
       },
       b3c4: {
         type: 'truefalse',
         q: 'A swimmer disengaging means they are not capable of the task.',
         correct: 'false',
-        ok: 'Correct. Disengagement is information about regulation, readiness, or task demand. It does not automatically mean the swimmer is incapable.',
-        bad: 'Not quite. Disengagement does not automatically mean inability. It often tells the instructor that the demand, support, or context needs to be adjusted.'
+        ok: 'Correct. Disengagement is information about regulation, readiness, or task demand — not automatic inability.',
+        bad: 'Not quite. Disengagement often tells the instructor that demand, support, or context needs adjusting.'
       }
     };
 

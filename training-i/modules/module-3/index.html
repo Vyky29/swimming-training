@@ -3951,12 +3951,12 @@
     }
 
     const conceptActivityBank = {
-      b1c1: { type:'matching', leftTitle:'Example', rightTitle:'Category', pairs:[
+      b1c1: { type:'matching', q:'Match each example to the engagement level it best describes.', leftTitle:'Example', rightTitle:'Category', pairs:[
         { id:'1', left:'The swimmer watches closely and begins to orient towards the instructor', right:'Emerging engagement' },
         { id:'2', left:'The swimmer is in the water but is not responding or connecting', right:'Not yet engaged' },
         { id:'3', left:'The swimmer smiles, responds, and stays involved', right:'Engaged' }
       ]},
-      b1c2: { type:'sorting', zoneA:'May show engagement', zoneB:'Unlikely to show engagement', items:[
+      b1c2: { type:'sorting', q:'Sort each behaviour into signs that may show engagement or signs that engagement is unlikely.', zoneA:'May show engagement', zoneB:'Unlikely to show engagement', items:[
         { text:'Looking at the instructor', cat:'hyper' },
         { text:'Waiting for a turn', cat:'hyper' },
         { text:'Returning after a pause', cat:'hyper' },
@@ -3974,64 +3974,57 @@
         prompts: ['Reason 1 (connection, tone, or interaction)', 'Reason 2', 'Reason 3'],
         continueLabel: 'I have noted three brief reasons'
       },
-      b2c2: { type:'matching', leftTitle:'Behaviour', rightTitle:'Impact', pairs:[
+      b2c2: { type:'matching', q:'Match each instructor behaviour to its likely impact on trust.', leftTitle:'Behaviour', rightTitle:'Impact', pairs:[
         { id:'1', left:'Calm and steady tone', right:'Builds trust' },
         { id:'2', left:'Rushing the swimmer', right:'Reduces trust' },
         { id:'3', left:'Consistent structure', right:'Supports safety' },
         { id:'4', left:'Sudden changes', right:'Creates uncertainty' }
       ]},
-      b2c3: { type:'sorting', zoneA:'Supports connection', zoneB:'Reduces connection', items:[
+      b2c3: { type:'sorting', q:'Sort each signal into what usually supports connection or what usually reduces it.', zoneA:'Supports connection', zoneB:'Reduces connection', items:[
         { text:'Calm tone', cat:'hyper' },
         { text:'Fast instructions', cat:'hypo' },
         { text:'Clear guidance', cat:'hyper' },
         { text:'Inconsistent signals', cat:'hypo' }
       ], ok:'Calm, clear, and predictable signals usually support connection; rushed or mixed signals often reduce it.' },
-      b2c4: { type:'matching', leftTitle:'Priority', rightTitle:'Response', pairs:[
-        { id:'1', left:'1 — Most effective first', right:'Slow down and simplify' },
-        { id:'2', left:'2 — Next most helpful', right:'Return to a familiar activity' },
-        { id:'3', left:'3 — Lower priority here', right:'Continue without adjusting' },
-        { id:'4', left:'4 — Least helpful early on', right:'Increase task difficulty' }
-      ]},
+      b2c4: { type:'sorting', q:'When engagement drops, sort each instructor response.', zoneA:'Helpful first step', zoneB:'Unlikely to help early', items:[
+        { text:'Slow down and simplify', cat:'hyper' },
+        { text:'Return to a familiar activity', cat:'hyper' },
+        { text:'Increase task difficulty', cat:'hypo' },
+        { text:'Continue without adjusting', cat:'hypo' }
+      ], ok:'Slowing down and returning to familiar, successful activities usually rebuilds engagement before progression.' },
 
       b3c1: { type:'choice', variant:'scenario', q:'Session scenario: the swimmer starts confidently, then responses become slower and briefer during the main task, and later looks away. When does engagement first begin to drop?', options:[
         { id:'a', text:'Only when they look away near the end' },
         { id:'b', text:'When responses slow during the main task' },
         { id:'c', text:'Only if they refuse outright' }
       ], correct:'b', ok:'Early shifts in pace, attention, or responsiveness are often the first signs. Adjust before disengagement grows.', bad:'Not quite. Look for earlier signals than end-point behaviour alone.' },
-      b3c2: { type:'sorting', zoneA:'Supports engagement', zoneB:'Reduces engagement', items:[
+      b3c2: { type:'sorting', q:'Sort each session factor into what usually supports engagement or what usually reduces it.', zoneA:'Supports engagement', zoneB:'Reduces engagement', items:[
         { text:'Clear structure', cat:'hyper' },
         { text:'Sudden changes', cat:'hypo' },
         { text:'Overly complex tasks', cat:'hypo' },
         { text:'Predictable routine', cat:'hyper' }
       ], ok:'Clear structure and predictable routines usually support engagement; sudden shifts and overload often reduce it.' },
 
-      b3c3_mod: { type:'choice', variant:'scenario', q:'When is modelling most effective?', options:[
-        { id:'a', text:'When the swimmer is unsure and observing' },
+      b3c3_mod: { type:'choice', variant:'scenario', q:'When is modelling most effective for a swimmer who is watching but unsure?', options:[
+        { id:'a', text:'When the swimmer is observing and needs a clear picture before trying' },
         { id:'b', text:'Only after repeated refusal' },
         { id:'c', text:'When you need to speed up the session' }
       ], correct:'a', ok:'Demonstration helps when the swimmer is watching and needs a clear picture before trying.', bad:'Not quite. Modelling supports observation and readiness, not pressure.' },
-      b3c3_turn: { type:'choice', variant:'scenario', q:'Which example best shows turn taking?', options:[
-        { id:'a', text:'The instructor and swimmer alternate simple actions in a clear back-and-forth pattern' },
-        { id:'b', text:'The instructor talks continuously while the swimmer listens only' },
-        { id:'c', text:'The swimmer repeats alone with no response from the instructor' }
-      ], correct:'a', ok:'Turn taking is built from alternating turns of action and response.', bad:'Not quite. Look for a clear back-and-forth pattern.' },
-      b3c3_guide: { type:'choice', variant:'scenario', q:'Which instruction best reflects guided discovery?', options:[
-        { id:'a', text:'“Copy exactly what I do, now.”' },
-        { id:'b', text:'“Try one way in your space — I am here if you want a hint.”' },
-        { id:'c', text:'“Stop exploring and listen first.”' }
-      ], correct:'b', ok:'Guided discovery leaves room to explore with gentle support.', bad:'Not quite. Guided discovery invites trying with support rather than direction only.' },
-      b3c3_intensive: { type:'choice', variant:'scenario', q:'A swimmer keeps repeating a small movement or sound in the water. What is the best first response?', options:[
-        { id:'a', text:'Join the interaction calmly before adding structure' },
-        { id:'b', text:'Ignore it until it stops' },
-        { id:'c', text:'Immediately insist on the planned task' }
-      ], correct:'a', ok:'Joining the pattern supports connection and shared attention first.', bad:'Not quite. Intensive Interaction prioritises joining the swimmer before increasing demand.' },
-      b3c3_play: { type:'choice', variant:'scenario', q:'Which statement best describes purposeful play in a session?', options:[
-        { id:'a', text:'Play is always non-purposeful if it feels enjoyable' },
-        { id:'b', text:'Purposeful play links enjoyment and interaction to a clear learning aim' },
-        { id:'c', text:'Purposeful play means random activity with no structure' }
-      ], correct:'b', ok:'Purposeful play uses enjoyment while staying tied to learning goals.', bad:'Not quite. Purposeful play is intentional, not random.' },
+      b3c3_turn: { type:'matching', q:'Match each description to the interaction pattern it best represents.', leftTitle:'Description', rightTitle:'Pattern', pairs:[
+        { id:'1', left:'Instructor and swimmer alternate simple actions in a clear rhythm', right:'Turn taking' },
+        { id:'2', left:'Instructor talks continuously while the swimmer listens only', right:'One-way instruction' },
+        { id:'3', left:'Swimmer repeats alone with no response from the instructor', right:'Solo repetition' }
+      ]},
+      b3c3_guide: { type:'truefalse', variant:'toggle', q:'Guided discovery means giving exact step-by-step copying with no room to explore.', correct:'false', ok:'Guided discovery invites trying with gentle support and hints, not rigid copying.', bad:'Not quite. Guided discovery leaves room to explore with support rather than direction only.' },
+      b3c3_intensive: { type:'sorting', q:'A swimmer keeps repeating a small movement or sound. Sort each response.', zoneA:'Supports connection first', zoneB:'Increases pressure first', items:[
+        { text:'Join the interaction calmly before adding structure', cat:'hyper' },
+        { text:'Match pace and tone before increasing demand', cat:'hyper' },
+        { text:'Ignore it until it stops', cat:'hypo' },
+        { text:'Immediately insist on the planned task', cat:'hypo' }
+      ], ok:'Intensive Interaction prioritises joining and shared attention before increasing task demand.' },
+      b3c3_play: { type:'truefalse', variant:'toggle', q:'Purposeful play means random activity with no learning aim, as long as it feels enjoyable.', correct:'false', ok:'Purposeful play links enjoyment and interaction to a clear learning aim — it is intentional, not random.', bad:'Not quite. Purposeful play is intentional and tied to learning goals.' },
 
-      b3c4: { type:'matching', leftTitle:'Step', rightTitle:'Action', pairs:[
+      b3c4: { type:'matching', q:'Put the instructor response steps in the correct order by matching each step number to the action.', leftTitle:'Step', rightTitle:'Action', pairs:[
         { id:'1', left:'1 — First', right:'Pause' },
         { id:'2', left:'2 — Next', right:'Interpret' },
         { id:'3', left:'3 — Then', right:'Adjust' },

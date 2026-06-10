@@ -4698,11 +4698,7 @@
         { id:'c', text:'Move the whole group to the next activity' }
       ], correct:'b', ok:'Prioritise safety and regulation: reduce input and demand, create space and calm, reconnect gently before expecting participation again.', bad:'Not quite. When overloaded, regulation and safety come before task demand.' },
 
-      b3c1: { type:'choice', variant:'scenario', activityTitle:'Activity', instruction:'Choose the statement that best fits.', q:'Which statement best reflects how influences affect emotional state?', options:[
-        { id:'a', text:'Emotional state is only affected by what happens during the task' },
-        { id:'b', text:'Emotional state can be influenced by multiple factors at the same time' },
-        { id:'c', text:'Emotional state remains stable once the session starts' }
-      ], correct:'b', ok:'Many influences can act together, so emotional state may reflect more than the current task alone.', bad:'Not quite. Think about how different influences can combine and shift during a session.' },
+      b3c1: { type:'truefalse', variant:'toggle', q:'Emotional state is only affected by what happens during the current swimming task.', correct:'false', ok:'Many influences — environmental, water-based, and internal — can act together and shift emotional state during a session.', bad:'Not quite. Emotional state can be shaped by more than the task alone, and can change as conditions shift.' },
       b3c2_env: { type:'matching', q:'Match each example to the best description.', leftTitle:'Example', rightTitle:'Description', pairs:[
         { id:'1', left:'Echoing announcements and sudden whistles', right:'Sensory load from noise' },
         { id:'2', left:'Packed changing area and strong chemical smell', right:'Crowding and proximity stress' },
