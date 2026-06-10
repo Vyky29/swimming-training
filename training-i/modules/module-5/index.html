@@ -2909,7 +2909,10 @@
       font-size:.9rem !important;
       font-weight:800 !important;
     }
-    /* Block 1, 2 & 3: when visual has real image, show image directly (no Visual image box/header) */
+    /* Block 1, 2 & 3: when visual has real image, show image directly (no extra visual card chrome) */
+    .concept-panel[data-panel-for="block1"] .concept-image.concept-section-card.visual-direct,
+    .concept-panel[data-panel-for="block2"] .concept-image.concept-section-card.visual-direct,
+    .concept-panel[data-panel-for="block3"] .concept-image.concept-section-card.visual-direct,
     .concept-panel[data-panel-for="block1"] .concept-section-card.visual-direct,
     .concept-panel[data-panel-for="block2"] .concept-section-card.visual-direct,
     .concept-panel[data-panel-for="block3"] .concept-section-card.visual-direct{
@@ -2919,6 +2922,9 @@
       padding:0 !important;
       margin:0 !important;
     }
+    .concept-panel[data-panel-for="block1"] .concept-image.concept-section-card.visual-direct .concept-activity-box,
+    .concept-panel[data-panel-for="block2"] .concept-image.concept-section-card.visual-direct .concept-activity-box,
+    .concept-panel[data-panel-for="block3"] .concept-image.concept-section-card.visual-direct .concept-activity-box,
     .concept-panel[data-panel-for="block1"] .concept-section-card.visual-direct .concept-activity-box,
     .concept-panel[data-panel-for="block2"] .concept-section-card.visual-direct .concept-activity-box,
     .concept-panel[data-panel-for="block3"] .concept-section-card.visual-direct .concept-activity-box{
@@ -2928,6 +2934,20 @@
       padding:0 !important;
       margin:0 !important;
     }
+    .concept-panel[data-panel-for="block1"] .concept-activity-box[data-expandable-visual],
+    .concept-panel[data-panel-for="block2"] .concept-activity-box[data-expandable-visual],
+    .concept-panel[data-panel-for="block3"] .concept-activity-box[data-expandable-visual],
+    .concept-panel[data-panel-for="block1"] .b2c2-direct-image[data-expandable-visual],
+    .concept-panel[data-panel-for="block2"] .b2c2-direct-image[data-expandable-visual],
+    .concept-panel[data-panel-for="block3"] .b2c2-direct-image[data-expandable-visual],
+    .concept-panel[data-panel-for="block1"] .b2c3-direct-image[data-expandable-visual],
+    .concept-panel[data-panel-for="block2"] .b2c3-direct-image[data-expandable-visual],
+    .concept-panel[data-panel-for="block3"] .b2c3-direct-image[data-expandable-visual]{
+      padding:0 !important;
+    }
+    .concept-panel[data-panel-for="block1"] .concept-image.concept-section-card.visual-direct .concept-activity-box + .concept-activity-box,
+    .concept-panel[data-panel-for="block2"] .concept-image.concept-section-card.visual-direct .concept-activity-box + .concept-activity-box,
+    .concept-panel[data-panel-for="block3"] .concept-image.concept-section-card.visual-direct .concept-activity-box + .concept-activity-box,
     .concept-panel[data-panel-for="block1"] .concept-section-card.visual-direct .concept-activity-box + .concept-activity-box,
     .concept-panel[data-panel-for="block2"] .concept-section-card.visual-direct .concept-activity-box + .concept-activity-box,
     .concept-panel[data-panel-for="block3"] .concept-section-card.visual-direct .concept-activity-box + .concept-activity-box{
@@ -3007,7 +3027,7 @@
       display:none !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260706" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260707" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css" />
@@ -6116,6 +6136,7 @@
 
       const imageContainer = panel.querySelector('.concept-image');
       imageContainer.innerHTML = data.imageHTML || '';
+      imageContainer.classList.add('concept-section-card');
       const descAfterEl = panel.querySelector('.concept-panel-desc');
       if(descAfterEl && imageContainer && descAfterEl.nextElementSibling !== imageContainer){
         descAfterEl.insertAdjacentElement('afterend', imageContainer);
@@ -6567,7 +6588,7 @@
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260706"></script>
+<script src="/shared/concept-section-icons.js?v=20260707"></script>
   <script src="/shared/parent-subconcept-layout.js"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
@@ -6867,7 +6888,7 @@
     })();
   </script>
   
-  <script src="/shared/concept-visual-expand-system.js?v=20260706"></script>
+  <script src="/shared/concept-visual-expand-system.js?v=20260707"></script>
 </body>
 </html>
 

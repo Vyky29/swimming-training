@@ -171,39 +171,74 @@
   }
 
   function getExpandHost(img) {
+    var activityBox = img.closest('.concept-activity-box');
+    if (activityBox) return activityBox;
+
     var direct =
       img.closest('.b2c2-direct-image') ||
       img.closest('.b2c3-direct-image') ||
       img.closest('.entry-exit-fan-item') ||
-      img.closest('figure') ||
-      img.closest('.concept-activity-box');
+      img.closest('figure');
     if (direct) return direct;
 
     var card = img.closest('.concept-section-card');
     if (card && card.querySelector('.concept-points-box, .concept-activity-section, [data-activity], .concept-activity-interactive')) {
-      return img.closest('.concept-activity-box') || img.parentElement;
+      return img.parentElement;
     }
 
     return (
-      card ||
       img.closest('[data-concept-primary-image]') ||
       img.closest('[data-concept-intro-media]') ||
       img.closest('.b3c2-concept-hero') ||
-      img.closest('.concept-image') ||
       img.parentElement
+    );
+  }
+
+  function getPrimaryImageSlot(host) {
+    if (!host) return null;
+    var imageSlot = host.closest('.concept-image');
+    if (imageSlot && imageSlot.classList.contains('concept-section-card')) {
+      return imageSlot;
+    }
+    return null;
+  }
+
+  function findDedicatedVisualCard(section) {
+    if (!section || !section.querySelectorAll) return null;
+    var cards = section.querySelectorAll(':scope > .concept-section-card');
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var head = card.querySelector(
+        ':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head'
+      );
+      if (head && isVisualHead(head)) return card;
+    }
+    return null;
+  }
+
+  function isComplexImageSlot(section) {
+    if (!section) return false;
+    return !!section.querySelector(
+      '[data-b2-screens], .b2-screens, .carousel, .carousel-inline, .overview-subconcept-shell, ' +
+      '[data-parent-subconcept-nav], [data-concept-grid]'
     );
   }
 
   function getVisualSection(host) {
     if (!host) return null;
+
+    var primarySlot = getPrimaryImageSlot(host);
+    if (primarySlot) return primarySlot;
+
+    var card = host.closest('.concept-section-card');
+    if (card) return card;
+
     return (
-      host.closest('.concept-section-card') ||
       host.closest('[data-concept-primary-image]') ||
       host.closest('[data-concept-intro-media]') ||
       host.closest('.b3c2-concept-hero') ||
       host.closest('.block-intro-slide .concept-image') ||
-      (host.classList.contains('concept-image') ? host : null) ||
-      host
+      (host.classList.contains('concept-image') ? host : null)
     );
   }
 
@@ -220,6 +255,9 @@
       return true;
     }
     if (section.classList.contains('concept-image')) {
+      if (isComplexImageSlot(section) || findDedicatedVisualCard(section)) {
+        return false;
+      }
       if (
         section.querySelector(
           '[data-parent-subconcept-nav], [data-concept-grid], .concept-activity-section, ' +
@@ -329,13 +367,18 @@
   function shouldSkipVisualSection(section) {
     if (!section) return true;
     if (
+      section.classList.contains('concept-activity-box') ||
       section.classList.contains('b2c2-direct-image') ||
       section.classList.contains('b2c3-direct-image') ||
-      section.classList.contains('b2c2-direct-image-group')
+      section.classList.contains('b2c2-direct-image-group') ||
+      section.classList.contains('entry-exit-fan-item')
     ) {
       return true;
     }
     if (section.classList.contains('section-activity-shell') || section.classList.contains('section-ideas')) {
+      return true;
+    }
+    if (section.classList.contains('concept-image') && isComplexImageSlot(section)) {
       return true;
     }
     var head = section.querySelector(
@@ -348,9 +391,26 @@
     return false;
   }
 
+  function dedupeVisualChrome(section) {
+    if (!section) return;
+    var visualHeads = [];
+    section.querySelectorAll(':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head').forEach(function (head) {
+      if (isVisualHead(head)) visualHeads.push(head);
+    });
+    for (var i = 1; i < visualHeads.length; i++) {
+      visualHeads[i].remove();
+    }
+    var guides = section.querySelectorAll(':scope > .concept-visual-guide');
+    for (var j = 1; j < guides.length; j++) {
+      guides[j].remove();
+    }
+  }
+
   function ensureVisualSection(section) {
     if (!section || section.hasAttribute('data-visual-section-ready')) return;
     if (shouldSkipVisualSection(section)) return;
+
+    dedupeVisualChrome(section);
 
     var head = ensureVisualHead(section);
     if (!head) return;
@@ -373,12 +433,16 @@
     });
 
     root.querySelectorAll('.concept-section-card').forEach(function (card) {
+      if (card.classList.contains('concept-image')) return;
       var head = card.querySelector(':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head');
       if (head && isVisualHead(head)) sections.add(card);
     });
 
     root.querySelectorAll('.concept-image, [data-concept-primary-image], [data-concept-intro-media], .b3c2-concept-hero').forEach(function (slot) {
-      if (slot.querySelector('img[src], img[srcset]')) sections.add(slot);
+      if (!slot.querySelector('img[src], img[srcset]')) return;
+      if (isComplexImageSlot(slot)) return;
+      if (findDedicatedVisualCard(slot)) return;
+      sections.add(slot);
     });
 
     return sections;
@@ -403,6 +467,9 @@
     });
     root.querySelectorAll('[data-visual-head-auto="true"]').forEach(function (head) {
       head.remove();
+    });
+    root.querySelectorAll('.concept-activity-box > .concept-section-head[data-visual-head-auto="true"], .concept-activity-box > .concept-visual-guide').forEach(function (node) {
+      node.remove();
     });
     root.querySelectorAll('[data-visual-section-ready]').forEach(function (section) {
       section.removeAttribute('data-visual-section-ready');
