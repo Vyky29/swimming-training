@@ -274,7 +274,8 @@
     var head = section.querySelector(':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head');
     if (!head || !isVisualHead(head)) return false;
     return !section.querySelector(
-      ':scope > .concept-points-box, :scope > .section-activity, :scope > .concept-section-card.section-ideas'
+      ':scope > .concept-points-box, :scope > .section-activity, :scope > .concept-section-card.section-ideas, ' +
+      ':scope > .b2pl-cat-grid, :scope > .b2-nav, :scope > .b2pl-folder-grid'
     );
   }
 
