@@ -8430,7 +8430,7 @@
         }
       }
       var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
-        ? ConceptInsightIntro.renderIntro(panel, data)
+        ? ConceptInsightIntro.renderIntro(panel, data, 4, target)
         : null;
       if(typeof ConceptInsightIntro !== 'undefined'){
         ConceptInsightIntro.updatePanelLayout(panel, block, target, !!resolvedInsight);
@@ -10093,6 +10093,7 @@
     } catch(err) { console.error('Module 4 script error:', err); }
     });
   </script>
+  <script src="/shared/concept-insight-content.js"></script>
   <script src="/shared/concept-insight-intro.js"></script>
   <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>

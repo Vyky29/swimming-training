@@ -23,6 +23,100 @@
     return String(text || '').split(/(?<=[.!?])\s+/).map(function(s){ return s.trim(); }).filter(Boolean);
   }
 
+  function normalizeForCompare(str){
+    return String(str || '').toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+  }
+
+  function isRedundantWithTitle(title, text){
+    if(!title || !text) return false;
+    var t = normalizeForCompare(title);
+    var s = normalizeForCompare(text);
+    if(!t || !s) return false;
+    if(t === s) return true;
+    if(s.indexOf(t) === 0 || t.indexOf(s) === 0) return true;
+    var tWords = t.split(' ').filter(function(w){ return w.length > 2; });
+    var sWords = s.split(' ').filter(function(w){ return w.length > 2; });
+    if(!tWords.length || !sWords.length) return false;
+    var shared = 0;
+    tWords.forEach(function(w){
+      if(sWords.indexOf(w) !== -1) shared++;
+    });
+    var ratio = shared / Math.min(tWords.length, sWords.length);
+    return ratio >= 0.55;
+  }
+
+  var CONCEPT_HEADLINES = {
+    'Water as an Active Environment': 'Water Is Never Passive',
+    'Overview of Water Forces': 'Multiple Forces at Work',
+    'Supportive Forces': 'Support Is Not Control',
+    'Dynamic Forces': 'Resistance Shapes Movement',
+    'Drowning Risk': 'Often Silent, Rarely Obvious',
+    'Who Is More Vulnerable': 'Risk Varies Between Swimmers',
+    'Neurodiverse Risk Factors': 'Individual Factors in Safety',
+    'Prevention Systems': 'Safety Through Prevention',
+    'What Changes When Entering Water': 'Water Changes Everything',
+    'The Seven Senses in Water': 'A Full Sensory Shift',
+    'Land vs Water Perception': 'A Different Experience',
+    'Hypo and Hyper Sensitivity': 'Sensory Responses Differ',
+    'How Learning Is Accessed': 'Learning Requires Readiness',
+    'Teaching Requires Regulation': 'Regulation Comes First',
+    'What the Framework Helps Us Understand': 'Behaviour Has Meaning',
+    'Readiness Can Change': 'Readiness Is Not Fixed',
+    'Why Emotional States Matter': 'State Shapes Engagement',
+    'Overview of Emotional States': 'States Shift Through the Session',
+    'Calm': 'Regulated and Ready',
+    'Alert': 'Engaged With Rising Demand',
+    'Overloaded': 'Overwhelmed and Protected',
+    'Understanding the Influences': 'Many Influences Interact',
+    'Factors That Shape Emotional State': 'State Has Many Drivers',
+    'Environmental': 'The Environment Matters',
+    'Water-Based': 'Water Shapes How We Feel',
+    'Internal': 'What Swimmers Bring In',
+    'What Is Engagement?': 'Engagement Goes Deeper',
+    'What Engagement Looks Like': 'Engagement Is Not Always Visible',
+    'Engagement Before Instruction': 'Connection Before Teaching',
+    'Why Connection Matters': 'Connection Sustains Engagement',
+    'Building Trust': 'Trust Through Consistency',
+    'Instructor Behaviour': 'Your Behaviour Shapes the Session',
+    'Protecting Connection': 'Connection Needs Protection',
+    'Engagement Changes': 'Engagement Shifts Over Time',
+    'Maintaining Engagement': 'Engagement Needs Active Support',
+    'Using Engagement Approaches': 'Different Ways to Connect',
+    'Responding to Disengagement': 'Disengagement Is a Signal',
+    'Why Visual Learning Works': 'Visual Processing Supports Learning',
+    'Visual Structure Reduces Cognitive Load': 'Structure Reduces Load',
+    'Visuals Increase Engagement and Participation': 'Visuals Boost Participation',
+    'PixtoLearn as a Visual System': 'A Structured Visual System',
+    'PixtoLearn Swimming Flashcards': 'Flashcards at the Core',
+    'PixtoLearn Swimming Sequence': 'From Skills to Sequences',
+    'Session Planning with PixtoLearn': 'Plan With Purpose'
+  };
+
+  function pickStatement(title, paras){
+    var i, j, sents, candidate;
+    for(i = 0; i < paras.length; i++){
+      candidate = paras[i];
+      if(!isRedundantWithTitle(title, candidate)) return candidate;
+      sents = splitSentences(candidate);
+      for(j = 1; j < sents.length; j++){
+        if(!isRedundantWithTitle(title, sents[j])) return sents[j];
+      }
+    }
+    return '';
+  }
+
+  function collectPillarTexts(paras, statement){
+    var texts = [];
+    var stmtNorm = normalizeForCompare(statement);
+    paras.forEach(function(para){
+      splitSentences(para).forEach(function(sent){
+        if(normalizeForCompare(sent) === stmtNorm) return;
+        texts.push(sent);
+      });
+    });
+    return texts;
+  }
+
   function makeShortTitle(text, maxWords){
     maxWords = maxWords || 3;
     var cleaned = String(text || '').replace(/[.!?]+$/, '').trim();
@@ -114,37 +208,17 @@
   }
 
   function makeInsightTitle(conceptTitle, firstPara, secondPara){
+    if(CONCEPT_HEADLINES[conceptTitle]) return CONCEPT_HEADLINES[conceptTitle];
+
     var first = splitSentences(firstPara)[0] || conceptTitle || '';
     first = first.replace(/\.$/, '');
-
-    if(/not all swimmers experience the same level of risk/i.test(first)){
-      return 'Risk Varies Between Swimmers';
-    }
-    if(/drowning can happen quickly/i.test(first)){
-      return 'Drowning Can Happen Quickly';
-    }
-    if(/in water, multiple forces act/i.test(first)){
-      return 'Multiple Forces Act Together';
-    }
-    if(/learning in water is not automatic/i.test(first)){
-      return 'Learning Requires Readiness';
-    }
-    if(/engagement is more than being physically present/i.test(first)){
-      return 'Engagement Goes Deeper';
-    }
-    if(/entering water immediately changes/i.test(first)){
-      return 'Water Changes Everything';
-    }
-    if(/safety in water is not based on reaction/i.test(first)){
-      return 'Safety Through Prevention';
-    }
 
     if(secondPara){
       var secondSents = splitSentences(secondPara);
       var hook = secondSents[0] || '';
       if(/^(It is|This means|These|Understanding|Recognising|For many|Some|Not all|Even when|As swimmers|A swimmer|In many cases)/i.test(firstPara) && hook){
         hook = hook.replace(/\.$/, '');
-        if(hook.length <= 56) return titleCase(makeShortTitle(hook, 6));
+        if(hook.length <= 56 && !isRedundantWithTitle(conceptTitle, hook)) return titleCase(makeShortTitle(hook, 6));
       }
     }
 
@@ -178,6 +252,19 @@
     });
   }
 
+  function buildPillarFromPoint(point, iconKey){
+    var text = stripHtml(point);
+    var dashMatch = text.match(/^(.+?)\s*[\u2013\-]\s*(.+)$/);
+    if(dashMatch){
+      return {
+        icon: iconKey,
+        title: dashMatch[1].trim(),
+        text: dashMatch[2].trim().replace(/[.!?]+$/, '') + '.'
+      };
+    }
+    return buildPillar(text, iconKey);
+  }
+
   function buildPillar(text, iconKey){
     return {
       icon: iconKey,
@@ -208,55 +295,55 @@
     return list.slice(0, 3);
   }
 
-  function resolveConceptIntroInsight(data){
+  function resolveConceptIntroInsight(data, moduleNum, conceptId){
     if(!data) return null;
-    if(data.introInsight) return data.introInsight;
+
+    if(typeof global.ConceptInsightContent !== 'undefined' && moduleNum && conceptId){
+      var curated = global.ConceptInsightContent.get(moduleNum, conceptId);
+      if(curated) return { title: curated.title, statement: '', pillars: curated.pillars.slice() };
+    }
+
+    if(data.introInsight){
+      var manual = {
+        title: data.introInsight.title,
+        statement: data.introInsight.statement || '',
+        pillars: (data.introInsight.pillars || []).slice()
+      };
+      if(isRedundantWithTitle(manual.title, manual.statement)) manual.statement = '';
+      return manual;
+    }
+
+    if(data.focus || data.goal){
+      var stageTitle = data.title || '';
+      var stagePillars = [];
+      if(data.focus) stagePillars.push({ icon: 'focus', title: 'Focus at This Level', text: stripHtml(data.focus) });
+      if(data.whatThisLooksLike) stagePillars.push({ icon: 'movement', title: 'What It Looks Like', text: stripHtml(data.whatThisLooksLike).replace(/\.\s+/g, '. ').slice(0, 220) });
+      if(data.goal) stagePillars.push({ icon: 'shield', title: 'Level Goal', text: stripHtml(data.goal) });
+      if(stagePillars.length) return { title: CONCEPT_HEADLINES[stageTitle] || stageTitle, statement: '', pillars: stagePillars.slice(0, 3) };
+    }
 
     var paras = extractParagraphs(data.text || '');
     var points = normalizePoints(data.points);
     if(!paras.length && !points.length) return null;
 
     var pillars = [];
-    var statement = '';
-    var title = '';
+    var title = makeInsightTitle(data.title || '', paras[0] || '', paras[1] || '');
 
-    if(paras.length >= 2){
-      title = makeInsightTitle(data.title, paras[0], paras[1]);
-      statement = paras[0];
-      for(var i = 1; i < paras.length; i++){
-        var sents = splitSentences(paras[i]);
-        sents.forEach(function(s){
-          pillars.push(buildPillar(s, ICON_CYCLE[pillars.length % ICON_CYCLE.length]));
-        });
-      }
-    } else if(paras.length === 1){
-      var allSents = splitSentences(paras[0]);
-      title = makeInsightTitle(data.title, allSents[0] || paras[0], allSents[1] || '');
-      statement = allSents[0] || paras[0];
-      for(var j = 1; j < allSents.length; j++){
-        pillars.push(buildPillar(allSents[j], ICON_CYCLE[pillars.length % ICON_CYCLE.length]));
-      }
-    }
-
-    for(var k = 0; k < points.length && pillars.length < 6; k++){
-      pillars.push(buildPillar(points[k], ICON_CYCLE[pillars.length % ICON_CYCLE.length]));
-    }
-
-    if(!statement && points.length){
-      title = makeInsightTitle(data.title, points[0], points[1] || '');
-      statement = points[0];
-      pillars = pillars.filter(function(p){ return p.text !== statement; });
+    if(points.length >= 2){
+      pillars = points.slice(0, 3).map(function(p, idx){
+        return buildPillarFromPoint(p, ICON_CYCLE[idx % ICON_CYCLE.length]);
+      });
+    } else {
+      var pillarTexts = collectPillarTexts(paras, '');
+      pillarTexts.forEach(function(text){
+        pillars.push(buildPillar(text, ICON_CYCLE[pillars.length % ICON_CYCLE.length]));
+      });
     }
 
     pillars = expandPillarsToThree(pillars);
+    if(!title || !pillars.length) return null;
 
-    if(!statement || !pillars.length) return null;
-
-    return {
-      title: title,
-      statement: statement,
-      pillars: pillars
-    };
+    return { title: title, statement: '', pillars: pillars };
   }
 
   function buildConceptInsightIntroHTML(insight){
@@ -273,10 +360,13 @@
         '</article>'
       ].join('');
     }).join('');
+    var statementHtml = insight.statement
+      ? '<p class="concept-insight-intro__statement">' + insight.statement + '</p>'
+      : '';
     return [
       '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
         '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + insight.title + '</h5>',
-        '<p class="concept-insight-intro__statement">' + insight.statement + '</p>',
+        statementHtml,
         '<div class="concept-insight-intro__cards" data-pillar-count="' + pillarList.length + '">' + pillars + '</div>',
       '</div>'
     ].join('');
@@ -284,7 +374,8 @@
 
   function buildConceptInsightSpeech(insight){
     if(!insight) return '';
-    var parts = [insight.title + '.', insight.statement];
+    var parts = [insight.title + '.'];
+    if(insight.statement) parts.push(insight.statement);
     (insight.pillars || []).forEach(function(pillar){
       parts.push(pillar.title + '. ' + pillar.text);
     });
@@ -363,12 +454,12 @@
     }
   }
 
-  function renderConceptIntro(panel, data){
+  function renderConceptIntro(panel, data, moduleNum, conceptId){
     ensureConceptPanelInsightChrome(panel);
     var introEl = panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-panel-desc');
     if(!introEl) return null;
 
-    var insight = resolveConceptIntroInsight(data);
+    var insight = resolveConceptIntroInsight(data, moduleNum, conceptId);
     introEl.className = 'concept-intro-slot';
 
     if(insight){

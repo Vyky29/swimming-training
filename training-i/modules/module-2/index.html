@@ -6199,7 +6199,7 @@
       var titleHeading = panel.querySelector('.concept-heading-row h4') || panel.querySelector('h4');
       if(titleHeading) setConceptTitle(titleHeading, data.title, target, block);
       var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
-        ? ConceptInsightIntro.renderIntro(panel, data)
+        ? ConceptInsightIntro.renderIntro(panel, data, 2, target)
         : null;
       if(typeof ConceptInsightIntro !== 'undefined'){
         ConceptInsightIntro.updatePanelLayout(panel, block, target, !!resolvedInsight);
@@ -6857,6 +6857,7 @@
       });
     });
   </script>
+  <script src="/shared/concept-insight-content.js"></script>
   <script src="/shared/concept-insight-intro.js"></script>
   <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>
