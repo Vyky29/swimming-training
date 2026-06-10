@@ -1281,76 +1281,6 @@
     .concept-points-box li{
       color:var(--text);
     }
-    .key-ideas-action{
-      margin-top:12px;
-      display:flex;
-      flex-direction:column;
-      align-items:stretch;
-      gap:10px;
-      padding:14px 16px;
-      border-radius:14px;
-      border:2px solid rgba(45,107,40,.42);
-      background:linear-gradient(180deg,rgba(62,127,51,.16) 0%,rgba(245,252,244,.98) 45%,#fff 100%);
-      color:var(--text);
-      cursor:pointer;
-      transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;
-      box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
-    }
-    .key-ideas-action[hidden]{ display:none !important; }
-    .key-ideas-action:hover{
-      border-color:#2d6b28;
-      box-shadow:0 4px 14px rgba(45,107,40,.12), 0 1px 0 rgba(255,255,255,.8) inset;
-    }
-    .key-ideas-action.is-completed{
-      border-color:#2d6b28;
-      background:linear-gradient(180deg,rgba(62,127,51,.22) 0%,rgba(232,248,230,.98) 50%,#fff 100%);
-    }
-    .key-ideas-action-head{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    .key-ideas-action .icon{
-      flex:0 0 auto;
-      width:28px;
-      height:28px;
-      border-radius:50%;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      background:var(--blue);
-      color:#fff;
-      line-height:0;
-      box-shadow:0 2px 6px rgba(45,132,179,.35);
-    }
-    .key-ideas-action .icon svg{
-      display:block;
-      flex-shrink:0;
-    }
-    .key-ideas-action.is-completed .icon{
-      background:var(--blue);
-      color:#fff;
-    }
-    .key-ideas-action .label{
-      display:block;
-      font-size:.72rem;
-      font-weight:800;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      color:#2d6b28;
-      margin:0;
-      line-height:1.2;
-    }
-    .key-ideas-action .text{
-      display:block;
-      font-size:.93rem;
-      line-height:1.55;
-      color:var(--text);
-      margin:0;
-      padding:0;
-      text-align:left;
-    }
-  
     .concept-image{
       margin-top:16px;
       border-radius:0;
@@ -3356,7 +3286,7 @@
       min-width:0;
     }
   </style>
-  <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css?v=20260622" />
+  <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css?v=20260625" />
   <link rel="stylesheet" href="/training-ii/styles/training2-module-template.css" />
   <link rel="stylesheet" href="/training-ii/styles/course-navigation.css" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
@@ -5726,7 +5656,7 @@
           actionEl.setAttribute('hidden','');
           actionEl.innerHTML = inPracticeShellHtml(false);
           pointsBoxEl.appendChild(actionEl);
-        } else if(!actionEl.querySelector('.key-ideas-action__body')){
+        } else if(!actionEl.querySelector('.key-ideas-action__content')){
           actionEl.innerHTML = inPracticeShellHtml(panel.dataset.inPracticeDone === 'true');
           actionEl.removeAttribute('data-in-practice-bound');
         }
@@ -5734,7 +5664,8 @@
         if(inPracticeLine && actionText){
           panel.dataset.inPracticeRequired = 'true';
           panel.dataset.inPracticeDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) ? 'true' : 'false';
-          actionText.textContent = inPracticeLine;
+
+          actionText.textContent = (window.InPracticeCopy && InPracticeCopy.resolve(target, inPracticeLine)) || inPracticeLine;
           actionEl.removeAttribute('hidden');
           actionEl.classList.toggle('is-completed', panel.dataset.inPracticeDone === 'true');
           var iconEl = actionEl.querySelector('.icon');
@@ -6768,7 +6699,8 @@
     });
   })();
   </script>
-  <script src="/shared/in-practice-system.js?v=20260624"></script>
+  <script src="/shared/in-practice-copy.js?v=20260625"></script>
+<script src="/shared/in-practice-system.js?v=20260625"></script>
   <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
   <script src="/shared/concept-visual-expand-hint.js?v=20260623"></script>
 </body>

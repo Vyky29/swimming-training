@@ -2090,56 +2090,6 @@
     }
     .b3c3-step-sep{ color:var(--muted); font-weight:700; }
 
-    /* Key ideas: separate actionable "In Practice" line */
-    .key-ideas-action{
-      margin-top:12px;
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid rgba(26,92,56,.24);
-      background:linear-gradient(180deg,rgba(26,92,56,.12) 0%,rgba(26,92,56,.06) 100%);
-      color:#1f3f1a;
-      cursor:pointer;
-      transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;
-    }
-    .key-ideas-action[hidden]{ display:none !important; }
-    .key-ideas-action:hover{ border-color:#1a5c38; box-shadow:0 4px 12px rgba(26,92,56,.14); }
-    .key-ideas-action.is-completed{
-      border-color:#1a5c38;
-      background:linear-gradient(180deg,rgba(26,92,56,.2) 0%,rgba(26,92,56,.12) 100%);
-    }
-    .key-ideas-action .icon{
-      flex:0 0 auto;
-      width:22px;
-      height:22px;
-      border-radius:999px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      background:rgba(26,92,56,.18);
-      color:#1a5c38;
-      font-size:.78rem;
-      font-weight:800;
-      line-height:1;
-    }
-    .key-ideas-action .label{
-      display:block;
-      font-size:.78rem;
-      font-weight:800;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      color:#1a5c38;
-      margin-bottom:2px;
-    }
-    .key-ideas-action .text{
-      display:block;
-      font-size:.9rem;
-      line-height:1.5;
-      color:#1f3f1a;
-    }
-
     /* Core Development Areas: 3 boxes (Regulation, Independence, Learning & Engagement) */
     .concept-grid.concept-grid--core{
       margin-top:18px;
@@ -4941,7 +4891,7 @@
       min-width:0;
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260622" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260625" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css" />
@@ -8526,7 +8476,7 @@
           actionEl.setAttribute('hidden', '');
           actionEl.innerHTML = inPracticeShellHtml(false);
           pointsBox.appendChild(actionEl);
-        } else if(!actionEl.querySelector('.key-ideas-action__body')){
+        } else if(!actionEl.querySelector('.key-ideas-action__content')){
           actionEl.innerHTML = inPracticeShellHtml(panel.dataset.inPracticeDone === 'true');
           actionEl.removeAttribute('data-in-practice-bound');
         }
@@ -8534,7 +8484,8 @@
         if(inPracticeLine && actionTextEl){
           panel.dataset.inPracticeRequired = 'true';
           panel.dataset.inPracticeDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) ? 'true' : 'false';
-          actionTextEl.textContent = inPracticeLine;
+
+          actionTextEl.textContent = (window.InPracticeCopy && InPracticeCopy.resolve(target, inPracticeLine)) || inPracticeLine;
           actionEl.removeAttribute('hidden');
           actionEl.classList.toggle('is-completed', panel.dataset.inPracticeDone === 'true');
           var iconEl = actionEl.querySelector('.icon');
@@ -10116,7 +10067,8 @@
   </script>
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
-  <script src="/shared/in-practice-system.js?v=20260624"></script>
+  <script src="/shared/in-practice-copy.js?v=20260625"></script>
+<script src="/shared/in-practice-system.js?v=20260625"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
