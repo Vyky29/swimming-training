@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
-  @import url('/assets/concept-insight-intro.css?v=20260610');
+  @import url('/assets/concept-insight-intro.css?v=20260610b');
 
   :root{
       --blue:#2d84b3;
@@ -3065,7 +3065,7 @@
       margin:0 0 14px !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260610" />
+  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260610b" />
   <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260707" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
@@ -5899,10 +5899,15 @@
           screen.classList.toggle('active', screen.getAttribute('data-b2-screen') === id);
         });
         updateNestedPanelTitle(panel, target, id);
+        panel.classList.toggle('m5-nested-active', id !== 'home');
         if(target === 'b2c3' || target === 'b2c2' || target === 'b3c1'){
           const introSlot = panel.querySelector('.concept-intro-slot:not(.m5-nested-intro)');
           if(introSlot){
             introSlot.style.display = (id === 'home') ? '' : 'none';
+          }
+          const pointsBox = panel.querySelector(':scope > .concept-points-box');
+          if(pointsBox){
+            pointsBox.style.display = (id === 'home') ? '' : 'none';
           }
         }
         wrapNestedOverviewVisuals(panel);
