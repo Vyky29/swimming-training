@@ -5,7 +5,8 @@
 
 .portal .concept-section-head .icon.icon--key-ideas,
 .portal .concept-section-head .icon.icon--activity,
-.portal .concept-section-head .icon.icon--visual {
+.portal .concept-section-head .icon.icon--visual,
+.portal .concept-intro-kicker .icon.icon--intro {
   width: 28px !important;
   height: 28px !important;
   min-width: 28px !important;
@@ -21,7 +22,8 @@
 
 .portal .concept-section-head .icon.icon--key-ideas svg,
 .portal .concept-section-head .icon.icon--activity svg,
-.portal .concept-section-head .icon.icon--visual svg {
+.portal .concept-section-head .icon.icon--visual svg,
+.portal .concept-intro-kicker .icon.icon--intro svg {
   width: 16px !important;
   height: 16px !important;
   display: block !important;
@@ -47,6 +49,13 @@
   box-shadow: none;
 }
 
+.portal .concept-intro-kicker .icon--intro {
+  background: linear-gradient(145deg, rgba(45, 132, 179, .16) 0%, rgba(45, 132, 179, .08) 100%);
+  color: #1f6f97;
+  border: 1px solid rgba(45, 132, 179, .22);
+  box-shadow: 0 2px 6px rgba(45, 132, 179, .08);
+}
+
 .portal .section-activity-shell > .concept-section-head .icon--activity,
 .portal [data-concept-activity-flow].section-activity-shell > .concept-section-head .icon--activity {
   background: linear-gradient(145deg, rgba(45, 132, 179, .16) 0%, rgba(45, 132, 179, .08) 100%);
@@ -67,9 +76,11 @@
   font-weight: 800;
 }
 
-/* Training-wide section titles — match Module 5 (uppercase labels) */
+/* Training-wide section titles  match Module 5 (uppercase labels) */
 .portal .concept-panel .concept-section-head,
 .portal .concept-panel .concept-intro-kicker,
+.portal .folder-page .concept-section-head,
+.portal .folder-page .concept-intro-kicker,
 .portal .concept-panel h4.concept-section-head,
 .portal .concept-panel h5.concept-section-head,
 .portal .section-visual-shell > .concept-section-head,

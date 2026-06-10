@@ -8,7 +8,7 @@
     intro: 'Introduction'
   };
 
-  /* Lightbulb ù insight / key ideas */
+  /* Lightbulb ? insight / key ideas */
   var KEY_IDEAS_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<path d="M9 18h6"/>' +
@@ -16,7 +16,7 @@
       '<path d="M12 2a6 6 0 0 0-3.4 10.9c.55.52.9 1.2.9 1.95V16h5V14.85c0-.75.35-1.43.9-1.95A6 6 0 0 0 12 2z"/>' +
     '</svg>';
 
-  /* Clipboard with check ù interactive activity */
+  /* Clipboard with check ? interactive activity */
   var ACTIVITY_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>' +
@@ -24,12 +24,19 @@
       '<path d="m9 13 2 2 4-4.5"/>' +
     '</svg>';
 
-  /* Image frame ù concept visual */
+  /* Image frame ? concept visual */
   var VISUAL_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<rect x="3" y="5" width="18" height="14" rx="2.2"/>' +
       '<circle cx="8.5" cy="10" r="1.5"/>' +
       '<path d="M21 16 16 11l-4 4-2.5-2.5L3 17"/>' +
+    '</svg>';
+
+  /* Open book ? introduction */
+  var INTRO_SVG =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>' +
+      '<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>' +
     '</svg>';
 
   var MATCH_LEFT_SVG =
@@ -53,13 +60,15 @@
     '\u2705': 'activity',
     '\u2713': 'activity',
     '\u{1F5BC}\uFE0F': 'visual',
-    '\u{1F5BC}': 'visual'
+    '\u{1F5BC}': 'visual',
+    '\u{1F4D8}': 'intro'
   };
 
   function svgFor(type) {
     if (type === 'keyIdeas') return KEY_IDEAS_SVG;
     if (type === 'activity') return ACTIVITY_SVG;
     if (type === 'visual') return VISUAL_SVG;
+    if (type === 'intro') return INTRO_SVG;
     return '';
   }
 
@@ -67,6 +76,7 @@
     if (type === 'keyIdeas') return 'icon--key-ideas';
     if (type === 'activity') return 'icon--activity';
     if (type === 'visual') return 'icon--visual';
+    if (type === 'intro') return 'icon--intro';
     return '';
   }
 
@@ -82,6 +92,7 @@
     if (iconEl.classList.contains('icon--key-ideas')) return 'keyIdeas';
     if (iconEl.classList.contains('icon--activity')) return 'activity';
     if (iconEl.classList.contains('icon--visual')) return 'visual';
+    if (iconEl.classList.contains('icon--intro')) return 'intro';
 
     var text = (iconEl.textContent || '').trim();
     if (EMOJI_TYPES[text]) return EMOJI_TYPES[text];
@@ -96,7 +107,7 @@
   function upgradeIcon(iconEl) {
     if (!iconEl || !iconEl.classList.contains('icon')) return false;
 
-    var headEl = iconEl.closest('.concept-section-head');
+    var headEl = iconEl.closest('.concept-section-head') || iconEl.closest('.concept-intro-kicker');
     var type = detectType(iconEl, headEl);
     if (!type) return false;
 
@@ -146,9 +157,21 @@
 
       var label = resolveLabel(type);
       if (type === 'intro') {
-        var introText = head.querySelector(':scope > span:not(.icon)');
-        if (introText) introText.textContent = label;
-        else if (!head.querySelector('.icon')) head.textContent = label;
+        if (head.classList.contains('concept-intro-kicker')) {
+          head.outerHTML = kickerHtml(type, label);
+        } else {
+          var introCard = head.closest('.section-intro');
+          if (introCard && head.parentElement === introCard) {
+            head.remove();
+            if (!introCard.querySelector(':scope > .concept-intro-kicker')) {
+              introCard.insertAdjacentHTML('afterbegin', kickerHtml(type, label));
+            }
+          } else {
+            var introText = head.querySelector(':scope > span:not(.icon)');
+            if (introText) introText.textContent = label;
+            else if (!head.querySelector('.icon')) head.textContent = label;
+          }
+        }
         return;
       }
 
@@ -157,9 +180,19 @@
     });
   }
 
+  function kickerHtml(type, label) {
+    var resolved = resolveLabel(type, label);
+    return (
+      '<span class="concept-intro-kicker">' +
+        '<span class="icon ' + modifierClass(type) + '" aria-hidden="true">' + svgFor(type) + '</span>' +
+        '<span>' + resolved + '</span>' +
+      '</span>'
+    );
+  }
+
   function scan(root) {
     var scope = root || document;
-    scope.querySelectorAll('.concept-section-head .icon').forEach(upgradeIcon);
+    scope.querySelectorAll('.concept-section-head .icon, .concept-intro-kicker .icon').forEach(upgradeIcon);
     normalizeSectionHeads(scope);
     upgradeMatchColumnIcons(scope);
     repairBrokenHeads(scope);
@@ -241,6 +274,7 @@
     headHtml: headHtml,
     nestedHeadHtml: nestedHeadHtml,
     headInlineHtml: headInlineHtml,
+    kickerHtml: kickerHtml,
     matchColumnIconHtml: matchColumnIconHtml,
     refreshShell: refreshShell,
     upgrade: upgradeIcon,

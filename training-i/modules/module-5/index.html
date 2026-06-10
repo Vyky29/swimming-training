@@ -2127,6 +2127,35 @@
     .b2pl-cathead--f4-2{ color:#F0E65C; }
     .b2pl-cathead--f4-3{ color:#8BAF6A; }
 
+    .portal .folder-page > .b2pl-folder-h[data-title-decorated="true"],
+    .portal .folder-page > .b2pl-cathead[data-title-decorated="true"]{
+      display:block;
+      font-size:inherit;
+      color:var(--concept-title-accent, #2d84b3);
+    }
+    .portal .folder-page > .b2pl-folder-h[data-title-decorated="true"] .concept-title-main,
+    .portal .folder-page > .b2pl-cathead[data-title-decorated="true"] .concept-title-main{
+      width:100%;
+    }
+    .portal .folder-page > .concept-section-card.section-intro.m5-nested-intro{
+      margin-top:0;
+    }
+    .portal .folder-page > .concept-section-card.section-intro.m5-nested-intro .concept-intro-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin:0 0 10px;
+    }
+    .portal .folder-page > .concept-section-card.section-intro.m5-nested-intro p{
+      margin:0 0 0.75em;
+      line-height:1.6;
+      font-size:.93rem;
+      color:var(--ink);
+    }
+    .portal .folder-page > .concept-section-card.section-intro.m5-nested-intro p:last-child{
+      margin-bottom:0;
+    }
+
     .b2-screens .folder-page p,
     .b2-screens .folder-page .concept-activity-box p{
       overflow-wrap:break-word;
@@ -3910,6 +3939,32 @@
         setConceptTitle(el, rawTitle, el.className, 'module5-nested');
         el.dataset.titleDecorated = 'true';
       });
+    }
+
+    function upgradeNestedFolderIntros(scope){
+      if(!scope) return;
+      scope.querySelectorAll('.folder-page > .concept-section-card.section-intro').forEach(function(intro){
+        if(intro.dataset.proIntroReady === 'true') return;
+        if(!(intro.textContent || '').trim()) return;
+        intro.dataset.proIntroReady = 'true';
+        intro.classList.add('m5-nested-intro');
+        var oldHead = intro.querySelector(':scope > .concept-section-head');
+        if(oldHead) oldHead.remove();
+        if(!intro.querySelector(':scope > .concept-intro-kicker')){
+          intro.insertAdjacentHTML('afterbegin', (window.ConceptSectionIcons && ConceptSectionIcons.kickerHtml('intro')) ||
+            '<span class="concept-intro-kicker"><span class="icon icon--intro" aria-hidden="true"></span><span>Introduction</span></span>');
+        }
+      });
+      scope.querySelectorAll('.folder-page .concept-points-box > h4').forEach(function(h4){
+        if(h4.dataset.proHeadReady === 'true') return;
+        if(h4.querySelector('.icon.icon--key-ideas')) return;
+        h4.dataset.proHeadReady = 'true';
+        var txt = (h4.textContent || '').trim();
+        h4.classList.add('concept-section-head');
+        h4.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('keyIdeas', txt, 'h4')) ||
+          '<span class="icon icon--key-ideas" aria-hidden="true"></span><span>' + txt + '</span>';
+      });
+      if(window.ConceptSectionIcons) ConceptSectionIcons.scan(scope);
     }
 
     const conceptContent = {
@@ -5834,6 +5889,7 @@
       if(wrapper.dataset.initialized === 'true') return;
       wrapper.dataset.initialized = 'true';
       decorateNestedConceptTitles(wrapper);
+      upgradeNestedFolderIntros(wrapper);
 
       function showScreen(id){
         wrapper.querySelectorAll('.b2-screen').forEach(screen => {
@@ -6038,12 +6094,11 @@
       var nestedScreens = imageEl ? imageEl.querySelector('[data-b2-screens], .b2-screens') : null;
 
       if(nestedScreens){
+        upgradeNestedFolderIntros(nestedScreens);
         nestedScreens.querySelectorAll('.concept-section-card .concept-section-head').forEach(function(head){
           var label = (head.textContent || '').trim().toLowerCase();
           if(label.includes('visual image') && window.ConceptSectionIcons){
             head.innerHTML = ConceptSectionIcons.headInlineHtml('visual', 'Visual Image');
-          } else if((label === 'introduction' || label === 'intro') && window.ConceptSectionIcons){
-            head.innerHTML = ConceptSectionIcons.headInlineHtml('intro', 'Introduction');
           }
         });
         if(window.ConceptSectionIcons) ConceptSectionIcons.scan(nestedScreens);
