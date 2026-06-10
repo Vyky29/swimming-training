@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css');
-  @import url('/assets/concept-insight-intro.css?v=20260616');
+  @import url('/assets/concept-insight-intro.css?v=20260617');
 
   :root{
       --blue:#2d84b3;
@@ -5009,6 +5009,7 @@
       var dwellOk = !dwellEnd || Date.now() >= dwellEnd;
       var inPracticeOk = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
       var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
+      var insightPillarsOk = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
       var choiceOk = true;
       if(data.requiresChoiceActivity){
         if(data.nestedChoiceKeys && data.nestedChoiceKeys.length){
@@ -5021,7 +5022,7 @@
           choiceOk = !!(actShell && actShell.dataset.choiceShellComplete === 'true');
         }
       }
-      var canFinish = dwellOk && inPracticeOk && keyIdeasOk && choiceOk;
+      var canFinish = dwellOk && inPracticeOk && keyIdeasOk && insightPillarsOk && choiceOk;
       finishBtn.disabled = !canFinish;
       finishBtn.style.opacity = canFinish ? '1' : '.55';
       finishBtn.style.cursor = canFinish ? 'pointer' : 'not-allowed';
@@ -5033,10 +5034,17 @@
           ? 'Complete all activities in this concept first'
           : 'Complete the activity first';
       }
+      else if(!insightPillarsOk) finishBtn.textContent = 'Review all intro cards to continue';
       else if(!keyIdeasOk) finishBtn.textContent = 'Review all Key Ideas to continue';
       else if(!inPracticeOk) finishBtn.textContent = 'Click In Practice to continue';
       else finishBtn.textContent = 'Done';
     }
+
+    document.addEventListener('concept-insight-pillars-change', function(e){
+      var panel = e.target;
+      if(!panel || !panel.classList.contains('concept-panel') || !panel.dataset.currentBlock) return;
+      updateConceptFinishState(panel, panel.dataset.currentBlock, panel.dataset.currentTarget);
+    });
 
     function teardownBlock2ChoiceMounts(panel){
       if(!panel || panel.getAttribute('data-panel-for') !== 'block2') return;
@@ -6000,7 +6008,7 @@
       panel.dataset.currentBlock = block;
       setConceptTitle(panel.querySelector('h4'), data.title, target, block);
       var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
-        ? ConceptInsightIntro.renderIntro(panel, data, 5, target)
+        ? ConceptInsightIntro.renderIntro(panel, data, 5, target, { restoreComplete: !!alreadyCompleted })
         : null;
       if(typeof ConceptInsightIntro !== 'undefined'){
         ConceptInsightIntro.updatePanelLayout(panel, block, target, !!resolvedInsight);
@@ -6562,7 +6570,7 @@
   </script>
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
-  <script src="/shared/concept-insight-intro.js?v=20260616"></script>
+  <script src="/shared/concept-insight-intro.js?v=20260617"></script>
   <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>

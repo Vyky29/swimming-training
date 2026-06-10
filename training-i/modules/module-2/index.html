@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css');
   @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css');
-  @import url('/assets/concept-insight-intro.css?v=20260616');
+  @import url('/assets/concept-insight-intro.css?v=20260617');
 
   :root{
     --blue:#2d84b3;
@@ -5664,8 +5664,9 @@
     var sensoryFlipped = panel.querySelectorAll('[data-sense-card].flipped').length;
     var sensoryOk = optionalSubconceptActivity || !data.requiresSensoryBoxes || sensoryFlipped === 7;
     var keyIdeasOk = optionalSubconceptActivity || panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
+    var insightPillarsOk = optionalSubconceptActivity || panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
     var inPracticeOk = optionalSubconceptActivity || panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
-    var canFinish = dwellOk && carouselOk && matchingOk && categorizeOk && sensoryOk && choiceOk && sequenceOk && keyIdeasOk && inPracticeOk;
+    var canFinish = dwellOk && carouselOk && matchingOk && categorizeOk && sensoryOk && choiceOk && sequenceOk && keyIdeasOk && insightPillarsOk && inPracticeOk;
     finishBtn.disabled = !canFinish;
     finishBtn.style.opacity = canFinish ? '1' : '.55';
     finishBtn.style.cursor = canFinish ? 'pointer' : 'not-allowed';
@@ -5677,11 +5678,18 @@
     else if(data.requiresCategorize && !categorizeOk) finishBtn.textContent = 'Complete the classification activity';
     else if(data.requiresSequenceActivity && !sequenceOk) finishBtn.textContent = 'Complete the sequencing activity';
     else if(data.requiresChoiceActivity && !choiceOk) finishBtn.textContent = 'Complete the activity first';
+    else if(!insightPillarsOk) finishBtn.textContent = 'Review all intro cards to continue';
     else if(!keyIdeasOk) finishBtn.textContent = 'Review all Key Ideas to continue';
       else if(!inPracticeOk) finishBtn.textContent = 'Click In Practice to continue';
     else if(secLeft > 0) finishBtn.textContent = 'Continue in ' + secLeft + 's';
       else finishBtn.textContent = getNextActionLabel(block, target);
   }
+
+  document.addEventListener('concept-insight-pillars-change', function(e){
+    var panel = e.target;
+    if(!panel || !panel.classList.contains('concept-panel') || !panel.dataset.currentBlock) return;
+    updateConceptFinishState(panel, panel.dataset.currentBlock, panel.dataset.currentTarget);
+  });
 
   function setupChoiceActivity(panel, block, target){
     var data = conceptContent[target];
@@ -6198,8 +6206,9 @@
       delete panel.dataset.sequenceComplete;
       var titleHeading = panel.querySelector('.concept-heading-row h4') || panel.querySelector('h4');
       if(titleHeading) setConceptTitle(titleHeading, data.title, target, block);
+      var conceptAlreadyDone = conceptCompletion[block] && conceptCompletion[block].has(target);
       var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
-        ? ConceptInsightIntro.renderIntro(panel, data, 2, target)
+        ? ConceptInsightIntro.renderIntro(panel, data, 2, target, { restoreComplete: !!conceptAlreadyDone })
         : null;
       if(typeof ConceptInsightIntro !== 'undefined'){
         ConceptInsightIntro.updatePanelLayout(panel, block, target, !!resolvedInsight);
@@ -6859,7 +6868,7 @@
   </script>
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
-  <script src="/shared/concept-insight-intro.js?v=20260616"></script>
+  <script src="/shared/concept-insight-intro.js?v=20260617"></script>
   <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>

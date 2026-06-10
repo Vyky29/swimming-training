@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css');
-  @import url('/assets/concept-insight-intro.css?v=20260616');
+  @import url('/assets/concept-insight-intro.css?v=20260617');
 
   :root{
       --blue:#2d84b3;
@@ -4898,8 +4898,9 @@
       var carouselOk = optionalSubconceptActivity || !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
       var reflectAckOk = optionalSubconceptActivity || !data.requiresReflectAck || panel.dataset.reflectAckComplete === 'true';
       var keyIdeasOk = optionalSubconceptActivity || panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
+      var insightPillarsOk = optionalSubconceptActivity || panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
       var inPracticeOk = optionalSubconceptActivity || panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
-      var canFinish = dwellOk && matchingOk && categorizeOk && choiceOk && carouselOk && reflectAckOk && keyIdeasOk && inPracticeOk;
+      var canFinish = dwellOk && matchingOk && categorizeOk && choiceOk && carouselOk && reflectAckOk && keyIdeasOk && insightPillarsOk && inPracticeOk;
       finishBtn.disabled = !canFinish;
       finishBtn.style.opacity = canFinish ? '1' : '.55';
       finishBtn.style.cursor = canFinish ? 'pointer' : 'not-allowed';
@@ -4908,6 +4909,7 @@
       else if(data.requiresCategorize && !categorizeOk) finishBtn.textContent = 'Complete the classification activity';
       else if(data.requiresReflectAck && !reflectAckOk) finishBtn.textContent = 'Complete the reflection activity';
       else if(data.requiresChoiceActivity && !choiceOk) finishBtn.textContent = 'Complete the activity first';
+      else if(!insightPillarsOk) finishBtn.textContent = 'Review all intro cards to continue';
       else if(!keyIdeasOk) finishBtn.textContent = 'Review all Key Ideas to continue';
       else if(!inPracticeOk) finishBtn.textContent = 'Click In Practice to continue';
       else if(dwellEnd && Date.now() < dwellEnd){
@@ -4915,6 +4917,12 @@
         if(left > 0) finishBtn.textContent = 'Continue in ' + left + 's';
       } else finishBtn.textContent = getNextActionLabel(block, target);
     }
+
+    document.addEventListener('concept-insight-pillars-change', function(e){
+      var panel = e.target;
+      if(!panel || !panel.classList.contains('concept-panel') || !panel.dataset.currentBlock) return;
+      updateConceptFinishState(panel, panel.dataset.currentBlock, panel.dataset.currentTarget);
+    });
 
     function layoutConceptPanel(panel, data, block, target){
       if(!panel) return;
@@ -5384,7 +5392,7 @@
       var titleHeading = panel.querySelector('.concept-heading-row h4') || panel.querySelector('.concept-panel > h4');
       if(titleHeading) setConceptTitle(titleHeading, data.title, target, block);
       var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
-        ? ConceptInsightIntro.renderIntro(panel, data, 3, target)
+        ? ConceptInsightIntro.renderIntro(panel, data, 3, target, { restoreComplete: !!alreadyCompleted })
         : null;
       if(typeof ConceptInsightIntro !== 'undefined'){
         ConceptInsightIntro.updatePanelLayout(panel, block, target, !!resolvedInsight);
@@ -6007,7 +6015,7 @@
   </script>
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
-  <script src="/shared/concept-insight-intro.js?v=20260616"></script>
+  <script src="/shared/concept-insight-intro.js?v=20260617"></script>
   <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>

@@ -438,14 +438,68 @@
       .trim();
   }
 
+  function syncInsightPillarState(panel, introEl){
+    if(!panel || !introEl) return;
+    var cards = introEl.querySelectorAll('.concept-insight-pillar');
+    var total = cards.length;
+    var done = introEl.querySelectorAll('.concept-insight-pillar.clicked').length;
+    panel.dataset.insightPillarsRequired = total ? 'true' : 'false';
+    panel.dataset.insightPillarsDone = (total > 0 && done === total) ? 'true' : 'false';
+  }
+
+  function bindInsightPillarInteractions(introEl, panel, opts){
+    if(!introEl || !panel) return;
+    opts = opts || {};
+    var cards = introEl.querySelectorAll('.concept-insight-pillar');
+    if(!cards.length){
+      panel.dataset.insightPillarsRequired = 'false';
+      panel.dataset.insightPillarsDone = 'true';
+      return;
+    }
+
+    if(opts.restoreComplete){
+      cards.forEach(function(card){ card.classList.add('clicked'); });
+    }
+
+    cards.forEach(function(card, idx){
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-pressed', card.classList.contains('clicked') ? 'true' : 'false');
+      card.setAttribute('data-pillar-index', String(idx));
+
+      function markDone(){
+        if(card.classList.contains('clicked')) return;
+        card.classList.add('clicked');
+        card.setAttribute('aria-pressed', 'true');
+        syncInsightPillarState(panel, introEl);
+        panel.dispatchEvent(new CustomEvent('concept-insight-pillars-change', { bubbles: true }));
+      }
+
+      card.addEventListener('click', markDone);
+      card.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          markDone();
+        }
+      });
+    });
+
+    syncInsightPillarState(panel, introEl);
+  }
+
+  function areInsightPillarsComplete(panel){
+    if(!panel || panel.dataset.insightPillarsRequired !== 'true') return true;
+    return panel.dataset.insightPillarsDone === 'true';
+  }
+
   function buildConceptInsightIntroHTML(insight){
     if(!insight) return '';
     var pillarList = insight.pillars || [];
-    var pillars = pillarList.map(function(pillar){
+    var pillars = pillarList.map(function(pillar, idx){
       var iconKey = pillar.icon || 'response';
       var iconMarkup = conceptInsightIcons[iconKey] || conceptInsightIcons.response;
       return [
-        '<article class="concept-insight-pillar">',
+        '<article class="concept-insight-pillar clickable-progress" role="button" tabindex="0" data-pillar-index="' + idx + '" aria-pressed="false">',
           '<div class="concept-insight-pillar__icon">' + iconMarkup + '</div>',
           '<h6 class="concept-insight-pillar__title">' + cleanInsightText(pillar.title) + '</h6>',
           '<p class="concept-insight-pillar__text">' + cleanInsightText(pillar.text) + '</p>',
@@ -604,7 +658,7 @@
     }
   }
 
-  function renderConceptIntro(panel, data, moduleNum, conceptId){
+  function renderConceptIntro(panel, data, moduleNum, conceptId, opts){
     ensureConceptPanelInsightChrome(panel);
     var introEl = panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-panel-desc');
     if(!introEl) return null;
@@ -615,9 +669,12 @@
     if(insight){
       introEl.innerHTML = buildConceptInsightIntroHTML(insight);
       introEl.classList.add('concept-insight-intro-shell');
+      bindInsightPillarInteractions(introEl, panel, opts);
     } else {
       introEl.innerHTML = data && data.text ? data.text : '';
       introEl.classList.remove('concept-insight-intro-shell');
+      panel.dataset.insightPillarsRequired = 'false';
+      panel.dataset.insightPillarsDone = 'true';
     }
     return insight;
   }
@@ -629,6 +686,8 @@
     getGridMeta: getConceptGridMeta,
     ensurePanelChrome: ensureConceptPanelInsightChrome,
     updatePanelLayout: updateConceptPanelLayout,
-    renderIntro: renderConceptIntro
+    renderIntro: renderConceptIntro,
+    bindPillarCards: bindInsightPillarInteractions,
+    arePillarsComplete: areInsightPillarsComplete
   };
 })(typeof window !== 'undefined' ? window : this);

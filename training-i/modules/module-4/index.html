@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css');
-  @import url('/assets/concept-insight-intro.css?v=20260616');
+  @import url('/assets/concept-insight-intro.css?v=20260617');
 
   :root{
       --blue:#2d84b3;
@@ -8282,6 +8282,31 @@
     }
   }
 
+    function syncConceptFinishBtn(panel, block, target, opts){
+      opts = opts || {};
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(!finishBtn) return;
+      var insightPillarsOk = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
+      var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
+      var inPracticeOk = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
+      var ready = insightPillarsOk && keyIdeasOk && inPracticeOk;
+      var labelNow = getNextActionLabel(block, target);
+      var dwellLeft = finishBtn.textContent && finishBtn.textContent.indexOf('Continue in ') === 0;
+      if(opts.respectDwell && dwellLeft) return;
+      if(opts.force || !finishBtn.disabled || !dwellLeft){
+        finishBtn.disabled = !ready;
+        finishBtn.style.opacity = ready ? '1' : '.55';
+        finishBtn.style.cursor = ready ? 'pointer' : 'not-allowed';
+        finishBtn.textContent = !insightPillarsOk ? 'Review all intro cards to continue' : (!keyIdeasOk ? 'Review all Key Ideas to continue' : (inPracticeOk ? labelNow : 'Click In Practice to continue'));
+      }
+    }
+
+    document.addEventListener('concept-insight-pillars-change', function(e){
+      var panel = e.target;
+      if(!panel || !panel.classList.contains('concept-panel') || !panel.dataset.currentBlock) return;
+      syncConceptFinishBtn(panel, panel.dataset.currentBlock, panel.dataset.currentTarget, { respectDwell: true });
+    });
+
     function renderConcept(block, target, fromBack){
       const data = conceptContent[target];
       const panel = document.querySelector(`[data-panel-for="${block}"]`);
@@ -8430,7 +8455,7 @@
         }
       }
       var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
-        ? ConceptInsightIntro.renderIntro(panel, data, 4, target)
+        ? ConceptInsightIntro.renderIntro(panel, data, 4, target, { restoreComplete: !!alreadyCompleted })
         : null;
       if(typeof ConceptInsightIntro !== 'undefined'){
         ConceptInsightIntro.updatePanelLayout(panel, block, target, !!resolvedInsight);
@@ -8472,19 +8497,7 @@
           var total = panel.querySelectorAll('.key-idea-item').length;
           var done = panel.querySelectorAll('.key-idea-item.clicked').length;
           panel.dataset.keyIdeasDone = (total > 0 && done === total) ? 'true' : 'false';
-          var finishBtnNow = panel.querySelector('[data-finish-concept]');
-          if(finishBtnNow){
-            var inPracticeOkNow = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
-            var keyIdeasOkNow = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
-            var labelNow = getNextActionLabel(block, target);
-            var dwellLeft = finishBtnNow.textContent && finishBtnNow.textContent.indexOf('Continue in ') === 0;
-            if(!finishBtnNow.disabled || !dwellLeft){
-              finishBtnNow.disabled = !(inPracticeOkNow && keyIdeasOkNow);
-              finishBtnNow.style.opacity = (inPracticeOkNow && keyIdeasOkNow) ? '1' : '.55';
-              finishBtnNow.style.cursor = (inPracticeOkNow && keyIdeasOkNow) ? 'pointer' : 'not-allowed';
-              finishBtnNow.textContent = !keyIdeasOkNow ? 'Review all Key Ideas to continue' : (inPracticeOkNow ? labelNow : 'Click In Practice to continue');
-            }
-          }
+          syncConceptFinishBtn(panel, block, target, { respectDwell: true });
         });
         li.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); this.click(); } });
       });
@@ -8517,16 +8530,7 @@
               panel.dataset.inPracticeDone = 'true';
               actionEl.classList.add('is-completed');
               var ic = actionEl.querySelector('.icon'); if(ic) ic.textContent = '✓';
-              var finishBtnNow = panel.querySelector('[data-finish-concept]');
-              var inPracticeOkNow = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
-              var keyIdeasOkNow = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
-              var labelNow = getNextActionLabel(block, target);
-              if(finishBtnNow){
-                finishBtnNow.disabled = !(inPracticeOkNow && keyIdeasOkNow);
-                finishBtnNow.style.opacity = (inPracticeOkNow && keyIdeasOkNow) ? '1' : '.55';
-                finishBtnNow.style.cursor = (inPracticeOkNow && keyIdeasOkNow) ? 'pointer' : 'not-allowed';
-                finishBtnNow.textContent = !keyIdeasOkNow ? 'Review all Key Ideas to continue' : (inPracticeOkNow ? labelNow : 'Click In Practice to continue');
-              }
+              syncConceptFinishBtn(panel, block, target, { respectDwell: true });
             });
           }
         } else {
@@ -8688,6 +8692,7 @@
       if(finishBtn){
         finishBtn.style.display = hideFinishBtn ? 'none' : '';
         var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
+        var insightPillarsOk = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
         var inPracticeOk = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
         if(isBlock3PathwayContainer){
           finishBtn.disabled = true;
@@ -8703,10 +8708,10 @@
           }
           var finishLabel = getNextActionLabel(block, target);
           if(alreadyCompleted){
-            finishBtn.disabled = !(keyIdeasOk && inPracticeOk);
-            finishBtn.style.opacity = (keyIdeasOk && inPracticeOk) ? '1' : '.55';
-            finishBtn.style.cursor = (keyIdeasOk && inPracticeOk) ? 'pointer' : 'not-allowed';
-            finishBtn.textContent = !keyIdeasOk ? 'Review all Key Ideas to continue' : (inPracticeOk ? finishLabel : 'Click In Practice to continue');
+            finishBtn.disabled = !(keyIdeasOk && insightPillarsOk && inPracticeOk);
+            finishBtn.style.opacity = (keyIdeasOk && insightPillarsOk && inPracticeOk) ? '1' : '.55';
+            finishBtn.style.cursor = (keyIdeasOk && insightPillarsOk && inPracticeOk) ? 'pointer' : 'not-allowed';
+            finishBtn.textContent = !insightPillarsOk ? 'Review all intro cards to continue' : (!keyIdeasOk ? 'Review all Key Ideas to continue' : (inPracticeOk ? finishLabel : 'Click In Practice to continue'));
           } else {
             finishBtn.disabled = true;
             finishBtn.style.opacity = '.55';
@@ -8719,11 +8724,12 @@
                 if(!data.requiresFullCarousel){
                   var inPracticeDoneNow = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
                   var keyIdeasDoneNow = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
-                  finishBtn.disabled = !(inPracticeDoneNow && keyIdeasDoneNow);
-                  finishBtn.style.opacity = (inPracticeDoneNow && keyIdeasDoneNow) ? '1' : '.55';
-                  finishBtn.style.cursor = (inPracticeDoneNow && keyIdeasDoneNow) ? 'pointer' : 'not-allowed';
+                  var insightPillarsDoneNow = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
+                  finishBtn.disabled = !(inPracticeDoneNow && keyIdeasDoneNow && insightPillarsDoneNow);
+                  finishBtn.style.opacity = (inPracticeDoneNow && keyIdeasDoneNow && insightPillarsDoneNow) ? '1' : '.55';
+                  finishBtn.style.cursor = (inPracticeDoneNow && keyIdeasDoneNow && insightPillarsDoneNow) ? 'pointer' : 'not-allowed';
                 }
-                finishBtn.textContent = (panel.dataset.keyIdeasRequired === 'true' && panel.dataset.keyIdeasDone !== 'true') ? 'Review all Key Ideas to continue' : ((panel.dataset.inPracticeRequired === 'true' && panel.dataset.inPracticeDone !== 'true') ? 'Click In Practice to continue' : finishLabel);
+                finishBtn.textContent = (panel.dataset.insightPillarsRequired === 'true' && panel.dataset.insightPillarsDone !== 'true') ? 'Review all intro cards to continue' : ((panel.dataset.keyIdeasRequired === 'true' && panel.dataset.keyIdeasDone !== 'true') ? 'Review all Key Ideas to continue' : ((panel.dataset.inPracticeRequired === 'true' && panel.dataset.inPracticeDone !== 'true') ? 'Click In Practice to continue' : finishLabel));
                 return;
               }
               finishBtn.textContent = 'Continue in ' + left + 's';
@@ -10095,7 +10101,7 @@
   </script>
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
-  <script src="/shared/concept-insight-intro.js?v=20260616"></script>
+  <script src="/shared/concept-insight-intro.js?v=20260617"></script>
   <script src="/shared/review-item-clicks.js"></script>
   <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
