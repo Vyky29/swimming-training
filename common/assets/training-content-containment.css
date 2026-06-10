@@ -1,11 +1,13 @@
 /**
- * clubSENsational ù shared training content containment
- * Load this stylesheet AFTER each pageùs inline <style> block so safe
+ * clubSENsational ? shared training content containment
+ * Load this stylesheet AFTER each page?s inline <style> block so safe
  * layout rules win on equal specificity where needed.
  *
  * Spacing: use --training-space-* and --training-*-gap on flex/grid parents.
  * Prefer `gap` over per-child margin for stacks (cards, activities, quiz).
  */
+
+@import url('/assets/tts-controls.css');
 
 /* ----- Global box model ----- */
 *,
@@ -572,26 +574,16 @@ body {
   justify-self: start;
 }
 
-/* Insight layout: slim toolbar instead of hero title card */
+/* Insight layout: slim header ? title rules live in concept-insight-intro.css */
 .portal .concept-panel--insight-layout > .concept-heading-row,
 .portal .concept-panel--insight-layout > .concept-panel-title-row {
-  margin: 0 0 10px;
-  padding: 0 0 10px;
+  margin: 0 0 12px;
+  padding: 0 0 12px;
   border: 0;
   border-bottom: 1px solid rgba(45, 132, 179, 0.1);
   border-radius: 0;
   background: transparent;
   box-shadow: none;
-}
-
-.portal .concept-panel--insight-layout > .concept-heading-row h4,
-.portal .concept-panel--insight-layout > .concept-panel-title-row .concept-panel-title {
-  display: none !important;
-}
-
-.portal .concept-panel--insight-layout > .concept-heading-row h4::after,
-.portal .concept-panel--insight-layout > .concept-panel-title-row .concept-panel-title::after {
-  display: none !important;
 }
 
 .portal .concept-panel > .concept-heading-row h4,

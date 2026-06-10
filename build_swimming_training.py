@@ -153,6 +153,10 @@ TRAINING_ONE_COMMON_REPLACEMENTS = [
         'src="/shared/module-completion-flow.js?v=20260512"',
     ),
     (
+        'src="/shared/concept-insight-content.js',
+        'src="/shared/tts-controls.js?v=20260612"></script>\n<script src="/shared/concept-insight-content.js',
+    ),
+    (
         "@import url('/assets/module-completion-flow.css');",
         "@import url('/assets/module-completion-flow.css?v=20260512');",
     ),
@@ -228,7 +232,7 @@ TRAINING_ONE_PAGE_REPLACEMENTS = {
 TRAINING_TWO_COMMON_REPLACEMENTS = [
     (
         'src="/shared/module-completion-flow.js"',
-        'src="/shared/module-completion-flow.js?v=20260512"',
+        'src="/shared/tts-controls.js?v=20260612"></script>\n<script src="/shared/module-completion-flow.js"',
     ),
     (
         "@import url('/assets/module-completion-flow.css');",

@@ -1,10 +1,10 @@
 /* Visual concept introduction  insight cards + Concept N of M badge */
 
-/* ?? Premium slim header (insight layout) ?? */
+/* ?? Premium concept header (insight layout) ?? */
 .portal .concept-panel--insight-layout > .concept-heading-row,
 .portal .concept-panel--insight-layout > .concept-panel-title-row{
-  margin:0 0 10px;
-  padding:0 0 10px;
+  margin:0 0 12px;
+  padding:0 0 12px;
   border:0;
   border-bottom:1px solid rgba(45,132,179,.1);
   border-radius:0;
@@ -13,14 +13,20 @@
 }
 .portal .concept-panel--insight-layout .concept-panel-header{
   display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:10px;
+  width:100%;
+}
+.portal .concept-panel--insight-layout .concept-panel-toolbar{
+  display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
   width:100%;
-  min-height:36px;
+  min-height:32px;
 }
 .portal .concept-panel--insight-layout .concept-meta-badge{
-  order:1;
   flex:0 0 auto;
   margin:0;
   padding:4px 10px;
@@ -34,27 +40,58 @@
   text-transform:uppercase;
   line-height:1.2;
 }
-.portal .concept-panel--insight-layout .concept-panel-title-stack{
-  order:2;
-  flex:0 0 auto;
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:0;
+.portal .concept-panel--insight-layout .concept-panel-title-display{
+  width:100%;
   min-width:0;
+}
+.portal .concept-panel--insight-layout .concept-panel-title-display h4,
+.portal .concept-panel--insight-layout .concept-panel-title-display .concept-panel-title{
+  display:block !important;
+  margin:0;
   padding:0;
+  font-size:clamp(1rem, 1.65vw, 1.18rem);
+  font-weight:600;
+  color:#1e4d68;
+  line-height:1.35;
+  letter-spacing:.01em;
+  text-align:left;
+  background:transparent;
+  border:0;
+  box-shadow:none;
 }
-.portal .concept-panel--insight-layout .concept-heading-row h4,
-.portal .concept-panel--insight-layout .concept-panel-title-row h4,
-.portal .concept-panel--insight-layout .concept-panel-title{
-  display:none !important;
-}
-.portal .concept-panel--insight-layout .concept-heading-row h4::after,
-.portal .concept-panel--insight-layout .concept-panel-title-row .concept-panel-title::after{
-  display:none !important;
+.portal .concept-panel--insight-layout .concept-title-main{
+  display:inline-flex;
+  align-items:flex-start;
+  gap:10px;
+  max-width:100%;
 }
 .portal .concept-panel--insight-layout .concept-title-icon{
-  display:none !important;
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  flex:0 0 32px;
+  border-radius:8px;
+  background:#fff;
+  border:1px solid rgba(45,132,179,.12);
+  box-shadow:0 1px 2px rgba(18,50,71,.04);
+  color:#2d84b3;
+}
+.portal .concept-panel--insight-layout .concept-title-icon svg{
+  width:16px;
+  height:16px;
+}
+.portal .concept-panel--insight-layout .concept-panel-title-display h4::after,
+.portal .concept-panel--insight-layout .concept-panel-title-display .concept-panel-title::after{
+  display:block !important;
+  content:'';
+  width:28px;
+  height:2px;
+  margin-top:8px;
+  border-radius:999px;
+  background:#2d84b3;
+  opacity:.85;
 }
 .portal .concept-panel--insight-layout .concept-panel-tts{
   display:inline-flex;
@@ -63,49 +100,7 @@
   flex-wrap:nowrap;
   gap:8px;
   margin:0;
-}
-.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  min-height:32px;
-  min-width:84px;
-  padding:0 12px;
-  margin:0;
-  border-radius:8px;
-  border:1px solid rgba(45,132,179,.18);
-  background:#fff;
-  color:#2d6f94;
-  font-size:.74rem;
-  font-weight:600;
-  letter-spacing:.02em;
-  line-height:1;
-  box-shadow:0 1px 2px rgba(18,50,71,.04);
-  transition:background .15s ease, border-color .15s ease, color .15s ease;
-}
-.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts:hover{
-  background:#f7fbfd;
-  border-color:rgba(45,132,179,.28);
-  color:#163247;
-}
-.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts__icon{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:14px;
-  height:14px;
-  flex-shrink:0;
-  color:currentColor;
-}
-.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts__icon svg{
-  width:14px;
-  height:14px;
-  display:block;
-}
-.portal .concept-panel--insight-layout .concept-panel-tts .btn-tts__label{
-  display:inline-block;
-  line-height:1;
+  flex:0 0 auto;
 }
 
 .concept-meta-badge{
@@ -124,51 +119,6 @@
 }
 .concept-meta-badge[hidden]{
   display:none !important;
-}
-.concept-panel--insight-layout .concept-heading-row,
-.concept-panel--insight-layout .concept-panel-title-row{
-  margin-bottom:0;
-}
-.concept-panel--insight-layout .concept-panel-header{
-  display:grid;
-  grid-template-columns:minmax(0, 1fr) auto;
-  grid-template-rows:auto;
-  gap:0 12px;
-  align-items:start;
-  margin-bottom:0;
-}
-.concept-panel--insight-layout .concept-panel-title-stack{
-  grid-column:1;
-  grid-row:1;
-  padding-right:0;
-}
-.concept-panel--insight-layout .concept-meta-badge{
-  grid-column:2;
-  grid-row:1;
-  justify-self:end;
-}
-.concept-panel--insight-layout .concept-heading-row h4,
-.concept-panel--insight-layout .concept-panel-title-row h4,
-.concept-panel--insight-layout .concept-panel-title{
-  font-size:1.02rem;
-  font-weight:500;
-  color:var(--ink);
-  line-height:1.4;
-  margin:0 0 8px;
-}
-.concept-panel--insight-layout .concept-title-icon{
-  display:none;
-}
-.concept-panel--insight-layout .concept-panel-tts{
-  margin:0 0 8px;
-  justify-content:flex-start;
-  gap:6px;
-}
-.concept-panel--insight-layout .concept-panel-tts .btn-tts{
-  font-size:.72rem;
-  padding:4px 9px;
-  min-height:0;
-  box-shadow:none;
 }
 .concept-intro-slot.concept-insight-intro-shell{
   margin-top:0;
@@ -191,6 +141,16 @@
   letter-spacing:.01em;
   text-transform:none;
   max-width:38rem;
+}
+.concept-insight-intro__title::before{
+  content:'Key insight';
+  display:block;
+  margin-bottom:6px;
+  font-size:.66rem;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#4a7a96;
 }
 .concept-insight-intro__title::after{
   content:'';
@@ -277,17 +237,12 @@
   color:var(--text, #314555);
 }
 @media (max-width:768px){
-  .portal .concept-panel--insight-layout .concept-panel-header{
+  .portal .concept-panel--insight-layout .concept-panel-toolbar{
     flex-wrap:wrap;
     gap:8px;
   }
-  .portal .concept-panel--insight-layout .concept-meta-badge{
-    order:1;
-  }
-  .portal .concept-panel--insight-layout .concept-panel-title-stack{
-    order:2;
-    width:100%;
-    justify-content:flex-end;
+  .portal .concept-panel--insight-layout .concept-panel-tts{
+    margin-left:auto;
   }
   .concept-insight-intro__cards{
     flex-direction:column;

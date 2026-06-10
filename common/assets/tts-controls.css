@@ -1,0 +1,107 @@
+/**
+ * Premium TTS controls — shared across Training I, Training II, and portal modules.
+ * Pairs with /shared/tts-controls.js for SVG icon markup.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+
+.portal .btn-tts,
+.portal .btn-tts-inline,
+.portal .btn-tts-stop-inline,
+.portal .btn-tts-small,
+.portal button.btn-tts,
+.portal button.btn-tts-inline,
+.portal button.btn-tts-stop-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
+  min-width: 84px;
+  padding: 0 12px;
+  margin: 0;
+  border-radius: 8px;
+  border: 1px solid rgba(45, 132, 179, 0.18);
+  background: #fff;
+  color: #2d6f94;
+  font-family: Montserrat, system-ui, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(18, 50, 71, 0.04);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.portal .btn-tts-small {
+  min-width: 72px;
+  min-height: 30px;
+  padding: 0 10px;
+  font-size: 0.72rem;
+}
+
+.portal .btn-tts:hover,
+.portal .btn-tts-inline:hover,
+.portal .btn-tts-stop-inline:hover,
+.portal .btn-tts-small:hover,
+.portal button.btn-tts:hover,
+.portal button.btn-tts-inline:hover,
+.portal button.btn-tts-stop-inline:hover {
+  background: #f7fbfd;
+  border-color: rgba(45, 132, 179, 0.28);
+  color: #163247;
+}
+
+.portal .btn-tts:focus-visible,
+.portal .btn-tts-inline:focus-visible,
+.portal .btn-tts-stop-inline:focus-visible,
+.portal .btn-tts-small:focus-visible {
+  outline: 2px solid rgba(45, 132, 179, 0.35);
+  outline-offset: 2px;
+}
+
+.portal .btn-tts:active,
+.portal .btn-tts-inline:active,
+.portal .btn-tts-stop-inline:active,
+.portal .btn-tts-small:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 1px rgba(18, 50, 71, 0.06);
+}
+
+.portal .btn-tts__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.portal .btn-tts__icon svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.portal .btn-tts__label {
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Grouped Listen / Stop in section toolbars */
+.portal .block-tools-inline,
+.portal .concept-panel-tts,
+.portal .concept-panel-toolbar .concept-panel-tts {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+@media (max-width: 720px) {
+  .portal .block-tools-inline .btn-tts {
+    flex: 0 0 auto;
+  }
+}
