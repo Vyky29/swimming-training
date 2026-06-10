@@ -1,28 +1,23 @@
-/* Subtle tap hint on clickable review cards — low prominence, hidden once reviewed */
+/* Section-level hint before clickable review cards — subtle, not per-card */
 
-.portal .card-click-hint,
-.portal .outcome:not(.clicked) > div::after,
-.portal .key-idea-item:not(.clicked) .key-idea-text::after {
+.portal .cards-review-hint,
+.portal .key-ideas-instruction,
+.portal .outcomes[data-outcomes-group]::before {
   display: block;
-  margin-top: 8px;
-  font-size: .67rem;
+  margin: 0 0 12px;
+  font-size: .82rem;
   font-weight: 500;
-  letter-spacing: .02em;
-  line-height: 1.25;
-  color: rgba(74, 122, 150, .68);
+  line-height: 1.45;
+  letter-spacing: .01em;
+  color: rgba(74, 122, 150, .78);
 }
 
-.portal .outcome:not(.clicked) > div::after,
-.portal .key-idea-item:not(.clicked) .key-idea-text::after {
-  content: 'Click to review';
+.portal .concept-insight-intro .cards-review-hint {
+  max-width: 38rem;
+  margin: 0 auto 12px;
+  text-align: center;
 }
 
-.portal .concept-insight-pillar .card-click-hint {
-  margin-top: auto;
-  padding-top: 6px;
-  font-size: .66rem;
-}
-
-.portal .concept-insight-pillar.clicked .card-click-hint {
-  display: none;
+.portal .outcomes[data-outcomes-group]::before {
+  content: 'Click each outcome below once you\u2019ve read it.';
 }

@@ -503,7 +503,6 @@
           '<div class="concept-insight-pillar__icon">' + iconMarkup + '</div>',
           '<h6 class="concept-insight-pillar__title">' + cleanInsightText(pillar.title) + '</h6>',
           '<p class="concept-insight-pillar__text">' + cleanInsightText(pillar.text) + '</p>',
-          '<span class="card-click-hint" aria-hidden="true">Click to review</span>',
         '</article>'
       ].join('');
     }).join('');
@@ -514,6 +513,7 @@
       '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
         '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + cleanInsightText(insight.title) + '</h5>',
         statementHtml,
+        '<p class="cards-review-hint">Click each card below once you\u2019ve read it.</p>',
         '<div class="concept-insight-intro__cards" data-pillar-count="' + pillarList.length + '">' + pillars + '</div>',
       '</div>'
     ].join('');
