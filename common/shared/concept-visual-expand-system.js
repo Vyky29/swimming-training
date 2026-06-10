@@ -162,6 +162,7 @@
     if (!imageSrc(img).trim()) return true;
     if (img.closest('[data-parent-subconcept-nav]')) return true;
     if (img.closest('[data-expand-media]')) return true;
+    if (img.closest('.b2-screen:not(.active)')) return true;
 
     var exclude = (options && options.exclude) || [];
     for (var i = 0; i < exclude.length; i++) {
@@ -196,8 +197,10 @@
 
   function getPrimaryImageSlot(host) {
     if (!host) return null;
+    if (host.closest('[data-b2-screens], .b2-screens')) return null;
     var imageSlot = host.closest('.concept-image');
     if (imageSlot && imageSlot.classList.contains('concept-section-card')) {
+      if (isComplexImageSlot(imageSlot)) return null;
       return imageSlot;
     }
     return null;
@@ -508,7 +511,7 @@
     if (!root.querySelectorAll) return;
 
     bindModalOpenerFromWindow();
-    clearExpandables(root);
+    clearExpandables(options.clearRoot || root);
 
     var panel = options.panel || root.closest('.concept-panel') || null;
     var wiredHosts = new Set();

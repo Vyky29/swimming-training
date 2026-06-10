@@ -2,7 +2,7 @@
  * Unified primary imagery across Training I / II modules.
  * Infographics and concept visuals show in full (contain) — no 16:9 crop or inner scroll.
  */
-@import url('/assets/concept-visual-expand.css?v=20260707');
+@import url('/assets/concept-visual-expand.css?v=20260708');
 
 .portal [data-expand-media] {
   display: none !important;
