@@ -429,6 +429,22 @@
     return polishInsight({ title: title, statement: '', pillars: pillars });
   }
 
+  function buildInsightFromParagraphs(pageTitle, paragraphTexts){
+    var paras = (paragraphTexts || []).map(function(t){ return stripHtml(String(t)); }).filter(Boolean);
+    if(!paras.length) return null;
+
+    var pillars = [];
+    var usedTitles = {};
+    var title = makeInsightTitle(pageTitle || '', paras[0] || '', paras[1] || '');
+    var pillarTexts = collectPillarTexts(paras, '');
+    pillarTexts.forEach(function(text){
+      pillars.push(buildPillar(text, ICON_CYCLE[pillars.length % ICON_CYCLE.length], pillars.length, usedTitles));
+    });
+    pillars = expandPillarsToThree(pillars);
+    if(!title || !pillars.length) return null;
+    return polishInsight({ title: title, statement: '', pillars: pillars });
+  }
+
   function cleanInsightText(text){
     if(text == null) return '';
     return String(text)
@@ -683,6 +699,7 @@
   global.ConceptInsightIntro = {
     resolve: resolveConceptIntroInsight,
     buildHTML: buildConceptInsightIntroHTML,
+    buildInsightFromParagraphs: buildInsightFromParagraphs,
     buildSpeech: buildConceptInsightSpeech,
     getGridMeta: getConceptGridMeta,
     ensurePanelChrome: ensureConceptPanelInsightChrome,

@@ -164,6 +164,15 @@
   border:0;
   background:transparent;
 }
+.portal .folder-page > .concept-intro-slot.concept-insight-intro-shell{
+  margin:0 0 16px;
+  padding:0;
+  max-width:none;
+}
+.portal .folder-page > .b2pl-folder-h[hidden],
+.portal .folder-page > .b2pl-cathead[hidden]{
+  display:none !important;
+}
 .concept-insight-intro{
   padding:0;
   margin:0 auto 12px;

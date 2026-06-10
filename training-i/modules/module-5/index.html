@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
-  @import url('/assets/concept-insight-intro.css?v=20260709');
+  @import url('/assets/concept-insight-intro.css?v=20260610');
 
   :root{
       --blue:#2d84b3;
@@ -2127,35 +2127,6 @@
     .b2pl-cathead--f4-2{ color:#F0E65C; }
     .b2pl-cathead--f4-3{ color:#8BAF6A; }
 
-    .portal .folder-page > .b2pl-folder-h[data-title-decorated="true"],
-    .portal .folder-page > .b2pl-cathead[data-title-decorated="true"]{
-      display:block;
-      font-size:inherit;
-      color:var(--concept-title-accent, #2d84b3);
-    }
-    .portal .folder-page > .b2pl-folder-h[data-title-decorated="true"] .concept-title-main,
-    .portal .folder-page > .b2pl-cathead[data-title-decorated="true"] .concept-title-main{
-      width:100%;
-    }
-    .portal .folder-page > .concept-section-card.section-intro.m5-nested-intro{
-      margin-top:0;
-    }
-    .portal .folder-page > .concept-section-card.section-intro.m5-nested-intro .concept-intro-kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      margin:0 0 10px;
-    }
-    .portal .folder-page > .concept-section-card.section-intro.m5-nested-intro p{
-      margin:0 0 0.75em;
-      line-height:1.6;
-      font-size:.93rem;
-      color:var(--ink);
-    }
-    .portal .folder-page > .concept-section-card.section-intro.m5-nested-intro p:last-child{
-      margin-bottom:0;
-    }
-
     .b2-screens .folder-page p,
     .b2-screens .folder-page .concept-activity-box p{
       overflow-wrap:break-word;
@@ -3094,7 +3065,7 @@
       margin:0 0 14px !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260709" />
+  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260610" />
   <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260707" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
@@ -3930,31 +3901,49 @@
       el.appendChild(wrap);
     }
 
-    function decorateNestedConceptTitles(scope){
+    function hideNestedPageTitles(scope){
       if(!scope) return;
-      scope.querySelectorAll('.b2pl-folder-h, .b2pl-cathead').forEach(function(el){
-        if(el.dataset.titleDecorated === 'true') return;
-        var rawTitle = (el.textContent || '').trim();
-        if(!rawTitle) return;
-        setConceptTitle(el, rawTitle, el.className, 'module5-nested');
-        el.dataset.titleDecorated = 'true';
+      scope.querySelectorAll('.folder-page > .b2pl-folder-h, .folder-page > .b2pl-cathead').forEach(function(el){
+        el.hidden = true;
+        el.setAttribute('aria-hidden', 'true');
       });
     }
 
     function upgradeNestedFolderIntros(scope){
       if(!scope) return;
-      scope.querySelectorAll('.folder-page > .concept-section-card.section-intro').forEach(function(intro){
+      scope.querySelectorAll('.b2-screen .folder-page > .concept-section-card.section-intro').forEach(function(intro){
         if(intro.dataset.proIntroReady === 'true') return;
-        if(!(intro.textContent || '').trim()) return;
-        intro.dataset.proIntroReady = 'true';
-        intro.classList.add('m5-nested-intro');
-        var oldHead = intro.querySelector(':scope > .concept-section-head');
-        if(oldHead) oldHead.remove();
-        if(!intro.querySelector(':scope > .concept-intro-kicker')){
-          intro.insertAdjacentHTML('afterbegin', (window.ConceptSectionIcons && ConceptSectionIcons.kickerHtml('intro')) ||
-            '<span class="concept-intro-kicker"><span class="icon icon--intro" aria-hidden="true"></span><span>Introduction</span></span>');
+        var paragraphs = Array.from(intro.querySelectorAll(':scope > p')).map(function(p){
+          return (p.textContent || '').trim();
+        }).filter(Boolean);
+        if(!paragraphs.length){
+          var fallback = (intro.textContent || '').trim();
+          if(!fallback) return;
+          paragraphs = [fallback];
         }
+        intro.dataset.proIntroReady = 'true';
+
+        var screen = intro.closest('.b2-screen');
+        var screenId = screen ? screen.getAttribute('data-b2-screen') : '';
+        var nestedEntry = (window.ConceptInsightNestedM5 && ConceptInsightNestedM5.get)
+          ? ConceptInsightNestedM5.get(screenId)
+          : null;
+        var insight = null;
+        if(nestedEntry && nestedEntry.insight){
+          insight = nestedEntry.insight;
+        } else if(window.ConceptInsightIntro && ConceptInsightIntro.buildInsightFromParagraphs){
+          var folderPage = intro.closest('.folder-page');
+          var pageTitleEl = folderPage ? folderPage.querySelector('.b2pl-folder-h, .b2pl-cathead') : null;
+          var pageTitle = pageTitleEl ? (pageTitleEl.textContent || '').trim() : '';
+          insight = ConceptInsightIntro.buildInsightFromParagraphs(pageTitle, paragraphs);
+        }
+        if(!insight || !window.ConceptInsightIntro || !ConceptInsightIntro.buildHTML) return;
+
+        intro.className = 'concept-intro-slot concept-insight-intro-shell m5-nested-intro';
+        intro.innerHTML = ConceptInsightIntro.buildHTML(insight);
+        ConceptInsightIntro.bindPillarCards(intro, { dataset: {} }, { restoreComplete: false });
       });
+      hideNestedPageTitles(scope);
       scope.querySelectorAll('.folder-page .concept-points-box > h4').forEach(function(h4){
         if(h4.dataset.proHeadReady === 'true') return;
         if(h4.querySelector('.icon.icon--key-ideas')) return;
@@ -3965,6 +3954,24 @@
           '<span class="icon icon--key-ideas" aria-hidden="true"></span><span>' + txt + '</span>';
       });
       if(window.ConceptSectionIcons) ConceptSectionIcons.scan(scope);
+    }
+
+    function updateNestedPanelTitle(panel, target, screenId){
+      var mainTitle = panel.querySelector('h4');
+      if(!mainTitle) return;
+      if(screenId === 'home'){
+        var data = conceptContent[target];
+        if(data && data.title){
+          setConceptTitle(mainTitle, data.title, screenId, target);
+        }
+        return;
+      }
+      var nestedEntry = (window.ConceptInsightNestedM5 && ConceptInsightNestedM5.get)
+        ? ConceptInsightNestedM5.get(screenId)
+        : null;
+      if(nestedEntry && nestedEntry.panelTitle){
+        setConceptTitle(mainTitle, nestedEntry.panelTitle, screenId, target);
+      }
     }
 
     const conceptContent = {
@@ -5886,29 +5893,14 @@
       const wrapper = panel.querySelector('[data-b2-screens="' + target + '"]');
       if(!wrapper) return;
       flattenNestedB2Screens(wrapper);
-      if(wrapper.dataset.initialized === 'true') return;
-      wrapper.dataset.initialized = 'true';
-      decorateNestedConceptTitles(wrapper);
-      upgradeNestedFolderIntros(wrapper);
 
       function showScreen(id){
         wrapper.querySelectorAll('.b2-screen').forEach(screen => {
           screen.classList.toggle('active', screen.getAttribute('data-b2-screen') === id);
         });
-        if(target === 'b3c1'){
-          const mainTitle = panel.querySelector('h4');
-          if(mainTitle){
-            const titleMap = {
-              home: 'Visual Schedules',
-              vs1: 'First & Then (2 Activities)',
-              vs2: 'First, Next & Then (3 Activities)',
-              vs3: 'Four or More Activities'
-            };
-            setConceptTitle(mainTitle, titleMap[id] || 'Visual Schedules', id, target);
-          }
-        }
+        updateNestedPanelTitle(panel, target, id);
         if(target === 'b2c3' || target === 'b2c2' || target === 'b3c1'){
-          const introSlot = panel.querySelector('.concept-intro-slot');
+          const introSlot = panel.querySelector('.concept-intro-slot:not(.m5-nested-intro)');
           if(introSlot){
             introSlot.style.display = (id === 'home') ? '' : 'none';
           }
@@ -5917,16 +5909,20 @@
         rewireConceptVisualExpand(panel);
       }
 
-      wrapper.addEventListener('click', function(e){
-        const btn = e.target.closest('[data-b2-go]');
-        if(!btn) return;
-        const next = btn.getAttribute('data-b2-go');
-        if(!next) return;
-        showScreen(next);
-        if(window.InPracticeSystem && InPracticeSystem.ensureStaticPointsBoxes){
-          InPracticeSystem.ensureStaticPointsBoxes(wrapper);
-        }
-      });
+      if(wrapper.dataset.initialized !== 'true'){
+        wrapper.dataset.initialized = 'true';
+        upgradeNestedFolderIntros(wrapper);
+        wrapper.addEventListener('click', function(e){
+          const btn = e.target.closest('[data-b2-go]');
+          if(!btn) return;
+          const next = btn.getAttribute('data-b2-go');
+          if(!next) return;
+          showScreen(next);
+          if(window.InPracticeSystem && InPracticeSystem.ensureStaticPointsBoxes){
+            InPracticeSystem.ensureStaticPointsBoxes(wrapper);
+          }
+        });
+      }
 
       showScreen('home');
       if(window.InPracticeSystem && InPracticeSystem.ensureStaticPointsBoxes){
@@ -6736,7 +6732,8 @@
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260707"></script>
   <script src="/shared/parent-subconcept-layout.js"></script>
-  <script src="/shared/concept-insight-intro.js?v=20260622"></script>
+  <script src="/shared/concept-insight-nested-m5.js?v=20260610"></script>
+  <script src="/shared/concept-insight-intro.js?v=20260610"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
   <script src="/shared/module-completion-flow.js"></script>
