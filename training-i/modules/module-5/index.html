@@ -3007,7 +3007,7 @@
       display:none !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260701" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260703" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css" />
@@ -5007,7 +5007,7 @@
       if(attrs && attrs['data-m5-b2-choice-mount']) shell.setAttribute('data-m5-b2-choice-mount', attrs['data-m5-b2-choice-mount']);
       if(attrs && attrs['data-m5-b2-nested-key']) shell.setAttribute('data-m5-b2-nested-key', attrs['data-m5-b2-nested-key']);
       shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
-        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>';
+        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity — Apply your understanding</span></div>';
       if(cfg.activityType){
         var typeLine = document.createElement('p');
         typeLine.className = 'activity-type-label';
@@ -5051,7 +5051,7 @@
       shell.className = 'concept-section-card section-activity-shell';
       shell.setAttribute('data-concept-activity-title', '');
       shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
-        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>';
+        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity — Apply your understanding</span></div>';
       if(cfg.activityType){
         var typeLine = document.createElement('p');
         typeLine.className = 'activity-type-label';
@@ -5106,7 +5106,7 @@
         shell.setAttribute('data-concept-activity-title', '');
         shell.setAttribute('data-m5-b2-choice-mount', 'b2c1');
         shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
-        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>';
+        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity — Apply your understanding</span></div>';
         if(bank.activityType){
           var typeB2c1 = document.createElement('p');
           typeB2c1.className = 'activity-type-label';
@@ -5896,7 +5896,9 @@
             if(raw.includes('key ideas for instructors') || (raw.includes(' - key ideas') && !raw.includes('instructors'))) iconType = 'keyIdeas';
             else if(raw.endsWith(' - activity') || raw === 'activity') iconType = 'activity';
             else if(raw === 'visual' || raw.endsWith(' - visual') || raw.endsWith(' - visual image') || displayTitle.toLowerCase() === 'visual image') iconType = 'visual';
-            if(iconType && window.ConceptSectionIcons){
+            if(iconType === 'activity' && window.ConceptSectionIcons){
+              title.innerHTML = ConceptSectionIcons.headInlineHtml('activity');
+            } else if(iconType && window.ConceptSectionIcons){
               title.innerHTML = ConceptSectionIcons.headInlineHtml(iconType, displayTitle);
             } else {
               let icon = iconBySection[raw] || iconBySection[displayTitle.toLowerCase()];
@@ -6132,6 +6134,9 @@
           panel: panel,
           exclude: ['[data-b2-screen="f1-s1"]']
         });
+      }
+      if(typeof ParentSubconceptLayout !== 'undefined'){
+        ParentSubconceptLayout.lockStandardConceptOrder(panel);
       }
 
       // Subconcept interaction (for concepts that define subConcepts)
@@ -6556,7 +6561,8 @@
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260701"></script>
+<script src="/shared/concept-section-icons.js?v=20260703"></script>
+  <script src="/shared/parent-subconcept-layout.js"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>

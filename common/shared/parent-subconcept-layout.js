@@ -1,50 +1,69 @@
 /**
  * Parent concept + subconcepts — shared layout helpers for clubSENsational training modules.
  *
- * CANONICAL REFERENCE (Module 2, Block 2, `data-panel-for="block2"`):
- * Static DOM order inside `.concept-panel` (after Back + title row):
- *   1. `.concept-panel-desc` — introduction
- *   2. `[data-concept-intro-media]` — optional hero / infographic (when populated)
- *   3. `[data-concept-primary-image]` — primary media slot (may be empty on some parents)
- *   4. `.concept-points-box` — Key Ideas for Instructors
- *   5. `.concept-insight-box[data-concept-insight]` — optional insight
- *   6. `[data-concept-micro-check]` — optional micro check
- *   7. `[data-concept-why]` — optional why-matters
- *   8. `[data-parent-subconcept-nav]` — subconcept navigation card (hidden until populated)
- *   9. `.concept-media-actions` — expand + Done
- *   10. `.concept-actions` — progress strip
- *
- * Concept data for parents should use `parentSubconceptNavHTML` (legacy: `b2c2StateButtonsHTML`).
- * Subconcept buttons live inside the nav card; wrap grids in `.concept-image` when module CSS
- * scopes factor/approach styles under `.concept-panel .concept-image`.
- *
- * Lock + pin are idempotent and safe on every render (load, refresh, Back).
+ * CANONICAL SECTION ORDER (after title row):
+ *   1. Introduction (.concept-intro-slot or .concept-panel-desc)
+ *   2. Optional intro media ([data-concept-intro-media])
+ *   3. Visual image slot (.concept-image / [data-concept-primary-image], or .concept-slide-block)
+ *   4. Key Ideas for Instructors (.concept-points-box)
+ *   5. Activity shell ([data-concept-activity-title] / [data-concept-activity-flow])
+ *   6. Optional insight / micro-check / why blocks
+ *   7. Subconcept navigation ([data-parent-subconcept-nav])
+ *   8. Media actions + progress row
  */
 (function(global){
   function getIntro(panel){
-    return panel.querySelector('.concept-panel-desc');
-  }
-  function getPoints(panel){
-    return panel.querySelector('.concept-points-box');
-  }
-  function getPrimaryImageSlot(panel){
-    return panel.querySelector('[data-concept-primary-image]') || panel.querySelector('.concept-image');
-  }
-  function getSubconceptNav(panel){
-    return panel.querySelector('[data-parent-subconcept-nav]');
+    if(!panel) return null;
+    var slot = panel.querySelector('.concept-intro-slot');
+    if(slot) return slot;
+    var desc = panel.querySelector('.concept-panel-desc');
+    if(desc) return desc;
+    var heading = panel.querySelector('.concept-heading-row');
+    if(heading){
+      var next = heading.nextElementSibling;
+      if(next && next.tagName === 'P' && !next.closest('.concept-points-box')) return next;
+    }
+    return null;
   }
 
-  /**
-   * @param {HTMLElement} panel
-   * @returns {boolean} true when this panel includes a subconcept nav mount point
-   */
+  function getPoints(panel){
+    return panel ? panel.querySelector('.concept-points-box') : null;
+  }
+
+  function getPrimaryImageSlot(panel){
+    if(!panel) return null;
+    var image = panel.querySelector('[data-concept-primary-image]') || panel.querySelector('.concept-image');
+    if(!image) return null;
+    var slideBlock = image.closest('.concept-slide-block');
+    if(slideBlock && slideBlock.parentNode === panel) return slideBlock;
+    return image;
+  }
+
+  function getSubconceptNav(panel){
+    return panel ? panel.querySelector('[data-parent-subconcept-nav]') : null;
+  }
+
+  function getActivityShell(panel){
+    if(!panel) return null;
+    return panel.querySelector('[data-concept-activity-title]') || panel.querySelector('[data-concept-activity-flow]');
+  }
+
   function panelHasSubconceptNavSlot(panel){
     return !!(panel && panel.querySelector('[data-parent-subconcept-nav]'));
   }
 
+  function chainAfter(anchor, el){
+    if(!anchor || !el || anchor === el) return anchor;
+    anchor.insertAdjacentElement('afterend', el);
+    return el;
+  }
+
+  function isInsideNav(nav, node){
+    return !!(nav && node && nav.contains(node));
+  }
+
   /**
-   * Ensures Introduction → (optional intro media) → primary image slot → Key Ideas at the top
-   * of the panel. Does not move the subconcept nav (that is pinned separately).
+   * Ensures Introduction → visual → Key Ideas → Activity at the top of the concept stack.
    * @param {HTMLElement} panel
    */
   function lockIntroductionKeyIdeasPrimaryImage(panel){
@@ -54,46 +73,73 @@
     var image = getPrimaryImageSlot(panel);
     var introMedia = panel.querySelector('[data-concept-intro-media]');
     var nav = getSubconceptNav(panel);
-    if(!intro || !points || !image) return;
-    if(nav && (nav.contains(image) || nav.contains(intro) || nav.contains(points))) return;
-    if(nav && introMedia && nav.contains(introMedia)) return;
 
-    var hasIntroMedia = introMedia && (introMedia.innerHTML || '').trim();
-    if(hasIntroMedia){
-      intro.insertAdjacentElement('afterend', introMedia);
-      introMedia.insertAdjacentElement('afterend', image);
-      image.insertAdjacentElement('afterend', points);
-    } else {
-      intro.insertAdjacentElement('afterend', image);
-      image.insertAdjacentElement('afterend', points);
+    if(!intro || !points || !image) return;
+    if(isInsideNav(nav, image) || isInsideNav(nav, intro) || isInsideNav(nav, points)) return;
+    if(isInsideNav(nav, introMedia)) return;
+
+    var anchor = intro;
+    if(introMedia && (introMedia.innerHTML || '').trim()){
+      anchor = chainAfter(anchor, introMedia);
     }
+    anchor = chainAfter(anchor, image);
+    chainAfter(anchor, points);
   }
 
   /**
-   * Keeps the subconcept navigation card at the bottom of the concept stack, directly
-   * above the media / Done row, so Calm–Alert–Overloaded (and similar) stay grouped.
+   * Full concept section order including activity and footer controls.
    * @param {HTMLElement} panel
    */
+  function lockStandardConceptOrder(panel){
+    if(!panel) return;
+
+    var nav = getSubconceptNav(panel);
+    if(nav && nav.parentNode === panel){
+      lockIntroductionKeyIdeasPrimaryImage(panel);
+      pinSubconceptNavBeforeMediaActions(panel);
+    }
+
+    var intro = getIntro(panel);
+    if(!intro || intro.parentNode !== panel) return;
+
+    var introMedia = panel.querySelector('[data-concept-intro-media]');
+    var image = getPrimaryImageSlot(panel);
+    var points = getPoints(panel);
+    var activity = getActivityShell(panel);
+    var insight = panel.querySelector('[data-concept-insight]');
+    var micro = panel.querySelector('[data-concept-micro-check]');
+    var why = panel.querySelector('[data-concept-why]');
+    var media = panel.querySelector('.concept-media-actions');
+    var actions = panel.querySelector('.concept-actions');
+
+    if(isInsideNav(nav, intro) || isInsideNav(nav, image) || isInsideNav(nav, points)) return;
+
+    var anchor = intro;
+    if(introMedia && (introMedia.innerHTML || '').trim() && !isInsideNav(nav, introMedia)){
+      anchor = chainAfter(anchor, introMedia);
+    }
+    if(image && !isInsideNav(nav, image)) anchor = chainAfter(anchor, image);
+    if(points && !isInsideNav(nav, points)) anchor = chainAfter(anchor, points);
+    if(activity && activity.parentNode === panel) anchor = chainAfter(anchor, activity);
+    if(insight && insight.parentNode === panel) anchor = chainAfter(anchor, insight);
+    if(micro && micro.parentNode === panel) anchor = chainAfter(anchor, micro);
+    if(why && why.parentNode === panel) anchor = chainAfter(anchor, why);
+    if(nav && nav.parentNode === panel) anchor = chainAfter(anchor, nav);
+    if(media && media.parentNode === panel) anchor = chainAfter(anchor, media);
+    if(actions && actions.parentNode === panel) chainAfter(anchor, actions);
+  }
+
   function pinSubconceptNavBeforeMediaActions(panel){
     var nav = getSubconceptNav(panel);
-    var media = panel.querySelector('.concept-media-actions');
+    var media = panel ? panel.querySelector('.concept-media-actions') : null;
     if(!nav || !media || !media.parentNode) return;
     media.parentNode.insertBefore(nav, media);
   }
 
-  /**
-   * Full normalisation for panels that use the shared subconcept slot.
-   * @param {HTMLElement} panel
-   */
   function lockParentSubconceptOrder(panel){
-    lockIntroductionKeyIdeasPrimaryImage(panel);
-    pinSubconceptNavBeforeMediaActions(panel);
+    lockStandardConceptOrder(panel);
   }
 
-  /**
-   * @param {HTMLElement} panel
-   * @returns {string|null} HTML for the nav card from concept data (supports legacy keys)
-   */
   function getParentSubconceptNavMarkupFromData(data){
     if(!data) return null;
     if(data.parentSubconceptNavHTML) return String(data.parentSubconceptNavHTML);
@@ -104,10 +150,12 @@
   global.ParentSubconceptLayout = {
     panelHasSubconceptNavSlot: panelHasSubconceptNavSlot,
     lockIntroductionKeyIdeasPrimaryImage: lockIntroductionKeyIdeasPrimaryImage,
+    lockStandardConceptOrder: lockStandardConceptOrder,
     pinSubconceptNavBeforeMediaActions: pinSubconceptNavBeforeMediaActions,
     lockParentSubconceptOrder: lockParentSubconceptOrder,
     getParentSubconceptNavMarkupFromData: getParentSubconceptNavMarkupFromData,
     getSubconceptNav: getSubconceptNav,
-    getPrimaryImageSlot: getPrimaryImageSlot
+    getPrimaryImageSlot: getPrimaryImageSlot,
+    getIntro: getIntro
   };
 })(typeof window !== 'undefined' ? window : this);

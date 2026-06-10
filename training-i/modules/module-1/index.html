@@ -3436,7 +3436,7 @@
     min-width:0;
   }
 </style>
-<link rel="stylesheet" href="/assets/training-content-containment.css?v=20260701" />
+<link rel="stylesheet" href="/assets/training-content-containment.css?v=20260703" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css" />
@@ -5645,11 +5645,13 @@
     var leftHtml = config.pairs.map(function(p){ return '<button class="match-item" data-match-id="' + p.id + '" type="button">' + p.left + '</button>'; }).join('');
     var rightHtml = config.pairs.slice().reverse().map(function(p){ return '<button class="match-item" data-match-id="' + p.id + '" type="button">' + p.right + '</button>'; }).join('');
     var questionHtml = config.q ? ('<p class="activity-question">' + config.q + '</p>') : '';
+    var leftIcon = (window.ConceptSectionIcons && ConceptSectionIcons.matchColumnIconHtml) ? ConceptSectionIcons.matchColumnIconHtml('left') : '';
+    var rightIcon = (window.ConceptSectionIcons && ConceptSectionIcons.matchColumnIconHtml) ? ConceptSectionIcons.matchColumnIconHtml('right') : '';
     var content = (
       questionHtml +
       '<div class="matching-wrap">' +
-        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + config.leftTitle + '</h5><div class="match-items">' + leftHtml + '</div></div>' +
-        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + config.rightTitle + '</h5><div class="match-items">' + rightHtml + '</div></div>' +
+        '<div class="match-column match-land"><h5 class="match-column-title">' + leftIcon + config.leftTitle + '</h5><div class="match-items">' + leftHtml + '</div></div>' +
+        '<div class="match-column match-water"><h5 class="match-column-title">' + rightIcon + config.rightTitle + '</h5><div class="match-items">' + rightHtml + '</div></div>' +
       '</div>'
     );
     return buildActivityContainerShell({ variant:'matching', instruction:'Click one item on the left, then click the matching item on the right.', contentHtml: content });
@@ -5998,7 +6000,7 @@
       activityTitleEl.setAttribute('data-concept-activity-title', '');
       activityTitleEl.className = 'concept-section-card section-activity-shell';
       activityTitleEl.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
-        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>';
+        '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity — Apply your understanding</span></div>';
       if(whyEl && whyEl.parentNode){
         whyEl.insertAdjacentElement('afterend', activityTitleEl);
       } else if(imageEl && imageEl.parentNode){
@@ -6078,12 +6080,12 @@
       if(pointsHeading) pointsHeading.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.nestedHeadHtml('keyIdeas')) ||
         '<span class="concept-section-head concept-section-head--key-ideas"><span class="icon icon--key-ideas" aria-hidden="true"></span><span>Key ideas for instructors</span></span>';
     }
-    const introSlotEl = panel.querySelector('.concept-intro-slot');
-    if(introSlotEl && imageEl) introSlotEl.insertAdjacentElement('afterend', imageEl);
-    if(imageEl && pointsBoxEl) imageEl.insertAdjacentElement('afterend', pointsBoxEl);
-    if(pointsBoxEl && activityTitleEl) pointsBoxEl.insertAdjacentElement('afterend', activityTitleEl);
-    if(activityTitleEl && activityGuideEl) activityTitleEl.appendChild(activityGuideEl);
-    if(activityTitleEl && activityEl) activityTitleEl.appendChild(activityEl);
+    if(activityTitleEl && activityGuideEl && activityGuideEl.parentNode !== activityTitleEl){
+      activityTitleEl.appendChild(activityGuideEl);
+    }
+    if(activityTitleEl && activityEl && activityEl.parentNode !== activityTitleEl){
+      activityTitleEl.appendChild(activityEl);
+    }
     // Instructor thinking / why-matters blocks intentionally removed by request
 
     const microEl = panel.querySelector('[data-concept-micro-check]');
@@ -6238,6 +6240,9 @@
 
     if(window.ConceptVisualExpand){
       ConceptVisualExpand.wire(panel, { panel: panel });
+    }
+    if(typeof ParentSubconceptLayout !== 'undefined'){
+      ParentSubconceptLayout.lockStandardConceptOrder(panel);
     }
 
     if(block === 'block1' && target === 'b1c2'){
@@ -6669,7 +6674,8 @@
 <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260701"></script>
+<script src="/shared/concept-section-icons.js?v=20260703"></script>
+<script src="/shared/parent-subconcept-layout.js"></script>
 <script src="/shared/concept-visual-expand-system.js?v=20260627"></script>
 <script src="/shared/concept-insight-intro.js?v=20260622"></script>
 <script src="/shared/review-item-clicks.js"></script>

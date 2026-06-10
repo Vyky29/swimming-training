@@ -3,7 +3,7 @@
 
   var DEFAULT_LABELS = {
     keyIdeas: 'Key ideas for instructors',
-    activity: 'Check your understanding',
+    activity: 'Activity \u2014 Apply your understanding',
     visual: 'Concept visual'
   };
 
@@ -29,6 +29,22 @@
       '<rect x="3" y="5" width="18" height="14" rx="2.2"/>' +
       '<circle cx="8.5" cy="10" r="1.5"/>' +
       '<path d="M21 16 16 11l-4 4-2.5-2.5L3 17"/>' +
+    '</svg>';
+
+  var MATCH_LEFT_SVG =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M8 6h13"/>' +
+      '<path d="M8 12h13"/>' +
+      '<path d="M8 18h13"/>' +
+      '<path d="M3 6h.01"/>' +
+      '<path d="M3 12h.01"/>' +
+      '<path d="M3 18h.01"/>' +
+    '</svg>';
+
+  var MATCH_RIGHT_SVG =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>' +
+      '<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>' +
     '</svg>';
 
   var EMOJI_TYPES = {
@@ -119,6 +135,7 @@
   function scan(root) {
     var scope = root || document;
     scope.querySelectorAll('.concept-section-head .icon').forEach(upgradeIcon);
+    upgradeMatchColumnIcons(scope);
     repairBrokenHeads(scope);
   }
 
@@ -147,6 +164,22 @@
       '<span class="icon ' + modifierClass(type) + '" aria-hidden="true">' + svgFor(type) + '</span>' +
       resolveLabel(type, label)
     );
+  }
+
+  function matchColumnIconHtml(side) {
+    var isRight = String(side || '').toLowerCase() === 'right';
+    var mod = isRight ? 'icon--match-right' : 'icon--match-left';
+    var svg = isRight ? MATCH_RIGHT_SVG : MATCH_LEFT_SVG;
+    return '<span class="match-title-icon icon ' + mod + '" aria-hidden="true">' + svg + '</span>';
+  }
+
+  function upgradeMatchColumnIcons(root) {
+    (root || document).querySelectorAll('.match-column-title .match-title-icon').forEach(function (el) {
+      if (el.querySelector('svg')) return;
+      var isRight = !!(el.closest('.match-water') || el.closest('.match-pool'));
+      el.className = 'match-title-icon icon ' + (isRight ? 'icon--match-right' : 'icon--match-left');
+      el.innerHTML = isRight ? MATCH_RIGHT_SVG : MATCH_LEFT_SVG;
+    });
   }
 
   var observer = new MutationObserver(function (mutations) {
@@ -182,6 +215,7 @@
     headHtml: headHtml,
     nestedHeadHtml: nestedHeadHtml,
     headInlineHtml: headInlineHtml,
+    matchColumnIconHtml: matchColumnIconHtml,
     refreshShell: refreshShell,
     upgrade: upgradeIcon,
     scan: scan

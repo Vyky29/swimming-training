@@ -3201,8 +3201,10 @@
       align-items:stretch;
       animation:fadeUp .25s ease;
     }
+    .concept-panel.show > .concept-intro-slot{ order:1; }
     .concept-panel.show > .concept-panel-desc{ order:1; }
     .concept-panel.show > [data-concept-intro-media]{ order:2; }
+    .concept-panel.show > .concept-slide-block{ order:3; }
     .concept-panel.show > .concept-image{ order:3; }
     .concept-panel.show > .concept-points-box{ order:4; }
     .concept-panel.show > [data-concept-activity-flow]{ order:5; }
@@ -4891,7 +4893,7 @@
       min-width:0;
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260701" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260703" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css" />
@@ -8120,8 +8122,12 @@
 
   function enforceUnifiedConceptFlow(panel){
     if(!panel) return;
-    var intro = panel.querySelector('.concept-panel-desc');
-    var image = panel.querySelector('[data-concept-primary-image]') || panel.querySelector('.concept-image');
+    var intro = (typeof ParentSubconceptLayout !== 'undefined' && ParentSubconceptLayout.getIntro)
+      ? ParentSubconceptLayout.getIntro(panel)
+      : panel.querySelector('.concept-panel-desc');
+    var image = (typeof ParentSubconceptLayout !== 'undefined' && ParentSubconceptLayout.getPrimaryImageSlot)
+      ? ParentSubconceptLayout.getPrimaryImageSlot(panel)
+      : (panel.querySelector('[data-concept-primary-image]') || panel.querySelector('.concept-image'));
     var ideas = panel.querySelector('.concept-points-box');
     var nav = panel.querySelector('[data-parent-subconcept-nav]');
     var isFlatWithNav = panel.getAttribute('data-concept-flow') === 'flat' && nav && !nav.hasAttribute('hidden');
@@ -8172,8 +8178,11 @@
     }
     // Move activity blocks out of the image container so order is always:
     // Intro -> optional intro media -> primary slot -> Key Ideas -> Activity.
-    var embeddedActivities = image
-      ? Array.from(image.querySelectorAll(':scope > .concept-activity-section, :scope > .concept-activity-interactive, :scope > [data-activity]'))
+    var imageInner = image && image.matches && image.matches('.concept-image')
+      ? image
+      : (image ? (image.querySelector('.concept-image') || image) : null);
+    var embeddedActivities = imageInner
+      ? Array.from(imageInner.querySelectorAll(':scope > .concept-activity-section, :scope > .concept-activity-interactive, :scope > [data-activity]'))
       : [];
     var activityHost = panel.querySelector('[data-concept-activity-flow]');
     if(embeddedActivities.length){
@@ -8185,7 +8194,7 @@
       activityHost.style.display = '';
       activityHost.classList.add('concept-section-card','section-activity-shell');
       activityHost.insertAdjacentHTML('afterbegin', (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
-        '<div class="concept-section-head concept-section-head--activity activity-shell-head"><span class="icon icon--activity" aria-hidden="true"></span><span>Check your understanding</span></div>');
+        '<div class="concept-section-head concept-section-head--activity activity-shell-head"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity — Apply your understanding</span></div>');
       var guideEl = document.createElement('p');
       guideEl.className = 'activity-mini-guide';
       guideEl.textContent = getActivityMiniGuideText(embeddedActivities[0]);
@@ -8210,19 +8219,10 @@
     }
 
     var actHost = panel.querySelector('[data-concept-activity-flow]') || panel;
-    // Final deterministic order safeguard (all concept flows keep image before Key Ideas)
-    var introMedia = panel.querySelector('[data-concept-intro-media]');
-    var orderNodes = [intro, introMedia, image, ideas, actHost];
-    orderNodes.forEach(function(node){
-      if(node && node.parentNode === panel){
-        panel.appendChild(node);
-      }
-    });
-    if(typeof ParentSubconceptLayout !== 'undefined' && nav){
-      ParentSubconceptLayout.lockIntroductionKeyIdeasPrimaryImage(panel);
-      ParentSubconceptLayout.pinSubconceptNavBeforeMediaActions(panel);
+    if(typeof ParentSubconceptLayout !== 'undefined'){
+      ParentSubconceptLayout.lockStandardConceptOrder(panel);
     }
-    /* Module 4 — b3c2 parent: Introduction → intro media (infographic) → primary slot → Key Ideas; subconcept nav pinned above Done */
+    /* Module 4 — b3c2 parent: intro media before primary slot when infographic is present */
     if(panel.dataset.currentTarget === 'b3c2'){
       var introB3 = panel.querySelector('.concept-panel-desc');
       var mediaB3 = panel.querySelector('[data-concept-intro-media]');
@@ -8720,6 +8720,9 @@
       }
 
       setupConceptPanelImageExpandButtons(panel);
+      if(typeof ParentSubconceptLayout !== 'undefined'){
+        ParentSubconceptLayout.lockStandardConceptOrder(panel);
+      }
 
       updateConceptProgress(block);
       scrollPanelIntoView(panel);
@@ -10076,7 +10079,7 @@
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260701"></script>
+<script src="/shared/concept-section-icons.js?v=20260703"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
