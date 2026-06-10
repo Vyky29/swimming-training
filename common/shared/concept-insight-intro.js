@@ -513,7 +513,7 @@
       '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
         '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + cleanInsightText(insight.title) + '</h5>',
         statementHtml,
-        '<p class="cards-review-hint">Click each card below once you\u2019ve read it.</p>',
+        '<p class="cards-review-hint">Read each point below, then click to confirm you\'ve read it.</p>',
         '<div class="concept-insight-intro__cards" data-pillar-count="' + pillarList.length + '">' + pillars + '</div>',
       '</div>'
     ].join('');

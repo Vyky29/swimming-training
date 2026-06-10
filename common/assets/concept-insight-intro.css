@@ -178,6 +178,7 @@
   color:#1e4d68;
   letter-spacing:.01em;
   text-transform:none;
+  text-align:center;
   max-width:38rem;
 }
 .concept-insight-intro__title::after{
@@ -216,9 +217,9 @@
   min-height:100%;
   display:flex;
   flex-direction:column;
-  align-items:flex-start;
-  gap:8px;
-  text-align:left;
+  align-items:center;
+  gap:10px;
+  text-align:center;
   flex:0 1 240px;
   max-width:280px;
   cursor:pointer;
@@ -299,12 +300,16 @@
   font-weight:700;
   color:var(--ink, #163247);
   letter-spacing:.01em;
+  text-align:center;
+  width:100%;
 }
 .concept-insight-pillar__text{
   margin:0;
   font-size:.86rem;
   line-height:1.55;
   color:var(--text, #314555);
+  text-align:center;
+  width:100%;
 }
 @media (max-width:768px){
   .portal .concept-panel--insight-layout .concept-panel-title-display{

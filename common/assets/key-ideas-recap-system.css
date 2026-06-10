@@ -110,21 +110,7 @@
   line-height:1;
 }
 
-.outcome.clicked .outcome-index{
-  background:var(--blue,#2d84b3);
-  color:#fff;
-}
-
-.outcome.clicked::after{
-  content:'\2713';
-  font-weight:700;
-  color:var(--blue,#2d84b3);
-  margin-left:auto;
-  flex-shrink:0;
-  align-self:center;
-  font-size:1.1rem;
-  line-height:1;
-}
+/* Outcome card completion — see review-cards-visual-system.css */
 
 #recap .recap-takeaway-card__body,
 #keyideas .recap-takeaway-card__body{
