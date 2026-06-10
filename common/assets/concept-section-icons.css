@@ -3,24 +3,28 @@
  * Loaded after module inline styles via training-content-containment.css.
  */
 
-.portal .concept-section-head .icon {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  border-radius: 9px;
-  display: inline-flex;
+.portal .concept-section-head .icon.icon--key-ideas,
+.portal .concept-section-head .icon.icon--activity,
+.portal .concept-section-head .icon.icon--visual {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  border-radius: 9px !important;
+  display: inline-flex !important;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  font-size: 0;
-  line-height: 0;
-  font-weight: 400;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  font-weight: 400 !important;
 }
 
-.portal .concept-section-head .icon svg {
-  width: 16px;
-  height: 16px;
-  display: block;
+.portal .concept-section-head .icon.icon--key-ideas svg,
+.portal .concept-section-head .icon.icon--activity svg,
+.portal .concept-section-head .icon.icon--visual svg {
+  width: 16px !important;
+  height: 16px !important;
+  display: block !important;
 }
 
 .portal .concept-section-head .icon--key-ideas {

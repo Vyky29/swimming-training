@@ -23,7 +23,7 @@
       '<path d="m9 13 2 2 4-4.5"/>' +
     '</svg>';
 
-  /* Image frame ó concept visual */
+  /* Image frame ù concept visual */
   var VISUAL_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<rect x="3" y="5" width="18" height="14" rx="2.2"/>' +
@@ -98,8 +98,28 @@
     return true;
   }
 
+  function refreshShell(shellEl, type, label) {
+    if (!shellEl || !type) return;
+    var head = shellEl.querySelector(':scope > .concept-section-head');
+    var tag = (head && head.tagName.toLowerCase() === 'span') ? 'span' : 'div';
+    var html = headHtml(type, label, tag);
+    if (head) head.outerHTML = html;
+    else shellEl.insertAdjacentHTML('afterbegin', html);
+    scan(shellEl);
+  }
+
+  function repairBrokenHeads(root) {
+    (root || document).querySelectorAll('[data-concept-activity-title], [data-concept-activity-flow]').forEach(function (shell) {
+      var icon = shell.querySelector('.concept-section-head .icon');
+      if (!icon || icon.querySelector('svg')) return;
+      refreshShell(shell, 'activity');
+    });
+  }
+
   function scan(root) {
-    (root || document).querySelectorAll('.concept-section-head .icon').forEach(upgradeIcon);
+    var scope = root || document;
+    scope.querySelectorAll('.concept-section-head .icon').forEach(upgradeIcon);
+    repairBrokenHeads(scope);
   }
 
   function resolveLabel(type, label) {
@@ -162,6 +182,7 @@
     headHtml: headHtml,
     nestedHeadHtml: nestedHeadHtml,
     headInlineHtml: headInlineHtml,
+    refreshShell: refreshShell,
     upgrade: upgradeIcon,
     scan: scan
   };

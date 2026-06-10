@@ -3007,7 +3007,7 @@
       display:none !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260625" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260701" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css" />
@@ -5075,6 +5075,7 @@
         shell.appendChild(guide);
         shell.appendChild(slot);
         pointsBox.insertAdjacentElement('afterend', shell);
+        if(window.ConceptSectionIcons) ConceptSectionIcons.scan(shell);
         setupBlock2ActivityInShell(shell, panel, block, target, cfg, { markCompleteInitially: !!alreadyCompleted });
         return;
       }
@@ -5083,6 +5084,7 @@
       shell.appendChild(guide);
       shell.appendChild(slot);
       pointsBox.insertAdjacentElement('afterend', shell);
+      if(window.ConceptSectionIcons) ConceptSectionIcons.scan(shell);
       setupChoiceActivityInShell(shell, panel, block, target, cfg, { markCompleteInitially: !!alreadyCompleted });
     }
 
@@ -6554,7 +6556,7 @@
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260629"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260630"></script>
+<script src="/shared/concept-section-icons.js?v=20260701"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
