@@ -1,58 +1,34 @@
 /**
- * Visual expand guidance + shared expand-button styling.
+ * Visual section shell + shared expand-button styling.
+ * Title + guide follow the same pattern as Activity sections.
  */
 
-.portal .concept-visual-hint {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+.portal .concept-section-card.section-visual-shell {
+  border-color: rgba(45, 132, 179, .22);
+  background: linear-gradient(180deg, #f5fbff 0%, #ffffff 100%);
+  padding: 14px;
+  overflow: hidden;
+}
+
+.portal .section-visual-shell > .concept-section-head {
+  margin-bottom: 10px;
+}
+
+.portal .concept-visual-guide {
   margin: 0 0 14px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(232, 244, 251, .78) 0%, rgba(248, 252, 254, .52) 100%);
-  border: 1px solid rgba(45, 132, 179, .14);
-  font-size: .84rem;
-  font-weight: 500;
+  font-size: .88rem;
+  font-weight: 600;
+  color: rgba(45, 132, 179, .95);
   line-height: 1.5;
-  letter-spacing: .01em;
-  color: rgba(74, 122, 150, .9);
+  text-align: left;
 }
 
-.portal .concept-section-card.visual-direct > .concept-visual-hint,
-.portal .concept-image > .concept-visual-hint,
-.portal [data-concept-primary-image] > .concept-visual-hint,
-.portal [data-concept-intro-media] > .concept-visual-hint {
-  margin-top: 0;
+.portal .section-visual-shell > .concept-visual-guide {
+  margin-bottom: 14px;
 }
 
-.portal .concept-section-card > .concept-section-head + .concept-visual-hint {
+.portal .concept-section-card > .concept-section-head + .concept-visual-guide {
   margin-top: -2px;
-}
-
-.portal .concept-visual-hint__text {
-  flex: 1;
-  min-width: 0;
-  padding-top: 1px;
-}
-
-.portal .concept-visual-hint__icon {
-  width: 30px;
-  height: 30px;
-  min-width: 30px;
-  border-radius: 8px;
-  background: linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%);
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(45, 132, 179, .2);
-}
-
-.portal .concept-visual-hint__icon svg {
-  width: 14px;
-  height: 14px;
-  display: block;
 }
 
 .portal .img-expand-btn {

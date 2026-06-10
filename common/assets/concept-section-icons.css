@@ -29,7 +29,8 @@
   box-shadow: 0 4px 10px rgba(45, 132, 179, .22);
 }
 
-.portal .concept-section-head .icon--activity {
+.portal .concept-section-head .icon--activity,
+.portal .concept-section-head .icon--visual {
   background: rgba(45, 132, 179, .12);
   color: #2d84b3;
   border: 1px solid rgba(45, 132, 179, .18);

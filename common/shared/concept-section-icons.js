@@ -16,26 +16,40 @@
       '<path d="M8.5 14h4.5"/>' +
     '</svg>';
 
+  var VISUAL_SVG =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<rect x="3.5" y="5.5" width="17" height="13" rx="2"/>' +
+      '<circle cx="9" cy="10" r="1.35"/>' +
+      '<path d="M20.5 16.5 15 11l-3.5 3.5-2-2-5.5 5.5"/>' +
+    '</svg>';
+
   var EMOJI_TYPES = {
     '\u{1F9E9}': 'keyIdeas',
     '\u2705': 'activity',
-    '\u2713': 'activity'
+    '\u2713': 'activity',
+    '\u{1F5BC}\uFE0F': 'visual',
+    '\u{1F5BC}': 'visual'
   };
 
   function svgFor(type) {
     if (type === 'keyIdeas') return KEY_IDEAS_SVG;
     if (type === 'activity') return ACTIVITY_SVG;
+    if (type === 'visual') return VISUAL_SVG;
     return '';
   }
 
   function modifierClass(type) {
-    return type === 'keyIdeas' ? 'icon--key-ideas' : 'icon--activity';
+    if (type === 'keyIdeas') return 'icon--key-ideas';
+    if (type === 'activity') return 'icon--activity';
+    if (type === 'visual') return 'icon--visual';
+    return '';
   }
 
   function detectType(iconEl, headEl) {
     if (!iconEl) return '';
     if (iconEl.classList.contains('icon--key-ideas')) return 'keyIdeas';
     if (iconEl.classList.contains('icon--activity')) return 'icon--activity';
+    if (iconEl.classList.contains('icon--visual')) return 'visual';
 
     var text = (iconEl.textContent || '').trim();
     if (EMOJI_TYPES[text]) return EMOJI_TYPES[text];
@@ -43,6 +57,7 @@
     var headText = ((headEl && headEl.textContent) || '').toLowerCase();
     if (/key ideas/.test(headText)) return 'keyIdeas';
     if (/activity/.test(headText)) return 'activity';
+    if (/visual|concept image/.test(headText)) return 'visual';
     return '';
   }
 

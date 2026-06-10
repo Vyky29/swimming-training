@@ -2,6 +2,7 @@
   'use strict';
 
   var HINT_COPY = 'Use the expand icon to view the full image.';
+  var VISUAL_LABEL = 'Visual Image';
 
   var EXPAND_ICON_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -16,6 +17,11 @@
     '.b3c2-concept-hero img, .concept-section-card img, .concept-activity-box img, ' +
     '.block-intro-slide .concept-image img, .b2c2-direct-image img, .b2c3-direct-image img, ' +
     '.entry-exit-fan-item img, figure img';
+
+  var MEDIA_CHILD_SELECTORS =
+    ':scope > .concept-activity-box, :scope > .b2c2-direct-image, :scope > .b2c3-direct-image, ' +
+    ':scope > [data-concept-primary-image], :scope > [data-concept-intro-media], ' +
+    ':scope > .b3c2-concept-hero, :scope > figure, :scope > img';
 
   var modalOpener = null;
 
@@ -65,7 +71,7 @@
     );
   }
 
-  function getHintSection(host) {
+  function getVisualSection(host) {
     if (!host) return null;
     return (
       host.closest('.concept-section-card') ||
@@ -78,53 +84,139 @@
     );
   }
 
-  function buildHint() {
-    var hint = document.createElement('p');
-    hint.className = 'concept-visual-hint';
-    hint.innerHTML =
-      '<span class="concept-visual-hint__icon" aria-hidden="true">' + EXPAND_ICON_SVG + '</span>' +
-      '<span class="concept-visual-hint__text">' + HINT_COPY + '</span>';
-    return hint;
+  function isVisualHead(head) {
+    if (!head) return false;
+    var text = (head.textContent || '').toLowerCase();
+    if (/key ideas|activity|introduction|intro|in practice/.test(text)) return false;
+    return /visual|concept image|\u{1f5bc}/u.test(text);
   }
 
-  function insertHint(section) {
-    if (!section || section.querySelector(':scope > .concept-visual-hint')) return;
-
-    var hint = buildHint();
-    var head =
-      section.querySelector(':scope > .concept-section-head') ||
-      section.querySelector(':scope > h5.concept-section-head');
-    var media =
-      section.querySelector(':scope > .concept-activity-box') ||
-      section.querySelector(':scope > .concept-image') ||
-      section.querySelector(':scope > [data-concept-primary-image]') ||
-      section.querySelector(':scope > [data-concept-intro-media]') ||
-      section.querySelector(':scope > .b3c2-concept-hero') ||
-      section.querySelector(':scope > figure') ||
-      section.querySelector(':scope > img');
-
-    if (head) {
-      head.insertAdjacentElement('afterend', hint);
-      return;
+  function isVisualOnlySection(section) {
+    if (!section) return false;
+    if (section.classList.contains('concept-image')) return true;
+    if (section.matches('[data-concept-primary-image], [data-concept-intro-media], .b3c2-concept-hero')) {
+      return true;
     }
+    var head = section.querySelector(':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head');
+    if (!head || !isVisualHead(head)) return false;
+    return !section.querySelector(
+      ':scope > .concept-points-box, :scope > .section-activity, :scope > .concept-section-card.section-ideas'
+    );
+  }
+
+  function findFirstMediaChild(section) {
+    if (!section || !section.querySelector) return null;
+    var selectors = MEDIA_CHILD_SELECTORS.split(',').map(function (part) {
+      return part.trim();
+    });
+    for (var i = 0; i < selectors.length; i++) {
+      var node = section.querySelector(selectors[i]);
+      if (node) return node;
+    }
+    return null;
+  }
+
+  function buildVisualHeadHtml(label, tagName) {
+    tagName = tagName || 'div';
+    if (window.ConceptSectionIcons) {
+      return ConceptSectionIcons.headHtml('visual', label, tagName);
+    }
+    return (
+      '<' + tagName + ' class="concept-section-head" data-visual-head-auto="true">' +
+        '<span class="icon icon--visual" aria-hidden="true">' + EXPAND_ICON_SVG + '</span>' +
+        '<span>' + label + '</span>' +
+      '</' + tagName + '>'
+    );
+  }
+
+  function ensureVisualHead(section) {
+    var head = section.querySelector(
+      ':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head'
+    );
+
+    if (head && !isVisualHead(head)) return head;
+
+    if (head && isVisualHead(head)) {
+      head.outerHTML = buildVisualHeadHtml(VISUAL_LABEL, head.tagName.toLowerCase());
+      return section.querySelector(
+        ':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head'
+      );
+    }
+
+    var media = findFirstMediaChild(section);
+    var html = buildVisualHeadHtml(VISUAL_LABEL);
     if (media) {
-      section.insertBefore(hint, media);
-      return;
+      media.insertAdjacentHTML('beforebegin', html);
+    } else {
+      section.insertAdjacentHTML('afterbegin', html);
     }
-    section.insertBefore(hint, section.firstChild);
+
+    head = section.querySelector(':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head');
+    if (head) head.setAttribute('data-visual-head-auto', 'true');
+    return head;
   }
 
-  function syncHints(root) {
+  function ensureVisualGuide(section, head) {
+    if (!section || !head) return null;
+
+    section.querySelectorAll(':scope > .concept-visual-hint').forEach(function (hint) {
+      hint.remove();
+    });
+
+    var guide = section.querySelector(':scope > .concept-visual-guide');
+    if (!guide) {
+      guide = document.createElement('p');
+      guide.className = 'concept-visual-guide';
+      guide.textContent = HINT_COPY;
+      head.insertAdjacentElement('afterend', guide);
+    } else {
+      guide.textContent = HINT_COPY;
+    }
+    return guide;
+  }
+
+  function shouldSkipVisualSection(section) {
+    if (!section) return true;
+    if (section.classList.contains('section-activity-shell') || section.classList.contains('section-ideas')) {
+      return true;
+    }
+    var head = section.querySelector(
+      ':scope > .concept-section-head, :scope > h4.concept-section-head, :scope > h5.concept-section-head'
+    );
+    if (head) {
+      var text = (head.textContent || '').toLowerCase();
+      if (/activity|key ideas|introduction|intro|in practice/.test(text)) return true;
+    }
+    return false;
+  }
+
+  function ensureVisualSection(section) {
+    if (!section || section.hasAttribute('data-visual-section-ready')) return;
+    if (shouldSkipVisualSection(section)) return;
+
+    var head = ensureVisualHead(section);
+    if (!head) return;
+
+    ensureVisualGuide(section, head);
+
+    if (isVisualOnlySection(section)) {
+      section.classList.add('section-visual-shell');
+    }
+
+    section.setAttribute('data-visual-section-ready', 'true');
+  }
+
+  function syncVisualSections(root) {
     root = root || document;
     var sections = new Set();
 
     root.querySelectorAll('.img-expand-btn').forEach(function (btn) {
       var host = btn.parentElement;
-      var section = getHintSection(host);
+      var section = getVisualSection(host);
       if (section) sections.add(section);
     });
 
-    sections.forEach(insertHint);
+    sections.forEach(ensureVisualSection);
   }
 
   function clearExpandables(root) {
@@ -136,6 +228,16 @@
     });
     root.querySelectorAll('.concept-visual-hint').forEach(function (hint) {
       hint.remove();
+    });
+    root.querySelectorAll('.concept-visual-guide').forEach(function (guide) {
+      guide.remove();
+    });
+    root.querySelectorAll('[data-visual-head-auto="true"]').forEach(function (head) {
+      head.remove();
+    });
+    root.querySelectorAll('[data-visual-section-ready]').forEach(function (section) {
+      section.removeAttribute('data-visual-section-ready');
+      section.classList.remove('section-visual-shell');
     });
   }
 
@@ -184,7 +286,7 @@
       host.appendChild(createExpandButton(img, panel, options));
     });
 
-    syncHints(root);
+    syncVisualSections(root);
   }
 
   function initObservers() {
@@ -194,8 +296,9 @@
   window.ConceptVisualExpand = {
     setModalOpener: setModalOpener,
     wire: wire,
-    syncHints: syncHints,
-    hintCopy: HINT_COPY
+    syncVisualSections: syncVisualSections,
+    hintCopy: HINT_COPY,
+    visualLabel: VISUAL_LABEL
   };
 
   if (document.readyState === 'loading') {

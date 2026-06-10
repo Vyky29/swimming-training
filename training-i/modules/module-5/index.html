@@ -5882,6 +5882,7 @@
             let iconType = '';
             if(raw.includes('key ideas for instructors') || (raw.includes(' - key ideas') && !raw.includes('instructors'))) iconType = 'keyIdeas';
             else if(raw.endsWith(' - activity') || raw === 'activity') iconType = 'activity';
+            else if(raw === 'visual' || raw.endsWith(' - visual') || raw.endsWith(' - visual image') || displayTitle.toLowerCase() === 'visual image') iconType = 'visual';
             if(iconType && window.ConceptSectionIcons){
               title.innerHTML = ConceptSectionIcons.headInlineHtml(iconType, displayTitle);
             } else {
@@ -5923,17 +5924,12 @@
           `<span class="icon" aria-hidden="true">🧩</span>${txt}`;
       }
 
-      // Block 1, 2 & 3: hide "Visual image" title where a real image already exists.
+      // Keep visual headings and let ConceptVisualExpand add the guide below them.
       if(panel.dataset.currentBlock === 'block1' || panel.dataset.currentBlock === 'block2' || panel.dataset.currentBlock === 'block3'){
-        panel.querySelectorAll('.concept-section-card').forEach(card => {
-          const head = card.querySelector('.concept-section-head');
-          const img = card.querySelector('img');
-          if(!head || !img) return;
+        panel.querySelectorAll('.concept-section-card .concept-section-head').forEach(head => {
           const label = (head.textContent || '').trim().toLowerCase();
-          const src = (img.getAttribute('src') || '').trim();
-          if(label.includes('visual image') && src){
-            head.remove();
-            card.classList.add('visual-direct');
+          if(label.includes('visual image') && window.ConceptSectionIcons){
+            head.innerHTML = ConceptSectionIcons.headInlineHtml('visual', 'Visual Image');
           }
         });
       }
@@ -6545,7 +6541,7 @@
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260625"></script>
-<script src="/shared/concept-section-icons.js?v=20260626"></script>
+<script src="/shared/concept-section-icons.js?v=20260627"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
@@ -6844,7 +6840,7 @@
     })();
   </script>
   
-  <script src="/shared/concept-visual-expand-system.js?v=20260626"></script>
+  <script src="/shared/concept-visual-expand-system.js?v=20260627"></script>
 </body>
 </html>
 
