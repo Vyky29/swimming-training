@@ -5012,7 +5012,8 @@
       shell.className = 'concept-section-card section-activity-shell';
       if(attrs && attrs['data-m5-b2-choice-mount']) shell.setAttribute('data-m5-b2-choice-mount', attrs['data-m5-b2-choice-mount']);
       if(attrs && attrs['data-m5-b2-nested-key']) shell.setAttribute('data-m5-b2-nested-key', attrs['data-m5-b2-nested-key']);
-      shell.innerHTML = '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
+      shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity', 'Activity - Apply your understanding')) ||
+        '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
       if(cfg.activityType){
         var typeLine = document.createElement('p');
         typeLine.className = 'activity-type-label';
@@ -5055,7 +5056,8 @@
       var shell = document.createElement('div');
       shell.className = 'concept-section-card section-activity-shell';
       shell.setAttribute('data-concept-activity-title', '');
-      shell.innerHTML = '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
+      shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity', 'Activity - Apply your understanding')) ||
+        '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
       var guide = document.createElement('p');
       guide.className = 'activity-mini-guide';
       guide.setAttribute('data-concept-activity-guide', '');
@@ -5090,7 +5092,8 @@
         shell.className = 'concept-section-card section-activity-shell';
         shell.setAttribute('data-concept-activity-title', '');
         shell.setAttribute('data-m5-b2-choice-mount', 'b2c1');
-        shell.innerHTML = '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
+        shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity', 'Activity - Apply your understanding')) ||
+        '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity - Apply your understanding</span></div>';
         if(bank.activityType){
           var typeB2c1 = document.createElement('p');
           typeB2c1.className = 'activity-type-label';
@@ -5554,6 +5557,10 @@
       if(mediaModalTitle) mediaModalTitle.removeAttribute('aria-hidden');
     }
 
+    if(window.ConceptVisualExpand){
+      ConceptVisualExpand.setModalOpener(openMediaModal);
+    }
+
     function getExpandableMediaHTML(panel){
       const currentImg = panel.querySelector('.carousel-slide.active img');
       const currentSrc = currentImg ? (currentImg.getAttribute('src') || '').trim() : '';
@@ -5872,15 +5879,22 @@
 
             const title = document.createElement('h5');
             title.className = 'concept-section-head';
-            let icon = iconBySection[raw] || iconBySection[displayTitle.toLowerCase()];
-            if(!icon){
-              if(raw === 'visual' || raw.endsWith(' - visual') || raw.endsWith(' - visual image')) icon = '🖼️';
-              else if(raw.includes('key ideas for instructors') || (raw.includes(' - key ideas') && !raw.includes('instructors'))) icon = '🧩';
-              else if(raw.endsWith(' - activity') || raw === 'activity') icon = '✅';
-              else if(raw.includes('| introduction') || raw === 'introduction' || raw === 'intro') icon = '📘';
+            let iconType = '';
+            if(raw.includes('key ideas for instructors') || (raw.includes(' - key ideas') && !raw.includes('instructors'))) iconType = 'keyIdeas';
+            else if(raw.endsWith(' - activity') || raw === 'activity') iconType = 'activity';
+            if(iconType && window.ConceptSectionIcons){
+              title.innerHTML = ConceptSectionIcons.headInlineHtml(iconType, displayTitle);
+            } else {
+              let icon = iconBySection[raw] || iconBySection[displayTitle.toLowerCase()];
+              if(!icon){
+                if(raw === 'visual' || raw.endsWith(' - visual') || raw.endsWith(' - visual image')) icon = '🖼️';
+                else if(raw.includes('key ideas for instructors') || (raw.includes(' - key ideas') && !raw.includes('instructors'))) icon = '🧩';
+                else if(raw.endsWith(' - activity') || raw === 'activity') icon = '✅';
+                else if(raw.includes('| introduction') || raw === 'introduction' || raw === 'intro') icon = '📘';
+              }
+              if(!icon) icon = '•';
+              title.innerHTML = `<span class="icon" aria-hidden="true">${icon}</span>${displayTitle}`;
             }
-            if(!icon) icon = '•';
-            title.innerHTML = `<span class="icon" aria-hidden="true">${icon}</span>${displayTitle}`;
             currentBox.appendChild(title);
             container.appendChild(currentBox);
             return;
@@ -5905,7 +5919,8 @@
       if(keyIdeasTitle && !keyIdeasTitle.querySelector('.icon')){
         const txt = keyIdeasTitle.textContent;
         keyIdeasTitle.classList.add('concept-section-head');
-        keyIdeasTitle.innerHTML = `<span class="icon" aria-hidden="true">🧩</span>${txt}`;
+        keyIdeasTitle.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headInlineHtml('keyIdeas', txt)) ||
+          `<span class="icon" aria-hidden="true">🧩</span>${txt}`;
       }
 
       // Block 1, 2 & 3: hide "Visual image" title where a real image already exists.
@@ -6102,30 +6117,12 @@
         mountBlock2ChoiceActivities(panel, block, target);
       }
 
-      panel.querySelectorAll('.concept-image img').forEach(img => {
-        const src = (img.getAttribute('src') || '').trim();
-        if(!src) return;
-        if(img.closest('[data-b2-screen="f1-s1"]')) return; // hide only for Entry & Exit in the Water Safely
-
-        const host = img.closest('.concept-activity-box, figure, .concept-section-card, .concept-image');
-        if(!host) return;
-        if(host.querySelector('.img-expand-btn')) return;
-        if(getComputedStyle(host).position === 'static'){
-          host.style.position = 'relative';
-        }
-
-        const expandImgBtn = document.createElement('button');
-        expandImgBtn.type = 'button';
-        expandImgBtn.className = 'img-expand-btn';
-        expandImgBtn.setAttribute('aria-label', 'Expand image');
-        expandImgBtn.textContent = '⤢';
-        expandImgBtn.addEventListener('click', function(e){
-          e.preventDefault();
-          e.stopPropagation();
-          openMediaModal(`<img src="${img.src}" alt="${img.alt || 'Expanded image'}" />`, img.alt || panel.querySelector('h4')?.textContent?.trim() || 'Expanded image');
+      if(window.ConceptVisualExpand){
+        ConceptVisualExpand.wire(panel, {
+          panel: panel,
+          exclude: ['[data-b2-screen="f1-s1"]']
         });
-        host.appendChild(expandImgBtn);
-      });
+      }
 
       // Subconcept interaction (for concepts that define subConcepts)
       if (data.subConcepts && data.subConcepts.length) {
@@ -6548,6 +6545,7 @@
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260625"></script>
 <script src="/shared/in-practice-system.js?v=20260625"></script>
+<script src="/shared/concept-section-icons.js?v=20260626"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
@@ -6846,7 +6844,7 @@
     })();
   </script>
   
-  <script src="/shared/concept-visual-expand-hint.js?v=20260623"></script>
+  <script src="/shared/concept-visual-expand-system.js?v=20260626"></script>
 </body>
 </html>
 

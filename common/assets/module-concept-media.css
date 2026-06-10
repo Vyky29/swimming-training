@@ -3,7 +3,7 @@
  * Loaded last so it overrides per-module .concept-image img rules.
  * 16:9 frame + object-fit: cover keeps mixed source ratios visually consistent.
  */
-@import url('/assets/concept-visual-expand.css?v=20260623');
+@import url('/assets/concept-visual-expand.css?v=20260626');
 
 .portal [data-expand-media]{
   display:none !important;

@@ -9,16 +9,19 @@
   margin: 0 0 14px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: linear-gradient(180deg, rgba(232, 244, 251, .72) 0%, rgba(248, 252, 254, .42) 100%);
-  border: 1px solid rgba(45, 132, 179, .12);
+  background: linear-gradient(180deg, rgba(232, 244, 251, .78) 0%, rgba(248, 252, 254, .52) 100%);
+  border: 1px solid rgba(45, 132, 179, .14);
   font-size: .84rem;
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: .01em;
-  color: rgba(74, 122, 150, .88);
+  color: rgba(74, 122, 150, .9);
 }
 
-.portal .concept-section-card.visual-direct > .concept-visual-hint {
+.portal .concept-section-card.visual-direct > .concept-visual-hint,
+.portal .concept-image > .concept-visual-hint,
+.portal [data-concept-primary-image] > .concept-visual-hint,
+.portal [data-concept-intro-media] > .concept-visual-hint {
   margin-top: 0;
 }
 
@@ -35,6 +38,7 @@
 .portal .concept-visual-hint__icon {
   width: 30px;
   height: 30px;
+  min-width: 30px;
   border-radius: 8px;
   background: linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%);
   color: #fff;
@@ -61,9 +65,8 @@
   border: 1px solid rgba(45, 132, 179, .22);
   background: rgba(255, 255, 255, .96);
   color: #2d84b3;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1;
+  padding: 0;
+  line-height: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -71,6 +74,12 @@
   box-shadow: 0 4px 12px rgba(15, 40, 58, .12);
   z-index: 2;
   transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.portal .img-expand-btn svg {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 .portal .img-expand-btn:hover {
