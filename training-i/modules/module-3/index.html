@@ -3848,8 +3848,8 @@
       var rightTitle = escapeHtml(config.rightTitle || 'Column B');
       var content = (
         '<div class="matching-wrap">' +
-        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + leftTitle + '</h5><div class="match-items">' + leftHtml + '</div>' +
-        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + rightTitle + '</h5><div class="match-items">' + rightHtml + '</div>' +
+        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + leftTitle + '</h5><div class="match-items">' + leftHtml + '</div></div>' +
+        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + rightTitle + '</h5><div class="match-items">' + rightHtml + '</div></div>' +
         '</div>'
       );
       return buildActivityContainerShell({ variant: 'matching', contentHtml: content });

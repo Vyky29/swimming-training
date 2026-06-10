@@ -5648,8 +5648,8 @@
     var content = (
       questionHtml +
       '<div class="matching-wrap">' +
-        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + config.leftTitle + '</h5><div class="match-items">' + leftHtml + '</div>' +
-        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + config.rightTitle + '</h5><div class="match-items">' + rightHtml + '</div>' +
+        '<div class="match-column match-land"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🧠</span>' + config.leftTitle + '</h5><div class="match-items">' + leftHtml + '</div></div>' +
+        '<div class="match-column match-water"><h5 class="match-column-title"><span class="match-title-icon" aria-hidden="true">🎯</span>' + config.rightTitle + '</h5><div class="match-items">' + rightHtml + '</div></div>' +
       '</div>'
     );
     return buildActivityContainerShell({ variant:'matching', instruction:'Click one item on the left, then click the matching item on the right.', contentHtml: content });
