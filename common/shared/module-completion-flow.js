@@ -291,6 +291,12 @@
           certificateAction.style.display = 'none';
         }
       }
+      if(typeof window.TrainingFlowGuide !== 'undefined' && typeof window.TrainingFlowConfig !== 'undefined'){
+        var flowCtx = TrainingFlowConfig.detectContext();
+        if(flowCtx && flowCtx.moduleId && flowCtx.pathway){
+          TrainingFlowGuide.markModuleComplete(flowCtx.pathway.id, flowCtx.moduleId);
+        }
+      }
       return;
     }
 

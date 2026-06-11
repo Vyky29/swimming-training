@@ -1,0 +1,98 @@
+/**
+ * Guided demo flow — subtle next-step cue (no locks).
+ */
+
+.portal .flow-guide-pulse,
+.flow-guide-pulse {
+  position: relative;
+  z-index: 2;
+  outline: 2px solid rgba(45, 132, 179, .55);
+  outline-offset: 3px;
+  border-radius: 12px;
+  animation: flowGuidePulse 2.6s ease-in-out infinite;
+}
+
+@keyframes flowGuidePulse {
+  0%, 100% {
+    outline-color: rgba(45, 132, 179, .45);
+    box-shadow: 0 0 0 0 rgba(45, 132, 179, .28);
+  }
+  50% {
+    outline-color: rgba(45, 132, 179, .85);
+    box-shadow: 0 0 0 10px rgba(45, 132, 179, 0);
+  }
+}
+
+.portal .flow-guide-rail,
+.flow-guide-rail {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(560px, calc(100vw - 32px));
+  padding: 10px 14px 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(45, 132, 179, .22);
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 10px 28px rgba(18, 50, 71, .12);
+  font-size: .82rem;
+  line-height: 1.35;
+  color: #163247;
+  pointer-events: none;
+}
+
+.portal .flow-guide-rail[hidden],
+.flow-guide-rail[hidden] {
+  display: none !important;
+}
+
+.portal .flow-guide-rail__dot,
+.flow-guide-rail__dot {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2d84b3;
+  animation: flowGuideDot 2.6s ease-in-out infinite;
+}
+
+@keyframes flowGuideDot {
+  0%, 100% { opacity: .45; transform: scale(.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.portal .flow-guide-rail__text,
+.flow-guide-rail__text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.portal .flow-guide-rail__text strong,
+.flow-guide-rail__text strong {
+  color: #2d84b3;
+  font-weight: 700;
+}
+
+.portal .module-card.flow-guide-next-module,
+.module-card.flow-guide-next-module {
+  outline: 2px solid rgba(45, 132, 179, .5);
+  outline-offset: 3px;
+  animation: flowGuidePulse 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-guide-pulse,
+  .module-card.flow-guide-next-module {
+    animation: none;
+    outline-width: 3px;
+    outline-color: rgba(45, 132, 179, .75);
+  }
+  .flow-guide-rail__dot {
+    animation: none;
+    opacity: 1;
+  }
+}
