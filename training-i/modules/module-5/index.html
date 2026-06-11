@@ -2373,12 +2373,13 @@
       background:transparent;
       box-shadow:none;
       max-width:none;
+      margin-bottom:24px;
     }
     .portal .concept-intro-slot .m5-insight-mini-fan{
       position:relative;
       width:148px;
       height:112px;
-      margin:0 auto;
+      margin:0 auto 4px;
       overflow:visible;
     }
     .portal .concept-intro-slot .m5-insight-mini-card{
@@ -4700,9 +4701,8 @@
       if(M5_NESTED_B2C3_THUMBS[screenId]){
         return { kind:'fan', id:screenId, thumbs:M5_NESTED_B2C3_THUMBS[screenId] };
       }
-      var folderMatch = String(screenId).match(/^(f[1-5])(?:-|$)/);
-      if(folderMatch && M5_NESTED_B2C2_FOLDER_ART[folderMatch[1]]){
-        return { kind:'single', id:folderMatch[1], src:M5_NESTED_B2C2_FOLDER_ART[folderMatch[1]] };
+      if(M5_NESTED_B2C2_FOLDER_ART[screenId]){
+        return { kind:'single', id:screenId, src:M5_NESTED_B2C2_FOLDER_ART[screenId] };
       }
       return null;
     }
