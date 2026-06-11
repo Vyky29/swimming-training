@@ -502,6 +502,22 @@
     );
   }
 
+  function syncPanelVisualFlowState(panel) {
+    if (!panel) return;
+    var buttons = panel.querySelectorAll('.img-expand-btn');
+    if (!buttons.length) {
+      panel.removeAttribute('data-flow-visual-expanded');
+      return;
+    }
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].getAttribute('data-visual-expanded') !== 'true') {
+        panel.removeAttribute('data-flow-visual-expanded');
+        return;
+      }
+    }
+    panel.setAttribute('data-flow-visual-expanded', 'true');
+  }
+
   function createExpandButton(img, panel, options) {
     var btn = document.createElement('button');
     btn.type = 'button';
@@ -514,7 +530,7 @@
       btn.setAttribute('data-visual-expanded', 'true');
       var host = btn.closest('[data-expandable-visual]');
       if (host) host.setAttribute('data-visual-expanded', 'true');
-      if (panel) panel.setAttribute('data-flow-visual-expanded', 'true');
+      syncPanelVisualFlowState(panel);
       openExpandedImage(img, panel, options);
       try {
         document.dispatchEvent(new CustomEvent('concept-visual-expand-change', { bubbles: true, detail: { panel: panel } }));
@@ -532,18 +548,19 @@
     clearExpandables(options.clearRoot || root);
 
     var panel = options.panel || root.closest('.concept-panel') || null;
-    var wiredHosts = new Set();
+    var wiredImages = new Set();
 
     root.querySelectorAll(IMAGE_QUERY).forEach(function (img) {
       if (shouldSkipImage(img, options)) return;
       if (panel && !panel.contains(img)) return;
+      if (wiredImages.has(img)) return;
 
       ensureVisualMediaBox(img);
 
       var host = getExpandHost(img);
-      if (!host || wiredHosts.has(host)) return;
+      if (!host) return;
 
-      wiredHosts.add(host);
+      wiredImages.add(img);
       if (window.getComputedStyle(host).position === 'static') {
         host.style.position = 'relative';
       }

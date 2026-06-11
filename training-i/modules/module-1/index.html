@@ -7,7 +7,7 @@
 @import url('/assets/module-hero-system.css');
 @import url('/assets/key-ideas-recap-system.css?v=20260623');
 @import url('/assets/concept-insight-intro.css?v=20260617');
-@import url('/assets/training-flow-guide.css?v=20260722');
+@import url('/assets/training-flow-guide.css?v=20260725');
 
 :root{
     --blue:#2d84b3;
@@ -4836,6 +4836,11 @@
       return;
     }
 
+    if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
+      TrainingFlowGuide.returnToConceptGrid(block);
+      return;
+    }
+
     setTimeout(function(){
       var panel = document.querySelector('[data-panel-for="' + block + '"]');
       if(panel){
@@ -6148,8 +6153,12 @@
           if(prevTarget && conceptContent[prevTarget]) renderConcept(block, prevTarget, true);
         } else {
           panel.classList.remove('show');
-          const section = document.getElementById(block);
-          if(section) section.querySelector('.concept-stage, [data-concept-grid]')?.scrollIntoView({ behavior:'smooth', block:'start' });
+          if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
+            TrainingFlowGuide.returnToConceptGrid(block);
+          } else {
+            const section = document.getElementById(block);
+            if(section) section.querySelector('.concept-stage, [data-concept-grid]')?.scrollIntoView({ behavior:'smooth', block:'start' });
+          }
         }
       };
     }
@@ -6682,14 +6691,14 @@
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260707"></script>
 <script src="/shared/parent-subconcept-layout.js"></script>
-<script src="/shared/concept-visual-expand-system.js?v=20260707"></script>
+<script src="/shared/concept-visual-expand-system.js?v=20260725"></script>
 <script src="/shared/concept-insight-intro.js?v=20260622"></script>
 <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
 <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
 <script src="/shared/training-flow-config.js?v=20260716"></script>
-<script src="/shared/training-flow-guide.js?v=20260722"></script>
+<script src="/shared/training-flow-guide.js?v=20260725"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
