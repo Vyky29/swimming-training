@@ -6805,7 +6805,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260711"></script>
-  <script src="/shared/training-flow-guide.js?v=20260711"></script>
+  <script src="/shared/training-flow-guide.js?v=20260712"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -6906,8 +6906,6 @@
         document.querySelectorAll('.overall-check[data-stage-check]').forEach(function(cb){
           cb.addEventListener('change', function(){
             if(REVIEW_MODE){
-              this.checked = false;
-              if(this.closest('.check-item')) this.closest('.check-item').classList.remove('clicked');
               if(typeof updateProgress === 'function') updateProgress();
               return;
             }
