@@ -76,8 +76,9 @@
     return style.display !== 'none' && style.visibility !== 'hidden';
   }
 
-  function isMostlyVisible(el){
+  function isMostlyVisible(el, step){
     if(!el || typeof el.getBoundingClientRect !== 'function') return false;
+    if(step && step.forceScroll) return false;
     var rect = el.getBoundingClientRect();
     if(rect.width <= 0 || rect.height <= 0) return false;
     var topBound = 76;
@@ -88,16 +89,42 @@
     return visibleHeight >= minVisible;
   }
 
+  function scrollToPageTop(){
+    var top = 0;
+    window.scrollTo({ top: top, left: 0, behavior: 'auto' });
+    if(document.documentElement) document.documentElement.scrollTop = top;
+    if(document.body) document.body.scrollTop = top;
+    lastScrolledKey = null;
+  }
+
   function scrollIfNeeded(target, step){
     if(!target || typeof target.scrollIntoView !== 'function') return;
-    if(Date.now() < userScrollUntil) return;
+    if(step && step.noScroll) return;
+    if(Date.now() < userScrollUntil && !(step && step.forceScroll)) return;
 
     var key = stepKey(step);
-    if(key && lastScrolledKey === key) return;
-    if(isMostlyVisible(target)) return;
+    if(key && lastScrolledKey === key && !(step && step.forceScroll)) return;
+    if(isMostlyVisible(target, step)) return;
 
-    target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    var block = (step && step.scrollBlock) || 'nearest';
+    target.scrollIntoView({ behavior: 'smooth', block: block, inline: 'nearest' });
     lastScrolledKey = key;
+  }
+
+  function resetPanelFlowScope(panel){
+    if(!panel) return;
+    var scope = panel.dataset.currentTarget || '';
+    if(panel.__flowGuideScope === scope) return;
+    panel.__flowGuideScope = scope;
+    delete panel.dataset.flowKeyideasFramed;
+    delete panel.dataset.flowActivityStarted;
+  }
+
+  function getKeyIdeasBox(panel){
+    if(!panel) return null;
+    var box = panel.querySelector('.concept-points-box');
+    if(!box || !box.querySelector('.key-idea-item')) return null;
+    return box;
   }
 
   function panelHasExpandableVisual(panel){
@@ -155,6 +182,17 @@
   function resolveKeyIdeaItems(panel){
     if(panelHasExpandableVisual(panel) && !isPanelVisualExpanded(panel)) return null;
 
+    var box = getKeyIdeasBox(panel);
+    if(box && panel.dataset.flowKeyideasFramed !== 'true'){
+      return {
+        kind: 'keyideas-box',
+        el: box,
+        scrollBlock: 'center',
+        forceScroll: true,
+        label: 'Review Key Ideas for Instructors'
+      };
+    }
+
     var ideas = panel.querySelectorAll('.concept-points-box .key-idea-item:not(.clicked)');
     if(!ideas.length) ideas = panel.querySelectorAll('.key-idea-item:not(.clicked)');
 
@@ -164,83 +202,76 @@
       return {
         kind: 'keyidea',
         el: ideas[i],
+        noScroll: true,
         label: 'Review key idea ' + ((idx && idx.textContent.trim()) || (i + 1))
       };
     }
     return null;
   }
 
-  function resolvePanelActivity(panel){
+  function findActivityRoot(panel){
     if(!panel) return null;
+    var selectors = [
+      '.section-activity-shell',
+      '.concept-section-card.section-activity',
+      '[data-concept-activity-flow]',
+      '[data-concept-activity]'
+    ];
+    for(var s = 0; s < selectors.length; s++){
+      var hit = panel.querySelector(selectors[s]);
+      if(hit) return hit;
+    }
+    var inner = panel.querySelector('[data-carousel], [data-choice-activity], [data-matching-activity], [data-match-grid], [data-match-board], [data-categorize-activity], [data-sequence-activity], [data-sense-card]');
+    if(!inner) return null;
+    return inner.closest('.section-activity-shell, .concept-section-card.section-activity, [data-concept-activity-flow], [data-concept-activity], .activity-container') || inner;
+  }
+
+  function isActivityIncomplete(panel){
+    if(!panel) return false;
     var finish = panel.querySelector('[data-finish-concept]');
-    if(!finish || !finish.disabled) return null;
+    if(!finish || !finish.disabled) return false;
+    if(!findActivityRoot(panel)) return false;
 
-    if(panel.querySelector('[data-carousel]') && panel.dataset.carouselComplete !== 'true'){
-      var carousel = panel.querySelector('[data-carousel]');
-      var nextBtn = carousel.querySelector('[data-carousel-next], .carousel-next, button[aria-label*="Next"]');
-      var activeSlide = carousel.querySelector('.carousel-slide.active, .carousel-inline-slide.active');
-      return {
-        kind: 'carousel',
-        tone: 'activity',
-        el: nextBtn || activeSlide || carousel.querySelector('.carousel-slide') || carousel,
-        label: 'Review all slides in this section'
-      };
-    }
-
-    if(panel.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true'){
-      var choiceWrap = panel.querySelector('[data-choice-activity]');
-      var option = choiceWrap.querySelector('[data-choice-option]:not(.selected):not(.correct), .match-item:not(.selected):not(.correct), button:not(.selected):not(.correct)');
-      return {
-        kind: 'choice-activity',
-        tone: 'activity',
-        el: option || choiceWrap.querySelector('[data-choice-option], .match-item, button') || choiceWrap,
-        label: 'Complete the activity above'
-      };
-    }
+    if(panel.querySelector('[data-carousel]') && panel.dataset.carouselComplete !== 'true') return true;
+    if(panel.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true') return true;
 
     if(panel.querySelector('[data-matching-activity], [data-match-grid], [data-match-board]')){
-      var match = panel.querySelector('[data-matching-activity], [data-match-grid], [data-match-board]');
       var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
       var requiredMatches = parseInt(panel.dataset.requiredMatches, 10) || parseInt(panel.dataset.matchingPairsCount, 10) || 0;
-      if(!requiredMatches || matchedCount < requiredMatches){
-        var pair = match.querySelector('.match-item:not(.matched):not(.correct), [data-match-item]:not(.matched), .matching-card:not(.matched)');
-        return {
-          kind: 'matching',
-          tone: 'activity',
-          el: pair || match.querySelector('.match-item, [data-match-item], .matching-card') || match,
-          label: 'Complete the matching activity'
-        };
-      }
+      if(requiredMatches && matchedCount < requiredMatches) return true;
     }
 
-    if(panel.querySelector('[data-categorize-activity]') && panel.dataset.categorizeComplete !== 'true'){
-      var categorize = panel.querySelector('[data-categorize-activity]');
-      var catItem = categorize.querySelector('.categorize-item:not(.placed), [data-categorize-item]:not(.placed), button:not(.placed)');
+    if(panel.querySelector('[data-categorize-activity]') && panel.dataset.categorizeComplete !== 'true') return true;
+    if(panel.querySelector('[data-sequence-activity]') && panel.dataset.sequenceComplete !== 'true') return true;
+    if(panel.querySelector('[data-sense-card]:not(.flipped)')) return true;
+
+    return false;
+  }
+
+  function resolvePanelActivity(panel){
+    if(!panel || !isActivityIncomplete(panel)) return null;
+
+    var root = findActivityRoot(panel);
+    if(!root) return null;
+
+    if(panel.dataset.flowActivityStarted !== 'true'){
       return {
-        kind: 'categorize',
+        kind: 'activity-intro',
         tone: 'activity',
-        el: catItem || categorize,
-        label: 'Complete the classification activity'
+        el: root,
+        scrollBlock: 'center',
+        forceScroll: true,
+        label: 'Complete the activity below'
       };
     }
 
-    if(panel.querySelector('[data-sequence-activity]') && panel.dataset.sequenceComplete !== 'true'){
-      var sequence = panel.querySelector('[data-sequence-activity]');
-      var seqItem = sequence.querySelector('[data-sequence-item]:not(.placed), .sequence-item:not(.placed), button:not(.placed)');
-      return {
-        kind: 'sequence',
-        tone: 'activity',
-        el: seqItem || sequence,
-        label: 'Complete the sequencing activity'
-      };
-    }
-
-    var unflipped = panel.querySelector('[data-sense-card]:not(.flipped)');
-    if(unflipped){
-      return { kind: 'sensory', tone: 'activity', el: unflipped, label: 'Open all sensory cards' };
-    }
-
-    return null;
+    return {
+      kind: 'activity-progress',
+      el: root,
+      noPulse: true,
+      noScroll: true,
+      label: 'Complete the activity'
+    };
   }
 
   function getSubconceptNav(panel){
@@ -310,11 +341,19 @@
     var pillars = panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
     if(pillars.length){
       var title = pillars[0].querySelector('.concept-insight-pillar__title');
-      return { kind: 'pillar', el: pillars[0], label: 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point') };
+      return {
+        kind: 'pillar',
+        el: pillars[0],
+        noScroll: true,
+        label: 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point')
+      };
     }
 
     var expandStep = panelUnexpandedVisual(panel);
-    if(expandStep) return expandStep;
+    if(expandStep){
+      expandStep.noScroll = true;
+      return expandStep;
+    }
 
     var keyIdeaStep = resolveKeyIdeaItems(panel);
     if(keyIdeaStep) return keyIdeaStep;
@@ -440,19 +479,55 @@
   function bindInsideModuleReview(){
     var section = $('#inside-module');
     if(!section) return;
-    bindSectionReview(section, {
-      itemSelector: '.module-roadmap__item, a.module-roadmap__item',
-      disableAutoReview: true
+    bindSectionReview(section, { disableAutoReview: true });
+
+    section.addEventListener('click', function(e){
+      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+      var link = e.target.closest('.module-roadmap__item, a.module-roadmap__item');
+      if(link) e.preventDefault();
+    }, true);
+  }
+
+  function bindBlockIntroReview(moduleConfig){
+    document.addEventListener('click', function(e){
+      var card = e.target.closest && e.target.closest('.block-intro-card');
+      if(!card || card.classList.contains('clicked')) return;
+      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+      card.classList.add('clicked');
+      scheduleRefresh(moduleConfig, 120);
+    }, true);
+
+    document.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      var card = e.target.closest && e.target.closest('.block-intro-card');
+      if(!card || card.classList.contains('clicked')) return;
+      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+      e.preventDefault();
+      card.classList.add('clicked');
+      scheduleRefresh(moduleConfig, 120);
+    }, true);
+  }
+
+  function resetBlockIntroForGuidedFlow(){
+    if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+    document.querySelectorAll('.block-intro-card').forEach(function(card){
+      card.classList.remove('clicked');
+      card.classList.add('clickable-progress');
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
     });
   }
 
   function resolveStartModule(){
     if(isModuleStarted()) return null;
     var btn = document.querySelector('.hero-actions .btn-primary[data-scroll], #overview .btn-primary[data-scroll], [data-scroll="#journey"]');
-    var hero = $('#overview') || $('.hero--module-system');
+    var heroTitle = $('#overview .hero-title-line') || $('#overview h2') || $('#overview') || $('.hero--module-system');
     return {
       kind: 'start-module',
-      el: btn || hero,
+      el: btn || heroTitle,
+      scrollEl: heroTitle,
+      scrollBlock: 'start',
+      forceScroll: true,
       label: 'Start the module'
     };
   }
@@ -518,21 +593,33 @@
     if(!section) return null;
     if(section.getAttribute('data-flow-reviewed') === 'true') return null;
 
-    var items = $$('.module-roadmap__item, a.module-roadmap__item', section);
-    for(var i = 0; i < items.length; i++){
-      if(items[i].getAttribute('data-flow-reviewed') !== 'true'){
-        var titleEl = items[i].querySelector('.journey-title');
-        var title = titleEl && titleEl.textContent.trim();
+    var content = section.querySelector('.module-roadmap-wrap') || section.querySelector('.journey-wrap') || section;
+    return {
+      kind: 'inside-module',
+      el: content,
+      label: 'Review the blocks in this module'
+    };
+  }
+
+  function resolveBlockIntroCards(block){
+    var section = document.getElementById(block);
+    if(!section) return null;
+    var wrap = section.querySelector('.block-intro-cards[data-block-intro="' + block + '"], [data-block-intro="' + block + '"]');
+    if(!wrap) return null;
+
+    var cards = wrap.querySelectorAll('.block-intro-card');
+    for(var i = 0; i < cards.length; i++){
+      if(!cards[i].classList.contains('clicked')){
+        var title = cards[i].querySelector('h4');
         return {
-          kind: 'inside-module-item',
-          el: items[i],
+          kind: 'block-intro',
+          el: cards[i],
           scrollBlock: 'start',
-          label: 'Review block roadmap: ' + (title || ('Block ' + (i + 1)))
+          noScroll: i > 0,
+          label: 'Read: ' + ((title && title.textContent.trim()) || 'Block intro card')
         };
       }
     }
-
-    section.setAttribute('data-flow-reviewed', 'true');
     return null;
   }
 
@@ -541,6 +628,9 @@
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
     if(!insideModuleReviewed()) return null;
+
+    var introStep = resolveBlockIntroCards(block);
+    if(introStep) return introStep;
 
     var openPanel = getOpenPanel(block);
     if(openPanel){
@@ -706,7 +796,7 @@
     }
 
     var key = stepKey(step);
-    if(key === lastStepKey && activePulseEl === target){
+    if(key === lastStepKey && activePulseEl === target && !step.noPulse){
       updateRail(step);
       return;
     }
@@ -714,18 +804,24 @@
     clearPulse();
     lastStepKey = key;
 
-    target.classList.add(PULSE_CLASS);
-    if(step.kind === 'expand-visual') target.classList.add(PULSE_EXPAND);
-    if(step.tone === 'activity' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
-      target.classList.add(PULSE_ACTIVITY);
+    if(!step.noPulse){
+      target.classList.add(PULSE_CLASS);
+      if(step.kind === 'expand-visual') target.classList.add(PULSE_EXPAND);
+      if(step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
+        target.classList.add(PULSE_ACTIVITY);
+      }
+      activePulseEl = target;
+    } else {
+      activePulseEl = null;
     }
-    activePulseEl = target;
     updateRail(step);
-    scrollIfNeeded(target, step);
+    scrollIfNeeded(step.scrollEl || target, step);
   }
 
   function refresh(moduleConfig){
     if(!moduleConfig) return;
+    var openPanel = getActiveOpenPanel();
+    if(openPanel) resetPanelFlowScope(openPanel);
     applyGuide(resolveNextStep(moduleConfig));
   }
 
@@ -742,7 +838,41 @@
     return false;
   }
 
+  function bindConceptFlowInteractions(moduleConfig){
+    document.addEventListener('click', function(e){
+      var panel = e.target.closest && e.target.closest('.concept-panel.show');
+      if(!panel) return;
+
+      if(e.target.closest('.key-idea-item') || e.target.closest('.concept-points-box')){
+        if(panel.dataset.flowKeyideasFramed !== 'true'){
+          panel.dataset.flowKeyideasFramed = 'true';
+          scheduleRefresh(moduleConfig, 120);
+        }
+      }
+
+      var activityRoot = findActivityRoot(panel);
+      if(activityRoot && activityRoot.contains(e.target) && isActivityIncomplete(panel)){
+        if(panel.dataset.flowActivityStarted !== 'true'){
+          panel.dataset.flowActivityStarted = 'true';
+          scheduleRefresh(moduleConfig, 120);
+        }
+      }
+    }, true);
+
+    document.addEventListener('input', function(e){
+      var panel = e.target && e.target.closest && e.target.closest('.concept-panel.show');
+      if(!panel || panel.dataset.flowActivityStarted === 'true') return;
+      var activityRoot = findActivityRoot(panel);
+      if(activityRoot && activityRoot.contains(e.target) && isActivityIncomplete(panel)){
+        panel.dataset.flowActivityStarted = 'true';
+        scheduleRefresh(moduleConfig, 120);
+      }
+    }, true);
+  }
+
   function bindRefresh(moduleConfig){
+    bindConceptFlowInteractions(moduleConfig);
+
     ['click', 'change', 'input', 'concept-insight-pillars-change', 'concept-visual-expand-wire', 'concept-visual-expand-change'].forEach(function(name){
       document.addEventListener(name, function(e){
         var panel = e.target && e.target.closest && e.target.closest('.concept-panel.show');
@@ -787,11 +917,15 @@
     if(ctx.pathway) document.documentElement.setAttribute('data-guided-pathway', ctx.pathway.id);
 
     function start(){
+      scrollToPageTop();
+      resetBlockIntroForGuidedFlow();
       bindModuleStart();
       bindJourneyReview();
       bindInsideModuleReview();
+      bindBlockIntroReview(moduleConfig);
       refresh(moduleConfig);
       bindRefresh(moduleConfig);
+      setTimeout(scrollToPageTop, 80);
     }
 
     if(document.readyState === 'loading'){
@@ -884,6 +1018,9 @@
         delete panel.dataset.currentBlock;
         panel.removeAttribute('data-flow-visual-expanded');
         wiredPanels.delete(panel);
+        delete panel.__flowGuideScope;
+        delete panel.dataset.flowKeyideasFramed;
+        delete panel.dataset.flowActivityStarted;
       }
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square[data-target]').forEach(function(btn){
         btn.classList.remove('active');

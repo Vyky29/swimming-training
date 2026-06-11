@@ -1,5 +1,5 @@
 /**
- * Guided demo flow ó premium next-step cue (no locks).
+ * Guided demo flow ù premium next-step cue (no locks).
  */
 
 .portal .flow-guide-pulse,
@@ -26,7 +26,19 @@
 .portal .flow-guide-pulse.module-roadmap__item,
 .flow-guide-pulse.journey-item.module-roadmap__item,
 .flow-guide-pulse.outcome,
-.flow-guide-pulse.check-item {
+.flow-guide-pulse.check-item,
+.flow-guide-pulse.concept-points-box,
+.portal .flow-guide-pulse.concept-points-box,
+.flow-guide-pulse.section-activity-shell,
+.portal .flow-guide-pulse.section-activity-shell,
+.flow-guide-pulse[data-concept-activity],
+.portal .flow-guide-pulse[data-concept-activity],
+.flow-guide-pulse.module-roadmap-wrap,
+.portal .flow-guide-pulse.module-roadmap-wrap,
+.flow-guide-pulse.journey-wrap.module-roadmap-wrap,
+.portal .flow-guide-pulse.journey-wrap.module-roadmap-wrap,
+.flow-guide-pulse.block-intro-card,
+.portal .flow-guide-pulse.block-intro-card {
   border-radius: 14px;
 }
 
@@ -46,7 +58,7 @@
   animation: flowGuidePulseActivity 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 
-/* Primary guide ó blue ring with outer halo (matches expand intensity) */
+/* Primary guide ù blue ring with outer halo (matches expand intensity) */
 @keyframes flowGuidePulsePrimary {
   0%, 100% {
     box-shadow:

@@ -61,6 +61,7 @@
   window.enhanceModuleBlockNav = enhanceModuleBlockNav;
 
   function pinBlockIntroCards() {
+    if (document.documentElement.getAttribute('data-guided-flow') === 'true') return;
     document.querySelectorAll('.block-intro-card').forEach(function (card) {
       card.classList.add('clicked');
       card.classList.remove('clickable-progress');

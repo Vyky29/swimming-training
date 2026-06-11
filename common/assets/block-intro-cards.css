@@ -1,8 +1,9 @@
 /**
- * Block intro cards — permanent reference panels (always active, no click).
+ * Block intro cards — static reference outside guided flow;
+ * clickable progress steps inside guided demo.
  */
 
-.block-intro-card {
+:not([data-guided-flow="true"]) .block-intro-card {
   background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
   border: 2px solid #2d84b3 !important;
   box-shadow: 0 6px 20px rgba(45, 132, 179, .25) !important;
@@ -11,12 +12,34 @@
   user-select: text;
 }
 
-.block-intro-card .card-icon {
+:not([data-guided-flow="true"]) .block-intro-card .card-icon {
   background: #2d84b3 !important;
   color: #fff !important;
 }
 
-.block-intro-card:hover {
+:not([data-guided-flow="true"]) .block-intro-card:hover {
   border-color: #2d84b3 !important;
   box-shadow: 0 6px 20px rgba(45, 132, 179, .25) !important;
+}
+
+[data-guided-flow="true"] .block-intro-card {
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+}
+
+[data-guided-flow="true"] .block-intro-card.clicked {
+  background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
+  border: 2px solid #2d84b3 !important;
+  box-shadow: 0 6px 20px rgba(45, 132, 179, .25) !important;
+}
+
+[data-guided-flow="true"] .block-intro-card.clicked .card-icon {
+  background: #2d84b3 !important;
+  color: #fff !important;
+}
+
+[data-guided-flow="true"] .block-intro-card:not(.clicked):hover {
+  border-color: #2d84b3;
+  box-shadow: 0 8px 24px rgba(45, 132, 179, .15);
 }
