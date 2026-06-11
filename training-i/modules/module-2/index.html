@@ -2355,10 +2355,12 @@
 
   /* Activity variants */
   .section-activity-shell .activity-question{
-    text-align:justify;
+    text-align:left;
     text-align-last:left;
-    hyphens:auto;
-    -webkit-hyphens:auto;
+    hyphens:none;
+    -webkit-hyphens:none;
+    overflow-wrap:break-word;
+    word-break:normal;
   }
   .section-activity-shell .activity-container[data-variant="scenario"] [data-choice-activity].activity-option-grid,
   .section-activity-shell .activity-container[data-variant="scenario-risk"] [data-choice-activity].activity-option-grid{

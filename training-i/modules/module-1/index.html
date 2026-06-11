@@ -2112,12 +2112,14 @@
   }
   .activity-option.is-correct .opt-badge{ color:#1D3557; background:rgba(32,124,82,.14); }
   .activity-option.is-incorrect .opt-badge{ color:#1D3557; background:rgba(205,88,88,.14); }
-  .activity-option .opt-text{ flex:1; min-width:0; overflow-wrap:anywhere; word-break:normal; }
-  .activity-option .opt-text{ text-align:center; }
   .activity-option .opt-text{
+    flex:1;
+    min-width:0;
+    text-align:center;
     white-space:normal;
-    overflow-wrap:anywhere;
-    word-break:break-word;
+    overflow-wrap:break-word;
+    word-wrap:break-word;
+    word-break:normal;
   }
 
   .activity-feedback{
@@ -2195,10 +2197,12 @@
 
   /* Activity variants */
   .section-activity-shell .activity-question{
-    text-align:justify;
+    text-align:left;
     text-align-last:left;
-    hyphens:auto;
-    -webkit-hyphens:auto;
+    hyphens:none;
+    -webkit-hyphens:none;
+    overflow-wrap:break-word;
+    word-break:normal;
   }
   .section-activity-shell .activity-container[data-variant="scenario"] .activity-option,
   .section-activity-shell .activity-container[data-variant="scenario-risk"] .activity-option{
@@ -2218,7 +2222,8 @@
   .section-activity-shell .activity-container[data-variant="scenario-risk"] .activity-option .opt-text{
     text-align:left;
     line-height:1.42;
-    overflow-wrap:anywhere;
+    overflow-wrap:break-word;
+    word-wrap:break-word;
     word-break:normal;
   }
   .section-activity-shell .activity-container[data-variant="scenario-risk"] .activity-option .opt-text{
