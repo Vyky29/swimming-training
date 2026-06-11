@@ -8450,7 +8450,7 @@
 
       const introMediaEl = panel.querySelector('[data-concept-intro-media]');
       if(introMediaEl){
-        const introHTML = useInsightAsPrimaryIntro ? '' : (data.introMediaHTML || '');
+        const introHTML = data.introMediaHTML || '';
         introMediaEl.innerHTML = introHTML;
         introMediaEl.style.display = introHTML ? '' : 'none';
       }
