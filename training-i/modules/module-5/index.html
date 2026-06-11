@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
-  @import url('/assets/concept-insight-intro.css?v=20260610e');
+  @import url('/assets/concept-insight-intro.css?v=20260611a');
 
   :root{
       --blue:#2d84b3;
@@ -2187,17 +2187,43 @@
       margin:0 3px;
     }
 
-    /* M5 nested folders/categories — premium centered visuals */
+    /* M5 nested folders/categories — align with training-wide section card width */
+    .portal .b2-screens{
+      width:100%;
+      max-width:min(1180px,100%);
+      margin-left:auto;
+      margin-right:auto;
+      box-sizing:border-box;
+    }
     .portal .b2-screens .folder-page{
       display:flex;
       flex-direction:column;
       align-items:stretch;
+      width:100%;
+      max-width:min(1180px,100%);
+      margin-left:auto;
+      margin-right:auto;
+      box-sizing:border-box;
+    }
+    .portal .b2-screens .folder-page .concept-section-card,
+    .portal .b2-screens .folder-page > .concept-section-card,
+    .portal .b2-screens .m5-nested-visual-shell,
+    .portal .b2-screens .m5-screen-visual-card:not(:has(.b2pl-cat-grid)),
+    .portal .b2-screens .m5-folder-overview-card,
+    .portal .b2-screens .folder-page > .concept-points-box,
+    .portal .b2-screens .folder-page > .section-activity-shell,
+    .portal .b2-screens .folder-page .section-activity-shell,
+    .portal .b2-screens .folder-page > .concept-section-card.section-activity,
+    .portal .b2-screens .folder-page .concept-section-card.section-activity-shell{
+      width:100%;
+      max-width:min(1180px,100%);
+      margin-left:auto;
+      margin-right:auto;
+      box-sizing:border-box;
     }
     .portal .b2-screens .m5-nested-visual-shell,
     .portal .b2-screens .m5-screen-visual-card:not(:has(.b2pl-cat-grid)){
-      width:100%;
-      max-width:min(620px, 100%);
-      margin:0 auto 18px;
+      margin-bottom:18px;
       padding:16px 18px 18px;
       background:#fff;
       border:1px solid rgba(45,132,179,.12);
@@ -2206,9 +2232,7 @@
       text-align:center;
     }
     .portal .b2-screens .m5-folder-overview-card{
-      width:100%;
-      max-width:min(680px, 100%);
-      margin:0 auto 18px;
+      margin-bottom:18px;
       padding:16px 18px 20px;
       background:#fff;
       border:1px solid rgba(45,132,179,.12);
@@ -2276,19 +2300,23 @@
     .portal .b2-screens .m5-nested-visual-frame:hover{
       border-color:rgba(45,132,179,.22);
     }
-    .portal .b2-screens .folder-page > .concept-points-box,
-    .portal .b2-screens .folder-page > .section-activity-shell,
-    .portal .b2-screens .folder-page > .concept-section-card.section-activity{
+    .portal .b2-screens .b2-nav{
       width:100%;
-      max-width:min(680px, 100%);
+      max-width:min(1180px,100%);
       margin-left:auto;
       margin-right:auto;
     }
-    .portal .b2-screens .b2-nav{
-      width:100%;
-      max-width:min(680px, 100%);
-      margin-left:auto;
-      margin-right:auto;
+
+    /* Nested PixtoLearn screens: drop the extra outer card chrome on .concept-image */
+    .concept-panel[data-panel-for="block2"] .concept-image.concept-section-card:has(.b2-screens),
+    .concept-panel[data-panel-for="block3"] .concept-image.concept-section-card:has(.b2-screens){
+      background:transparent !important;
+      border:none !important;
+      box-shadow:none !important;
+      padding:0 !important;
+      margin-top:14px !important;
+      max-width:min(1180px,100%) !important;
+      width:100% !important;
     }
 
     /* Home folder grid only: white folder above title */
@@ -3310,7 +3338,7 @@
       margin:0 0 14px !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260610e" />
+  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260611a" />
   <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260707" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css" />

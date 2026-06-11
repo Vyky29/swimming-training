@@ -187,15 +187,16 @@
 }
 .portal .concept-panel.m5-nested-active > .concept-image{
   margin-top:0;
+  width:100%;
+  max-width:min(1180px,100%);
+  margin-left:auto;
+  margin-right:auto;
 }
 .portal .concept-panel.m5-nested-active .concept-insight-intro{
   max-width:54rem;
 }
 .portal .concept-panel.m5-nested-active > .concept-points-box{
   display:none !important;
-}
-.portal .concept-panel.m5-nested-active > .concept-image{
-  margin-top:0;
 }
 .portal .concept-panel.m5-nested-active .b2-screens .folder-page{
   padding:0;
