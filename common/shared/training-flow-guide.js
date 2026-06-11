@@ -2,6 +2,8 @@
   'use strict';
 
   var PULSE_CLASS = 'flow-guide-pulse';
+  var PULSE_EXPAND = 'flow-guide-pulse--expand';
+  var PULSE_ACTIVITY = 'flow-guide-pulse--activity';
   var RAIL_ID = 'trainingFlowGuideRail';
   var activePulseEl = null;
   var refreshTimer = null;
@@ -69,6 +71,26 @@
     if(el.offsetParent !== null) return true;
     var style = window.getComputedStyle(el);
     return style.display !== 'none' && style.visibility !== 'hidden';
+  }
+
+  function isInViewport(el, padding){
+    if(!el || typeof el.getBoundingClientRect !== 'function') return false;
+    padding = padding || {};
+    var topPad = padding.top != null ? padding.top : 88;
+    var bottomPad = padding.bottom != null ? padding.bottom : 130;
+    var rect = el.getBoundingClientRect();
+    return rect.top >= topPad && rect.bottom <= window.innerHeight - bottomPad;
+  }
+
+  function scrollIfNeeded(target, step){
+    if(!target || typeof target.scrollIntoView !== 'function') return;
+    if(isInViewport(target)) return;
+
+    var block = 'center';
+    if(step && (step.kind === 'concept' || step.kind === 'concept-grid-frame' || step.scrollBlock === 'start')){
+      block = 'start';
+    }
+    target.scrollIntoView({ behavior: 'smooth', block: block });
   }
 
   function panelHasExpandableVisual(panel){
@@ -154,17 +176,24 @@
     if(!finish || !finish.disabled) return null;
 
     if(panel.querySelector('[data-carousel]') && panel.dataset.carouselComplete !== 'true'){
+      var carousel = panel.querySelector('[data-carousel]');
+      var nextBtn = carousel.querySelector('[data-carousel-next], .carousel-next, button[aria-label*="Next"]');
+      var activeSlide = carousel.querySelector('.carousel-slide.active, .carousel-inline-slide.active');
       return {
         kind: 'carousel',
-        el: panel.querySelector('[data-carousel]'),
+        tone: 'activity',
+        el: nextBtn || activeSlide || carousel.querySelector('.carousel-slide') || carousel,
         label: 'Review all slides in this section'
       };
     }
 
     if(panel.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true'){
+      var choiceWrap = panel.querySelector('[data-choice-activity]');
+      var option = choiceWrap.querySelector('[data-choice-option]:not(.selected):not(.correct), .match-item:not(.selected):not(.correct), button:not(.selected):not(.correct)');
       return {
         kind: 'choice-activity',
-        el: panel.querySelector('[data-choice-activity]'),
+        tone: 'activity',
+        el: option || choiceWrap.querySelector('[data-choice-option], .match-item, button') || choiceWrap,
         label: 'Complete the activity above'
       };
     }
@@ -174,29 +203,41 @@
       var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
       var requiredMatches = parseInt(panel.dataset.requiredMatches, 10) || parseInt(panel.dataset.matchingPairsCount, 10) || 0;
       if(!requiredMatches || matchedCount < requiredMatches){
-        return { kind: 'matching', el: match, label: 'Complete the matching activity' };
+        var pair = match.querySelector('.match-item:not(.matched):not(.correct), [data-match-item]:not(.matched), .matching-card:not(.matched)');
+        return {
+          kind: 'matching',
+          tone: 'activity',
+          el: pair || match.querySelector('.match-item, [data-match-item], .matching-card') || match,
+          label: 'Complete the matching activity'
+        };
       }
     }
 
     if(panel.querySelector('[data-categorize-activity]') && panel.dataset.categorizeComplete !== 'true'){
+      var categorize = panel.querySelector('[data-categorize-activity]');
+      var catItem = categorize.querySelector('.categorize-item:not(.placed), [data-categorize-item]:not(.placed), button:not(.placed)');
       return {
         kind: 'categorize',
-        el: panel.querySelector('[data-categorize-activity]'),
+        tone: 'activity',
+        el: catItem || categorize,
         label: 'Complete the classification activity'
       };
     }
 
     if(panel.querySelector('[data-sequence-activity]') && panel.dataset.sequenceComplete !== 'true'){
+      var sequence = panel.querySelector('[data-sequence-activity]');
+      var seqItem = sequence.querySelector('[data-sequence-item]:not(.placed), .sequence-item:not(.placed), button:not(.placed)');
       return {
         kind: 'sequence',
-        el: panel.querySelector('[data-sequence-activity]'),
+        tone: 'activity',
+        el: seqItem || sequence,
         label: 'Complete the sequencing activity'
       };
     }
 
     var unflipped = panel.querySelector('[data-sense-card]:not(.flipped)');
     if(unflipped){
-      return { kind: 'sensory', el: unflipped, label: 'Open all sensory cards' };
+      return { kind: 'sensory', tone: 'activity', el: unflipped, label: 'Open all sensory cards' };
     }
 
     return null;
@@ -236,10 +277,31 @@
     }
 
     return {
-      kind: 'subconcept-nav',
-      el: nav,
-      label: 'Choose the next subconcept from the grid'
+      kind: 'subconcept',
+      el: unvisited[0],
+      label: 'Choose the next subconcept'
     };
+  }
+
+  function nextConceptInBlock(block, moduleConfig){
+    var buttons = getConceptButtons(block);
+    for(var i = 0; i < buttons.length; i++){
+      var btn = buttons[i];
+      if(isConceptDone(btn)) continue;
+      if(isConceptLocked(btn, moduleConfig)) continue;
+      var label = btn.textContent.replace(/\s+/g, ' ').trim();
+      return {
+        kind: 'concept',
+        el: btn,
+        label: label || 'Open next concept'
+      };
+    }
+    return null;
+  }
+
+  function resolveConceptPick(block, moduleConfig){
+    if(getOpenPanel(block)) return null;
+    return nextConceptInBlock(block, moduleConfig);
   }
 
   function panelIncompleteTarget(panel){
@@ -295,27 +357,7 @@
   }
 
   function resolveConceptGrid(block, moduleConfig){
-    if(getOpenPanel(block)) return null;
-
-    var buttons = getConceptButtons(block);
-    var hasIncomplete = false;
-    for(var i = 0; i < buttons.length; i++){
-      if(isConceptDone(buttons[i])) continue;
-      if(isConceptLocked(buttons[i], moduleConfig)) continue;
-      hasIncomplete = true;
-      break;
-    }
-    if(!hasIncomplete) return null;
-
-    var section = document.getElementById(block);
-    var grid = section ? (section.querySelector('[data-concept-grid="' + block + '"]') || section.querySelector('.concept-stage')) : null;
-    if(!grid) return null;
-
-    return {
-      kind: 'concept-grid',
-      el: grid,
-      label: 'Choose your next concept from the grid'
-    };
+    return resolveConceptPick(block, moduleConfig);
   }
 
   function journeyContentReviewed(){
@@ -342,7 +384,8 @@
     });
   }
 
-  function bindSectionReview(section, attr){
+  function bindSectionReview(section, options){
+    options = options || {};
     if(!section || section.getAttribute('data-flow-bound') === '1') return;
     section.setAttribute('data-flow-bound', '1');
     var wrap = section.querySelector('.journey-wrap, .module-roadmap-wrap') || section;
@@ -355,10 +398,25 @@
 
     wrap.addEventListener('click', function(e){
       if(e.target.closest('.check-item, .overall-check')) return;
-      markReviewed();
+      if(options.itemSelector){
+        var item = e.target.closest(options.itemSelector);
+        if(item){
+          item.setAttribute('data-flow-reviewed', 'true');
+          item.classList.add('clicked');
+          var items = section.querySelectorAll(options.itemSelector);
+          var allDone = true;
+          for(var i = 0; i < items.length; i++){
+            if(items[i].getAttribute('data-flow-reviewed') !== 'true') allDone = false;
+          }
+          if(allDone) markReviewed();
+          else if(activeModuleConfig) scheduleRefresh(activeModuleConfig);
+          return;
+        }
+      }
+      if(!options.itemSelector) markReviewed();
     });
 
-    if(typeof IntersectionObserver !== 'undefined'){
+    if(!options.disableAutoReview && typeof IntersectionObserver !== 'undefined'){
       var seenAt = 0;
       var observer = new IntersectionObserver(function(entries){
         if(!isModuleStarted()) return;
@@ -380,7 +438,12 @@
   }
 
   function bindInsideModuleReview(){
-    bindSectionReview($('#inside-module'));
+    var section = $('#inside-module');
+    if(!section) return;
+    bindSectionReview(section, {
+      itemSelector: '.module-roadmap__item, a.module-roadmap__item',
+      disableAutoReview: true
+    });
   }
 
   function resolveStartModule(){
@@ -450,17 +513,27 @@
     if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
-    if(insideModuleReviewed()) return null;
 
     var section = $('#inside-module');
     if(!section) return null;
+    if(section.getAttribute('data-flow-reviewed') === 'true') return null;
 
-    var content = section.querySelector('.module-roadmap-wrap') || section.querySelector('.journey-wrap') || section;
-    return {
-      kind: 'inside-module',
-      el: content,
-      label: 'Review the block roadmap before you begin'
-    };
+    var items = $$('.module-roadmap__item, a.module-roadmap__item', section);
+    for(var i = 0; i < items.length; i++){
+      if(items[i].getAttribute('data-flow-reviewed') !== 'true'){
+        var titleEl = items[i].querySelector('.journey-title');
+        var title = titleEl && titleEl.textContent.trim();
+        return {
+          kind: 'inside-module-item',
+          el: items[i],
+          scrollBlock: 'start',
+          label: 'Review block roadmap: ' + (title || ('Block ' + (i + 1)))
+        };
+      }
+    }
+
+    section.setAttribute('data-flow-reviewed', 'true');
+    return null;
   }
 
   function resolveBlock(block, moduleConfig){
@@ -589,7 +662,8 @@
   function clearPulse(){
     if(activePulseEl){
       activePulseEl.classList.remove(PULSE_CLASS);
-      activePulseEl.classList.remove(PULSE_CLASS + '--expand');
+      activePulseEl.classList.remove(PULSE_EXPAND);
+      activePulseEl.classList.remove(PULSE_ACTIVITY);
       activePulseEl = null;
     }
   }
@@ -636,16 +710,23 @@
     lastStepKey = key;
 
     target.classList.add(PULSE_CLASS);
-    if(step.kind === 'expand-visual') target.classList.add(PULSE_CLASS + '--expand');
+    if(step.kind === 'expand-visual') target.classList.add(PULSE_EXPAND);
+    if(step.tone === 'activity' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
+      target.classList.add(PULSE_ACTIVITY);
+    }
     activePulseEl = target;
     updateRail(step);
 
-    if(shouldScroll && typeof target.scrollIntoView === 'function'){
-      var rect = target.getBoundingClientRect();
-      var offScreen = rect.top < 88 || rect.bottom > window.innerHeight - 130;
-      if(offScreen || step.kind === 'start-module' || step.kind === 'concept-grid' || step.kind === 'subconcept-nav' || step.kind === 'expand-visual'){
-        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if(step.kind === 'concept'){
+      var blockSection = target.closest('[id^="block"]') || document.getElementById(target.getAttribute('data-block'));
+      var stage = blockSection && blockSection.querySelector('.concept-stage');
+      if(stage && !isInViewport(stage, { top: 72, bottom: 110 })){
+        stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        scrollIfNeeded(target, step);
       }
+    } else if(shouldScroll){
+      scrollIfNeeded(target, step);
     }
   }
 
@@ -789,14 +870,15 @@
         panel.classList.remove('show');
         delete panel.dataset.currentTarget;
         delete panel.dataset.currentBlock;
+        panel.removeAttribute('data-flow-visual-expanded');
       }
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square[data-target]').forEach(function(btn){
         btn.classList.remove('active');
       });
       var section = document.getElementById(block);
-      var grid = section ? section.querySelector('[data-concept-grid="' + block + '"]') : null;
-      if(grid){
-        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var stage = section ? section.querySelector('.concept-stage') : null;
+      if(stage && !isInViewport(stage, { top: 72, bottom: 110 })){
+        stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
       if(activeModuleConfig) scheduleRefresh(activeModuleConfig);
     }, 120);

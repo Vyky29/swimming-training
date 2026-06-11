@@ -15,7 +15,7 @@
         number: 1,
         path: '/training-i/modules/module-1/',
         title: 'Understanding Water',
-        sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
+        sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
         blocks: ['block1', 'block2', 'block3'],
         conceptLocks: { b1c4: ['b1c3'] }
       },
@@ -24,7 +24,7 @@
         number: 2,
         path: '/training-i/modules/module-2/',
         title: 'Understanding the Swimmer\'s Experience',
-        sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
+        sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
         blocks: ['block1', 'block2', 'block3']
       },
       {
@@ -32,7 +32,7 @@
         number: 3,
         path: '/training-i/modules/module-3/',
         title: 'Building Engagement and Connection',
-        sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
+        sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
         blocks: ['block1', 'block2', 'block3']
       },
       {
@@ -40,7 +40,7 @@
         number: 4,
         path: '/training-i/modules/module-4/',
         title: 'clubSENsational Programme',
-        sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'block4', 'keyideas', 'quiz'],
+        sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'block4', 'keyideas', 'quiz'],
         blocks: ['block1', 'block2', 'block3', 'block4'],
         pathwayBlock: 'block3'
       },
@@ -49,7 +49,7 @@
         number: 5,
         path: '/training-i/modules/module-5/',
         title: 'PixtoLearn',
-        sections: ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
+        sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
         blocks: ['block1', 'block2', 'block3']
       }
     ]
