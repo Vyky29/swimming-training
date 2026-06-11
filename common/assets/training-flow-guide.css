@@ -42,6 +42,26 @@
   border-radius: 14px;
 }
 
+.flow-guide-pulse.concept-points-box.flow-guide-pulse--expand,
+.portal .flow-guide-pulse.concept-points-box.flow-guide-pulse--expand,
+.flow-guide-pulse.key-idea-item.flow-guide-pulse--expand,
+.portal .flow-guide-pulse.key-idea-item.flow-guide-pulse--expand,
+.flow-guide-pulse.concept-square.flow-guide-pulse--expand,
+.portal .flow-guide-pulse.concept-square.flow-guide-pulse--expand,
+.flow-guide-pulse.concept-insight-pillar.flow-guide-pulse--expand,
+.portal .flow-guide-pulse.concept-insight-pillar.flow-guide-pulse--expand,
+.flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand,
+.portal .flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand,
+.flow-guide-pulse.section-visual-shell.flow-guide-pulse--expand,
+.portal .flow-guide-pulse.section-visual-shell.flow-guide-pulse--expand,
+.flow-guide-pulse.concept-image.flow-guide-pulse--expand,
+.portal .flow-guide-pulse.concept-image.flow-guide-pulse--expand,
+.flow-guide-pulse.concept-section-card.flow-guide-pulse--expand,
+.portal .flow-guide-pulse.concept-section-card.flow-guide-pulse--expand {
+  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
+  overflow: visible !important;
+}
+
 .flow-guide-pulse--expand,
 .portal .flow-guide-pulse--expand {
   animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
@@ -51,6 +71,7 @@
 .portal .flow-guide-pulse.img-expand-btn.flow-guide-pulse--expand {
   border-radius: 50%;
   z-index: 8;
+  overflow: visible !important;
 }
 
 .flow-guide-pulse--activity,
