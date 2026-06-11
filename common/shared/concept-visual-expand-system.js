@@ -428,6 +428,15 @@
     section.setAttribute('data-visual-section-ready', 'true');
   }
 
+  function isNestedVisualSlot(slot) {
+    if (!slot || !slot.matches) return false;
+    if (!slot.matches('.concept-image, .b3c2-concept-hero')) return false;
+    var parentSlot = slot.parentElement && slot.parentElement.closest(
+      '[data-concept-intro-media], [data-concept-primary-image], .b3c2-concept-hero'
+    );
+    return !!(parentSlot && parentSlot !== slot);
+  }
+
   function collectVisualSections(root) {
     var sections = new Set();
 
@@ -446,6 +455,7 @@
       if (!slot.querySelector('img[src], img[srcset]')) return;
       if (isComplexImageSlot(slot)) return;
       if (findDedicatedVisualCard(slot)) return;
+      if (isNestedVisualSlot(slot)) return;
       sections.add(slot);
     });
 
