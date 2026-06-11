@@ -8162,7 +8162,12 @@
       }
     }
 
-    if(intro && intro.style.display !== 'none' && (intro.textContent || '').trim()){
+    var isInsightIntroShell = intro && intro.classList.contains('concept-insight-intro-shell');
+    if(isInsightIntroShell){
+      intro.classList.remove('concept-section-card','section-intro');
+      var staleKicker = intro.querySelector(':scope > .concept-intro-kicker');
+      if(staleKicker) staleKicker.remove();
+    } else if(intro && intro.style.display !== 'none' && (intro.textContent || '').trim()){
       intro.classList.add('concept-section-card','section-intro');
       if(!intro.querySelector(':scope > .concept-intro-kicker')){
         intro.insertAdjacentHTML('afterbegin','<span class="concept-intro-kicker"><span class="icon" aria-hidden="true">📘</span>Introduction</span>');
@@ -8310,6 +8315,9 @@
       panel.dataset.conceptFlow = (block === 'block1' || block === 'block2' || block === 'block4') ? 'flat' : '';
       const titleEl = panel.querySelector('.concept-panel-title');
       const stageSubtitle = block === 'block3' ? getBlock2HeaderSubtitle(target, data) : '';
+      const isPathwayStageEarly = block === 'block3' && (target === 'b2c1' || target === 'b2c2' || target === 'b2c3');
+      const isBlock2LevelRootEarly = block === 'block3' && /^b2l[1-6]$/.test(target || '');
+      const hideInsightIntroEarly = isPathwayStageEarly || isBlock2LevelRootEarly;
       if(titleEl){
         setConceptTitle(titleEl, data.title || '', target, block, stageSubtitle);
         titleEl.style.display = '';
@@ -8373,7 +8381,7 @@
         if(levelBadgeEl){ levelBadgeEl.innerHTML = ''; levelBadgeEl.style.display = 'none'; }
         document.querySelectorAll(`[data-concept-grid="${block}"] .concept-square`).forEach(btn => btn.classList.remove('current-stage'));
       }
-      const isPathwayStage = block === 'block3' && (target === 'b2c1' || target === 'b2c2' || target === 'b2c3');
+      const isPathwayStage = isPathwayStageEarly;
       const stageIntroWrap = panel.querySelector('[data-stage-intro]');
       if(stageIntroWrap){
         if(isPathwayStage){
@@ -8433,15 +8441,22 @@
         descEl.innerHTML = formatConceptCopy(data.text || '');
       }
       if(descEl){
-        const isBlock2LevelRoot = block === 'block3' && /^b2l[1-6]$/.test(target || '');
-        descEl.style.display = (isPathwayStage || isBlock2LevelRoot) ? 'none' : '';
+        descEl.style.display = hideInsightIntroEarly ? 'none' : '';
+      }
+      var useInsightAsPrimaryIntro = !!(resolvedInsight && !hideInsightIntroEarly);
+      if(titleEl){
+        titleEl.style.display = useInsightAsPrimaryIntro ? 'none' : '';
       }
 
       const introMediaEl = panel.querySelector('[data-concept-intro-media]');
       if(introMediaEl){
-        const introHTML = data.introMediaHTML || '';
+        const introHTML = useInsightAsPrimaryIntro ? '' : (data.introMediaHTML || '');
         introMediaEl.innerHTML = introHTML;
         introMediaEl.style.display = introHTML ? '' : 'none';
+      }
+      const keyIdeasInstructionEl = panel.querySelector('.key-ideas-instruction');
+      if(keyIdeasInstructionEl){
+        keyIdeasInstructionEl.style.display = useInsightAsPrimaryIntro ? 'none' : '';
       }
 
       const ul = panel.querySelector('.concept-points-box ul');

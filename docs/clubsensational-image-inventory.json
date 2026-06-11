@@ -1,0 +1,500 @@
+{
+  "scope": "Training I modules 1-4 — clubSENsational infographics to regenerate with Atlas",
+  "exclude": "Module 5 b2c2/b2c3/PixtoLearn product visuals",
+  "goldenMasterFile": "golden-master-clubsensational.png",
+  "outputBase": "/assets/images/training-i",
+  "variants": {
+    "A": "3 equal columns with icon + label + short text",
+    "B": "2 columns compare / contrast",
+    "C": "Numbered sequence 3-4 steps"
+  },
+  "images": [
+    {
+      "module": 1,
+      "conceptId": "b1c1",
+      "title": "Water as an Active Environment",
+      "variant": "A",
+      "outputFile": "m1/m1-b1c1-water-active-environment.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/04/586c68df-007d-4cce-9113-61974cde7520.png",
+      "contentNotes": "Moves / Balances / Responds — water influences body",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b1c2",
+      "title": "Overview of Water Forces",
+      "variant": "C",
+      "outputFile": "m1/m1-b1c2-overview-water-forces.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-11-2026-06_37_22-PM.png",
+      "contentNotes": "Buoyancy, drag, pressure, lift, turbulence",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b1c2-1",
+      "title": "Supportive Forces",
+      "variant": "A",
+      "outputFile": "m1/m1-b1c2-1-supportive-forces.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-11-2026-06_51_44-PM.png",
+      "contentNotes": "Buoyancy, water pressure, lift, support and stability",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b1c2-2",
+      "title": "Dynamic Forces",
+      "variant": "A",
+      "outputFile": "m1/m1-b1c2-2-dynamic-forces.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-11-2026-06_51_36-PM.png",
+      "contentNotes": "Drag, turbulence, instability affecting movement",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b1c3",
+      "title": "Drowning Risk",
+      "variant": "C",
+      "outputFile": "m1/m1-b1c3-drowning-risk.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-6-2026-12_16_15-PM.png",
+      "contentNotes": "Global statistics, causes, underreporting, awareness",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b1c4",
+      "title": "Who Is More Vulnerable",
+      "variant": "A",
+      "outputFile": "m1/m1-b1c4-who-is-vulnerable.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-6-2026-12_18_24-PM.png",
+      "contentNotes": "Children, limited experience, unexpected falls, supervision",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b1c5",
+      "title": "Neurodiverse Risk Factors",
+      "variant": "A",
+      "outputFile": "m1/m1-b1c5-neurodiverse-risk.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-6-2026-12_19_20-PM.png",
+      "contentNotes": "Sensory attraction, danger awareness, communication, access gaps",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b1c6",
+      "title": "Prevention Systems",
+      "variant": "C",
+      "outputFile": "m1/m1-b1c6-prevention-systems.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-6-2026-12_20_20-PM.png",
+      "contentNotes": "Supervision, equipment, barriers, skills, rules, community",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b2c1",
+      "title": "What Changes When Entering Water",
+      "variant": "A",
+      "outputFile": "m1/m1-b2c1-entering-water-changes.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-11-2026-06_13_49-PM.png",
+      "contentNotes": "Temperature, pressure, balance, sensory adaptation",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b2c2",
+      "title": "The Seven Senses in Water",
+      "variant": "C",
+      "outputFile": "m1/m1-b2c2-seven-senses.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-11-2026-06_21_29-PM.png",
+      "contentNotes": "Sight, hearing, smell, touch, taste, proprioception, vestibular",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b2c3",
+      "title": "Land vs Water Perception",
+      "variant": "B",
+      "outputFile": "m1/m1-b2c3-land-vs-water.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-11-2026-06_28_37-PM.png",
+      "contentNotes": "Compare each sense on land vs in water",
+      "status": "pending"
+    },
+    {
+      "module": 1,
+      "conceptId": "b2c4",
+      "title": "Hypo and Hyper Sensitivity",
+      "variant": "B",
+      "outputFile": "m1/m1-b2c4-hypo-hyper-sensitivity.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-11-2026-06_32_52-PM.png",
+      "contentNotes": "Hypo-sensitive vs hyper-sensitive swimmers",
+      "status": "pending"
+    },
+
+    {
+      "module": 2,
+      "conceptId": "b1c1",
+      "title": "How Learning Is Accessed",
+      "variant": "A",
+      "outputFile": "m2/m2-b1c1-learning-accessed.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-08_15_35-PM.png",
+      "contentNotes": "Emotional state, engagement, learning in water",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b1c2",
+      "title": "Teaching Requires Regulation",
+      "variant": "A",
+      "outputFile": "m2/m2-b1c2-teaching-regulation.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-10_30_08-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b1c3",
+      "title": "What the Framework Helps Us Understand",
+      "variant": "A",
+      "outputFile": "m2/m2-b1c3-framework-understanding.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-10_28_04-PM-1.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b1c4",
+      "title": "Readiness Can Change",
+      "variant": "A",
+      "outputFile": "m2/m2-b1c4-readiness-changes.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-08_21_02-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c1",
+      "title": "Why Emotional States Matter",
+      "variant": "A",
+      "outputFile": "m2/m2-b2c1-emotional-states-matter.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-08_23_18-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c2",
+      "title": "Overview of Emotional States",
+      "variant": "C",
+      "outputFile": "m2/m2-b2c2-emotional-states-overview.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-08_27_11-PM.png",
+      "contentNotes": "Calm, alert, overloaded overview",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c2-1",
+      "title": "Calm",
+      "variant": "A",
+      "outputFile": "m2/m2-b2c2-1-calm.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/calm.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c2-2",
+      "title": "Alert",
+      "variant": "A",
+      "outputFile": "m2/m2-b2c2-2-alert.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-08_33_47-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c2-3",
+      "title": "Overloaded",
+      "variant": "A",
+      "outputFile": "m2/m2-b2c2-3-overloaded.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-08_36_19-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c3",
+      "title": "Understanding the Influences",
+      "variant": "A",
+      "outputFile": "m2/m2-b2c3-understanding-influences.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-08_38_18-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c3-overview",
+      "title": "Factors That Shape Emotional State",
+      "variant": "A",
+      "outputFile": "m2/m2-b2c3-factors-overview.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-09_57_47-PM.png",
+      "contentNotes": "Water, environment, internal",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c3-1",
+      "title": "Environmental",
+      "variant": "A",
+      "outputFile": "m2/m2-b2c3-1-environmental.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-09_56_13-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c3-2",
+      "title": "Water-Based",
+      "variant": "A",
+      "outputFile": "m2/m2-b2c3-2-water-based.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-09_50_33-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 2,
+      "conceptId": "b2c3-3",
+      "title": "Internal",
+      "variant": "A",
+      "outputFile": "m2/m2-b2c3-3-internal.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-09_55_39-PM.png",
+      "status": "pending"
+    },
+
+    {
+      "module": 3,
+      "conceptId": "b1c1",
+      "title": "What Is Engagement?",
+      "variant": "A",
+      "outputFile": "m3/m3-b1c1-what-is-engagement.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-10_38_06-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b1c2",
+      "title": "What Engagement Looks Like",
+      "variant": "A",
+      "outputFile": "m3/m3-b1c2-engagement-looks-like.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-10_43_56-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b1c3",
+      "title": "Engagement Before Instruction",
+      "variant": "A",
+      "outputFile": "m3/m3-b1c3-engagement-before-instruction.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-10_43_06-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b2c1",
+      "title": "Why Connection Matters",
+      "variant": "A",
+      "outputFile": "m3/m3-b2c1-why-connection-matters.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-10_49_01-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b2c2",
+      "title": "Building Trust",
+      "variant": "A",
+      "outputFile": "m3/m3-b2c2-building-trust.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-10_55_35-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b2c3",
+      "title": "Instructor Behaviour",
+      "variant": "A",
+      "outputFile": "m3/m3-b2c3-instructor-behaviour.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-10_55_39-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b2c4",
+      "title": "Protecting Connection",
+      "variant": "A",
+      "outputFile": "m3/m3-b2c4-protecting-connection.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-10_58_00-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b3c1",
+      "title": "Engagement Changes",
+      "variant": "A",
+      "outputFile": "m3/m3-b3c1-engagement-changes.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_00_46-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b3c2",
+      "title": "Maintaining Engagement",
+      "variant": "A",
+      "outputFile": "m3/m3-b3c2-maintaining-engagement.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_03_32-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b3c3",
+      "title": "Using Engagement Approaches",
+      "variant": "C",
+      "outputFile": "m3/m3-b3c3-engagement-approaches.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_09_07-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b3c3-1",
+      "title": "Modelling",
+      "variant": "C",
+      "outputFile": "m3/m3-b3c3-1-modelling.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_11_26-PM.png",
+      "contentNotes": "Watch, process, attempt",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b3c3-2",
+      "title": "Turn Taking",
+      "variant": "C",
+      "outputFile": "m3/m3-b3c3-2-turn-taking.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_13_56-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b3c3-3",
+      "title": "Guided Discovery",
+      "variant": "C",
+      "outputFile": "m3/m3-b3c3-3-guided-discovery.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_17_40-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b3c3-4",
+      "title": "Intensive Interaction",
+      "variant": "C",
+      "outputFile": "m3/m3-b3c3-4-intensive-interaction.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_36_14-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b3c3-5",
+      "title": "Play-Based Interaction",
+      "variant": "C",
+      "outputFile": "m3/m3-b3c3-5-play-based-interaction.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_30_03-PM.png",
+      "status": "pending"
+    },
+    {
+      "module": 3,
+      "conceptId": "b3c4",
+      "title": "Responding to Disengagement",
+      "variant": "A",
+      "outputFile": "m3/m3-b3c4-responding-disengagement.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_41_30-PM.png",
+      "status": "pending"
+    },
+
+    {
+      "module": 4,
+      "conceptId": "b1c1",
+      "title": "Programme Purpose",
+      "variant": "A",
+      "outputFile": "m4/m4-b1c1-programme-purpose.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_56_40-PM.png",
+      "field": "introMediaHTML",
+      "status": "pending"
+    },
+    {
+      "module": 4,
+      "conceptId": "b1c2",
+      "title": "Programme Values",
+      "variant": "A",
+      "outputFile": "m4/m4-b1c2-programme-values.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_58_44-PM.png",
+      "field": "introMediaHTML",
+      "status": "pending"
+    },
+    {
+      "module": 4,
+      "conceptId": "b1c3",
+      "title": "Core Principles",
+      "variant": "A",
+      "outputFile": "m4/m4-b1c3-core-principles.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/03/b9a8bd0b-8bf7-4cb5-a683-26084eb9dcd7.png",
+      "field": "introMediaHTML",
+      "status": "pending"
+    },
+    {
+      "module": 4,
+      "conceptId": "b3c1",
+      "title": "Development Is Not Linear",
+      "variant": "C",
+      "outputFile": "m4/m4-b3c1-development-not-linear.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_46_38-PM.png",
+      "field": "introMediaHTML",
+      "status": "pending"
+    },
+    {
+      "module": 4,
+      "conceptId": "b3c2",
+      "title": "Why Some Swimmers Access Skills Differently",
+      "variant": "A",
+      "outputFile": "m4/m4-b3c2-access-skills-differently.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_48_32-PM.png",
+      "field": "introMediaHTML",
+      "status": "pending"
+    },
+    {
+      "module": 4,
+      "conceptId": "b3c2-physical",
+      "title": "Physical Factors",
+      "variant": "A",
+      "outputFile": "m4/m4-b3c2-physical-factors.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_49_15-PM.png",
+      "field": "imageHTML",
+      "status": "pending"
+    },
+    {
+      "module": 4,
+      "conceptId": "b3c2-motor",
+      "title": "Motor Planning Factors",
+      "variant": "A",
+      "outputFile": "m4/m4-b3c2-motor-planning.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_50_41-PM.png",
+      "field": "imageHTML",
+      "status": "pending"
+    },
+    {
+      "module": 4,
+      "conceptId": "b3c2-cognitive",
+      "title": "Cognitive Factors",
+      "variant": "A",
+      "outputFile": "m4/m4-b3c2-cognitive-factors.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_53_41-PM.png",
+      "field": "imageHTML",
+      "status": "pending"
+    },
+    {
+      "module": 4,
+      "conceptId": "b3c3",
+      "title": "Using the Framework to Review Progress",
+      "variant": "C",
+      "outputFile": "m4/m4-b3c3-review-progress.png",
+      "currentUrl": "https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-9-2026-12_15_29-AM.png",
+      "field": "introMediaHTML",
+      "status": "pending"
+    }
+  ]
+}
