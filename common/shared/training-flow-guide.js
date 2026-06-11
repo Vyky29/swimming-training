@@ -62,11 +62,14 @@
 
   function panelUnexpandedVisual(panel){
     if(!panel) return null;
+    if(panel.querySelector('.concept-insight-pillar:not(.clicked)')) return null;
+    if(panel.querySelector('.key-idea-item:not(.clicked)')) return null;
     var btn = panel.querySelector('.img-expand-btn:not([data-visual-expanded="true"])');
     if(!btn) return null;
+    var host = btn.closest('[data-expandable-visual], .concept-section-card.section-visual-shell, .concept-image, .concept-section-card') || btn;
     return {
       kind: 'expand-visual',
-      el: btn,
+      el: host,
       label: 'Expand the image to view it full size'
     };
   }
@@ -114,22 +117,24 @@
   function panelIncompleteTarget(panel){
     if(!panel) return null;
 
+    var pillars = panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
+    if(pillars.length){
+      var title = pillars[0].querySelector('.concept-insight-pillar__title');
+      return { kind: 'pillar', el: pillars[0], label: 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point') };
+    }
+
+    var ideas = panel.querySelectorAll('.key-idea-item:not(.clicked)');
+    if(ideas.length){
+      var idx = ideas[0].querySelector('.key-idea-index');
+      return { kind: 'keyidea', el: ideas[0], label: 'Review key idea ' + ((idx && idx.textContent.trim()) || '') };
+    }
+
     var expandStep = panelUnexpandedVisual(panel);
     if(expandStep) return expandStep;
 
     var subconceptStep = resolveSubconceptNav(panel);
     if(subconceptStep) return subconceptStep;
 
-    var pillars = panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
-    if(pillars.length){
-      var title = pillars[0].querySelector('.concept-insight-pillar__title');
-      return { kind: 'pillar', el: pillars[0], label: 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point') };
-    }
-    var ideas = panel.querySelectorAll('.key-idea-item:not(.clicked)');
-    if(ideas.length){
-      var idx = ideas[0].querySelector('.key-idea-index');
-      return { kind: 'keyidea', el: ideas[0], label: 'Review key idea ' + ((idx && idx.textContent.trim()) || '') };
-    }
     var inPractice = panel.querySelector('.key-ideas-action:not([hidden])');
     if(inPractice && !inPractice.classList.contains('is-completed')){
       return { kind: 'inpractice', el: inPractice, label: 'Open In Practice' };
