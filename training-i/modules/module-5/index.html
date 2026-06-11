@@ -2336,47 +2336,37 @@
       margin:0 3px;
     }
 
-    /* M5 nested insight — centered mini peek below insight title divider */
+    /* M5 nested insight — clean mini peek (no card chrome), below title divider */
     .portal .concept-intro-slot .m5-insight-mini-peek{
       display:flex;
       justify-content:center;
       align-items:center;
       width:100%;
-      margin:2px auto 18px;
+      margin:4px auto 20px;
       padding:0;
+      border:none;
+      background:transparent;
+      box-shadow:none;
       box-sizing:border-box;
     }
-    .portal .concept-intro-slot .m5-insight-mini-peek--fan{
-      padding:10px 14px 8px;
-      border-radius:16px;
-      border:1px solid rgba(18,50,71,.08);
-      background:linear-gradient(180deg, color-mix(in srgb, var(--m5-insight-accent, #e8eef3) 10%, #fff) 0%, #fff 72%);
-      box-shadow:0 8px 22px rgba(18,50,71,.06);
-      max-width:min(200px, 100%);
-    }
-    .portal .concept-intro-slot .m5-insight-mini-peek--fc31{ --m5-insight-accent:#CD436B; }
-    .portal .concept-intro-slot .m5-insight-mini-peek--fc32{ --m5-insight-accent:#C9A227; }
-    .portal .concept-intro-slot .m5-insight-mini-peek--fc33{ --m5-insight-accent:#B8960A; }
-    .portal .concept-intro-slot .m5-insight-mini-peek--fc35{ --m5-insight-accent:#4A5568; }
-    .portal .concept-intro-slot .m5-insight-mini-peek--fc36{ --m5-insight-accent:#4CAF50; }
+    .portal .concept-intro-slot .m5-insight-mini-peek--fan,
     .portal .concept-intro-slot .m5-insight-mini-peek--fc34{
-      --m5-insight-accent-left:#A66DD4;
-      --m5-insight-accent-right:#5a96a8;
-      border:1px solid transparent;
-      background:
-        linear-gradient(#fff,#fff) padding-box,
-        linear-gradient(135deg, var(--m5-insight-accent-left) 0%, var(--m5-insight-accent-right) 100%) border-box;
+      padding:0;
+      border:none;
+      background:transparent;
+      box-shadow:none;
+      max-width:none;
     }
     .portal .concept-intro-slot .m5-insight-mini-fan{
       position:relative;
-      width:132px;
-      height:100px;
+      width:148px;
+      height:112px;
       margin:0 auto;
       overflow:visible;
     }
     .portal .concept-intro-slot .m5-insight-mini-card{
       position:absolute;
-      width:72px;
+      width:80px;
       border-radius:10px;
       overflow:visible;
       border:none;
@@ -2384,22 +2374,22 @@
       box-shadow:none;
     }
     .portal .concept-intro-slot .m5-insight-mini-card--back{
-      left:2px;
-      top:10px;
-      transform:rotate(-11deg);
+      left:4px;
+      top:12px;
+      transform:rotate(-12deg);
       z-index:1;
     }
     .portal .concept-intro-slot .m5-insight-mini-card--front{
-      right:2px;
-      top:0;
-      transform:rotate(9deg);
+      right:4px;
+      top:2px;
+      transform:rotate(10deg);
       z-index:2;
     }
     .portal .concept-intro-slot .m5-insight-mini-card img{
       display:block;
       width:100%;
       height:auto;
-      min-height:88px;
+      min-height:0;
       aspect-ratio:3/4;
       object-fit:contain;
       object-position:center center;
@@ -2407,33 +2397,53 @@
       border:none;
       border-radius:10px;
       pointer-events:none;
-      filter:drop-shadow(0 5px 12px rgba(18,50,71,.12));
+      filter:drop-shadow(0 8px 16px rgba(18,50,71,.14));
     }
     .portal .concept-intro-slot .m5-insight-mini-peek--single{
-      padding:4px 0 6px;
+      padding:0;
     }
     .portal .concept-intro-slot .m5-insight-folder-art{
       display:flex;
       align-items:center;
       justify-content:center;
       width:100%;
-      max-width:220px;
+      max-width:200px;
       margin:0 auto;
+      background:transparent;
+      border:none;
+      box-shadow:none;
     }
     .portal .concept-intro-slot .m5-insight-folder-art img{
       display:block;
       width:100%;
       height:auto;
-      max-height:128px;
+      max-height:112px;
       object-fit:contain;
       object-position:center center;
       background:transparent;
       border:none;
       pointer-events:none;
-      filter:drop-shadow(0 6px 14px rgba(18,50,71,.12));
+      filter:drop-shadow(0 8px 16px rgba(18,50,71,.14));
     }
     .portal .concept-intro-slot .m5-insight-mini-peek .img-expand-btn{
       display:none !important;
+    }
+
+    /* M5 nested PixtoLearn — single content rail (insight + visuals + key ideas) */
+    .portal .concept-panel.m5-nested-active{
+      --m5-nested-rail:min(920px,100%);
+    }
+    .portal .concept-panel.m5-nested-active > .concept-intro-slot{
+      max-width:var(--m5-nested-rail);
+    }
+    .portal .concept-panel.m5-nested-active > .concept-image{
+      max-width:var(--m5-nested-rail) !important;
+    }
+    .portal .concept-panel.m5-nested-active .b2-screens{
+      max-width:var(--m5-nested-rail);
+    }
+    .portal .concept-panel.m5-nested-active .b2-screens .folder-page{
+      max-width:var(--m5-nested-rail);
     }
 
     /* M5 nested folders/categories — align with training-wide section card width */
@@ -2443,6 +2453,14 @@
       margin-left:auto;
       margin-right:auto;
       box-sizing:border-box;
+    }
+    .portal .concept-panel:not(.m5-nested-active) .b2-screens .folder-page .concept-section-card,
+    .portal .concept-panel:not(.m5-nested-active) .b2-screens .folder-page > .concept-section-card,
+    .portal .concept-panel:not(.m5-nested-active) .b2-screens .m5-nested-visual-shell,
+    .portal .concept-panel:not(.m5-nested-active) .b2-screens .m5-screen-visual-card:not(:has(.b2pl-cat-grid)),
+    .portal .concept-panel:not(.m5-nested-active) .b2-screens .m5-folder-overview-card,
+    .portal .concept-panel:not(.m5-nested-active) .b2-screens .folder-page > .concept-points-box{
+      max-width:min(1180px,100%);
     }
     .portal .b2-screens .folder-page{
       display:flex;
@@ -2465,7 +2483,7 @@
     .portal .b2-screens .folder-page > .concept-section-card.section-activity,
     .portal .b2-screens .folder-page .concept-section-card.section-activity-shell{
       width:100%;
-      max-width:min(1180px,100%);
+      max-width:100%;
       margin-left:auto;
       margin-right:auto;
       box-sizing:border-box;
@@ -2518,28 +2536,19 @@
       overflow:hidden;
       text-align:center;
     }
-    /* Nested sub-screens: scaled preview visuals (expand button for full size) */
-    .portal .concept-panel.m5-nested-active .b2-screens .folder-page > .m5-nested-visual-shell,
-    .portal .concept-panel.m5-nested-active .b2-screens .folder-page > .m5-screen-visual-card.m5-nested-visual-shell,
-    .portal .concept-panel.m5-nested-active .b2-screens .folder-page > .b2c3-visual-card{
-      width:100%;
-      max-width:min(560px,100%);
-      margin-left:auto;
-      margin-right:auto;
-    }
-    .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-grid-wrap{
-      max-width:min(620px,100%);
-      margin-left:auto;
-      margin-right:auto;
-    }
+    .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-frame,
+    .portal .concept-panel.m5-nested-active .b2-screens .b2c2-direct-image,
+    .portal .concept-panel.m5-nested-active .b2-screens .b2c3-direct-image,
     .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card > .m5-nested-visual-frame,
     .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card > .concept-activity-box:not(:has(.b2pl-cat-grid)){
-      max-width:min(460px,100%);
-      margin-left:auto;
-      margin-right:auto;
+      padding:0;
+      background:transparent;
+      border:none;
+      box-shadow:none;
+      margin-bottom:12px;
     }
     .portal .concept-panel.m5-nested-active .b2-screens .entry-exit-fan-grid{
-      max-width:min(420px,100%);
+      max-width:min(480px,100%);
     }
     .portal .b2-screens .m5-folder-overview-card > .b2pl-cat-grid{
       margin-top:4px;
@@ -2570,18 +2579,22 @@
     .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .b2c2-direct-image > img,
     .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .b2c3-direct-image > img,
     .portal .concept-panel.m5-nested-active .b2-screens .b2c3-visual-card .b2c3-direct-image > img{
-      max-height:min(340px,48vh);
+      max-height:min(440px,52vh);
+      border-radius:12px;
     }
     .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card .m5-nested-visual-frame > img,
     .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card > .concept-activity-box > img{
-      max-height:min(300px,42vh);
+      max-height:min(340px,42vh);
+      border-radius:12px;
     }
     .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-grid .m5-nested-visual-frame > img,
     .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-grid .b2c2-direct-image > img{
-      max-height:min(220px,34vh);
+      max-height:min(260px,34vh);
+      border-radius:10px;
     }
     .portal .concept-panel.m5-nested-active .b2-screens .entry-exit-fan-item img{
-      max-height:min(190px,30vh);
+      max-height:min(210px,32vh);
+      border-radius:10px;
     }
     .portal .b2-screens .m5-nested-visual-grid-wrap{
       padding:14px;
@@ -2600,19 +2613,22 @@
       padding:8px;
     }
     @media (max-width:720px){
+      .portal .concept-panel.m5-nested-active{
+        --m5-nested-rail:100%;
+      }
       .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .m5-nested-visual-frame > img,
       .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .b2c2-direct-image > img,
       .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .b2c3-direct-image > img,
       .portal .concept-panel.m5-nested-active .b2-screens .b2c3-visual-card .b2c3-direct-image > img{
-        max-height:min(280px,42vh);
+        max-height:min(320px,46vh);
       }
       .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-grid .m5-nested-visual-frame > img,
       .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-grid .b2c2-direct-image > img{
-        max-height:min(180px,28vh);
+        max-height:min(200px,30vh);
       }
       .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card .m5-nested-visual-frame > img,
       .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card > .concept-activity-box > img{
-        max-height:min(240px,36vh);
+        max-height:min(260px,38vh);
       }
     }
     .portal .b2-screens .m5-nested-visual-shell:hover,

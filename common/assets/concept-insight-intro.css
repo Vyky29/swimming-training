@@ -184,16 +184,22 @@
 .portal .concept-panel.m5-nested-active > .concept-intro-slot{
   display:block !important;
   margin:0 auto 14px;
+  max-width:min(920px,100%);
 }
 .portal .concept-panel.m5-nested-active > .concept-image{
   margin-top:0;
   width:100%;
-  max-width:min(1180px,100%);
+  max-width:min(920px,100%);
   margin-left:auto;
   margin-right:auto;
 }
 .portal .concept-panel.m5-nested-active .concept-insight-intro{
-  max-width:54rem;
+  max-width:100%;
+}
+.portal .concept-panel.m5-nested-active .concept-insight-intro__cards{
+  max-width:860px;
+  margin-left:auto;
+  margin-right:auto;
 }
 .portal .concept-panel.m5-nested-active > .concept-points-box{
   display:none !important;
