@@ -2055,9 +2055,9 @@
       appearance:none;
       -webkit-appearance:none;
       width:100%;
-      min-height:252px;
+      min-height:268px;
       margin:0;
-      padding:22px 16px 18px;
+      padding:24px 16px 22px;
       border:2px solid var(--b2c3-accent, rgba(45,132,179,.18));
       border-radius:20px;
       background:linear-gradient(180deg, color-mix(in srgb, var(--b2c3-accent, #2d84b3) 7%, #fff) 0%, #fff 46%);
@@ -2068,6 +2068,7 @@
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
+      gap:22px;
       text-align:center;
       font-family:inherit;
       box-sizing:border-box;
@@ -2098,28 +2099,29 @@
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-fan{
       position:relative;
       width:210px;
-      height:152px;
-      margin:0 auto 16px;
+      height:158px;
+      margin:0 auto;
       flex-shrink:0;
+      overflow:visible;
     }
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-card{
       position:absolute;
       width:112px;
-      border-radius:12px;
-      overflow:hidden;
-      box-shadow:0 10px 24px rgba(18,50,71,.18);
-      border:2px solid #fff;
-      background:#fff;
+      border-radius:10px;
+      overflow:visible;
+      border:none;
+      background:transparent;
+      box-shadow:none;
     }
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-card--back{
       left:6px;
-      top:14px;
+      top:12px;
       transform:rotate(-13deg);
       z-index:1;
     }
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-card--front{
       right:6px;
-      top:4px;
+      top:2px;
       transform:rotate(10deg);
       z-index:2;
     }
@@ -2131,8 +2133,11 @@
       aspect-ratio:3/4;
       object-fit:contain;
       object-position:center center;
-      background:#fff;
+      background:transparent;
+      border:none;
+      border-radius:10px;
       pointer-events:none;
+      filter:drop-shadow(0 8px 16px rgba(18,50,71,.16));
     }
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-card img:not([src]),
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-card img[src=""]{
@@ -2146,6 +2151,8 @@
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-label{
       display:block;
       width:100%;
+      margin:0;
+      padding:2px 8px 0;
       font-size:.9rem;
       font-weight:800;
       line-height:1.45;
@@ -2155,8 +2162,8 @@
       overflow-wrap:normal;
       word-break:normal;
       white-space:normal;
-      padding:0 6px;
       min-height:2.6em;
+      flex-shrink:0;
     }
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-label--split{
       display:flex;
