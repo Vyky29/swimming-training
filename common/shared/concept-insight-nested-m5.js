@@ -197,7 +197,7 @@
     fc32: {
       panelTitle: 'Toys & Equipment',
       insight: {
-        title: 'Equipment Flashcards',
+        title: 'Toys & Equipment Flashcards',
         pillars: [
           { icon: 'movement', title: 'Prepare for Equipment', text: 'Toys and equipment flashcards help swimmers understand what equipment will be used and how it connects to the activity.' },
           { icon: 'connect', title: 'Controlled Choice', text: 'They can also be used to offer controlled choice, increase motivation and prepare swimmers for what is coming next.' },
