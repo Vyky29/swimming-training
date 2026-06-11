@@ -69,7 +69,26 @@
   font-weight:700 !important;
   line-height:1.35;
   color:#fff;
+  hyphens:none;
+  text-wrap:pretty;
+  text-wrap:balance;
   transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease, background .28s ease, color .28s ease;
+}
+
+.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]) .concept-square__label,
+.portal .overview-subconcept-grid > .concept-square[data-overview-subtarget] .concept-square__label{
+  display:block;
+  width:100%;
+  max-width:14.5em;
+  margin:0 auto;
+  text-align:center;
+  hyphens:none;
+  overflow-wrap:normal;
+  word-break:normal;
+  white-space:normal;
+  line-height:1.35;
+  text-wrap:pretty;
+  text-wrap:balance;
 }
 
 .portal .concept-stage .concept-grid > button.concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]),

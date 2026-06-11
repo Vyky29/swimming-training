@@ -1168,7 +1168,24 @@
       white-space:normal;
       word-break:normal;
       overflow-wrap:break-word;
+      hyphens:none;
+      text-wrap:pretty;
+      text-wrap:balance;
       text-shadow:0 1px 0 rgba(0,0,0,.12);
+    }
+    .concept-square .concept-square__label{
+      display:block;
+      width:100%;
+      max-width:14.5em;
+      margin:0 auto;
+      text-align:center;
+      hyphens:none;
+      overflow-wrap:normal;
+      word-break:normal;
+      white-space:normal;
+      line-height:1.35;
+      text-wrap:pretty;
+      text-wrap:balance;
     }
 
     .concept-square:hover,
@@ -2336,13 +2353,13 @@
       margin:0 3px;
     }
 
-    /* M5 nested insight — clean mini peek (no card chrome), below title divider */
+    /* M5 nested insight — clean mini peek (no card chrome), above insight title */
     .portal .concept-intro-slot .m5-insight-mini-peek{
       display:flex;
       justify-content:center;
       align-items:center;
       width:100%;
-      margin:4px auto 20px;
+      margin:0 auto 12px;
       padding:0;
       border:none;
       background:transparent;
@@ -4722,7 +4739,7 @@
         peek.innerHTML = '<span class="m5-insight-folder-art"><img src="' + config.src + '" alt="" /></span>';
       }
 
-      titleEl.insertAdjacentElement('afterend', peek);
+      titleEl.insertAdjacentElement('beforebegin', peek);
     }
 
     function renderNestedScreenIntro(panel, block, conceptTarget, screenId){

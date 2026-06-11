@@ -190,11 +190,32 @@
     );
   }
 
+  function wrapConceptSquareLabels(scope) {
+    (scope || document).querySelectorAll('.concept-square').forEach(function (btn) {
+      if (btn.querySelector('.concept-square__label')) return;
+      if (btn.querySelector('img, svg, .b2pl-folder-ico, .b2c2-folder-art, .b2c3-mini-fan')) return;
+      var parts = [];
+      btn.childNodes.forEach(function (node) {
+        if (node.nodeType !== 3) return;
+        var text = String(node.textContent || '').replace(/\s+/g, ' ').trim();
+        if (text) parts.push({ node: node, text: text });
+      });
+      if (!parts.length) return;
+      var label = parts.map(function (part) { return part.text; }).join(' ');
+      parts.forEach(function (part) { part.node.remove(); });
+      var span = document.createElement('span');
+      span.className = 'concept-square__label';
+      span.textContent = label;
+      btn.appendChild(span);
+    });
+  }
+
   function scan(root) {
     var scope = root || document;
     scope.querySelectorAll('.concept-section-head .icon, .concept-intro-kicker .icon').forEach(upgradeIcon);
     normalizeSectionHeads(scope);
     upgradeMatchColumnIcons(scope);
+    wrapConceptSquareLabels(scope);
     repairBrokenHeads(scope);
   }
 
@@ -278,6 +299,7 @@
     matchColumnIconHtml: matchColumnIconHtml,
     refreshShell: refreshShell,
     upgrade: upgradeIcon,
+    wrapConceptSquareLabels: wrapConceptSquareLabels,
     scan: scan
   };
 
