@@ -514,7 +514,11 @@
       btn.setAttribute('data-visual-expanded', 'true');
       var host = btn.closest('[data-expandable-visual]');
       if (host) host.setAttribute('data-visual-expanded', 'true');
+      if (panel) panel.setAttribute('data-flow-visual-expanded', 'true');
       openExpandedImage(img, panel, options);
+      try {
+        document.dispatchEvent(new CustomEvent('concept-visual-expand-change', { bubbles: true, detail: { panel: panel } }));
+      } catch (err) {}
     });
     return btn;
   }
@@ -550,6 +554,11 @@
     syncVisualSections(options.syncRoot || root);
     if (window.ConceptSectionIcons) {
       ConceptSectionIcons.scan(root);
+    }
+    if (panel) {
+      try {
+        document.dispatchEvent(new CustomEvent('concept-visual-expand-wire', { bubbles: true, detail: { panel: panel } }));
+      } catch (err) {}
     }
   }
 

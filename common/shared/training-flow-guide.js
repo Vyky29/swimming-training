@@ -54,24 +54,152 @@
   }
 
   function getOpenPanel(block){
+    if(!block) return document.querySelector('.concept-panel.show');
     var panel = document.querySelector('[data-panel-for="' + block + '"]');
     if(panel && panel.classList.contains('show')) return panel;
-    return document.querySelector('.concept-panel.show[data-panel-for="' + block + '"]')
-      || document.querySelector('.concept-panel.show');
+    return null;
+  }
+
+  function getActiveOpenPanel(){
+    return document.querySelector('.concept-panel.show');
+  }
+
+  function isVisibleEl(el){
+    if(!el || el.closest('[hidden]')) return false;
+    if(el.offsetParent !== null) return true;
+    var style = window.getComputedStyle(el);
+    return style.display !== 'none' && style.visibility !== 'hidden';
+  }
+
+  function panelHasExpandableVisual(panel){
+    if(!panel) return false;
+    return !!panel.querySelector('.img-expand-btn, [data-expandable-visual] img[src], .concept-section-card.section-visual-shell img[src], .concept-image img[src]');
+  }
+
+  function isPanelVisualExpanded(panel){
+    if(!panel) return true;
+    if(panel.getAttribute('data-flow-visual-expanded') === 'true') return true;
+    var buttons = panel.querySelectorAll('.img-expand-btn');
+    if(!buttons.length) return !panelHasExpandableVisual(panel);
+    for(var i = 0; i < buttons.length; i++){
+      if(buttons[i].getAttribute('data-visual-expanded') !== 'true') return false;
+    }
+    return true;
+  }
+
+  function ensurePanelVisualWired(panel){
+    if(!panel || !global.ConceptVisualExpand || typeof ConceptVisualExpand.wire !== 'function') return;
+    try {
+      ConceptVisualExpand.wire(panel, { panel: panel, syncRoot: panel });
+    } catch(err){}
   }
 
   function panelUnexpandedVisual(panel){
     if(!panel) return null;
     if(panel.querySelector('.concept-insight-pillar:not(.clicked)')) return null;
-    if(panel.querySelector('.key-idea-item:not(.clicked)')) return null;
+    if(!panelHasExpandableVisual(panel) || isPanelVisualExpanded(panel)) return null;
+
     var btn = panel.querySelector('.img-expand-btn:not([data-visual-expanded="true"])');
-    if(!btn) return null;
-    var host = btn.closest('[data-expandable-visual], .concept-section-card.section-visual-shell, .concept-image, .concept-section-card') || btn;
-    return {
-      kind: 'expand-visual',
-      el: host,
-      label: 'Expand the image to view it full size'
-    };
+    if(btn){
+      return {
+        kind: 'expand-visual',
+        el: btn,
+        label: 'Expand the image to view it full size'
+      };
+    }
+
+    ensurePanelVisualWired(panel);
+    btn = panel.querySelector('.img-expand-btn:not([data-visual-expanded="true"])');
+    if(btn){
+      return {
+        kind: 'expand-visual',
+        el: btn,
+        label: 'Expand the image to view it full size'
+      };
+    }
+
+    var slot = panel.querySelector('[data-expandable-visual]:not([data-visual-expanded="true"]), .concept-section-card.section-visual-shell, .concept-image');
+    if(slot){
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 420);
+      return {
+        kind: 'expand-visual',
+        el: slot,
+        label: 'Expand the image to view it full size'
+      };
+    }
+    return null;
+  }
+
+  function resolveKeyIdeaItems(panel){
+    if(panelHasExpandableVisual(panel) && !isPanelVisualExpanded(panel)) return null;
+
+    var ideas = panel.querySelectorAll('.concept-points-box .key-idea-item:not(.clicked)');
+    if(!ideas.length) ideas = panel.querySelectorAll('.key-idea-item:not(.clicked)');
+
+    for(var i = 0; i < ideas.length; i++){
+      if(!isVisibleEl(ideas[i])) continue;
+      var idx = ideas[i].querySelector('.key-idea-index');
+      return {
+        kind: 'keyidea',
+        el: ideas[i],
+        label: 'Review key idea ' + ((idx && idx.textContent.trim()) || (i + 1))
+      };
+    }
+    return null;
+  }
+
+  function resolvePanelActivity(panel){
+    if(!panel) return null;
+    var finish = panel.querySelector('[data-finish-concept]');
+    if(!finish || !finish.disabled) return null;
+
+    if(panel.querySelector('[data-carousel]') && panel.dataset.carouselComplete !== 'true'){
+      return {
+        kind: 'carousel',
+        el: panel.querySelector('[data-carousel]'),
+        label: 'Review all slides in this section'
+      };
+    }
+
+    if(panel.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true'){
+      return {
+        kind: 'choice-activity',
+        el: panel.querySelector('[data-choice-activity]'),
+        label: 'Complete the activity above'
+      };
+    }
+
+    if(panel.querySelector('[data-matching-activity], [data-match-grid], [data-match-board]')){
+      var match = panel.querySelector('[data-matching-activity], [data-match-grid], [data-match-board]');
+      var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
+      var requiredMatches = parseInt(panel.dataset.requiredMatches, 10) || parseInt(panel.dataset.matchingPairsCount, 10) || 0;
+      if(!requiredMatches || matchedCount < requiredMatches){
+        return { kind: 'matching', el: match, label: 'Complete the matching activity' };
+      }
+    }
+
+    if(panel.querySelector('[data-categorize-activity]') && panel.dataset.categorizeComplete !== 'true'){
+      return {
+        kind: 'categorize',
+        el: panel.querySelector('[data-categorize-activity]'),
+        label: 'Complete the classification activity'
+      };
+    }
+
+    if(panel.querySelector('[data-sequence-activity]') && panel.dataset.sequenceComplete !== 'true'){
+      return {
+        kind: 'sequence',
+        el: panel.querySelector('[data-sequence-activity]'),
+        label: 'Complete the sequencing activity'
+      };
+    }
+
+    var unflipped = panel.querySelector('[data-sense-card]:not(.flipped)');
+    if(unflipped){
+      return { kind: 'sensory', el: unflipped, label: 'Open all sensory cards' };
+    }
+
+    return null;
   }
 
   function getSubconceptNav(panel){
@@ -123,14 +251,14 @@
       return { kind: 'pillar', el: pillars[0], label: 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point') };
     }
 
-    var ideas = panel.querySelectorAll('.key-idea-item:not(.clicked)');
-    if(ideas.length){
-      var idx = ideas[0].querySelector('.key-idea-index');
-      return { kind: 'keyidea', el: ideas[0], label: 'Review key idea ' + ((idx && idx.textContent.trim()) || '') };
-    }
-
     var expandStep = panelUnexpandedVisual(panel);
     if(expandStep) return expandStep;
+
+    var keyIdeaStep = resolveKeyIdeaItems(panel);
+    if(keyIdeaStep) return keyIdeaStep;
+
+    var activityStep = resolvePanelActivity(panel);
+    if(activityStep) return activityStep;
 
     var subconceptStep = resolveSubconceptNav(panel);
     if(subconceptStep) return subconceptStep;
@@ -361,7 +489,14 @@
 
     if(reflectionDone(block)){
       var blockCheck = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
-      if(blockCheck && !isChecked(blockCheck) && !isDisabled(blockCheck)){
+      if(blockCheck && !isChecked(blockCheck)){
+        if(isDisabled(blockCheck)){
+          return {
+            kind: 'block-check-wait',
+            el: blockCheck.closest('.check-item') || document.getElementById(block) || blockCheck,
+            label: 'Mark this block complete when you are ready'
+          };
+        }
         return { kind: 'block-check', el: blockCheck.closest('.check-item') || blockCheck, label: 'Mark block complete' };
       }
     }
@@ -421,6 +556,15 @@
 
     var inside = resolveInsideModule();
     if(inside) return inside;
+
+    var openPanel = getActiveOpenPanel();
+    if(openPanel){
+      var openBlock = openPanel.getAttribute('data-panel-for');
+      if(openBlock){
+        var focusedStep = resolveBlock(openBlock, moduleConfig);
+        if(focusedStep) return focusedStep;
+      }
+    }
 
     var blocks = moduleConfig.blocks || [];
     for(var b = 0; b < blocks.length; b++){
@@ -499,7 +643,7 @@
     if(shouldScroll && typeof target.scrollIntoView === 'function'){
       var rect = target.getBoundingClientRect();
       var offScreen = rect.top < 88 || rect.bottom > window.innerHeight - 130;
-      if(offScreen || step.kind === 'start-module' || step.kind === 'concept-grid' || step.kind === 'subconcept-nav'){
+      if(offScreen || step.kind === 'start-module' || step.kind === 'concept-grid' || step.kind === 'subconcept-nav' || step.kind === 'expand-visual'){
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
@@ -510,35 +654,31 @@
     applyGuide(resolveNextStep(moduleConfig));
   }
 
-  function scheduleRefresh(moduleConfig){
+  function scheduleRefresh(moduleConfig, delay){
     if(refreshTimer) clearTimeout(refreshTimer);
-    refreshTimer = setTimeout(function(){ refresh(moduleConfig); }, 180);
+    refreshTimer = setTimeout(function(){ refresh(moduleConfig); }, delay || 180);
   }
 
   function bindRefresh(moduleConfig){
-    ['click', 'change', 'input', 'concept-insight-pillars-change'].forEach(function(name){
+    ['click', 'change', 'input', 'concept-insight-pillars-change', 'concept-visual-expand-wire', 'concept-visual-expand-change'].forEach(function(name){
       document.addEventListener(name, function(){ scheduleRefresh(moduleConfig); }, true);
     });
 
     if(typeof MutationObserver !== 'undefined'){
-      var observer = new MutationObserver(function(mutations){
-        for(var i = 0; i < mutations.length; i++){
-          var t = mutations[i].target;
-          if(t && t.id === RAIL_ID) return;
-          if(t && t.classList && t.classList.contains(PULSE_CLASS)) return;
-        }
+      var observer = new MutationObserver(function(){
         scheduleRefresh(moduleConfig);
       });
       observer.observe(document.body, {
         subtree: true,
         attributes: true,
-        attributeFilter: ['disabled', 'hidden', 'checked', 'data-flow-reviewed', 'data-visual-expanded', 'class'],
+        attributeFilter: ['disabled', 'hidden', 'checked', 'data-flow-reviewed', 'data-visual-expanded', 'data-flow-visual-expanded', 'class'],
         childList: true
       });
     }
 
     window.addEventListener('hashchange', function(){ scheduleRefresh(moduleConfig); });
     window.addEventListener('resize', function(){ scheduleRefresh(moduleConfig); });
+    setInterval(function(){ refresh(moduleConfig); }, 3500);
   }
 
   function initModulePage(){

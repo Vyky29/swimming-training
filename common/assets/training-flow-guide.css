@@ -1,5 +1,5 @@
 /**
- * Guided demo flow ó premium next-step cue (no locks).
+ * Guided demo flow ù premium next-step cue (no locks).
  * Pulse uses inset shadows so highlights stay inside grid/card bounds.
  */
 
@@ -27,13 +27,21 @@
 
 .flow-guide-pulse--expand,
 .portal .flow-guide-pulse--expand {
-  box-shadow: inset 0 0 0 2px rgba(214, 120, 28, .82);
-  animation: flowGuidePulseExpand 1.65s cubic-bezier(.4, 0, .2, 1) infinite;
+  animation: flowGuidePulseExpand 1.55s cubic-bezier(.4, 0, .2, 1) infinite;
 }
 
-.flow-guide-pulse--expand.img-expand-btn,
-.portal .flow-guide-pulse--expand.img-expand-btn {
+.flow-guide-pulse.img-expand-btn.flow-guide-pulse--expand,
+.portal .flow-guide-pulse.img-expand-btn.flow-guide-pulse--expand {
   border-radius: 50%;
+  z-index: 6;
+  overflow: visible;
+  box-shadow: inset 0 0 0 2px rgba(214, 120, 28, .82);
+  animation: flowGuidePulseExpandBtn 1.4s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+
+.flow-guide-pulse--expand:not(.img-expand-btn),
+.portal .flow-guide-pulse--expand:not(.img-expand-btn) {
+  box-shadow: inset 0 0 0 2px rgba(214, 120, 28, .82);
 }
 
 @keyframes flowGuidePulse {
@@ -55,6 +63,19 @@
     box-shadow:
       inset 0 0 0 3px rgba(214, 120, 28, 1),
       inset 0 0 16px rgba(214, 120, 28, .28);
+  }
+}
+
+@keyframes flowGuidePulseExpandBtn {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 0 2px rgba(214, 120, 28, .65),
+      0 0 0 0 rgba(214, 120, 28, .35);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 3px rgba(214, 120, 28, 1),
+      0 0 0 4px rgba(214, 120, 28, .32);
   }
 }
 
@@ -133,6 +154,11 @@
       inset 0 0 0 3px rgba(26, 120, 168, 1),
       inset 0 0 14px rgba(26, 120, 168, .25);
   }
+}
+
+[data-expandable-visual] {
+  overflow: hidden;
+  border-radius: 10px;
 }
 
 @media (prefers-reduced-motion: reduce) {
