@@ -60,9 +60,23 @@
 
   window.enhanceModuleBlockNav = enhanceModuleBlockNav;
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', enhanceModuleBlockNav);
-  } else {
+  function pinBlockIntroCards() {
+    document.querySelectorAll('.block-intro-card').forEach(function (card) {
+      card.classList.add('clicked');
+      card.classList.remove('clickable-progress');
+      card.removeAttribute('role');
+      card.removeAttribute('tabindex');
+    });
+  }
+
+  function initModuleEnhancements() {
+    pinBlockIntroCards();
     enhanceModuleBlockNav();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initModuleEnhancements);
+  } else {
+    initModuleEnhancements();
   }
 })();

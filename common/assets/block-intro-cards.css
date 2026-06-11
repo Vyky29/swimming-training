@@ -1,0 +1,22 @@
+/**
+ * Block intro cards — permanent reference panels (always active, no click).
+ */
+
+.block-intro-card {
+  background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
+  border: 2px solid #2d84b3 !important;
+  box-shadow: 0 6px 20px rgba(45, 132, 179, .25) !important;
+  cursor: default;
+  pointer-events: none;
+  user-select: text;
+}
+
+.block-intro-card .card-icon {
+  background: #2d84b3 !important;
+  color: #fff !important;
+}
+
+.block-intro-card:hover {
+  border-color: #2d84b3 !important;
+  box-shadow: 0 6px 20px rgba(45, 132, 179, .25) !important;
+}

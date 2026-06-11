@@ -511,6 +511,9 @@
     btn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
+      btn.setAttribute('data-visual-expanded', 'true');
+      var host = btn.closest('[data-expandable-visual]');
+      if (host) host.setAttribute('data-visual-expanded', 'true');
       openExpandedImage(img, panel, options);
     });
     return btn;

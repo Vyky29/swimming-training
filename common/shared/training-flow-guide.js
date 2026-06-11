@@ -6,6 +6,7 @@
   var activePulseEl = null;
   var refreshTimer = null;
   var lastStepKey = null;
+  var activeModuleConfig = null;
 
   function $(sel, root){ return (root || document).querySelector(sel); }
   function $$(sel, root){ return Array.from((root || document).querySelectorAll(sel)); }
@@ -21,6 +22,10 @@
   function stepKey(step){
     if(!step || !step.el) return '';
     return step.kind + '|' + (step.el.id || step.el.getAttribute('data-target') || step.label);
+  }
+
+  function isModuleStarted(){
+    return document.documentElement.getAttribute('data-flow-module-started') === 'true';
   }
 
   function getConceptButtons(block){
@@ -55,8 +60,66 @@
       || document.querySelector('.concept-panel.show');
   }
 
+  function panelUnexpandedVisual(panel){
+    if(!panel) return null;
+    var btn = panel.querySelector('.img-expand-btn:not([data-visual-expanded="true"])');
+    if(!btn) return null;
+    return {
+      kind: 'expand-visual',
+      el: btn,
+      label: 'Expand the image to view it full size'
+    };
+  }
+
+  function getSubconceptNav(panel){
+    if(!panel) return null;
+    var nav = panel.querySelector('[data-parent-subconcept-nav]:not([hidden])');
+    if(nav && nav.querySelector('.concept-square[data-target], .overview-subconcept-btn')) return nav;
+    var shell = panel.querySelector('.overview-subconcept-shell:not([hidden])');
+    if(shell) return shell.querySelector('.overview-subconcept-grid') || shell;
+    return panel.querySelector('.overview-subconcept-grid');
+  }
+
+  function getNavTarget(btn){
+    return btn.getAttribute('data-target') || btn.getAttribute('data-overview-subtarget') || '';
+  }
+
+  function resolveSubconceptNav(panel){
+    if(!panel || !panel.classList.contains('show')) return null;
+    var nav = getSubconceptNav(panel);
+    if(!nav) return null;
+
+    var navButtons = $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn', nav);
+    if(!navButtons.length) return null;
+
+    var unvisited = navButtons.filter(function(btn){ return !isConceptDone(btn); });
+    if(!unvisited.length) return null;
+
+    var current = panel.dataset.currentTarget || '';
+    var isLeafTarget = navButtons.some(function(btn){ return getNavTarget(btn) === current; });
+
+    if(isLeafTarget){
+      var hasIncomplete = panel.querySelector('.concept-insight-pillar:not(.clicked), .key-idea-item:not(.clicked)');
+      var finish = panel.querySelector('[data-finish-concept]');
+      if(hasIncomplete || (finish && finish.disabled)) return null;
+    }
+
+    return {
+      kind: 'subconcept-nav',
+      el: nav,
+      label: 'Choose the next subconcept from the grid'
+    };
+  }
+
   function panelIncompleteTarget(panel){
     if(!panel) return null;
+
+    var expandStep = panelUnexpandedVisual(panel);
+    if(expandStep) return expandStep;
+
+    var subconceptStep = resolveSubconceptNav(panel);
+    if(subconceptStep) return subconceptStep;
+
     var pillars = panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
     if(pillars.length){
       var title = pillars[0].querySelector('.concept-insight-pillar__title');
@@ -98,16 +161,28 @@
     return buttons.every(isConceptDone);
   }
 
-  function nextConceptInBlock(block, moduleConfig){
+  function resolveConceptGrid(block, moduleConfig){
+    if(getOpenPanel(block)) return null;
+
     var buttons = getConceptButtons(block);
+    var hasIncomplete = false;
     for(var i = 0; i < buttons.length; i++){
-      var btn = buttons[i];
-      if(isConceptDone(btn)) continue;
-      if(isConceptLocked(btn, moduleConfig)) continue;
-      var label = btn.textContent.replace(/\s+/g, ' ').trim();
-      return { kind: 'concept', el: btn, label: label || 'Open next concept' };
+      if(isConceptDone(buttons[i])) continue;
+      if(isConceptLocked(buttons[i], moduleConfig)) continue;
+      hasIncomplete = true;
+      break;
     }
-    return null;
+    if(!hasIncomplete) return null;
+
+    var section = document.getElementById(block);
+    var grid = section ? (section.querySelector('[data-concept-grid="' + block + '"]') || section.querySelector('.concept-stage')) : null;
+    if(!grid) return null;
+
+    return {
+      kind: 'concept-grid',
+      el: grid,
+      label: 'Choose your next concept from the grid'
+    };
   }
 
   function journeyContentReviewed(){
@@ -118,38 +193,77 @@
     return !!(wrap && wrap.getAttribute('data-flow-reviewed') === 'true');
   }
 
-  function bindJourneyReview(){
-    var section = $('#journey');
+  function insideModuleReviewed(){
+    var section = $('#inside-module');
+    if(!section) return true;
+    return section.getAttribute('data-flow-reviewed') === 'true';
+  }
+
+  function bindModuleStart(){
+    var btn = document.querySelector('.hero-actions .btn-primary[data-scroll], #overview .btn-primary[data-scroll], [data-scroll="#journey"]');
+    if(!btn || btn.getAttribute('data-flow-start-bound') === '1') return;
+    btn.setAttribute('data-flow-start-bound', '1');
+    btn.addEventListener('click', function(){
+      document.documentElement.setAttribute('data-flow-module-started', 'true');
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig);
+    });
+  }
+
+  function bindSectionReview(section, attr){
     if(!section || section.getAttribute('data-flow-bound') === '1') return;
     section.setAttribute('data-flow-bound', '1');
-    var wrap = section.querySelector('.journey-wrap');
+    var wrap = section.querySelector('.journey-wrap, .module-roadmap-wrap') || section;
+
     function markReviewed(){
       section.setAttribute('data-flow-reviewed', 'true');
-      if(wrap) wrap.setAttribute('data-flow-reviewed', 'true');
+      if(wrap !== section) wrap.setAttribute('data-flow-reviewed', 'true');
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig);
     }
-    if(wrap){
-      wrap.addEventListener('click', function(e){
-        if(e.target.closest('.check-item, .overall-check')) return;
-        markReviewed();
-      });
-    }
+
+    wrap.addEventListener('click', function(e){
+      if(e.target.closest('.check-item, .overall-check')) return;
+      markReviewed();
+    });
+
     if(typeof IntersectionObserver !== 'undefined'){
       var seenAt = 0;
       var observer = new IntersectionObserver(function(entries){
+        if(!isModuleStarted()) return;
         entries.forEach(function(entry){
-          if(entry.isIntersecting && entry.intersectionRatio >= 0.3){
+          if(entry.isIntersecting && entry.intersectionRatio >= 0.35){
             if(!seenAt) seenAt = Date.now();
-            if(Date.now() - seenAt >= 900) markReviewed();
+            if(Date.now() - seenAt >= 1200) markReviewed();
           } else if(!entry.isIntersecting){
             seenAt = 0;
           }
         });
-      }, { threshold: [0.15, 0.3, 0.5] });
+      }, { threshold: [0.2, 0.35, 0.5] });
       observer.observe(section);
     }
   }
 
+  function bindJourneyReview(){
+    bindSectionReview($('#journey'));
+  }
+
+  function bindInsideModuleReview(){
+    bindSectionReview($('#inside-module'));
+  }
+
+  function resolveStartModule(){
+    if(isModuleStarted()) return null;
+    var btn = document.querySelector('.hero-actions .btn-primary[data-scroll], #overview .btn-primary[data-scroll], [data-scroll="#journey"]');
+    var hero = $('#overview') || $('.hero--module-system');
+    return {
+      kind: 'start-module',
+      el: btn || hero,
+      label: 'Start the module'
+    };
+  }
+
   function resolveJourney(){
+    if(!isModuleStarted()) return null;
+
     var section = $('#journey');
     var check = $('input[data-stage-check="journey"]');
     if(isChecked(check)) return null;
@@ -159,7 +273,7 @@
       return {
         kind: 'journey-read',
         el: content,
-        label: 'Review the pathway overview above'
+        label: 'Review the pathway overview'
       };
     }
 
@@ -180,6 +294,7 @@
   }
 
   function resolveOutcomes(){
+    if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
 
     var items = $$('[data-outcomes-group="outcomes"] .outcome, #outcomes .outcome');
@@ -198,9 +313,28 @@
     return null;
   }
 
-  function resolveBlock(block, moduleConfig){
+  function resolveInsideModule(){
+    if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
+    if(insideModuleReviewed()) return null;
+
+    var section = $('#inside-module');
+    if(!section) return null;
+
+    var content = section.querySelector('.module-roadmap-wrap') || section.querySelector('.journey-wrap') || section;
+    return {
+      kind: 'inside-module',
+      el: content,
+      label: 'Review the block roadmap before you begin'
+    };
+  }
+
+  function resolveBlock(block, moduleConfig){
+    if(!isModuleStarted()) return null;
+    if(!isChecked($('input[data-stage-check="journey"]'))) return null;
+    if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
+    if(!insideModuleReviewed()) return null;
 
     var openPanel = getOpenPanel(block);
     if(openPanel){
@@ -208,8 +342,8 @@
       if(inside) return inside;
     }
 
-    var nextConcept = nextConceptInBlock(block, moduleConfig);
-    if(nextConcept) return nextConcept;
+    var gridStep = resolveConceptGrid(block, moduleConfig);
+    if(gridStep) return gridStep;
 
     if(blockConceptsComplete(block) && !reflectionDone(block)){
       if(reflectionReady(block)){
@@ -231,8 +365,10 @@
 
   function resolveSectionStage(sectionId){
     if(sectionId.indexOf('block') === 0) return null;
+    if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
+    if(!insideModuleReviewed()) return null;
 
     var check = $('input[data-stage-check="' + sectionId + '"]');
     if(!check || isChecked(check)) return null;
@@ -269,11 +405,17 @@
   function resolveNextStep(moduleConfig){
     if(!moduleConfig) return null;
 
+    var start = resolveStartModule();
+    if(start) return start;
+
     var journey = resolveJourney();
     if(journey) return journey;
 
     var outcomes = resolveOutcomes();
     if(outcomes) return outcomes;
+
+    var inside = resolveInsideModule();
+    if(inside) return inside;
 
     var blocks = moduleConfig.blocks || [];
     for(var b = 0; b < blocks.length; b++){
@@ -298,6 +440,7 @@
   function clearPulse(){
     if(activePulseEl){
       activePulseEl.classList.remove(PULSE_CLASS);
+      activePulseEl.classList.remove(PULSE_CLASS + '--expand');
       activePulseEl = null;
     }
   }
@@ -344,13 +487,14 @@
     lastStepKey = key;
 
     target.classList.add(PULSE_CLASS);
+    if(step.kind === 'expand-visual') target.classList.add(PULSE_CLASS + '--expand');
     activePulseEl = target;
     updateRail(step);
 
     if(shouldScroll && typeof target.scrollIntoView === 'function'){
       var rect = target.getBoundingClientRect();
       var offScreen = rect.top < 88 || rect.bottom > window.innerHeight - 130;
-      if(offScreen){
+      if(offScreen || step.kind === 'start-module' || step.kind === 'concept-grid' || step.kind === 'subconcept-nav'){
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
@@ -383,7 +527,7 @@
       observer.observe(document.body, {
         subtree: true,
         attributes: true,
-        attributeFilter: ['disabled', 'hidden', 'checked', 'data-flow-reviewed'],
+        attributeFilter: ['disabled', 'hidden', 'checked', 'data-flow-reviewed', 'data-visual-expanded', 'class'],
         childList: true
       });
     }
@@ -400,11 +544,14 @@
     var moduleConfig = TrainingFlowConfig.getModuleConfig(ctx.pathway, ctx.moduleId);
     if(!moduleConfig) return;
 
+    activeModuleConfig = moduleConfig;
     document.documentElement.setAttribute('data-guided-flow', 'true');
     if(ctx.pathway) document.documentElement.setAttribute('data-guided-pathway', ctx.pathway.id);
 
     function start(){
+      bindModuleStart();
       bindJourneyReview();
+      bindInsideModuleReview();
       refresh(moduleConfig);
       bindRefresh(moduleConfig);
     }
@@ -464,7 +611,7 @@
     if(nextModule){
       rail.hidden = false;
       var textEl = rail.querySelector('.flow-guide-rail__text');
-      if(textEl) textEl.innerHTML = 'Recommended next: <strong>Module ' + nextModule.number + ' ó ' + nextModule.title + '</strong>';
+      if(textEl) textEl.innerHTML = 'Recommended next: <strong>Module ' + nextModule.number + ' ù ' + nextModule.title + '</strong>';
     } else {
       rail.hidden = true;
     }
@@ -490,6 +637,26 @@
     saveGuidedHubState(pathway, state);
   }
 
+  function returnToConceptGrid(block){
+    setTimeout(function(){
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(panel){
+        panel.classList.remove('show');
+        delete panel.dataset.currentTarget;
+        delete panel.dataset.currentBlock;
+      }
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square[data-target]').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var section = document.getElementById(block);
+      var grid = section ? section.querySelector('[data-concept-grid="' + block + '"]') : null;
+      if(grid){
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig);
+    }, 120);
+  }
+
   global.TrainingFlowGuide = {
     init: function(){
       var ctx = global.TrainingFlowConfig && TrainingFlowConfig.detectContext();
@@ -499,7 +666,8 @@
     },
     refresh: refresh,
     resolveNextStep: resolveNextStep,
-    markModuleComplete: markModuleComplete
+    markModuleComplete: markModuleComplete,
+    returnToConceptGrid: returnToConceptGrid
   };
 
   if(document.readyState === 'loading'){
