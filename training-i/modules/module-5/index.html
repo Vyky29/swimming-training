@@ -2024,12 +2024,124 @@
     .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc36{ color:#4CAF50 !important; }
     .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc34 .b2pl-title-left{ color:#A66DD4 !important; }
     .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc34 .b2pl-title-right{ color:#89B5C1 !important; }
-    .b2-screens[data-b2-screens="b2c3"] .b2-screen[data-b2-screen="home"]{
+    .b2-screens[data-b2-screens="b2c3"] .b2-screen[data-b2-screen="home"],
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="home"]{
       width:100%;
     }
     .b2-screens[data-b2-screens="b2c3"] .concept-section-card.section-intro + .b2c3-direct-image{
       margin-top:14px !important;
     }
+
+    /* b2c2 home — premium folder tiles (artwork + label) */
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-home-shell{
+      width:100%;
+      max-width:min(740px,100%);
+      margin:0 auto;
+      padding:6px 0 18px;
+    }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-home-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:20px;
+      width:100%;
+    }
+    @media (max-width:560px){
+      .b2-screens[data-b2-screens="b2c2"] .b2c2-home-grid{
+        grid-template-columns:1fr;
+        max-width:380px;
+        margin:0 auto;
+      }
+    }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile{
+      appearance:none;
+      -webkit-appearance:none;
+      width:100%;
+      min-height:248px;
+      margin:0;
+      padding:22px 16px 20px;
+      border:2px solid var(--b2c2-accent, rgba(45,132,179,.18));
+      border-radius:20px;
+      background:linear-gradient(180deg, color-mix(in srgb, var(--b2c2-accent, #2d84b3) 7%, #fff) 0%, #fff 46%);
+      box-shadow:0 14px 32px rgba(18,50,71,.08);
+      cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      gap:18px;
+      text-align:center;
+      font-family:inherit;
+      box-sizing:border-box;
+    }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile--f1{ --b2c2-accent:#D4607A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile--f2{ --b2c2-accent:#4A8C8C; }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile--f3{ --b2c2-accent:#B8732A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile--f4{ --b2c2-accent:#C9A227; }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile--f5{ --b2c2-accent:#333333; }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile:hover,
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile:focus-visible{
+      transform:translateY(-4px);
+      box-shadow:0 22px 40px rgba(18,50,71,.12);
+      border-color:var(--b2c2-accent);
+      outline:none;
+    }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile--f5:last-child:nth-child(odd){
+      grid-column:1 / -1;
+      max-width:380px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-art{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      max-width:250px;
+      min-height:130px;
+      margin:0 auto;
+      flex-shrink:0;
+      background:transparent;
+    }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-art img{
+      display:block;
+      width:100%;
+      height:auto;
+      max-height:150px;
+      object-fit:contain;
+      object-position:center center;
+      background:transparent;
+      border:none;
+      pointer-events:none;
+      filter:drop-shadow(0 8px 16px rgba(18,50,71,.14));
+    }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-home-grid .img-expand-btn,
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-home-grid [data-expandable-visual] > .img-expand-btn{
+      display:none !important;
+    }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-label{
+      display:block;
+      width:100%;
+      margin:0;
+      padding:2px 8px 0;
+      font-size:.88rem;
+      font-weight:800;
+      line-height:1.45;
+      letter-spacing:.01em;
+      color:var(--b2c2-accent, var(--ink));
+      hyphens:none;
+      overflow-wrap:normal;
+      word-break:normal;
+      white-space:normal;
+      min-height:2.6em;
+      flex-shrink:0;
+      text-align:center;
+    }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-label--f1{ color:#CD436B; }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-label--f2{ color:#3d7575; }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-label--f3{ color:#9a5a1a; }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-label--f4{ color:#9A7B0A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-label--f5{ color:#4A5568; }
 
     /* b2c3 home — premium flashcard tiles (mini fan + label) */
     .b2-screens[data-b2-screens="b2c3"] .b2c3-home-shell{
@@ -4447,13 +4559,29 @@
         ],
         imageHTML: `<div class="b2-screens" data-b2-screens="b2c2">
   <div class="b2-screen active" data-b2-screen="home">
-    <div class="concept-section-card m5-screen-visual-card section-visual-shell"><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-5.jpeg" alt="PixtoLearn Swimming folders overview"></div></div>
-    <div class="b2pl-folder-grid">
-      <button class="b2pl-lvl-btn b2pl-f--1" type="button" data-b2-go="f1"><span class="b2pl-folder-ico" aria-hidden="true">📁</span><span class="b2pl-lvl-lbl">Water Adaptation</span></button>
-      <button class="b2pl-lvl-btn b2pl-f--2" type="button" data-b2-go="f2"><span class="b2pl-folder-ico" aria-hidden="true">📁</span><span class="b2pl-lvl-lbl">Floating, Streamlining &amp; Water Safety</span></button>
-      <button class="b2pl-lvl-btn b2pl-f--3" type="button" data-b2-go="f3"><span class="b2pl-folder-ico" aria-hidden="true">📁</span><span class="b2pl-lvl-lbl">Swimming Strokes, Diving, Starts &amp; Turns</span></button>
-      <button class="b2pl-lvl-btn b2pl-f--4" type="button" data-b2-go="f4"><span class="b2pl-folder-ico" aria-hidden="true">📁</span><span class="b2pl-lvl-lbl">Games, Toys &amp; Equipment and Extras</span></button>
-      <button class="b2pl-lvl-btn b2pl-f--5" type="button" data-b2-go="f5"><span class="b2pl-folder-ico" aria-hidden="true">📁</span><span class="b2pl-lvl-lbl">Session Plans</span></button>
+    <div class="b2c2-home-shell">
+    <div class="b2c2-home-grid" data-b2c2-no-expand="true">
+      <button class="b2c2-folder-tile b2c2-folder-tile--f1" type="button" data-b2-go="f1">
+        <span class="b2c2-folder-art" aria-hidden="true"><img src="/assets/images/b2c2-f1-water-adaptation.png" alt="Water Adaptation folder" /></span>
+        <span class="b2c2-folder-label b2c2-folder-label--f1">Water Adaptation</span>
+      </button>
+      <button class="b2c2-folder-tile b2c2-folder-tile--f2" type="button" data-b2-go="f2">
+        <span class="b2c2-folder-art" aria-hidden="true"><img src="/assets/images/b2c2-f2-floating.png" alt="Floating, Streamlining and Water Safety folder" /></span>
+        <span class="b2c2-folder-label b2c2-folder-label--f2">Floating, Streamlining &amp; Water Safety</span>
+      </button>
+      <button class="b2c2-folder-tile b2c2-folder-tile--f3" type="button" data-b2-go="f3">
+        <span class="b2c2-folder-art" aria-hidden="true"><img src="/assets/images/b2c2-f3-strokes.png" alt="Swimming Strokes, Diving, Starts and Turns folder" /></span>
+        <span class="b2c2-folder-label b2c2-folder-label--f3">Swimming Strokes, Diving, Starts &amp; Turns</span>
+      </button>
+      <button class="b2c2-folder-tile b2c2-folder-tile--f4" type="button" data-b2-go="f4">
+        <span class="b2c2-folder-art" aria-hidden="true"><img src="/assets/images/b2c2-f4-games-toys.png" alt="Games, Toys and Equipment folder" /></span>
+        <span class="b2c2-folder-label b2c2-folder-label--f4">Games, Toys &amp; Equipment and Extras</span>
+      </button>
+      <button class="b2c2-folder-tile b2c2-folder-tile--f5" type="button" data-b2-go="f5">
+        <span class="b2c2-folder-art" aria-hidden="true"><img src="/assets/images/b2c2-f5-session-plans.png" alt="Session Plans folder" /></span>
+        <span class="b2c2-folder-label b2c2-folder-label--f5">Session Plans</span>
+      </button>
+    </div>
     </div>
   </div>
   <div class="b2-screen" data-b2-screen="f1"><div class="folder-page"><h5 class="b2pl-folder-h b2pl-folder-h--f1"><span class="b2pl-folder-ico b2pl-folder-ico--page" aria-hidden="true"><svg class="b2-folder-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/></svg></span><span class="b2pl-folder-h-txt">Water Adaptation</span></h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Water adaptation is the foundation of all aquatic learning. It focuses on helping swimmers feel safe, comfortable and confident in the water before introducing more complex skills.</p><p>This stage supports emotional regulation, sensory adjustment and early engagement with the aquatic environment.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-7.jpeg" alt="PixtoLearn Folder 1 Water Adaptation visual"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-f1-1" type="button" data-b2-go="f1-s1">Enter &amp; Exit in the Water Safely</button><button class="b2pl-lvl-btn b2pl-cat-f1-2" type="button" data-b2-go="f1-s2">Water Movement</button><button class="b2pl-lvl-btn b2pl-cat-f1-3" type="button" data-b2-go="f1-s3">Aquatic Breathing &amp; Submersion</button></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back to Categories</button></div></div></div>
@@ -6305,9 +6433,9 @@
       });
     }
 
-    function clearB2C3HomeExpandButtons(scope){
+    function clearB2HomeExpandButtons(scope){
       if(!scope) return;
-      scope.querySelectorAll('.b2c3-home-grid [data-expandable-visual]').forEach(function(host){
+      scope.querySelectorAll('.b2c2-home-grid [data-expandable-visual], .b2c3-home-grid [data-expandable-visual]').forEach(function(host){
         host.removeAttribute('data-expandable-visual');
         host.querySelectorAll('.img-expand-btn').forEach(function(btn){ btn.remove(); });
         if(host.style.position === 'relative') host.style.position = '';
@@ -6326,9 +6454,9 @@
         panel: panel,
         clearRoot: scope,
         syncRoot: scope,
-        exclude: ['[data-b2-screen="f1-s1"]', '.b2c3-home-grid', '[data-b2c3-no-expand="true"]']
+        exclude: ['[data-b2-screen="f1-s1"]', '.b2c2-home-grid', '.b2c3-home-grid', '[data-b2c2-no-expand="true"]', '[data-b2c3-no-expand="true"]']
       });
-      clearB2C3HomeExpandButtons(scope);
+      clearB2HomeExpandButtons(scope);
     }
 
     function nestedScreenStorageKey(conceptTarget){
@@ -6403,8 +6531,8 @@
         }
         wrapNestedOverviewVisuals(panel);
         rewireConceptVisualExpand(panel);
-        if(target === 'b2c3' && id === 'home'){
-          clearB2C3HomeExpandButtons(activeScreen || wrapper);
+        if((target === 'b2c3' || target === 'b2c2') && id === 'home'){
+          clearB2HomeExpandButtons(activeScreen || wrapper);
         }
         if(id !== 'home'){
           var scrollTarget = panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-image');
