@@ -5,25 +5,12 @@
 .portal .flow-guide-pulse,
 .flow-guide-pulse {
   position: relative;
-  z-index: 4;
+  z-index: 5;
   outline: none !important;
-  box-shadow:
-    inset 0 0 0 2px rgba(20, 118, 168, .88),
-    inset 0 0 24px rgba(20, 118, 168, .16);
   border-radius: 12px;
-  animation: flowGuidePulse 1.35s cubic-bezier(.45, 0, .2, 1) infinite;
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
-}
-
-.flow-guide-pulse::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55);
-  opacity: .85;
+  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 
 .flow-guide-pulse.concept-insight-pillar,
@@ -34,98 +21,74 @@
 }
 
 .flow-guide-pulse.concept-square,
-.portal .flow-guide-pulse.concept-square {
-  border-radius: 14px;
-  animation: flowGuidePulseConcept 1.25s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
+.portal .flow-guide-pulse.concept-square,
 .flow-guide-pulse.module-roadmap__item,
 .portal .flow-guide-pulse.module-roadmap__item,
-.flow-guide-pulse.journey-item.module-roadmap__item {
+.flow-guide-pulse.journey-item.module-roadmap__item,
+.flow-guide-pulse.outcome,
+.flow-guide-pulse.check-item {
   border-radius: 14px;
 }
 
 .flow-guide-pulse--expand,
 .portal .flow-guide-pulse--expand {
-  animation: flowGuidePulseExpand 1.25s cubic-bezier(.45, 0, .2, 1) infinite;
+  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 
 .flow-guide-pulse.img-expand-btn.flow-guide-pulse--expand,
 .portal .flow-guide-pulse.img-expand-btn.flow-guide-pulse--expand {
   border-radius: 50%;
-  z-index: 6;
-  overflow: visible;
-  animation: flowGuidePulseExpandBtn 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
+  z-index: 8;
 }
 
 .flow-guide-pulse--activity,
 .portal .flow-guide-pulse--activity {
-  animation: flowGuidePulseActivity 1.25s cubic-bezier(.45, 0, .2, 1) infinite;
+  animation: flowGuidePulseActivity 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 
-@keyframes flowGuidePulse {
+/* Primary guide — blue ring with outer halo (matches expand intensity) */
+@keyframes flowGuidePulsePrimary {
   0%, 100% {
     box-shadow:
-      inset 0 0 0 2px rgba(20, 118, 168, .55),
-      inset 0 0 12px rgba(20, 118, 168, .08);
+      inset 0 0 0 2px rgba(18, 120, 178, .82),
+      0 0 0 0 rgba(18, 120, 178, .42),
+      0 0 12px rgba(18, 120, 178, .12);
   }
   50% {
     box-shadow:
-      inset 0 0 0 3px rgba(20, 118, 168, 1),
-      inset 0 0 28px rgba(20, 118, 168, .32);
-  }
-}
-
-@keyframes flowGuidePulseConcept {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 2px rgba(20, 118, 168, .62),
-      inset 0 0 16px rgba(20, 118, 168, .14);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 3px rgba(20, 118, 168, 1),
-      inset 0 0 0 6px rgba(20, 118, 168, .18),
-      inset 0 0 32px rgba(20, 118, 168, .34);
+      inset 0 0 0 3px rgba(18, 120, 178, 1),
+      0 0 0 7px rgba(18, 120, 178, .34),
+      0 0 24px rgba(18, 120, 178, .38);
   }
 }
 
 @keyframes flowGuidePulseExpand {
   0%, 100% {
     box-shadow:
-      inset 0 0 0 2px rgba(214, 120, 28, .62),
-      inset 0 0 14px rgba(214, 120, 28, .12);
+      inset 0 0 0 2px rgba(214, 120, 28, .78),
+      0 0 0 0 rgba(214, 120, 28, .42),
+      0 0 12px rgba(214, 120, 28, .14);
   }
   50% {
     box-shadow:
       inset 0 0 0 3px rgba(214, 120, 28, 1),
-      inset 0 0 26px rgba(214, 120, 28, .34);
-  }
-}
-
-@keyframes flowGuidePulseExpandBtn {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 2px rgba(214, 120, 28, .72),
-      0 0 0 0 rgba(214, 120, 28, .38);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 3px rgba(214, 120, 28, 1),
-      0 0 0 5px rgba(214, 120, 28, .34);
+      0 0 0 7px rgba(214, 120, 28, .36),
+      0 0 22px rgba(214, 120, 28, .4);
   }
 }
 
 @keyframes flowGuidePulseActivity {
   0%, 100% {
     box-shadow:
-      inset 0 0 0 2px rgba(88, 72, 200, .58),
-      inset 0 0 14px rgba(88, 72, 200, .12);
+      inset 0 0 0 2px rgba(88, 72, 200, .72),
+      0 0 0 0 rgba(88, 72, 200, .38),
+      0 0 12px rgba(88, 72, 200, .12);
   }
   50% {
     box-shadow:
       inset 0 0 0 3px rgba(88, 72, 200, 1),
-      inset 0 0 28px rgba(88, 72, 200, .28);
+      0 0 0 7px rgba(88, 72, 200, .32),
+      0 0 22px rgba(88, 72, 200, .34);
   }
 }
 
@@ -142,11 +105,11 @@
   max-width: min(580px, calc(100vw - 32px));
   padding: 11px 16px 11px 13px;
   border-radius: 999px;
-  border: 1px solid rgba(20, 118, 168, .32);
+  border: 1px solid rgba(18, 120, 178, .34);
   background: rgba(255, 255, 255, .98);
   box-shadow:
-    0 14px 36px rgba(18, 50, 71, .18),
-    0 0 0 1px rgba(255, 255, 255, .85) inset;
+    0 14px 36px rgba(18, 50, 71, .2),
+    0 0 0 1px rgba(255, 255, 255, .88) inset;
   font-size: .84rem;
   line-height: 1.35;
   color: #163247;
@@ -164,13 +127,13 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #1476a8;
-  animation: flowGuideDot 1.35s ease-in-out infinite;
+  background: #1278b2;
+  animation: flowGuideDot 1.2s ease-in-out infinite;
 }
 
 @keyframes flowGuideDot {
   0%, 100% { opacity: .35; transform: scale(.82); }
-  50% { opacity: 1; transform: scale(1.3); }
+  50% { opacity: 1; transform: scale(1.35); }
 }
 
 .portal .flow-guide-rail__text,
@@ -181,22 +144,17 @@
 
 .portal .flow-guide-rail__text strong,
 .flow-guide-rail__text strong {
-  color: #1476a8;
+  color: #1278b2;
   font-weight: 700;
 }
 
 .portal .module-card.flow-guide-next-module,
 .module-card.flow-guide-next-module {
-  animation: flowGuidePulseConcept 1.35s cubic-bezier(.45, 0, .2, 1) infinite;
+  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 
 [data-guided-flow="true"] .hero-actions .btn-primary.flow-guide-pulse {
-  animation: flowGuidePulse 1.35s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-[data-expandable-visual] {
-  overflow: hidden;
-  border-radius: 10px;
+  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -205,7 +163,9 @@
   .flow-guide-pulse--activity,
   .module-card.flow-guide-next-module {
     animation: none;
-    box-shadow: inset 0 0 0 3px rgba(20, 118, 168, .9);
+    box-shadow:
+      inset 0 0 0 3px rgba(18, 120, 178, .95),
+      0 0 0 4px rgba(18, 120, 178, .35);
   }
   .flow-guide-rail__dot {
     animation: none;

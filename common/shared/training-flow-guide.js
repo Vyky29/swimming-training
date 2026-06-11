@@ -8,6 +8,9 @@
   var activePulseEl = null;
   var refreshTimer = null;
   var lastStepKey = null;
+  var lastScrolledKey = null;
+  var userScrollUntil = 0;
+  var wiredPanels = new WeakSet();
   var activeModuleConfig = null;
 
   function $(sel, root){ return (root || document).querySelector(sel); }
@@ -73,24 +76,28 @@
     return style.display !== 'none' && style.visibility !== 'hidden';
   }
 
-  function isInViewport(el, padding){
+  function isMostlyVisible(el){
     if(!el || typeof el.getBoundingClientRect !== 'function') return false;
-    padding = padding || {};
-    var topPad = padding.top != null ? padding.top : 88;
-    var bottomPad = padding.bottom != null ? padding.bottom : 130;
     var rect = el.getBoundingClientRect();
-    return rect.top >= topPad && rect.bottom <= window.innerHeight - bottomPad;
+    if(rect.width <= 0 || rect.height <= 0) return false;
+    var topBound = 76;
+    var bottomBound = window.innerHeight - 96;
+    var visibleHeight = Math.min(rect.bottom, bottomBound) - Math.max(rect.top, topBound);
+    if(visibleHeight <= 0) return false;
+    var minVisible = Math.min(96, Math.max(48, rect.height * 0.28));
+    return visibleHeight >= minVisible;
   }
 
   function scrollIfNeeded(target, step){
     if(!target || typeof target.scrollIntoView !== 'function') return;
-    if(isInViewport(target)) return;
+    if(Date.now() < userScrollUntil) return;
 
-    var block = 'center';
-    if(step && (step.kind === 'concept' || step.kind === 'concept-grid-frame' || step.scrollBlock === 'start')){
-      block = 'start';
-    }
-    target.scrollIntoView({ behavior: 'smooth', block: block });
+    var key = stepKey(step);
+    if(key && lastScrolledKey === key) return;
+    if(isMostlyVisible(target)) return;
+
+    target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    lastScrolledKey = key;
   }
 
   function panelHasExpandableVisual(panel){
@@ -110,7 +117,9 @@
   }
 
   function ensurePanelVisualWired(panel){
-    if(!panel || !global.ConceptVisualExpand || typeof ConceptVisualExpand.wire !== 'function') return;
+    if(!panel || wiredPanels.has(panel)) return;
+    if(!global.ConceptVisualExpand || typeof ConceptVisualExpand.wire !== 'function') return;
+    wiredPanels.add(panel);
     try {
       ConceptVisualExpand.wire(panel, { panel: panel, syncRoot: panel });
     } catch(err){}
@@ -140,15 +149,6 @@
       };
     }
 
-    var slot = panel.querySelector('[data-expandable-visual]:not([data-visual-expanded="true"]), .concept-section-card.section-visual-shell, .concept-image');
-    if(slot){
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 420);
-      return {
-        kind: 'expand-visual',
-        el: slot,
-        label: 'Expand the image to view it full size'
-      };
-    }
     return null;
   }
 
@@ -434,7 +434,7 @@
   }
 
   function bindJourneyReview(){
-    bindSectionReview($('#journey'));
+    bindSectionReview($('#journey'), { disableAutoReview: true });
   }
 
   function bindInsideModuleReview(){
@@ -693,8 +693,8 @@
   }
 
   function applyGuide(step){
-    clearPulse();
     if(!step || !step.el){
+      clearPulse();
       updateRail(null);
       lastStepKey = null;
       return;
@@ -706,7 +706,12 @@
     }
 
     var key = stepKey(step);
-    var shouldScroll = key !== lastStepKey;
+    if(key === lastStepKey && activePulseEl === target){
+      updateRail(step);
+      return;
+    }
+
+    clearPulse();
     lastStepKey = key;
 
     target.classList.add(PULSE_CLASS);
@@ -716,18 +721,7 @@
     }
     activePulseEl = target;
     updateRail(step);
-
-    if(step.kind === 'concept'){
-      var blockSection = target.closest('[id^="block"]') || document.getElementById(target.getAttribute('data-block'));
-      var stage = blockSection && blockSection.querySelector('.concept-stage');
-      if(stage && !isInViewport(stage, { top: 72, bottom: 110 })){
-        stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        scrollIfNeeded(target, step);
-      }
-    } else if(shouldScroll){
-      scrollIfNeeded(target, step);
-    }
+    scrollIfNeeded(target, step);
   }
 
   function refresh(moduleConfig){
@@ -737,29 +731,47 @@
 
   function scheduleRefresh(moduleConfig, delay){
     if(refreshTimer) clearTimeout(refreshTimer);
-    refreshTimer = setTimeout(function(){ refresh(moduleConfig); }, delay || 180);
+    refreshTimer = setTimeout(function(){ refresh(moduleConfig); }, delay || 260);
+  }
+
+  function shouldIgnoreMutation(target, mutation){
+    if(!target || target.id === RAIL_ID) return true;
+    if(mutation.type === 'attributes' && mutation.attributeName === 'class'){
+      if(target.classList && target.classList.contains(PULSE_CLASS)) return true;
+    }
+    return false;
   }
 
   function bindRefresh(moduleConfig){
     ['click', 'change', 'input', 'concept-insight-pillars-change', 'concept-visual-expand-wire', 'concept-visual-expand-change'].forEach(function(name){
-      document.addEventListener(name, function(){ scheduleRefresh(moduleConfig); }, true);
+      document.addEventListener(name, function(e){
+        var panel = e.target && e.target.closest && e.target.closest('.concept-panel.show');
+        if(panel) ensurePanelVisualWired(panel);
+        scheduleRefresh(moduleConfig);
+      }, true);
     });
 
     if(typeof MutationObserver !== 'undefined'){
-      var observer = new MutationObserver(function(){
-        scheduleRefresh(moduleConfig);
+      var observer = new MutationObserver(function(mutations){
+        for(var i = 0; i < mutations.length; i++){
+          if(!shouldIgnoreMutation(mutations[i].target, mutations[i])){
+            scheduleRefresh(moduleConfig);
+            return;
+          }
+        }
       });
       observer.observe(document.body, {
         subtree: true,
         attributes: true,
-        attributeFilter: ['disabled', 'hidden', 'checked', 'data-flow-reviewed', 'data-visual-expanded', 'data-flow-visual-expanded', 'class'],
+        attributeFilter: ['disabled', 'hidden', 'checked', 'data-flow-reviewed', 'data-visual-expanded', 'data-flow-visual-expanded'],
         childList: true
       });
     }
 
     window.addEventListener('hashchange', function(){ scheduleRefresh(moduleConfig); });
     window.addEventListener('resize', function(){ scheduleRefresh(moduleConfig); });
-    setInterval(function(){ refresh(moduleConfig); }, 3500);
+    window.addEventListener('wheel', function(){ userScrollUntil = Date.now() + 3000; }, { passive: true });
+    window.addEventListener('touchmove', function(){ userScrollUntil = Date.now() + 3000; }, { passive: true });
   }
 
   function initModulePage(){
@@ -871,16 +883,13 @@
         delete panel.dataset.currentTarget;
         delete panel.dataset.currentBlock;
         panel.removeAttribute('data-flow-visual-expanded');
+        wiredPanels.delete(panel);
       }
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square[data-target]').forEach(function(btn){
         btn.classList.remove('active');
       });
-      var section = document.getElementById(block);
-      var stage = section ? section.querySelector('.concept-stage') : null;
-      if(stage && !isInViewport(stage, { top: 72, bottom: 110 })){
-        stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig);
+      lastScrolledKey = null;
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 280);
     }, 120);
   }
 
