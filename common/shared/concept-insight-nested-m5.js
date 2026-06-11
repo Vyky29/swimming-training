@@ -118,24 +118,13 @@
       }
     },
     'f3-s2': {
-      panelTitle: 'Diving',
+      panelTitle: 'Diving, Starts & Turns',
       insight: {
-        title: 'Dynamic Water Entry',
+        title: 'Dynamic Entry and Efficient Transitions',
         pillars: [
-          { icon: 'movement', title: 'Confidence and Control', text: 'Diving develops confidence and control when entering the water dynamically.' },
-          { icon: 'shield', title: 'Safety Expectations', text: 'It requires readiness, body control, confidence with submersion and a clear understanding of safety expectations.' },
-          { icon: 'balance', title: 'Introduce Progressively', text: 'Diving must be introduced safely and progressively when swimmers show readiness.' }
-        ]
-      }
-    },
-    'f3-s3': {
-      panelTitle: 'Starts & Turns',
-      insight: {
-        title: 'Efficient Transitions',
-        pillars: [
-          { icon: 'movement', title: 'Structured Transitions', text: 'Starts and turns help swimmers transition efficiently during structured swimming.' },
-          { icon: 'focus', title: 'Timing and Awareness', text: 'They require timing, body control, spatial awareness and confidence with movement changes in the water.' },
-          { icon: 'balance', title: 'Build Step by Step', text: 'Visual sequencing and progressive practice support timing before swimmers add speed.' }
+          { icon: 'movement', title: 'Confidence and Control', text: 'Diving develops confidence and control when entering the water dynamically, while starts and turns support efficient transitions during structured swimming.' },
+          { icon: 'shield', title: 'Safety and Readiness', text: 'These skills require readiness, body control, submersion confidence and a clear understanding of safety expectations.' },
+          { icon: 'focus', title: 'Timing and Sequencing', text: 'Visual sequencing and progressive practice support timing, spatial awareness and control before swimmers add pace.' }
         ]
       }
     },

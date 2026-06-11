@@ -109,8 +109,7 @@
     m5_f2_s2: 'Show the long body shape visually, then add short rotation and sculling drills once alignment holds.',
     m5_f2_s3: 'Embed safety cues inside every activity block, not as a separate lecture.',
     m5_f3_s1: 'Break stroke into visible parts before you expect a full coordinated pattern.',
-    m5_f3_s2: 'Confirm readiness and submersion comfort before you introduce any dynamic entry.',
-    m5_f3_s3: 'Teach wall skills as repeatable sequences with visuals before you add pace.',
+    m5_f3_s2: 'Confirm readiness before dynamic entries, and teach wall skills as repeatable sequences with visuals before you add pace.',
     m5_f4_s1: 'Choose games that rehearse the session outcome, not just fill time.',
     m5_f4_s2: 'Match equipment to the learning goal and fade it when the skill holds without it.',
     m5_f4_s3: 'Use routine and communication cards at transitions when demand or uncertainty rises.',
@@ -171,7 +170,7 @@
       b3c2: 'm5_b3c2', b3c3: 'm5_b3c3',
       f5: 'm5_f5', 'f1-s1': 'm5_f1_s1', 'f1-s2': 'm5_f1_s2', 'f1-s3': 'm5_f1_s3',
       'f2-s1': 'm5_f2_s1', 'f2-s2': 'm5_f2_s2', 'f2-s3': 'm5_f2_s3',
-      'f3-s1': 'm5_f3_s1', 'f3-s2': 'm5_f3_s2', 'f3-s3': 'm5_f3_s3',
+      'f3-s1': 'm5_f3_s1', 'f3-s2': 'm5_f3_s2',
       'f4-s1': 'm5_f4_s1', 'f4-s2': 'm5_f4_s2', 'f4-s3': 'm5_f4_s3',
       fc31: 'm5_fc31', fc32: 'm5_fc32', fc33: 'm5_fc33', fc34: 'm5_fc34', fc35: 'm5_fc35', fc36: 'm5_fc36',
       vs1: 'm5_vs1', vs2: 'm5_vs2', vs3: 'm5_vs3'
