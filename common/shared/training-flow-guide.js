@@ -361,35 +361,128 @@
       '.section-activity-shell',
       '.concept-section-card.section-activity',
       '[data-concept-activity-flow]',
-      '[data-concept-activity]'
+      '[data-concept-activity]',
+      '.activity-container--concept'
     ];
     for(var s = 0; s < selectors.length; s++){
       var hit = panel.querySelector(selectors[s]);
       if(hit) return hit;
     }
-    var inner = panel.querySelector('[data-carousel], [data-choice-activity], [data-matching-activity], [data-match-grid], [data-match-board], [data-categorize-activity], [data-sequence-activity], [data-sense-card]');
+    var inner = panel.querySelector(
+      '[data-carousel], [data-carousel-activity], [data-choice-activity], [data-matching-activity], ' +
+      '[data-match-grid], [data-match-board], [data-categorize-activity], [data-sequence-activity], ' +
+      '[data-sequence-list], [data-sense-card], [data-reflect-continue], .matching-wrap, .match-game, ' +
+      '.concept-activity-interactive[data-activity], [data-m5-b2-choice-mount], [data-m5-b2-nested-key]'
+    );
     if(!inner) return null;
-    return inner.closest('.section-activity-shell, .concept-section-card.section-activity, [data-concept-activity-flow], [data-concept-activity], .activity-container') || inner;
+    return inner.closest(
+      '.section-activity-shell, .concept-section-card.section-activity, [data-concept-activity-flow], ' +
+      '[data-concept-activity], .activity-container, .activity-container--concept'
+    ) || inner;
+  }
+
+  function countRequiredMatches(panel){
+    var required = parseInt(panel.dataset.requiredMatches, 10) || parseInt(panel.dataset.matchingPairsCount, 10) || 0;
+    if(required) return required;
+    var landItems = panel.querySelectorAll('.matching-wrap .match-land .match-item, .match-column.match-land .match-item');
+    if(landItems.length) return landItems.length;
+    var slots = panel.querySelectorAll('.match-game .match-slot, .concept-activity-interactive .match-slot');
+    return slots.length || 0;
+  }
+
+  function isMatchingActivityIncomplete(panel){
+    if(!panel.querySelector('[data-matching-activity], [data-match-grid], [data-match-board], .matching-wrap, .match-game')) return false;
+    var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
+    var requiredMatches = countRequiredMatches(panel);
+    if(requiredMatches) return matchedCount < requiredMatches;
+    var unfilledSlots = panel.querySelectorAll('.match-game .match-slot, .concept-activity-interactive .match-slot');
+    for(var s = 0; s < unfilledSlots.length; s++){
+      if(!unfilledSlots[s].querySelector('.slot-drop .match-chip')) return true;
+    }
+    var actBlock = panel.querySelector('.concept-activity-interactive .match-game');
+    if(actBlock){
+      var act = actBlock.closest('.concept-activity-interactive');
+      if(act && !act.querySelector('.feedback.show.good')) return true;
+    }
+    return false;
+  }
+
+  function isM5ChoiceShellIncomplete(panel){
+    var incompleteShell = panel.querySelector(
+      '[data-concept-activity-title][data-choice-shell-complete="false"], ' +
+      '[data-m5-b2-choice-mount][data-choice-shell-complete="false"], ' +
+      '[data-m5-b2-nested-key][data-choice-shell-complete="false"]'
+    );
+    if(incompleteShell) return true;
+    var nestedKeys = panel.querySelectorAll('[data-m5-b2-nested-key]');
+    for(var i = 0; i < nestedKeys.length; i++){
+      if(nestedKeys[i].dataset.choiceShellComplete !== 'true') return true;
+    }
+    var actTitle = panel.querySelector('[data-concept-activity-title]');
+    if(actTitle && actTitle.dataset.choiceShellComplete === 'false') return true;
+    return false;
+  }
+
+  function isInteractiveBlockComplete(block){
+    if(!block) return true;
+    var scenarioCards = block.querySelectorAll('.scenario-card');
+    if(scenarioCards.length){
+      for(var i = 0; i < scenarioCards.length; i++){
+        if(!scenarioCards[i].querySelector('.feedback.show.good')) return false;
+      }
+      return true;
+    }
+    if(block.querySelector('.match-game, [data-categorize-activity], .categorize-pool-items, .option-grid')){
+      return !!block.querySelector('.feedback.show.good');
+    }
+    return true;
+  }
+
+  function panelHasGuidedActivity(panel){
+    if(!panel || panel.dataset.skipActivityShell === 'true') return false;
+    if(!findActivityRoot(panel)) return false;
+    return !!panel.querySelector(
+      '[data-carousel], [data-carousel-activity], [data-choice-activity], [data-matching-activity], ' +
+      '[data-match-grid], [data-match-board], [data-categorize-activity], [data-sequence-activity], ' +
+      '[data-sequence-list], [data-sense-card], [data-reflect-continue], [data-choice-option], ' +
+      '[data-m5-b2-choice-mount], [data-m5-b2-nested-key], .matching-wrap, .match-game, ' +
+      '.concept-activity-interactive[data-activity], .option-grid input, .match-item, .match-chip'
+    );
   }
 
   function isActivityIncomplete(panel){
-    if(!panel) return false;
-    var finish = panel.querySelector('[data-finish-concept]');
-    if(!finish || !finish.disabled) return false;
-    if(!findActivityRoot(panel)) return false;
+    if(!panel || !panelHasGuidedActivity(panel)) return false;
+    if(panel.dataset.activityComplete === 'true') return false;
 
-    if(panel.querySelector('[data-carousel]') && panel.dataset.carouselComplete !== 'true') return true;
+    if(panel.querySelector('[data-carousel], [data-carousel-activity]') && panel.dataset.carouselComplete !== 'true') return true;
     if(panel.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true') return true;
+    if(isMatchingActivityIncomplete(panel)) return true;
+    if(panel.querySelector('[data-categorize-activity]') && panel.dataset.categorizeComplete !== 'true'){
+      var categorizeRoot = panel.querySelector('[data-categorize-activity]');
+      var categorizeBlock = categorizeRoot && categorizeRoot.closest('.concept-activity-interactive[data-activity]');
+      if(!categorizeBlock || !categorizeBlock.querySelector('.feedback.show.good')) return true;
+    }
+    if(panel.querySelector('[data-sequence-activity], [data-sequence-list]') && panel.dataset.sequenceComplete !== 'true') return true;
+    if(panel.querySelector('[data-reflect-continue]') && panel.dataset.reflectAckComplete !== 'true') return true;
+    if(panel.querySelector('[data-sense-card]:not(.flipped)')) return true;
+    if(isM5ChoiceShellIncomplete(panel)) return true;
 
-    if(panel.querySelector('[data-matching-activity], [data-match-grid], [data-match-board]')){
-      var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
-      var requiredMatches = parseInt(panel.dataset.requiredMatches, 10) || parseInt(panel.dataset.matchingPairsCount, 10) || 0;
-      if(requiredMatches && matchedCount < requiredMatches) return true;
+    var interactives = panel.querySelectorAll('.concept-activity-interactive[data-activity]');
+    for(var i = 0; i < interactives.length; i++){
+      if(!isInteractiveBlockComplete(interactives[i])) return true;
     }
 
-    if(panel.querySelector('[data-categorize-activity]') && panel.dataset.categorizeComplete !== 'true') return true;
-    if(panel.querySelector('[data-sequence-activity]') && panel.dataset.sequenceComplete !== 'true') return true;
-    if(panel.querySelector('[data-sense-card]:not(.flipped)')) return true;
+    var root = findActivityRoot(panel);
+    if(root && root.querySelector('.option-grid input[type="radio"], .option-grid input[type="checkbox"]')){
+      var shellFeedback = root.querySelector('.feedback.show.good, [data-activity-feedback].show.good');
+      if(!shellFeedback && !panel.querySelector('.concept-activity-interactive[data-activity] .feedback.show.good')) return true;
+    }
+
+    var finish = panel.querySelector('[data-finish-concept]');
+    if(finish && finish.disabled){
+      var finishHint = (finish.textContent || '').toLowerCase();
+      if(/complete the|matching|classification|sequencing|activity|slides|senses|open all|reflection/.test(finishHint)) return true;
+    }
 
     return false;
   }
@@ -400,17 +493,21 @@
     var root = findActivityRoot(panel);
     if(!root) return null;
 
-    if(panel.dataset.flowActivityStarted !== 'true'){
-      return sectionScrollStep('activity-intro', root, 'Complete the activity below', { tone: 'activity' });
-    }
+    var label = panel.dataset.flowActivityStarted === 'true'
+      ? 'Complete the activity'
+      : 'Complete the activity below';
 
-    return {
-      kind: 'activity-progress',
-      el: root,
-      noPulse: true,
-      noScroll: true,
-      label: 'Complete the activity'
-    };
+    return sectionScrollStep(
+      panel.dataset.flowActivityStarted === 'true' ? 'activity-progress' : 'activity-intro',
+      root,
+      label,
+      {
+        tone: 'activity',
+        scrollBlock: 'center',
+        forceScroll: panel.dataset.flowActivityStarted !== 'true',
+        noScroll: panel.dataset.flowActivityStarted === 'true'
+      }
+    );
   }
 
   function getSubconceptNav(panel){
@@ -443,7 +540,7 @@
     if(isLeafTarget){
       var hasIncomplete = panel.querySelector('.concept-insight-pillar:not(.clicked), .key-idea-item:not(.clicked)');
       var finish = panel.querySelector('[data-finish-concept]');
-      if(hasIncomplete || (finish && finish.disabled)) return null;
+      if(hasIncomplete || (finish && finish.disabled) || isActivityIncomplete(panel)) return null;
     }
 
     return {
@@ -626,18 +723,10 @@
     if(wrap) wrap.setAttribute('data-flow-reviewed', 'true');
   }
 
-  function isBlockSectionInView(blockId){
-    var section = document.getElementById(blockId);
-    if(!section) return false;
-    var rect = section.getBoundingClientRect();
-    if(rect.width <= 0 || rect.height <= 0) return false;
-    return rect.top < window.innerHeight * 0.82 && rect.bottom > 96;
-  }
-
   function bindInsideModuleReview(){
     var section = $('#inside-module');
     if(!section) return;
-    bindSectionReview(section, { disableAutoReview: false });
+    bindSectionReview(section, { disableAutoReview: true });
 
     section.addEventListener('click', function(e){
       if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
@@ -821,17 +910,6 @@
     if(!section) return null;
     if(section.getAttribute('data-flow-reviewed') === 'true') return null;
 
-    var moduleConfig = activeModuleConfig;
-    if(moduleConfig && moduleConfig.blocks){
-      for(var i = 0; i < moduleConfig.blocks.length; i++){
-        var blockId = moduleConfig.blocks[i];
-        if(!blockIntroCardsComplete(blockId) && isBlockSectionInView(blockId)){
-          ensureInsideModuleReviewed();
-          return null;
-        }
-      }
-    }
-
     var content = section.querySelector('.module-roadmap-wrap') || section.querySelector('.journey-wrap') || section;
     return sectionScrollStep('inside-module', content, 'Review the blocks in this module');
   }
@@ -884,8 +962,6 @@
     var wrap = section.querySelector('.block-intro-cards[data-block-intro="' + block + '"]');
     if(!wrap) return null;
 
-    ensureInsideModuleReviewed();
-
     var cards = wrap.querySelectorAll('.block-intro-card');
     for(var i = 0; i < cards.length; i++){
       if(!isBlockIntroCardDone(cards[i])){
@@ -906,10 +982,7 @@
     if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
-    if(!insideModuleReviewed()){
-      if(blockIntroCardsComplete(block)) return null;
-      ensureInsideModuleReviewed();
-    }
+    if(!insideModuleReviewed()) return null;
 
     var introStep = resolveBlockIntroCards(block);
     if(introStep) return introStep;
@@ -1184,6 +1257,10 @@
 
   function shouldIgnoreMutation(target, mutation){
     if(!target || target.id === RAIL_ID) return true;
+    if(mutation.type === 'attributes' && mutation.attributeName === 'class'){
+      if(target.classList && target.classList.contains('feedback')) return false;
+      if(target.classList && target.classList.contains('match-item')) return false;
+    }
     if(mutation.type === 'childList'){
       if(target.classList && target.classList.contains(PULSE_CLASS)) return true;
       if(target.classList && target.classList.contains('block-intro-card')) return true;
@@ -1210,10 +1287,21 @@
 
     document.addEventListener('input', function(e){
       var panel = e.target && e.target.closest && e.target.closest('.concept-panel.show');
-      if(!panel || panel.dataset.flowActivityStarted === 'true') return;
+      if(!panel) return;
       var activityRoot = findActivityRoot(panel);
-      if(activityRoot && activityRoot.contains(e.target) && isActivityIncomplete(panel)){
-        panel.dataset.flowActivityStarted = 'true';
+      if(activityRoot && activityRoot.contains(e.target)){
+        if(panel.dataset.flowActivityStarted !== 'true' && isActivityIncomplete(panel)){
+          panel.dataset.flowActivityStarted = 'true';
+        }
+        scheduleRefresh(moduleConfig, 120);
+      }
+    }, true);
+
+    document.addEventListener('change', function(e){
+      var panel = e.target && e.target.closest && e.target.closest('.concept-panel.show');
+      if(!panel) return;
+      var activityRoot = findActivityRoot(panel);
+      if(activityRoot && activityRoot.contains(e.target)){
         scheduleRefresh(moduleConfig, 120);
       }
     }, true);
@@ -1242,7 +1330,14 @@
       observer.observe(document.body, {
         subtree: true,
         attributes: true,
-        attributeFilter: ['disabled', 'hidden', 'checked', 'data-flow-reviewed', 'data-visual-expanded', 'data-flow-visual-expanded', 'data-in-practice-done', 'data-in-practice-required', 'data-flow-block-intro-done'],
+        attributeFilter: [
+          'disabled', 'hidden', 'checked', 'class',
+          'data-flow-reviewed', 'data-visual-expanded', 'data-flow-visual-expanded',
+          'data-in-practice-done', 'data-in-practice-required', 'data-flow-block-intro-done',
+          'data-choice-complete', 'data-matched-count', 'data-matching-pairs-count',
+          'data-categorize-complete', 'data-sequence-complete', 'data-carousel-complete',
+          'data-reflect-ack-complete', 'data-activity-complete', 'data-choice-shell-complete'
+        ],
         childList: true
       });
     }

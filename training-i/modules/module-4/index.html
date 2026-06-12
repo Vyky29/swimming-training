@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260801');
+  @import url('/assets/training-flow-guide.css?v=20260803');
 
   :root{
       --blue:#2d84b3;
@@ -8245,6 +8245,23 @@
     }
   }
 
+    function isConceptActivityCompleteM4(panel){
+      var acts = panel.querySelectorAll('.concept-activity-interactive[data-activity]');
+      if(!acts.length) return true;
+      for(var i = 0; i < acts.length; i++){
+        var act = acts[i];
+        var scenarioCards = act.querySelectorAll('.scenario-card');
+        if(scenarioCards.length){
+          for(var s = 0; s < scenarioCards.length; s++){
+            if(!scenarioCards[s].querySelector('.feedback.show.good')) return false;
+          }
+          continue;
+        }
+        if(!act.querySelector('.feedback.show.good')) return false;
+      }
+      return true;
+    }
+
     function syncConceptFinishBtn(panel, block, target, opts){
       opts = opts || {};
       var finishBtn = panel.querySelector('[data-finish-concept]');
@@ -8252,7 +8269,8 @@
       var insightPillarsOk = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
       var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
       var inPracticeOk = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
-      var ready = insightPillarsOk && keyIdeasOk && inPracticeOk;
+      var activityOk = isConceptActivityCompleteM4(panel);
+      var ready = insightPillarsOk && keyIdeasOk && inPracticeOk && activityOk;
       var labelNow = getNextActionLabel(block, target);
       var dwellLeft = finishBtn.textContent && finishBtn.textContent.indexOf('Continue in ') === 0;
       if(opts.respectDwell && dwellLeft) return;
@@ -8260,7 +8278,7 @@
         finishBtn.disabled = !ready;
         finishBtn.style.opacity = ready ? '1' : '.55';
         finishBtn.style.cursor = ready ? 'pointer' : 'not-allowed';
-        finishBtn.textContent = !insightPillarsOk ? 'Review all intro cards to continue' : (!keyIdeasOk ? 'Review all Key Ideas to continue' : (inPracticeOk ? labelNow : 'Click In Practice to continue'));
+        finishBtn.textContent = !insightPillarsOk ? 'Review all intro cards to continue' : (!keyIdeasOk ? 'Review all Key Ideas to continue' : (!inPracticeOk ? 'Click In Practice to continue' : (!activityOk ? 'Complete the activity first' : labelNow)));
       }
     }
 
@@ -8269,6 +8287,23 @@
       if(!panel || !panel.classList.contains('concept-panel') || !panel.dataset.currentBlock) return;
       syncConceptFinishBtn(panel, panel.dataset.currentBlock, panel.dataset.currentTarget, { respectDwell: true });
     });
+
+    document.addEventListener('click', function(e){
+      var act = e.target.closest && e.target.closest('.concept-activity-interactive[data-activity]');
+      if(!act) return;
+      var panel = act.closest('.concept-panel');
+      if(!panel || !panel.dataset.currentBlock) return;
+      setTimeout(function(){
+        syncConceptFinishBtn(panel, panel.dataset.currentBlock, panel.dataset.currentTarget, { respectDwell: true });
+      }, 0);
+    }, true);
+
+    document.addEventListener('change', function(e){
+      if(!e.target.closest || !e.target.closest('.concept-activity-interactive[data-activity]')) return;
+      var panel = e.target.closest('.concept-panel');
+      if(!panel || !panel.dataset.currentBlock) return;
+      syncConceptFinishBtn(panel, panel.dataset.currentBlock, panel.dataset.currentTarget, { respectDwell: true });
+    }, true);
 
     function inPracticeActionIconHtml(done){
       return window.InPracticeSystem ? InPracticeSystem.iconHtml(!!done) : '';
@@ -10102,7 +10137,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260801"></script>
+  <script src="/shared/training-flow-guide.js?v=20260803"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
