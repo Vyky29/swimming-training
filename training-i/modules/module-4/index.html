@@ -7888,9 +7888,13 @@
       var completedSecondLevelOfStage = block === 'block3' && ['b2l2_activities','b2l4_activities','b2l6_activities'].indexOf(target) !== -1;
 
       if(block === 'block2' && ['b2core1','b2core2','b2core3'].indexOf(target) !== -1){
+        conceptHistory.block2 = [];
+        if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
+          TrainingFlowGuide.returnToConceptGrid('block2');
+          return;
+        }
         var panelCore = document.querySelector('[data-panel-for="block2"]');
         if(panelCore) panelCore.classList.remove('show');
-        conceptHistory.block2 = [];
         var secCore = document.getElementById('block2');
         if(secCore) secCore.querySelector('.concept-stage')?.scrollIntoView({ behavior:'smooth', block:'start' });
         return;
@@ -7910,9 +7914,13 @@
           return;
         }
         if(['b3c1','b3c2','b3c3'].indexOf(target) !== -1){
+          conceptHistory.block4 = [];
+          if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
+            TrainingFlowGuide.returnToConceptGrid('block4');
+            return;
+          }
           var panel = document.querySelector('[data-panel-for="block4"]');
           if(panel) panel.classList.remove('show');
-          conceptHistory.block4 = [];
           var section = document.getElementById('block4');
           if(section) section.querySelector('.concept-stage')?.scrollIntoView({ behavior:'smooth', block:'start' });
           return;
@@ -7920,14 +7928,29 @@
       }
 
       if(nextTarget && block === 'block3' && completedSecondLevelOfStage){
+        conceptHistory.block3 = [];
+        if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
+          TrainingFlowGuide.returnToConceptGrid('block3');
+          return;
+        }
         var panel = document.querySelector('[data-panel-for="block3"]');
         if(panel) panel.classList.remove('show');
         var section = document.getElementById('block3');
         var stageEl = section ? section.querySelector('.concept-stage') : null;
         if(stageEl) stageEl.scrollIntoView({ behavior:'smooth', block:'start' });
       } else if(nextTarget){
+        if(conceptHistory[block]) conceptHistory[block] = [];
+        if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
+          TrainingFlowGuide.returnToConceptGrid(block);
+          return;
+        }
         renderConcept(block, nextTarget);
       } else {
+        if(conceptHistory[block]) conceptHistory[block] = [];
+        if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
+          TrainingFlowGuide.returnToConceptGrid(block);
+          return;
+        }
         const panel = document.querySelector(`[data-panel-for="${block}"]`);
         if(panel){
           scrollPanelIntoView(panel);
@@ -10137,7 +10160,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260804"></script>
+  <script src="/shared/training-flow-guide.js?v=20260805"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

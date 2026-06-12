@@ -110,10 +110,11 @@
   function getConceptGridScrollAnchor(block){
     var section = document.getElementById(block);
     if(!section) return null;
-    return section.querySelector('.block-header') ||
+    return section.querySelector('.concept-stage') ||
+      section.querySelector('[data-concept-grid="' + block + '"]') ||
+      section.querySelector('.block-header') ||
       section.querySelector('.section-top') ||
       section.querySelector('.block-title-wrap') ||
-      section.querySelector('.concept-stage') ||
       section;
   }
 
@@ -562,7 +563,7 @@
       return sectionScrollStep('concept', btn, label || 'Open next concept', {
         scrollEl: gridFrame || btn,
         scrollBlock: 'start',
-        forceScroll: false
+        forceScroll: true
       });
     }
     return null;
@@ -1491,11 +1492,14 @@
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square[data-target]').forEach(function(btn){
         btn.classList.remove('active');
       });
+      lastStepKey = null;
       lastScrolledKey = null;
       userScrollUntil = 0;
+      scrollToConceptGrid(block);
       setTimeout(function(){ scrollToConceptGrid(block); }, 220);
       setTimeout(function(){ scrollToConceptGrid(block); }, 620);
       if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 360);
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 900);
     }, 120);
   }
 
