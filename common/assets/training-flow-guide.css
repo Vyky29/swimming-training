@@ -105,6 +105,59 @@ html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-int
   }
 }
 
+.flow-guide-pulse.reflection-gate,
+.portal .flow-guide-pulse.reflection-gate {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 6;
+  isolation: isolate;
+  animation: none !important;
+  border-radius: 22px;
+}
+
+.flow-guide-reflection-ring,
+.portal .flow-guide-reflection-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 26px;
+  pointer-events: none;
+  z-index: 50;
+  animation: flowGuideReflectionRing 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+
+.flow-guide-pulse.reflection-gate .option.flow-guide-pulse,
+.portal .flow-guide-pulse.reflection-gate .option.flow-guide-pulse {
+  position: relative;
+  z-index: 7;
+  border-radius: 14px;
+  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+
+html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.reflection-gate),
+.portal section[id^="block"]:has(.flow-guide-pulse.reflection-gate) {
+  overflow: visible !important;
+}
+
+html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.reflection-gate) .section-body,
+.portal section[id^="block"]:has(.flow-guide-pulse.reflection-gate) .section-body {
+  overflow: visible !important;
+}
+
+@keyframes flowGuideReflectionRing {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 0 3px rgba(18, 120, 178, .88),
+      0 0 0 0 rgba(18, 120, 178, .45),
+      0 0 16px rgba(18, 120, 178, .24);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 4px rgba(18, 120, 178, 1),
+      0 0 0 9px rgba(18, 120, 178, .4),
+      0 0 28px rgba(18, 120, 178, .48);
+  }
+}
+
 .portal .section:has(.flow-guide-pulse.block-intro-card),
 .portal .section-body:has(.flow-guide-pulse.block-intro-card),
 .section:has(.flow-guide-pulse.block-intro-card),

@@ -7,6 +7,7 @@
   var PULSE_IN_PRACTICE = 'flow-guide-pulse--inpractice';
   var BLOCK_INTRO_RING_CLASS = 'flow-guide-block-intro-ring';
   var IN_PRACTICE_RING_CLASS = 'flow-guide-in-practice-ring';
+  var REFLECTION_RING_CLASS = 'flow-guide-reflection-ring';
   var RAIL_ID = 'trainingFlowGuideRail';
   var activePulseEl = null;
   var activePulseEls = [];
@@ -103,7 +104,8 @@
       forceScroll: options.forceScroll !== false,
       noScroll: options.noScroll === true,
       tone: options.tone,
-      scrollEl: options.scrollEl
+      scrollEl: options.scrollEl,
+      pulseEls: options.pulseEls
     };
   }
 
@@ -671,8 +673,7 @@
 
   function reflectionDone(block){
     var check = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
-    if(isChecked(check)) return true;
-    return false;
+    return isChecked(check);
   }
 
   function reflectionReady(block){
@@ -680,10 +681,90 @@
     return !!(lockBox && lockBox.classList.contains('ready'));
   }
 
+  function getBlockConceptProgress(block){
+    var section = document.getElementById(block);
+    if(!section) return null;
+    var mini = section.querySelector('[data-mini-text="' + block + '"]');
+    if(!mini) return null;
+    var match = (mini.textContent || '').match(/(\d+)\s+of\s+(\d+)/);
+    if(!match) return null;
+    return {
+      done: parseInt(match[1], 10) || 0,
+      total: parseInt(match[2], 10) || 0
+    };
+  }
+
   function blockConceptsComplete(block){
+    if(reflectionReady(block)) return true;
+    var progress = getBlockConceptProgress(block);
+    if(progress && progress.total > 0) return progress.done >= progress.total;
     var buttons = getConceptButtons(block);
     if(!buttons.length) return true;
     return buttons.every(isConceptDone);
+  }
+
+  function reflectionQuestionPassed(block){
+    var check = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
+    if(check && !isDisabled(check)) return true;
+    var gate = document.querySelector('[data-gate="' + block + '"]');
+    if(!gate) return false;
+    if(gate.querySelector('.feedback.show.good')) return true;
+    return !!gate.querySelector('input[type="radio"][value="correct"]:checked');
+  }
+
+  function getBlockDisplayName(block){
+    var section = document.getElementById(block);
+    if(!section) return block;
+    var title = section.querySelector('.block-title-wrap h3, .block-header h3, h3');
+    if(title && title.textContent.trim()) return title.textContent.trim();
+    return block.replace('block', 'Block ');
+  }
+
+  function resolveReflectionCheckpoint(block){
+    if(!reflectionReady(block)) return null;
+    var gate = document.querySelector('[data-gate="' + block + '"]');
+    if(!gate || !gate.classList.contains('open')) return null;
+
+    var blockCheck = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
+    if(blockCheck && isChecked(blockCheck)) return null;
+
+    if(reflectionQuestionPassed(block) && blockCheck && !isChecked(blockCheck)){
+      var checkItem = blockCheck.closest('.check-item') || blockCheck;
+      return sectionScrollStep('block-check', checkItem, 'Mark ' + getBlockDisplayName(block) + ' complete', {
+        scrollEl: checkItem,
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'primary'
+      });
+    }
+
+    if(!reflectionQuestionPassed(block)){
+      var options = gate.querySelectorAll('.option');
+      var firstOption = null;
+      for(var o = 0; o < options.length; o++){
+        if(!options[o].querySelector('input:checked')){
+          firstOption = options[o];
+          break;
+        }
+      }
+      if(!firstOption && options.length) firstOption = options[0];
+      var pulseTargets = [gate];
+      if(firstOption) pulseTargets.push(firstOption);
+      return sectionScrollStep('reflection', firstOption || gate, 'Answer the reflection checkpoint', {
+        scrollEl: gate,
+        scrollBlock: 'start',
+        forceScroll: true,
+        pulseEls: pulseTargets,
+        tone: 'reflection'
+      });
+    }
+
+    return null;
+  }
+
+  function isBlockSectionLocked(block){
+    var section = document.getElementById(block);
+    return !!(section && section.classList.contains('gated-locked'));
   }
 
   function resolveConceptGrid(block, moduleConfig){
@@ -1043,36 +1124,34 @@
     if(slideExpandStep) return slideExpandStep;
 
     var openPanel = getOpenPanel(block);
-    if(openPanel){
+    if(openPanel && !blockConceptsComplete(block)){
       var inside = panelIncompleteTarget(openPanel);
       if(inside) return inside;
     }
 
-    var gridStep = resolveConceptGrid(block, moduleConfig);
-    if(gridStep) return gridStep;
-
-    if(blockConceptsComplete(block) && !reflectionDone(block)){
-      if(reflectionReady(block)){
-        var gate = document.querySelector('[data-gate="' + block + '"]');
-        return { kind: 'reflection', el: gate || document.querySelector('[data-lock-box="' + block + '"]'), label: 'Complete reflection checkpoint' };
-      }
+    if(!blockConceptsComplete(block)){
+      var gridStep = resolveConceptGrid(block, moduleConfig);
+      if(gridStep) return gridStep;
       var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
-      if(lockBox) return { kind: 'block-progress', el: lockBox, label: 'Finish all concepts in this block' };
+      if(lockBox){
+        return sectionScrollStep('block-progress', lockBox, 'Finish all concepts in this block', {
+          scrollEl: lockBox,
+          scrollBlock: 'start',
+          forceScroll: true
+        });
+      }
+      return null;
     }
 
-    if(reflectionDone(block)){
-      var blockCheck = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
-      if(blockCheck && !isChecked(blockCheck)){
-        if(isDisabled(blockCheck)){
-          return {
-            kind: 'block-check-wait',
-            el: blockCheck.closest('.check-item') || document.getElementById(block) || blockCheck,
-            label: 'Mark this block complete when you are ready'
-          };
-        }
-        return { kind: 'block-check', el: blockCheck.closest('.check-item') || blockCheck, label: 'Mark block complete' };
-      }
+    if(openPanel){
+      openPanel.classList.remove('show');
+      delete openPanel.dataset.currentTarget;
+      delete openPanel.dataset.currentBlock;
     }
+
+    var reflectionStep = resolveReflectionCheckpoint(block);
+    if(reflectionStep) return reflectionStep;
+
     return null;
   }
 
@@ -1141,6 +1220,7 @@
 
     var blocks = moduleConfig.blocks || [];
     for(var b = 0; b < blocks.length; b++){
+      if(isBlockSectionLocked(blocks[b])) continue;
       var blockStep = resolveBlock(blocks[b], moduleConfig);
       if(blockStep) return blockStep;
     }
@@ -1169,7 +1249,8 @@
       'outcome': true,
       'pillar': true,
       'concept': true,
-      'subconcept': true
+      'subconcept': true,
+      'block-progress': true
     };
     return !!kinds[step.kind];
   }
@@ -1184,6 +1265,44 @@
     document.querySelectorAll('.' + IN_PRACTICE_RING_CLASS).forEach(function(ring){
       ring.remove();
     });
+  }
+
+  function hasReflectionRing(gate){
+    return !!(gate && gate.querySelector('.' + REFLECTION_RING_CLASS));
+  }
+
+  function ensureReflectionRingsForStep(step){
+    if(!step) return;
+    if(step.pulseEls && step.pulseEls.length){
+      for(var r = 0; r < step.pulseEls.length; r++){
+        if(step.pulseEls[r] && step.pulseEls[r].hasAttribute && step.pulseEls[r].hasAttribute('data-gate')){
+          ensureReflectionRing(step.pulseEls[r]);
+        }
+      }
+      return;
+    }
+    if(step.el && step.el.hasAttribute && step.el.hasAttribute('data-gate')){
+      ensureReflectionRing(step.el);
+      return;
+    }
+    if(step.el && step.el.closest){
+      var gateFromEl = step.el.closest('[data-gate]');
+      if(gateFromEl) ensureReflectionRing(gateFromEl);
+    }
+  }
+  function removeReflectionRings(){
+    document.querySelectorAll('.' + REFLECTION_RING_CLASS).forEach(function(ring){
+      ring.remove();
+    });
+  }
+
+  function ensureReflectionRing(gate){
+    if(!gate || !gate.hasAttribute('data-gate')) return;
+    if(gate.querySelector('.' + REFLECTION_RING_CLASS)) return;
+    var ring = document.createElement('span');
+    ring.className = REFLECTION_RING_CLASS;
+    ring.setAttribute('aria-hidden', 'true');
+    gate.appendChild(ring);
   }
 
   function ensureBlockIntroRing(card){
@@ -1220,6 +1339,7 @@
     }
     removeBlockIntroRings();
     removeInPracticeRings();
+    removeReflectionRings();
     activePulseEls = [];
     activePulseEl = null;
   }
@@ -1233,6 +1353,10 @@
     }
     if(step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
       return !el.classList.contains(PULSE_ACTIVITY);
+    }
+    if(step.kind === 'reflection' || step.tone === 'reflection'){
+      var gateEl = el.hasAttribute && el.hasAttribute('data-gate') ? el : (el.closest && el.closest('[data-gate]'));
+      if(gateEl && !hasReflectionRing(gateEl)) return true;
     }
     if(usesExpandPulse(step)) return !el.classList.contains(PULSE_EXPAND);
     return false;
@@ -1252,6 +1376,9 @@
     }
     if(step.kind === 'block-intro' || el.classList.contains('block-intro-card')){
       ensureBlockIntroRing(el);
+    }
+    if(step.kind === 'reflection' || step.tone === 'reflection'){
+      ensureReflectionRingsForStep(step);
     }
   }
 
@@ -1296,6 +1423,9 @@
     if(key === lastStepKey && activePulseEl === target && !step.noPulse && !pulseClassesMissing(target, step)){
       if((step.tone === 'inpractice' || step.kind === 'inpractice') && target.classList.contains('key-ideas-action')){
         ensureInPracticeRing(target);
+      }
+      if(step.kind === 'reflection' || step.tone === 'reflection'){
+        ensureReflectionRingsForStep(step);
       }
       updateRail(step);
       return;
@@ -1558,11 +1688,29 @@
       lastStepKey = null;
       lastScrolledKey = null;
       userScrollUntil = 0;
-      scrollToConceptGrid(block);
-      setTimeout(function(){ scrollToConceptGrid(block); }, 220);
-      setTimeout(function(){ scrollToConceptGrid(block); }, 620);
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 360);
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 900);
+
+      var gate = document.querySelector('[data-gate="' + block + '"]');
+      if(blockConceptsComplete(block) && gate && gate.classList.contains('open')){
+        gate.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        setTimeout(function(){
+          gate.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        }, 480);
+      } else if(blockConceptsComplete(block)){
+        var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
+        if(lockBox){
+          lockBox.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        }
+      } else {
+        scrollToConceptGrid(block);
+        setTimeout(function(){ scrollToConceptGrid(block); }, 220);
+        setTimeout(function(){ scrollToConceptGrid(block); }, 620);
+      }
+
+      if(activeModuleConfig){
+        scheduleRefresh(activeModuleConfig, 120);
+        scheduleRefresh(activeModuleConfig, 400);
+        scheduleRefresh(activeModuleConfig, 800);
+      }
     }, 120);
   }
 
