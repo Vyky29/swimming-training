@@ -168,15 +168,27 @@
     observerPaused = false;
   }
 
+  function preserveGuidedFlowRing(actionEl) {
+    if (!actionEl) return null;
+    return actionEl.querySelector('.flow-guide-in-practice-ring');
+  }
+
+  function restoreGuidedFlowRing(actionEl, ring) {
+    if (!actionEl || !ring) return;
+    actionEl.appendChild(ring);
+  }
+
   function ensureStructure(actionEl) {
     if (!actionEl || actionEl.querySelector('.key-ideas-action__content')) return false;
 
     var textEl = actionEl.querySelector('.text');
     var text = textEl ? textEl.textContent : '';
     var done = actionEl.classList.contains('is-completed');
+    var guidedRing = preserveGuidedFlowRing(actionEl);
 
     observerPaused = true;
     actionEl.innerHTML = shellInnerHtml(done);
+    restoreGuidedFlowRing(actionEl, guidedRing);
     observerPaused = false;
 
     textEl = actionEl.querySelector('.text');
@@ -231,6 +243,9 @@
     applyScenarioCopy(actionEl);
     refreshIcon(actionEl, actionEl.classList.contains('is-completed'));
     actionEl.dataset.inPracticeReady = '1';
+    if (actionEl.classList.contains('flow-guide-pulse--inpractice')) {
+      actionEl.dispatchEvent(new CustomEvent('flow-guide-in-practice-ready', { bubbles: true }));
+    }
   }
 
   function scan(root) {

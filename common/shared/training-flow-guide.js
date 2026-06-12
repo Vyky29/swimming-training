@@ -552,6 +552,33 @@
     };
   }
 
+  function resolveParentSubconceptResume(panel, moduleConfig){
+    var nav = getSubconceptNav(panel);
+    if(!nav) return null;
+
+    var navButtons = $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn', nav);
+    if(!navButtons.length) return null;
+
+    if(!navButtons.some(isConceptDone)) return null;
+
+    var unvisited = navButtons.filter(function(btn){
+      return !isConceptDone(btn) && !isConceptLocked(btn, moduleConfig);
+    });
+    if(!unvisited.length) return null;
+
+    var current = panel.dataset.currentTarget || '';
+    if(navButtons.some(function(btn){ return getNavTarget(btn) === current; })) return null;
+
+    var btn = unvisited[0];
+    var label = btn.textContent.replace(/\s+/g, ' ').trim() || 'Choose the next subconcept';
+    return sectionScrollStep('subconcept', btn, label, {
+      scrollEl: btn.closest('.overview-subconcept-grid') || btn,
+      scrollBlock: 'center',
+      forceScroll: true,
+      tone: 'expand'
+    });
+  }
+
   function nextConceptInBlock(block, moduleConfig){
     var buttons = getConceptButtons(block);
     for(var i = 0; i < buttons.length; i++){
@@ -588,6 +615,9 @@
       };
     }
 
+    var parentSubconceptStep = resolveParentSubconceptResume(panel, activeModuleConfig);
+    if(parentSubconceptStep) return parentSubconceptStep;
+
     var preVisualStep = resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
     if(preVisualStep) return preVisualStep;
 
@@ -607,7 +637,16 @@
     if(postActivityVisualStep) return postActivityVisualStep;
 
     var subconceptStep = resolveSubconceptNav(panel);
-    if(subconceptStep) return subconceptStep;
+    if(subconceptStep){
+      var btn = subconceptStep.el;
+      var label = btn && btn.textContent ? btn.textContent.replace(/\s+/g, ' ').trim() : subconceptStep.label;
+      return sectionScrollStep('subconcept', btn, label || subconceptStep.label, {
+        scrollEl: btn.closest('.overview-subconcept-grid') || btn,
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand'
+      });
+    }
 
     var finish = panel.querySelector('[data-finish-concept]');
     if(finish && !finish.disabled){
@@ -1145,12 +1184,18 @@
     card.appendChild(ring);
   }
 
+  function hasInPracticeRing(action){
+    return !!(action && action.querySelector('.' + IN_PRACTICE_RING_CLASS));
+  }
+
   function ensureInPracticeRing(action){
     if(!action || !action.classList.contains('key-ideas-action')) return;
-    if(action.querySelector('.' + IN_PRACTICE_RING_CLASS)) return;
-    var ring = document.createElement('span');
-    ring.className = IN_PRACTICE_RING_CLASS;
-    ring.setAttribute('aria-hidden', 'true');
+    var ring = action.querySelector('.' + IN_PRACTICE_RING_CLASS);
+    if(!ring){
+      ring = document.createElement('span');
+      ring.className = IN_PRACTICE_RING_CLASS;
+      ring.setAttribute('aria-hidden', 'true');
+    }
     action.appendChild(ring);
   }
 
@@ -1172,7 +1217,8 @@
     if(!el || step.noPulse) return false;
     if(!el.classList.contains(PULSE_CLASS)) return true;
     if(step.tone === 'inpractice' || step.kind === 'inpractice'){
-      return !el.classList.contains(PULSE_IN_PRACTICE);
+      if(!el.classList.contains(PULSE_IN_PRACTICE)) return true;
+      return !hasInPracticeRing(el);
     }
     if(step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
       return !el.classList.contains(PULSE_ACTIVITY);
@@ -1237,6 +1283,9 @@
 
     var key = stepKey(step);
     if(key === lastStepKey && activePulseEl === target && !step.noPulse && !pulseClassesMissing(target, step)){
+      if((step.tone === 'inpractice' || step.kind === 'inpractice') && target.classList.contains('key-ideas-action')){
+        ensureInPracticeRing(target);
+      }
       updateRail(step);
       return;
     }
@@ -1283,7 +1332,10 @@
     if(mutation.type === 'childList'){
       if(target.classList && target.classList.contains(PULSE_CLASS)) return true;
       if(target.classList && target.classList.contains('block-intro-card')) return true;
-      if(target.classList && target.classList.contains('key-ideas-action')) return true;
+      if(target.classList && target.classList.contains('key-ideas-action')){
+        if(target.classList.contains(PULSE_IN_PRACTICE) || target.classList.contains(PULSE_CLASS)) return false;
+        return true;
+      }
     }
     if(mutation.type === 'attributes' && mutation.attributeName === 'class'){
       if(target.classList && target.classList.contains(PULSE_CLASS)) return true;
@@ -1330,7 +1382,7 @@
   function bindRefresh(moduleConfig){
     bindConceptFlowInteractions(moduleConfig);
 
-    ['click', 'change', 'input', 'concept-insight-pillars-change', 'concept-visual-expand-wire', 'concept-visual-expand-change'].forEach(function(name){
+    ['click', 'change', 'input', 'concept-insight-pillars-change', 'concept-visual-expand-wire', 'concept-visual-expand-change', 'flow-guide-in-practice-ready'].forEach(function(name){
       document.addEventListener(name, function(e){
         var panel = e.target && e.target.closest && e.target.closest('.concept-panel.show');
         if(panel) ensurePanelVisualWired(panel);
@@ -1511,6 +1563,9 @@
       else initModulePage();
     },
     refresh: refresh,
+    requestRefresh: function(delay){
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, delay || 120);
+    },
     resolveNextStep: resolveNextStep,
     markModuleComplete: markModuleComplete,
     returnToConceptGrid: returnToConceptGrid
