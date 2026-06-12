@@ -45,7 +45,12 @@
   border-radius: 14px;
   overflow: visible !important;
   z-index: 6;
-  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite !important;
+  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite !important;
+}
+
+.flow-guide-pulse.block-intro-card.flow-guide-pulse--expand,
+.portal .flow-guide-pulse.block-intro-card.flow-guide-pulse--expand {
+  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite !important;
 }
 
 .portal .section:has(.flow-guide-pulse.block-intro-card),
@@ -65,8 +70,6 @@
 .portal .flow-guide-pulse.concept-insight-pillar.flow-guide-pulse--expand,
 .flow-guide-pulse.outcome.flow-guide-pulse--expand,
 .portal .flow-guide-pulse.outcome.flow-guide-pulse--expand,
-.flow-guide-pulse.key-ideas-action.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.key-ideas-action.flow-guide-pulse--expand,
 .flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand,
 .portal .flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand,
 .flow-guide-pulse.section-visual-shell.flow-guide-pulse--expand,
@@ -77,6 +80,37 @@
 .portal .flow-guide-pulse.concept-section-card.flow-guide-pulse--expand {
   animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
   overflow: visible !important;
+}
+
+.flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice,
+.portal .flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice,
+.flow-guide-pulse--inpractice,
+.portal .flow-guide-pulse--inpractice {
+  animation: flowGuidePulseInPractice 1.15s cubic-bezier(.45, 0, .2, 1) infinite !important;
+  overflow: visible !important;
+  border-radius: 14px;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.portal .key-ideas-action.flow-guide-pulse--inpractice::before {
+  background: linear-gradient(180deg, #5bbf8a 0%, #2a9d6a 55%, #1f7a52 100%);
+}
+
+.flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand,
+.portal .flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand {
+  border-radius: 12px;
+  margin-top: 2px;
+}
+
+.flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-section-head,
+.portal .flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-section-head,
+.flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-visual-hint,
+.portal .flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-visual-hint,
+.flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-visual-guide,
+.portal .flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-visual-guide {
+  position: relative;
+  z-index: 2;
 }
 
 .flow-guide-pulse--expand,
@@ -139,6 +173,21 @@
       inset 0 0 0 3px rgba(88, 72, 200, 1),
       0 0 0 7px rgba(88, 72, 200, .32),
       0 0 22px rgba(88, 72, 200, .34);
+  }
+}
+
+@keyframes flowGuidePulseInPractice {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 0 2px rgba(42, 157, 106, .78),
+      0 0 0 0 rgba(42, 157, 106, .42),
+      0 0 12px rgba(42, 157, 106, .14);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 3px rgba(42, 157, 106, 1),
+      0 0 0 7px rgba(42, 157, 106, .36),
+      0 0 22px rgba(42, 157, 106, .4);
   }
 }
 
@@ -211,11 +260,18 @@
   .flow-guide-pulse,
   .flow-guide-pulse--expand,
   .flow-guide-pulse--activity,
+  .flow-guide-pulse--inpractice,
   .module-card.flow-guide-next-module {
     animation: none;
     box-shadow:
       inset 0 0 0 3px rgba(18, 120, 178, .95),
       0 0 0 4px rgba(18, 120, 178, .35);
+  }
+  .flow-guide-pulse--inpractice,
+  .flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice {
+    box-shadow:
+      inset 0 0 0 3px rgba(42, 157, 106, .95),
+      0 0 0 4px rgba(42, 157, 106, .35);
   }
   .flow-guide-rail__dot {
     animation: none;

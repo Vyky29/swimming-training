@@ -1,9 +1,12 @@
 /**
  * Block intro cards — static reference outside guided flow;
- * clickable progress steps inside guided demo.
+ * clickable progress steps with pulse inside guided demo.
+ *
+ * Selectors must use html[...] — not :not([data-guided-flow]) alone, or body
+ * matches and static !important rules override the guided pulse on every page.
  */
 
-:not([data-guided-flow="true"]) .block-intro-card {
+html:not([data-guided-flow="true"]) .block-intro-card {
   background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
   border: 2px solid #2d84b3 !important;
   box-shadow: 0 6px 20px rgba(45, 132, 179, .25) !important;
@@ -12,41 +15,46 @@
   user-select: text;
 }
 
-:not([data-guided-flow="true"]) .block-intro-card .card-icon {
+html:not([data-guided-flow="true"]) .block-intro-card .card-icon {
   background: #2d84b3 !important;
   color: #fff !important;
 }
 
-:not([data-guided-flow="true"]) .block-intro-card:hover {
+html:not([data-guided-flow="true"]) .block-intro-card:hover {
   border-color: #2d84b3 !important;
   box-shadow: 0 6px 20px rgba(45, 132, 179, .25) !important;
 }
 
-[data-guided-flow="true"] .block-intro-card:not(.clicked) {
+html[data-guided-flow="true"] .block-intro-card:not(.clicked) {
   cursor: pointer;
   pointer-events: auto;
   user-select: none;
-  background: linear-gradient(180deg, #f8fbfd 0%, #ffffff 100%);
-  border: 2px solid rgba(45, 132, 179, .35);
+  background: linear-gradient(180deg, #f8fbfd 0%, #ffffff 100%) !important;
+  border: 2px solid rgba(45, 132, 179, .35) !important;
   box-shadow: 0 6px 18px rgba(45, 132, 179, .1);
 }
 
-[data-guided-flow="true"] .block-intro-card.flow-guide-pulse:not(.clicked) {
-  box-shadow: none;
+html[data-guided-flow="true"] .block-intro-card:not(.clicked) .card-icon {
+  background: var(--blue, #2d84b3);
+  color: #fff;
 }
 
-[data-guided-flow="true"] .block-intro-card.clicked {
+html[data-guided-flow="true"] .block-intro-card.flow-guide-pulse:not(.clicked) {
+  box-shadow: none !important;
+}
+
+html[data-guided-flow="true"] .block-intro-card.clicked {
   background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
   border: 2px solid #2d84b3 !important;
   box-shadow: 0 6px 20px rgba(45, 132, 179, .25) !important;
+  pointer-events: none;
 }
 
-[data-guided-flow="true"] .block-intro-card.clicked .card-icon {
+html[data-guided-flow="true"] .block-intro-card.clicked .card-icon {
   background: #2d84b3 !important;
   color: #fff !important;
 }
 
-[data-guided-flow="true"] .block-intro-card:not(.clicked):hover {
+html[data-guided-flow="true"] .block-intro-card:not(.clicked):hover {
   border-color: #2d84b3;
-  box-shadow: 0 8px 24px rgba(45, 132, 179, .15);
 }

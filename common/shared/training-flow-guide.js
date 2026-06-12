@@ -4,6 +4,7 @@
   var PULSE_CLASS = 'flow-guide-pulse';
   var PULSE_EXPAND = 'flow-guide-pulse--expand';
   var PULSE_ACTIVITY = 'flow-guide-pulse--activity';
+  var PULSE_IN_PRACTICE = 'flow-guide-pulse--inpractice';
   var RAIL_ID = 'trainingFlowGuideRail';
   var activePulseEl = null;
   var activePulseEls = [];
@@ -228,13 +229,17 @@
 
   function findVisualExpandBox(btn){
     if(!btn) return null;
-    return btn.closest('.concept-section-card.section-visual-shell') ||
-      btn.closest('.concept-section-card') ||
-      btn.closest('[data-expandable-visual]') ||
+    return btn.closest('[data-expandable-visual]') ||
       btn.closest('.concept-image') ||
       btn.closest('[data-concept-primary-image]') ||
       btn.closest('[data-concept-intro-media]') ||
+      btn.closest('.b2c2-direct-image') ||
+      btn.closest('.b2c3-direct-image') ||
+      btn.closest('.entry-exit-fan-item') ||
+      btn.closest('figure') ||
       btn.closest('.concept-activity-box') ||
+      btn.closest('.concept-section-card.section-visual-shell') ||
+      btn.closest('.concept-section-card') ||
       btn.parentElement;
   }
 
@@ -341,12 +346,11 @@
     if(panel.querySelector('.concept-insight-pillar:not(.clicked)')) return null;
     if(panel.querySelector('.key-idea-item:not(.clicked)')) return null;
     if(!preKeyIdeasVisualsComplete(panel)) return null;
-    if(isActivityIncomplete(panel)) return null;
 
     return sectionScrollStep('inpractice', inPractice, 'Read the In Practice scenario', {
       scrollBlock: 'center',
       forceScroll: true,
-      tone: 'expand'
+      tone: 'inpractice'
     });
   }
 
@@ -650,6 +654,34 @@
     });
   }
 
+  function bindInPracticeReview(moduleConfig){
+    document.addEventListener('click', function(e){
+      var action = e.target.closest && e.target.closest('.key-ideas-action');
+      if(!action || action.hasAttribute('hidden')) return;
+      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+      var panel = action.closest('.concept-panel');
+      if(!panel || panel.dataset.inPracticeRequired === 'false') return;
+      if(panel.dataset.inPracticeDone === 'true' || action.classList.contains('is-completed')) return;
+
+      action.classList.add('is-completed');
+      panel.dataset.inPracticeDone = 'true';
+      var icon = action.querySelector('.icon');
+      if(icon && action.classList.contains('is-completed')){
+        icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+      }
+      scheduleRefresh(moduleConfig, 120);
+    }, true);
+
+    document.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      var action = e.target.closest && e.target.closest('.key-ideas-action');
+      if(!action || action.hasAttribute('hidden')) return;
+      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+      e.preventDefault();
+      action.click();
+    }, true);
+  }
+
   function bindBlockIntroReview(moduleConfig){
     document.addEventListener('click', function(e){
       var card = e.target.closest && e.target.closest('.block-intro-card');
@@ -823,7 +855,8 @@
         return sectionScrollStep('block-intro', cards[i], 'Read: ' + ((title && title.textContent.trim()) || 'Block intro card'), {
           scrollEl: cards[i],
           scrollBlock: 'center',
-          forceScroll: true
+          forceScroll: true,
+          tone: 'expand'
         });
       }
     }
@@ -964,9 +997,9 @@
     if(step.tone === 'expand') return true;
     var kinds = {
       'expand-visual': true,
+      'block-intro': true,
       'keyidea': true,
       'outcome': true,
-      'inpractice': true,
       'pillar': true,
       'concept': true,
       'subconcept': true
@@ -980,6 +1013,7 @@
       els[i].classList.remove(PULSE_CLASS);
       els[i].classList.remove(PULSE_EXPAND);
       els[i].classList.remove(PULSE_ACTIVITY);
+      els[i].classList.remove(PULSE_IN_PRACTICE);
     }
     activePulseEls = [];
     activePulseEl = null;
@@ -988,7 +1022,11 @@
   function applyPulseToEl(el, step){
     if(!el) return;
     el.classList.add(PULSE_CLASS);
-    if(usesExpandPulse(step)) el.classList.add(PULSE_EXPAND);
+    if(step.tone === 'inpractice' || step.kind === 'inpractice'){
+      el.classList.add(PULSE_IN_PRACTICE);
+    } else if(usesExpandPulse(step)){
+      el.classList.add(PULSE_EXPAND);
+    }
     if(step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
       el.classList.add(PULSE_ACTIVITY);
     }
@@ -1158,6 +1196,7 @@
       bindJourneyReview();
       bindInsideModuleReview();
       bindBlockIntroReview(moduleConfig);
+      bindInPracticeReview(moduleConfig);
       refresh(moduleConfig);
       bindRefresh(moduleConfig);
       setTimeout(scrollToPageTop, 80);
