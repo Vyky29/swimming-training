@@ -695,12 +695,15 @@
   }
 
   function blockConceptsComplete(block){
-    if(reflectionReady(block)) return true;
     var progress = getBlockConceptProgress(block);
     if(progress && progress.total > 0) return progress.done >= progress.total;
     var buttons = getConceptButtons(block);
     if(!buttons.length) return true;
     return buttons.every(isConceptDone);
+  }
+
+  function isReflectionPhase(block){
+    return blockConceptsComplete(block) && reflectionReady(block);
   }
 
   function reflectionQuestionPassed(block){
@@ -721,7 +724,7 @@
   }
 
   function resolveReflectionCheckpoint(block){
-    if(!reflectionReady(block)) return null;
+    if(!isReflectionPhase(block)) return null;
     var gate = document.querySelector('[data-gate="' + block + '"]');
     if(!gate || !gate.classList.contains('open')) return null;
 
@@ -1124,7 +1127,7 @@
     if(slideExpandStep) return slideExpandStep;
 
     var openPanel = getOpenPanel(block);
-    if(openPanel && !blockConceptsComplete(block)){
+    if(openPanel){
       var inside = panelIncompleteTarget(openPanel);
       if(inside) return inside;
     }
@@ -1151,6 +1154,17 @@
 
     var reflectionStep = resolveReflectionCheckpoint(block);
     if(reflectionStep) return reflectionStep;
+
+    if(blockConceptsComplete(block) && !reflectionDone(block) && !isReflectionPhase(block)){
+      var waitLock = document.querySelector('[data-lock-box="' + block + '"]');
+      if(waitLock){
+        return sectionScrollStep('block-progress', waitLock, 'Reflection checkpoint unlocks shortly', {
+          scrollEl: waitLock,
+          scrollBlock: 'start',
+          forceScroll: true
+        });
+      }
+    }
 
     return null;
   }
@@ -1690,16 +1704,11 @@
       userScrollUntil = 0;
 
       var gate = document.querySelector('[data-gate="' + block + '"]');
-      if(blockConceptsComplete(block) && gate && gate.classList.contains('open')){
+      if(isReflectionPhase(block) && gate && gate.classList.contains('open')){
         gate.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
         setTimeout(function(){
           gate.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
         }, 480);
-      } else if(blockConceptsComplete(block)){
-        var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
-        if(lockBox){
-          lockBox.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-        }
       } else {
         scrollToConceptGrid(block);
         setTimeout(function(){ scrollToConceptGrid(block); }, 220);
