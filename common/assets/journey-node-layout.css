@@ -21,12 +21,24 @@
 .journey-node .module-roadmap__node-kicker{
   display:block;
   margin:0;
-  font-size:.5rem;
-  font-weight:700;
-  letter-spacing:.14em;
+  font-size:.52rem;
+  font-weight:800;
+  letter-spacing:.12em;
   text-transform:uppercase;
   line-height:1.1;
   white-space:nowrap;
+  color:var(--blue, #2d84b3);
+  text-shadow:none;
+}
+
+/* Label above circle: same brand blue in every state (past, current, upcoming) */
+.portal .main .content #journey .journey-node > .journey-node__kicker,
+#inside-module .journey-node > .module-roadmap__node-kicker{
+  color:var(--blue, #2d84b3);
+  font-weight:800;
+  font-size:.52rem;
+  letter-spacing:.12em;
+  text-shadow:none;
 }
 
 .journey-node .journey-circle,

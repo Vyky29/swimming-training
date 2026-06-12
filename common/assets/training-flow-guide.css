@@ -36,10 +36,23 @@
 .flow-guide-pulse.module-roadmap-wrap,
 .portal .flow-guide-pulse.module-roadmap-wrap,
 .flow-guide-pulse.journey-wrap.module-roadmap-wrap,
-.portal .flow-guide-pulse.journey-wrap.module-roadmap-wrap,
+.portal .flow-guide-pulse.journey-wrap.module-roadmap-wrap {
+  border-radius: 14px;
+}
+
 .flow-guide-pulse.block-intro-card,
 .portal .flow-guide-pulse.block-intro-card {
   border-radius: 14px;
+  overflow: visible !important;
+  z-index: 6;
+  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite !important;
+}
+
+.portal .section:has(.flow-guide-pulse.block-intro-card),
+.portal .section-body:has(.flow-guide-pulse.block-intro-card),
+.section:has(.flow-guide-pulse.block-intro-card),
+.section-body:has(.flow-guide-pulse.block-intro-card) {
+  overflow: visible;
 }
 
 .flow-guide-pulse.concept-points-box.flow-guide-pulse--expand,

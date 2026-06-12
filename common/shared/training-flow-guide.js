@@ -625,13 +625,41 @@
     }, true);
   }
 
+  function syncBlockIntroVisualState(){
+    if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+    document.querySelectorAll('.block-intro-card').forEach(function(card){
+      var done = card.getAttribute('data-flow-block-intro-done') === 'true';
+      if(done){
+        card.classList.add('clicked');
+      } else {
+        card.classList.remove('clicked');
+        card.classList.add('clickable-progress');
+      }
+    });
+  }
+
+  function neutralizeModuleBlockIntroHandlers(){
+    if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+    document.querySelectorAll('.block-intro-cards').forEach(function(wrap){
+      if(wrap.getAttribute('data-flow-intro-neutralized') === 'true') return;
+      var parent = wrap.parentNode;
+      if(!parent) return;
+      var clone = wrap.cloneNode(true);
+      clone.setAttribute('data-flow-intro-neutralized', 'true');
+      parent.replaceChild(clone, wrap);
+    });
+  }
+
   function bindBlockIntroReview(moduleConfig){
     document.addEventListener('click', function(e){
       var card = e.target.closest && e.target.closest('.block-intro-card');
       if(!card || card.getAttribute('data-flow-block-intro-done') === 'true') return;
       if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+      e.preventDefault();
+      e.stopPropagation();
       card.setAttribute('data-flow-block-intro-done', 'true');
       card.classList.add('clicked');
+      syncBlockIntroVisualState();
       scheduleRefresh(moduleConfig, 120);
     }, true);
 
@@ -641,8 +669,10 @@
       if(!card || card.getAttribute('data-flow-block-intro-done') === 'true') return;
       if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
       e.preventDefault();
+      e.stopPropagation();
       card.setAttribute('data-flow-block-intro-done', 'true');
       card.classList.add('clicked');
+      syncBlockIntroVisualState();
       scheduleRefresh(moduleConfig, 120);
     }, true);
   }
@@ -790,12 +820,10 @@
     for(var i = 0; i < cards.length; i++){
       if(cards[i].getAttribute('data-flow-block-intro-done') !== 'true'){
         var title = cards[i].querySelector('h4');
-        var scrollBlock = i === 0;
         return sectionScrollStep('block-intro', cards[i], 'Read: ' + ((title && title.textContent.trim()) || 'Block intro card'), {
-          noScroll: !scrollBlock,
-          scrollEl: scrollBlock ? (section.querySelector('.block-header') || wrap) : undefined,
-          scrollBlock: 'start',
-          forceScroll: scrollBlock
+          scrollEl: cards[i],
+          scrollBlock: 'center',
+          forceScroll: true
         });
       }
     }
@@ -1031,6 +1059,7 @@
 
   function refresh(moduleConfig){
     if(!moduleConfig) return;
+    syncBlockIntroVisualState();
     var openPanel = getActiveOpenPanel();
     if(openPanel) resetPanelFlowScope(openPanel);
     applyGuide(resolveNextStep(moduleConfig));
@@ -1097,7 +1126,7 @@
       observer.observe(document.body, {
         subtree: true,
         attributes: true,
-        attributeFilter: ['disabled', 'hidden', 'checked', 'data-flow-reviewed', 'data-visual-expanded', 'data-flow-visual-expanded', 'data-in-practice-done', 'data-in-practice-required'],
+        attributeFilter: ['disabled', 'hidden', 'checked', 'data-flow-reviewed', 'data-visual-expanded', 'data-flow-visual-expanded', 'data-in-practice-done', 'data-in-practice-required', 'data-flow-block-intro-done'],
         childList: true
       });
     }
@@ -1123,6 +1152,8 @@
     function start(){
       scrollToPageTop();
       resetBlockIntroForGuidedFlow();
+      neutralizeModuleBlockIntroHandlers();
+      syncBlockIntroVisualState();
       bindModuleStart();
       bindJourneyReview();
       bindInsideModuleReview();

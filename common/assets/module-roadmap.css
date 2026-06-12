@@ -92,6 +92,14 @@
   line-height:1.05;
 }
 
+#inside-module .journey-node > .module-roadmap__node-kicker{
+  color:var(--blue, #2d84b3);
+  font-weight:800;
+  font-size:.52rem;
+  letter-spacing:.12em;
+  text-shadow:none;
+}
+
 #inside-module a.module-roadmap__item .journey-circle .module-roadmap__node-num{
   display:block;
   margin:0;

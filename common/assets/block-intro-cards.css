@@ -22,10 +22,17 @@
   box-shadow: 0 6px 20px rgba(45, 132, 179, .25) !important;
 }
 
-[data-guided-flow="true"] .block-intro-card {
+[data-guided-flow="true"] .block-intro-card:not(.clicked) {
   cursor: pointer;
   pointer-events: auto;
   user-select: none;
+  background: linear-gradient(180deg, #f8fbfd 0%, #ffffff 100%);
+  border: 2px solid rgba(45, 132, 179, .35);
+  box-shadow: 0 6px 18px rgba(45, 132, 179, .1);
+}
+
+[data-guided-flow="true"] .block-intro-card.flow-guide-pulse:not(.clicked) {
+  box-shadow: none;
 }
 
 [data-guided-flow="true"] .block-intro-card.clicked {

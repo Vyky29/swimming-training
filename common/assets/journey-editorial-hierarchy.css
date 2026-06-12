@@ -304,7 +304,7 @@
     0 5px 14px rgba(45,132,179,.22);
 }
 
-.portal .main .content #journey .journey-item.journey-item--past .journey-node__kicker{
+.portal .main .content #journey .journey-item.journey-item--past .journey-circle .journey-node__kicker{
   color:rgba(255,255,255,.88);
 }
 
@@ -334,7 +334,7 @@
     0 3px 12px rgba(18,50,71,.06);
 }
 
-.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-node__kicker{
+.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past) .journey-circle .journey-node__kicker{
   color:rgba(45,132,179,.52);
 }
 
@@ -348,7 +348,7 @@
   box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
 }
 
-.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past).is-locked .journey-node__kicker{
+.portal .main .content #journey .journey-item:not(.active):not(.journey-item--past).is-locked .journey-circle .journey-node__kicker{
   color:rgba(45,132,179,.42);
 }
 
@@ -414,7 +414,7 @@
   animation:journey-active-orange-aura 2.2s ease-in-out infinite;
 }
 
-.portal .main .content #journey .journey-item.active .journey-node__kicker{
+.portal .main .content #journey .journey-item.active .journey-circle .journey-node__kicker{
   color:rgba(255,255,255,.92);
 }
 
