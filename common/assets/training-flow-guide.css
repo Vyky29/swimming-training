@@ -148,11 +148,11 @@ html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-int
 .flow-guide-in-practice-ring,
 .portal .flow-guide-in-practice-ring {
   position: absolute;
-  inset: -6px;
+  inset: -4px;
   border-radius: 22px;
   pointer-events: none;
   z-index: 60;
-  animation: flowGuideInPracticeRing 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
+  animation: flowGuideInPracticeRing 2.4s ease-in-out infinite;
 }
 
 html[data-guided-flow="true"] .concept-panel:has(.flow-guide-pulse--inpractice),
@@ -173,7 +173,7 @@ html[data-guided-flow="true"] .concept-points-box:has(.flow-guide-pulse--inpract
   overflow: visible !important;
   transform: none !important;
   box-shadow: none !important;
-  border-color: rgba(42, 157, 106, 0.42) !important;
+  border-color: rgba(42, 157, 106, 0.28) !important;
 }
 
 .flow-guide-pulse--inpractice,
@@ -183,23 +183,23 @@ html[data-guided-flow="true"] .concept-points-box:has(.flow-guide-pulse--inpract
 }
 
 .portal .key-ideas-action.flow-guide-pulse--inpractice::before {
-  background: linear-gradient(180deg, #5bbf8a 0%, #2a9d6a 55%, #1f7a52 100%);
-  width: 5px;
+  background: linear-gradient(180deg, #6ec49a 0%, #3da87a 55%, #2a8f66 100%);
+  width: 4px;
   z-index: 61;
 }
 
 @keyframes flowGuideInPracticeRing {
   0%, 100% {
     box-shadow:
-      inset 0 0 0 3px rgba(42, 157, 106, .88),
-      0 0 0 0 rgba(42, 157, 106, .45),
-      0 0 16px rgba(42, 157, 106, .24);
+      inset 0 0 0 2px rgba(42, 157, 106, .52),
+      0 0 0 0 rgba(42, 157, 106, .18),
+      0 0 8px rgba(42, 157, 106, .08);
   }
   50% {
     box-shadow:
-      inset 0 0 0 4px rgba(42, 157, 106, 1),
-      0 0 0 9px rgba(42, 157, 106, .4),
-      0 0 28px rgba(42, 157, 106, .48);
+      inset 0 0 0 2px rgba(42, 157, 106, .72),
+      0 0 0 4px rgba(42, 157, 106, .16),
+      0 0 14px rgba(42, 157, 106, .14);
   }
 }
 
@@ -369,8 +369,8 @@ html[data-guided-flow="true"] .concept-points-box:has(.flow-guide-pulse--inpract
   .flow-guide-in-practice-ring {
     animation: none;
     box-shadow:
-      inset 0 0 0 3px rgba(42, 157, 106, .95),
-      0 0 0 4px rgba(42, 157, 106, .35);
+      inset 0 0 0 2px rgba(42, 157, 106, .62),
+      0 0 0 3px rgba(42, 157, 106, .18);
   }
   .flow-guide-rail__dot {
     animation: none;

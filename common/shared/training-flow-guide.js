@@ -559,7 +559,10 @@
     var navButtons = $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn', nav);
     if(!navButtons.length) return null;
 
-    if(!navButtons.some(isConceptDone)) return null;
+    var hasPartialProgress = navButtons.some(function(btn){
+      return isConceptDone(btn) || btn.classList.contains('is-next');
+    });
+    if(!hasPartialProgress) return null;
 
     var unvisited = navButtons.filter(function(btn){
       return !isConceptDone(btn) && !isConceptLocked(btn, moduleConfig);
@@ -569,7 +572,15 @@
     var current = panel.dataset.currentTarget || '';
     if(navButtons.some(function(btn){ return getNavTarget(btn) === current; })) return null;
 
-    var btn = unvisited[0];
+    var btn = null;
+    for(var i = 0; i < navButtons.length; i++){
+      if(navButtons[i].classList.contains('is-next') && !isConceptDone(navButtons[i]) && !isConceptLocked(navButtons[i], moduleConfig)){
+        btn = navButtons[i];
+        break;
+      }
+    }
+    if(!btn) btn = unvisited[0];
+
     var label = btn.textContent.replace(/\s+/g, ' ').trim() || 'Choose the next subconcept';
     return sectionScrollStep('subconcept', btn, label, {
       scrollEl: btn.closest('.overview-subconcept-grid') || btn,
@@ -604,6 +615,9 @@
   function panelIncompleteTarget(panel){
     if(!panel) return null;
 
+    var parentSubconceptStep = resolveParentSubconceptResume(panel, activeModuleConfig);
+    if(parentSubconceptStep) return parentSubconceptStep;
+
     var pillars = panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
     if(pillars.length){
       var title = pillars[0].querySelector('.concept-insight-pillar__title');
@@ -614,9 +628,6 @@
         label: 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point')
       };
     }
-
-    var parentSubconceptStep = resolveParentSubconceptResume(panel, activeModuleConfig);
-    if(parentSubconceptStep) return parentSubconceptStep;
 
     var preVisualStep = resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
     if(preVisualStep) return preVisualStep;
@@ -1564,7 +1575,15 @@
     },
     refresh: refresh,
     requestRefresh: function(delay){
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, delay || 120);
+      lastStepKey = null;
+      lastScrolledKey = null;
+      if(!activeModuleConfig) return;
+      var waits = Array.isArray(delay) ? delay : [typeof delay === 'number' ? delay : 120];
+      for(var i = 0; i < waits.length; i++){
+        (function(ms){
+          setTimeout(function(){ refresh(activeModuleConfig); }, ms);
+        })(waits[i]);
+      }
     },
     resolveNextStep: resolveNextStep,
     markModuleComplete: markModuleComplete,
