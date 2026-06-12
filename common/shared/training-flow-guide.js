@@ -6,6 +6,7 @@
   var PULSE_ACTIVITY = 'flow-guide-pulse--activity';
   var PULSE_IN_PRACTICE = 'flow-guide-pulse--inpractice';
   var BLOCK_INTRO_RING_CLASS = 'flow-guide-block-intro-ring';
+  var IN_PRACTICE_RING_CLASS = 'flow-guide-in-practice-ring';
   var RAIL_ID = 'trainingFlowGuideRail';
   var activePulseEl = null;
   var activePulseEls = [];
@@ -1128,6 +1129,12 @@
     });
   }
 
+  function removeInPracticeRings(){
+    document.querySelectorAll('.' + IN_PRACTICE_RING_CLASS).forEach(function(ring){
+      ring.remove();
+    });
+  }
+
   function ensureBlockIntroRing(card){
     if(!card || !card.classList.contains('block-intro-card')) return;
     if(card.querySelector('.' + BLOCK_INTRO_RING_CLASS)) return;
@@ -1135,6 +1142,15 @@
     ring.className = BLOCK_INTRO_RING_CLASS;
     ring.setAttribute('aria-hidden', 'true');
     card.appendChild(ring);
+  }
+
+  function ensureInPracticeRing(action){
+    if(!action || !action.classList.contains('key-ideas-action')) return;
+    if(action.querySelector('.' + IN_PRACTICE_RING_CLASS)) return;
+    var ring = document.createElement('span');
+    ring.className = IN_PRACTICE_RING_CLASS;
+    ring.setAttribute('aria-hidden', 'true');
+    action.appendChild(ring);
   }
 
   function clearPulse(){
@@ -1146,6 +1162,7 @@
       els[i].classList.remove(PULSE_IN_PRACTICE);
     }
     removeBlockIntroRings();
+    removeInPracticeRings();
     activePulseEls = [];
     activePulseEl = null;
   }
@@ -1168,6 +1185,7 @@
     el.classList.add(PULSE_CLASS);
     if(step.tone === 'inpractice' || step.kind === 'inpractice'){
       el.classList.add(PULSE_IN_PRACTICE);
+      ensureInPracticeRing(el);
     } else if(usesExpandPulse(step)){
       el.classList.add(PULSE_EXPAND);
     }
@@ -1264,6 +1282,7 @@
     if(mutation.type === 'childList'){
       if(target.classList && target.classList.contains(PULSE_CLASS)) return true;
       if(target.classList && target.classList.contains('block-intro-card')) return true;
+      if(target.classList && target.classList.contains('key-ideas-action')) return true;
     }
     if(mutation.type === 'attributes' && mutation.attributeName === 'class'){
       if(target.classList && target.classList.contains(PULSE_CLASS)) return true;

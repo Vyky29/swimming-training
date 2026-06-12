@@ -135,18 +135,39 @@ html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-int
 }
 
 .flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice,
-.portal .flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice,
+.portal .flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 5;
+  isolation: isolate;
+  animation: none !important;
+  transform: none !important;
+}
+
+.flow-guide-in-practice-ring,
+.portal .flow-guide-in-practice-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 22px;
+  pointer-events: none;
+  z-index: 50;
+  animation: flowGuidePulseInPractice 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+
+.portal .concept-points-box:has(.flow-guide-pulse--inpractice),
+.concept-points-box:has(.flow-guide-pulse--inpractice) {
+  overflow: visible !important;
+}
+
 .flow-guide-pulse--inpractice,
 .portal .flow-guide-pulse--inpractice {
-  animation: flowGuidePulseInPractice 1.15s cubic-bezier(.45, 0, .2, 1) infinite !important;
   overflow: visible !important;
   border-radius: 14px;
-  box-shadow: none !important;
-  transform: none !important;
 }
 
 .portal .key-ideas-action.flow-guide-pulse--inpractice::before {
   background: linear-gradient(180deg, #5bbf8a 0%, #2a9d6a 55%, #1f7a52 100%);
+  width: 5px;
 }
 
 .flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand,
@@ -314,6 +335,7 @@ html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-int
   .flow-guide-pulse--activity,
   .flow-guide-pulse--inpractice,
   .flow-guide-block-intro-ring,
+  .flow-guide-in-practice-ring,
   .module-card.flow-guide-next-module {
     animation: none;
     box-shadow:
@@ -326,11 +348,15 @@ html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-int
       inset 0 0 0 3px rgba(214, 120, 28, .95),
       0 0 0 4px rgba(214, 120, 28, .35);
   }
-  .flow-guide-pulse--inpractice,
-  .flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice {
+  .flow-guide-in-practice-ring {
+    animation: none;
     box-shadow:
       inset 0 0 0 3px rgba(42, 157, 106, .95),
       0 0 0 4px rgba(42, 157, 106, .35);
+  }
+  .flow-guide-pulse--inpractice,
+  .flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice {
+    box-shadow: none;
   }
   .flow-guide-rail__dot {
     animation: none;
