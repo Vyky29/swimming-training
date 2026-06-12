@@ -5,6 +5,7 @@
   var PULSE_EXPAND = 'flow-guide-pulse--expand';
   var PULSE_ACTIVITY = 'flow-guide-pulse--activity';
   var PULSE_IN_PRACTICE = 'flow-guide-pulse--inpractice';
+  var BLOCK_INTRO_RING_CLASS = 'flow-guide-block-intro-ring';
   var RAIL_ID = 'trainingFlowGuideRail';
   var activePulseEl = null;
   var activePulseEls = [];
@@ -617,15 +618,34 @@
     bindSectionReview($('#journey'), { disableAutoReview: true });
   }
 
+  function ensureInsideModuleReviewed(){
+    var section = $('#inside-module');
+    if(!section || section.getAttribute('data-flow-reviewed') === 'true') return;
+    section.setAttribute('data-flow-reviewed', 'true');
+    var wrap = section.querySelector('.module-roadmap-wrap, .journey-wrap');
+    if(wrap) wrap.setAttribute('data-flow-reviewed', 'true');
+  }
+
+  function isBlockSectionInView(blockId){
+    var section = document.getElementById(blockId);
+    if(!section) return false;
+    var rect = section.getBoundingClientRect();
+    if(rect.width <= 0 || rect.height <= 0) return false;
+    return rect.top < window.innerHeight * 0.82 && rect.bottom > 96;
+  }
+
   function bindInsideModuleReview(){
     var section = $('#inside-module');
     if(!section) return;
-    bindSectionReview(section, { disableAutoReview: true });
+    bindSectionReview(section, { disableAutoReview: false });
 
     section.addEventListener('click', function(e){
       if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+      if(e.target.closest('.check-item, .overall-check')) return;
       var link = e.target.closest('.module-roadmap__item, a.module-roadmap__item');
       if(link) e.preventDefault();
+      ensureInsideModuleReviewed();
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 80);
     }, true);
   }
 
@@ -801,6 +821,17 @@
     if(!section) return null;
     if(section.getAttribute('data-flow-reviewed') === 'true') return null;
 
+    var moduleConfig = activeModuleConfig;
+    if(moduleConfig && moduleConfig.blocks){
+      for(var i = 0; i < moduleConfig.blocks.length; i++){
+        var blockId = moduleConfig.blocks[i];
+        if(!blockIntroCardsComplete(blockId) && isBlockSectionInView(blockId)){
+          ensureInsideModuleReviewed();
+          return null;
+        }
+      }
+    }
+
     var content = section.querySelector('.module-roadmap-wrap') || section.querySelector('.journey-wrap') || section;
     return sectionScrollStep('inside-module', content, 'Review the blocks in this module');
   }
@@ -808,12 +839,12 @@
   function blockIntroCardsComplete(block){
     var section = document.getElementById(block);
     if(!section) return true;
-    var wrap = section.querySelector('.block-intro-cards[data-block-intro="' + block + '"], [data-block-intro="' + block + '"]');
+    var wrap = section.querySelector('.block-intro-cards[data-block-intro="' + block + '"]');
     if(!wrap) return true;
     var cards = wrap.querySelectorAll('.block-intro-card');
     if(!cards.length) return true;
     for(var i = 0; i < cards.length; i++){
-      if(cards[i].getAttribute('data-flow-block-intro-done') !== 'true') return false;
+      if(!isBlockIntroCardDone(cards[i])) return false;
     }
     return true;
   }
@@ -842,15 +873,23 @@
     });
   }
 
+  function isBlockIntroCardDone(card){
+    if(!card) return true;
+    return card.getAttribute('data-flow-block-intro-done') === 'true';
+  }
+
   function resolveBlockIntroCards(block){
     var section = document.getElementById(block);
     if(!section) return null;
-    var wrap = section.querySelector('.block-intro-cards[data-block-intro="' + block + '"], [data-block-intro="' + block + '"]');
+    var wrap = section.querySelector('.block-intro-cards[data-block-intro="' + block + '"]');
     if(!wrap) return null;
+
+    ensureInsideModuleReviewed();
 
     var cards = wrap.querySelectorAll('.block-intro-card');
     for(var i = 0; i < cards.length; i++){
-      if(cards[i].getAttribute('data-flow-block-intro-done') !== 'true'){
+      if(!isBlockIntroCardDone(cards[i])){
+        cards[i].classList.remove('clicked');
         var title = cards[i].querySelector('h4');
         return sectionScrollStep('block-intro', cards[i], 'Read: ' + ((title && title.textContent.trim()) || 'Block intro card'), {
           scrollEl: cards[i],
@@ -867,7 +906,10 @@
     if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
-    if(!insideModuleReviewed()) return null;
+    if(!insideModuleReviewed()){
+      if(blockIntroCardsComplete(block)) return null;
+      ensureInsideModuleReviewed();
+    }
 
     var introStep = resolveBlockIntroCards(block);
     if(introStep) return introStep;
@@ -1007,6 +1049,21 @@
     return !!kinds[step.kind];
   }
 
+  function removeBlockIntroRings(){
+    document.querySelectorAll('.' + BLOCK_INTRO_RING_CLASS).forEach(function(ring){
+      ring.remove();
+    });
+  }
+
+  function ensureBlockIntroRing(card){
+    if(!card || !card.classList.contains('block-intro-card')) return;
+    if(card.querySelector('.' + BLOCK_INTRO_RING_CLASS)) return;
+    var ring = document.createElement('span');
+    ring.className = BLOCK_INTRO_RING_CLASS;
+    ring.setAttribute('aria-hidden', 'true');
+    card.appendChild(ring);
+  }
+
   function clearPulse(){
     var els = activePulseEls.length ? activePulseEls.slice() : (activePulseEl ? [activePulseEl] : []);
     for(var i = 0; i < els.length; i++){
@@ -1015,8 +1072,22 @@
       els[i].classList.remove(PULSE_ACTIVITY);
       els[i].classList.remove(PULSE_IN_PRACTICE);
     }
+    removeBlockIntroRings();
     activePulseEls = [];
     activePulseEl = null;
+  }
+
+  function pulseClassesMissing(el, step){
+    if(!el || step.noPulse) return false;
+    if(!el.classList.contains(PULSE_CLASS)) return true;
+    if(step.tone === 'inpractice' || step.kind === 'inpractice'){
+      return !el.classList.contains(PULSE_IN_PRACTICE);
+    }
+    if(step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
+      return !el.classList.contains(PULSE_ACTIVITY);
+    }
+    if(usesExpandPulse(step)) return !el.classList.contains(PULSE_EXPAND);
+    return false;
   }
 
   function applyPulseToEl(el, step){
@@ -1029,6 +1100,9 @@
     }
     if(step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
       el.classList.add(PULSE_ACTIVITY);
+    }
+    if(step.kind === 'block-intro' || el.classList.contains('block-intro-card')){
+      ensureBlockIntroRing(el);
     }
   }
 
@@ -1070,7 +1144,7 @@
     }
 
     var key = stepKey(step);
-    if(key === lastStepKey && activePulseEl === target && !step.noPulse){
+    if(key === lastStepKey && activePulseEl === target && !step.noPulse && !pulseClassesMissing(target, step)){
       updateRail(step);
       return;
     }
@@ -1110,6 +1184,10 @@
 
   function shouldIgnoreMutation(target, mutation){
     if(!target || target.id === RAIL_ID) return true;
+    if(mutation.type === 'childList'){
+      if(target.classList && target.classList.contains(PULSE_CLASS)) return true;
+      if(target.classList && target.classList.contains('block-intro-card')) return true;
+    }
     if(mutation.type === 'attributes' && mutation.attributeName === 'class'){
       if(target.classList && target.classList.contains(PULSE_CLASS)) return true;
     }

@@ -47,29 +47,58 @@
   z-index: 6;
   position: relative !important;
   isolation: isolate;
-  /* Ring lives on ::after so card box-shadow !important rules cannot kill the pulse */
   animation: none !important;
+}
+
+.flow-guide-block-intro-ring,
+.portal .flow-guide-block-intro-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 50;
+  animation: flowGuideBlockIntroRing 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 
 .flow-guide-pulse.block-intro-card:not(.clicked)::after,
 .portal .flow-guide-pulse.block-intro-card:not(.clicked)::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 18px;
-  pointer-events: none;
-  z-index: 30;
-  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-.flow-guide-pulse.block-intro-card.flow-guide-pulse--expand:not(.clicked)::after,
-.portal .flow-guide-pulse.block-intro-card.flow-guide-pulse--expand:not(.clicked)::after {
-  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite !important;
+  content: none;
+  display: none;
 }
 
 .flow-guide-pulse.block-intro-card:not(.clicked):hover,
 .portal .flow-guide-pulse.block-intro-card:not(.clicked):hover {
   transform: none !important;
+}
+
+html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card),
+.portal section[id^="block"]:has(.flow-guide-pulse.block-intro-card) {
+  overflow: visible !important;
+}
+
+html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card) .section-body,
+.portal section[id^="block"]:has(.flow-guide-pulse.block-intro-card) .section-body {
+  overflow: visible !important;
+}
+
+html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-intro-card),
+.portal .block-intro-cards:has(.flow-guide-pulse.block-intro-card) {
+  overflow: visible !important;
+}
+
+@keyframes flowGuideBlockIntroRing {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 0 3px rgba(214, 120, 28, .88),
+      0 0 0 0 rgba(214, 120, 28, .45),
+      0 0 16px rgba(214, 120, 28, .24);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 4px rgba(214, 120, 28, 1),
+      0 0 0 9px rgba(214, 120, 28, .4),
+      0 0 28px rgba(214, 120, 28, .48);
+  }
 }
 
 .portal .section:has(.flow-guide-pulse.block-intro-card),
@@ -280,11 +309,18 @@
   .flow-guide-pulse--expand,
   .flow-guide-pulse--activity,
   .flow-guide-pulse--inpractice,
+  .flow-guide-block-intro-ring,
   .module-card.flow-guide-next-module {
     animation: none;
     box-shadow:
       inset 0 0 0 3px rgba(18, 120, 178, .95),
       0 0 0 4px rgba(18, 120, 178, .35);
+  }
+  .flow-guide-block-intro-ring {
+    animation: none;
+    box-shadow:
+      inset 0 0 0 3px rgba(214, 120, 28, .95),
+      0 0 0 4px rgba(214, 120, 28, .35);
   }
   .flow-guide-pulse--inpractice,
   .flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice {
