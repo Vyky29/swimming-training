@@ -39,10 +39,6 @@ html[data-guided-flow="true"] .block-intro-card:not(.clicked) .card-icon {
   color: #fff;
 }
 
-html[data-guided-flow="true"] .block-intro-card.flow-guide-pulse:not(.clicked) {
-  box-shadow: none !important;
-}
-
 html[data-guided-flow="true"] .block-intro-card.clicked {
   background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
   border: 2px solid #2d84b3 !important;

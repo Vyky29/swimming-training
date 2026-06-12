@@ -45,12 +45,31 @@
   border-radius: 14px;
   overflow: visible !important;
   z-index: 6;
+  position: relative !important;
+  isolation: isolate;
+  /* Ring lives on ::after so card box-shadow !important rules cannot kill the pulse */
+  animation: none !important;
+}
+
+.flow-guide-pulse.block-intro-card:not(.clicked)::after,
+.portal .flow-guide-pulse.block-intro-card:not(.clicked)::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 30;
+  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+
+.flow-guide-pulse.block-intro-card.flow-guide-pulse--expand:not(.clicked)::after,
+.portal .flow-guide-pulse.block-intro-card.flow-guide-pulse--expand:not(.clicked)::after {
   animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite !important;
 }
 
-.flow-guide-pulse.block-intro-card.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.block-intro-card.flow-guide-pulse--expand {
-  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite !important;
+.flow-guide-pulse.block-intro-card:not(.clicked):hover,
+.portal .flow-guide-pulse.block-intro-card:not(.clicked):hover {
+  transform: none !important;
 }
 
 .portal .section:has(.flow-guide-pulse.block-intro-card),
