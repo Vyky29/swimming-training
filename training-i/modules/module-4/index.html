@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260810');
+  @import url('/assets/training-flow-guide.css?v=20260812');
 
   :root{
       --blue:#2d84b3;
@@ -7506,7 +7506,6 @@
       var count = block === 'block3' ? getPathwayCompletedInOrderCount() : (block === 'block4' ? getBlock4MainConceptCompletedCount() : conceptCompletion[block].size);
       var total = conceptGroups[block].total;
       if(count !== total) return;
-      if(!sectionDwellElapsed[block]) return;
       var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
       var gate = document.querySelector('[data-gate="' + block + '"]');
       if(lockBox){
@@ -7660,6 +7659,9 @@
       conceptCompletion[block].add(target);
       const button = document.querySelector(`[data-concept-grid="${block}"] [data-target="${target}"]`);
       if(button) button.classList.add('visited');
+      document.querySelectorAll('[data-overview-subtarget="' + target + '"], [data-parent-subtarget="' + target + '"]').forEach(function(btn){
+        btn.classList.add('visited');
+      });
       updateConceptProgress(block);
       if(block === 'block3') updateStageCompletedStates();
     }
@@ -10160,7 +10162,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260811"></script>
+  <script src="/shared/training-flow-guide.js?v=20260812"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

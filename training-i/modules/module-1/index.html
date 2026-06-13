@@ -7,7 +7,7 @@
 @import url('/assets/module-hero-system.css');
 @import url('/assets/key-ideas-recap-system.css?v=20260623');
 @import url('/assets/concept-insight-intro.css?v=20260617');
-@import url('/assets/training-flow-guide.css?v=20260810');
+@import url('/assets/training-flow-guide.css?v=20260812');
 
 :root{
     --blue:#2d84b3;
@@ -4491,7 +4491,6 @@
 
   function tryUnlockBlockGate(block){
     if(!conceptGroups[block] || conceptCompletion[block].size !== conceptGroups[block].total) return;
-    if(!sectionDwellElapsed[block]) return;
     var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
     var gate = document.querySelector('[data-gate="' + block + '"]');
     if(lockBox){
@@ -4637,6 +4636,9 @@
     conceptCompletion[block].add(target);
     const button = document.querySelector(`[data-concept-grid="${block}"] [data-target="${target}"]`);
     if(button) button.classList.add('visited');
+    document.querySelectorAll('[data-overview-subtarget="' + target + '"], [data-parent-subtarget="' + target + '"]').forEach(function(btn){
+      btn.classList.add('visited');
+    });
     updateConceptProgress(block);
   }
 
@@ -4829,10 +4831,11 @@
       return;
     }
     if(block === 'block1' && target === 'b1c4'){
-      if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
-        TrainingFlowGuide.returnToConceptGrid(block);
-        return;
+      if(typeof TrainingFlowGuide !== 'undefined'){
+        if(TrainingFlowGuide.returnToConceptGrid) TrainingFlowGuide.returnToConceptGrid(block);
+        if(TrainingFlowGuide.requestRefresh) TrainingFlowGuide.requestRefresh([120, 400, 800, 1200]);
       }
+      return;
     }
 
     if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
@@ -6697,7 +6700,7 @@
 <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
 <script src="/shared/training-flow-config.js?v=20260716"></script>
-<script src="/shared/training-flow-guide.js?v=20260811"></script>
+<script src="/shared/training-flow-guide.js?v=20260812"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
