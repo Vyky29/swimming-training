@@ -103,6 +103,7 @@
       el: el,
       label: label,
       scrollBlock: options.scrollBlock || 'center',
+      scrollBlockId: options.scrollBlockId,
       forceScroll: options.forceScroll !== false,
       noScroll: options.noScroll === true,
       tone: options.tone,
@@ -120,6 +121,51 @@
       section.querySelector('.section-top') ||
       section.querySelector('.block-title-wrap') ||
       section;
+  }
+
+  function scrollToBlockReflectionView(block){
+    var section = document.getElementById(block);
+    if(!section) return;
+    var conceptStage = section.querySelector('.concept-stage');
+    var gate = section.querySelector('[data-gate="' + block + '"]');
+    var lockBox = section.querySelector('[data-lock-box="' + block + '"]');
+    var bottomEl = (gate && gate.classList.contains('open') && gate) || lockBox || gate;
+    if(!conceptStage || !bottomEl){
+      if(bottomEl && typeof bottomEl.scrollIntoView === 'function'){
+        bottomEl.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      }
+      return;
+    }
+
+    lastScrolledKey = null;
+    userScrollUntil = Date.now() + 1100;
+
+    function run(){
+      var topPad = 80;
+      var bottomPad = 88;
+      var stageRect = conceptStage.getBoundingClientRect();
+      var bottomRect = bottomEl.getBoundingClientRect();
+      var viewH = window.innerHeight;
+      var stageTopDoc = stageRect.top + window.pageYOffset;
+      var bottomDoc = bottomRect.bottom + window.pageYOffset;
+      var minScroll = Math.max(0, stageTopDoc - topPad);
+      var scrollTop = minScroll;
+
+      if(bottomRect.bottom > viewH - bottomPad){
+        scrollTop = minScroll + (bottomRect.bottom - (viewH - bottomPad));
+        var stageBottomDoc = stageTopDoc + stageRect.height;
+        var maxScroll = Math.max(0, stageBottomDoc - topPad - 48);
+        if(scrollTop > maxScroll) scrollTop = maxScroll;
+      }
+
+      window.scrollTo({ top: scrollTop, left: 0, behavior: 'smooth' });
+      if(document.documentElement) document.documentElement.scrollTop = scrollTop;
+      if(document.body) document.body.scrollTop = scrollTop;
+    }
+
+    run();
+    setTimeout(run, 420);
+    setTimeout(run, 880);
   }
 
   function scrollToConceptGrid(block){
@@ -144,12 +190,21 @@
   }
 
   function scrollIfNeeded(target, step){
-    if(!target || typeof target.scrollIntoView !== 'function') return;
     if(step && step.noScroll) return;
     if(Date.now() < userScrollUntil && !(step && step.forceScroll)) return;
 
     var key = stepKey(step);
     if(key && lastScrolledKey === key && !(step && step.forceScroll)) return;
+
+    if(step && step.scrollBlock === 'reflection-view' && step.scrollBlockId){
+      if(!(step.forceScroll) && step.el && isMostlyVisible(step.el, step)) return;
+      scrollToBlockReflectionView(step.scrollBlockId);
+      lastScrolledKey = key;
+      return;
+    }
+
+    if(!target || typeof target.scrollIntoView !== 'function') return;
+
     if(!(step && step.forceScroll) && isMostlyVisible(target, step)) return;
 
     var block = (step && step.scrollBlock) || 'nearest';
@@ -342,8 +397,7 @@
 
   function isM5CategoryComplete(panel, catId){
     if(!catId) return false;
-    if(isM5ItemDone(panel, 'flowM5CatsDone', catId)) return true;
-    return isM5NestedActivityComplete(panel, catId);
+    return isM5ItemDone(panel, 'flowM5CatsDone', catId);
   }
 
   function isM5FolderComplete(panel, wrapper, folderId){
@@ -491,25 +545,21 @@
     return true;
   }
 
-  function resolveM5LeafReturn(panel){
-    if(!panelHasM5NestedNav(panel)) return null;
-    var active = getM5ActiveScreen(panel);
-    if(!isM5LeafScreen(active)) return null;
-    if(!isM5LeafFlowComplete(panel)) return null;
+  function resolveM5FinishStep(panel){
+    if(!panel) return null;
+    var finish = panel.querySelector('[data-finish-concept]');
+    if(!finish || finish.disabled || !isVisibleEl(finish)) return null;
+    if(finish.style.display === 'none') return null;
 
-    var screenId = getM5ScreenId(panel);
-    markM5ItemDone(panel, 'flowM5CatsDone', screenId);
-    if(isM5ItemDone(panel, 'flowM5LeafReturned', screenId)) return null;
+    var onNestedLeaf = panelHasM5NestedNav(panel) && isM5LeafScreen(getM5ActiveScreen(panel));
+    var label = onNestedLeaf ? 'Tap Done to complete this section' : 'Tap Done to finish this concept';
 
-    var backBtn = active.querySelector('.b2-nav [data-b2-go]');
-    if(!backBtn) return null;
-
-    return sectionScrollStep('m5-nested-return', backBtn, 'Go back to continue with the next section', {
-      scrollEl: backBtn,
+    return sectionScrollStep('finish', finish, label, {
+      scrollEl: finish,
       scrollBlock: 'center',
       forceScroll: true,
-      tone: 'm5-nav',
-      pulseEls: [backBtn]
+      tone: 'expand',
+      pulseEls: [finish]
     });
   }
 
@@ -677,8 +727,15 @@
     if(pulseHost) pulseEls.push(pulseHost);
     var primary = btn || pulseHost;
     if(pulseHost && isM5VisualPulseHost(pulseHost)){
-      primary = btn || pulseHost;
-      pulseEls = btn ? [btn, pulseHost] : [pulseHost];
+      var splitVisual = !pulseHost.querySelector('.concept-points-box');
+      if(splitVisual){
+        var innerFrame = pulseHost.querySelector('.m5-nested-visual-frame, .entry-exit-fan-item, .entry-exit-fan, .concept-activity-box:has(> img[src])');
+        primary = btn || innerFrame || pulseHost;
+        pulseEls = btn ? [btn] : (innerFrame ? [innerFrame] : [pulseHost]);
+      } else {
+        primary = btn || pulseHost;
+        pulseEls = btn ? [btn, pulseHost] : [pulseHost];
+      }
     } else if(btn && pulseEls.indexOf(btn) === -1) {
       pulseEls.push(btn);
     }
@@ -814,8 +871,21 @@
     });
   }
 
+  function getFlatConceptActivityShell(panel){
+    if(!panel || panelHasM5NestedNav(panel)) return null;
+    var target = panel.dataset.currentTarget || '';
+    if(target){
+      var scoped = panel.querySelector('[data-m5-b2-choice-mount="' + target + '"]');
+      if(scoped) return scoped;
+    }
+    return panel.querySelector('[data-concept-activity-title]');
+  }
+
   function findActivityRoot(panel){
     if(!panel) return null;
+    var flatShell = getFlatConceptActivityShell(panel);
+    if(flatShell && isVisibleEl(flatShell)) return flatShell;
+
     var scope = getM5FlowScope(panel);
     var active = getM5ActiveScreen(panel);
     if(active && panelHasM5NestedNav(panel)){
@@ -913,7 +983,9 @@
       if(nestedKeysAll[j].dataset.choiceShellComplete !== 'true') return true;
     }
     var actTitle = panel.querySelector('[data-concept-activity-title]');
-    if(actTitle && actTitle.dataset.choiceShellComplete === 'false') return true;
+    if(actTitle && actTitle.dataset.choiceShellComplete !== 'true') return true;
+    var flatMount = getFlatConceptActivityShell(panel);
+    if(flatMount && flatMount.dataset.choiceShellComplete !== 'true') return true;
     return false;
   }
 
@@ -949,6 +1021,9 @@
   }
 
   function isVisibleActivityShellComplete(panel){
+    var flatShell = getFlatConceptActivityShell(panel);
+    if(flatShell) return flatShell.dataset.choiceShellComplete === 'true';
+
     var root = findActivityRoot(panel);
     if(!root) return false;
     var shell = root.matches('[data-concept-activity-title], [data-m5-b2-choice-mount], [data-m5-b2-nested-key]')
@@ -1163,9 +1238,6 @@
     var activityStep = resolvePanelActivity(panel);
     if(activityStep) return activityStep;
 
-    var m5ReturnStep = resolveM5LeafReturn(panel);
-    if(m5ReturnStep) return m5ReturnStep;
-
     var postActivityVisualStep = resolveNextVisualExpand(panel, { phase: 'postActivity' });
     if(postActivityVisualStep) return withM5Tone(panel, postActivityVisualStep);
 
@@ -1181,18 +1253,8 @@
       });
     }
 
-    var finish = panel.querySelector('[data-finish-concept]');
-    if(finish && !finish.disabled){
-      return sectionScrollStep('finish', finish, 'Finish concept', {
-        scrollEl: finish,
-        scrollBlock: 'center',
-        forceScroll: true,
-        tone: 'expand'
-      });
-    }
-    if(finish && finish.disabled){
-      return { kind: 'finish-pending', el: finish, label: 'Complete remaining items in this concept' };
-    }
+    var finishStep = resolveM5FinishStep(panel);
+    if(finishStep) return finishStep;
     return null;
   }
 
@@ -1258,7 +1320,8 @@
       if(lockBox){
         return sectionScrollStep('block-progress', lockBox, 'Complete the reflection checkpoint', {
           scrollEl: lockBox,
-          scrollBlock: 'start',
+          scrollBlock: 'reflection-view',
+          scrollBlockId: block,
           forceScroll: true,
           tone: 'primary'
         });
@@ -1270,7 +1333,8 @@
       var checkItem = blockCheck.closest('.check-item') || blockCheck;
       return sectionScrollStep('block-check', checkItem, 'Mark ' + getBlockDisplayName(block) + ' complete', {
         scrollEl: checkItem,
-        scrollBlock: 'center',
+        scrollBlock: 'reflection-view',
+        scrollBlockId: block,
         forceScroll: true,
         tone: 'primary',
         pulseEls: [checkItem]
@@ -1289,10 +1353,10 @@
       if(!firstOption && options.length) firstOption = options[0];
       var pulseTargets = [gate];
       if(firstOption) pulseTargets.push(firstOption);
-      var blockSection = document.getElementById(block);
       return sectionScrollStep('reflection', firstOption || gate, 'Answer the reflection checkpoint', {
-        scrollEl: blockSection || gate,
-        scrollBlock: 'start',
+        scrollEl: gate,
+        scrollBlock: 'reflection-view',
+        scrollBlockId: block,
         forceScroll: true,
         pulseEls: pulseTargets,
         tone: 'reflection'
@@ -2367,43 +2431,9 @@
   }
 
   function scrollToBlockEnd(block){
-    var section = document.getElementById(block);
-    var anchor = section && (
-      section.querySelector('.concept-stage') ||
-      section.querySelector('[data-concept-grid="' + block + '"]') ||
-      section.querySelector('[data-lock-box="' + block + '"]') ||
-      section
-    );
-    var gate = document.querySelector('[data-gate="' + block + '"]');
-    if(anchor){
-      lastScrolledKey = null;
-      userScrollUntil = 0;
-      anchor.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-      setTimeout(function(){
-        lastScrolledKey = null;
-        userScrollUntil = 0;
-        anchor.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-        if(gate && gate.classList.contains('open')){
-          gate.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-        }
-      }, 480);
-      return;
-    }
-    if(gate && gate.classList.contains('open')){
-      lastScrolledKey = null;
-      userScrollUntil = 0;
-      gate.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-      setTimeout(function(){
-        gate.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-      }, 480);
-      return;
-    }
-    var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
-    if(lockBox){
-      lastScrolledKey = null;
-      userScrollUntil = 0;
-      lockBox.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-    }
+    lastScrolledKey = null;
+    userScrollUntil = 0;
+    scrollToBlockReflectionView(block);
   }
 
   function returnToConceptGrid(block){

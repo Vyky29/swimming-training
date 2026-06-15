@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260611a');
-  @import url('/assets/training-flow-guide.css?v=20260817');
+  @import url('/assets/training-flow-guide.css?v=20260820');
 
   :root{
       --blue:#2d84b3;
@@ -3659,9 +3659,23 @@
       object-fit:contain;
       object-position:center center;
     }
-    /* Block 2: outer panel Key Ideas duplicate content already in each concept (esp. nested b2c2) */
-    .concept-panel[data-panel-for="block2"] > .concept-points-box{
+    /* Block 2 nested: outer panel Key Ideas hidden while inside folder/sub-concept screens */
+    .concept-panel[data-panel-for="block2"].m5-nested-active > .concept-points-box,
+    .concept-panel[data-panel-for="block2"][data-current-target="b2c2"]:not([data-m5-nested-screen="home"]) > .concept-points-box,
+    .concept-panel[data-panel-for="block2"][data-current-target="b2c3"]:not([data-m5-nested-screen="home"]) > .concept-points-box{
       display:none !important;
+    }
+    /* Full-card click targets for folder navigation */
+    .portal .b2c2-folder-tile,
+    .portal .b2c3-flash-tile,
+    .portal .b2pl-lvl-btn{
+      cursor:pointer;
+      width:100%;
+    }
+    .portal .b2c2-folder-tile *,
+    .portal .b2c3-flash-tile *,
+    .portal .b2pl-lvl-btn *{
+      pointer-events:none;
     }
 
     /* Insight pillar icons + visual section headers (M5 must not collapse these) */
@@ -5127,18 +5141,54 @@
       },
       b2c2: {
         'f1-s1': {
-          format: 'seq_click',
-          activityType: 'Sequence the entry routine',
-          guideText: 'Tap each step in the order you would teach a safe sitting entry. Build the routine before the swimmer enters.',
-          q: 'Put the teaching steps in the correct order for a safe entry.',
-          order: [
-            { i: 0, t: 'Show the visual entry card at the pool edge' },
-            { i: 1, t: 'Model the sitting entry slowly' },
-            { i: 2, t: 'Give the swimmer time to copy the routine' },
-            { i: 3, t: 'Confirm they feel ready before moving on' }
+          format: 'teach_decisions',
+          activityType: 'Safe Teaching Decisions',
+          guideText: 'Read each situation and choose the best instructor response. All four decisions must be correct to complete the activity.',
+          q: 'Choose the safest and most supportive instructor response for each situation.',
+          scenarios: [
+            {
+              situation: 'A swimmer hesitates at the ladder and looks unsure about entering.',
+              options: [
+                { id: 'a', text: 'Pause, show the entry visual, and let them watch before asking them to try' },
+                { id: 'b', text: 'Encourage them to jump in quickly so they do not overthink it' },
+                { id: 'c', text: 'Move on to another swimmer and return later without explanation' },
+                { id: 'd', text: 'Remove the ladder option and insist on a different entry immediately' }
+              ],
+              correct: 'a'
+            },
+            {
+              situation: 'A swimmer wants to jump into the water immediately without following the routine.',
+              options: [
+                { id: 'a', text: 'Allow the jump so they stay motivated and engaged' },
+                { id: 'b', text: 'Redirect to the agreed entry routine using the visual and a calm cue' },
+                { id: 'c', text: 'Raise your voice to stop them before anyone else copies the behaviour' },
+                { id: 'd', text: 'End the activity and send them out of the pool' }
+              ],
+              correct: 'b'
+            },
+            {
+              situation: 'A swimmer needs help exiting and reaches for you mid-session.',
+              options: [
+                { id: 'a', text: 'Offer stable support, guide them to the designated exit, and model the routine' },
+                { id: 'b', text: 'Tell them to figure it out independently to build resilience' },
+                { id: 'c', text: 'Pull them quickly to the nearest edge regardless of the planned exit' },
+                { id: 'd', text: 'Ignore the request until they ask again more clearly' }
+              ],
+              correct: 'a'
+            },
+            {
+              situation: 'A swimmer leaves the designated exit point and moves toward an open area of the pool edge.',
+              options: [
+                { id: 'a', text: 'Let them choose any exit so they feel autonomous' },
+                { id: 'b', text: 'Calmly redirect using the exit visual and guide them back to the agreed point' },
+                { id: 'c', text: 'Stop the whole group until everyone watches a lecture about exits' },
+                { id: 'd', text: 'Block them physically without explaining the safer exit routine' }
+              ],
+              correct: 'b'
+            }
           ],
-          ok: 'Well done. A visible routine, modelling, time to copy, and a readiness check create a safe entry sequence.',
-          bad: 'Not quite. Start with the visual, then model, allow copying time, and check readiness before moving on.'
+          ok: 'Well judged. Safe entries and exits depend on calm routines, clear visuals, designated exits, and responsive support.',
+          bad: 'Not quite. Revisit the situation and choose the response that prioritises safety, predictability, and calm support.'
         },
         'f1-s2': {
           format: 'sort_bins',
@@ -5484,6 +5534,23 @@
       var f = cfg.format;
       var qHtml = cfg.q ? ('<p class="activity-question">' + cfg.q + '</p>') : '';
       var subqHtml = cfg.subq ? ('<p class="activity-question" style="margin-top:6px;">' + cfg.subq + '</p>') : '';
+      if(f === 'teach_decisions'){
+        var blocks = (cfg.scenarios || []).map(function(sc, idx){
+          var opts = (sc.options || []).map(function(op, oi){
+            return (
+              '<button type="button" class="activity-option" data-b2-td-row="' + idx + '" data-b2-td-opt="' + b2Esc(op.id) + '">' +
+              '<span class="opt-badge" aria-hidden="true">' + String.fromCharCode(65 + oi) + '</span>' +
+              '<span class="opt-text">' + b2Esc(op.text) + '</span></button>'
+            );
+          }).join('');
+          return (
+            '<div class="b2-teach-decision" data-b2-td-block="' + idx + '">' +
+            '<p class="activity-question" style="margin-top:14px;">' + b2Esc(sc.situation) + '</p>' +
+            '<div class="activity-option-grid b2-teach-decision__opts">' + opts + '</div></div>'
+          );
+        }).join('');
+        return buildActivityContainerShellM5({ variant: 'scenario', contentHtml: qHtml + blocks });
+      }
       if(f === 'b2c1_scenario' || f === 'scenario2'){
         var ta = '<label class="b2-refl-label"><span style="font-size:.9rem;">Short note (optional)</span></label><textarea class="b2-ta" rows="3" data-b2-free-text="1" placeholder="Add a very short response if you like."></textarea>';
         var btns = '<p class="b2-inline-hint" style="font-size:.88rem; margin:8px 0 4px;">Or pick a quick line (no A/B/C/D list):</p><div class="b2-phrase-picks" data-b2-phrase-picks="1">';
@@ -5669,6 +5736,36 @@
       var f = cfg.format;
 
       function runWire(){
+        if(f === 'teach_decisions'){
+          var answers = {};
+          inner.querySelectorAll('[data-b2-td-row]').forEach(function(btn){
+            btn.addEventListener('click', function(){
+              var row = parseInt(btn.getAttribute('data-b2-td-row'), 10);
+              var opt = btn.getAttribute('data-b2-td-opt');
+              answers[row] = opt;
+              var blockEl = btn.closest('[data-b2-td-block]');
+              if(blockEl){
+                blockEl.querySelectorAll('[data-b2-td-row]').forEach(function(b){
+                  b.classList.toggle('is-selected', b === btn);
+                });
+              }
+              var total = (cfg.scenarios || []).length;
+              var answered = Object.keys(answers).length;
+              if(answered < total) return;
+              var allOk = (cfg.scenarios || []).every(function(sc, idx){
+                return answers[idx] === sc.correct;
+              });
+              if(allOk){
+                b2MarkShell(shell, panel, block, target, feedback, cfg.ok, true);
+              } else if(feedback){
+                feedback.textContent = cfg.bad || 'Not quite. Review each situation and try again.';
+                feedback.classList.remove('hidden', 'is-correct');
+                feedback.classList.add('is-incorrect');
+              }
+            });
+          });
+          return;
+        }
         if(f === 'b2c1_scenario' || f === 'scenario2'){
           var btns = inner.querySelectorAll('[data-b2-scen]');
           btns.forEach(function(b){
@@ -5938,6 +6035,7 @@
     function setupChoiceActivityInShell(scopeRoot, panel, block, target, cfg, opts){
       opts = opts || {};
       if(!scopeRoot || !panel || !cfg) return;
+      scopeRoot.dataset.choiceShellComplete = opts.markCompleteInitially ? 'true' : 'false';
       var wrapper = scopeRoot.querySelector('[data-choice-activity]');
       var options = scopeRoot.querySelectorAll('[data-choice-option]');
       var feedbackBox = scopeRoot.querySelector('[data-activity-feedback]');
@@ -5945,7 +6043,6 @@
       var correct = cfg.correct;
       var okText = cfg.ok || 'Correct.';
       var badText = cfg.bad || 'Not quite.';
-      scopeRoot.dataset.choiceShellComplete = opts.markCompleteInitially ? 'true' : 'false';
       options.forEach(function(btn){
         btn.addEventListener('click', function(){
           var val = btn.getAttribute('data-choice-option');
@@ -5992,45 +6089,80 @@
       if(!data || !finishBtn) return;
       var hasCarousel = !!panel.querySelector('[data-carousel="' + target + '"]');
       if(hasCarousel) return;
+
+      var nestedCtx = window.GuidedConceptLayout
+        ? GuidedConceptLayout.getNestedScreenContext(panel)
+        : { mode: 'flat' };
+      var onNestedHub = nestedCtx.mode === 'hub' || nestedCtx.mode === 'folder';
+      if(data.nestedChoiceKeys && data.nestedChoiceKeys.length && onNestedHub){
+        finishBtn.style.display = 'none';
+        return;
+      }
+      finishBtn.style.display = '';
+
+      var scopeRoot = (nestedCtx.mode === 'leaf' && nestedCtx.page) ? nestedCtx.page : panel;
       var dwellEnd = parseInt(panel.dataset.conceptDwellEnd, 10) || 0;
       var dwellOk = !dwellEnd || Date.now() >= dwellEnd;
-      var inPracticeOk = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
-      var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
-      var insightPillarsOk = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
+
+      var keyItems = scopeRoot.querySelectorAll('.key-idea-item');
+      var keyIdeasOk = !keyItems.length || (scopeRoot.querySelectorAll('.key-idea-item.clicked').length === keyItems.length);
+
+      var inPracticeEl = scopeRoot.querySelector('.key-ideas-action:not([hidden])');
+      var inPracticeOk = !inPracticeEl || inPracticeEl.classList.contains('is-completed');
+
+      var introSlot = panel.querySelector('.concept-intro-slot');
+      var pillars = introSlot && introSlot.offsetParent !== null
+        ? introSlot.querySelectorAll('.concept-insight-pillar:not(.clicked)')
+        : [];
+      var insightPillarsOk = !pillars.length;
+
       var choiceOk = true;
       if(data.requiresChoiceActivity){
         if(data.nestedChoiceKeys && data.nestedChoiceKeys.length){
-          choiceOk = data.nestedChoiceKeys.every(function(key){
-            var el = panel.querySelector('[data-m5-b2-nested-key="' + key + '"]');
-            return el && el.dataset.choiceShellComplete === 'true';
-          });
+          if(nestedCtx.mode === 'leaf'){
+            var leafShell = scopeRoot.querySelector('[data-m5-b2-nested-key="' + nestedCtx.screenId + '"]');
+            choiceOk = !!(leafShell && leafShell.dataset.choiceShellComplete === 'true');
+          } else {
+            choiceOk = data.nestedChoiceKeys.every(function(key){
+              if(window.GuidedConceptLayout && GuidedConceptLayout.isItemDone(panel, 'flowM5CatsDone', key)) return true;
+              var el = panel.querySelector('[data-m5-b2-nested-key="' + key + '"]');
+              return el && el.dataset.choiceShellComplete === 'true';
+            });
+          }
         } else {
-          var actShell = panel.querySelector('[data-concept-activity-title]');
+          var actShell = panel.querySelector('[data-m5-b2-choice-mount="' + target + '"]') ||
+            panel.querySelector('[data-concept-activity-title]');
           choiceOk = !!(actShell && actShell.dataset.choiceShellComplete === 'true');
         }
       }
+
       var canFinish = dwellOk && inPracticeOk && keyIdeasOk && insightPillarsOk && choiceOk;
       finishBtn.disabled = !canFinish;
       finishBtn.style.opacity = canFinish ? '1' : '.55';
       finishBtn.style.cursor = canFinish ? 'pointer' : 'not-allowed';
       var secLeft = dwellEnd ? Math.ceil((dwellEnd - Date.now()) / 1000) : 0;
-      if(canFinish) finishBtn.textContent = 'Done';
-      else if(!dwellOk && secLeft > 0) finishBtn.textContent = 'Continue in ' + secLeft + 's';
-      else if(data.requiresChoiceActivity && !choiceOk){
-        finishBtn.textContent = (data.nestedChoiceKeys && data.nestedChoiceKeys.length)
-          ? 'Complete all activities in this concept first'
-          : 'Complete the activity first';
+      if(canFinish){
+        finishBtn.textContent = nestedCtx.mode === 'leaf' ? 'Done' : 'Done';
+      } else if(!dwellOk && secLeft > 0){
+        finishBtn.textContent = 'Continue in ' + secLeft + 's';
+      } else if(data.requiresChoiceActivity && !choiceOk){
+        finishBtn.textContent = 'Complete the activity first';
+      } else if(!insightPillarsOk){
+        finishBtn.textContent = 'Review all intro cards to continue';
+      } else if(!keyIdeasOk){
+        finishBtn.textContent = 'Review all Key Ideas to continue';
+      } else if(!inPracticeOk){
+        finishBtn.textContent = 'Click In Practice to continue';
+      } else {
+        finishBtn.textContent = 'Done';
       }
-      else if(!insightPillarsOk) finishBtn.textContent = 'Review all intro cards to continue';
-      else if(!keyIdeasOk) finishBtn.textContent = 'Review all Key Ideas to continue';
-      else if(!inPracticeOk) finishBtn.textContent = 'Click In Practice to continue';
-      else finishBtn.textContent = 'Done';
     }
+    window.updateConceptFinishStateM5 = updateConceptFinishStateM5;
 
     document.addEventListener('concept-insight-pillars-change', function(e){
       var panel = e.target;
       if(!panel || !panel.classList.contains('concept-panel') || !panel.dataset.currentBlock) return;
-      updateConceptFinishState(panel, panel.dataset.currentBlock, panel.dataset.currentTarget);
+      updateConceptFinishStateM5(panel, panel.dataset.currentBlock, panel.dataset.currentTarget);
     });
 
     function teardownBlock2ChoiceMounts(panel){
@@ -6038,7 +6170,7 @@
       panel.querySelectorAll('[data-m5-b2-choice-mount]').forEach(function(el){ el.remove(); });
     }
 
-    function mountM5ActivityShellInto(parentEl, cfg, attrs){
+    function mountM5ActivityShellInto(pageEl, cfg, attrs){
       var shell = document.createElement('div');
       shell.className = 'concept-section-card section-activity-shell';
       if(attrs && attrs['data-m5-b2-choice-mount']) shell.setAttribute('data-m5-b2-choice-mount', attrs['data-m5-b2-choice-mount']);
@@ -6065,7 +6197,12 @@
       slot.innerHTML = b2h || buildChoiceActivityHTMLM5(cfg);
       shell.appendChild(guide);
       shell.appendChild(slot);
-      parentEl.insertAdjacentElement('beforebegin', shell);
+      var ideasCard = pageEl.querySelector('.m5-nested-ideas-card, .section-ideas');
+      var visualCard = pageEl.querySelector('.m5-nested-visual-shell, .m5-screen-visual-card:not(.m5-folder-overview-card)');
+      var anchor = ideasCard || visualCard || pageEl.querySelector('.b2-nav');
+      if(anchor) anchor.insertAdjacentElement('afterend', shell);
+      else pageEl.appendChild(shell);
+      if(window.GuidedConceptLayout) GuidedConceptLayout.ensurePageLayout(pageEl);
       return shell;
     }
 
@@ -6172,12 +6309,13 @@
         if(!bank) return;
         data.requiresChoiceActivity = true;
         delete data.nestedChoiceKeys;
-        var imageBox = panel.querySelector('.concept-image');
-        if(!imageBox) return;
+        var pointsBox = panel.querySelector(':scope > .concept-points-box');
+        if(!pointsBox) return;
         var shell = document.createElement('div');
         shell.className = 'concept-section-card section-activity-shell';
         shell.setAttribute('data-concept-activity-title', '');
         shell.setAttribute('data-m5-b2-choice-mount', 'b2c1');
+        shell.dataset.choiceShellComplete = alreadyCompleted ? 'true' : 'false';
         shell.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
         '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity — Apply your understanding</span></div>';
         if(bank.activityType){
@@ -6200,7 +6338,7 @@
           slot.innerHTML = buildChoiceActivityHTMLM5(bank);
           shell.appendChild(guide);
           shell.appendChild(slot);
-          imageBox.insertAdjacentElement('afterend', shell);
+          pointsBox.insertAdjacentElement('afterend', shell);
           if(window.ConceptSectionIcons) ConceptSectionIcons.scan(shell);
           setupChoiceActivityInShell(shell, panel, block, target, bank, { markCompleteInitially: !!alreadyCompleted });
           return;
@@ -6208,7 +6346,7 @@
         slot.innerHTML = buildBlock2ActivityInnerHTML(bank);
         shell.appendChild(guide);
         shell.appendChild(slot);
-        imageBox.insertAdjacentElement('afterend', shell);
+        pointsBox.insertAdjacentElement('afterend', shell);
         setupBlock2ActivityInShell(shell, panel, block, target, bank, { markCompleteInitially: !!alreadyCompleted });
         return;
       }
@@ -6222,10 +6360,12 @@
         if(!wrap) return;
         data.nestedChoiceKeys.forEach(function(key){
           var page = wrap.querySelector('.b2-screen[data-b2-screen="' + key + '"] .folder-page');
-          var nav = page ? page.querySelector('.b2-nav') : null;
           var cfg2 = sub[key];
-          if(!page || !nav || !cfg2 || !cfg2.format) return;
-          var shell2 = mountM5ActivityShellInto(nav, cfg2, { 'data-m5-b2-choice-mount': 'b2c2-' + key, 'data-m5-b2-nested-key': key });
+          if(!page || !cfg2 || !cfg2.format) return;
+          if(window.GuidedConceptLayout){
+            GuidedConceptLayout.ensurePageLayout(page);
+          }
+          var shell2 = mountM5ActivityShellInto(page, cfg2, { 'data-m5-b2-choice-mount': 'b2c2-' + key, 'data-m5-b2-nested-key': key });
           setupBlock2ActivityInShell(shell2, panel, block, target, cfg2, { markCompleteInitially: !!alreadyCompleted });
         });
         return;
@@ -6240,10 +6380,12 @@
         if(!wrap3) return;
         data.nestedChoiceKeys.forEach(function(key){
           var page = wrap3.querySelector('.b2-screen[data-b2-screen="' + key + '"] .folder-page');
-          var nav = page ? page.querySelector('.b2-nav') : null;
           var cfg3 = sub3[key];
-          if(!page || !nav || !cfg3 || !cfg3.format) return;
-          var shell3 = mountM5ActivityShellInto(nav, cfg3, { 'data-m5-b2-choice-mount': 'b2c3-' + key, 'data-m5-b2-nested-key': key });
+          if(!page || !cfg3 || !cfg3.format) return;
+          if(window.GuidedConceptLayout){
+            GuidedConceptLayout.ensurePageLayout(page);
+          }
+          var shell3 = mountM5ActivityShellInto(page, cfg3, { 'data-m5-b2-choice-mount': 'b2c3-' + key, 'data-m5-b2-nested-key': key });
           setupBlock2ActivityInShell(shell3, panel, block, target, cfg3, { markCompleteInitially: !!alreadyCompleted });
         });
       }
@@ -6879,6 +7021,7 @@
       function showScreen(id){
         id = resolveNestedScreenId(wrapper, id);
         saveNestedScreenState(panel, target, id);
+        panel.dataset.m5NestedScreen = id;
         wrapper.querySelectorAll('.b2-screen').forEach(screen => {
           screen.classList.toggle('active', screen.getAttribute('data-b2-screen') === id);
         });
@@ -6889,6 +7032,11 @@
           wrapLooseNestedVisualBox(page);
           consolidateNestedOverviewLayout(page);
           applyNestedVisualClasses(activeScreen);
+          if(window.GuidedConceptLayout){
+            GuidedConceptLayout.ensurePageLayout(page);
+            GuidedConceptLayout.wireScopedKeyIdeas(panel, panel.dataset.currentBlock || block, target);
+            GuidedConceptLayout.wireScopedInPractice(panel, panel.dataset.currentBlock || block, target);
+          }
         }
         updateNestedPanelTitle(panel, target, id);
         panel.classList.toggle('m5-nested-active', id !== 'home');
@@ -6901,6 +7049,7 @@
         }
         wrapNestedOverviewVisuals(panel);
         rewireConceptVisualExpand(panel);
+        updateConceptFinishStateM5(panel, panel.dataset.currentBlock || block, target);
         if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
           TrainingFlowGuide.requestRefresh([120, 400]);
         }
@@ -6908,7 +7057,9 @@
           clearB2HomeExpandButtons(activeScreen || wrapper);
         }
         if(id !== 'home'){
-          var scrollTarget = panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-image');
+          var scrollTarget = panel.querySelector('[data-guided-section="visual"]') ||
+            panel.querySelector('.concept-intro-slot') ||
+            panel.querySelector('.concept-image');
           if(scrollTarget && scrollTarget.scrollIntoView){
             scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
@@ -7205,7 +7356,7 @@
       });
       panel.dataset.keyIdeasRequired = keyIdeaPoints.length ? 'true' : 'false';
       panel.dataset.keyIdeasDone = keyIdeaPoints.length ? 'false' : 'true';
-      if(block === 'block2'){
+      if(block === 'block2' && (target === 'b2c2' || target === 'b2c3')){
         panel.dataset.keyIdeasRequired = 'false';
         panel.dataset.keyIdeasDone = 'true';
         keyIdeaPoints = [];
@@ -7310,6 +7461,12 @@
 
       if(block === 'block2'){
         mountBlock2ChoiceActivities(panel, block, target);
+        if(window.GuidedConceptLayout){
+          GuidedConceptLayout.normalizePanel(panel);
+          GuidedConceptLayout.wireScopedKeyIdeas(panel, block, target);
+          GuidedConceptLayout.wireScopedInPractice(panel, block, target);
+        }
+        applySimpleConceptStructure(panel);
       }
 
       if(block === 'block3'){
@@ -7411,6 +7568,25 @@
           finishBtn.style.display = '';
           finishBtn.onclick = function(){
             if(finishBtn.disabled) return;
+            var nestedCtx = window.GuidedConceptLayout
+              ? GuidedConceptLayout.getNestedScreenContext(panel)
+              : { mode: 'flat' };
+            if(data.nestedChoiceKeys && nestedCtx.mode === 'leaf' && window.GuidedConceptLayout){
+              var leafId = nestedCtx.screenId;
+              GuidedConceptLayout.markItemDone(panel, 'flowM5CatsDone', leafId);
+              var allLeavesDone = data.nestedChoiceKeys.every(function(key){
+                return GuidedConceptLayout.isItemDone(panel, 'flowM5CatsDone', key);
+              });
+              if(!allLeavesDone){
+                var nextScreen = GuidedConceptLayout.findNextLeafTarget(panel, leafId);
+                if(nextScreen) GuidedConceptLayout.navigateNestedScreen(panel, nextScreen);
+                if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.bumpFlowAdvance){
+                  TrainingFlowGuide.bumpFlowAdvance(120);
+                }
+                updateConceptFinishStateM5(panel, block, target);
+                return;
+              }
+            }
             finishConcept(block, target);
           };
           if (alreadyCompleted){
@@ -7755,7 +7931,8 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260817"></script>
+  <script src="/shared/guided-concept-layout.js?v=20260820"></script>
+  <script src="/shared/training-flow-guide.js?v=20260820"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
