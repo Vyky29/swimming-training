@@ -386,10 +386,10 @@
   function withM5Tone(panel, step){
     if(!step || !isM5ThemedPanel(panel)) return step;
     if(isActivityPulseStep(step)) return step;
+    if(step.kind === 'expand-visual' || step.tone === 'expand') return step;
     var themedKinds = {
       pillar: true,
       keyidea: true,
-      'expand-visual': true,
       inpractice: true,
       'm5-nested-return': true,
       'm5-visual-review': true
@@ -625,6 +625,23 @@
       btn.parentElement;
   }
 
+  function resolveLeafVisualPulseTarget(scope){
+    if(!scope) return null;
+    var fanItem = scope.querySelector('.entry-exit-fan-item:not([data-visual-expanded="true"]) .img-expand-btn');
+    if(fanItem) return findVisualExpandBox(fanItem) || fanItem;
+    var expandBtn = scope.querySelector('.img-expand-btn[data-visual-expanded="false"], .img-expand-btn:not([data-visual-expanded="true"])');
+    if(expandBtn) return expandBtn;
+    var fan = scope.querySelector('.entry-exit-fan');
+    if(fan && !fan.querySelector('.concept-points-box')) return fan;
+    var frame = scope.querySelector('.m5-nested-visual-frame:not(:has(.concept-points-box)), .concept-activity-box:has(> img[src]):not(:has(.concept-points-box))');
+    if(frame) return frame;
+    var shell = scope.querySelector('.m5-nested-visual-shell, .m5-screen-visual-card');
+    if(shell && shell.querySelector('.concept-points-box')){
+      return shell.querySelector('.entry-exit-fan, .m5-nested-visual-frame, .concept-activity-box:has(> img[src])') || shell;
+    }
+    return shell;
+  }
+
   function resolveM5VisualPulseHost(visualBox){
     if(!visualBox) return null;
     if(visualBox.classList.contains('m5-folder-overview-card')){
@@ -633,6 +650,10 @@
         if(frame.classList.contains('entry-exit-fan')) return frame;
         return frame.closest('.m5-nested-visual-frame') || frame;
       }
+    }
+    if(visualBox.querySelector && visualBox.querySelector('.concept-points-box')){
+      var inner = resolveLeafVisualPulseTarget(visualBox);
+      if(inner) return inner;
     }
     if(isM5VisualPulseHost(visualBox)) return visualBox;
     return visualBox;
@@ -654,17 +675,16 @@
     var pulseHost = resolveM5VisualPulseHost(visualBox) || visualBox;
     var pulseEls = [];
     if(pulseHost) pulseEls.push(pulseHost);
-    var primary = btn;
+    var primary = btn || pulseHost;
     if(pulseHost && isM5VisualPulseHost(pulseHost)){
-      primary = pulseHost;
-      pulseEls = [pulseHost];
-    } else if(pulseEls.indexOf(btn) === -1) {
+      primary = btn || pulseHost;
+      pulseEls = btn ? [btn, pulseHost] : [pulseHost];
+    } else if(btn && pulseEls.indexOf(btn) === -1) {
       pulseEls.push(btn);
     }
-    var tone = isM5ThemedPanel(panel) ? 'm5-nav' : 'expand';
     return {
       kind: 'expand-visual',
-      tone: tone,
+      tone: 'expand',
       el: primary,
       pulseEls: pulseEls,
       noScroll: options.noScroll !== false,
@@ -731,25 +751,25 @@
     if(options.phase === 'preKeyideas' && panelHasM5NestedNav(panel)){
       var screenId = getM5ScreenId(panel);
       if(!isM5ItemDone(panel, 'flowM5VisualDone', screenId)){
-        var visualHost = scope.querySelector('.entry-exit-fan, .m5-nested-visual-shell, .m5-screen-visual-card, .m5-folder-overview-card');
-        if(!visualHost){
-          visualHost = scope.querySelector('.m5-nested-visual-frame, .concept-activity-box');
-        }
+        var visualHost = resolveLeafVisualPulseTarget(scope) ||
+          scope.querySelector('.entry-exit-fan, .m5-nested-visual-shell, .m5-screen-visual-card, .m5-folder-overview-card, .m5-nested-visual-frame, .concept-activity-box');
         if(visualHost && visualHost.querySelector('img[src]') && isVisibleEl(visualHost)){
           var pulseHost = resolveM5VisualPulseHost(visualHost.closest('.concept-section-card') || visualHost) || visualHost;
+          var expandBtn = scope.querySelector('.img-expand-btn[data-visual-expanded="false"], .img-expand-btn:not([data-visual-expanded="true"])');
+          var pulseTargets = expandBtn ? [expandBtn, pulseHost] : [pulseHost];
           var shouldScrollFallback = scrollThisPhase;
           if(shouldScrollFallback && scrollFlag) panel.dataset[scrollFlag] = 'true';
-          return withM5Tone(panel, {
-            kind: 'm5-visual-review',
-            tone: isM5ThemedPanel(panel) ? 'm5-nav' : 'expand',
-            el: pulseHost,
-            pulseEls: [pulseHost],
+          return {
+            kind: expandBtn ? 'expand-visual' : 'm5-visual-review',
+            tone: 'expand',
+            el: expandBtn || pulseHost,
+            pulseEls: pulseTargets,
             noScroll: !shouldScrollFallback,
             scrollBlock: 'center',
             forceScroll: shouldScrollFallback,
             scrollEl: pulseHost,
-            label: 'Review the visual image'
-          });
+            label: expandBtn ? 'Expand the image to view it full size' : 'Review the visual image'
+          };
         }
       }
     }
@@ -798,6 +818,13 @@
     if(!panel) return null;
     var scope = getM5FlowScope(panel);
     var active = getM5ActiveScreen(panel);
+    if(active && panelHasM5NestedNav(panel)){
+      var screenId = getM5ScreenId(panel);
+      if(screenId && screenId !== 'home'){
+        var nestedShell = active.querySelector('[data-m5-b2-nested-key="' + screenId + '"]');
+        if(nestedShell && isVisibleEl(nestedShell)) return nestedShell;
+      }
+    }
     var searchRoots = active ? [scope, panel] : [panel];
     var selectors = [
       '.section-activity-shell',
@@ -914,16 +941,33 @@
       '[data-match-grid], [data-match-board], [data-categorize-activity], [data-sequence-activity], ' +
       '[data-sequence-list], [data-sense-card], [data-reflect-continue], [data-choice-option], ' +
       '[data-m5-b2-choice-mount], [data-m5-b2-nested-key], [data-m5-b3-reflection-mount], .matching-wrap, .match-game, ' +
-      '.concept-activity-interactive[data-activity], .option-grid input, .match-item, .match-chip'
+      '.concept-activity-interactive[data-activity], .option-grid input, .match-item, .match-chip, ' +
+      '[data-b2-bool], [data-b2-bidx], [data-b2-scen], [data-b2-check-sort], [data-b2-check-sata], ' +
+      '[data-b2-check-matchd], [data-b2-check-fill], [data-b2-check-ord], [data-b2-seq-idx], ' +
+      '[data-b2-only-mark], [data-b2-mark-tri], .tf-toggle, .b2-phrase-picks, .activity-container[data-variant]'
     );
+  }
+
+  function isVisibleActivityShellComplete(panel){
+    var root = findActivityRoot(panel);
+    if(!root) return false;
+    var shell = root.matches('[data-concept-activity-title], [data-m5-b2-choice-mount], [data-m5-b2-nested-key]')
+      ? root
+      : root.closest('[data-concept-activity-title], [data-m5-b2-choice-mount], [data-m5-b2-nested-key]');
+    return !!(shell && shell.dataset.choiceShellComplete === 'true');
   }
 
   function isActivityIncomplete(panel){
     if(!panel || !panelHasGuidedActivity(panel)) return false;
     if(panel.dataset.activityComplete === 'true') return false;
 
+    if(isM5ChoiceShellIncomplete(panel)) return true;
+    if(isVisibleActivityShellComplete(panel)) return false;
+
     if(panel.querySelector('[data-carousel], [data-carousel-activity]') && panel.dataset.carouselComplete !== 'true') return true;
-    if(panel.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true') return true;
+    if(panel.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true'){
+      if(!panel.querySelector('[data-concept-activity-title][data-choice-shell-complete="true"]')) return true;
+    }
     if(isMatchingActivityIncomplete(panel)) return true;
     if(panel.querySelector('[data-categorize-activity]') && panel.dataset.categorizeComplete !== 'true'){
       var categorizeRoot = panel.querySelector('[data-categorize-activity]');
@@ -933,7 +977,6 @@
     if(panel.querySelector('[data-sequence-activity], [data-sequence-list]') && panel.dataset.sequenceComplete !== 'true') return true;
     if(panel.querySelector('[data-reflect-continue]') && panel.dataset.reflectAckComplete !== 'true') return true;
     if(panel.querySelector('[data-sense-card]:not(.flipped)')) return true;
-    if(isM5ChoiceShellIncomplete(panel)) return true;
 
     var interactives = panel.querySelectorAll('.concept-activity-interactive[data-activity]');
     for(var i = 0; i < interactives.length; i++){
@@ -942,14 +985,8 @@
 
     var root = findActivityRoot(panel);
     if(root && root.querySelector('.option-grid input[type="radio"], .option-grid input[type="checkbox"]')){
-      var shellFeedback = root.querySelector('.feedback.show.good, [data-activity-feedback].show.good');
+      var shellFeedback = root.querySelector('.feedback.show.good, [data-activity-feedback].show.good, [data-activity-feedback].is-correct');
       if(!shellFeedback && !panel.querySelector('.concept-activity-interactive[data-activity] .feedback.show.good')) return true;
-    }
-
-    var finish = panel.querySelector('[data-finish-concept]');
-    if(finish && finish.disabled){
-      var finishHint = (finish.textContent || '').toLowerCase();
-      if(/complete the|matching|classification|sequencing|activity|slides|senses|open all|reflection/.test(finishHint)) return true;
     }
 
     return false;
@@ -1146,7 +1183,12 @@
 
     var finish = panel.querySelector('[data-finish-concept]');
     if(finish && !finish.disabled){
-      return { kind: 'finish', el: finish, label: 'Finish concept' };
+      return sectionScrollStep('finish', finish, 'Finish concept', {
+        scrollEl: finish,
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand'
+      });
     }
     if(finish && finish.disabled){
       return { kind: 'finish-pending', el: finish, label: 'Complete remaining items in this concept' };
@@ -1247,8 +1289,9 @@
       if(!firstOption && options.length) firstOption = options[0];
       var pulseTargets = [gate];
       if(firstOption) pulseTargets.push(firstOption);
+      var blockSection = document.getElementById(block);
       return sectionScrollStep('reflection', firstOption || gate, 'Answer the reflection checkpoint', {
-        scrollEl: gate,
+        scrollEl: blockSection || gate,
         scrollBlock: 'start',
         forceScroll: true,
         pulseEls: pulseTargets,
@@ -1786,7 +1829,8 @@
       'pillar': true,
       'concept': true,
       'subconcept': true,
-      'block-progress': true
+      'block-progress': true,
+      'finish': true
     };
     return !!kinds[step.kind];
   }
@@ -2323,7 +2367,28 @@
   }
 
   function scrollToBlockEnd(block){
+    var section = document.getElementById(block);
+    var anchor = section && (
+      section.querySelector('.concept-stage') ||
+      section.querySelector('[data-concept-grid="' + block + '"]') ||
+      section.querySelector('[data-lock-box="' + block + '"]') ||
+      section
+    );
     var gate = document.querySelector('[data-gate="' + block + '"]');
+    if(anchor){
+      lastScrolledKey = null;
+      userScrollUntil = 0;
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+      setTimeout(function(){
+        lastScrolledKey = null;
+        userScrollUntil = 0;
+        anchor.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        if(gate && gate.classList.contains('open')){
+          gate.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        }
+      }, 480);
+      return;
+    }
     if(gate && gate.classList.contains('open')){
       lastScrolledKey = null;
       userScrollUntil = 0;

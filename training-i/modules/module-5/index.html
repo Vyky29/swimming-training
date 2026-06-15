@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260611a');
-  @import url('/assets/training-flow-guide.css?v=20260816');
+  @import url('/assets/training-flow-guide.css?v=20260817');
 
   :root{
       --blue:#2d84b3;
@@ -1335,7 +1335,7 @@
       border-color:rgba(45,132,179,.22);
       background:linear-gradient(180deg,#f5fbff 0%, #ffffff 100%);
       padding:14px;
-      overflow:hidden;
+      overflow:visible;
     }
     .concept-panel[data-panel-for="block1"] .section-activity-shell > .concept-section-head,
     .concept-panel[data-panel-for="block2"] .section-activity-shell > .concept-section-head{ margin-bottom:10px; }
@@ -3618,6 +3618,14 @@
       background:#fff;
       transform:translateY(-1px);
     }
+    .portal .b2-screens .m5-nested-visual-shell,
+    .portal .b2-screens .m5-screen-visual-card.m5-nested-visual-shell{
+      margin-top:10px;
+    }
+    .portal .b2-screens .entry-exit-fan{
+      margin-top:12px;
+      margin-bottom:18px;
+    }
     .entry-exit-fan{
       border:none !important;
       background:transparent !important;
@@ -4559,6 +4567,30 @@
       }
     }
 
+    function splitNestedLeafVisualSections(page){
+      if(!page) return;
+      page.querySelectorAll('.concept-section-card').forEach(function(card){
+        if(card.classList.contains('section-intro')) return;
+        if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')) return;
+        var pointsBox = card.querySelector(':scope > .concept-points-box');
+        if(!pointsBox) return;
+        var visual = card.querySelector(':scope > .concept-activity-box, :scope > .entry-exit-fan, :scope > .m5-nested-visual-grid, :scope > .m5-nested-visual-grid-wrap');
+        if(!visual) return;
+
+        var ideasCard = document.createElement('div');
+        ideasCard.className = 'concept-section-card section-ideas m5-nested-ideas-card';
+        card.parentNode.insertBefore(ideasCard, card.nextElementSibling);
+        ideasCard.appendChild(pointsBox);
+
+        card.querySelectorAll(':scope > .concept-section-head').forEach(function(head){
+          if((head.textContent || '').toLowerCase().indexOf('visual') >= 0){
+            head.remove();
+          }
+        });
+        card.classList.add('m5-nested-visual-shell', 'm5-screen-visual-card');
+      });
+    }
+
     function consolidateNestedOverviewLayout(page){
       if(!page) return;
       var grid = page.querySelector(':scope > .b2pl-cat-grid, :scope > .b2pl-folder-grid');
@@ -4636,6 +4668,7 @@
       stripNestedFolderSectionIntros(wrapper);
       wrapper.querySelectorAll('.b2-screen').forEach(function(screen){
         var page = screen.querySelector('.folder-page') || screen;
+        splitNestedLeafVisualSections(page);
         wrapLooseNestedVisualBox(page);
         consolidateNestedOverviewLayout(page);
         page.querySelectorAll('.concept-section-card').forEach(function(card){
@@ -5077,29 +5110,35 @@
 
     const conceptActivityBankBlock2 = {
       b2c1: {
-        format: 'b2c1_scenario',
-        activityType: 'Scenario response',
-        guideText: 'Consider the situation. Write a short response or use the checklists below — there is no A/B/C/D list.',
-        q: 'A swimmer hears an instruction but does not respond clearly.',
-        subq: 'Write or select the best next action (you can use a short note or a quick pick):',
-        goodLine: 'Show a clear visual cue, model the action, and give the swimmer time to process.',
-        distractorLines: [
-          'Call out the instruction from further away and move on as soon as possible.',
-          'Ask the swimmer to try again without any extra support.'
+        type: 'choice',
+        variant: 'scenario',
+        activityType: 'Visual system check',
+        guideText: 'Read the scenario and choose the response that best reflects PixtoLearn as a visual teaching system.',
+        q: 'A swimmer looks unsure after a verbal cue. What should the instructor do first?',
+        options: [
+          { id: 'a', text: 'Repeat the instruction louder from the side' },
+          { id: 'b', text: 'Show a clear visual cue linked to the next action' },
+          { id: 'c', text: 'Move on quickly to keep session pace' },
+          { id: 'd', text: 'Remove the activity from the plan' }
         ],
-        ok: 'Well done. A clear visual cue, modelling, and a little processing time are usually the safest and clearest first steps.',
-        bad: 'Not quite. A clear visual cue, modelling, and a little time to process are usually the best first steps here.'
+        correct: 'b',
+        ok: 'Correct. PixtoLearn uses visible, linked visuals so the swimmer can see what to do without relying only on spoken language.',
+        bad: 'Not quite. Show a clear visual cue linked to the next action first.'
       },
       b2c2: {
         'f1-s1': {
-          format: 'spot',
-          activityType: 'Spot the error',
-          guideText: 'Read the brief and identify the teaching error — then reveal the expected line of thinking.',
-          q: 'The instructor asks a nervous swimmer to jump in quickly without showing the entry routine first.',
-          subq: 'What is the error?',
-          expected: 'The swimmer needs a clear, safe visual routine and modelling before entering the water.',
-          ok: 'Yes. The priority is a shared, clear visual for safe entry, not a rushed in-water start.',
-          markLabel: 'Mark this activity as complete'
+          format: 'seq_click',
+          activityType: 'Sequence the entry routine',
+          guideText: 'Tap each step in the order you would teach a safe sitting entry. Build the routine before the swimmer enters.',
+          q: 'Put the teaching steps in the correct order for a safe entry.',
+          order: [
+            { i: 0, t: 'Show the visual entry card at the pool edge' },
+            { i: 1, t: 'Model the sitting entry slowly' },
+            { i: 2, t: 'Give the swimmer time to copy the routine' },
+            { i: 3, t: 'Confirm they feel ready before moving on' }
+          ],
+          ok: 'Well done. A visible routine, modelling, time to copy, and a readiness check create a safe entry sequence.',
+          bad: 'Not quite. Start with the visual, then model, allow copying time, and check readiness before moving on.'
         },
         'f1-s2': {
           format: 'sort_bins',
@@ -5435,6 +5474,9 @@
         feedback.classList.add(good ? 'is-correct' : 'is-incorrect');
       }
       updateConceptFinishStateM5(panel, block, target);
+      if(window.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+        TrainingFlowGuide.bumpFlowAdvance(180);
+      }
     }
 
     function buildBlock2ActivityInnerHTML(cfg){
@@ -5927,6 +5969,9 @@
           }
           feedbackBox.classList.remove('hidden');
           updateConceptFinishStateM5(panel, block, target);
+          if(window.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+            TrainingFlowGuide.bumpFlowAdvance(160);
+          }
         });
       });
       updateConceptFinishStateM5(panel, block, target);
@@ -6124,7 +6169,7 @@
 
       if(target === 'b2c1'){
         var bank = conceptActivityBankBlock2.b2c1;
-        if(!bank || !bank.format) return;
+        if(!bank) return;
         data.requiresChoiceActivity = true;
         delete data.nestedChoiceKeys;
         var imageBox = panel.querySelector('.concept-image');
@@ -6151,6 +6196,15 @@
         var slot = document.createElement('div');
         slot.className = 'concept-activity-slot';
         slot.setAttribute('data-concept-activity', '');
+        if(bank.type === 'choice'){
+          slot.innerHTML = buildChoiceActivityHTMLM5(bank);
+          shell.appendChild(guide);
+          shell.appendChild(slot);
+          imageBox.insertAdjacentElement('afterend', shell);
+          if(window.ConceptSectionIcons) ConceptSectionIcons.scan(shell);
+          setupChoiceActivityInShell(shell, panel, block, target, bank, { markCompleteInitially: !!alreadyCompleted });
+          return;
+        }
         slot.innerHTML = buildBlock2ActivityInnerHTML(bank);
         shell.appendChild(guide);
         shell.appendChild(slot);
@@ -6644,13 +6698,18 @@
     function finishConcept(block, target){
       markConceptComplete(block, target);
 
-      if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
-        TrainingFlowGuide.returnToConceptGrid(block);
-      } else {
-        const panel = document.querySelector(`[data-panel-for="${block}"]`);
-        if(panel){
-          scrollPanelIntoView(panel);
+      if(typeof TrainingFlowGuide !== 'undefined'){
+        if(typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+          TrainingFlowGuide.bumpFlowAdvance(80);
         }
+        if(typeof TrainingFlowGuide.returnToConceptGrid === 'function'){
+          TrainingFlowGuide.returnToConceptGrid(block);
+          return;
+        }
+      }
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(panel){
+        scrollPanelIntoView(panel);
       }
     }
 
@@ -6826,6 +6885,7 @@
         var activeScreen = wrapper.querySelector('.b2-screen.active');
         if(activeScreen){
           var page = activeScreen.querySelector('.folder-page') || activeScreen;
+          splitNestedLeafVisualSections(page);
           wrapLooseNestedVisualBox(page);
           consolidateNestedOverviewLayout(page);
           applyNestedVisualClasses(activeScreen);
@@ -7695,7 +7755,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260816"></script>
+  <script src="/shared/training-flow-guide.js?v=20260817"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
