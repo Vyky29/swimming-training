@@ -9,6 +9,7 @@
   var IN_PRACTICE_RING_CLASS = 'flow-guide-in-practice-ring';
   var REFLECTION_RING_CLASS = 'flow-guide-reflection-ring';
   var BLOCK_CHECK_RING_CLASS = 'flow-guide-block-check-ring';
+  var M5_NAV_RING_CLASS = 'flow-guide-m5-nav-ring';
   var RAIL_ID = 'trainingFlowGuideRail';
   var activePulseEl = null;
   var activePulseEls = [];
@@ -159,13 +160,134 @@
   function resetPanelFlowScope(panel){
     if(!panel) return;
     var scope = panel.dataset.currentTarget || '';
-    if(panel.__flowGuideScope === scope) return;
-    panel.__flowGuideScope = scope;
+    var m5Scope = panel.dataset.m5NestedScreen || '';
+    var combined = scope + (m5Scope ? ':' + m5Scope : '');
+    if(panel.__flowGuideScope === combined) return;
+    panel.__flowGuideScope = combined;
     delete panel.dataset.flowKeyideasFramed;
     delete panel.dataset.flowActivityStarted;
     delete panel.dataset.flowVisualScrollPreKeyideas;
     delete panel.dataset.flowVisualScrollPreActivity;
     delete panel.dataset.flowVisualScrollPostActivity;
+  }
+
+  function getM5ActiveScreen(panel){
+    if(!panel) return null;
+    var nested = panel.querySelector('[data-b2-screens]');
+    if(!nested) return null;
+    return nested.querySelector('.b2-screen.active') || nested.querySelector('.b2-screen');
+  }
+
+  function getM5FlowScope(panel){
+    var active = getM5ActiveScreen(panel);
+    return active || panel;
+  }
+
+  function panelHasM5NestedNav(panel){
+    return !!(panel && panel.querySelector('[data-b2-screens]'));
+  }
+
+  function getM5NavAccent(el){
+    if(!el || typeof window.getComputedStyle !== 'function') return '214, 120, 28';
+    var style = window.getComputedStyle(el);
+    var accent = style.getPropertyValue('--b2c2-accent') || style.getPropertyValue('--b2c3-accent') || style.getPropertyValue('--flow-m5-accent');
+    if(accent && accent.trim()){
+      var hex = accent.trim();
+      if(hex.charAt(0) === '#'){
+        var h = hex.replace('#', '');
+        if(h.length === 3) h = h.split('').map(function(c){ return c + c; }).join('');
+        var r = parseInt(h.slice(0, 2), 16);
+        var g = parseInt(h.slice(2, 4), 16);
+        var b = parseInt(h.slice(4, 6), 16);
+        if(!isNaN(r) && !isNaN(g) && !isNaN(b)) return r + ', ' + g + ', ' + b;
+      }
+    }
+    var bg = style.backgroundColor;
+    if(bg && bg.indexOf('rgb') === 0){
+      var nums = bg.match(/\d+/g);
+      if(nums && nums.length >= 3) return nums[0] + ', ' + nums[1] + ', ' + nums[2];
+    }
+    return '214, 120, 28';
+  }
+
+  function removeM5NavRings(){
+    document.querySelectorAll('.' + M5_NAV_RING_CLASS).forEach(function(ring){
+      ring.remove();
+    });
+  }
+
+  function hasM5NavRing(el){
+    return !!(el && el.querySelector('.' + M5_NAV_RING_CLASS));
+  }
+
+  function ensureM5NavRing(el){
+    if(!el) return;
+    if(el.querySelector('.' + M5_NAV_RING_CLASS)) return;
+    var ring = document.createElement('span');
+    ring.className = M5_NAV_RING_CLASS;
+    ring.setAttribute('aria-hidden', 'true');
+    ring.style.setProperty('--flow-m5-accent-rgb', getM5NavAccent(el));
+    el.appendChild(ring);
+  }
+
+  function buildM5NavStep(el, label){
+    return sectionScrollStep('m5-nested-nav', el, label, {
+      scrollEl: el,
+      scrollBlock: 'center',
+      forceScroll: true,
+      tone: 'm5-nav',
+      pulseEls: [el]
+    });
+  }
+
+  function resolveM5NestedNav(panel){
+    if(!panelHasM5NestedNav(panel)) return null;
+    var active = getM5ActiveScreen(panel);
+    if(!active) return null;
+
+    var screenId = active.getAttribute('data-b2-screen') || 'home';
+    var isHome = screenId === 'home';
+    var hasCatGrid = !!active.querySelector('.b2pl-cat-grid, .b2pl-folder-grid');
+    var isLeaf = !isHome && !hasCatGrid && !active.querySelector('.b2c2-home-grid, .b2c3-home-grid');
+    if(isLeaf) return null;
+
+    if(isHome){
+      var tiles = active.querySelectorAll('.b2c2-folder-tile[data-b2-go], .b2c3-flash-tile[data-b2-go]');
+      for(var t = 0; t < tiles.length; t++){
+        if(tiles[t].getAttribute('data-flow-guide-visited') !== 'true'){
+          var tileLabel = tiles[t].querySelector('.b2c2-folder-label, .b2c3-mini-label');
+          return buildM5NavStep(tiles[t], 'Open ' + ((tileLabel && tileLabel.textContent.trim()) || 'this section'));
+        }
+      }
+      return null;
+    }
+
+    if(!preKeyIdeasVisualsComplete(panel)) return null;
+
+    var cats = active.querySelectorAll('.b2pl-lvl-btn[data-b2-go], .b2pl-lvl-btn');
+    for(var c = 0; c < cats.length; c++){
+      if(cats[c].getAttribute('data-flow-guide-visited') !== 'true'){
+        return buildM5NavStep(cats[c], 'Explore ' + (cats[c].textContent.replace(/\s+/g, ' ').trim() || 'this category'));
+      }
+    }
+    return null;
+  }
+
+  function syncM5PanelVisualWiring(panel){
+    if(!panel || !global.ConceptVisualExpand || typeof ConceptVisualExpand.wire !== 'function') return;
+    var active = getM5ActiveScreen(panel);
+    if(!active) return;
+    try {
+      ConceptVisualExpand.wire(active, {
+        panel: panel,
+        clearRoot: active,
+        syncRoot: active,
+        exclude: [
+          '.b2c2-home-grid', '.b2c3-home-grid', '.m5-insight-mini-peek',
+          '[data-b2c2-no-expand="true"]', '[data-b2c3-no-expand="true"]', '[data-b2-no-expand="true"]'
+        ]
+      });
+    } catch(err){}
   }
 
   function hasClickedKeyIdea(panel){
@@ -174,14 +296,18 @@
 
   function getKeyIdeasBox(panel){
     if(!panel) return null;
-    var box = panel.querySelector('.concept-points-box');
+    var scope = getM5FlowScope(panel);
+    var box = scope.querySelector('.concept-points-box');
+    if(box && box.querySelector('.key-idea-item')) return box;
+    box = panel.querySelector('.concept-points-box');
     if(!box || !box.querySelector('.key-idea-item')) return null;
     return box;
   }
 
   function panelHasExpandableVisual(panel){
     if(!panel) return false;
-    return !!panel.querySelector('.img-expand-btn, [data-expandable-visual] img[src], .concept-section-card.section-visual-shell img[src], .concept-image img[src]');
+    var scope = getM5FlowScope(panel);
+    return !!scope.querySelector('.img-expand-btn, [data-expandable-visual] img[src], .concept-section-card.section-visual-shell img[src], .concept-image img[src], .m5-nested-visual-shell img[src], .m5-nested-visual-frame img[src]');
   }
 
   function isNodeBefore(anchor, beforeNode){
@@ -192,11 +318,16 @@
 
   function getPanelExpandButtons(panel){
     if(!panel) return [];
-    return Array.from(panel.querySelectorAll('.img-expand-btn')).filter(isVisibleEl);
+    var scope = getM5FlowScope(panel);
+    return Array.from(scope.querySelectorAll('.img-expand-btn')).filter(isVisibleEl);
   }
 
   function syncPanelVisualWiring(panel){
     if(!panel) return;
+    if(panelHasM5NestedNav(panel)){
+      syncM5PanelVisualWiring(panel);
+      return;
+    }
     if(!panel.querySelector('.img-expand-btn') && panelHasExpandableVisual(panel)){
       ensurePanelVisualWired(panel);
     }
@@ -235,7 +366,10 @@
 
   function findVisualExpandBox(btn){
     if(!btn) return null;
-    return btn.closest('[data-expandable-visual]') ||
+    return btn.closest('.m5-nested-visual-shell') ||
+      btn.closest('.m5-screen-visual-card') ||
+      btn.closest('.m5-folder-overview-card') ||
+      btn.closest('[data-expandable-visual]') ||
       btn.closest('.concept-image') ||
       btn.closest('[data-concept-primary-image]') ||
       btn.closest('[data-concept-intro-media]') ||
@@ -249,21 +383,34 @@
       btn.parentElement;
   }
 
+  function isM5VisualPulseHost(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('m5-nested-visual-shell') ||
+      el.classList.contains('m5-screen-visual-card') ||
+      el.classList.contains('m5-folder-overview-card');
+  }
+
   function buildExpandVisualStep(btn, options){
     options = options || {};
     var visualBox = findVisualExpandBox(btn);
     var pulseEls = [];
     if(visualBox) pulseEls.push(visualBox);
-    if(pulseEls.indexOf(btn) === -1) pulseEls.push(btn);
+    var primary = btn;
+    if(visualBox && isM5VisualPulseHost(visualBox)){
+      primary = visualBox;
+      pulseEls = [visualBox];
+    } else if(pulseEls.indexOf(btn) === -1) {
+      pulseEls.push(btn);
+    }
     return {
       kind: 'expand-visual',
       tone: 'expand',
-      el: btn,
+      el: primary,
       pulseEls: pulseEls,
       noScroll: options.noScroll !== false,
       scrollBlock: options.scrollBlock || 'center',
       forceScroll: options.forceScroll === true,
-      scrollEl: options.scrollEl || visualBox,
+      scrollEl: options.scrollEl || visualBox || btn,
       label: 'Expand the image to view it full size'
     };
   }
@@ -275,7 +422,8 @@
 
     syncPanelVisualWiring(panel);
 
-    var pointsBox = panel.querySelector('.concept-points-box');
+    var scope = getM5FlowScope(panel);
+    var pointsBox = scope.querySelector('.concept-points-box') || panel.querySelector('.concept-points-box');
     var activityRoot = findActivityRoot(panel);
     var buttons = getPanelExpandButtons(panel);
     var scrollFlagByPhase = {
@@ -325,17 +473,21 @@
   function resolveKeyIdeaItems(panel){
     if(!preKeyIdeasVisualsComplete(panel)) return null;
 
-    var box = getKeyIdeasBox(panel);
-    var ideas = panel.querySelectorAll('.concept-points-box .key-idea-item:not(.clicked)');
+    var scope = getM5FlowScope(panel);
+    var box = scope.querySelector('.concept-points-box');
+    var ideas = box ? box.querySelectorAll('.key-idea-item:not(.clicked)') : [];
+    if(!ideas.length) ideas = scope.querySelectorAll('.key-idea-item:not(.clicked)');
+    if(!ideas.length) ideas = panel.querySelectorAll('.concept-points-box .key-idea-item:not(.clicked)');
     if(!ideas.length) ideas = panel.querySelectorAll('.key-idea-item:not(.clicked)');
 
     for(var i = 0; i < ideas.length; i++){
       if(!isVisibleEl(ideas[i])) continue;
       var idx = ideas[i].querySelector('.key-idea-index');
-      var scrollToBox = box && !hasClickedKeyIdea(panel);
+      var ideaBox = ideas[i].closest('.concept-points-box') || box;
+      var scrollToBox = ideaBox && !ideaBox.querySelector('.key-idea-item.clicked');
       return sectionScrollStep('keyidea', ideas[i], 'Review key idea ' + ((idx && idx.textContent.trim()) || (i + 1)), {
         noScroll: !scrollToBox,
-        scrollEl: scrollToBox ? box : undefined,
+        scrollEl: scrollToBox ? ideaBox : undefined,
         scrollBlock: 'center',
         forceScroll: scrollToBox,
         tone: 'expand'
@@ -362,6 +514,9 @@
 
   function findActivityRoot(panel){
     if(!panel) return null;
+    var scope = getM5FlowScope(panel);
+    var active = getM5ActiveScreen(panel);
+    var searchRoots = active ? [scope, panel] : [panel];
     var selectors = [
       '.section-activity-shell',
       '.concept-section-card.section-activity',
@@ -369,15 +524,23 @@
       '[data-concept-activity]',
       '.activity-container--concept'
     ];
-    for(var s = 0; s < selectors.length; s++){
-      var hit = panel.querySelector(selectors[s]);
-      if(hit) return hit;
+    for(var r = 0; r < searchRoots.length; r++){
+      for(var s = 0; s < selectors.length; s++){
+        var hit = searchRoots[r].querySelector(selectors[s]);
+        if(hit && isVisibleEl(hit)) return hit;
+      }
     }
-    var inner = panel.querySelector(
+    var inner = scope.querySelector(
       '[data-carousel], [data-carousel-activity], [data-choice-activity], [data-matching-activity], ' +
       '[data-match-grid], [data-match-board], [data-categorize-activity], [data-sequence-activity], ' +
       '[data-sequence-list], [data-sense-card], [data-reflect-continue], .matching-wrap, .match-game, ' +
-      '.concept-activity-interactive[data-activity], [data-m5-b2-choice-mount], [data-m5-b2-nested-key]'
+      '.concept-activity-interactive[data-activity], [data-m5-b2-choice-mount], [data-m5-b2-nested-key], [data-m5-b3-reflection-mount]'
+    );
+    if(!inner) inner = panel.querySelector(
+      '[data-carousel], [data-carousel-activity], [data-choice-activity], [data-matching-activity], ' +
+      '[data-match-grid], [data-match-board], [data-categorize-activity], [data-sequence-activity], ' +
+      '[data-sequence-list], [data-sense-card], [data-reflect-continue], .matching-wrap, .match-game, ' +
+      '.concept-activity-interactive[data-activity], [data-m5-b2-choice-mount], [data-m5-b2-nested-key], [data-m5-b3-reflection-mount]'
     );
     if(!inner) return null;
     return inner.closest(
@@ -413,15 +576,32 @@
   }
 
   function isM5ChoiceShellIncomplete(panel){
+    var active = getM5ActiveScreen(panel);
+    if(active){
+      var screenId = active.getAttribute('data-b2-screen') || 'home';
+      if(screenId === 'home') return false;
+      var incompleteInScreen = active.querySelector(
+        '[data-concept-activity-title][data-choice-shell-complete="false"], ' +
+        '[data-m5-b2-choice-mount][data-choice-shell-complete="false"], ' +
+        '[data-m5-b2-nested-key][data-choice-shell-complete="false"]'
+      );
+      if(incompleteInScreen) return true;
+      var nestedKeys = active.querySelectorAll('[data-m5-b2-nested-key]');
+      for(var i = 0; i < nestedKeys.length; i++){
+        if(nestedKeys[i].dataset.choiceShellComplete !== 'true') return true;
+      }
+      return false;
+    }
+
     var incompleteShell = panel.querySelector(
       '[data-concept-activity-title][data-choice-shell-complete="false"], ' +
       '[data-m5-b2-choice-mount][data-choice-shell-complete="false"], ' +
       '[data-m5-b2-nested-key][data-choice-shell-complete="false"]'
     );
     if(incompleteShell) return true;
-    var nestedKeys = panel.querySelectorAll('[data-m5-b2-nested-key]');
-    for(var i = 0; i < nestedKeys.length; i++){
-      if(nestedKeys[i].dataset.choiceShellComplete !== 'true') return true;
+    var nestedKeysAll = panel.querySelectorAll('[data-m5-b2-nested-key]');
+    for(var j = 0; j < nestedKeysAll.length; j++){
+      if(nestedKeysAll[j].dataset.choiceShellComplete !== 'true') return true;
     }
     var actTitle = panel.querySelector('[data-concept-activity-title]');
     if(actTitle && actTitle.dataset.choiceShellComplete === 'false') return true;
@@ -445,12 +625,13 @@
 
   function panelHasGuidedActivity(panel){
     if(!panel || panel.dataset.skipActivityShell === 'true') return false;
-    if(!findActivityRoot(panel)) return false;
-    return !!panel.querySelector(
+    var root = findActivityRoot(panel);
+    if(!root || !isVisibleEl(root)) return false;
+    return !!root.querySelector(
       '[data-carousel], [data-carousel-activity], [data-choice-activity], [data-matching-activity], ' +
       '[data-match-grid], [data-match-board], [data-categorize-activity], [data-sequence-activity], ' +
       '[data-sequence-list], [data-sense-card], [data-reflect-continue], [data-choice-option], ' +
-      '[data-m5-b2-choice-mount], [data-m5-b2-nested-key], .matching-wrap, .match-game, ' +
+      '[data-m5-b2-choice-mount], [data-m5-b2-nested-key], [data-m5-b3-reflection-mount], .matching-wrap, .match-game, ' +
       '.concept-activity-interactive[data-activity], .option-grid input, .match-item, .match-chip'
     );
   }
@@ -644,6 +825,9 @@
 
     var preVisualStep = resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
     if(preVisualStep) return preVisualStep;
+
+    var m5NavStep = resolveM5NestedNav(panel);
+    if(m5NavStep) return m5NavStep;
 
     var keyIdeaStep = resolveKeyIdeaItems(panel);
     if(keyIdeaStep) return keyIdeaStep;
@@ -1392,6 +1576,7 @@
     removeInPracticeRings();
     removeReflectionRings();
     removeBlockCheckRings();
+    removeM5NavRings();
     activePulseEls = [];
     activePulseEl = null;
   }
@@ -1413,6 +1598,9 @@
     if(step.kind === 'block-check'){
       var checkItem = el.classList && el.classList.contains('check-item') ? el : (el.closest && el.closest('.check-item'));
       if(checkItem && !checkItem.querySelector('.' + BLOCK_CHECK_RING_CLASS)) return true;
+    }
+    if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav'){
+      if(!hasM5NavRing(el)) return true;
     }
     if(usesExpandPulse(step)) return !el.classList.contains(PULSE_EXPAND);
     return false;
@@ -1439,6 +1627,12 @@
     if(step.kind === 'block-check'){
       var checkEl = el.classList.contains('check-item') ? el : el.closest('.check-item');
       if(checkEl) ensureBlockCheckRing(checkEl);
+    }
+    if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav'){
+      ensureM5NavRing(el);
+    }
+    if((step.kind === 'expand-visual' || step.tone === 'expand') && isM5VisualPulseHost(el)){
+      el.classList.add(PULSE_EXPAND);
     }
   }
 
@@ -1490,6 +1684,9 @@
       if(step.kind === 'block-check'){
         var checkTarget = target.classList.contains('check-item') ? target : target.closest('.check-item');
         if(checkTarget) ensureBlockCheckRing(checkTarget);
+      }
+      if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav'){
+        ensureM5NavRing(target);
       }
       updateRail(step);
       return;
@@ -1550,6 +1747,17 @@
 
   function bindConceptFlowInteractions(moduleConfig){
     document.addEventListener('click', function(e){
+      var navBtn = e.target.closest && e.target.closest('[data-b2-go]');
+      if(navBtn){
+        var navPanel = navBtn.closest('.concept-panel.show');
+        if(navPanel && navBtn.matches('.b2c2-folder-tile, .b2c3-flash-tile, .b2pl-lvl-btn')){
+          navBtn.setAttribute('data-flow-guide-visited', 'true');
+          lastStepKey = null;
+          lastScrolledKey = null;
+          scheduleRefresh(moduleConfig, 180);
+        }
+      }
+
       var panel = e.target.closest && e.target.closest('.concept-panel.show');
       if(!panel) return;
 

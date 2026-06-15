@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260611a');
-  @import url('/assets/training-flow-guide.css?v=20260812');
+  @import url('/assets/training-flow-guide.css?v=20260813');
 
   :root{
       --blue:#2d84b3;
@@ -6838,6 +6838,9 @@
         }
         wrapNestedOverviewVisuals(panel);
         rewireConceptVisualExpand(panel);
+        if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
+          TrainingFlowGuide.requestRefresh([120, 400]);
+        }
         if((target === 'b2c3' || target === 'b2c2') && id === 'home'){
           clearB2HomeExpandButtons(activeScreen || wrapper);
         }
@@ -7689,7 +7692,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260812"></script>
+  <script src="/shared/training-flow-guide.js?v=20260813"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
