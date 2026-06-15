@@ -150,11 +150,18 @@
 
     var key = stepKey(step);
     if(key && lastScrolledKey === key && !(step && step.forceScroll)) return;
-    if(isMostlyVisible(target, step)) return;
+    if(!(step && step.forceScroll) && isMostlyVisible(target, step)) return;
 
     var block = (step && step.scrollBlock) || 'nearest';
     target.scrollIntoView({ behavior: 'smooth', block: block, inline: 'nearest' });
     lastScrolledKey = key;
+  }
+
+  function bumpFlowAdvance(moduleConfig, delay){
+    lastStepKey = null;
+    lastScrolledKey = null;
+    userScrollUntil = 0;
+    scheduleRefresh(moduleConfig, delay || 180);
   }
 
   function resetPanelFlowScope(panel){
@@ -177,11 +184,45 @@
     delete panel.dataset.flowM5FoldersDone;
     delete panel.dataset.flowM5LeafReturned;
     delete panel.dataset.flowM5FolderReturned;
+    delete panel.dataset.flowM5VisualDone;
     delete panel.dataset.flowM5AccentRgb;
     delete panel.dataset.flowM5Root;
     panel.querySelectorAll('[data-flow-guide-visited]').forEach(function(el){
       el.removeAttribute('data-flow-guide-visited');
     });
+  }
+
+  function getM5InteractiveRoot(panel){
+    if(panelHasM5NestedNav(panel)) return getM5FlowScope(panel);
+    return panel;
+  }
+
+  function getVisibleInsightPillars(panel){
+    var introSlot = panel && panel.querySelector('.concept-intro-slot');
+    if(introSlot && isVisibleEl(introSlot)){
+      return introSlot.querySelectorAll('.concept-insight-pillar:not(.clicked)');
+    }
+    return panel ? panel.querySelectorAll('.concept-insight-pillar:not(.clicked)') : [];
+  }
+
+  function hasUnclickedKeyIdeasInScope(panel){
+    var root = getM5InteractiveRoot(panel);
+    var items = root.querySelectorAll('.key-idea-item:not(.clicked)');
+    for(var i = 0; i < items.length; i++){
+      if(isVisibleEl(items[i])) return true;
+    }
+    return false;
+  }
+
+  function findScopedInPracticeAction(panel){
+    var root = getM5InteractiveRoot(panel);
+    var action = root.querySelector('.key-ideas-action:not([hidden])');
+    return action && isVisibleEl(action) ? action : null;
+  }
+
+  function markM5VisualReviewed(panel){
+    if(!panel || !panelHasM5NestedNav(panel)) return;
+    markM5ItemDone(panel, 'flowM5VisualDone', getM5ScreenId(panel));
   }
 
   function getM5ActiveScreen(panel){
@@ -344,19 +385,25 @@
 
   function withM5Tone(panel, step){
     if(!step || !isM5ThemedPanel(panel)) return step;
+    if(isActivityPulseStep(step)) return step;
     var themedKinds = {
       pillar: true,
       keyidea: true,
       'expand-visual': true,
       inpractice: true,
-      'activity-intro': true,
-      'activity-progress': true,
-      'm5-nested-return': true
+      'm5-nested-return': true,
+      'm5-visual-review': true
     };
     if(themedKinds[step.kind]){
       step.tone = 'm5-nav';
     }
     return step;
+  }
+
+  function isActivityPulseStep(step){
+    if(!step) return false;
+    if(step.tone === 'activity') return true;
+    return ['activity-intro', 'activity-progress', 'carousel', 'matching', 'choice-activity', 'categorize', 'sequence', 'sensory'].indexOf(step.kind) >= 0;
   }
 
   function ensureM5NavRing(el, panel){
@@ -436,10 +483,9 @@
     var active = getM5ActiveScreen(panel);
     if(!isM5LeafScreen(active)) return false;
     var introSlot = panel.querySelector('.concept-intro-slot');
-    if(introSlot && introSlot.querySelector('.concept-insight-pillar:not(.clicked)')) return false;
+    if(getVisibleInsightPillars(panel).length) return false;
     if(!preKeyIdeasVisualsComplete(panel)) return false;
-    var scope = getM5FlowScope(panel);
-    if(scope.querySelector('.key-idea-item:not(.clicked)')) return false;
+    if(hasUnclickedKeyIdeasInScope(panel)) return false;
     if(!inPracticeFlowComplete(panel)) return false;
     if(isActivityIncomplete(panel)) return false;
     return true;
@@ -543,8 +589,10 @@
   }
 
   function inPracticeFlowComplete(panel){
-    if(!panel || panel.dataset.inPracticeRequired === 'false') return true;
-    var inPractice = panel.querySelector('.key-ideas-action');
+    if(!panel) return true;
+    var nestedAction = findScopedInPracticeAction(panel);
+    if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return true;
+    var inPractice = nestedAction || panel.querySelector('.key-ideas-action');
     if(!inPractice || inPractice.hasAttribute('hidden')) return true;
     return inPractice.classList.contains('is-completed') || panel.dataset.inPracticeDone === 'true';
   }
@@ -630,7 +678,7 @@
   function resolveNextVisualExpand(panel, options){
     options = options || {};
     if(!panel) return null;
-    if(panel.querySelector('.concept-insight-pillar:not(.clicked)')) return null;
+    if(getVisibleInsightPillars(panel).length) return null;
 
     syncPanelVisualWiring(panel);
 
@@ -659,11 +707,11 @@
       } else if(options.phase === 'preActivity'){
         if(beforeKeyIdeas) continue;
         if(!beforeActivity) continue;
-        if(panel.querySelector('.key-idea-item:not(.clicked)')) return null;
+        if(hasUnclickedKeyIdeasInScope(panel)) return null;
         if(!inPracticeFlowComplete(panel)) return null;
       } else if(options.phase === 'postActivity'){
         if(beforeActivity) continue;
-        if(panel.querySelector('.key-idea-item:not(.clicked)')) return null;
+        if(hasUnclickedKeyIdeasInScope(panel)) return null;
         if(!inPracticeFlowComplete(panel)) return null;
         if(isActivityIncomplete(panel)) return null;
       } else {
@@ -679,42 +727,64 @@
         scrollEl: anchor
       });
     }
+
+    if(options.phase === 'preKeyideas' && panelHasM5NestedNav(panel)){
+      var screenId = getM5ScreenId(panel);
+      if(!isM5ItemDone(panel, 'flowM5VisualDone', screenId)){
+        var visualHost = scope.querySelector('.entry-exit-fan, .m5-nested-visual-shell, .m5-screen-visual-card, .m5-folder-overview-card');
+        if(!visualHost){
+          visualHost = scope.querySelector('.m5-nested-visual-frame, .concept-activity-box');
+        }
+        if(visualHost && visualHost.querySelector('img[src]') && isVisibleEl(visualHost)){
+          var pulseHost = resolveM5VisualPulseHost(visualHost.closest('.concept-section-card') || visualHost) || visualHost;
+          var shouldScrollFallback = scrollThisPhase;
+          if(shouldScrollFallback && scrollFlag) panel.dataset[scrollFlag] = 'true';
+          return withM5Tone(panel, {
+            kind: 'm5-visual-review',
+            tone: isM5ThemedPanel(panel) ? 'm5-nav' : 'expand',
+            el: pulseHost,
+            pulseEls: [pulseHost],
+            noScroll: !shouldScrollFallback,
+            scrollBlock: 'center',
+            forceScroll: shouldScrollFallback,
+            scrollEl: pulseHost,
+            label: 'Review the visual image'
+          });
+        }
+      }
+    }
     return null;
   }
 
   function resolveKeyIdeaItems(panel){
     if(!preKeyIdeasVisualsComplete(panel)) return null;
 
-    var scope = getM5FlowScope(panel);
-    var box = scope.querySelector('.concept-points-box');
-    var ideas = box ? box.querySelectorAll('.key-idea-item:not(.clicked)') : [];
-    if(!ideas.length) ideas = scope.querySelectorAll('.key-idea-item:not(.clicked)');
-    if(!ideas.length) ideas = panel.querySelectorAll('.concept-points-box .key-idea-item:not(.clicked)');
-    if(!ideas.length) ideas = panel.querySelectorAll('.key-idea-item:not(.clicked)');
+    var root = getM5InteractiveRoot(panel);
+    var box = root.querySelector('.concept-points-box');
+    var ideas = box ? box.querySelectorAll('.key-idea-item:not(.clicked)') : root.querySelectorAll('.key-idea-item:not(.clicked)');
 
     for(var i = 0; i < ideas.length; i++){
       if(!isVisibleEl(ideas[i])) continue;
       var idx = ideas[i].querySelector('.key-idea-index');
-      var ideaBox = ideas[i].closest('.concept-points-box') || box;
-      var scrollToBox = ideaBox && !ideaBox.querySelector('.key-idea-item.clicked');
       return sectionScrollStep('keyidea', ideas[i], 'Review key idea ' + ((idx && idx.textContent.trim()) || (i + 1)), {
-        noScroll: !scrollToBox,
-        scrollEl: scrollToBox ? ideaBox : undefined,
+        scrollEl: ideas[i],
         scrollBlock: 'center',
-        forceScroll: scrollToBox,
-        tone: 'expand'
+        forceScroll: true
       });
     }
     return null;
   }
 
   function resolveInPractice(panel){
-    if(!panel || panel.dataset.inPracticeRequired === 'false') return null;
-    var inPractice = panel.querySelector('.key-ideas-action');
+    if(!panel) return null;
+    var nestedAction = findScopedInPracticeAction(panel);
+    if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return null;
+
+    var inPractice = nestedAction || panel.querySelector('.key-ideas-action');
     if(!inPractice || inPractice.hasAttribute('hidden')) return null;
     if(inPractice.classList.contains('is-completed') || panel.dataset.inPracticeDone === 'true') return null;
-    if(panel.querySelector('.concept-insight-pillar:not(.clicked)')) return null;
-    if(panel.querySelector('.key-idea-item:not(.clicked)')) return null;
+    if(getVisibleInsightPillars(panel).length) return null;
+    if(hasUnclickedKeyIdeasInScope(panel)) return null;
     if(!preKeyIdeasVisualsComplete(panel)) return null;
 
     return sectionScrollStep('inpractice', inPractice, 'Read the In Practice scenario', {
@@ -902,8 +972,7 @@
       {
         tone: 'activity',
         scrollBlock: 'center',
-        forceScroll: panel.dataset.flowActivityStarted !== 'true',
-        noScroll: panel.dataset.flowActivityStarted === 'true'
+        forceScroll: true
       }
     );
   }
@@ -936,7 +1005,7 @@
     var isLeafTarget = navButtons.some(function(btn){ return getNavTarget(btn) === current; });
 
     if(isLeafTarget){
-      var hasIncomplete = panel.querySelector('.concept-insight-pillar:not(.clicked), .key-idea-item:not(.clicked)');
+      var hasIncomplete = getVisibleInsightPillars(panel).length || hasUnclickedKeyIdeasInScope(panel);
       var finish = panel.querySelector('[data-finish-concept]');
       if(hasIncomplete || (finish && finish.disabled) || isActivityIncomplete(panel)) return null;
       return null;
@@ -1032,12 +1101,11 @@
       : panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
     if(pillars.length){
       var title = pillars[0].querySelector('.concept-insight-pillar__title');
-      return withM5Tone(panel, {
-        kind: 'pillar',
-        el: pillars[0],
-        noScroll: true,
-        label: 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point')
-      });
+      return withM5Tone(panel, sectionScrollStep('pillar', pillars[0], 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point'), {
+        scrollEl: pillars[0],
+        scrollBlock: 'center',
+        forceScroll: true
+      }));
     }
 
     var preVisualStep = resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
@@ -1056,7 +1124,7 @@
     if(preActivityVisualStep) return withM5Tone(panel, preActivityVisualStep);
 
     var activityStep = resolvePanelActivity(panel);
-    if(activityStep) return withM5Tone(panel, activityStep);
+    if(activityStep) return activityStep;
 
     var m5ReturnStep = resolveM5LeafReturn(panel);
     if(m5ReturnStep) return m5ReturnStep;
@@ -1331,16 +1399,19 @@
       if(!action || action.hasAttribute('hidden')) return;
       if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
       var panel = action.closest('.concept-panel');
-      if(!panel || panel.dataset.inPracticeRequired === 'false') return;
-      if(panel.dataset.inPracticeDone === 'true' || action.classList.contains('is-completed')) return;
+      if(!panel) return;
+      var nestedAction = findScopedInPracticeAction(panel);
+      if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return;
+      if(action.classList.contains('is-completed')) return;
+      if(panel.dataset.inPracticeDone === 'true' && !nestedAction) return;
 
       action.classList.add('is-completed');
-      panel.dataset.inPracticeDone = 'true';
+      if(!nestedAction) panel.dataset.inPracticeDone = 'true';
       var icon = action.querySelector('.icon');
       if(icon && action.classList.contains('is-completed')){
         icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
       }
-      scheduleRefresh(moduleConfig, 120);
+      bumpFlowAdvance(moduleConfig, 120);
     }, true);
 
     document.addEventListener('keydown', function(e){
@@ -1363,7 +1434,7 @@
       card.setAttribute('data-flow-block-intro-done', 'true');
       card.classList.add('clicked');
       syncBlockIntroVisualState();
-      scheduleRefresh(moduleConfig, 120);
+      bumpFlowAdvance(moduleConfig, 120);
     }, true);
 
     document.addEventListener('keydown', function(e){
@@ -1376,7 +1447,7 @@
       card.setAttribute('data-flow-block-intro-done', 'true');
       card.classList.add('clicked');
       syncBlockIntroVisualState();
-      scheduleRefresh(moduleConfig, 120);
+      bumpFlowAdvance(moduleConfig, 120);
     }, true);
   }
 
@@ -1833,7 +1904,7 @@
       if(!el.classList.contains(PULSE_IN_PRACTICE)) return true;
       return !hasInPracticeRing(el);
     }
-    if(step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
+    if(isActivityPulseStep(step)){
       return !el.classList.contains(PULSE_ACTIVITY);
     }
     if(step.kind === 'reflection' || step.tone === 'reflection'){
@@ -1844,7 +1915,7 @@
       var checkItem = el.classList && el.classList.contains('check-item') ? el : (el.closest && el.closest('.check-item'));
       if(checkItem && !checkItem.querySelector('.' + BLOCK_CHECK_RING_CLASS)) return true;
     }
-    if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return'){
+    if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return' || step.kind === 'm5-visual-review'){
       if(!hasM5NavRing(el)) return true;
       return false;
     }
@@ -1856,19 +1927,17 @@
     if(!el) return;
     var panel = el.closest && el.closest('.concept-panel');
     el.classList.add(PULSE_CLASS);
-    var usesM5Tone = step.tone === 'm5-nav' || step.kind === 'm5-nested-nav' || step.kind === 'm5-nested-return';
-    if(step.tone === 'inpractice' || step.kind === 'inpractice'){
-      el.classList.add(PULSE_IN_PRACTICE);
-      ensureInPracticeRing(el);
+    var activityStep = isActivityPulseStep(step);
+    var usesM5Tone = !activityStep && (step.tone === 'm5-nav' || step.kind === 'm5-nested-nav' || step.kind === 'm5-nested-return' || step.kind === 'm5-visual-review');
+    if(activityStep){
+      el.classList.add(PULSE_ACTIVITY);
     } else if(usesM5Tone){
       ensureM5NavRing(el, panel);
+    } else if(step.tone === 'inpractice' || step.kind === 'inpractice'){
+      el.classList.add(PULSE_IN_PRACTICE);
+      ensureInPracticeRing(el);
     } else if(usesExpandPulse(step)){
       el.classList.add(PULSE_EXPAND);
-    }
-    if(!usesM5Tone && (step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory')){
-      el.classList.add(PULSE_ACTIVITY);
-    } else if(usesM5Tone && (step.kind === 'activity-intro' || step.kind === 'activity-progress')){
-      ensureM5NavRing(el, panel);
     }
     if(step.kind === 'block-intro' || el.classList.contains('block-intro-card')){
       ensureBlockIntroRing(el);
@@ -1931,7 +2000,7 @@
         var checkTarget = target.classList.contains('check-item') ? target : target.closest('.check-item');
         if(checkTarget) ensureBlockCheckRing(checkTarget);
       }
-      if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return'){
+      if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return' || step.kind === 'm5-visual-review'){
         ensureM5NavRing(target, target.closest && target.closest('.concept-panel'));
       }
       updateRail(step);
@@ -2020,20 +2089,39 @@
               navPanel.dataset.flowM5FolderReturned = folderReturned.filter(function(id){ return id !== goTarget; }).join(',');
             }
           }
-          lastStepKey = null;
-          lastScrolledKey = null;
-          scheduleRefresh(moduleConfig, 180);
+          bumpFlowAdvance(moduleConfig, 180);
         }
       }
 
       var panel = e.target.closest && e.target.closest('.concept-panel.show');
       if(!panel) return;
 
+      var pillar = e.target.closest && e.target.closest('.concept-insight-pillar');
+      if(pillar && panel.contains(pillar)){
+        bumpFlowAdvance(moduleConfig, 120);
+      }
+
+      var keyIdea = e.target.closest && e.target.closest('.key-idea-item');
+      if(keyIdea && panel.contains(keyIdea)){
+        bumpFlowAdvance(moduleConfig, 120);
+      }
+
+      var visualHost = e.target.closest && e.target.closest('.entry-exit-fan, .m5-nested-visual-shell, .m5-nested-visual-frame, .m5-screen-visual-card, .img-expand-btn');
+      if(visualHost && panelHasM5NestedNav(panel)){
+        markM5VisualReviewed(panel);
+        bumpFlowAdvance(moduleConfig, 120);
+      }
+
       var activityRoot = findActivityRoot(panel);
-      if(activityRoot && activityRoot.contains(e.target) && isActivityIncomplete(panel)){
-        if(panel.dataset.flowActivityStarted !== 'true'){
-          panel.dataset.flowActivityStarted = 'true';
-          scheduleRefresh(moduleConfig, 120);
+      if(activityRoot && activityRoot.contains(e.target)){
+        if(isActivityIncomplete(panel)){
+          if(panel.dataset.flowActivityStarted !== 'true'){
+            panel.dataset.flowActivityStarted = 'true';
+          }
+        }
+        if(e.target.closest('.feedback.show.good, [data-activity-feedback].show.good') ||
+          (e.target.closest('[data-choice-option]') && !isActivityIncomplete(panel))){
+          bumpFlowAdvance(moduleConfig, 200);
         }
       }
     }, true);
@@ -2046,7 +2134,7 @@
         if(panel.dataset.flowActivityStarted !== 'true' && isActivityIncomplete(panel)){
           panel.dataset.flowActivityStarted = 'true';
         }
-        scheduleRefresh(moduleConfig, 120);
+        bumpFlowAdvance(moduleConfig, 120);
       }
     }, true);
 
@@ -2055,7 +2143,7 @@
       if(!panel) return;
       var activityRoot = findActivityRoot(panel);
       if(activityRoot && activityRoot.contains(e.target)){
-        scheduleRefresh(moduleConfig, 120);
+        bumpFlowAdvance(moduleConfig, 120);
       }
     }, true);
   }
@@ -2067,6 +2155,15 @@
       document.addEventListener(name, function(e){
         var panel = e.target && e.target.closest && e.target.closest('.concept-panel.show');
         if(panel) ensurePanelVisualWired(panel);
+        if(name === 'concept-visual-expand-change' && panel && panelHasM5NestedNav(panel)){
+          markM5VisualReviewed(panel);
+          bumpFlowAdvance(moduleConfig, 160);
+          return;
+        }
+        if(name === 'concept-insight-pillars-change' && panel){
+          bumpFlowAdvance(moduleConfig, 140);
+          return;
+        }
         scheduleRefresh(moduleConfig);
       }, true);
     });
@@ -2074,7 +2171,23 @@
     if(typeof MutationObserver !== 'undefined'){
       var observer = new MutationObserver(function(mutations){
         for(var i = 0; i < mutations.length; i++){
-          if(!shouldIgnoreMutation(mutations[i].target, mutations[i])){
+          var mutation = mutations[i];
+          if(mutation.type === 'attributes'){
+            if(mutation.attributeName === 'data-choice-shell-complete' ||
+              mutation.attributeName === 'data-choice-complete' ||
+              mutation.attributeName === 'data-activity-complete'){
+              bumpFlowAdvance(moduleConfig, 220);
+              return;
+            }
+            if(mutation.attributeName === 'class'){
+              var t = mutation.target;
+              if(t && t.classList && t.classList.contains('feedback') && t.classList.contains('show')){
+                bumpFlowAdvance(moduleConfig, 220);
+                return;
+              }
+            }
+          }
+          if(!shouldIgnoreMutation(mutation.target, mutation)){
             scheduleRefresh(moduleConfig);
             return;
           }
@@ -2284,6 +2397,9 @@
           setTimeout(function(){ refresh(activeModuleConfig); }, ms);
         })(waits[i]);
       }
+    },
+    bumpFlowAdvance: function(delay){
+      if(activeModuleConfig) bumpFlowAdvance(activeModuleConfig, delay);
     },
     resolveNextStep: resolveNextStep,
     markModuleComplete: markModuleComplete,

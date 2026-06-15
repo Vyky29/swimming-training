@@ -37,6 +37,12 @@
 .portal .flow-guide-pulse[data-concept-activity-flow],
 .flow-guide-pulse.activity-container--concept,
 .portal .flow-guide-pulse.activity-container--concept,
+.flow-guide-pulse[data-m5-b2-nested-key],
+.portal .flow-guide-pulse[data-m5-b2-nested-key],
+.flow-guide-pulse[data-m5-b2-choice-mount],
+.portal .flow-guide-pulse[data-m5-b2-choice-mount],
+.flow-guide-pulse.concept-section-card.section-activity,
+.portal .flow-guide-pulse.concept-section-card.section-activity,
 .flow-guide-pulse.module-roadmap-wrap,
 .portal .flow-guide-pulse.module-roadmap-wrap,
 .flow-guide-pulse.journey-wrap.module-roadmap-wrap,
@@ -397,8 +403,13 @@ html[data-guided-flow="true"] .concept-points-box:has(.flow-guide-pulse--inpract
 }
 
 .flow-guide-pulse--activity,
-.portal .flow-guide-pulse--activity {
+.portal .flow-guide-pulse--activity,
+.flow-guide-pulse.flow-guide-pulse--activity[data-m5-b2-nested-key],
+.portal .flow-guide-pulse.flow-guide-pulse--activity[data-m5-b2-nested-key],
+.flow-guide-pulse.flow-guide-pulse--activity[data-m5-b2-choice-mount],
+.portal .flow-guide-pulse.flow-guide-pulse--activity[data-m5-b2-choice-mount] {
   animation: flowGuidePulseActivity 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
+  position: relative !important;
 }
 
 /* Primary guide ù blue ring with outer halo (matches expand intensity) */
