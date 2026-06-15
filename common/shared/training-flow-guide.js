@@ -159,16 +159,29 @@
 
   function resetPanelFlowScope(panel){
     if(!panel) return;
-    var scope = panel.dataset.currentTarget || '';
-    var m5Scope = panel.dataset.m5NestedScreen || '';
-    var combined = scope + (m5Scope ? ':' + m5Scope : '');
-    if(panel.__flowGuideScope === combined) return;
-    panel.__flowGuideScope = combined;
+    var active = getM5ActiveScreen(panel);
+    var m5Scope = active ? (active.getAttribute('data-b2-screen') || 'home') : (panel.dataset.m5NestedScreen || '');
+    var scope = (panel.dataset.currentTarget || '') + (m5Scope ? ':' + m5Scope : '');
+    if(panel.__flowGuideScope === scope) return;
+    panel.__flowGuideScope = scope;
     delete panel.dataset.flowKeyideasFramed;
     delete panel.dataset.flowActivityStarted;
     delete panel.dataset.flowVisualScrollPreKeyideas;
     delete panel.dataset.flowVisualScrollPreActivity;
     delete panel.dataset.flowVisualScrollPostActivity;
+  }
+
+  function clearM5FlowTracking(panel){
+    if(!panel) return;
+    delete panel.dataset.flowM5CatsDone;
+    delete panel.dataset.flowM5FoldersDone;
+    delete panel.dataset.flowM5LeafReturned;
+    delete panel.dataset.flowM5FolderReturned;
+    delete panel.dataset.flowM5AccentRgb;
+    delete panel.dataset.flowM5Root;
+    panel.querySelectorAll('[data-flow-guide-visited]').forEach(function(el){
+      el.removeAttribute('data-flow-guide-visited');
+    });
   }
 
   function getM5ActiveScreen(panel){
@@ -220,14 +233,143 @@
     return !!(el && el.querySelector('.' + M5_NAV_RING_CLASS));
   }
 
-  function ensureM5NavRing(el){
+  function getM5ScreenId(panel){
+    var active = getM5ActiveScreen(panel);
+    return active ? (active.getAttribute('data-b2-screen') || 'home') : 'home';
+  }
+
+  function getM5FolderRootId(screenId){
+    if(!screenId || screenId === 'home') return '';
+    if(/^f\d+$/.test(screenId)) return screenId;
+    if(/^f\d+-s\d+$/.test(screenId)) return screenId.replace(/-s\d+$/, '');
+    if(/^fc\d+$/.test(screenId)) return screenId;
+    return screenId;
+  }
+
+  function isM5LeafScreen(active){
+    if(!active) return false;
+    var screenId = active.getAttribute('data-b2-screen') || 'home';
+    if(screenId === 'home') return false;
+    if(active.querySelector('.b2c2-home-grid, .b2c3-home-grid')) return false;
+    return !active.querySelector('.b2pl-cat-grid, .b2pl-folder-grid');
+  }
+
+  function isM5FolderOverview(active){
+    if(!active) return false;
+    var screenId = active.getAttribute('data-b2-screen') || 'home';
+    if(screenId === 'home') return false;
+    return !!active.querySelector('.b2pl-cat-grid, .b2pl-folder-grid');
+  }
+
+  function parseM5DoneList(panel, key){
+    return (panel.dataset[key] || '').split(',').filter(Boolean);
+  }
+
+  function isM5ItemDone(panel, key, id){
+    return parseM5DoneList(panel, key).indexOf(id) >= 0;
+  }
+
+  function markM5ItemDone(panel, key, id){
+    if(!panel || !id || isM5ItemDone(panel, key, id)) return;
+    var list = parseM5DoneList(panel, key);
+    list.push(id);
+    panel.dataset[key] = list.join(',');
+  }
+
+  function getM5NestedWrapper(panel){
+    return panel ? panel.querySelector('[data-b2-screens]') : null;
+  }
+
+  function getM5CategoryIdsForFolder(wrapper, folderId){
+    if(!wrapper || !folderId) return [];
+    var folderScreen = wrapper.querySelector('.b2-screen[data-b2-screen="' + folderId + '"]');
+    if(!folderScreen) return [];
+    return Array.from(folderScreen.querySelectorAll('.b2pl-lvl-btn[data-b2-go]')).map(function(btn){
+      return btn.getAttribute('data-b2-go');
+    }).filter(Boolean);
+  }
+
+  function isM5NestedActivityComplete(panel, screenId){
+    if(!panel || !screenId) return false;
+    var wrapper = getM5NestedWrapper(panel);
+    if(!wrapper) return false;
+    var screen = wrapper.querySelector('.b2-screen[data-b2-screen="' + screenId + '"]');
+    if(!screen) return false;
+    var shell = screen.querySelector('[data-m5-b2-nested-key="' + screenId + '"]');
+    return !!(shell && shell.dataset.choiceShellComplete === 'true');
+  }
+
+  function isM5CategoryComplete(panel, catId){
+    if(!catId) return false;
+    if(isM5ItemDone(panel, 'flowM5CatsDone', catId)) return true;
+    return isM5NestedActivityComplete(panel, catId);
+  }
+
+  function isM5FolderComplete(panel, wrapper, folderId){
+    if(!panel || !wrapper || !folderId) return false;
+    if(isM5ItemDone(panel, 'flowM5FoldersDone', folderId)) return true;
+    var cats = getM5CategoryIdsForFolder(wrapper, folderId);
+    if(cats.length){
+      return cats.every(function(catId){ return isM5CategoryComplete(panel, catId); });
+    }
+    return isM5CategoryComplete(panel, folderId);
+  }
+
+  function syncM5AccentContext(panel){
+    if(!panelHasM5NestedNav(panel)){
+      panel.removeAttribute('data-flow-m5-accent-rgb');
+      panel.removeAttribute('data-flow-m5-root');
+      return;
+    }
+    var screenId = getM5ScreenId(panel);
+    var rootId = getM5FolderRootId(screenId);
+    if(!rootId || screenId === 'home'){
+      panel.removeAttribute('data-flow-m5-accent-rgb');
+      panel.removeAttribute('data-flow-m5-root');
+      return;
+    }
+    panel.dataset.flowM5Root = rootId;
+    var wrapper = getM5NestedWrapper(panel);
+    var accentEl = wrapper && wrapper.querySelector('.b2c2-folder-tile[data-b2-go="' + rootId + '"], .b2c3-flash-tile[data-b2-go="' + rootId + '"]');
+    if(!accentEl && wrapper){
+      var folderScreen = wrapper.querySelector('.b2-screen[data-b2-screen="' + rootId + '"]');
+      accentEl = folderScreen && (folderScreen.querySelector('.b2pl-folder-h--' + rootId) || folderScreen.querySelector('.b2pl-folder-h, .b2pl-cathead'));
+    }
+    panel.dataset.flowM5AccentRgb = getM5NavAccent(accentEl);
+  }
+
+  function isM5ThemedPanel(panel){
+    return !!(panel && panel.dataset.flowM5AccentRgb);
+  }
+
+  function withM5Tone(panel, step){
+    if(!step || !isM5ThemedPanel(panel)) return step;
+    var themedKinds = {
+      pillar: true,
+      keyidea: true,
+      'expand-visual': true,
+      inpractice: true,
+      'activity-intro': true,
+      'activity-progress': true,
+      'm5-nested-return': true
+    };
+    if(themedKinds[step.kind]){
+      step.tone = 'm5-nav';
+    }
+    return step;
+  }
+
+  function ensureM5NavRing(el, panel){
     if(!el) return;
-    if(el.querySelector('.' + M5_NAV_RING_CLASS)) return;
-    var ring = document.createElement('span');
-    ring.className = M5_NAV_RING_CLASS;
-    ring.setAttribute('aria-hidden', 'true');
-    ring.style.setProperty('--flow-m5-accent-rgb', getM5NavAccent(el));
-    el.appendChild(ring);
+    var ring = el.querySelector('.' + M5_NAV_RING_CLASS);
+    if(!ring){
+      ring = document.createElement('span');
+      ring.className = M5_NAV_RING_CLASS;
+      ring.setAttribute('aria-hidden', 'true');
+      el.appendChild(ring);
+    }
+    var rgb = (panel && panel.dataset.flowM5AccentRgb) || getM5NavAccent(el);
+    ring.style.setProperty('--flow-m5-accent-rgb', rgb);
   }
 
   function buildM5NavStep(el, label){
@@ -242,19 +384,43 @@
 
   function resolveM5NestedNav(panel){
     if(!panelHasM5NestedNav(panel)) return null;
+    var wrapper = getM5NestedWrapper(panel);
     var active = getM5ActiveScreen(panel);
-    if(!active) return null;
+    if(!active || !wrapper) return null;
 
-    var screenId = active.getAttribute('data-b2-screen') || 'home';
-    var isHome = screenId === 'home';
-    var hasCatGrid = !!active.querySelector('.b2pl-cat-grid, .b2pl-folder-grid');
-    var isLeaf = !isHome && !hasCatGrid && !active.querySelector('.b2c2-home-grid, .b2c3-home-grid');
-    if(isLeaf) return null;
+    var screenId = getM5ScreenId(panel);
+    if(isM5LeafScreen(active)) return null;
 
-    if(isHome){
+    if(isM5FolderOverview(active)){
+      if(!preKeyIdeasVisualsComplete(panel)) return null;
+      var folderId = screenId;
+      var cats = active.querySelectorAll('.b2pl-lvl-btn[data-b2-go]');
+      for(var c = 0; c < cats.length; c++){
+        var catId = cats[c].getAttribute('data-b2-go');
+        if(!isM5CategoryComplete(panel, catId)){
+          return buildM5NavStep(cats[c], 'Explore ' + (cats[c].textContent.replace(/\s+/g, ' ').trim() || 'this category'));
+        }
+      }
+      if(isM5FolderComplete(panel, wrapper, folderId) && !isM5ItemDone(panel, 'flowM5FolderReturned', folderId)){
+        var folderBack = active.querySelector('.b2-nav [data-b2-go]');
+        if(folderBack){
+          return sectionScrollStep('m5-nested-nav', folderBack, 'Return to choose the next folder', {
+            scrollEl: folderBack,
+            scrollBlock: 'center',
+            forceScroll: true,
+            tone: 'm5-nav',
+            pulseEls: [folderBack]
+          });
+        }
+      }
+      return null;
+    }
+
+    if(screenId === 'home'){
       var tiles = active.querySelectorAll('.b2c2-folder-tile[data-b2-go], .b2c3-flash-tile[data-b2-go]');
       for(var t = 0; t < tiles.length; t++){
-        if(tiles[t].getAttribute('data-flow-guide-visited') !== 'true'){
+        var tileId = tiles[t].getAttribute('data-b2-go');
+        if(!isM5FolderComplete(panel, wrapper, tileId)){
           var tileLabel = tiles[t].querySelector('.b2c2-folder-label, .b2c3-mini-label');
           return buildM5NavStep(tiles[t], 'Open ' + ((tileLabel && tileLabel.textContent.trim()) || 'this section'));
         }
@@ -262,15 +428,43 @@
       return null;
     }
 
-    if(!preKeyIdeasVisualsComplete(panel)) return null;
-
-    var cats = active.querySelectorAll('.b2pl-lvl-btn[data-b2-go], .b2pl-lvl-btn');
-    for(var c = 0; c < cats.length; c++){
-      if(cats[c].getAttribute('data-flow-guide-visited') !== 'true'){
-        return buildM5NavStep(cats[c], 'Explore ' + (cats[c].textContent.replace(/\s+/g, ' ').trim() || 'this category'));
-      }
-    }
     return null;
+  }
+
+  function isM5LeafFlowComplete(panel){
+    if(!panel || !panelHasM5NestedNav(panel)) return false;
+    var active = getM5ActiveScreen(panel);
+    if(!isM5LeafScreen(active)) return false;
+    var introSlot = panel.querySelector('.concept-intro-slot');
+    if(introSlot && introSlot.querySelector('.concept-insight-pillar:not(.clicked)')) return false;
+    if(!preKeyIdeasVisualsComplete(panel)) return false;
+    var scope = getM5FlowScope(panel);
+    if(scope.querySelector('.key-idea-item:not(.clicked)')) return false;
+    if(!inPracticeFlowComplete(panel)) return false;
+    if(isActivityIncomplete(panel)) return false;
+    return true;
+  }
+
+  function resolveM5LeafReturn(panel){
+    if(!panelHasM5NestedNav(panel)) return null;
+    var active = getM5ActiveScreen(panel);
+    if(!isM5LeafScreen(active)) return null;
+    if(!isM5LeafFlowComplete(panel)) return null;
+
+    var screenId = getM5ScreenId(panel);
+    markM5ItemDone(panel, 'flowM5CatsDone', screenId);
+    if(isM5ItemDone(panel, 'flowM5LeafReturned', screenId)) return null;
+
+    var backBtn = active.querySelector('.b2-nav [data-b2-go]');
+    if(!backBtn) return null;
+
+    return sectionScrollStep('m5-nested-return', backBtn, 'Go back to continue with the next section', {
+      scrollEl: backBtn,
+      scrollBlock: 'center',
+      forceScroll: true,
+      tone: 'm5-nav',
+      pulseEls: [backBtn]
+    });
   }
 
   function syncM5PanelVisualWiring(panel){
@@ -383,34 +577,52 @@
       btn.parentElement;
   }
 
+  function resolveM5VisualPulseHost(visualBox){
+    if(!visualBox) return null;
+    if(visualBox.classList.contains('m5-folder-overview-card')){
+      var frame = visualBox.querySelector('.m5-nested-visual-frame, .entry-exit-fan, .concept-activity-box:has(> img[src])');
+      if(frame){
+        if(frame.classList.contains('entry-exit-fan')) return frame;
+        return frame.closest('.m5-nested-visual-frame') || frame;
+      }
+    }
+    if(isM5VisualPulseHost(visualBox)) return visualBox;
+    return visualBox;
+  }
+
   function isM5VisualPulseHost(el){
     if(!el || !el.classList) return false;
     return el.classList.contains('m5-nested-visual-shell') ||
       el.classList.contains('m5-screen-visual-card') ||
-      el.classList.contains('m5-folder-overview-card');
+      el.classList.contains('m5-folder-overview-card') ||
+      el.classList.contains('m5-nested-visual-frame') ||
+      el.classList.contains('entry-exit-fan');
   }
 
   function buildExpandVisualStep(btn, options){
     options = options || {};
+    var panel = btn && btn.closest && btn.closest('.concept-panel');
     var visualBox = findVisualExpandBox(btn);
+    var pulseHost = resolveM5VisualPulseHost(visualBox) || visualBox;
     var pulseEls = [];
-    if(visualBox) pulseEls.push(visualBox);
+    if(pulseHost) pulseEls.push(pulseHost);
     var primary = btn;
-    if(visualBox && isM5VisualPulseHost(visualBox)){
-      primary = visualBox;
-      pulseEls = [visualBox];
+    if(pulseHost && isM5VisualPulseHost(pulseHost)){
+      primary = pulseHost;
+      pulseEls = [pulseHost];
     } else if(pulseEls.indexOf(btn) === -1) {
       pulseEls.push(btn);
     }
+    var tone = isM5ThemedPanel(panel) ? 'm5-nav' : 'expand';
     return {
       kind: 'expand-visual',
-      tone: 'expand',
+      tone: tone,
       el: primary,
       pulseEls: pulseEls,
       noScroll: options.noScroll !== false,
       scrollBlock: options.scrollBlock || 'center',
       forceScroll: options.forceScroll === true,
-      scrollEl: options.scrollEl || visualBox || btn,
+      scrollEl: options.scrollEl || pulseHost || visualBox || btn,
       label: 'Expand the image to view it full size'
     };
   }
@@ -806,43 +1018,51 @@
   function panelIncompleteTarget(panel){
     if(!panel) return null;
 
+    syncM5AccentContext(panel);
+
     var panelBlock = panel.getAttribute('data-panel-for');
     if(panelBlock && blockConceptsComplete(panelBlock)) return null;
 
     var parentSubconceptStep = resolveParentSubconceptResume(panel, activeModuleConfig);
-    if(parentSubconceptStep) return parentSubconceptStep;
+    if(parentSubconceptStep) return withM5Tone(panel, parentSubconceptStep);
 
-    var pillars = panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
+    var introSlot = panel.querySelector('.concept-intro-slot');
+    var pillars = introSlot && isVisibleEl(introSlot)
+      ? introSlot.querySelectorAll('.concept-insight-pillar:not(.clicked)')
+      : panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
     if(pillars.length){
       var title = pillars[0].querySelector('.concept-insight-pillar__title');
-      return {
+      return withM5Tone(panel, {
         kind: 'pillar',
         el: pillars[0],
         noScroll: true,
         label: 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point')
-      };
+      });
     }
 
     var preVisualStep = resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
-    if(preVisualStep) return preVisualStep;
+    if(preVisualStep) return withM5Tone(panel, preVisualStep);
 
     var m5NavStep = resolveM5NestedNav(panel);
     if(m5NavStep) return m5NavStep;
 
     var keyIdeaStep = resolveKeyIdeaItems(panel);
-    if(keyIdeaStep) return keyIdeaStep;
+    if(keyIdeaStep) return withM5Tone(panel, keyIdeaStep);
 
     var inPracticeStep = resolveInPractice(panel);
-    if(inPracticeStep) return inPracticeStep;
+    if(inPracticeStep) return withM5Tone(panel, inPracticeStep);
 
     var preActivityVisualStep = resolveNextVisualExpand(panel, { phase: 'preActivity' });
-    if(preActivityVisualStep) return preActivityVisualStep;
+    if(preActivityVisualStep) return withM5Tone(panel, preActivityVisualStep);
 
     var activityStep = resolvePanelActivity(panel);
-    if(activityStep) return activityStep;
+    if(activityStep) return withM5Tone(panel, activityStep);
+
+    var m5ReturnStep = resolveM5LeafReturn(panel);
+    if(m5ReturnStep) return m5ReturnStep;
 
     var postActivityVisualStep = resolveNextVisualExpand(panel, { phase: 'postActivity' });
-    if(postActivityVisualStep) return postActivityVisualStep;
+    if(postActivityVisualStep) return withM5Tone(panel, postActivityVisualStep);
 
     var subconceptStep = resolveSubconceptNav(panel);
     if(subconceptStep){
@@ -1414,6 +1634,20 @@
     });
   }
 
+  function getEarliestIncompleteBlock(moduleConfig){
+    var blocks = (moduleConfig && moduleConfig.blocks) || [];
+    for(var i = 0; i < blocks.length; i++){
+      if(!blockConceptsComplete(blocks[i])) return blocks[i];
+    }
+    return null;
+  }
+
+  function blockOrderIndex(moduleConfig, block){
+    var blocks = (moduleConfig && moduleConfig.blocks) || [];
+    var idx = blocks.indexOf(block);
+    return idx >= 0 ? idx : 999;
+  }
+
   function resolveNextStep(moduleConfig){
     if(!moduleConfig) return null;
 
@@ -1429,12 +1663,23 @@
     var inside = resolveInsideModule();
     if(inside) return inside;
 
+    var earliestIncomplete = getEarliestIncompleteBlock(moduleConfig);
     var openPanel = getActiveOpenPanel();
     if(openPanel){
       var openBlock = openPanel.getAttribute('data-panel-for');
       if(openBlock){
-        var focusedStep = resolveBlock(openBlock, moduleConfig);
-        if(focusedStep) return focusedStep;
+        var openIdx = blockOrderIndex(moduleConfig, openBlock);
+        var earliestIdx = earliestIncomplete ? blockOrderIndex(moduleConfig, earliestIncomplete) : openIdx;
+        if(!earliestIncomplete || openIdx <= earliestIdx){
+          var focusedStep = resolveBlock(openBlock, moduleConfig);
+          if(focusedStep) return focusedStep;
+        } else {
+          openPanel.classList.remove('show');
+          delete openPanel.dataset.currentTarget;
+          delete openPanel.dataset.currentBlock;
+          lastStepKey = null;
+          lastScrolledKey = null;
+        }
       }
     }
 
@@ -1599,8 +1844,9 @@
       var checkItem = el.classList && el.classList.contains('check-item') ? el : (el.closest && el.closest('.check-item'));
       if(checkItem && !checkItem.querySelector('.' + BLOCK_CHECK_RING_CLASS)) return true;
     }
-    if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav'){
+    if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return'){
       if(!hasM5NavRing(el)) return true;
+      return false;
     }
     if(usesExpandPulse(step)) return !el.classList.contains(PULSE_EXPAND);
     return false;
@@ -1608,15 +1854,21 @@
 
   function applyPulseToEl(el, step){
     if(!el) return;
+    var panel = el.closest && el.closest('.concept-panel');
     el.classList.add(PULSE_CLASS);
+    var usesM5Tone = step.tone === 'm5-nav' || step.kind === 'm5-nested-nav' || step.kind === 'm5-nested-return';
     if(step.tone === 'inpractice' || step.kind === 'inpractice'){
       el.classList.add(PULSE_IN_PRACTICE);
       ensureInPracticeRing(el);
+    } else if(usesM5Tone){
+      ensureM5NavRing(el, panel);
     } else if(usesExpandPulse(step)){
       el.classList.add(PULSE_EXPAND);
     }
-    if(step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory'){
+    if(!usesM5Tone && (step.tone === 'activity' || step.kind === 'activity-intro' || step.kind === 'carousel' || step.kind === 'matching' || step.kind === 'choice-activity' || step.kind === 'categorize' || step.kind === 'sequence' || step.kind === 'sensory')){
       el.classList.add(PULSE_ACTIVITY);
+    } else if(usesM5Tone && (step.kind === 'activity-intro' || step.kind === 'activity-progress')){
+      ensureM5NavRing(el, panel);
     }
     if(step.kind === 'block-intro' || el.classList.contains('block-intro-card')){
       ensureBlockIntroRing(el);
@@ -1627,12 +1879,6 @@
     if(step.kind === 'block-check'){
       var checkEl = el.classList.contains('check-item') ? el : el.closest('.check-item');
       if(checkEl) ensureBlockCheckRing(checkEl);
-    }
-    if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav'){
-      ensureM5NavRing(el);
-    }
-    if((step.kind === 'expand-visual' || step.tone === 'expand') && isM5VisualPulseHost(el)){
-      el.classList.add(PULSE_EXPAND);
     }
   }
 
@@ -1685,8 +1931,8 @@
         var checkTarget = target.classList.contains('check-item') ? target : target.closest('.check-item');
         if(checkTarget) ensureBlockCheckRing(checkTarget);
       }
-      if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav'){
-        ensureM5NavRing(target);
+      if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return'){
+        ensureM5NavRing(target, target.closest && target.closest('.concept-panel'));
       }
       updateRail(step);
       return;
@@ -1716,7 +1962,10 @@
     if(!moduleConfig) return;
     syncBlockIntroVisualState();
     var openPanel = getActiveOpenPanel();
-    if(openPanel) resetPanelFlowScope(openPanel);
+    if(openPanel){
+      syncM5AccentContext(openPanel);
+      resetPanelFlowScope(openPanel);
+    }
     applyGuide(resolveNextStep(moduleConfig));
   }
 
@@ -1750,8 +1999,27 @@
       var navBtn = e.target.closest && e.target.closest('[data-b2-go]');
       if(navBtn){
         var navPanel = navBtn.closest('.concept-panel.show');
-        if(navPanel && navBtn.matches('.b2c2-folder-tile, .b2c3-flash-tile, .b2pl-lvl-btn')){
-          navBtn.setAttribute('data-flow-guide-visited', 'true');
+        if(navPanel && panelHasM5NestedNav(navPanel)){
+          var fromScreen = getM5ScreenId(navPanel);
+          var goTarget = navBtn.getAttribute('data-b2-go') || '';
+          var active = getM5ActiveScreen(navPanel);
+          if(active && navBtn.closest('.b2-nav')){
+            if(isM5LeafScreen(active)){
+              markM5ItemDone(navPanel, 'flowM5CatsDone', fromScreen);
+              markM5ItemDone(navPanel, 'flowM5LeafReturned', fromScreen);
+            } else if(isM5FolderOverview(active) && goTarget === 'home'){
+              markM5ItemDone(navPanel, 'flowM5FoldersDone', fromScreen);
+              markM5ItemDone(navPanel, 'flowM5FolderReturned', fromScreen);
+            }
+          }
+          if(navBtn.matches('.b2c2-folder-tile, .b2c3-flash-tile, .b2pl-lvl-btn') && goTarget){
+            var returned = parseM5DoneList(navPanel, 'flowM5LeafReturned');
+            navPanel.dataset.flowM5LeafReturned = returned.filter(function(id){ return id !== goTarget; }).join(',');
+            if(navBtn.matches('.b2c2-folder-tile, .b2c3-flash-tile')){
+              var folderReturned = parseM5DoneList(navPanel, 'flowM5FolderReturned');
+              navPanel.dataset.flowM5FolderReturned = folderReturned.filter(function(id){ return id !== goTarget; }).join(',');
+            }
+          }
           lastStepKey = null;
           lastScrolledKey = null;
           scheduleRefresh(moduleConfig, 180);
@@ -1972,6 +2240,7 @@
         delete panel.__flowGuideScope;
         delete panel.dataset.flowKeyideasFramed;
         delete panel.dataset.flowActivityStarted;
+        clearM5FlowTracking(panel);
       }
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square[data-target]').forEach(function(btn){
         btn.classList.remove('active');
@@ -2018,7 +2287,8 @@
     },
     resolveNextStep: resolveNextStep,
     markModuleComplete: markModuleComplete,
-    returnToConceptGrid: returnToConceptGrid
+    returnToConceptGrid: returnToConceptGrid,
+    clearM5FlowTracking: clearM5FlowTracking
   };
 
   if(document.readyState === 'loading'){

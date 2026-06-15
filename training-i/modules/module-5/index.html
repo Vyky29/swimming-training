@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260611a');
-  @import url('/assets/training-flow-guide.css?v=20260813');
+  @import url('/assets/training-flow-guide.css?v=20260814');
 
   :root{
       --blue:#2d84b3;
@@ -6794,6 +6794,9 @@
       if(panel){
         delete panel.dataset.m5NestedTarget;
         delete panel.dataset.m5NestedScreen;
+        if(window.TrainingFlowGuide && typeof TrainingFlowGuide.clearM5FlowTracking === 'function'){
+          TrainingFlowGuide.clearM5FlowTracking(panel);
+        }
       }
       if(!conceptTarget) return;
       try {
@@ -7692,7 +7695,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260813"></script>
+  <script src="/shared/training-flow-guide.js?v=20260814"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
