@@ -441,16 +441,10 @@
     if(!step || !isM5ThemedPanel(panel)) return step;
     if(isActivityPulseStep(step)) return step;
     if(step.kind === 'expand-visual' || step.tone === 'expand') return step;
-    var themedKinds = {
-      pillar: true,
-      keyidea: true,
-      inpractice: true,
-      'm5-nested-return': true,
-      'm5-visual-review': true
-    };
-    if(themedKinds[step.kind]){
-      step.tone = 'm5-nav';
-    }
+    if(step.kind === 'inpractice' || step.tone === 'inpractice') return step;
+    if(step.kind === 'pillar' || step.kind === 'keyidea') return step;
+    if(step.kind === 'm5-visual-review' || step.kind === 'finish') return step;
+    if(step.kind === 'm5-nested-nav' || step.tone === 'm5-nav') return step;
     return step;
   }
 
@@ -493,6 +487,7 @@
     if(isM5LeafScreen(active)) return null;
 
     if(isM5FolderOverview(active)){
+      if(getVisibleInsightPillars(panel).length) return null;
       if(!preKeyIdeasVisualsComplete(panel)) return null;
       var folderId = screenId;
       var cats = active.querySelectorAll('.b2pl-lvl-btn[data-b2-go]');
@@ -518,6 +513,8 @@
     }
 
     if(screenId === 'home'){
+      if(getVisibleInsightPillars(panel).length) return null;
+      if(!preKeyIdeasVisualsComplete(panel)) return null;
       var tiles = active.querySelectorAll('.b2c2-folder-tile[data-b2-go], .b2c3-flash-tile[data-b2-go]');
       for(var t = 0; t < tiles.length; t++){
         var tileId = tiles[t].getAttribute('data-b2-go');
@@ -635,6 +632,7 @@
   }
 
   function preKeyIdeasVisualsComplete(panel){
+    if(getVisibleInsightPillars(panel).length) return false;
     return !resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
   }
 
