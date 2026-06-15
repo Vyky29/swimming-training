@@ -3450,6 +3450,22 @@
     .concept-grid:has(> .concept-square:nth-child(4):last-child) > .concept-square{
       min-width:0;
     }
+
+    .block-mini-section{
+      margin-top:34px;
+      padding-top:28px;
+      border-top:1px solid var(--line);
+    }
+    .block-mini-section:first-of-type{
+      margin-top:28px;
+      padding-top:0;
+      border-top:none;
+    }
+    .block-next-section{
+      margin-top:28px;
+      font-weight:700;
+      color:var(--ink);
+    }
   </style>
   <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css" />
   <link rel="stylesheet" href="/training-ii/styles/training2-module-template.css" />
@@ -3473,6 +3489,7 @@
           <a class="nav-link" href="#journey" data-progress-key="module4_journey">Training Journey</a>
           <a class="nav-link" href="#outcomes" data-progress-key="module4_outcomes">Learning Outcomes</a>
           <a class="nav-link" href="#key-concepts">Inside This Module</a>
+          <a class="nav-link" href="#block1" data-progress-key="module4_block1">Block 1</a>
           <a class="nav-link" href="#complete">Final Principle</a>
         </div>
       </div>
@@ -3484,7 +3501,7 @@
         </div>
         <div class="progress-meta">
           <span id="overallProgressText">0% completed</span>
-          <span id="overallProgressCount">0 / 2</span>
+          <span id="overallProgressCount">0 / 3</span>
         </div>
         <p class="small-note">Click through the module and complete each stage to see visible progress across the course.</p>
       </div>
@@ -3686,6 +3703,122 @@
             </div>
           </div>
         </section>
+        <section class="section gated-block gated-locked" id="block1" data-stage="block1">
+          <div class="section-top">
+            <span class="section-pill">Block 1</span>
+          </div>
+          <div class="section-body">
+            <div class="section-lock-banner">Complete the Learning Outcomes section to unlock this block.</div>
+
+            <div class="block-header">
+              <div class="block-title-wrap">
+                <h3>Block 1 — Breathing Control &amp; Submersion</h3>
+              </div>
+              <div class="section-top-actions">
+                <button class="btn btn-tts" data-tts-button="block1-hero">🔊 Listen</button>
+                <button class="btn btn-tts" data-tts-stop="block1-hero">⏹ Stop Audio</button>
+              </div>
+            </div>
+
+            <p class="lead" data-tts-source="block1-hero">Developing active exhalation, water contact tolerance, submersion control and breathing integration into aquatic skills.</p>
+
+            <div class="block-mini-section" id="block1-journey">
+              <div class="section-title-row">
+                <h3>Module 4 Journey</h3>
+                <div class="section-top-actions">
+                  <button class="btn btn-tts" data-tts-button="block1-journey">🔊 Listen</button>
+                  <button class="btn btn-tts" data-tts-stop="block1-journey">⏹ Stop Audio</button>
+                </div>
+              </div>
+
+              <div class="journey-wrap">
+                <div class="journey-track">
+                  <div class="journey-item active" data-block-journey-id="block1">
+                    <div class="journey-circle">1</div>
+                    <div class="journey-title">Breathing Control</div>
+                    <div class="journey-status">Current Block</div>
+                  </div>
+                  <div class="journey-item" data-block-journey-id="block2">
+                    <div class="journey-circle">2</div>
+                    <div class="journey-title">Floating &amp; Balance</div>
+                    <div class="journey-status">Block 2</div>
+                  </div>
+                  <div class="journey-item" data-block-journey-id="block3">
+                    <div class="journey-circle">3</div>
+                    <div class="journey-title">Gliding &amp; Streamlining</div>
+                    <div class="journey-status">Block 3</div>
+                  </div>
+                  <div class="journey-item" data-block-journey-id="block4">
+                    <div class="journey-circle">4</div>
+                    <div class="journey-title">Rotation</div>
+                    <div class="journey-status">Block 4</div>
+                  </div>
+                </div>
+
+                <div class="journey-panel" data-tts-source="block1-journey">
+                  <h4>Block 1 — Breathing Control &amp; Submersion</h4>
+                  <p>Developing active exhalation, water contact tolerance, submersion control and breathing integration into aquatic skills.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-mini-section" id="block1-outcomes" data-block1-outcomes-pending="true">
+              <div class="section-title-row">
+                <h3>Learning Outcomes</h3>
+                <div class="section-top-actions">
+                  <button class="btn btn-tts" data-tts-button="block1-outcomes">🔊 Listen</button>
+                  <button class="btn btn-tts" data-tts-stop="block1-outcomes">⏹ Stop Audio</button>
+                </div>
+              </div>
+              <div class="outcomes" data-outcomes-group="block1-outcomes" data-tts-source="block1-outcomes"></div>
+            </div>
+
+            <div class="block-mini-section" id="block1-inside">
+              <div class="section-title-row">
+                <h3>Inside This Block</h3>
+                <div class="section-top-actions">
+                  <button class="btn btn-tts" data-tts-button="block1-inside">🔊 Listen</button>
+                  <button class="btn btn-tts" data-tts-stop="block1-inside">⏹ Stop Audio</button>
+                </div>
+              </div>
+
+              <div data-tts-source="block1-inside">
+                <div class="grid-2 block-intro-cards">
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-learning-card="1">
+                    <div class="card-icon">1</div>
+                    <h4>Learning Block 1 — Understanding Breathing &amp; Submersion</h4>
+                  </div>
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-learning-card="2">
+                    <div class="card-icon">2</div>
+                    <h4>Learning Block 2 — Building Breathing Control &amp; Submersion</h4>
+                  </div>
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-learning-card="3">
+                    <div class="card-icon">3</div>
+                    <h4>Learning Block 3 — Application &amp; Integration</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-mini-section" id="block1-principle" data-block1-principle-pending="true">
+              <div class="completion completion-box">
+                <div class="section-title-row" style="margin-bottom:0;">
+                  <h3 style="margin:0;font-size:1.35rem;line-height:1.35;color:#fff;">Final Principle</h3>
+                </div>
+                <div data-tts-source="block1-principle" style="margin-top:22px;position:relative;z-index:1;"></div>
+              </div>
+            </div>
+
+            <p class="lead block-next-section">Next: Learning Block 1 — Understanding Breathing &amp; Submersion</p>
+
+            <label class="check-item clickable-progress">
+              <input type="checkbox" class="overall-check gated-check" data-stage-check="block1" data-check-for="block1" disabled>
+              <span>I have reviewed Block 1 and I am ready to continue.</span>
+            </label>
+          </div>
+        </section>
+
+
 
         <section class="section" id="complete">
           <div class="section-top">
@@ -3712,7 +3845,7 @@
   </div>
 
   <script>
-    const stageOrder = ['journey','outcomes'];
+    const stageOrder = ['journey','outcomes','block1'];
     const stageChecks = {};
     const REVIEW_MODE = true;
     var updateOutcomeStateRef = null;
@@ -3721,7 +3854,8 @@
     });
 
     const gatedUnlocks = {
-      journey: 'outcomes'
+      journey: 'outcomes',
+      outcomes: 'block1'
     };
 
     var MIN_SECTION_DWELL_MS = 0;
@@ -3755,7 +3889,7 @@
       document.getElementById('overallProgressCount').textContent = completed + ' / ' + total;
       var label = 'Start the module';
       if(percent > 0 && percent < 100) label = 'In progress';
-      if(percent === 100) label = 'Top sections completed';
+      if(percent === 100) label = 'Block 1 introduction completed';
       document.getElementById('moduleProgressText').textContent = percent + '% completed • ' + label;
       stageOrder.forEach(function(stage){
         var link = document.querySelector('.nav-link[href="#' + stage + '"]');
@@ -3771,7 +3905,7 @@
     function enableReviewMode(){
       if(!REVIEW_MODE) return;
       document.documentElement.setAttribute('data-review-mode', 'true');
-      ['outcomes'].forEach(unlockStage);
+      ['outcomes','block1'].forEach(unlockStage);
       Object.keys(stageChecks).forEach(function(stage){
         if(stageChecks[stage]){
           stageChecks[stage].disabled = false;
@@ -3822,7 +3956,7 @@
 
     function setupSidebarActiveState(){
       var links = document.querySelectorAll('.nav-link');
-      var targets = ['overview','journey','outcomes','key-concepts','complete'].map(function(id){ return document.getElementById(id); }).filter(Boolean);
+      var targets = ['overview','journey','outcomes','key-concepts','block1','complete'].map(function(id){ return document.getElementById(id); }).filter(Boolean);
       var observer = new IntersectionObserver(function(entries){
         var visible = entries.filter(function(e){ return e.isIntersecting; }).sort(function(a,b){ return b.intersectionRatio - a.intersectionRatio; });
         if(!visible.length) return;
