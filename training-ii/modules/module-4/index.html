@@ -3456,10 +3456,25 @@
       padding-top:28px;
       border-top:1px solid var(--line);
     }
-    .learning-block-stage{
+    .block-section-stage{
       margin-top:34px;
       padding-top:28px;
       border-top:1px solid var(--line);
+    }
+    .section-eyebrow{
+      display:block;
+      margin:0 0 10px;
+      font-size:.82rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--blue);
+    }
+    .block-section-title{
+      margin:0 0 18px;
+    }
+    [data-concept-grid="section1"]{
+      grid-template-columns:repeat(3,minmax(0,1fr));
     }
   </style>
   <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css" />
@@ -3758,26 +3773,26 @@
               </div>
 
               <div data-tts-source="block1-inside">
-                <p class="lead">This block is organised into three progressive learning blocks that explore how swimmers experience, develop and apply breathing control and submersion within aquatic learning.</p>
+                <p class="lead">This block is organised into three progressive sections that explore how swimmers experience, develop and apply breathing control and submersion within aquatic learning.</p>
 
                 <div class="grid-2 block-intro-cards">
-                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-learning-card="1">
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="1">
                     <div class="card-icon">1</div>
-                    <h4>Learning Block 1 — Understanding Breathing &amp; Submersion</h4>
+                    <h4>Section 1 — Understanding Breathing &amp; Submersion</h4>
                     <ul>
                       <li>Understanding how breathing and submersion influence confidence, regulation and participation.</li>
                     </ul>
                   </div>
-                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-learning-card="2">
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="2">
                     <div class="card-icon">2</div>
-                    <h4>Learning Block 2 — Building Breathing Control &amp; Submersion</h4>
+                    <h4>Section 2 — Building Breathing Control &amp; Submersion</h4>
                     <ul>
                       <li>Developing breathing and submersion through structured progression and practical activities.</li>
                     </ul>
                   </div>
-                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-learning-card="3">
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="3">
                     <div class="card-icon">3</div>
-                    <h4>Learning Block 3 — Application &amp; Integration</h4>
+                    <h4>Section 3 — Application &amp; Integration</h4>
                     <ul>
                       <li>Applying breathing and submersion through informed progression decisions and future aquatic skill development.</li>
                     </ul>
@@ -3786,11 +3801,66 @@
               </div>
             </div>
 
-            <div class="learning-block-stage" id="learning-block1">
-              <div class="block-header">
-                <div class="block-title-wrap">
-                  <h3>Learning Block 1 — Understanding Breathing &amp; Submersion</h3>
+            <div class="block-section-stage" id="block1-section1">
+              <span class="section-eyebrow">&#128309; SECTION 1</span>
+              <h3 class="block-section-title">Understanding Breathing &amp; Submersion</h3>
+
+              <p class="lead">This section explores how breathing and submersion influence a swimmer's experience within the aquatic environment.<br><br>
+                Instructors develop an understanding of how breathing, water contact and immersion affect confidence, regulation and participation, and why these skills form the foundation for future aquatic development.<br><br>
+                The focus is not on teaching activities or progression, but on understanding the role breathing and submersion play within aquatic learning.</p>
+
+              <div class="card icon-card block-intro-card">
+                <div class="card-icon">&#8801;</div>
+                <h4>What This Section Covers</h4>
+                <ul>
+                  <li>How swimmers experience breathing and submersion.</li>
+                  <li>The relationship between breathing, confidence and regulation.</li>
+                  <li>The progression from water contact to immersion.</li>
+                  <li>Why breathing and submersion support future aquatic development.</li>
+                </ul>
+              </div>
+
+              <div class="concept-stage">
+                <h4>Explore the Key Concepts</h4>
+
+                <div class="concept-grid" data-concept-grid="section1">
+                  <button class="concept-square" type="button" data-target="b1s1c1">The Swimmer's Experience</button>
+                  <button class="concept-square" type="button" data-target="b1s1c2">Understanding Aquatic Breathing</button>
+                  <button class="concept-square" type="button" data-target="b1s1c3">Understanding Submersion</button>
                 </div>
+
+                <div class="concept-panel" data-panel-for="section1">
+                  <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                  <div class="concept-heading-row">
+                    <h4></h4>
+                  </div>
+                  <p></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-section-stage" id="block1-section2">
+              <span class="section-eyebrow">&#128309; SECTION 2</span>
+              <h3 class="block-section-title">Building Breathing Control &amp; Submersion</h3>
+            </div>
+
+            <div class="block-section-stage" id="block1-section3">
+              <span class="section-eyebrow">&#128309; SECTION 3</span>
+              <h3 class="block-section-title">Application &amp; Integration</h3>
+            </div>
+
+            <div class="block-mini-section" id="block1-summary">
+              <div class="section-title-row">
+                <h3>Block Summary</h3>
+              </div>
+            </div>
+
+            <div class="block-mini-section" id="block1-principle">
+              <div class="completion completion-box">
+                <div class="section-title-row" style="margin-bottom:0;">
+                  <h3 style="margin:0;font-size:1.35rem;line-height:1.35;color:#fff;">Final Principle</h3>
+                </div>
+                <div data-tts-source="block1-principle" style="margin-top:22px;position:relative;z-index:1;"></div>
               </div>
             </div>
           </div>
@@ -4016,12 +4086,68 @@
       });
     }
 
+    var section1ConceptContent = {
+      b1s1c1: {
+        title: "Concept 1 — The Swimmer's Experience",
+        text: 'Understanding how breathing and water contact influence confidence, regulation and participation.'
+      },
+      b1s1c2: {
+        title: 'Concept 2 — Understanding Aquatic Breathing',
+        text: 'Understanding the difference between active and reactive breathing and how breathing influences aquatic learning.'
+      },
+      b1s1c3: {
+        title: 'Concept 3 — Understanding Submersion',
+        text: 'Understanding how swimmers experience immersion and why breathing control and confidence are essential for successful submersion.'
+      }
+    };
+
+    function renderSection1Concept(target){
+      var block = 'section1';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      var grid = document.querySelector('[data-concept-grid="' + block + '"]');
+      var data = section1ConceptContent[target];
+      if(!panel || !data) return;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.toggle('active', btn.dataset.target === target);
+        if(btn.dataset.target === target) btn.classList.add('visited');
+      });
+      panel.querySelector('h4').textContent = data.title;
+      panel.querySelector('p').textContent = data.text;
+      panel.classList.add('show');
+      panel.dataset.currentTarget = target;
+      if(grid) grid.style.display = 'none';
+    }
+
+    function setupSection1Concepts(){
+      var block = 'section1';
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
+        button.addEventListener('click', function(){
+          renderSection1Concept(button.dataset.target);
+        });
+      });
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      var backBtn = panel.querySelector('[data-concept-back]');
+      if(backBtn){
+        backBtn.addEventListener('click', function(){
+          panel.classList.remove('show');
+          delete panel.dataset.currentTarget;
+          document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+            btn.classList.remove('active');
+          });
+          var grid = document.querySelector('[data-concept-grid="' + block + '"]');
+          if(grid) grid.style.display = '';
+        });
+      }
+    }
+
     setupChecks();
     setupDwellTime();
     setupSmoothScroll();
     setupSidebarActiveState();
     setupClickableProgress();
     setupLearningOutcomes();
+    setupSection1Concepts();
     setupSpeech();
     enableReviewMode();
     updateProgress();
