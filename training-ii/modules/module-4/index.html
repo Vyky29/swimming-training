@@ -3476,6 +3476,9 @@
     [data-concept-grid="section1"]{
       grid-template-columns:repeat(3,minmax(0,1fr));
     }
+    [data-concept-grid="section2"]{
+      grid-template-columns:repeat(4,minmax(0,1fr));
+    }
     .pathway-flow{
       display:flex;
       flex-direction:column;
@@ -3946,6 +3949,49 @@
             <div class="block-section-stage" id="block1-section2">
               <span class="section-eyebrow">&#128309; SECTION 2</span>
               <h3 class="block-section-title">Building Breathing Control &amp; Submersion</h3>
+
+              <p class="lead">This section focuses on how breathing control and submersion are developed through structured progression and repeated successful experiences.<br><br>
+                Instructors explore practical teaching approaches that support swimmers from early water contact through to breathing and submersion within movement activities.<br><br>
+                The focus is on creating confidence, control and consistency through progressive learning experiences.</p>
+
+              <div class="grid-2 block-intro-cards">
+                <div class="card icon-card block-intro-card">
+                  <div class="card-icon">&#9678;</div>
+                  <h4>Section Focus</h4>
+                  <ul>
+                    <li>Developing breathing control and submersion through structured progression, practical activities and progressive support.</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card">
+                  <div class="card-icon">&#8801;</div>
+                  <h4>What This Section Covers</h4>
+                  <ul>
+                    <li>The Five Phase Progression.</li>
+                    <li>Building breathing control through water contact and active exhalation.</li>
+                    <li>Developing submersion through partial and full immersion.</li>
+                    <li>Integrating breathing and submersion within movement.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="concept-stage">
+                <h4>Explore the Key Concepts</h4>
+
+                <div class="concept-grid" data-concept-grid="section2">
+                  <button class="concept-square" type="button" data-target="b1s2c1">The Five Phase Progression</button>
+                  <button class="concept-square" type="button" data-target="b1s2c2">Building Breathing Control</button>
+                  <button class="concept-square" type="button" data-target="b1s2c3">Developing Submersion</button>
+                  <button class="concept-square" type="button" data-target="b1s2c4">Breathing &amp; Submersion in Movement</button>
+                </div>
+
+                <div class="concept-panel" data-panel-for="section2">
+                  <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                  <div class="concept-heading-row">
+                    <h4></h4>
+                  </div>
+                  <p></p>
+                </div>
+              </div>
             </div>
 
             <div class="block-section-stage" id="block1-section3">
@@ -4766,6 +4812,69 @@
       });
     }
 
+    var section2ConceptContent = {
+      b1s2c1: {
+        title: 'Concept 1 — The Five Phase Progression',
+        text: 'Understanding why breathing and submersion are developed through five progressive phases.'
+      },
+      b1s2c2: {
+        title: 'Concept 2 — Building Breathing Control',
+        text: 'Developing comfort with water contact and active exhalation before introducing greater immersion demands.'
+      },
+      b1s2c3: {
+        title: 'Concept 3 — Developing Submersion',
+        text: 'Supporting swimmers from partial face immersion towards confident full submersion.'
+      },
+      b1s2c4: {
+        title: 'Concept 4 — Breathing & Submersion in Movement',
+        text: 'Integrating breathing and submersion into aquatic movement and future skill development.'
+      }
+    };
+
+    function renderSection2Concept(target){
+      var block = 'section2';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      var grid = document.querySelector('[data-concept-grid="' + block + '"]');
+      var data = section2ConceptContent[target];
+      if(!panel || !data) return;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.toggle('active', btn.dataset.target === target);
+      });
+      panel.querySelector('h4').textContent = data.title;
+      panel.querySelector('p').textContent = data.text;
+      panel.classList.add('show');
+      panel.dataset.currentTarget = target;
+      if(grid) grid.style.display = 'none';
+    }
+
+    function closeSection2ConceptPanel(){
+      var block = 'section2';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      panel.classList.remove('show');
+      delete panel.dataset.currentTarget;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var grid = document.querySelector('[data-concept-grid="' + block + '"]');
+      if(grid) grid.style.display = '';
+    }
+
+    function setupSection2Concepts(){
+      var block = 'section2';
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
+        button.addEventListener('click', function(){
+          renderSection2Concept(button.dataset.target);
+        });
+      });
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      var backBtn = panel.querySelector('[data-concept-back]');
+      if(backBtn){
+        backBtn.addEventListener('click', closeSection2ConceptPanel);
+      }
+    }
+
     setupChecks();
     setupDwellTime();
     setupSmoothScroll();
@@ -4773,6 +4882,7 @@
     setupClickableProgress();
     setupLearningOutcomes();
     setupSection1Concepts();
+    setupSection2Concepts();
     setupSpeech();
     enableReviewMode();
     updateProgress();
