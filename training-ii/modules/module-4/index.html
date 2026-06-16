@@ -3476,6 +3476,68 @@
     [data-concept-grid="section1"]{
       grid-template-columns:repeat(3,minmax(0,1fr));
     }
+    .pathway-flow{
+      display:flex;
+      flex-direction:column;
+      gap:0;
+      margin-top:14px;
+      max-width:420px;
+    }
+    .pathway-step{
+      background:var(--bgSoft);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px 18px;
+      text-align:center;
+    }
+    .pathway-step strong{
+      color:var(--blue);
+      font-size:.95rem;
+    }
+    .pathway-arrow{
+      text-align:center;
+      color:var(--blue);
+      font-size:1.15rem;
+      font-weight:700;
+      padding:6px 0;
+      line-height:1;
+    }
+    .concept-visual-note{
+      margin:14px 0 0;
+      font-size:.9rem;
+      line-height:1.65;
+      color:var(--muted);
+    }
+    .concept-image-meta{
+      margin:0 0 12px;
+      font-size:.93rem;
+      line-height:1.7;
+    }
+    .concept-image-meta strong{
+      color:var(--ink);
+      display:block;
+      margin-bottom:4px;
+    }
+    .concept-image-meta .muted{
+      color:var(--muted);
+    }
+    .split-side .pathway-flow{
+      max-width:none;
+      margin-top:10px;
+    }
+    .submersion-experience-label{
+      margin:12px 0 0;
+      font-size:.88rem;
+      font-weight:700;
+      color:var(--blue);
+      letter-spacing:.03em;
+    }
+    .force-card .sense-icon{
+      display:block;
+      font-size:1.35rem;
+      margin-bottom:8px;
+      line-height:1;
+    }
   </style>
   <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css" />
   <link rel="stylesheet" href="/training-ii/styles/training2-module-template.css" />
@@ -3833,7 +3895,7 @@
                 <h4>Explore the Key Concepts</h4>
 
                 <div class="concept-grid" data-concept-grid="section1">
-                  <button class="concept-square" type="button" data-target="b1s1c1">The Swimmer's Experience</button>
+                  <button class="concept-square" type="button" data-target="b1s1c1">The Role of Breathing &amp; Submersion</button>
                   <button class="concept-square" type="button" data-target="b1s1c2">Understanding Aquatic Breathing</button>
                   <button class="concept-square" type="button" data-target="b1s1c3">Understanding Submersion</button>
                 </div>
@@ -3844,6 +3906,27 @@
                     <h4></h4>
                   </div>
                   <p></p>
+
+                  <div class="concept-ideas-shell">
+                    <div class="concept-points-box">
+                      <h4>Key Ideas for Instructors</h4>
+                      <p class="key-ideas-instruction">Review each key idea below.</p>
+                      <ul></ul>
+                    </div>
+                    <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                      <div class="key-ideas-action-head">
+                        <span class="icon" aria-hidden="true"></span>
+                        <span class="label">In Practice</span>
+                      </div>
+                      <div class="text"></div>
+                    </div>
+                  </div>
+
+                  <div class="concept-image"></div>
+
+                  <div class="concept-media-actions">
+                    <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -4097,18 +4180,107 @@
 
     var section1ConceptContent = {
       b1s1c1: {
-        title: "Concept 1 — The Swimmer's Experience",
-        text: 'Understanding how breathing and water contact influence confidence, regulation and participation.'
+        title: 'Concept 1 — The Role of Breathing & Submersion',
+        text: '<p>Breathing control influences how swimmers experience the aquatic environment.</p><p>When swimmers feel comfortable and regulated, they are more likely to participate, explore and learn. When breathing becomes reactive, participation and learning opportunities may decrease.</p>',
+        points: [
+          'Breathing and submersion influence more than immersion itself.',
+          'Confidence and regulation affect a swimmer\'s ability to participate.',
+          'Participation creates opportunities for learning.',
+          'Difficulties with breathing and submersion can reduce access to future aquatic learning.',
+          'Breathing and submersion should be viewed as foundations for aquatic development.',
+          'In Practice — A swimmer who feels comfortable with water contact, breathing and early immersion experiences is more likely to participate in aquatic activities and engage with learning opportunities.',
+          'In Practice — A swimmer who becomes anxious, avoidant or reactive may require additional support before progression occurs.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>The Role of Breathing &amp; Submersion</strong><br><span class="muted">The visual should demonstrate how breathing and submersion influence a swimmer\'s ability to access learning within the aquatic environment.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow"><div class="pathway-step"><strong>Breathing &amp; Submersion</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Confidence &amp; Regulation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Participation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Learning</strong></div></div><p class="concept-visual-note">The focus should not be on teaching breathing techniques. The focus should be on showing how breathing and submersion support confidence, regulation, participation and learning. Use a simple cause and effect pathway. The final visual design may be refined later.</p>',
+        activityHTML: '<div class="concept-activity-box"><p>Consider the scenario below.</p><p>A swimmer is comfortable splashing water on their face but becomes tense when asked to place their mouth in the water.</p><h5>Reflection Questions</h5><ul><li>How might this influence the swimmer\'s confidence?</li><li>How might this influence participation within activities?</li><li>How could this affect future learning opportunities?</li></ul><p>Discuss your observations before considering progression.</p></div>'
       },
       b1s1c2: {
         title: 'Concept 2 — Understanding Aquatic Breathing',
-        text: 'Understanding the difference between active and reactive breathing and how breathing influences aquatic learning.'
+        text: '<p>Aquatic breathing differs from breathing on land.</p><p>In water, swimmers must learn to actively control exhalation whilst maintaining comfort, regulation and interaction with the aquatic environment.</p><p>Breathing control develops progressively and provides the foundation for successful immersion and future aquatic skills.</p>',
+        points: [
+          'Active exhalation is the foundation of aquatic breathing.',
+          'Blowing is the skill. Bubbles are the result.',
+          'Breathing control should develop before immersion.',
+          'Reactive breathing may limit participation and progression.',
+          'Breathing should remain calm, controlled and consistent.',
+          'In Practice — A swimmer who can blow, hum or exhale comfortably is often more prepared for immersion activities.',
+          'In Practice — A swimmer who frequently holds their breath or rushes breathing may require additional support before progression occurs.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Active vs Reactive Breathing</strong><br><span class="muted">The visual should compare active and reactive breathing responses.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="land-water-split"><div class="split-side"><h5>Active Breathing</h5><div class="pathway-flow"><div class="pathway-step"><strong>Blowing</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Control</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Comfort</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Participation</strong></div></div></div><div class="split-side"><h5>Reactive Breathing</h5><div class="pathway-flow"><div class="pathway-step"><strong>Breath Holding</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Loss of Control</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Reduced Confidence</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Reduced Participation</strong></div></div></div></div><p class="concept-visual-note">The objective is to demonstrate how active exhalation supports control and participation, whilst reactive breathing can limit progression and engagement.</p>',
+        activityHTML: '<div class="concept-activity-box"><p>Observe the swimmers below.</p><p>Identify which breathing behaviours demonstrate active breathing and which demonstrate reactive breathing.</p><p>Discuss how these behaviours may influence future immersion activities.</p><h5>Swimmer A</h5><ul><li>Blows consistently during activities.</li><li>Creates bubbles when interacting with water.</li><li>Remains calm throughout breathing tasks.</li></ul><h5>Swimmer B</h5><ul><li>Frequently holds their breath.</li><li>Avoids exhaling into the water.</li><li>Appears tense during breathing activities.</li></ul><h5>Reflection Questions</h5><ul><li>Which swimmer is demonstrating active breathing?</li><li>Which swimmer is demonstrating reactive breathing?</li><li>How might these breathing behaviours influence future immersion activities?</li><li>What observations would you make before progressing?</li></ul></div>'
       },
       b1s1c3: {
         title: 'Concept 3 — Understanding Submersion',
-        text: 'Understanding how swimmers experience immersion and why breathing control and confidence are essential for successful submersion.'
+        text: '<p>Submersion is more than placing the face underwater.</p><p>As increasing amounts of the face and head enter the water, swimmers experience changes in breathing, vision, hearing and sensory input that can influence comfort, confidence and participation.</p><p>Understanding these experiences helps instructors introduce submersion in a safe and progressive way.</p>',
+        points: [
+          'Submersion is both a physical and sensory experience.',
+          'Different swimmers may respond differently to immersion.',
+          'Confidence should develop before duration or depth.',
+          'Breathing and submersion should develop together.',
+          'Comfort and control are more important than speed of progression.',
+          'In Practice — Some swimmers may quickly accept immersion experiences, whilst others require gradual exposure and repeated successful interactions with water around the face.',
+          'In Practice — The goal is not how long a swimmer remains underwater, but how confidently and comfortably they interact with immersion activities.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Understanding Submersion</strong><br><span class="muted">The visual should demonstrate that submersion involves changes in sensory input, breathing and perception.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><p class="submersion-experience-label">During Submersion, Swimmers Experience:</p><div class="force-cards"><div class="force-card"><span class="sense-icon" aria-hidden="true">👁️</span><strong>Vision Changes</strong></div><div class="force-card"><span class="sense-icon" aria-hidden="true">👂</span><strong>Hearing Changes</strong></div><div class="force-card"><span class="sense-icon" aria-hidden="true">💨</span><strong>Breathing Changes</strong></div><div class="force-card"><span class="sense-icon" aria-hidden="true">🧠</span><strong>Sensory Changes</strong></div></div><div class="pathway-flow"><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Individual Response</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Comfort &amp; Control</strong></div></div><p class="concept-visual-note">Different swimmers may respond differently to these experiences. The focus should be on understanding the swimmer\'s experience of immersion rather than the progression of immersion. The visual should feel simple, clear and instructor focused.</p>',
+        activityHTML: '<div class="concept-activity-box"><p>Consider the examples below.</p><h5>Swimmer A</h5><ul><li>Accepts water around the face.</li><li>Remains calm when vision and hearing are affected by water.</li><li>Recovers comfortably following immersion activities.</li></ul><h5>Swimmer B</h5><ul><li>Avoids water approaching the face.</li><li>Appears uncomfortable when water reaches the eyes or ears.</li><li>Frequently stops activities when immersion is introduced.</li></ul><h5>Reflection Questions</h5><ul><li>Which swimmer appears more comfortable with immersion?</li><li>What observations suggest readiness for further immersion experiences?</li><li>How might sensory responses influence participation?</li><li>What support could help the second swimmer experience success?</li></ul></div>'
       }
     };
+
+    var section1ConceptCompleted = {};
+
+    function splitSection1ConceptPoints(points){
+      var keyIdeas = [];
+      var inPracticeParts = [];
+      (points || []).forEach(function(point){
+        var plain = String(point || '').trim();
+        if(!plain) return;
+        if(/^In Practice\s*[—–-]\s*/i.test(plain)){
+          inPracticeParts.push(plain.replace(/^In Practice\s*[—–-]\s*/i, '').trim());
+          return;
+        }
+        keyIdeas.push(point);
+      });
+      return { keyIdeas: keyIdeas, inPracticeParts: inPracticeParts };
+    }
+
+    function ensureSection1Period(point){
+      var plain = String(point || '').trim();
+      if(!plain || /[.!?]$/.test(plain)) return point;
+      return plain + '.';
+    }
+
+    function buildSection1InPracticeHtml(parts){
+      if(!parts || !parts.length) return '';
+      return parts.map(function(part){
+        var text = String(part || '').trim();
+        if(text && !/[.!?]$/.test(text)) text += '.';
+        return '<p>' + text + '</p>';
+      }).join('');
+    }
+
+    function getSection1ActivityShell(panel){
+      var shell = panel.querySelector('[data-concept-activity-title]');
+      if(!shell){
+        shell = document.createElement('div');
+        shell.setAttribute('data-concept-activity-title', '');
+        shell.className = 'concept-section-card section-activity-shell';
+        shell.innerHTML = '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity</span></div>';
+        var mediaActions = panel.querySelector('.concept-media-actions');
+        if(mediaActions && mediaActions.parentNode){
+          mediaActions.parentNode.insertBefore(shell, mediaActions);
+        } else {
+          panel.appendChild(shell);
+        }
+      }
+      var slot = shell.querySelector('[data-concept-activity]');
+      if(!slot){
+        slot = document.createElement('div');
+        slot.setAttribute('data-concept-activity', '');
+        slot.className = 'concept-activity-slot';
+        shell.appendChild(slot);
+      }
+      return { shell: shell, slot: slot };
+    }
 
     function renderSection1Concept(target){
       var block = 'section1';
@@ -4116,15 +4288,112 @@
       var grid = document.querySelector('[data-concept-grid="' + block + '"]');
       var data = section1ConceptContent[target];
       if(!panel || !data) return;
+
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
         btn.classList.toggle('active', btn.dataset.target === target);
-        if(btn.dataset.target === target) btn.classList.add('visited');
       });
-      panel.querySelector('h4').textContent = data.title;
-      panel.querySelector('p').textContent = data.text;
+
       panel.classList.add('show');
       panel.dataset.currentTarget = target;
+
+      var heading = panel.querySelector('.concept-heading-row h4');
+      if(heading) heading.textContent = data.title;
+
+      var pEl = panel.querySelector('.concept-heading-row + p, .concept-heading-row ~ p');
+      if(!pEl){
+        pEl = panel.querySelector('p');
+      }
+      if(pEl){
+        pEl.innerHTML = data.text.indexOf('<p>') >= 0 ? data.text : '<p>' + data.text + '</p>';
+        pEl.classList.add('concept-intro-line');
+        if(!pEl.querySelector('.concept-intro-kicker')){
+          pEl.insertAdjacentHTML('afterbegin', '<span class="concept-intro-kicker"><span class="icon" aria-hidden="true">📘</span>Introduction</span>');
+        }
+      }
+
+      var imageEl = panel.querySelector('.concept-image');
+      if(imageEl){
+        imageEl.innerHTML = data.imageHTML || '';
+        imageEl.classList.toggle('concept-section-card', !!data.imageHTML);
+        imageEl.style.display = data.imageHTML ? '' : 'none';
+      }
+
+      var ideasShellEl = panel.querySelector('.concept-ideas-shell');
+      var pointsBoxEl = panel.querySelector('.concept-points-box');
+      var inPracticeEl = panel.querySelector('[data-concept-in-practice]');
+      var split = splitSection1ConceptPoints(data.points || []);
+      var keyIdeas = split.keyIdeas;
+      var inPracticeParts = split.inPracticeParts;
+      var ul = pointsBoxEl ? pointsBoxEl.querySelector('ul') : null;
+      var showIdeasShell = keyIdeas.length > 0 || inPracticeParts.length > 0;
+
+      if(ideasShellEl){
+        ideasShellEl.style.display = showIdeasShell ? '' : 'none';
+        ideasShellEl.classList.toggle('concept-section-card', showIdeasShell);
+        ideasShellEl.classList.toggle('section-ideas', showIdeasShell);
+      }
+      if(pointsBoxEl){
+        pointsBoxEl.style.display = keyIdeas.length > 0 ? '' : 'none';
+        var pointsHeading = pointsBoxEl.querySelector('h4');
+        if(pointsHeading){
+          pointsHeading.innerHTML = keyIdeas.length
+            ? '<span class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span><span>Key Ideas for Instructors</span></span>'
+            : 'Key Ideas for Instructors';
+        }
+        var instrEl = pointsBoxEl.querySelector('.key-ideas-instruction');
+        if(instrEl) instrEl.style.display = keyIdeas.length ? '' : 'none';
+        if(ul){
+          ul.innerHTML = keyIdeas.length ? keyIdeas.map(function(point, i){
+            return '<li class="key-idea-item" role="button" tabindex="0"><span class="key-idea-index" aria-hidden="true">' + (i + 1) + '</span><div class="key-idea-text">' + ensureSection1Period(point) + '</div></li>';
+          }).join('') : '';
+        }
+      }
+
+      if(inPracticeEl){
+        if(inPracticeParts.length){
+          var practiceText = inPracticeEl.querySelector('.text');
+          var practiceIcon = inPracticeEl.querySelector('.icon');
+          if(practiceText) practiceText.innerHTML = buildSection1InPracticeHtml(inPracticeParts);
+          if(practiceIcon && !practiceIcon.innerHTML.trim()) practiceIcon.textContent = '💡';
+          inPracticeEl.removeAttribute('hidden');
+          inPracticeEl.style.display = '';
+        } else {
+          inPracticeEl.setAttribute('hidden', 'hidden');
+          inPracticeEl.style.display = 'none';
+          var practiceTextHide = inPracticeEl.querySelector('.text');
+          if(practiceTextHide) practiceTextHide.innerHTML = '';
+        }
+      }
+
+      var activityParts = getSection1ActivityShell(panel);
+      if(data.activityHTML){
+        activityParts.shell.style.display = '';
+        activityParts.slot.innerHTML = data.activityHTML;
+        activityParts.slot.style.display = '';
+      } else {
+        activityParts.shell.style.display = 'none';
+        activityParts.slot.innerHTML = '';
+        activityParts.slot.style.display = 'none';
+      }
+
+      if(pEl && imageEl) pEl.insertAdjacentElement('afterend', imageEl);
+      if(imageEl && ideasShellEl) imageEl.insertAdjacentElement('afterend', ideasShellEl);
+      if(ideasShellEl && activityParts.shell) ideasShellEl.insertAdjacentElement('afterend', activityParts.shell);
+
       if(grid) grid.style.display = 'none';
+    }
+
+    function closeSection1ConceptPanel(){
+      var block = 'section1';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      panel.classList.remove('show');
+      delete panel.dataset.currentTarget;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var grid = document.querySelector('[data-concept-grid="' + block + '"]');
+      if(grid) grid.style.display = '';
     }
 
     function setupSection1Concepts(){
@@ -4138,16 +4407,24 @@
       if(!panel) return;
       var backBtn = panel.querySelector('[data-concept-back]');
       if(backBtn){
-        backBtn.addEventListener('click', function(){
-          panel.classList.remove('show');
-          delete panel.dataset.currentTarget;
-          document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
-            btn.classList.remove('active');
-          });
-          var grid = document.querySelector('[data-concept-grid="' + block + '"]');
-          if(grid) grid.style.display = '';
+        backBtn.addEventListener('click', closeSection1ConceptPanel);
+      }
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(finishBtn){
+        finishBtn.addEventListener('click', function(){
+          var target = panel.dataset.currentTarget;
+          if(target){
+            section1ConceptCompleted[target] = true;
+            var square = document.querySelector('[data-concept-grid="' + block + '"] .concept-square[data-target="' + target + '"]');
+            if(square) square.classList.add('visited');
+          }
+          closeSection1ConceptPanel();
         });
       }
+      panel.addEventListener('click', function(e){
+        var item = e.target.closest('.key-idea-item');
+        if(item) item.classList.add('clicked');
+      });
     }
 
     setupChecks();
