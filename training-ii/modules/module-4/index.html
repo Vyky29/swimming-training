@@ -3520,8 +3520,34 @@
       color:var(--ink);
       line-height:1.4;
     }
-    .pathway-flow--phases{
+    .pathway-flow--phases,
+    .pathway-flow--framework{
       max-width:460px;
+    }
+    .pathway-step--framework strong{
+      color:var(--blue);
+      font-size:.9rem;
+    }
+    .framework-decision-step{
+      background:var(--bgSoft);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+      text-align:center;
+    }
+    .framework-decision-step strong{
+      display:block;
+      color:var(--blue);
+      font-size:.88rem;
+      line-height:1.5;
+    }
+    .framework-decision-step .pathway-branch-or{
+      display:block;
+      margin:6px 0;
+      font-size:.82rem;
+      font-weight:700;
+      color:var(--muted);
+      text-transform:lowercase;
     }
     .pathway-arrow{
       text-align:center;
@@ -3849,6 +3875,69 @@
     }
     .pathway-flow--contact{
       max-width:320px;
+    }
+    .concept-phase-inline{
+      margin-top:18px;
+      padding:0;
+      border:none;
+      background:transparent;
+      box-shadow:none;
+    }
+    .concept-phase-inline-head{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin:0 0 18px;
+      padding:14px 16px;
+      border:2px solid rgba(45,132,179,.22);
+      border-radius:18px;
+      background:linear-gradient(180deg,#eef7fc 0%,#ffffff 100%);
+    }
+    .concept-phase-inline-head h5{
+      margin:0;
+      font-size:1rem;
+      line-height:1.45;
+      color:var(--ink);
+    }
+    .concept-phase-inline-content{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .integration-pathway-origin{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:0;
+    }
+    .integration-pathway-origin .pathway-step{
+      flex:1 1 140px;
+      max-width:200px;
+    }
+    .pathway-join{
+      font-size:1.1rem;
+      font-weight:800;
+      color:var(--blue);
+      line-height:1;
+      padding:0 4px;
+    }
+    .pathway-flow--integration{
+      max-width:460px;
+    }
+    .phase-example-groups{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      margin-top:10px;
+    }
+    .phase-example-group h6{
+      margin:0 0 8px;
+      font-size:.88rem;
+      font-weight:800;
+      color:var(--blue);
+      letter-spacing:.03em;
     }
     .five-phase-poster-stage{
       margin-top:34px;
@@ -4284,7 +4373,7 @@
                 <h4>Explore the Key Concepts</h4>
 
                 <div class="concept-grid" data-concept-grid="section2">
-                  <button class="concept-square" type="button" data-target="b1s2c1">The Five Phase Progression</button>
+                  <button class="concept-square" type="button" data-target="b1s2c1">Understanding the Five Phase Progression</button>
                   <button class="concept-square" type="button" data-target="b1s2c2">Building Breathing Control</button>
                   <button class="concept-square" type="button" data-target="b1s2c3">Developing Submersion</button>
                   <button class="concept-square" type="button" data-target="b1s2c4">Breathing &amp; Submersion in Movement</button>
@@ -5197,7 +5286,7 @@
       return '';
     }
 
-    function buildConceptPhaseBlockHTML(phase, activityBank){
+    function buildConceptPhaseBodyHTML(phase, activityBank){
       var intro = phase.intro || '';
       var introHtml = intro.indexOf('<p>') >= 0 ? intro : (intro ? '<p>' + intro + '</p>' : '');
       var sections = [];
@@ -5217,7 +5306,23 @@
       if(inPractice) sections.push(inPractice);
       var activity = buildConceptPhaseActivitySectionHTML(phase.activityId, activityBank);
       if(activity) sections.push(activity);
-      var bodyContent = sections.join('');
+      return sections.join('');
+    }
+
+    function buildConceptPhaseInlineHTML(phase, activityBank){
+      return (
+        '<section class="concept-phase-inline" data-concept-phase="' + (phase.id || '') + '">' +
+          '<div class="concept-phase-inline-head">' +
+            '<span class="concept-phase-marker" aria-hidden="true">🔹</span>' +
+            '<h5>' + phase.title + '</h5>' +
+          '</div>' +
+          '<div class="concept-phase-inline-content">' + buildConceptPhaseBodyHTML(phase, activityBank) + '</div>' +
+        '</section>'
+      );
+    }
+
+    function buildConceptPhaseBlockHTML(phase, activityBank){
+      var bodyContent = buildConceptPhaseBodyHTML(phase, activityBank);
       return (
         '<section class="concept-phase-card" data-concept-phase="' + (phase.id || '') + '">' +
           '<button type="button" class="concept-phase-toggle" aria-expanded="false" data-phase-toggle>' +
@@ -5316,11 +5421,13 @@
 
       var phasesShell = getConceptPhasesShell(panel);
       phasesShell.innerHTML = (data.phases || []).map(function(phase){
-        return buildConceptPhaseBlockHTML(phase, maps.activity);
+        return data.phasesInline
+          ? buildConceptPhaseInlineHTML(phase, maps.activity)
+          : buildConceptPhaseBlockHTML(phase, maps.activity);
       }).join('');
       phasesShell.style.display = '';
       bindConceptPhaseActivities(panel, data.phases, maps.activity);
-      setupExpandablePhaseCards(panel);
+      if(!data.phasesInline) setupExpandablePhaseCards(panel);
 
       if(pEl && phasesShell) pEl.insertAdjacentElement('afterend', phasesShell);
 
@@ -5535,18 +5642,23 @@
 
     var section2ConceptContent = {
       b1s2c1: {
-        title: 'Concept 1 — The Five Phase Progression',
-        text: '<p>Breathing control and submersion do not develop through a single activity.</p><p>Instead, swimmers typically progress through a series of increasingly demanding experiences that gradually build confidence, control and independence.</p><p>The Five Phase Progression provides a structured framework that helps instructors organise breathing and submersion development whilst maintaining successful learning experiences.</p>',
+        title: 'Concept 1 — Understanding the Five Phase Progression',
+        text: '<p>The Five Phase Progression provides a structured pathway for developing breathing control and submersion.</p><p>It supports instructors in identifying current development and guiding progression through increasingly complex aquatic experiences.</p>',
         points: [
-          'Breathing and submersion develop progressively.',
-          'Each phase builds upon previous successful experiences.',
-          'Confidence and control should guide progression.',
+          'Breathing and submersion develop progressively through repeated successful experiences.',
+          'Progression should be based on confidence, control and consistency.',
           'Swimmers may move through phases at different rates.',
-          'The framework provides guidance rather than rigid rules.',
-          'In Practice — Some swimmers may progress rapidly through the phases, whilst others may spend considerable time developing confidence and consistency within a single phase.',
-          'In Practice — The objective is not completing phases quickly, but creating successful learning experiences that support future development.'
+          'Success in one activity does not automatically indicate readiness for progression.',
+          'Skills should transfer across different levels of challenge before progression occurs.',
+          'The framework supports progression, consolidation and regression decisions.',
+          'The objective is not to move swimmers through phases quickly.',
+          'The objective is to maintain successful participation whilst development occurs.',
+          'In Practice — A swimmer may demonstrate behaviours from multiple phases at the same time.',
+          'In Practice — For example, a swimmer may confidently blow bubbles whilst still feeling hesitant when placing the eyes into the water.',
+          'In Practice — The instructor\'s role is to identify the phase that best represents the swimmer\'s current level of confidence, control and consistency and select activities accordingly.',
+          'In Practice — Progression decisions should be based on repeated success across different situations rather than isolated examples of performance.'
         ],
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>The Five Phase Progression</strong><br><span class="muted">The visual should present the Five Phase Progression as a simple framework.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow pathway-flow--phases"><div class="pathway-step pathway-phase-step"><strong>Phase 1</strong><span class="pathway-phase-label">Water Contact &amp; Sensory Tolerance</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 2</strong><span class="pathway-phase-label">Controlled Breathing at Surface</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 3</strong><span class="pathway-phase-label">Partial Face Immersion</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 4</strong><span class="pathway-phase-label">Full Submersion</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 5</strong><span class="pathway-phase-label">Integration with Movement</span></div></div><p class="concept-visual-note">Do not include activities, drills or detailed explanations within the visual. The purpose of the visual is to show the overall progression pathway.</p>'
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>The Five Phase Progression Framework</strong><br><span class="muted">The visual should show the framework as a decision-making cycle for identifying development and guiding progression.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow pathway-flow--framework"><div class="pathway-step pathway-step--framework"><strong>Observe</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-step--framework"><strong>Identify Current Phase</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 1</strong><span class="pathway-phase-label">Water Contact &amp; Sensory Tolerance</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 2</strong><span class="pathway-phase-label">Controlled Breathing at Surface</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 3</strong><span class="pathway-phase-label">Partial Face Immersion</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 4</strong><span class="pathway-phase-label">Full Submersion</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 5</strong><span class="pathway-phase-label">Integrated Breathing</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-step--framework"><strong>Select Appropriate Activities</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="framework-decision-step"><strong>Progress</strong><span class="pathway-branch-or">or</span><strong>Consolidate</strong><span class="pathway-branch-or">or</span><strong>Regress</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-step--framework"><strong>Observe Again</strong></div></div>'
       },
       b1s2c2: {
         title: 'Concept 2 — Building Breathing Control',
@@ -5612,11 +5724,29 @@
       },
       b1s2c4: {
         title: 'Concept 4 — Breathing & Submersion in Movement',
-        text: 'Integrating breathing and submersion into aquatic movement and future skill development.',
+        text: '<p>Breathing and submersion rarely occur in isolation during aquatic movement.</p><p>As swimmers become more confident, breathing must be maintained whilst floating, rotating, gliding, travelling and performing aquatic skills.</p><p>This concept focuses on integrating breathing and submersion within increasingly complex aquatic movement patterns.</p>',
+        phasesInline: true,
         phases: [
           {
             id: 'p5',
-            title: 'Phase 5 — Integration with Movement'
+            title: 'Phase 5 — Integrated Breathing',
+            intro: '<p>This phase focuses on combining breathing control, submersion and movement.</p><p>The objective is to help swimmers maintain effective breathing whilst performing aquatic skills and progressing towards recognised swimming movements.</p>',
+            visualCoreHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Phase Visual</span></div><div class="phase-focus-row"><strong>Phase Focus</strong>Integrated Breathing</div><p class="blowing-progression-title"><span aria-hidden="true">⭐</span> Breathing Integration Pathway</p><div class="pathway-flow pathway-flow--integration"><div class="integration-pathway-origin"><div class="pathway-step"><strong>Breathing Control</strong></div><div class="pathway-join" aria-hidden="true">*</div><div class="pathway-step"><strong>Submersion</strong></div></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Floating + Breathing</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Gliding + Breathing</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Rotation + Breathing</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Propulsion + Breathing</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Stroke Breathing Foundations</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Future Stroke Development</strong></div></div><div class="progression-goal-box"><strong>Progression Goal</strong><p>The swimmer maintains breathing control whilst integrating movement, rotation and propulsion.</p><p>The swimmer demonstrates readiness to apply breathing within recognised swimming strokes and future swimming development.</p></div>',
+            examplesHTML: '<div class="phase-example-groups"><div class="phase-example-group"><h6>Floating &amp; Rotation</h6><ul class="phase-example-list"><li>Float + Roll + Breathe</li><li>Mushroom Float + Breathe</li><li>Back Float + Recover + Breathe</li></ul></div><div class="phase-example-group"><h6>Gliding &amp; Streamlining</h6><ul class="phase-example-list"><li>Glide + Breathe</li><li>Glide + Roll + Breathe</li><li>Rocket Glide + Recover</li></ul></div><div class="phase-example-group"><h6>Propulsion</h6><ul class="phase-example-list"><li>Kick + Breathe</li><li>Paddle + Breathe</li><li>Propulsion + Breathing</li></ul></div><div class="phase-example-group"><h6>Stroke Foundations</h6><ul class="phase-example-list"><li>Front Crawl Breathing Foundations</li><li>Backstroke Breathing Foundations</li></ul></div></div>',
+            universalHTML: '<div class="universal-progression"><div class="universal-tier"><strong>Static Control</strong><ul><li>Float + Roll + Breathe</li><li>Kick + Breathe holding support</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Movement Integration</strong><ul><li>Glide + Roll + Breathe</li><li>Travelling whilst maintaining breathing control</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Dynamic Application</strong><ul><li>Propulsion + Breathing</li><li>Breathing during integrated aquatic skills</li><li>Early stroke breathing patterns</li></ul></div></div>',
+            points: [
+              'Breathing should become increasingly automatic as movement demands increase.',
+              'Successful breathing in isolated activities does not automatically transfer to aquatic movement.',
+              'Additional movement demands may create new breathing challenges.',
+              'Rotation often provides the bridge between breathing control and stroke breathing.',
+              'Stroke breathing develops from integrated aquatic skills rather than isolated breathing drills.',
+              'Breathing should be developed within movement rather than added afterwards.',
+              'Progression should be based on confidence, control and consistency across different activity demands.',
+              'In Practice — A swimmer may demonstrate excellent breathing control when stationary but lose breathing rhythm once movement is introduced.',
+              'In Practice — Similarly, a swimmer may confidently submerge during retrieval activities but struggle to maintain breathing control whilst gliding, rotating or travelling through the water.',
+              'In Practice — Observation should focus on how effectively breathing transfers into increasingly dynamic aquatic situations.'
+            ],
+            activityId: 'b1s2c4p5'
           }
         ]
       }
@@ -5624,25 +5754,20 @@
 
     var section2ConceptActivityBank = {
       b1s2c1: {
-        type: 'sequencing',
-        activityType: 'Progression Example',
-        q: 'Arrange the phases into the correct order.',
-        sequence: [
-          'Water Contact & Sensory Tolerance',
-          'Controlled Breathing at Surface',
-          'Partial Face Immersion',
-          'Full Submersion',
-          'Integration with Movement'
+        type: 'choice',
+        activityType: 'Decision Making Example',
+        observation: 'A swimmer:<br><br>• Accepts water on the face.<br>• Blows bubbles independently.<br>• Becomes hesitant when asked to place the eyes into the water.',
+        q: 'What is the most appropriate teaching decision?',
+        options: [
+          { id: 'a', text: 'Progress immediately to full submersion.' },
+          { id: 'b', text: 'Continue developing face immersion experiences.' },
+          { id: 'c', text: 'Begin stroke breathing activities.' },
+          { id: 'd', text: 'Stop breathing activities.' }
         ],
-        displayOrder: [
-          'Controlled Breathing at Surface',
-          'Full Submersion',
-          'Water Contact & Sensory Tolerance',
-          'Integration with Movement',
-          'Partial Face Immersion'
-        ],
-        ok: 'Correct. Breathing and submersion develop through progressive layers of confidence, control and aquatic challenge.',
-        bad: 'Not quite. Reset and arrange the phases from earliest to latest progression.'
+        correct: 'b',
+        ok: 'Correct. The framework helps instructors identify current development and select appropriate next steps. Progression should be based on confidence, control and consistency rather than isolated examples of success.',
+        bad: 'Not quite. Consider which phase best represents the swimmer\'s current level of confidence, control and consistency.',
+        variant: 'scenario'
       },
       b1s2c2p1: {
         type: 'choice',
@@ -5676,6 +5801,22 @@
         ],
         ok: 'Correct. Blowing is the skill. Bubbles are the result.',
         bad: 'Not quite. Reset and arrange the activities from earliest to latest progression.'
+      },
+      b1s2c4p5: {
+        type: 'choice',
+        activityType: 'Decision Making Example',
+        observation: 'A swimmer can confidently blow bubbles and submerge independently.<br><br>However, when attempting a glide and roll activity, breathing becomes inconsistent and the swimmer stops moving.',
+        q: 'What is the most appropriate teaching decision?',
+        options: [
+          { id: 'a', text: 'Progress directly to stroke breathing.' },
+          { id: 'b', text: 'Return to integrated glide and breathing activities until breathing remains consistent during movement.' },
+          { id: 'c', text: 'Remove breathing from the activity and focus only on movement.' },
+          { id: 'd', text: 'Stop all gliding activities.' }
+        ],
+        correct: 'b',
+        ok: 'Correct. Breathing should remain effective as movement demands increase. Progression should be based on successful integration rather than isolated breathing performance.',
+        bad: 'Not quite. Consider whether breathing remains consistent as movement demands increase.',
+        variant: 'scenario'
       }
     };
 
