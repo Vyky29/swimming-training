@@ -3450,6 +3450,16 @@
     .concept-grid:has(> .concept-square:nth-child(4):last-child) > .concept-square{
       min-width:0;
     }
+    @media (max-width: 900px){
+      .concept-grid:has(> .concept-square:nth-child(4):last-child){
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+      }
+    }
+    @media (max-width: 520px){
+      .concept-grid:has(> .concept-square:nth-child(4):last-child){
+        grid-template-columns:1fr !important;
+      }
+    }
 
     .block-mini-section{
       margin-top:34px;
@@ -3496,6 +3506,22 @@
     .pathway-step strong{
       color:var(--blue);
       font-size:.95rem;
+    }
+    .pathway-phase-step strong{
+      font-size:.78rem;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .pathway-phase-step .pathway-phase-label{
+      display:block;
+      margin-top:6px;
+      font-size:.88rem;
+      font-weight:600;
+      color:var(--ink);
+      line-height:1.4;
+    }
+    .pathway-flow--phases{
+      max-width:460px;
     }
     .pathway-arrow{
       text-align:center;
@@ -3990,6 +4016,27 @@
                     <h4></h4>
                   </div>
                   <p></p>
+
+                  <div class="concept-ideas-shell">
+                    <div class="concept-points-box">
+                      <h4>Key Ideas for Instructors</h4>
+                      <p class="key-ideas-instruction">Review each key idea below.</p>
+                      <ul></ul>
+                    </div>
+                    <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                      <div class="key-ideas-action-head">
+                        <span class="icon" aria-hidden="true"></span>
+                        <span class="label">In Practice</span>
+                      </div>
+                      <div class="text"></div>
+                    </div>
+                  </div>
+
+                  <div class="concept-image"></div>
+
+                  <div class="concept-media-actions">
+                    <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -4173,10 +4220,46 @@
     function setupClickableProgress(){
       document.querySelectorAll('.clickable-progress').forEach(function(item){
         if(item.tagName === 'LABEL') return;
+        if(item.hasAttribute('data-block-section-card')) return;
         item.addEventListener('click', function(){ item.classList.toggle('clicked'); });
       });
       document.querySelectorAll('.section').forEach(function(section){
         section.addEventListener('click', function(){ section.classList.add('clicked'); });
+      });
+    }
+
+    function scrollConceptPanelIntoView(panel){
+      if(!panel) return;
+      setTimeout(function(){
+        panel.scrollIntoView({
+          behavior: 'smooth',
+          block: window.innerWidth <= 860 ? 'start' : 'nearest'
+        });
+      }, 120);
+    }
+
+    function setupBlockSectionCards(){
+      document.querySelectorAll('[data-block-section-card]').forEach(function(card){
+        function goToSection(){
+          var sectionId = 'block1-section' + card.getAttribute('data-block-section-card');
+          var target = document.getElementById(sectionId);
+          if(!target) return;
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          card.classList.add('clicked');
+          document.querySelectorAll('[data-block-section-card]').forEach(function(other){
+            if(other !== card) other.classList.remove('clicked');
+          });
+        }
+        card.addEventListener('click', function(e){
+          e.stopPropagation();
+          goToSection();
+        });
+        card.addEventListener('keydown', function(e){
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            goToSection();
+          }
+        });
       });
     }
 
@@ -4436,15 +4519,43 @@
       return buildSection1ActivityContainerShell({ variant: 'sorting', contentHtml: content });
     }
 
-    function buildSection1ActivityHTML(target){
-      var config = section1ConceptActivityBank[target];
+    function buildSection1SequenceActivityHTML(config){
+      if(!config) return '';
+      var steps = config.displayOrder || config.sequence || [];
+      var stepsHtml = steps.map(function(step){
+        var safe = String(step).replace(/"/g, '&quot;');
+        return '<button type="button" class="sequence-step" data-sequence-step="' + safe + '">' + step + '</button>';
+      }).join('');
+      var introHtml = config.activityType
+        ? '<p class="activity-type-label"><strong>Activity Type:</strong> ' + config.activityType + '</p>'
+        : '';
+      var questionHtml = config.q ? ('<p class="activity-question">' + config.q + '</p>') : '';
+      var content = (
+        introHtml +
+        questionHtml +
+        '<div class="sequence-list" data-sequence-list>' + stepsHtml + '</div>' +
+        '<div class="sequence-progress" data-sequence-progress></div>'
+      );
+      return buildSection1ActivityContainerShell({ variant: 'sequencing', contentHtml: content });
+    }
+
+    function getBlockConceptMaps(block){
+      if(block === 'section2'){
+        return { content: section2ConceptContent, activity: section2ConceptActivityBank };
+      }
+      return { content: section1ConceptContent, activity: section1ConceptActivityBank };
+    }
+
+    function buildBlockActivityHTML(target, activityBank){
+      var config = activityBank[target];
       if(!config) return '';
       if(config.type === 'sorting') return buildSection1SortingActivityHTML(config);
+      if(config.type === 'sequencing') return buildSection1SequenceActivityHTML(config);
       return buildSection1ChoiceActivityHTML(config);
     }
 
-    function setupSection1ChoiceActivity(panel, target){
-      var config = section1ConceptActivityBank[target];
+    function setupBlockChoiceActivity(panel, target, activityBank){
+      var config = activityBank[target];
       var wrapper = panel.querySelector('[data-choice-activity]');
       var options = panel.querySelectorAll('[data-choice-option]');
       var feedbackBox = panel.querySelector('[data-activity-feedback]');
@@ -4481,8 +4592,8 @@
       });
     }
 
-    function setupSection1CategorizeActivity(panel, target){
-      var config = section1ConceptActivityBank[target];
+    function setupBlockCategorizeActivity(panel, target, activityBank){
+      var config = activityBank[target];
       var poolItems = panel.querySelector('.categorize-pool-items');
       var zones = panel.querySelectorAll('.categorize-zone');
       var feedbackEl = panel.querySelector('[data-categorize-feedback]');
@@ -4617,16 +4728,86 @@
       updateFinishState();
     }
 
-    function bindSection1Activity(panel, target){
-      var config = section1ConceptActivityBank[target];
+    function setupBlockSequenceActivity(panel, target, activityBank){
+      var config = activityBank[target];
+      var steps = panel.querySelectorAll('[data-sequence-step]');
+      var progressEl = panel.querySelector('[data-sequence-progress]');
+      var feedbackEl = panel.querySelector('[data-activity-feedback]');
+      if(!config || !steps.length) return;
+      var expected = config.sequence || [];
+      var selected = [];
+      panel.dataset.sequenceComplete = 'false';
+      function renderProgress(){
+        if(progressEl){
+          progressEl.textContent = selected.length
+            ? ('Order: ' + selected.map(function(item, idx){ return (idx + 1) + '. ' + item; }).join(' → '))
+            : 'Select each phase in the correct order.';
+        }
+      }
+      steps.forEach(function(step){
+        var clone = step.cloneNode(true);
+        step.parentNode.replaceChild(clone, step);
+      });
+      panel.querySelectorAll('[data-sequence-step]').forEach(function(step){
+        step.addEventListener('click', function(){
+          if(step.classList.contains('used')) return;
+          var val = step.getAttribute('data-sequence-step');
+          selected.push(val);
+          step.classList.add('used');
+          step.disabled = true;
+          renderProgress();
+          if(selected.length === expected.length){
+            var ok = expected.join('|') === selected.join('|');
+            if(ok){
+              panel.dataset.sequenceComplete = 'true';
+              if(feedbackEl){
+                feedbackEl.textContent = config.ok || 'Correct sequence.';
+                feedbackEl.classList.remove('hidden', 'is-incorrect');
+                feedbackEl.classList.add('is-correct');
+              }
+            } else {
+              panel.dataset.sequenceComplete = 'false';
+              if(feedbackEl){
+                feedbackEl.textContent = config.bad || 'Not quite. Reset and try again.';
+                feedbackEl.classList.remove('hidden', 'is-correct');
+                feedbackEl.classList.add('is-incorrect');
+              }
+              setTimeout(function(){
+                selected = [];
+                panel.querySelectorAll('[data-sequence-step]').forEach(function(btn){
+                  btn.classList.remove('used');
+                  btn.disabled = false;
+                });
+                renderProgress();
+                if(feedbackEl){
+                  feedbackEl.textContent = '';
+                  feedbackEl.classList.add('hidden');
+                  feedbackEl.classList.remove('is-correct', 'is-incorrect');
+                }
+              }, 1200);
+            }
+          }
+        });
+      });
+      renderProgress();
+    }
+
+    function bindBlockActivity(panel, target, activityBank){
+      var config = activityBank[target];
       if(!config) return;
       delete panel.dataset.choiceComplete;
       delete panel.dataset.categorizeComplete;
-      if(config.type === 'sorting') setupSection1CategorizeActivity(panel, target);
-      else setupSection1ChoiceActivity(panel, target);
+      delete panel.dataset.sequenceComplete;
+      if(config.type === 'sorting') setupBlockCategorizeActivity(panel, target, activityBank);
+      else if(config.type === 'sequencing') setupBlockSequenceActivity(panel, target, activityBank);
+      else setupBlockChoiceActivity(panel, target, activityBank);
     }
 
-    function getSection1ActivityShell(panel){
+    function bindSection1Activity(panel, target){
+      bindBlockActivity(panel, target, section1ConceptActivityBank);
+    }
+
+    function getConceptActivityShell(panel){
       var shell = panel.querySelector('[data-concept-activity-title]');
       if(!shell){
         shell = document.createElement('div');
@@ -4650,11 +4831,11 @@
       return { shell: shell, slot: slot };
     }
 
-    function renderSection1Concept(target){
-      var block = 'section1';
+    function renderBlockConcept(block, target){
+      var maps = getBlockConceptMaps(block);
       var panel = document.querySelector('[data-panel-for="' + block + '"]');
       var grid = document.querySelector('[data-concept-grid="' + block + '"]');
-      var data = section1ConceptContent[target];
+      var data = maps.content[target];
       if(!panel || !data) return;
 
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
@@ -4668,9 +4849,7 @@
       if(heading) heading.textContent = data.title;
 
       var pEl = panel.querySelector('.concept-heading-row + p, .concept-heading-row ~ p');
-      if(!pEl){
-        pEl = panel.querySelector('p');
-      }
+      if(!pEl) pEl = panel.querySelector('p');
       if(pEl){
         pEl.innerHTML = data.text.indexOf('<p>') >= 0 ? data.text : '<p>' + data.text + '</p>';
         pEl.classList.add('concept-intro-line');
@@ -4733,9 +4912,9 @@
         }
       }
 
-      var activityParts = getSection1ActivityShell(panel);
-      var activityHTML = buildSection1ActivityHTML(target);
-      var activityConfig = section1ConceptActivityBank[target];
+      var activityParts = getConceptActivityShell(panel);
+      var activityHTML = buildBlockActivityHTML(target, maps.activity);
+      var activityConfig = maps.activity[target];
       if(activityHTML){
         activityParts.shell.style.display = '';
         activityParts.slot.innerHTML = activityHTML;
@@ -4750,10 +4929,12 @@
         }
         if(activityConfig && activityConfig.type === 'sorting'){
           guideEl.textContent = 'Drag each behaviour into the correct category.';
+        } else if(activityConfig && activityConfig.type === 'sequencing'){
+          guideEl.textContent = 'Select each phase in the correct order.';
         } else {
           guideEl.textContent = 'Review the prompt and select the most appropriate response.';
         }
-        bindSection1Activity(panel, target);
+        bindBlockActivity(panel, target, maps.activity);
       } else {
         activityParts.shell.style.display = 'none';
         activityParts.slot.innerHTML = '';
@@ -4766,6 +4947,11 @@
       if(ideasShellEl && activityParts.shell) ideasShellEl.insertAdjacentElement('afterend', activityParts.shell);
 
       if(grid) grid.style.display = 'none';
+      scrollConceptPanelIntoView(panel);
+    }
+
+    function renderSection1Concept(target){
+      renderBlockConcept('section1', target);
     }
 
     function closeSection1ConceptPanel(){
@@ -4779,12 +4965,15 @@
       });
       var grid = document.querySelector('[data-concept-grid="' + block + '"]');
       if(grid) grid.style.display = '';
+      var stage = panel.closest('.concept-stage');
+      if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function setupSection1Concepts(){
       var block = 'section1';
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
-        button.addEventListener('click', function(){
+        button.addEventListener('click', function(e){
+          e.stopPropagation();
           renderSection1Concept(button.dataset.target);
         });
       });
@@ -4815,7 +5004,17 @@
     var section2ConceptContent = {
       b1s2c1: {
         title: 'Concept 1 — The Five Phase Progression',
-        text: 'Understanding why breathing and submersion are developed through five progressive phases.'
+        text: '<p>Breathing control and submersion do not develop through a single activity.</p><p>Instead, swimmers typically progress through a series of increasingly demanding experiences that gradually build confidence, control and independence.</p><p>The Five Phase Progression provides a structured framework that helps instructors organise breathing and submersion development whilst maintaining successful learning experiences.</p>',
+        points: [
+          'Breathing and submersion develop progressively.',
+          'Each phase builds upon previous successful experiences.',
+          'Confidence and control should guide progression.',
+          'Swimmers may move through phases at different rates.',
+          'The framework provides guidance rather than rigid rules.',
+          'In Practice — Some swimmers may progress rapidly through the phases, whilst others may spend considerable time developing confidence and consistency within a single phase.',
+          'In Practice — The objective is not completing phases quickly, but creating successful learning experiences that support future development.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>The Five Phase Progression</strong><br><span class="muted">The visual should present the Five Phase Progression as a simple framework.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow pathway-flow--phases"><div class="pathway-step pathway-phase-step"><strong>Phase 1</strong><span class="pathway-phase-label">Water Contact &amp; Sensory Tolerance</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 2</strong><span class="pathway-phase-label">Controlled Breathing at Surface</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 3</strong><span class="pathway-phase-label">Partial Face Immersion</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 4</strong><span class="pathway-phase-label">Full Submersion</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 5</strong><span class="pathway-phase-label">Integration with Movement</span></div></div><p class="concept-visual-note">Do not include activities, drills or detailed explanations within the visual. The purpose of the visual is to show the overall progression pathway.</p>'
       },
       b1s2c2: {
         title: 'Concept 2 — Building Breathing Control',
@@ -4831,20 +5030,34 @@
       }
     };
 
+    var section2ConceptActivityBank = {
+      b1s2c1: {
+        type: 'sequencing',
+        activityType: 'Progression Example',
+        q: 'Arrange the phases into the correct order.',
+        sequence: [
+          'Water Contact & Sensory Tolerance',
+          'Controlled Breathing at Surface',
+          'Partial Face Immersion',
+          'Full Submersion',
+          'Integration with Movement'
+        ],
+        displayOrder: [
+          'Controlled Breathing at Surface',
+          'Full Submersion',
+          'Water Contact & Sensory Tolerance',
+          'Integration with Movement',
+          'Partial Face Immersion'
+        ],
+        ok: 'Correct. Breathing and submersion develop through progressive layers of confidence, control and aquatic challenge.',
+        bad: 'Not quite. Reset and arrange the phases from earliest to latest progression.'
+      }
+    };
+
+    var section2ConceptCompleted = {};
+
     function renderSection2Concept(target){
-      var block = 'section2';
-      var panel = document.querySelector('[data-panel-for="' + block + '"]');
-      var grid = document.querySelector('[data-concept-grid="' + block + '"]');
-      var data = section2ConceptContent[target];
-      if(!panel || !data) return;
-      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
-        btn.classList.toggle('active', btn.dataset.target === target);
-      });
-      panel.querySelector('h4').textContent = data.title;
-      panel.querySelector('p').textContent = data.text;
-      panel.classList.add('show');
-      panel.dataset.currentTarget = target;
-      if(grid) grid.style.display = 'none';
+      renderBlockConcept('section2', target);
     }
 
     function closeSection2ConceptPanel(){
@@ -4858,12 +5071,15 @@
       });
       var grid = document.querySelector('[data-concept-grid="' + block + '"]');
       if(grid) grid.style.display = '';
+      var stage = panel.closest('.concept-stage');
+      if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function setupSection2Concepts(){
       var block = 'section2';
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
-        button.addEventListener('click', function(){
+        button.addEventListener('click', function(e){
+          e.stopPropagation();
           renderSection2Concept(button.dataset.target);
         });
       });
@@ -4873,6 +5089,22 @@
       if(backBtn){
         backBtn.addEventListener('click', closeSection2ConceptPanel);
       }
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(finishBtn){
+        finishBtn.addEventListener('click', function(){
+          var target = panel.dataset.currentTarget;
+          if(target){
+            section2ConceptCompleted[target] = true;
+            var square = document.querySelector('[data-concept-grid="' + block + '"] .concept-square[data-target="' + target + '"]');
+            if(square) square.classList.add('visited');
+          }
+          closeSection2ConceptPanel();
+        });
+      }
+      panel.addEventListener('click', function(e){
+        var item = e.target.closest('.key-idea-item');
+        if(item) item.classList.add('clicked');
+      });
     }
 
     setupChecks();
@@ -4880,6 +5112,7 @@
     setupSmoothScroll();
     setupSidebarActiveState();
     setupClickableProgress();
+    setupBlockSectionCards();
     setupLearningOutcomes();
     setupSection1Concepts();
     setupSection2Concepts();
