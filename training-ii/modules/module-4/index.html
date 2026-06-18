@@ -3579,6 +3579,286 @@
       margin-bottom:8px;
       line-height:1;
     }
+    .concept-phases-shell{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:18px;
+    }
+    .concept-phase-card{
+      border:2px solid rgba(45,132,179,.18);
+      border-radius:20px;
+      background:#fff;
+      box-shadow:0 10px 22px rgba(18,50,71,.06);
+      overflow:hidden;
+      transition:var(--transition);
+    }
+    .concept-phase-card.is-expanded{
+      border-color:rgba(45,132,179,.34);
+      box-shadow:0 14px 28px rgba(45,132,179,.14);
+    }
+    .concept-phase-toggle{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:16px 18px;
+      border:none;
+      background:var(--gradBlue);
+      color:#fff;
+      cursor:pointer;
+      text-align:left;
+      font:inherit;
+      transition:var(--transition);
+    }
+    .concept-phase-toggle:hover,
+    .concept-phase-toggle:focus-visible{
+      background:#eef6fc;
+      color:var(--ink);
+      outline:none;
+    }
+    .concept-phase-card.is-expanded .concept-phase-toggle{
+      background:linear-gradient(180deg,#eef7fc 0%,#ffffff 100%);
+      color:var(--ink);
+      border-bottom:1px solid var(--line);
+    }
+    .concept-phase-title{
+      flex:1;
+      font-size:.95rem;
+      font-weight:800;
+      line-height:1.4;
+    }
+    .concept-phase-marker{
+      font-size:1rem;
+      line-height:1;
+      flex-shrink:0;
+    }
+    .concept-phase-expand-label{
+      font-size:.78rem;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color:inherit;
+      opacity:.9;
+      white-space:nowrap;
+    }
+    .concept-phase-expand-icon{
+      font-size:.72rem;
+      line-height:1;
+      transition:transform .25s ease;
+    }
+    .concept-phase-card.is-expanded .concept-phase-expand-icon{
+      transform:rotate(180deg);
+    }
+    .concept-phase-body{
+      display:grid;
+      grid-template-rows:0fr;
+      transition:grid-template-rows .35s ease;
+    }
+    .concept-phase-card.is-expanded .concept-phase-body{
+      grid-template-rows:1fr;
+    }
+    .concept-phase-body-inner{
+      overflow:hidden;
+      min-height:0;
+    }
+    .concept-phase-card.is-expanded .concept-phase-body-inner{
+      overflow:visible;
+    }
+    .concept-phase-content{
+      padding:18px 18px 20px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .concept-phase-content:empty{
+      padding:0;
+      min-height:0;
+    }
+    .concept-phase-block{
+      padding:0;
+      border:none;
+      background:transparent;
+      box-shadow:none;
+    }
+    .concept-phase-head{
+      display:none;
+    }
+    .concept-phase-intro{
+      margin-bottom:18px;
+    }
+    .concept-phase-intro-text p{
+      margin:0 0 12px;
+      font-size:.95rem;
+      line-height:1.75;
+      color:var(--text);
+    }
+    .concept-phase-intro-text p:last-child{
+      margin-bottom:0;
+    }
+    .concept-phase-visual{
+      margin-bottom:0;
+      padding:18px 20px 20px;
+      border-color:rgba(45,132,179,.18);
+      background:#fff;
+    }
+    .concept-phase-examples,
+    .concept-phase-universal{
+      padding:18px 20px 20px;
+      border-color:rgba(45,132,179,.18);
+      background:#fff;
+    }
+    .phase-focus-row{
+      margin:0 0 14px;
+      font-size:.93rem;
+      line-height:1.65;
+      color:var(--text);
+    }
+    .phase-focus-row strong{
+      display:block;
+      margin-bottom:4px;
+      font-size:.82rem;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:var(--blue);
+    }
+    .phase-example-list{
+      margin:10px 0 0;
+      padding-left:1.2rem;
+      font-size:.9rem;
+      line-height:1.7;
+      color:var(--text);
+    }
+    .phase-example-list li{margin-bottom:6px;}
+    .phase-example-list li:last-child{margin-bottom:0;}
+    .universal-progression{
+      display:flex;
+      flex-direction:column;
+      gap:0;
+      margin-top:12px;
+      max-width:520px;
+    }
+    .universal-tier{
+      background:var(--bgSoft);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 16px;
+    }
+    .universal-tier strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:.84rem;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color:var(--blue);
+    }
+    .universal-tier ul{
+      margin:0;
+      padding-left:1.15rem;
+      font-size:.88rem;
+      line-height:1.65;
+      color:var(--text);
+    }
+    .universal-tier ul li{margin-bottom:4px;}
+    .universal-tier ul li:last-child{margin-bottom:0;}
+    .progression-goal-box{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(45,132,179,.22);
+      background:linear-gradient(135deg, rgba(45,132,179,.07) 0%, rgba(137,181,193,.05) 100%);
+    }
+    .progression-goal-box strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:.84rem;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color:var(--blue);
+    }
+    .progression-goal-box p{
+      margin:0 0 10px;
+      font-size:.9rem;
+      line-height:1.7;
+      color:var(--text);
+    }
+    .progression-goal-box p:last-child{margin-bottom:0;}
+    .blowing-progression{
+      display:flex;
+      flex-direction:column;
+      gap:0;
+      margin-top:12px;
+      max-width:460px;
+    }
+    .blowing-step{
+      background:var(--bgSoft);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 16px;
+    }
+    .blowing-step strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:.88rem;
+      color:var(--blue);
+    }
+    .blowing-step ul{
+      margin:0;
+      padding-left:1.15rem;
+      font-size:.88rem;
+      line-height:1.65;
+      color:var(--text);
+    }
+    .blowing-step ul li{margin-bottom:4px;}
+    .blowing-step ul li:last-child{margin-bottom:0;}
+    .blowing-progression-title{
+      margin:12px 0 0;
+      font-size:.92rem;
+      font-weight:700;
+      color:var(--ink);
+    }
+    .concept-phase-ideas{
+      margin-bottom:16px;
+      padding:16px 18px 18px;
+      border-color:rgba(45,132,179,.2);
+      background:#f5fbff;
+    }
+    .concept-phase-ideas .concept-points-box{
+      margin:0;
+      padding:0;
+      border:none;
+      background:transparent;
+      box-shadow:none;
+    }
+    .concept-phase-in-practice{
+      margin-bottom:18px;
+    }
+    .concept-phase-activity{
+      padding:16px 18px 18px;
+      border-color:rgba(45,132,179,.18);
+      background:#fff;
+    }
+    .concept-phase-activity .activity-mini-guide{
+      margin:0 0 12px;
+      font-size:.86rem;
+      line-height:1.55;
+      color:var(--muted);
+    }
+    .concept-phase-activity .concept-activity-slot > .activity-container{
+      margin-top:0;
+    }
+    .pathway-flow--contact{
+      max-width:320px;
+    }
+    .five-phase-poster-stage{
+      margin-top:34px;
+      padding:22px 24px 24px;
+      border-color:rgba(45,132,179,.22);
+      background:#f8fbfd;
+    }
+    .five-phase-poster-stage .concept-visual-note{
+      margin:10px 0 0;
+    }
   </style>
   <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css" />
   <link rel="stylesheet" href="/training-ii/styles/training2-module-template.css" />
@@ -4039,6 +4319,22 @@
                   </div>
                 </div>
               </div>
+
+              <div class="five-phase-poster-stage concept-section-card" id="block1-five-phase-poster">
+                <div class="concept-section-head"><span class="icon" aria-hidden="true">📊</span><span>Five Phase Progression Poster</span></div>
+                <p class="concept-image-meta"><strong>The Five Phase Progression</strong><br><span class="muted">A summary framework for breathing and submersion development across Block 1.</span></p>
+                <div class="pathway-flow pathway-flow--phases">
+                  <div class="pathway-step pathway-phase-step"><strong>Phase 1</strong><span class="pathway-phase-label">Water Contact &amp; Sensory Tolerance</span></div>
+                  <div class="pathway-arrow" aria-hidden="true">↓</div>
+                  <div class="pathway-step pathway-phase-step"><strong>Phase 2</strong><span class="pathway-phase-label">Controlled Breathing at Surface</span></div>
+                  <div class="pathway-arrow" aria-hidden="true">↓</div>
+                  <div class="pathway-step pathway-phase-step"><strong>Phase 3</strong><span class="pathway-phase-label">Partial Face Immersion</span></div>
+                  <div class="pathway-arrow" aria-hidden="true">↓</div>
+                  <div class="pathway-step pathway-phase-step"><strong>Phase 4</strong><span class="pathway-phase-label">Full Submersion</span></div>
+                  <div class="pathway-arrow" aria-hidden="true">↓</div>
+                  <div class="pathway-step pathway-phase-step"><strong>Phase 5</strong><span class="pathway-phase-label">Integration with Movement</span></div>
+                </div>
+              </div>
             </div>
 
             <div class="block-section-stage" id="block1-section3">
@@ -4329,8 +4625,14 @@
           'Participation creates opportunities for learning.',
           'Difficulties with breathing and submersion can reduce access to future aquatic learning.',
           'Breathing and submersion should be viewed as foundations for aquatic development.',
+          'Demonstrating a skill successfully in one situation does not necessarily indicate readiness for progression.',
+          'Breathing and submersion should be observed across different activities and levels of challenge before assuming readiness for progression.',
+          'Confidence, control and consistency should remain evident as task demands increase.',
           'In Practice — A swimmer who feels comfortable with water contact, breathing and early immersion experiences is more likely to participate in aquatic activities and engage with learning opportunities.',
-          'In Practice — A swimmer who becomes anxious, avoidant or reactive may require additional support before progression occurs.'
+          'In Practice — A swimmer who becomes anxious, avoidant or reactive may require additional support before progression occurs.',
+          'In Practice — A swimmer may demonstrate confidence during one breathing or immersion activity but respond differently when the same skill is combined with movement, games or additional task demands.',
+          'In Practice — Observation should focus on consistency across different situations rather than success within a single activity.',
+          'In Practice — Progression decisions should be based on repeated success across different levels of challenge rather than isolated examples of performance.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>The Role of Breathing &amp; Submersion</strong><br><span class="muted">The visual should demonstrate how breathing and submersion influence a swimmer\'s ability to access learning within the aquatic environment.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow"><div class="pathway-step"><strong>Breathing &amp; Submersion</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Confidence &amp; Regulation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Participation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Learning</strong></div></div><p class="concept-visual-note">The focus should not be on teaching breathing techniques. The focus should be on showing how breathing and submersion support confidence, regulation, participation and learning. Use a simple cause and effect pathway. The final visual design may be refined later.</p>'
       },
@@ -4807,6 +5109,225 @@
       bindBlockActivity(panel, target, section1ConceptActivityBank);
     }
 
+    function getConceptPhasesShell(panel){
+      var shell = panel.querySelector('[data-concept-phases-shell]');
+      if(!shell){
+        shell = document.createElement('div');
+        shell.setAttribute('data-concept-phases-shell', '');
+        shell.className = 'concept-phases-shell';
+        var mediaActions = panel.querySelector('.concept-media-actions');
+        if(mediaActions && mediaActions.parentNode){
+          mediaActions.parentNode.insertBefore(shell, mediaActions);
+        } else {
+          panel.appendChild(shell);
+        }
+      }
+      return shell;
+    }
+
+    function buildConceptPhaseKeyIdeasHTML(points){
+      var split = splitSection1ConceptPoints(points || []);
+      if(!split.keyIdeas.length) return '';
+      return (
+        '<div class="concept-phase-ideas concept-section-card section-ideas">' +
+          '<div class="concept-points-box">' +
+            '<h4><span class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span><span>Key Ideas for Instructors</span></span></h4>' +
+            '<p class="key-ideas-instruction">Review each key idea below.</p>' +
+            '<ul>' + split.keyIdeas.map(function(point, i){
+              return '<li class="key-idea-item" role="button" tabindex="0"><span class="key-idea-index" aria-hidden="true">' + (i + 1) + '</span><div class="key-idea-text">' + ensureSection1Period(point) + '</div></li>';
+            }).join('') + '</ul>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    function buildConceptPhaseInPracticeHTML(points){
+      var split = splitSection1ConceptPoints(points || []);
+      if(!split.inPracticeParts.length) return '';
+      return (
+        '<div class="key-ideas-action concept-in-practice-box concept-phase-in-practice">' +
+          '<div class="key-ideas-action-head">' +
+            '<span class="icon" aria-hidden="true">💡</span>' +
+            '<span class="label">In Practice</span>' +
+          '</div>' +
+          '<div class="text">' + buildSection1InPracticeHtml(split.inPracticeParts) + '</div>' +
+        '</div>'
+      );
+    }
+
+    function buildConceptPhaseActivitySectionHTML(activityId, activityBank){
+      if(!activityId || !activityBank[activityId]) return '';
+      var config = activityBank[activityId];
+      var activityHTML = buildBlockActivityHTML(activityId, activityBank);
+      if(!activityHTML) return '';
+      var guide = 'Review the prompt and select the most appropriate response.';
+      if(config.type === 'sequencing') guide = 'Select each activity in the correct order.';
+      else if(config.type === 'sorting') guide = 'Drag each behaviour into the correct category.';
+      return (
+        '<div class="concept-phase-activity concept-section-card section-activity-shell" data-phase-activity="' + activityId + '">' +
+          '<div class="concept-section-head"><span class="icon" aria-hidden="true">✅</span><span>Activity</span></div>' +
+          '<p class="activity-mini-guide">' + guide + '</p>' +
+          '<div class="concept-activity-slot" data-concept-activity>' + activityHTML + '</div>' +
+        '</div>'
+      );
+    }
+
+    function buildConceptPhaseVisualSectionsHTML(phase){
+      if(phase.visualCoreHTML || phase.examplesHTML || phase.universalHTML || phase.goalHTML){
+        var html = '';
+        if(phase.visualCoreHTML){
+          html += '<div class="concept-phase-visual concept-section-card">' + phase.visualCoreHTML + '</div>';
+        }
+        if(phase.examplesHTML){
+          html += '<div class="concept-phase-examples concept-section-card"><div class="concept-section-head"><span class="icon" aria-hidden="true">📋</span><span>Example Activities &amp; Drills</span></div>' + phase.examplesHTML + '</div>';
+        }
+        if(phase.universalHTML || phase.goalHTML){
+          html += '<div class="concept-phase-universal concept-section-card">';
+          if(phase.universalHTML){
+            html += '<div class="concept-section-head"><span class="icon" aria-hidden="true">🔄</span><span>Universal Progression</span></div>' + phase.universalHTML;
+          }
+          if(phase.goalHTML) html += phase.goalHTML;
+          html += '</div>';
+        }
+        return html;
+      }
+      if(phase.visualHTML){
+        return '<div class="concept-phase-visual concept-section-card">' + phase.visualHTML + '</div>';
+      }
+      return '';
+    }
+
+    function buildConceptPhaseBlockHTML(phase, activityBank){
+      var intro = phase.intro || '';
+      var introHtml = intro.indexOf('<p>') >= 0 ? intro : (intro ? '<p>' + intro + '</p>' : '');
+      var sections = [];
+      if(introHtml){
+        sections.push(
+          '<div class="concept-phase-intro">' +
+            '<span class="concept-intro-kicker"><span class="icon" aria-hidden="true">📘</span>Introduction</span>' +
+            '<div class="concept-phase-intro-text">' + introHtml + '</div>' +
+          '</div>'
+        );
+      }
+      var visualSections = buildConceptPhaseVisualSectionsHTML(phase);
+      if(visualSections) sections.push(visualSections);
+      var keyIdeas = buildConceptPhaseKeyIdeasHTML(phase.points);
+      if(keyIdeas) sections.push(keyIdeas);
+      var inPractice = buildConceptPhaseInPracticeHTML(phase.points);
+      if(inPractice) sections.push(inPractice);
+      var activity = buildConceptPhaseActivitySectionHTML(phase.activityId, activityBank);
+      if(activity) sections.push(activity);
+      var bodyContent = sections.join('');
+      return (
+        '<section class="concept-phase-card" data-concept-phase="' + (phase.id || '') + '">' +
+          '<button type="button" class="concept-phase-toggle" aria-expanded="false" data-phase-toggle>' +
+            '<span class="concept-phase-marker" aria-hidden="true">🔹</span>' +
+            '<span class="concept-phase-title">' + phase.title + '</span>' +
+            '<span class="concept-phase-expand-label">Expand</span>' +
+            '<span class="concept-phase-expand-icon" aria-hidden="true">▼</span>' +
+          '</button>' +
+          '<div class="concept-phase-body" data-phase-body>' +
+            '<div class="concept-phase-body-inner">' +
+              '<div class="concept-phase-content">' + bodyContent + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function setupExpandablePhaseCards(panel){
+      var cards = panel.querySelectorAll('[data-concept-phase]');
+      cards.forEach(function(card){
+        var toggle = card.querySelector('[data-phase-toggle]');
+        if(!toggle || toggle.dataset.bound === 'true') return;
+        toggle.dataset.bound = 'true';
+        function setExpanded(expanded){
+          card.classList.toggle('is-expanded', expanded);
+          toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+          toggle.querySelector('.concept-phase-expand-label').textContent = expanded ? 'Collapse' : 'Expand';
+        }
+        toggle.addEventListener('click', function(){
+          var willExpand = !card.classList.contains('is-expanded');
+          cards.forEach(function(other){
+            if(other !== card){
+              other.classList.remove('is-expanded');
+              var otherToggle = other.querySelector('[data-phase-toggle]');
+              if(otherToggle){
+                otherToggle.setAttribute('aria-expanded', 'false');
+                var otherLabel = otherToggle.querySelector('.concept-phase-expand-label');
+                if(otherLabel) otherLabel.textContent = 'Expand';
+              }
+            }
+          });
+          setExpanded(willExpand);
+          if(willExpand){
+            setTimeout(function(){
+              card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 120);
+          }
+        });
+      });
+    }
+
+    function bindConceptPhaseActivities(panel, phases, activityBank){
+      (phases || []).forEach(function(phase){
+        if(!phase.activityId) return;
+        var scope = panel.querySelector('[data-phase-activity="' + phase.activityId + '"]');
+        if(scope) bindBlockActivity(scope, phase.activityId, activityBank);
+      });
+    }
+
+    function renderPhaseBasedConcept(block, target, panel, grid, data, maps){
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.toggle('active', btn.dataset.target === target);
+      });
+
+      panel.classList.add('show');
+      panel.dataset.currentTarget = target;
+
+      var heading = panel.querySelector('.concept-heading-row h4');
+      if(heading) heading.textContent = data.title;
+
+      var pEl = panel.querySelector('.concept-heading-row + p, .concept-heading-row ~ p');
+      if(!pEl) pEl = panel.querySelector('p');
+      if(pEl){
+        pEl.innerHTML = data.text.indexOf('<p>') >= 0 ? data.text : '<p>' + data.text + '</p>';
+        pEl.classList.add('concept-intro-line');
+        var existingKicker = pEl.querySelector('.concept-intro-kicker');
+        if(existingKicker) existingKicker.remove();
+        pEl.insertAdjacentHTML('afterbegin', '<span class="concept-intro-kicker"><span class="icon" aria-hidden="true">📘</span>Introduction</span>');
+      }
+
+      var imageEl = panel.querySelector('.concept-image');
+      if(imageEl){
+        imageEl.innerHTML = '';
+        imageEl.classList.remove('concept-section-card');
+        imageEl.style.display = 'none';
+      }
+
+      var ideasShellEl = panel.querySelector('.concept-ideas-shell');
+      if(ideasShellEl) ideasShellEl.style.display = 'none';
+
+      var activityParts = getConceptActivityShell(panel);
+      activityParts.shell.style.display = 'none';
+      activityParts.slot.innerHTML = '';
+      activityParts.slot.style.display = 'none';
+      activityParts.slot.removeAttribute('data-activity-concept-target');
+
+      var phasesShell = getConceptPhasesShell(panel);
+      phasesShell.innerHTML = (data.phases || []).map(function(phase){
+        return buildConceptPhaseBlockHTML(phase, maps.activity);
+      }).join('');
+      phasesShell.style.display = '';
+      bindConceptPhaseActivities(panel, data.phases, maps.activity);
+      setupExpandablePhaseCards(panel);
+
+      if(pEl && phasesShell) pEl.insertAdjacentElement('afterend', phasesShell);
+
+      if(grid) grid.style.display = 'none';
+      scrollConceptPanelIntoView(panel);
+    }
+
     function getConceptActivityShell(panel){
       var shell = panel.querySelector('[data-concept-activity-title]');
       if(!shell){
@@ -4837,6 +5358,17 @@
       var grid = document.querySelector('[data-concept-grid="' + block + '"]');
       var data = maps.content[target];
       if(!panel || !data) return;
+
+      if(data.phases && data.phases.length){
+        renderPhaseBasedConcept(block, target, panel, grid, data, maps);
+        return;
+      }
+
+      var phasesShell = panel.querySelector('[data-concept-phases-shell]');
+      if(phasesShell){
+        phasesShell.innerHTML = '';
+        phasesShell.style.display = 'none';
+      }
 
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
         btn.classList.toggle('active', btn.dataset.target === target);
@@ -5018,15 +5550,75 @@
       },
       b1s2c2: {
         title: 'Concept 2 — Building Breathing Control',
-        text: 'Developing comfort with water contact and active exhalation before introducing greater immersion demands.'
+        text: '<p>Breathing control develops progressively through a series of successful experiences that build comfort, confidence and active breathing control.</p><p>Before swimmers can confidently submerge, they must first become comfortable with water contact and learn to actively control exhalation.</p><p>This concept explores the first two phases of the Five Phase Progression.</p>',
+        phases: [
+          {
+            id: 'p1',
+            title: 'Phase 1 — Water Contact &amp; Sensory Tolerance',
+            intro: '<p>Water contact is often the first stage of breathing and submersion development.</p><p>Many swimmers require time to become comfortable with water around the hands, arms, face and head before breathing activities can develop successfully.</p><p>The goal of this phase is not submersion.</p><p>The goal is comfort.</p>',
+            visualCoreHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Phase Visual</span></div><div class="phase-focus-row"><strong>Phase Focus</strong>Comfort and regulation.</div><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Water Contact Progression</span></div><div class="pathway-flow pathway-flow--contact"><div class="pathway-step"><strong>Hands</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Arms</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Shoulders</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Cheeks</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Forehead</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Face</strong></div></div>',
+            examplesHTML: '<ul class="phase-example-list"><li>Wet hands</li><li>Wet face</li><li>Pouring water</li><li>Washing face</li><li>Splash play</li><li>Water play activities</li></ul>',
+            universalHTML: '<div class="universal-progression"><div class="universal-tier"><strong>Static Control</strong><ul><li>Pouring water onto the hands</li><li>Washing the face</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Movement Integration</strong><ul><li>Walking through water spray</li><li>Moving whilst experiencing water contact</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Dynamic Application</strong><ul><li>Splash games</li><li>Water contact during aquatic activities</li></ul></div></div>',
+            goalHTML: '<div class="progression-goal-box"><strong>Progression Goal</strong><p>The swimmer accepts water contact confidently and remains regulated throughout aquatic activities.</p><p>The swimmer demonstrates readiness to begin developing active breathing skills.</p></div>',
+            points: [
+              'Comfort should develop before challenge.',
+              'Positive experiences build future confidence.',
+              'Water contact should remain predictable and manageable.',
+              'Individual sensory responses should be respected.',
+              'Progression should be guided by regulation rather than task completion.',
+              'Not all swimmers will progress at the same rate.',
+              'In Practice — A swimmer may initially tolerate water on the hands but avoid water near the face.',
+              'In Practice — Over time, positive experiences and repeated exposure can support increased confidence with water contact across different parts of the body and face.',
+              'In Practice — Progression is determined by confidence and regulation rather than how quickly water reaches the face.'
+            ],
+            activityId: 'b1s2c2p1'
+          },
+          {
+            id: 'p2',
+            title: 'Phase 2 — Controlled Breathing at Surface',
+            intro: '<p>Once swimmers become comfortable interacting with water, breathing activities can begin to focus on active exhalation.</p><p>The objective is developing controlled breathing rather than producing bubbles.</p><p>Active exhalation forms the foundation for future immersion and aquatic breathing skills.</p>',
+            visualCoreHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Phase Visual</span></div><div class="phase-focus-row"><strong>Phase Focus</strong>Active exhalation.</div><p class="blowing-progression-title"><span aria-hidden="true">⭐</span> Blowing Before Bubbles</p><div class="blowing-progression"><div class="blowing-step"><strong>Step 1 — Tools</strong><ul><li>Straw</li><li>Pop Tube</li><li>Feather</li><li>Blowing to Hand</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="blowing-step"><strong>Step 2 — Towards Water</strong><ul><li>Ripples</li><li>Moving Objects</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="blowing-step"><strong>Step 3 — Into Water</strong><ul><li>Lips → Water</li><li>Bubbles</li></ul></div></div>',
+            universalHTML: '<div class="universal-progression"><div class="universal-tier"><strong>Static Control</strong><ul><li>Blowing through a straw</li><li>Blowing a feather</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Movement Integration</strong><ul><li>Moving a floating object using blowing</li><li>Walking whilst blowing</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Dynamic Application</strong><ul><li>Breathing during aquatic games</li><li>Travelling whilst maintaining breathing control</li></ul></div></div>',
+            goalHTML: '<div class="progression-goal-box"><strong>Progression Goal</strong><p>The swimmer demonstrates consistent active exhalation and maintains breathing control during aquatic activities.</p><p>The swimmer demonstrates readiness to begin gradual face immersion whilst maintaining breathing control.</p></div>',
+            points: [
+              'Blowing should be taught before bubbles.',
+              'Active exhalation is the foundation of aquatic breathing control.',
+              'Swimmers benefit from clear visual and physical feedback when learning to blow.',
+              'Breathing control should remain the priority throughout progression.',
+              'Breath holding should not be reinforced.',
+              'Breathing activities should remain enjoyable and engaging.',
+              'In Practice — Some swimmers may quickly create bubbles but still rely on inconsistent breathing patterns.',
+              'In Practice — Others may require extended practice with blowing activities before they are ready to create bubbles consistently.',
+              'In Practice — The objective is not producing bubbles.',
+              'In Practice — The objective is developing controlled and repeatable active exhalation.'
+            ],
+            activityId: 'b1s2c2p2'
+          }
+        ]
       },
       b1s2c3: {
         title: 'Concept 3 — Developing Submersion',
-        text: 'Supporting swimmers from partial face immersion towards confident full submersion.'
+        text: 'Supporting swimmers from partial face immersion towards confident full submersion.',
+        phases: [
+          {
+            id: 'p3',
+            title: 'Phase 3 — Partial Face Immersion'
+          },
+          {
+            id: 'p4',
+            title: 'Phase 4 — Full Submersion'
+          }
+        ]
       },
       b1s2c4: {
         title: 'Concept 4 — Breathing & Submersion in Movement',
-        text: 'Integrating breathing and submersion into aquatic movement and future skill development.'
+        text: 'Integrating breathing and submersion into aquatic movement and future skill development.',
+        phases: [
+          {
+            id: 'p5',
+            title: 'Phase 5 — Integration with Movement'
+          }
+        ]
       }
     };
 
@@ -5051,6 +5643,39 @@
         ],
         ok: 'Correct. Breathing and submersion develop through progressive layers of confidence, control and aquatic challenge.',
         bad: 'Not quite. Reset and arrange the phases from earliest to latest progression.'
+      },
+      b1s2c2p1: {
+        type: 'choice',
+        activityType: 'Adaptation Example',
+        observation: 'A swimmer becomes uncomfortable when water is poured over their head.',
+        q: 'What is the most appropriate adaptation?',
+        options: [
+          { id: 'a', text: 'Continue pouring water until the swimmer accepts it.' },
+          { id: 'b', text: 'Move back to activities involving water on the hands, arms or face.' },
+          { id: 'c', text: 'Immediately introduce submersion activities.' },
+          { id: 'd', text: 'Stop all water contact activities.' }
+        ],
+        correct: 'b',
+        ok: 'Correct. Reducing demand can help maintain success whilst continuing progression.',
+        bad: 'Not quite. Consider reducing demand to maintain successful learning experiences.',
+        variant: 'scenario'
+      },
+      b1s2c2p2: {
+        type: 'sequencing',
+        activityType: 'Progression Example',
+        q: 'Arrange the breathing activities into the correct progression order.',
+        sequence: [
+          'Blowing through a straw',
+          'Creating ripples',
+          'Creating bubbles'
+        ],
+        displayOrder: [
+          'Creating bubbles',
+          'Blowing through a straw',
+          'Creating ripples'
+        ],
+        ok: 'Correct. Blowing is the skill. Bubbles are the result.',
+        bad: 'Not quite. Reset and arrange the activities from earliest to latest progression.'
       }
     };
 
