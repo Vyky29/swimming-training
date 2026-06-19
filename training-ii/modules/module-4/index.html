@@ -977,6 +977,16 @@
       opacity:.55;
       pointer-events:none;
     }
+    html[data-review-mode] .gated-locked,
+    body.training-review-mode .gated-locked{
+      opacity:1;
+      pointer-events:auto;
+    }
+    html[data-review-mode] .gated-locked .section-body > :not(.section-lock-banner),
+    body.training-review-mode .gated-locked .section-body > :not(.section-lock-banner){
+      pointer-events:auto;
+      user-select:auto;
+    }
   
     .section-lock-banner{
       margin-top:18px;
@@ -4093,7 +4103,7 @@
           </div>
         </section>
 
-        <section class="section gated-locked" id="outcomes" data-stage="outcomes">
+        <section class="section" id="outcomes" data-stage="outcomes">
           <div class="section-top">
             <span class="section-pill">Learning Outcomes</span>
           </div>
@@ -4185,7 +4195,7 @@
             </div>
           </div>
         </section>
-        <section class="section gated-block gated-locked" id="block1" data-stage="block1">
+        <section class="section gated-block" id="block1" data-stage="block1">
           <div class="section-top">
             <span class="section-pill">Block 1</span>
           </div>
@@ -4535,6 +4545,10 @@
     function enableReviewMode(){
       if(!REVIEW_MODE) return;
       document.documentElement.setAttribute('data-review-mode', 'true');
+      document.body.classList.add('training-review-mode');
+      document.querySelectorAll('.gated-locked').forEach(function(section){
+        section.classList.remove('gated-locked');
+      });
       ['outcomes','block1'].forEach(unlockStage);
       Object.keys(stageChecks).forEach(function(stage){
         if(stageChecks[stage]){
