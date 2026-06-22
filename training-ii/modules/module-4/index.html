@@ -3499,6 +3499,10 @@
     [data-concept-grid="section2"]{
       grid-template-columns:repeat(4,minmax(0,1fr));
     }
+    [data-concept-grid="section3"]{
+      grid-template-columns:minmax(0,1fr);
+      max-width:460px;
+    }
     .pathway-flow{
       display:flex;
       flex-direction:column;
@@ -3948,6 +3952,41 @@
       font-weight:800;
       color:var(--blue);
       letter-spacing:.03em;
+    }
+    .concept-why-matters-shell{
+      padding:18px 20px 20px;
+      border-color:rgba(204,149,43,.22);
+      background:#fffbf2;
+    }
+    .why-matters-grid{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:12px;
+    }
+    .why-matters-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 16px;
+    }
+    .why-matters-card h5{
+      margin:0 0 8px;
+      font-size:.9rem;
+      color:var(--blue);
+      font-weight:800;
+    }
+    .why-matters-card p{
+      margin:0;
+      font-size:.9rem;
+      line-height:1.7;
+      color:var(--text);
+    }
+    .why-matters-card p + p{
+      margin-top:8px;
+    }
+    .pathway-flow--foundation{
+      max-width:480px;
     }
     .five-phase-poster-stage{
       margin-top:34px;
@@ -4439,6 +4478,49 @@
             <div class="block-section-stage" id="block1-section3">
               <span class="section-eyebrow">&#128309; SECTION 3</span>
               <h3 class="block-section-title">Application &amp; Integration</h3>
+
+              <p class="lead">Breathing and submersion do not exist in isolation.<br><br>
+                As aquatic development becomes more complex, these skills continue to support participation, movement and future swimming development.<br><br>
+                This section explores how breathing and submersion underpin wider aquatic learning and act as foundation skills for future progression.</p>
+
+              <div class="concept-stage">
+                <h4>Explore the Key Concepts</h4>
+
+                <div class="concept-grid" data-concept-grid="section3">
+                  <button class="concept-square" type="button" data-target="b1s3c1">Breathing &amp; Submersion as Foundation Skills</button>
+                </div>
+
+                <div class="concept-panel" data-panel-for="section3">
+                  <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                  <div class="concept-heading-row">
+                    <h4></h4>
+                  </div>
+                  <p></p>
+
+                  <div class="concept-image"></div>
+
+                  <div class="concept-why-matters-shell concept-section-card" data-concept-why-matters hidden></div>
+
+                  <div class="concept-ideas-shell">
+                    <div class="concept-points-box">
+                      <h4>Key Ideas for Instructors</h4>
+                      <p class="key-ideas-instruction">Review each key idea below.</p>
+                      <ul></ul>
+                    </div>
+                    <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                      <div class="key-ideas-action-head">
+                        <span class="icon" aria-hidden="true"></span>
+                        <span class="label">In Practice</span>
+                      </div>
+                      <div class="text"></div>
+                    </div>
+                  </div>
+
+                  <div class="concept-media-actions">
+                    <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="block-mini-section" id="block1-summary">
@@ -4723,14 +4805,10 @@
         title: 'Concept 1 — The Role of Breathing & Submersion',
         text: '<p>Breathing control influences how swimmers experience the aquatic environment.</p><p>When swimmers feel comfortable and regulated, they are more likely to participate, explore and learn. When breathing becomes reactive, participation and learning opportunities may decrease.</p>',
         points: [
-          'Breathing and submersion influence more than immersion itself.',
-          'Confidence and regulation affect a swimmer\'s ability to participate.',
-          'Participation creates opportunities for learning.',
-          'Difficulties with breathing and submersion can reduce access to future aquatic learning.',
-          'Breathing and submersion should be viewed as foundations for aquatic development.',
-          'Demonstrating a skill successfully in one situation does not necessarily indicate readiness for progression.',
-          'Breathing and submersion should be observed across different activities and levels of challenge before assuming readiness for progression.',
-          'Confidence, control and consistency should remain evident as task demands increase.',
+          'Breathing and submersion are fundamental aquatic skills that support future aquatic development.',
+          'Positive early experiences influence confidence, participation and willingness to learn.',
+          'These skills develop progressively through repeated successful experiences.',
+          'Early success often creates the foundation for long-term aquatic engagement.',
           'In Practice — A swimmer who feels comfortable with water contact, breathing and early immersion experiences is more likely to participate in aquatic activities and engage with learning opportunities.',
           'In Practice — A swimmer who becomes anxious, avoidant or reactive may require additional support before progression occurs.',
           'In Practice — A swimmer may demonstrate confidence during one breathing or immersion activity but respond differently when the same skill is combined with movement, games or additional task demands.',
@@ -4743,11 +4821,10 @@
         title: 'Concept 2 — Understanding Aquatic Breathing',
         text: '<p>Aquatic breathing differs from breathing on land.</p><p>In water, swimmers must learn to actively control exhalation whilst maintaining comfort, regulation and interaction with the aquatic environment.</p><p>Breathing control develops progressively and provides the foundation for successful immersion and future aquatic skills.</p>',
         points: [
-          'Active exhalation is the foundation of aquatic breathing.',
-          'Blowing is the skill. Bubbles are the result.',
-          'Breathing control should develop before immersion.',
-          'Reactive breathing may limit participation and progression.',
-          'Breathing should remain calm, controlled and consistent.',
+          'Breathing in water requires different control strategies than breathing on land.',
+          'Controlled exhalation is the foundation of effective aquatic breathing.',
+          'Breathing influences body organisation, relaxation and movement in the water.',
+          'Effective breathing supports confidence, participation and future skill development.',
           'In Practice — A swimmer who can blow, hum or exhale comfortably is often more prepared for immersion activities.',
           'In Practice — A swimmer who frequently holds their breath or rushes breathing may require additional support before progression occurs.'
         ],
@@ -4757,11 +4834,10 @@
         title: 'Concept 3 — Understanding Submersion',
         text: '<p>Submersion is more than placing the face underwater.</p><p>As increasing amounts of the face and head enter the water, swimmers experience changes in breathing, vision, hearing and sensory input that can influence comfort, confidence and participation.</p><p>Understanding these experiences helps instructors introduce submersion in a safe and progressive way.</p>',
         points: [
-          'Submersion is both a physical and sensory experience.',
-          'Different swimmers may respond differently to immersion.',
-          'Confidence should develop before duration or depth.',
-          'Breathing and submersion should develop together.',
-          'Comfort and control are more important than speed of progression.',
+          'Submersion involves both physical adaptation and emotional readiness.',
+          'Different parts of the face may be accepted at different stages of development.',
+          'Gradual exposure helps build confidence and tolerance for immersion.',
+          'Successful submersion is often determined by confidence and control rather than depth or duration.',
           'In Practice — Some swimmers may quickly accept immersion experiences, whilst others require gradual exposure and repeated successful interactions with water around the face.',
           'In Practice — The goal is not how long a swimmer remains underwater, but how confidently and comfortably they interact with immersion activities.'
         ],
@@ -4869,14 +4945,18 @@
       if(!config || !config.options || !config.options.length) return '';
       var variant = config.variant || 'single';
       var optionsClass = 'activity-option-grid';
-      if(variant === 'scenario' || variant === 'scenario-risk') optionsClass += ' grid-2';
+      if(variant === 'scenario' || variant === 'scenario-risk'){
+        optionsClass += config.options.length === 3 ? ' grid-3' : ' grid-2';
+      }
       else if(config.options.length === 3) optionsClass += ' grid-3';
       var introHtml = '';
       if(config.activityType){
         introHtml += '<p class="activity-type-label"><strong>Activity Type:</strong> ' + config.activityType + '</p>';
       }
       if(config.observation){
-        introHtml += '<p class="activity-observation"><strong>Observation</strong><br>' + config.observation + '</p>';
+        var scenarioTypes = ['Compare the Difference', 'Real Session Snapshot', 'Decision Making Example', 'Progress, Consolidate or Regress'];
+        var obsLabel = config.observationLabel || (scenarioTypes.indexOf(config.activityType || '') >= 0 ? 'Scenario' : 'Observation');
+        introHtml += '<p class="activity-observation"><strong>' + obsLabel + '</strong><br>' + config.observation + '</p>';
       }
       var questionHtml = config.q ? ('<p class="activity-question"><strong>Question</strong><br>' + config.q + '</p>') : '';
       var optionsHtml = config.options.map(function(opt, idx){
@@ -4934,7 +5014,12 @@
       var introHtml = config.activityType
         ? '<p class="activity-type-label"><strong>Activity Type:</strong> ' + config.activityType + '</p>'
         : '';
-      var questionHtml = config.q ? ('<p class="activity-question">' + config.q + '</p>') : '';
+      if(config.task){
+        introHtml += '<p class="activity-observation"><strong>Task</strong><br>' + config.task + '</p>';
+      } else if(config.observation){
+        introHtml += '<p class="activity-observation"><strong>Observation</strong><br>' + config.observation + '</p>';
+      }
+      var questionHtml = config.q ? ('<p class="activity-question"><strong>Question</strong><br>' + config.q + '</p>') : '';
       var content = (
         introHtml +
         questionHtml +
@@ -4945,6 +5030,9 @@
     }
 
     function getBlockConceptMaps(block){
+      if(block === 'section3'){
+        return { content: section3ConceptContent, activity: section3ConceptActivityBank };
+      }
       if(block === 'section2'){
         return { content: section2ConceptContent, activity: section2ConceptActivityBank };
       }
@@ -5146,7 +5234,7 @@
         if(progressEl){
           progressEl.textContent = selected.length
             ? ('Order: ' + selected.map(function(item, idx){ return (idx + 1) + '. ' + item; }).join(' → '))
-            : 'Select each phase in the correct order.';
+            : 'Select each stage in the correct order.';
         }
       }
       steps.forEach(function(step){
@@ -5427,12 +5515,6 @@
       var ideasShellEl = panel.querySelector('.concept-ideas-shell');
       if(ideasShellEl) ideasShellEl.style.display = 'none';
 
-      var activityParts = getConceptActivityShell(panel);
-      activityParts.shell.style.display = 'none';
-      activityParts.slot.innerHTML = '';
-      activityParts.slot.style.display = 'none';
-      activityParts.slot.removeAttribute('data-activity-concept-target');
-
       var phasesShell = getConceptPhasesShell(panel);
       phasesShell.innerHTML = (data.phases || []).map(function(phase){
         return data.phasesInline
@@ -5444,9 +5526,44 @@
       if(!data.phasesInline) setupExpandablePhaseCards(panel);
 
       if(pEl && phasesShell) pEl.insertAdjacentElement('afterend', phasesShell);
+      renderConceptLevelActivity(panel, target, maps.activity, phasesShell);
 
       if(grid) grid.style.display = 'none';
       scrollConceptPanelIntoView(panel);
+    }
+
+    function renderConceptLevelActivity(panel, target, activityBank, insertAfter){
+      var activityParts = getConceptActivityShell(panel);
+      var activityConfig = activityBank[target];
+      var activityHTML = buildBlockActivityHTML(target, activityBank);
+      if(!activityHTML){
+        activityParts.shell.style.display = 'none';
+        activityParts.slot.innerHTML = '';
+        activityParts.slot.style.display = 'none';
+        activityParts.slot.removeAttribute('data-activity-concept-target');
+        return activityParts;
+      }
+      activityParts.shell.style.display = '';
+      activityParts.slot.innerHTML = activityHTML;
+      activityParts.slot.style.display = '';
+      activityParts.slot.setAttribute('data-activity-concept-target', target);
+      var guideEl = activityParts.shell.querySelector('[data-concept-activity-guide]');
+      if(!guideEl){
+        guideEl = document.createElement('p');
+        guideEl.className = 'activity-mini-guide';
+        guideEl.setAttribute('data-concept-activity-guide', '');
+        activityParts.shell.insertBefore(guideEl, activityParts.slot);
+      }
+      if(activityConfig && activityConfig.type === 'sorting'){
+        guideEl.textContent = 'Drag each behaviour into the correct category.';
+      } else if(activityConfig && activityConfig.type === 'sequencing'){
+        guideEl.textContent = 'Select each stage in the correct order.';
+      } else {
+        guideEl.textContent = 'Review the prompt and select the most appropriate response.';
+      }
+      bindBlockActivity(activityParts.shell, target, activityBank);
+      if(insertAfter) insertAfter.insertAdjacentElement('afterend', activityParts.shell);
+      return activityParts;
     }
 
     function getConceptActivityShell(panel){
@@ -5516,6 +5633,20 @@
         imageEl.innerHTML = data.imageHTML || '';
         imageEl.classList.toggle('concept-section-card', !!data.imageHTML);
         imageEl.style.display = data.imageHTML ? '' : 'none';
+      }
+
+      var whyShellEl = panel.querySelector('[data-concept-why-matters]');
+      if(whyShellEl){
+        if(data.whyMattersHTML){
+          whyShellEl.innerHTML = data.whyMattersHTML;
+          whyShellEl.classList.add('concept-section-card');
+          whyShellEl.style.display = '';
+          whyShellEl.removeAttribute('hidden');
+        } else {
+          whyShellEl.innerHTML = '';
+          whyShellEl.style.display = 'none';
+          whyShellEl.setAttribute('hidden', 'hidden');
+        }
       }
 
       var ideasShellEl = panel.querySelector('.concept-ideas-shell');
@@ -5596,7 +5727,12 @@
       }
 
       if(pEl && imageEl) pEl.insertAdjacentElement('afterend', imageEl);
-      if(imageEl && ideasShellEl) imageEl.insertAdjacentElement('afterend', ideasShellEl);
+      var layoutAnchor = imageEl && data.imageHTML ? imageEl : pEl;
+      if(whyShellEl && data.whyMattersHTML && layoutAnchor){
+        layoutAnchor.insertAdjacentElement('afterend', whyShellEl);
+        layoutAnchor = whyShellEl;
+      }
+      if(layoutAnchor && ideasShellEl) layoutAnchor.insertAdjacentElement('afterend', ideasShellEl);
       if(ideasShellEl && activityParts.shell) ideasShellEl.insertAdjacentElement('afterend', activityParts.shell);
 
       if(grid) grid.style.display = 'none';
@@ -5659,13 +5795,9 @@
         title: 'Concept 1 — Understanding the Five Phase Progression',
         text: '<p>The Five Phase Progression provides a structured pathway for developing breathing control and submersion.</p><p>It supports instructors in identifying current development and guiding progression through increasingly complex aquatic experiences.</p>',
         points: [
-          'Breathing and submersion develop progressively through repeated successful experiences.',
+          'The framework provides a structured pathway for developing breathing control and submersion.',
           'Progression should be based on confidence, control and consistency.',
-          'Swimmers may move through phases at different rates.',
           'Success in one activity does not automatically indicate readiness for progression.',
-          'Skills should transfer across different levels of challenge before progression occurs.',
-          'The framework supports progression, consolidation and regression decisions.',
-          'The objective is not to move swimmers through phases quickly.',
           'The objective is to maintain successful participation whilst development occurs.',
           'In Practice — A swimmer may demonstrate behaviours from multiple phases at the same time.',
           'In Practice — For example, a swimmer may confidently blow bubbles whilst still feeling hesitant when placing the eyes into the water.',
@@ -5677,6 +5809,12 @@
       b1s2c2: {
         title: 'Concept 2 — Building Breathing Control',
         text: '<p>Breathing control develops progressively through a series of successful experiences that build comfort, confidence and active breathing control.</p><p>Before swimmers can confidently submerge, they must first become comfortable with water contact and learn to actively control exhalation.</p><p>This concept explores the first two phases of the Five Phase Progression.</p>',
+        points: [
+          'Water contact and breathing control should develop together through successful experiences.',
+          'Controlled exhalation is more important than breath holding.',
+          'Breathing activities should promote confidence, comfort and regulation.',
+          'Surface breathing skills provide the foundation for future submersion.'
+        ],
         phases: [
           {
             id: 'p1',
@@ -5696,8 +5834,7 @@
               'In Practice — A swimmer may initially tolerate water on the hands but avoid water near the face.',
               'In Practice — Over time, positive experiences and repeated exposure can support increased confidence with water contact across different parts of the body and face.',
               'In Practice — Progression is determined by confidence and regulation rather than how quickly water reaches the face.'
-            ],
-            activityId: 'b1s2c2p1'
+            ]
           },
           {
             id: 'p2',
@@ -5717,8 +5854,7 @@
               'In Practice — Others may require extended practice with blowing activities before they are ready to create bubbles consistently.',
               'In Practice — The objective is not producing bubbles.',
               'In Practice — The objective is developing controlled and repeatable active exhalation.'
-            ],
-            activityId: 'b1s2c2p2'
+            ]
           }
         ]
       },
@@ -5759,8 +5895,7 @@
               'In Practice — A swimmer may demonstrate excellent breathing control when stationary but lose breathing rhythm once movement is introduced.',
               'In Practice — Similarly, a swimmer may confidently submerge during retrieval activities but struggle to maintain breathing control whilst gliding, rotating or travelling through the water.',
               'In Practice — Observation should focus on how effectively breathing transfers into increasingly dynamic aquatic situations.'
-            ],
-            activityId: 'b1s2c4p5'
+            ]
           }
         ]
       }
@@ -5771,70 +5906,113 @@
         type: 'choice',
         activityType: 'Decision Making Example',
         observation: 'A swimmer:<br><br>• Accepts water on the face.<br>• Blows bubbles independently.<br>• Becomes hesitant when asked to place the eyes into the water.',
-        q: 'What is the most appropriate teaching decision?',
+        q: 'What is the most appropriate next step?',
         options: [
-          { id: 'a', text: 'Progress immediately to full submersion.' },
+          { id: 'a', text: 'Progress to full submersion.' },
           { id: 'b', text: 'Continue developing face immersion experiences.' },
           { id: 'c', text: 'Begin stroke breathing activities.' },
-          { id: 'd', text: 'Stop breathing activities.' }
+          { id: 'd', text: 'Stop submersion activities.' }
         ],
         correct: 'b',
-        ok: 'Correct. The framework helps instructors identify current development and select appropriate next steps. Progression should be based on confidence, control and consistency rather than isolated examples of success.',
+        ok: 'Correct. Progression should be based on confidence, control and consistency rather than isolated examples of success.',
         bad: 'Not quite. Consider which phase best represents the swimmer\'s current level of confidence, control and consistency.',
         variant: 'scenario'
       },
-      b1s2c2p1: {
+      b1s2c2: {
         type: 'choice',
-        activityType: 'Adaptation Example',
-        observation: 'A swimmer becomes uncomfortable when water is poured over their head.',
-        q: 'What is the most appropriate adaptation?',
+        activityType: 'Compare the Difference',
+        observation: '<strong>Swimmer A</strong><br>Blows continuously into the water for five seconds.<br><br><strong>Swimmer B</strong><br>Takes a breath, holds it and quickly lifts the head.',
+        q: 'Which swimmer is demonstrating more effective aquatic breathing?',
         options: [
-          { id: 'a', text: 'Continue pouring water until the swimmer accepts it.' },
-          { id: 'b', text: 'Move back to activities involving water on the hands, arms or face.' },
-          { id: 'c', text: 'Immediately introduce submersion activities.' },
-          { id: 'd', text: 'Stop all water contact activities.' }
+          { id: 'a', text: 'Swimmer A' },
+          { id: 'b', text: 'Swimmer B' }
         ],
-        correct: 'b',
-        ok: 'Correct. Reducing demand can help maintain success whilst continuing progression.',
-        bad: 'Not quite. Consider reducing demand to maintain successful learning experiences.',
+        correct: 'a',
+        ok: 'Correct. Controlled exhalation is the foundation of effective aquatic breathing.',
+        bad: 'Not quite. Consider which swimmer demonstrates controlled exhalation rather than breath holding.',
         variant: 'scenario'
       },
-      b1s2c2p2: {
+      b1s2c3: {
         type: 'sequencing',
-        activityType: 'Progression Example',
-        q: 'Arrange the breathing activities into the correct progression order.',
+        activityType: 'Observation Activity',
+        task: 'Five images display different stages of immersion:<br><br>• Chin in<br>• Mouth in<br>• Nose in<br>• Eyes in<br>• Full Submersion',
+        q: 'Arrange the images in the most appropriate progression sequence from earliest immersion stage to most advanced immersion stage.',
         sequence: [
-          'Blowing through a straw',
-          'Creating ripples',
-          'Creating bubbles'
+          'Chin in',
+          'Mouth in',
+          'Nose in',
+          'Eyes in',
+          'Full Submersion'
         ],
         displayOrder: [
-          'Creating bubbles',
-          'Blowing through a straw',
-          'Creating ripples'
+          'Eyes in',
+          'Chin in',
+          'Full Submersion',
+          'Mouth in',
+          'Nose in'
         ],
-        ok: 'Correct. Blowing is the skill. Bubbles are the result.',
-        bad: 'Not quite. Reset and arrange the activities from earliest to latest progression.'
+        ok: 'Correct. Submersion develops progressively through increasingly challenging immersion experiences.',
+        bad: 'Not quite. Reset and arrange the stages from earliest to most advanced immersion.'
       },
-      b1s2c4p5: {
+      b1s2c4: {
         type: 'choice',
-        activityType: 'Decision Making Example',
-        observation: 'A swimmer can confidently blow bubbles and submerge independently.<br><br>However, when attempting a glide and roll activity, breathing becomes inconsistent and the swimmer stops moving.',
+        activityType: 'Progress, Consolidate or Regress',
+        observation: 'A swimmer:<br><br>• Blows bubbles confidently.<br>• Submerges comfortably.<br>• Can perform a glide.<br>• Loses breathing control every time movement is introduced.',
         q: 'What is the most appropriate teaching decision?',
         options: [
-          { id: 'a', text: 'Progress directly to stroke breathing.' },
-          { id: 'b', text: 'Return to integrated glide and breathing activities until breathing remains consistent during movement.' },
-          { id: 'c', text: 'Remove breathing from the activity and focus only on movement.' },
-          { id: 'd', text: 'Stop all gliding activities.' }
+          { id: 'a', text: 'Progress immediately to stroke breathing activities.' },
+          { id: 'b', text: 'Consolidate breathing within movement activities.' },
+          { id: 'c', text: 'Regress to water contact activities.' }
         ],
         correct: 'b',
-        ok: 'Correct. Breathing should remain effective as movement demands increase. Progression should be based on successful integration rather than isolated breathing performance.',
-        bad: 'Not quite. Consider whether breathing remains consistent as movement demands increase.',
+        ok: 'Correct. Breathing should remain effective as movement demands increase. Success in isolated activities does not automatically indicate readiness for progression.',
+        bad: 'Not quite. Consider whether breathing remains effective when movement is introduced.',
         variant: 'scenario'
       }
     };
 
     var section2ConceptCompleted = {};
+
+    var section3ConceptContent = {
+      b1s3c1: {
+        title: 'Concept 1 — Breathing & Submersion as Foundation Skills',
+        text: '<p>Breathing and submersion provide the foundation for many future aquatic skills.</p><p>As swimmers progress, these skills become increasingly integrated within floating, gliding, rotation, propulsion and future swimming development.</p>',
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>How Breathing &amp; Submersion Support Aquatic Development</strong></p><div class="pathway-flow pathway-flow--foundation"><div class="integration-pathway-origin"><div class="pathway-step"><strong>Breathing Control</strong></div><div class="pathway-join" aria-hidden="true">*</div><div class="pathway-step"><strong>Submersion</strong></div></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Foundation Aquatic Skills</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Floating &amp; Balance</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Gliding &amp; Streamlining</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Rotation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Propulsion</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Future Swimming Development</strong></div></div>',
+        whyMattersHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">✨</span><span>Why This Matters</span></div><div class="why-matters-grid"><div class="why-matters-card"><h5>Floating &amp; Balance</h5><p>Breathing influences body position, relaxation and stability in the water.</p><p>Effective breathing often supports successful floating experiences.</p></div><div class="why-matters-card"><h5>Gliding &amp; Streamlining</h5><p>Breathing control supports body alignment, confidence and movement efficiency.</p><p>As gliding activities become more dynamic, breathing remains an important component of successful performance.</p></div><div class="why-matters-card"><h5>Rotation</h5><p>Breathing and rotation frequently work together during aquatic movement.</p><p>Many future aquatic skills require swimmers to coordinate breathing whilst changing body position.</p></div><div class="why-matters-card"><h5>Propulsion</h5><p>Breathing must remain effective as movement demands increase.</p><p>As swimmers begin travelling more independently, breathing becomes increasingly integrated within movement.</p></div><div class="why-matters-card"><h5>Future Swimming Development</h5><p>Stroke breathing develops from the successful integration of breathing, submersion and movement.</p><p>The foundations established within this block support future swimming development.</p></div></div>',
+        points: [
+          'Breathing and submersion support many future aquatic skills.',
+          'Difficulties with breathing may influence wider aquatic development.',
+          'Breathing should remain effective as movement demands increase.',
+          'Skills should transfer beyond isolated activities.',
+          'Integration becomes increasingly important as aquatic complexity increases.',
+          'Breathing and submersion continue developing throughout aquatic learning.',
+          'In Practice — A swimmer may demonstrate confidence during breathing and submersion activities but experience new challenges when these skills are combined with floating, gliding, rotation or propulsion.',
+          'In Practice — As aquatic complexity increases, breathing and submersion must continue to develop alongside movement.',
+          'In Practice — Successful progression depends on maintaining effective breathing whilst new movement demands are introduced.'
+        ]
+      }
+    };
+
+    var section3ConceptActivityBank = {
+      b1s3c1: {
+        type: 'choice',
+        activityType: 'Real Session Snapshot',
+        observation: 'A swimmer demonstrates strong breathing control during bubble activities and confidently participates in submersion games.<br><br>When floating and gliding activities are introduced, the swimmer repeatedly lifts the head, loses body position and struggles to maintain breathing rhythm.',
+        q: 'What does this most likely indicate?',
+        options: [
+          { id: 'a', text: 'Breathing skills have fully transferred into wider aquatic development.' },
+          { id: 'b', text: 'Breathing control is still developing within movement activities.' },
+          { id: 'c', text: 'The swimmer should stop floating activities.' },
+          { id: 'd', text: 'The swimmer should return to water contact activities.' }
+        ],
+        correct: 'b',
+        ok: 'Correct. Successful breathing development should transfer beyond isolated activities and remain effective as movement demands increase.',
+        bad: 'Not quite. Consider what the observation suggests about skill transfer into movement activities.',
+        variant: 'scenario'
+      }
+    };
+
+    var section3ConceptCompleted = {};
 
     function renderSection2Concept(target){
       renderBlockConcept('section2', target);
@@ -5887,6 +6065,57 @@
       });
     }
 
+    function renderSection3Concept(target){
+      renderBlockConcept('section3', target);
+    }
+
+    function closeSection3ConceptPanel(){
+      var block = 'section3';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      panel.classList.remove('show');
+      delete panel.dataset.currentTarget;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var grid = document.querySelector('[data-concept-grid="' + block + '"]');
+      if(grid) grid.style.display = '';
+      var stage = panel.closest('.concept-stage');
+      if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function setupSection3Concepts(){
+      var block = 'section3';
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
+        button.addEventListener('click', function(e){
+          e.stopPropagation();
+          renderSection3Concept(button.dataset.target);
+        });
+      });
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      var backBtn = panel.querySelector('[data-concept-back]');
+      if(backBtn){
+        backBtn.addEventListener('click', closeSection3ConceptPanel);
+      }
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(finishBtn){
+        finishBtn.addEventListener('click', function(){
+          var target = panel.dataset.currentTarget;
+          if(target){
+            section3ConceptCompleted[target] = true;
+            var square = document.querySelector('[data-concept-grid="' + block + '"] .concept-square[data-target="' + target + '"]');
+            if(square) square.classList.add('visited');
+          }
+          closeSection3ConceptPanel();
+        });
+      }
+      panel.addEventListener('click', function(e){
+        var item = e.target.closest('.key-idea-item');
+        if(item) item.classList.add('clicked');
+      });
+    }
+
     setupChecks();
     setupDwellTime();
     setupSmoothScroll();
@@ -5896,6 +6125,7 @@
     setupLearningOutcomes();
     setupSection1Concepts();
     setupSection2Concepts();
+    setupSection3Concepts();
     setupSpeech();
     enableReviewMode();
     updateProgress();
