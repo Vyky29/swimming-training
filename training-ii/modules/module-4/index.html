@@ -5758,7 +5758,6 @@
       if(pEl && phasesShell) pEl.insertAdjacentElement('afterend', phasesShell);
       renderConceptLevelActivity(panel, target, maps.activity, phasesShell);
 
-      if(grid) grid.style.display = 'none';
       scrollConceptPanelIntoView(panel);
     }
 
@@ -5873,7 +5872,6 @@
 
       if(pEl && imageEl) pEl.insertAdjacentElement('afterend', imageEl);
 
-      if(grid) grid.style.display = 'none';
       scrollConceptPanelIntoView(panel);
     }
 
@@ -6028,7 +6026,6 @@
       if(layoutAnchor && ideasShellEl) layoutAnchor.insertAdjacentElement('afterend', ideasShellEl);
       if(ideasShellEl && activityParts.shell) ideasShellEl.insertAdjacentElement('afterend', activityParts.shell);
 
-      if(grid) grid.style.display = 'none';
       scrollConceptPanelIntoView(panel);
     }
 
@@ -6045,8 +6042,6 @@
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
         btn.classList.remove('active');
       });
-      var grid = document.querySelector('[data-concept-grid="' + block + '"]');
-      if(grid) grid.style.display = '';
       var stage = panel.closest('.concept-stage');
       if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -6318,8 +6313,6 @@
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
         btn.classList.remove('active');
       });
-      var grid = document.querySelector('[data-concept-grid="' + block + '"]');
-      if(grid) grid.style.display = '';
       var stage = panel.closest('.concept-stage');
       if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -6370,8 +6363,6 @@
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
         btn.classList.remove('active');
       });
-      var grid = document.querySelector('[data-concept-grid="' + block + '"]');
-      if(grid) grid.style.display = '';
       var stage = panel.closest('.concept-stage');
       if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
