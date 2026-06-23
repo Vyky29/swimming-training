@@ -3708,12 +3708,12 @@
       transform:rotate(180deg);
     }
     .concept-phase-body{
-      display:grid;
-      grid-template-rows:0fr;
-      transition:grid-template-rows .35s ease;
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .35s ease;
     }
     .concept-phase-card.is-expanded .concept-phase-body{
-      grid-template-rows:1fr;
+      max-height:16000px;
     }
     .concept-phase-body-inner{
       overflow:hidden;
@@ -4028,6 +4028,51 @@
       margin-left:auto;
       margin-right:auto;
     }
+    #block1-quiz .quiz-inline{background:var(--bg);border-radius:24px;padding:28px 32px 60px;box-shadow:0 18px 40px rgba(18,50,71,.08);}
+    #block1-quiz .quiz-inline .quiz-inline-progress{margin-bottom:24px;}
+    #block1-quiz .quiz-inline .progress-track{height:10px;background:#e6edf2;border-radius:999px;overflow:hidden;}
+    #block1-quiz .quiz-inline .progress-fill{height:100%;width:0%;background:var(--gradBrand);border-radius:999px;transition:width .4s ease;}
+    #block1-quiz .quiz-inline .progress-meta{margin-top:8px;font-size:13px;font-weight:700;color:var(--ink);}
+    #block1-quiz .quiz-inline .quiz-hero{background:var(--gradBlue);color:#fff;border-radius:24px;padding:32px 40px;margin-bottom:28px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+    #block1-quiz .quiz-inline .quiz-hero::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.1);top:-50px;right:-40px;}
+    #block1-quiz .quiz-inline .quiz-hero .tag{display:inline-block;background:rgba(255,255,255,.22);padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
+    #block1-quiz .quiz-inline .quiz-hero h1{font-size:clamp(22px,3.5vw,28px);font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
+    #block1-quiz .quiz-inline .quiz-hero p{opacity:.95;font-size:15px;position:relative;z-index:1;}
+    #block1-quiz .quiz-inline .q-card{background:#fff;border-radius:20px;padding:28px 32px;margin-bottom:24px;box-shadow:var(--shadow);border:1px solid var(--line);}
+    #block1-quiz .quiz-inline .q-card h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    #block1-quiz .quiz-inline .q-card .q-text{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:20px;}
+    #block1-quiz .quiz-inline .opt-list{list-style:none;padding:0;margin:0;}
+    #block1-quiz .quiz-inline .opt-list li{margin-bottom:10px;}
+    #block1-quiz .quiz-inline .opt-list label{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;border:2px solid #e7eef5;cursor:pointer;transition:var(--transition);font-weight:500;}
+    #block1-quiz .quiz-inline .opt-list label:hover{border-color:var(--blue);background:#f8fbfd;}
+    #block1-quiz .quiz-inline .opt-list input:checked+label,#block1-quiz .quiz-inline .opt-list label:has(input:checked){border-color:var(--blue);background:#edf6fb;}
+    #block1-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt{color:var(--blue);font-weight:600;}
+    #block1-quiz .quiz-inline .opt-txt{flex:1;}
+    #block1-quiz .quiz-inline .opt-list input[type="radio"],#block1-quiz .quiz-inline .opt-list input[type="checkbox"]{accent-color:var(--blue);width:22px;height:22px;flex-shrink:0;order:2;}
+    #block1-quiz .quiz-inline .feedback{margin-top:16px;padding:14px 18px;border-radius:12px;font-size:14px;font-weight:600;display:none;}
+    #block1-quiz .quiz-inline .feedback.correct{background:#edf6fb;color:#457B9D;display:flex;align-items:center;gap:10px;}
+    #block1-quiz .quiz-inline .feedback.incorrect{background:#fde8e8;color:#c53030;display:flex;align-items:center;gap:10px;}
+    #block1-quiz .quiz-inline .match-game{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+    #block1-quiz .quiz-inline .match-slots .match-slot{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
+    #block1-quiz .quiz-inline .match-slots .match-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
+    #block1-quiz .quiz-inline .match-slots .match-slot.filled{border-style:solid;border-color:#c5e0ed;}
+    #block1-quiz .quiz-inline .slot-label{font-weight:700;color:var(--ink);min-width:72px;flex-shrink:0;}
+    #block1-quiz .quiz-inline .slot-drop{flex:1;min-height:24px;}
+    #block1-quiz .quiz-inline .match-pool{display:flex;flex-direction:column;gap:12px;padding:12px;border-radius:14px;min-height:120px;}
+    #block1-quiz .quiz-inline .match-pool.drag-over{background:#edf6fb;}
+    #block1-quiz .quiz-inline .match-chip{padding:14px 18px;background:#fff;border:2px solid var(--blue);border-radius:12px;color:var(--blue);font-weight:600;cursor:pointer;user-select:none;}
+    #block1-quiz .quiz-inline .match-chip:hover{background:#edf6fb;}
+    #block1-quiz .quiz-inline .match-chip.dragging{opacity:.6;cursor:grabbing;}
+    #block1-quiz .quiz-inline .match-chip.selected{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,132,179,.18);}
+    #block1-quiz .quiz-inline .btn-submit{display:inline-flex;align-items:center;justify-content:center;padding:16px 32px;font-size:16px;font-weight:700;background:var(--blue);color:#fff;border:none;border-radius:14px;cursor:pointer;font-family:inherit;transition:var(--transition);margin-top:16px;}
+    #block1-quiz .quiz-inline .btn-submit:hover{background:#236d95;transform:translateY(-2px);}
+    #block1-quiz .quiz-inline .btn-submit:disabled{opacity:.7;cursor:not-allowed;transform:none;}
+    #block1-quiz .quiz-inline .score-card{background:var(--gradBlue);color:#fff;border-radius:24px;padding:40px;text-align:center;display:none;margin-top:24px;}
+    #block1-quiz .quiz-inline .score-card.show{display:block;}
+    #block1-quiz .quiz-inline .score-card h2{font-size:28px;margin-bottom:12px;}
+    #block1-quiz .quiz-inline .score-card .score-value{font-size:48px;font-weight:800;margin:16px 0;}
+    #block1-quiz .quiz-inline .score-card .score-msg{font-size:16px;opacity:.95;}
+    @media(max-width:600px){#block1-quiz .quiz-inline{padding:20px 16px;}#block1-quiz .quiz-inline .q-card{padding:20px;}#block1-quiz .quiz-inline .match-game{grid-template-columns:1fr;}}
   </style>
   <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css" />
   <link rel="stylesheet" href="/training-ii/styles/training2-module-template.css" />
@@ -4557,9 +4602,159 @@
               </div>
             </div>
 
-            <div class="block-mini-section" id="block1-summary">
+            <div class="block-mini-section" id="block1-recap">
               <div class="section-title-row">
-                <h3>Block Summary</h3>
+                <h3>Key Ideas to Remember</h3>
+              </div>
+
+              <div class="recap-stack" data-tts-source="block1-recap">
+                <div class="recap-card clickable-progress">
+                  <h4>Breathing develops progressively</h4>
+                  <p>Breathing develops through repeated successful experiences rather than forced progression.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>Exhalation is the key skill</h4>
+                  <p>Controlled exhalation forms the foundation of effective aquatic breathing.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>Submersion takes time</h4>
+                  <p>Confidence and positive experiences support successful submersion development.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>Breathing must work during movement</h4>
+                  <p>Breathing should remain effective as aquatic demands increase.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>These skills support future learning</h4>
+                  <p>Breathing and submersion continue to support wider aquatic development.</p>
+                </div>
+              </div>
+
+              <label class="check-item clickable-progress">
+                <input type="checkbox" class="overall-check" data-stage-check="block1-recap" id="block1RecapCheck">
+                <span>I have reviewed the recap and I am ready to complete this block.</span>
+              </label>
+            </div>
+
+            <div class="block-mini-section" id="block1-quiz">
+              <div class="section-title-row">
+                <h3>Block 1 Quiz — Breathing Control &amp; Submersion</h3>
+              </div>
+
+              <div class="quiz-embed" style="margin-top:18px;">
+                <div class="quiz-inline" id="quizInlineBlock1">
+                  <div class="quiz-inline-progress">
+                    <div class="progress-track"><div class="progress-fill" id="progressFillBlock1"></div></div>
+                    <p class="progress-meta" id="progressTextBlock1">0 of 8 answered</p>
+                  </div>
+                  <header class="quiz-hero" data-tts-source="block1-quiz">
+                    <span class="tag">Block 1</span>
+                    <h1>Breathing Control &amp; Submersion</h1>
+                    <p>Confirm your understanding of breathing development, submersion progression and integration within aquatic learning.</p>
+                  </header>
+                  <form id="quizFormBlock1">
+                    <div class="q-card" data-q="1">
+                      <h3>Single choice</h3>
+                      <p class="q-text">1. Which statement best describes how breathing and submersion develop?</p>
+                      <ul class="opt-list">
+                        <li><label for="q1a_b1"><span class="opt-txt">A. Through repeated successful experiences.</span><input type="radio" name="q1_b1" id="q1a_b1" value="A"></label></li>
+                        <li><label for="q1b_b1"><span class="opt-txt">B. Through immediate full submersion.</span><input type="radio" name="q1_b1" id="q1b_b1" value="B"></label></li>
+                        <li><label for="q1c_b1"><span class="opt-txt">C. Through stroke practice.</span><input type="radio" name="q1_b1" id="q1c_b1" value="C"></label></li>
+                        <li><label for="q1d_b1"><span class="opt-txt">D. Through endurance training.</span><input type="radio" name="q1_b1" id="q1d_b1" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f1Block1"></div>
+                    </div>
+                    <div class="q-card" data-q="2">
+                      <h3>Single choice</h3>
+                      <p class="q-text">2. Which aspect of breathing forms the foundation of effective aquatic breathing?</p>
+                      <ul class="opt-list">
+                        <li><label for="q2a_b1"><span class="opt-txt">A. Breath holding.</span><input type="radio" name="q2_b1" id="q2a_b1" value="A"></label></li>
+                        <li><label for="q2b_b1"><span class="opt-txt">B. Rapid breathing.</span><input type="radio" name="q2_b1" id="q2b_b1" value="B"></label></li>
+                        <li><label for="q2c_b1"><span class="opt-txt">C. Controlled exhalation.</span><input type="radio" name="q2_b1" id="q2c_b1" value="C"></label></li>
+                        <li><label for="q2d_b1"><span class="opt-txt">D. Deep inhalation.</span><input type="radio" name="q2_b1" id="q2d_b1" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f2Block1"></div>
+                    </div>
+                    <div class="q-card" data-q="3">
+                      <h3>Single choice</h3>
+                      <p class="q-text">3. Which statement best describes submersion development?</p>
+                      <ul class="opt-list">
+                        <li><label for="q3a_b1"><span class="opt-txt">A. All swimmers should progress at the same rate.</span><input type="radio" name="q3_b1" id="q3a_b1" value="A"></label></li>
+                        <li><label for="q3b_b1"><span class="opt-txt">B. Full submersion should be introduced immediately.</span><input type="radio" name="q3_b1" id="q3b_b1" value="B"></label></li>
+                        <li><label for="q3c_b1"><span class="opt-txt">C. Submersion develops through gradual exposure and positive experiences.</span><input type="radio" name="q3_b1" id="q3c_b1" value="C"></label></li>
+                        <li><label for="q3d_b1"><span class="opt-txt">D. Submersion is only required for advanced swimmers.</span><input type="radio" name="q3_b1" id="q3d_b1" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f3Block1"></div>
+                    </div>
+                    <div class="q-card" data-q="4">
+                      <h3>Multiple choice</h3>
+                      <p class="q-text">4. Which factors support successful breathing and submersion development?</p>
+                      <ul class="opt-list">
+                        <li><label for="q4a_b1"><span class="opt-txt">Repeated successful experiences</span><input type="checkbox" name="q4_b1" id="q4a_b1" value="A"></label></li>
+                        <li><label for="q4b_b1"><span class="opt-txt">Positive experiences</span><input type="checkbox" name="q4_b1" id="q4b_b1" value="B"></label></li>
+                        <li><label for="q4c_b1"><span class="opt-txt">Forced progression</span><input type="checkbox" name="q4_b1" id="q4c_b1" value="C"></label></li>
+                        <li><label for="q4d_b1"><span class="opt-txt">Appropriate support</span><input type="checkbox" name="q4_b1" id="q4d_b1" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f4Block1"></div>
+                    </div>
+                    <div class="q-card" data-q="5">
+                      <h3>Multiple choice</h3>
+                      <p class="q-text">5. Breathing and submersion support which future aquatic skills?</p>
+                      <ul class="opt-list">
+                        <li><label for="q5a_b1"><span class="opt-txt">Floating &amp; Balance</span><input type="checkbox" name="q5_b1" id="q5a_b1" value="A"></label></li>
+                        <li><label for="q5b_b1"><span class="opt-txt">Gliding &amp; Streamlining</span><input type="checkbox" name="q5_b1" id="q5b_b1" value="B"></label></li>
+                        <li><label for="q5c_b1"><span class="opt-txt">Rotation</span><input type="checkbox" name="q5_b1" id="q5c_b1" value="C"></label></li>
+                        <li><label for="q5d_b1"><span class="opt-txt">Pool maintenance</span><input type="checkbox" name="q5_b1" id="q5d_b1" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f5Block1"></div>
+                    </div>
+                    <div class="q-card" data-q="6">
+                      <h3>True or false</h3>
+                      <p class="q-text">6. Breathing skills should remain effective as movement demands increase.</p>
+                      <ul class="opt-list">
+                        <li><label for="q6t_b1"><span class="opt-txt">True</span><input type="radio" name="q6_b1" id="q6t_b1" value="T"></label></li>
+                        <li><label for="q6f_b1"><span class="opt-txt">False</span><input type="radio" name="q6_b1" id="q6f_b1" value="F"></label></li>
+                      </ul>
+                      <div class="feedback" id="f6Block1"></div>
+                    </div>
+                    <div class="q-card" data-q="7">
+                      <h3>True or false</h3>
+                      <p class="q-text">7. Successful breathing during stationary activities automatically guarantees success during movement activities.</p>
+                      <ul class="opt-list">
+                        <li><label for="q7t_b1"><span class="opt-txt">True</span><input type="radio" name="q7_b1" id="q7t_b1" value="T"></label></li>
+                        <li><label for="q7f_b1"><span class="opt-txt">False</span><input type="radio" name="q7_b1" id="q7f_b1" value="F"></label></li>
+                      </ul>
+                      <div class="feedback" id="f7Block1"></div>
+                    </div>
+                    <div class="q-card" data-q="8">
+                      <h3>Match the following</h3>
+                      <p class="q-text">8. Match each phase to its primary focus.</p>
+                      <div class="match-game">
+                        <div class="match-column match-slots">
+                          <div class="match-slot" data-correct="p1"><span class="slot-label">Phase 1</span><div class="slot-drop"></div></div>
+                          <div class="match-slot" data-correct="p2"><span class="slot-label">Phase 2</span><div class="slot-drop"></div></div>
+                          <div class="match-slot" data-correct="p3"><span class="slot-label">Phase 3</span><div class="slot-drop"></div></div>
+                          <div class="match-slot" data-correct="p4"><span class="slot-label">Phase 4</span><div class="slot-drop"></div></div>
+                          <div class="match-slot" data-correct="p5"><span class="slot-label">Phase 5</span><div class="slot-drop"></div></div>
+                        </div>
+                        <div class="match-column match-pool" id="pool8Block1">
+                          <div class="match-chip" data-value="p3" draggable="true">Partial Submersion</div>
+                          <div class="match-chip" data-value="p1" draggable="true">Water Contact &amp; Sensory Tolerance</div>
+                          <div class="match-chip" data-value="p5" draggable="true">Breathing &amp; Submersion in Movement</div>
+                          <div class="match-chip" data-value="p2" draggable="true">Controlled Breathing at Surface</div>
+                          <div class="match-chip" data-value="p4" draggable="true">Full Submersion</div>
+                        </div>
+                      </div>
+                      <div class="feedback" id="f8Block1"></div>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtnBlock1">Submit answers</button>
+                  </form>
+                  <div class="score-card" id="scoreCardBlock1">
+                    <h2>Quiz complete</h2>
+                    <p class="score-value" id="scoreValueBlock1">0/8</p>
+                    <p class="score-msg" id="scoreMsgBlock1"></p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -5476,37 +5671,37 @@
       );
     }
 
+    function setConceptPhaseCardExpanded(card, expanded){
+      if(!card) return;
+      var toggle = card.querySelector('[data-phase-toggle]');
+      card.classList.toggle('is-expanded', expanded);
+      if(toggle){
+        toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        var label = toggle.querySelector('.concept-phase-expand-label');
+        if(label) label.textContent = expanded ? 'Collapse' : 'Expand';
+      }
+    }
+
     function setupExpandablePhaseCards(panel){
-      var cards = panel.querySelectorAll('[data-concept-phase]');
-      cards.forEach(function(card){
-        var toggle = card.querySelector('[data-phase-toggle]');
-        if(!toggle || toggle.dataset.bound === 'true') return;
-        toggle.dataset.bound = 'true';
-        function setExpanded(expanded){
-          card.classList.toggle('is-expanded', expanded);
-          toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-          toggle.querySelector('.concept-phase-expand-label').textContent = expanded ? 'Collapse' : 'Expand';
-        }
-        toggle.addEventListener('click', function(){
-          var willExpand = !card.classList.contains('is-expanded');
-          cards.forEach(function(other){
-            if(other !== card){
-              other.classList.remove('is-expanded');
-              var otherToggle = other.querySelector('[data-phase-toggle]');
-              if(otherToggle){
-                otherToggle.setAttribute('aria-expanded', 'false');
-                var otherLabel = otherToggle.querySelector('.concept-phase-expand-label');
-                if(otherLabel) otherLabel.textContent = 'Expand';
-              }
-            }
-          });
-          setExpanded(willExpand);
-          if(willExpand){
-            setTimeout(function(){
-              card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 120);
-          }
+      if(!panel || panel.dataset.phaseCardsBound === 'true') return;
+      panel.dataset.phaseCardsBound = 'true';
+      panel.addEventListener('click', function(e){
+        var toggle = e.target.closest('[data-phase-toggle]');
+        if(!toggle || !panel.contains(toggle)) return;
+        e.preventDefault();
+        e.stopPropagation();
+        var card = toggle.closest('.concept-phase-card');
+        if(!card || !panel.contains(card)) return;
+        var willExpand = !card.classList.contains('is-expanded');
+        panel.querySelectorAll('.concept-phase-card').forEach(function(other){
+          if(other !== card) setConceptPhaseCardExpanded(other, false);
         });
+        setConceptPhaseCardExpanded(card, willExpand);
+        if(willExpand){
+          setTimeout(function(){
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 120);
+        }
       });
     }
 
@@ -5973,7 +6168,6 @@
       b1s2c4: {
         title: 'Concept 4 — Breathing & Submersion in Movement',
         text: '<p>Breathing and submersion rarely occur in isolation during aquatic movement.</p><p>As swimmers become more confident, breathing must be maintained whilst floating, rotating, gliding, travelling and performing aquatic skills.</p><p>This concept focuses on integrating breathing and submersion within increasingly complex aquatic movement patterns.</p>',
-        phasesInline: true,
         phases: [
           {
             id: 'p5',
@@ -5983,13 +6177,10 @@
             examplesHTML: '<div class="phase-example-groups"><div class="phase-example-group"><h6>Floating &amp; Rotation</h6><ul class="phase-example-list"><li>Float + Roll + Breathe</li><li>Mushroom Float + Breathe</li><li>Back Float + Recover + Breathe</li></ul></div><div class="phase-example-group"><h6>Gliding &amp; Streamlining</h6><ul class="phase-example-list"><li>Glide + Breathe</li><li>Glide + Roll + Breathe</li><li>Rocket Glide + Recover</li></ul></div><div class="phase-example-group"><h6>Propulsion</h6><ul class="phase-example-list"><li>Kick + Breathe</li><li>Paddle + Breathe</li><li>Propulsion + Breathing</li></ul></div><div class="phase-example-group"><h6>Stroke Foundations</h6><ul class="phase-example-list"><li>Front Crawl Breathing Foundations</li><li>Backstroke Breathing Foundations</li></ul></div></div>',
             universalHTML: '<div class="universal-progression"><div class="universal-tier"><strong>Static Control</strong><ul><li>Float + Roll + Breathe</li><li>Kick + Breathe holding support</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Movement Integration</strong><ul><li>Glide + Roll + Breathe</li><li>Travelling whilst maintaining breathing control</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Dynamic Application</strong><ul><li>Propulsion + Breathing</li><li>Breathing during integrated aquatic skills</li><li>Early stroke breathing patterns</li></ul></div></div>',
             points: [
-              'Breathing should become increasingly automatic as movement demands increase.',
-              'Successful breathing in isolated activities does not automatically transfer to aquatic movement.',
-              'Additional movement demands may create new breathing challenges.',
-              'Rotation often provides the bridge between breathing control and stroke breathing.',
-              'Stroke breathing develops from integrated aquatic skills rather than isolated breathing drills.',
+              'Breathing should remain effective as movement demands increase.',
+              'Success during stationary activities does not automatically transfer into movement.',
+              'Rotation often provides the bridge between breathing control and future stroke breathing.',
               'Breathing should be developed within movement rather than added afterwards.',
-              'Progression should be based on confidence, control and consistency across different activity demands.',
               'In Practice — A swimmer may demonstrate excellent breathing control when stationary but lose breathing rhythm once movement is introduced.',
               'In Practice — Similarly, a swimmer may confidently submerge during retrieval activities but struggle to maintain breathing control whilst gliding, rotating or travelling through the water.',
               'In Practice — Observation should focus on how effectively breathing transfers into increasingly dynamic aquatic situations.'
@@ -6163,6 +6354,7 @@
         var item = e.target.closest('.key-idea-item');
         if(item) item.classList.add('clicked');
       });
+      setupExpandablePhaseCards(panel);
     }
 
     function renderSection3Concept(target){
@@ -6216,6 +6408,245 @@
       });
     }
 
+    function setupBlock1Quiz(){
+      var total = 8;
+      var correctAnswers = { q1: 'A', q2: 'C', q3: 'C', q4: ['A','B','D'], q5: ['A','B','C'], q6: 'T', q7: 'F' };
+      var root = document.getElementById('quizInlineBlock1');
+      if(!root) return;
+      var progressFill = document.getElementById('progressFillBlock1');
+      var progressText = document.getElementById('progressTextBlock1');
+      var quizForm = document.getElementById('quizFormBlock1');
+      var pool8 = document.getElementById('pool8Block1');
+      var scoreCard = document.getElementById('scoreCardBlock1');
+      var scoreValue = document.getElementById('scoreValueBlock1');
+      var scoreMsg = document.getElementById('scoreMsgBlock1');
+      var submitBtn = document.getElementById('submitBtnBlock1');
+      if(!quizForm || !progressFill || !progressText) return;
+
+      function countMatchFilled(){
+        return root.querySelectorAll('.q-card[data-q="8"] .match-slot .slot-drop .match-chip').length;
+      }
+
+      function countAnswered(){
+        var n = 0;
+        [1,2,3,6,7].forEach(function(i){
+          if(root.querySelector('input[name="q'+i+'_b1"]:checked')) n++;
+        });
+        if(root.querySelectorAll('input[name="q4_b1"]:checked').length > 0) n++;
+        if(root.querySelectorAll('input[name="q5_b1"]:checked').length > 0) n++;
+        if(countMatchFilled() === 5) n++;
+        return n;
+      }
+
+      function updateQuizProgress(){
+        progressFill.style.width = (countAnswered() / total * 100) + '%';
+        progressText.textContent = countAnswered() + ' of ' + total + ' answered';
+      }
+
+      quizForm.addEventListener('change', updateQuizProgress);
+
+      function initMatch(container, poolEl){
+        var slots = container.querySelectorAll('.match-slot');
+        var dragged = null;
+        var selectedChip = null;
+        function clearSelected(){
+          container.querySelectorAll('.match-chip.selected').forEach(function(el){ el.classList.remove('selected'); });
+          selectedChip = null;
+        }
+        function moveChipToSlot(chip, slot){
+          if(!chip || !slot) return;
+          var dropZone = slot.querySelector('.slot-drop');
+          if(!dropZone) return;
+          var existing = dropZone.querySelector('.match-chip');
+          if(existing) poolEl.appendChild(existing);
+          dropZone.appendChild(chip);
+        }
+        function onDragStart(e){
+          dragged = e.target;
+          if(!dragged.classList.contains('match-chip')) return;
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', dragged.dataset.value);
+          dragged.classList.add('dragging');
+        }
+        function onDragEnd(e){
+          if(e.target.classList.contains('match-chip')) e.target.classList.remove('dragging');
+          dragged = null;
+        }
+        function onDragOver(e){
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          var slot = e.target.closest('.match-slot');
+          if(slot) slot.classList.add('drag-over');
+          if(e.target.closest('.match-pool')) e.target.closest('.match-pool').classList.add('drag-over');
+        }
+        function onDragLeave(e){
+          var slot = e.target.closest('.match-slot');
+          if(slot && !slot.contains(e.relatedTarget)) slot.classList.remove('drag-over');
+          var p = e.target.closest('.match-pool');
+          if(p && !p.contains(e.relatedTarget)) p.classList.remove('drag-over');
+        }
+        function onDropSlot(e){
+          e.preventDefault();
+          var slot = e.target.closest('.match-slot');
+          slots.forEach(function(s){
+            s.classList.remove('drag-over');
+            var dz = s.querySelector('.slot-drop');
+            if(dz) dz.classList.remove('filled');
+          });
+          poolEl.classList.remove('drag-over');
+          if(!slot || !dragged) return;
+          var dropZone = slot.querySelector('.slot-drop');
+          if(dropZone.contains(dragged)) return;
+          var existing = dropZone.querySelector('.match-chip');
+          if(existing) poolEl.appendChild(existing);
+          dropZone.appendChild(dragged);
+          slot.classList.add('filled');
+          dropZone.classList.add('filled');
+          updateQuizProgress();
+        }
+        function onDropPool(e){
+          e.preventDefault();
+          if(!dragged || !e.target.closest('.match-pool')) return;
+          slots.forEach(function(s){
+            s.classList.remove('drag-over','filled');
+            var dz = s.querySelector('.slot-drop');
+            if(dz) dz.classList.remove('filled');
+          });
+          poolEl.classList.remove('drag-over');
+          poolEl.appendChild(dragged);
+          updateQuizProgress();
+        }
+        container.querySelectorAll('.match-chip').forEach(function(chip){
+          chip.setAttribute('tabindex','0');
+          chip.addEventListener('click', function(){
+            var parentDrop = chip.closest('.slot-drop');
+            if(parentDrop){
+              poolEl.appendChild(chip);
+              clearSelected();
+              updateQuizProgress();
+              return;
+            }
+            if(selectedChip === chip){
+              chip.classList.remove('selected');
+              selectedChip = null;
+              return;
+            }
+            clearSelected();
+            selectedChip = chip;
+            chip.classList.add('selected');
+          });
+          chip.addEventListener('keydown', function(e){
+            if(e.key === 'Enter' || e.key === ' '){
+              e.preventDefault();
+              chip.click();
+            }
+          });
+        });
+        slots.forEach(function(slot){
+          slot.addEventListener('click', function(){
+            if(!selectedChip) return;
+            moveChipToSlot(selectedChip, slot);
+            clearSelected();
+            updateQuizProgress();
+          });
+        });
+        container.addEventListener('dragstart', function(e){
+          if(e.target.classList.contains('match-chip')) onDragStart(e);
+        });
+        container.addEventListener('dragend', function(e){
+          if(e.target.classList.contains('match-chip')) onDragEnd(e);
+        });
+        slots.forEach(function(slot){
+          var dropZone = slot.querySelector('.slot-drop');
+          dropZone.addEventListener('dragover', onDragOver);
+          dropZone.addEventListener('dragleave', onDragLeave);
+          dropZone.addEventListener('drop', onDropSlot);
+        });
+        poolEl.addEventListener('dragover', onDragOver);
+        poolEl.addEventListener('dragleave', onDragLeave);
+        poolEl.addEventListener('drop', onDropPool);
+      }
+
+      var matchQ8 = root.querySelector('.q-card[data-q="8"]');
+      if(matchQ8 && pool8) initMatch(matchQ8, pool8);
+
+      function showFeedback(id, correct, msg, showCorrect){
+        var el = document.getElementById('f' + id + 'Block1');
+        if(!el) return;
+        el.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
+        var text = correct ? msg : (showCorrect ? msg : 'Incorrect. Try again.');
+        el.innerHTML = (correct ? '&#10003; ' : '&#10007; ') + text;
+        el.style.display = 'flex';
+      }
+
+      quizForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var score = 0;
+        var results = [];
+
+        [1,2,3,6,7].forEach(function(i){
+          var input = root.querySelector('input[name="q'+i+'_b1"]:checked');
+          var v = input ? input.value : null;
+          var ok = v === correctAnswers['q'+i];
+          if(ok) score++;
+          var correctLabel = correctAnswers['q'+i];
+          if(i === 6 || i === 7) correctLabel = correctAnswers['q'+i] === 'T' ? 'True' : 'False';
+          results.push({
+            i: i,
+            ok: ok,
+            msg: ok ? 'Correct.' : 'Incorrect. The correct answer is ' + correctLabel + '.'
+          });
+        });
+
+        var q4 = Array.from(root.querySelectorAll('input[name="q4_b1"]:checked')).map(function(c){ return c.value; }).sort().join('');
+        var q4ok = q4 === 'ABD';
+        if(q4ok) score++;
+        results.push({
+          i: 4,
+          ok: q4ok,
+          msg: q4ok ? 'Correct.' : 'Incorrect. The correct answers are Repeated successful experiences, Positive experiences and Appropriate support.'
+        });
+
+        var q5 = Array.from(root.querySelectorAll('input[name="q5_b1"]:checked')).map(function(c){ return c.value; }).sort().join('');
+        var q5ok = q5 === 'ABC';
+        if(q5ok) score++;
+        results.push({
+          i: 5,
+          ok: q5ok,
+          msg: q5ok ? 'Correct.' : 'Incorrect. The correct answers are Floating & Balance, Gliding & Streamlining and Rotation.'
+        });
+
+        var slots8 = root.querySelectorAll('.q-card[data-q="8"] .match-slot');
+        var q8ok = slots8.length === 5;
+        slots8.forEach(function(slot){
+          var chip = slot.querySelector('.slot-drop .match-chip');
+          if(!chip || chip.dataset.value !== slot.dataset.correct) q8ok = false;
+        });
+        if(q8ok) score++;
+        results.push({
+          i: 8,
+          ok: q8ok,
+          msg: q8ok ? 'Correct.' : 'Incorrect. Phase 1 → Water Contact & Sensory Tolerance; Phase 2 → Controlled Breathing at Surface; Phase 3 → Partial Submersion; Phase 4 → Full Submersion; Phase 5 → Breathing & Submersion in Movement.'
+        });
+
+        var showCorrect = score === total;
+        results.forEach(function(r){ showFeedback(r.i, r.ok, r.msg, showCorrect); });
+        progressFill.style.width = '100%';
+        progressText.textContent = total + ' of ' + total + ' answered';
+
+        var passed = score === total;
+        scoreValue.textContent = passed ? ('Quiz passed — ' + score + '/' + total) : (score + '/' + total);
+        scoreMsg.textContent = passed
+          ? 'You have successfully completed the Block 1 quiz.'
+          : 'You need all 8 correct before completing this block. Review the content and try again.';
+        scoreCard.classList.add('show');
+        if(submitBtn) submitBtn.disabled = passed;
+        scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      updateQuizProgress();
+    }
+
     setupChecks();
     setupDwellTime();
     setupSmoothScroll();
@@ -6226,6 +6657,7 @@
     setupSection1Concepts();
     setupSection2Concepts();
     setupSection3Concepts();
+    setupBlock1Quiz();
     setupSpeech();
     enableReviewMode();
     updateProgress();
