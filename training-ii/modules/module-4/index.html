@@ -4968,14 +4968,41 @@
       });
     }
 
+    function setupModuleKeyConceptCards(){
+      var blockMap = { '1': 'block1', '2': 'block2', '3': 'block3', '4': 'block4' };
+      document.querySelectorAll('#key-concepts [data-module-key-card]').forEach(function(card){
+        function activate(){
+          card.classList.add('clicked');
+          var blockId = blockMap[card.getAttribute('data-module-key-card')];
+          if(!blockId) return;
+          var section = document.getElementById(blockId);
+          if(!section) return;
+          section.classList.remove('gated-locked');
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        card.addEventListener('click', function(e){
+          e.stopPropagation();
+          activate();
+        });
+        card.addEventListener('keydown', function(e){
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            activate();
+          }
+        });
+      });
+    }
+
     function setupClickableProgress(){
       document.querySelectorAll('.clickable-progress').forEach(function(item){
         if(item.tagName === 'LABEL') return;
         if(item.hasAttribute('data-block-section-card')) return;
+        if(item.hasAttribute('data-module-key-card')) return;
         if(item.classList.contains('block-intro-card')) return;
         item.addEventListener('click', function(){ item.classList.toggle('clicked'); });
       });
       setupBlockIntroCards();
+      setupModuleKeyConceptCards();
       document.querySelectorAll('.section').forEach(function(section){
         section.addEventListener('click', function(){ section.classList.add('clicked'); });
       });
