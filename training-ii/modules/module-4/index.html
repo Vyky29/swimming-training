@@ -3460,13 +3460,30 @@
     .concept-grid:has(> .concept-square:nth-child(4):last-child) > .concept-square{
       min-width:0;
     }
+    .concept-grid:has(> .concept-square:nth-child(5):last-child){
+      grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+    }
+    .concept-grid:has(> .concept-square:nth-child(5):last-child) > .concept-square{
+      min-width:0;
+    }
+    @media (max-width: 1100px){
+      .concept-grid:has(> .concept-square:nth-child(5):last-child){
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+      }
+    }
     @media (max-width: 900px){
       .concept-grid:has(> .concept-square:nth-child(4):last-child){
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+      }
+      .concept-grid:has(> .concept-square:nth-child(5):last-child){
         grid-template-columns:repeat(2,minmax(0,1fr)) !important;
       }
     }
     @media (max-width: 520px){
       .concept-grid:has(> .concept-square:nth-child(4):last-child){
+        grid-template-columns:1fr !important;
+      }
+      .concept-grid:has(> .concept-square:nth-child(5):last-child){
         grid-template-columns:1fr !important;
       }
     }
@@ -3497,7 +3514,7 @@
       grid-template-columns:repeat(3,minmax(0,1fr));
     }
     [data-concept-grid="section2"]{
-      grid-template-columns:repeat(4,minmax(0,1fr));
+      grid-template-columns:repeat(5,minmax(0,1fr));
     }
     [data-concept-grid="section3"]{
       grid-template-columns:minmax(0,1fr);
@@ -3997,6 +4014,20 @@
     .five-phase-poster-stage .concept-visual-note{
       margin:10px 0 0;
     }
+    .concept-image.concept-poster-visual{
+      padding:0;
+      border:none;
+      background:transparent;
+    }
+    .concept-image.concept-poster-visual .five-phase-poster-stage{
+      margin-top:0;
+      padding:24px 28px 28px;
+    }
+    .concept-image.concept-poster-visual .pathway-flow--phases{
+      max-width:min(560px,100%);
+      margin-left:auto;
+      margin-right:auto;
+    }
   </style>
   <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css" />
   <link rel="stylesheet" href="/training-ii/styles/training2-module-template.css" />
@@ -4426,6 +4457,7 @@
                   <button class="concept-square" type="button" data-target="b1s2c2">Building Breathing Control</button>
                   <button class="concept-square" type="button" data-target="b1s2c3">Developing Submersion</button>
                   <button class="concept-square" type="button" data-target="b1s2c4">Breathing &amp; Submersion in Movement</button>
+                  <button class="concept-square" type="button" data-target="b1s2c5">The Five Phase Progression Framework</button>
                 </div>
 
                 <div class="concept-panel" data-panel-for="section2">
@@ -4457,31 +4489,35 @@
                   </div>
                 </div>
               </div>
-
-              <div class="five-phase-poster-stage concept-section-card" id="block1-five-phase-poster">
-                <div class="concept-section-head"><span class="icon" aria-hidden="true">📊</span><span>Five Phase Progression Poster</span></div>
-                <p class="concept-image-meta"><strong>The Five Phase Progression</strong><br><span class="muted">A summary framework for breathing and submersion development across Block 1.</span></p>
-                <div class="pathway-flow pathway-flow--phases">
-                  <div class="pathway-step pathway-phase-step"><strong>Phase 1</strong><span class="pathway-phase-label">Water Contact &amp; Sensory Tolerance</span></div>
-                  <div class="pathway-arrow" aria-hidden="true">↓</div>
-                  <div class="pathway-step pathway-phase-step"><strong>Phase 2</strong><span class="pathway-phase-label">Controlled Breathing at Surface</span></div>
-                  <div class="pathway-arrow" aria-hidden="true">↓</div>
-                  <div class="pathway-step pathway-phase-step"><strong>Phase 3</strong><span class="pathway-phase-label">Partial Face Immersion</span></div>
-                  <div class="pathway-arrow" aria-hidden="true">↓</div>
-                  <div class="pathway-step pathway-phase-step"><strong>Phase 4</strong><span class="pathway-phase-label">Full Submersion</span></div>
-                  <div class="pathway-arrow" aria-hidden="true">↓</div>
-                  <div class="pathway-step pathway-phase-step"><strong>Phase 5</strong><span class="pathway-phase-label">Integration with Movement</span></div>
-                </div>
-              </div>
             </div>
 
             <div class="block-section-stage" id="block1-section3">
               <span class="section-eyebrow">&#128309; SECTION 3</span>
               <h3 class="block-section-title">Application &amp; Integration</h3>
 
-              <p class="lead">Breathing and submersion do not exist in isolation.<br><br>
-                As aquatic development becomes more complex, these skills continue to support participation, movement and future swimming development.<br><br>
-                This section explores how breathing and submersion underpin wider aquatic learning and act as foundation skills for future progression.</p>
+              <p class="lead">Breathing and submersion continue to support aquatic development long after they are first acquired.<br><br>
+                As swimmers progress, these foundation skills become increasingly integrated within wider aquatic learning and future swimming development.</p>
+
+              <div class="grid-2 block-intro-cards">
+                <div class="card icon-card block-intro-card">
+                  <div class="card-icon">&#9678;</div>
+                  <h4>Section Focus</h4>
+                  <ul>
+                    <li>Understanding how breathing and submersion support wider aquatic development and future swimming progression.</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card">
+                  <div class="card-icon">&#8801;</div>
+                  <h4>What This Section Covers</h4>
+                  <ul>
+                    <li>How breathing supports floating and balance.</li>
+                    <li>How breathing influences gliding and streamlining.</li>
+                    <li>The relationship between breathing and rotation.</li>
+                    <li>How breathing becomes integrated with propulsion.</li>
+                    <li>The role of breathing within future swimming development.</li>
+                  </ul>
+                </div>
+              </div>
 
               <div class="concept-stage">
                 <h4>Explore the Key Concepts</h4>
@@ -4497,10 +4533,6 @@
                   </div>
                   <p></p>
 
-                  <div class="concept-image"></div>
-
-                  <div class="concept-why-matters-shell concept-section-card" data-concept-why-matters hidden></div>
-
                   <div class="concept-ideas-shell">
                     <div class="concept-points-box">
                       <h4>Key Ideas for Instructors</h4>
@@ -4515,6 +4547,8 @@
                       <div class="text"></div>
                     </div>
                   </div>
+
+                  <div class="concept-image"></div>
 
                   <div class="concept-media-actions">
                     <button class="concept-finish" type="button" data-finish-concept>Done</button>
@@ -5507,6 +5541,7 @@
 
       var imageEl = panel.querySelector('.concept-image');
       if(imageEl){
+        imageEl.classList.remove('concept-poster-visual');
         imageEl.innerHTML = '';
         imageEl.classList.remove('concept-section-card');
         imageEl.style.display = 'none';
@@ -5590,12 +5625,74 @@
       return { shell: shell, slot: slot };
     }
 
+    function renderPosterOnlyConcept(block, target, panel, grid, data){
+      var phasesShell = panel.querySelector('[data-concept-phases-shell]');
+      if(phasesShell){
+        phasesShell.innerHTML = '';
+        phasesShell.style.display = 'none';
+      }
+
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.toggle('active', btn.dataset.target === target);
+      });
+
+      panel.classList.add('show');
+      panel.dataset.currentTarget = target;
+
+      var heading = panel.querySelector('.concept-heading-row h4');
+      if(heading) heading.textContent = data.title;
+
+      var pEl = panel.querySelector('.concept-heading-row + p, .concept-heading-row ~ p');
+      if(!pEl) pEl = panel.querySelector('p');
+      if(pEl){
+        pEl.innerHTML = data.text.indexOf('<p>') >= 0 ? data.text : '<p>' + data.text + '</p>';
+        pEl.classList.add('concept-intro-line');
+        if(!pEl.querySelector('.concept-intro-kicker')){
+          pEl.insertAdjacentHTML('afterbegin', '<span class="concept-intro-kicker"><span class="icon" aria-hidden="true">📘</span>Introduction</span>');
+        }
+      }
+
+      var imageEl = panel.querySelector('.concept-image');
+      if(imageEl){
+        imageEl.innerHTML = data.imageHTML || '';
+        imageEl.classList.add('concept-poster-visual');
+        imageEl.classList.remove('concept-section-card');
+        imageEl.style.display = data.imageHTML ? '' : 'none';
+      }
+
+      var ideasShellEl = panel.querySelector('.concept-ideas-shell');
+      if(ideasShellEl) ideasShellEl.style.display = 'none';
+
+      var whyShellEl = panel.querySelector('[data-concept-why-matters]');
+      if(whyShellEl){
+        whyShellEl.innerHTML = '';
+        whyShellEl.style.display = 'none';
+        whyShellEl.setAttribute('hidden', 'hidden');
+      }
+
+      var activityParts = getConceptActivityShell(panel);
+      activityParts.shell.style.display = 'none';
+      activityParts.slot.innerHTML = '';
+      activityParts.slot.style.display = 'none';
+      activityParts.slot.removeAttribute('data-activity-concept-target');
+
+      if(pEl && imageEl) pEl.insertAdjacentElement('afterend', imageEl);
+
+      if(grid) grid.style.display = 'none';
+      scrollConceptPanelIntoView(panel);
+    }
+
     function renderBlockConcept(block, target){
       var maps = getBlockConceptMaps(block);
       var panel = document.querySelector('[data-panel-for="' + block + '"]');
       var grid = document.querySelector('[data-concept-grid="' + block + '"]');
       var data = maps.content[target];
       if(!panel || !data) return;
+
+      if(data.posterOnly){
+        renderPosterOnlyConcept(block, target, panel, grid, data);
+        return;
+      }
 
       if(data.phases && data.phases.length){
         renderPhaseBasedConcept(block, target, panel, grid, data, maps);
@@ -5630,6 +5727,7 @@
 
       var imageEl = panel.querySelector('.concept-image');
       if(imageEl){
+        imageEl.classList.remove('concept-poster-visual');
         imageEl.innerHTML = data.imageHTML || '';
         imageEl.classList.toggle('concept-section-card', !!data.imageHTML);
         imageEl.style.display = data.imageHTML ? '' : 'none';
@@ -5898,6 +5996,12 @@
             ]
           }
         ]
+      },
+      b1s2c5: {
+        title: 'Concept 5 — The Five Phase Progression Framework',
+        posterOnly: true,
+        text: '<p>The Five Phase Progression Framework brings together the key ideas from this section into a single visual pathway.</p><p>It provides a practical reference that helps instructors understand how breathing control and submersion develop progressively through aquatic learning.</p>',
+        imageHTML: '<div class="five-phase-poster-stage concept-section-card"><div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Framework Poster</span></div><p class="concept-image-meta"><strong>The Five Phase Progression</strong><br><span class="muted">A summary framework for breathing and submersion development across Block 1.</span></p><div class="pathway-flow pathway-flow--phases"><div class="pathway-step pathway-phase-step"><strong>Phase 1</strong><span class="pathway-phase-label">Water Contact &amp; Sensory Tolerance</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 2</strong><span class="pathway-phase-label">Controlled Breathing at Surface</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 3</strong><span class="pathway-phase-label">Partial Face Immersion</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 4</strong><span class="pathway-phase-label">Full Submersion</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step pathway-phase-step"><strong>Phase 5</strong><span class="pathway-phase-label">Integration with Movement</span></div></div></div>'
       }
     };
 
@@ -5976,19 +6080,15 @@
     var section3ConceptContent = {
       b1s3c1: {
         title: 'Concept 1 — Breathing & Submersion as Foundation Skills',
-        text: '<p>Breathing and submersion provide the foundation for many future aquatic skills.</p><p>As swimmers progress, these skills become increasingly integrated within floating, gliding, rotation, propulsion and future swimming development.</p>',
-        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>How Breathing &amp; Submersion Support Aquatic Development</strong></p><div class="pathway-flow pathway-flow--foundation"><div class="integration-pathway-origin"><div class="pathway-step"><strong>Breathing Control</strong></div><div class="pathway-join" aria-hidden="true">*</div><div class="pathway-step"><strong>Submersion</strong></div></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Foundation Aquatic Skills</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Floating &amp; Balance</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Gliding &amp; Streamlining</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Rotation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Propulsion</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Future Swimming Development</strong></div></div>',
-        whyMattersHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">✨</span><span>Why This Matters</span></div><div class="why-matters-grid"><div class="why-matters-card"><h5>Floating &amp; Balance</h5><p>Breathing influences body position, relaxation and stability in the water.</p><p>Effective breathing often supports successful floating experiences.</p></div><div class="why-matters-card"><h5>Gliding &amp; Streamlining</h5><p>Breathing control supports body alignment, confidence and movement efficiency.</p><p>As gliding activities become more dynamic, breathing remains an important component of successful performance.</p></div><div class="why-matters-card"><h5>Rotation</h5><p>Breathing and rotation frequently work together during aquatic movement.</p><p>Many future aquatic skills require swimmers to coordinate breathing whilst changing body position.</p></div><div class="why-matters-card"><h5>Propulsion</h5><p>Breathing must remain effective as movement demands increase.</p><p>As swimmers begin travelling more independently, breathing becomes increasingly integrated within movement.</p></div><div class="why-matters-card"><h5>Future Swimming Development</h5><p>Stroke breathing develops from the successful integration of breathing, submersion and movement.</p><p>The foundations established within this block support future swimming development.</p></div></div>',
+        text: '<p>Breathing and submersion do not end once initial skill development has been achieved.</p><p>As movement becomes more complex, these skills continue to support participation, control and future aquatic learning.</p>',
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>How Breathing &amp; Submersion Support Aquatic Development</strong></p><div class="pathway-flow pathway-flow--foundation"><div class="integration-pathway-origin"><div class="pathway-step"><strong>Breathing Control</strong></div><div class="pathway-join" aria-hidden="true">*</div><div class="pathway-step"><strong>Submersion</strong></div></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Foundation Aquatic Skills</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Floating &amp; Balance</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Gliding &amp; Streamlining</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Rotation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Propulsion</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Future Swimming Development</strong></div></div><p class="concept-visual-note">The visual should clearly demonstrate that breathing and submersion act as foundation skills that support future aquatic learning.</p>',
         points: [
-          'Breathing and submersion support many future aquatic skills.',
+          'Breathing and submersion underpin many future aquatic skills.',
           'Difficulties with breathing may influence wider aquatic development.',
-          'Breathing should remain effective as movement demands increase.',
-          'Skills should transfer beyond isolated activities.',
-          'Integration becomes increasingly important as aquatic complexity increases.',
-          'Breathing and submersion continue developing throughout aquatic learning.',
+          'Breathing should remain effective as movement and aquatic demands increase.',
+          'Skills should transfer beyond isolated activities and into wider aquatic participation.',
           'In Practice — A swimmer may demonstrate confidence during breathing and submersion activities but experience new challenges when these skills are combined with floating, gliding, rotation or propulsion.',
-          'In Practice — As aquatic complexity increases, breathing and submersion must continue to develop alongside movement.',
-          'In Practice — Successful progression depends on maintaining effective breathing whilst new movement demands are introduced.'
+          'In Practice — As movement demands increase, breathing and submersion must continue to develop alongside wider aquatic skills.'
         ]
       }
     };
