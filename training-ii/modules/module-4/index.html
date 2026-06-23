@@ -3516,9 +3516,11 @@
     [data-concept-grid="section2"]{
       grid-template-columns:repeat(5,minmax(0,1fr));
     }
-    [data-concept-grid="section3"]{
-      grid-template-columns:minmax(0,1fr);
-      max-width:460px;
+    .concept-grid:has(> .concept-square:only-child){
+      grid-template-columns:minmax(0,1fr) !important;
+      max-width:min(520px, 100%);
+      margin-left:auto;
+      margin-right:auto;
     }
     .pathway-flow{
       display:flex;
@@ -4406,15 +4408,15 @@
                 Instructors develop an understanding of how breathing, water contact and immersion affect confidence, regulation and participation, and why these skills form the foundation for future aquatic development.<br><br>
                 The focus is not on teaching activities or progression, but on understanding the role breathing and submersion play within aquatic learning.</p>
 
-              <div class="grid-2 block-intro-cards">
-                <div class="card icon-card block-intro-card">
+              <div class="grid-2 block-intro-cards" data-block-intro="section1">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
                   <div class="card-icon">&#9678;</div>
                   <h4>Section Focus</h4>
                   <ul>
                     <li>Understanding how breathing and submersion influence confidence, regulation, participation and future aquatic development.</li>
                   </ul>
                 </div>
-                <div class="card icon-card block-intro-card">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
                   <div class="card-icon">&#8801;</div>
                   <h4>What This Section Covers</h4>
                   <ul>
@@ -4474,15 +4476,15 @@
                 Instructors explore practical teaching approaches that support swimmers from early water contact through to breathing and submersion within movement activities.<br><br>
                 The focus is on creating confidence, control and consistency through progressive learning experiences.</p>
 
-              <div class="grid-2 block-intro-cards">
-                <div class="card icon-card block-intro-card">
+              <div class="grid-2 block-intro-cards" data-block-intro="section2">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
                   <div class="card-icon">&#9678;</div>
                   <h4>Section Focus</h4>
                   <ul>
                     <li>Developing breathing control and submersion through structured progression, practical activities and progressive support.</li>
                   </ul>
                 </div>
-                <div class="card icon-card block-intro-card">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
                   <div class="card-icon">&#8801;</div>
                   <h4>What This Section Covers</h4>
                   <ul>
@@ -4543,15 +4545,15 @@
               <p class="lead">Breathing and submersion continue to support aquatic development long after they are first acquired.<br><br>
                 As swimmers progress, these foundation skills become increasingly integrated within wider aquatic learning and future swimming development.</p>
 
-              <div class="grid-2 block-intro-cards">
-                <div class="card icon-card block-intro-card">
+              <div class="grid-2 block-intro-cards" data-block-intro="section3">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
                   <div class="card-icon">&#9678;</div>
                   <h4>Section Focus</h4>
                   <ul>
                     <li>Understanding how breathing and submersion support wider aquatic development and future swimming progression.</li>
                   </ul>
                 </div>
-                <div class="card icon-card block-intro-card">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
                   <div class="card-icon">&#8801;</div>
                   <h4>What This Section Covers</h4>
                   <ul>
@@ -4927,12 +4929,53 @@
       });
     }
 
+    var BLOCK_INTRO_STORAGE_KEY_M4 = 'blockIntro_module4';
+    function loadBlockIntroState(){
+      try {
+        var raw = localStorage.getItem(BLOCK_INTRO_STORAGE_KEY_M4);
+        return raw ? JSON.parse(raw) : {};
+      } catch(e){
+        return {};
+      }
+    }
+    function saveBlockIntroState(state){
+      try { localStorage.setItem(BLOCK_INTRO_STORAGE_KEY_M4, JSON.stringify(state)); } catch(e){}
+    }
+    function setupBlockIntroCards(){
+      document.querySelectorAll('.block-intro-cards').forEach(function(wrap){
+        var blockId = wrap.getAttribute('data-block-intro');
+        if(!blockId) return;
+        var state = loadBlockIntroState();
+        if(!state[blockId]) state[blockId] = { focus: false, breakdown: false };
+        wrap.querySelectorAll('.block-intro-card').forEach(function(card){
+          var type = card.getAttribute('data-card-type');
+          if((type === 'focus' && state[blockId].focus) || (type === 'breakdown' && state[blockId].breakdown)){
+            card.classList.add('clicked');
+          }
+          card.addEventListener('click', function(){
+            card.classList.add('clicked');
+            if(type === 'focus') state[blockId].focus = true;
+            else if(type === 'breakdown') state[blockId].breakdown = true;
+            saveBlockIntroState(state);
+          });
+          card.addEventListener('keydown', function(e){
+            if(e.key === 'Enter' || e.key === ' '){
+              e.preventDefault();
+              card.click();
+            }
+          });
+        });
+      });
+    }
+
     function setupClickableProgress(){
       document.querySelectorAll('.clickable-progress').forEach(function(item){
         if(item.tagName === 'LABEL') return;
         if(item.hasAttribute('data-block-section-card')) return;
+        if(item.classList.contains('block-intro-card')) return;
         item.addEventListener('click', function(){ item.classList.toggle('clicked'); });
       });
+      setupBlockIntroCards();
       document.querySelectorAll('.section').forEach(function(section){
         section.addEventListener('click', function(){ section.classList.add('clicked'); });
       });
