@@ -3510,7 +3510,8 @@
     .block-section-title{
       margin:0 0 18px;
     }
-    [data-concept-grid="section1"]{
+    [data-concept-grid="section1"],
+    [data-concept-grid="block2-section1"]{
       grid-template-columns:repeat(3,minmax(0,1fr));
     }
     [data-concept-grid="section2"]{
@@ -4099,6 +4100,7 @@
           <a class="nav-link" href="#outcomes" data-progress-key="module4_outcomes">Learning Outcomes</a>
           <a class="nav-link" href="#key-concepts">Inside This Module</a>
           <a class="nav-link" href="#block1" data-progress-key="module4_block1">Block 1</a>
+          <a class="nav-link" href="#block2" data-progress-key="module4_block2">Block 2</a>
           <a class="nav-link" href="#complete">Final Principle</a>
         </div>
       </div>
@@ -4771,7 +4773,89 @@
           </div>
         </section>
 
+        <section class="section gated-block" id="block2" data-stage="block2">
+          <div class="section-top">
+            <span class="section-pill">Block 2</span>
+          </div>
+          <div class="section-body">
+            <div class="block-header">
+              <div class="block-title-wrap">
+                <h3>Block 2 — Floating &amp; Balance</h3>
+              </div>
+              <div class="section-top-actions">
+                <button class="btn btn-tts" data-tts-button="block2-hero">🔊 Listen</button>
+                <button class="btn btn-tts" data-tts-stop="block2-hero">⏹ Stop Audio</button>
+              </div>
+            </div>
 
+            <div class="block-section-stage" id="block2-section1">
+              <span class="section-eyebrow">&#128309; SECTION 1</span>
+              <h3 class="block-section-title">Understanding Floating &amp; Balance</h3>
+
+              <p class="lead" data-tts-source="block2-section1">Floating and balance are fundamental aquatic skills that influence how swimmers experience the water.<br><br>
+                They affect confidence, safety, breathing control and participation, while providing a foundation for future aquatic skill development. Understanding how floating and balance work helps instructors recognise swimmer responses and build effective aquatic learning experiences.</p>
+
+              <div class="grid-2 block-intro-cards" data-block-intro="block2-section1">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
+                  <div class="card-icon">&#9678;</div>
+                  <h4>Section Focus</h4>
+                  <ul>
+                    <li>Understanding how floating and balance influence support, stability, confidence and participation within the aquatic environment.</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
+                  <div class="card-icon">&#8801;</div>
+                  <h4>What This Section Covers</h4>
+                  <ul>
+                    <li>What floating and balance are.</li>
+                    <li>How buoyancy supports the body.</li>
+                    <li>Why floating outcomes differ between swimmers.</li>
+                    <li>How to recognise effective and ineffective floating and balance.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="concept-stage">
+                <h4>Explore the Key Concepts</h4>
+
+                <div class="concept-grid" data-concept-grid="block2-section1">
+                  <button class="concept-square" type="button" data-target="b2s1c1">Understanding Floating and Balance</button>
+                  <button class="concept-square" type="button" data-target="b2s1c2">Buoyancy, Body Organisation and Floating</button>
+                  <button class="concept-square" type="button" data-target="b2s1c3">Recognising Floating and Balance</button>
+                </div>
+
+                <div class="concept-panel" data-panel-for="block2-section1">
+                  <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                  <div class="concept-heading-row">
+                    <h4></h4>
+                  </div>
+                  <p></p>
+
+                  <div class="concept-ideas-shell">
+                    <div class="concept-points-box">
+                      <h4>Key Ideas for Instructors</h4>
+                      <p class="key-ideas-instruction">Review each key idea below.</p>
+                      <ul></ul>
+                    </div>
+                    <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                      <div class="key-ideas-action-head">
+                        <span class="icon" aria-hidden="true"></span>
+                        <span class="label">In Practice</span>
+                      </div>
+                      <div class="text"></div>
+                    </div>
+                  </div>
+
+                  <div class="concept-image"></div>
+
+                  <div class="concept-media-actions">
+                    <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section class="section" id="complete">
           <div class="section-top">
@@ -4862,7 +4946,7 @@
       document.querySelectorAll('.gated-locked').forEach(function(section){
         section.classList.remove('gated-locked');
       });
-      ['outcomes','block1'].forEach(unlockStage);
+      ['outcomes','block1','block2'].forEach(unlockStage);
       Object.keys(stageChecks).forEach(function(stage){
         if(stageChecks[stage]){
           stageChecks[stage].disabled = false;
@@ -5108,11 +5192,9 @@
           'Positive early experiences influence confidence, participation and willingness to learn.',
           'These skills develop progressively through repeated successful experiences.',
           'Early success often creates the foundation for long-term aquatic engagement.',
-          'In Practice — A swimmer who feels comfortable with water contact, breathing and early immersion experiences is more likely to participate in aquatic activities and engage with learning opportunities.',
-          'In Practice — A swimmer who becomes anxious, avoidant or reactive may require additional support before progression occurs.',
-          'In Practice — A swimmer may demonstrate confidence during one breathing or immersion activity but respond differently when the same skill is combined with movement, games or additional task demands.',
-          'In Practice — Observation should focus on consistency across different situations rather than success within a single activity.',
-          'In Practice — Progression decisions should be based on repeated success across different levels of challenge rather than isolated examples of performance.'
+          'In Practice — A swimmer may demonstrate confidence during breathing and immersion activities but become less successful when movement is introduced.',
+          'In Practice — This often reflects the increased demands of the activity rather than a loss of skill.',
+          'In Practice — Observation should focus on consistency across different situations before progression decisions are made.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>The Role of Breathing &amp; Submersion</strong><br><span class="muted">The visual should demonstrate how breathing and submersion influence a swimmer\'s ability to access learning within the aquatic environment.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow"><div class="pathway-step"><strong>Breathing &amp; Submersion</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Confidence &amp; Regulation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Participation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Learning</strong></div></div><p class="concept-visual-note">The focus should not be on teaching breathing techniques. The focus should be on showing how breathing and submersion support confidence, regulation, participation and learning. Use a simple cause and effect pathway. The final visual design may be refined later.</p>'
       },
@@ -5198,6 +5280,106 @@
     };
 
     var section1ConceptCompleted = {};
+
+    var block2Section1ConceptContent = {
+      b2s1c1: {
+        title: 'Concept 1 — Understanding Floating and Balance',
+        text: '<p>Floating and balance are closely connected aquatic skills that help swimmers remain supported, stable and in control within the water.</p><p>Together, they form a foundation for breathing control, safety, confidence and future aquatic skill development.</p>',
+        points: [
+          'Floating refers to remaining supported by the water.',
+          'Balance refers to maintaining stability and control within the water.',
+          'Floating and balance work together continuously during aquatic participation.',
+          'Floating and balance underpin breathing control, safety, confidence and future aquatic skill development.',
+          'In Practice — Two swimmers may receive the same support from the water but experience it very differently.',
+          'In Practice — One swimmer remains relaxed, stable and confident while floating. Another swimmer may be physically supported by the water but still struggle to maintain balance, using excessive movement or tension to feel secure.',
+          'In Practice — Understanding this difference helps instructors recognise that floating is not simply about staying on the surface. Effective floating also involves balance, stability, control and confidence within the water.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Floating and Balance Working Together</strong><br><span class="muted">A single swimmer floating calmly on the back in a stable position.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="force-cards"><div class="force-card"><strong>Water supporting the body.</strong></div><div class="force-card"><strong>Stable body position.</strong></div><div class="force-card"><strong>Relaxed breathing.</strong></div><div class="force-card"><strong>Minimal unnecessary movement.</strong></div><div class="force-card"><strong>Confidence and control.</strong></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Floating provides support while balance allows the swimmer to remain stable and in control.</p>'
+      },
+      b2s1c2: {
+        title: 'Concept 2 — Buoyancy, Body Organisation and Floating',
+        text: '<p>Water naturally provides support to the body through buoyancy.</p><p>However, being supported by the water does not automatically result in effective floating. How the swimmer organises the body, manages breathing and responds to the water influences how successfully floating occurs.</p>',
+        points: [
+          'Buoyancy provides natural support to the body in the water.',
+          'Floating depends on how the swimmer responds to that support.',
+          'Body organisation influences how effectively buoyancy can be used.',
+          'Relaxation and breathing control help swimmers benefit from the water\'s support.',
+          'In Practice — Two swimmers may enter the same pool and receive the same support from the water.',
+          'In Practice — One swimmer remains relaxed and organised, allowing the water to support the body effectively. Another swimmer may tense the body, lift the head or hold the breath, reducing stability and making floating more difficult.',
+          'In Practice — Although buoyancy is acting on both swimmers, their floating experience is very different.',
+          'In Practice — Effective floating allows swimmers to use the water\'s support efficiently rather than relying on effort to remain stable.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Same Water Support, Different Floating Outcomes</strong><br><span class="muted">Three swimmers floating on their backs.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="force-cards"><div class="force-card"><strong>Swimmer A</strong><span>• Relaxed body.<br>• Good alignment.<br>• Calm breathing.<br>• Stable position.</span></div><div class="force-card"><strong>Swimmer B</strong><span>• Head lifted.<br>• Hips dropping.<br>• Tension throughout the body.<br>• Unstable position.</span></div><div class="force-card"><strong>Swimmer C</strong><span>• Improved alignment.<br>• Relaxed body position.<br>• Improved breathing control.<br>• Better use of the water\'s support.<br>• Increased stability.</span></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Buoyancy supports all swimmers, but body organisation, breathing and relaxation influence how effectively a swimmer can float.</p>'
+      },
+      b2s1c3: {
+        title: 'Concept 3 — Recognising Floating and Balance',
+        text: '<p>Effective floating and balance can be recognised through observable swimmer responses.</p><p>By identifying signs of stability, relaxation and control, instructors can better understand how a swimmer is experiencing the water and whether floating and balance are developing successfully.</p>',
+        points: [
+          'Effective floating is often associated with relaxation, stability and control.',
+          'Breathing patterns can provide valuable information about swimmer comfort and confidence.',
+          'Excessive movement or tension may indicate difficulty maintaining balance.',
+          'Observation helps instructors understand how the swimmer is experiencing floating, balance and control.',
+          'In Practice — Two swimmers may complete the same floating activity but demonstrate very different levels of control.',
+          'In Practice — One swimmer remains calm, stable and organised throughout the activity. Another swimmer frequently lifts the head, changes position or uses unnecessary movement to feel secure.',
+          'In Practice — Common signs that floating and balance are not yet secure may include tension, loss of alignment, sinking hips or legs, fear when lying on the back, difficulty remaining still and excessive effort to maintain position.',
+          'In Practice — By observing these responses, instructors gain valuable information about the swimmer\'s floating ability, confidence and overall comfort within the aquatic environment.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Signs of Effective and Ineffective Floating</strong><br><span class="muted">Two swimmers floating on their backs.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="land-water-split"><div class="split-side"><h5>Swimmer A</h5><ul class="phase-example-list"><li>Relaxed body position.</li><li>Head aligned with the body.</li><li>Hips close to the surface.</li><li>Calm breathing.</li><li>Stable floating position.</li><li>Minimal unnecessary movement.</li></ul></div><div class="split-side"><h5>Swimmer B</h5><ul class="phase-example-list"><li>Head lifted.</li><li>Tension throughout the body.</li><li>Hips and legs dropping.</li><li>Frequent position changes.</li><li>Irregular breathing.</li><li>Excessive movement to remain supported.</li></ul></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Body position, breathing, stability and movement provide observable indicators of floating and balance.</p>'
+      }
+    };
+
+    var block2Section1ConceptActivityBank = {
+      b2s1c1: {
+        type: 'choice',
+        activityType: 'Quick Observation',
+        observation: 'Observe the swimmer below.<br><br>The swimmer:<br><br>• Remains relaxed.<br>• Maintains a stable body position.<br>• Breathes calmly.<br>• Uses minimal movement to remain supported.',
+        q: 'Which statement best describes the swimmer?',
+        options: [
+          { id: 'a', text: 'Floating is secure but balance is not secure.' },
+          { id: 'b', text: 'Balance is secure but floating is not secure.' },
+          { id: 'c', text: 'Floating and balance appear secure.' },
+          { id: 'd', text: 'The swimmer requires immediate progression.' }
+        ],
+        correct: 'c',
+        ok: 'Effective floating and balance are demonstrated through stability, control and confidence rather than effort or excessive movement.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b2s1c2: {
+        type: 'choice',
+        activityType: 'Compare the Difference',
+        observation: 'Two swimmers are floating on their backs.<br><br><strong>Swimmer A</strong><br><br>• Relaxed body position.<br>• Calm breathing.<br>• Head aligned.<br>• Stable floating position.<br><br><strong>Swimmer B</strong><br><br>• Head lifted.<br>• Tension throughout the body.<br>• Hips dropping.<br>• Frequent movement to maintain position.',
+        q: 'Which factor is most likely affecting Swimmer B\'s floating ability?',
+        options: [
+          { id: 'a', text: 'Lack of buoyancy.' },
+          { id: 'b', text: 'Poor body organisation.' },
+          { id: 'c', text: 'Pool depth.' },
+          { id: 'd', text: 'Water temperature.' }
+        ],
+        correct: 'b',
+        ok: 'Although buoyancy supports both swimmers, tension, alignment and breathing influence how effectively that support is used during floating.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b2s1c3: {
+        type: 'choice',
+        activityType: 'Observation Activity',
+        observation: 'Observe the swimmer below.<br><br>The swimmer:<br><br>• Lifts the head repeatedly.<br>• Shows visible tension through the shoulders and neck.<br>• Uses frequent arm movements to maintain position.<br>• Appears hesitant when support is reduced.',
+        q: 'What is the strongest indicator that floating and balance are not yet secure?',
+        options: [
+          { id: 'a', text: 'The swimmer is floating on the back.' },
+          { id: 'b', text: 'The swimmer remains supported by the water.' },
+          { id: 'c', text: 'The swimmer shows tension and excessive movement.' },
+          { id: 'd', text: 'The swimmer is participating in the activity.' }
+        ],
+        correct: 'c',
+        ok: 'Signs of floating and balance are identified through observable behaviours such as relaxation, breathing, stability and control, rather than simply whether the swimmer remains afloat.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      }
+    };
+
+    var block2Section1ConceptCompleted = {};
 
     function splitSection1ConceptPoints(points){
       var keyIdeas = [];
@@ -5329,6 +5511,9 @@
     }
 
     function getBlockConceptMaps(block){
+      if(block === 'block2-section1'){
+        return { content: block2Section1ConceptContent, activity: block2Section1ConceptActivityBank };
+      }
       if(block === 'section3'){
         return { content: section3ConceptContent, activity: section3ConceptActivityBank };
       }
@@ -5826,7 +6011,15 @@
       if(!data.phasesInline) setupExpandablePhaseCards(panel);
 
       if(pEl && phasesShell) pEl.insertAdjacentElement('afterend', phasesShell);
-      renderConceptLevelActivity(panel, target, maps.activity, phasesShell);
+      if(data.skipConceptActivity){
+        var hiddenActivity = getConceptActivityShell(panel);
+        hiddenActivity.shell.style.display = 'none';
+        hiddenActivity.slot.innerHTML = '';
+        hiddenActivity.slot.style.display = 'none';
+        hiddenActivity.slot.removeAttribute('data-activity-concept-target');
+      } else {
+        renderConceptLevelActivity(panel, target, maps.activity, phasesShell);
+      }
 
       scrollConceptPanelIntoView(panel);
     }
@@ -6103,8 +6296,25 @@
       renderBlockConcept('section1', target);
     }
 
+    function renderBlock2Section1Concept(target){
+      renderBlockConcept('block2-section1', target);
+    }
+
     function closeSection1ConceptPanel(){
       var block = 'section1';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      panel.classList.remove('show');
+      delete panel.dataset.currentTarget;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var stage = panel.closest('.concept-stage');
+      if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeBlock2Section1ConceptPanel(){
+      var block = 'block2-section1';
       var panel = document.querySelector('[data-panel-for="' + block + '"]');
       if(!panel) return;
       panel.classList.remove('show');
@@ -6148,6 +6358,38 @@
       });
     }
 
+    function setupBlock2Section1Concepts(){
+      var block = 'block2-section1';
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
+        button.addEventListener('click', function(e){
+          e.stopPropagation();
+          renderBlock2Section1Concept(button.dataset.target);
+        });
+      });
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      var backBtn = panel.querySelector('[data-concept-back]');
+      if(backBtn){
+        backBtn.addEventListener('click', closeBlock2Section1ConceptPanel);
+      }
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(finishBtn){
+        finishBtn.addEventListener('click', function(){
+          var target = panel.dataset.currentTarget;
+          if(target){
+            block2Section1ConceptCompleted[target] = true;
+            var square = document.querySelector('[data-concept-grid="' + block + '"] .concept-square[data-target="' + target + '"]');
+            if(square) square.classList.add('visited');
+          }
+          closeBlock2Section1ConceptPanel();
+        });
+      }
+      panel.addEventListener('click', function(e){
+        var item = e.target.closest('.key-idea-item');
+        if(item) item.classList.add('clicked');
+      });
+    }
+
     var section2ConceptContent = {
       b1s2c1: {
         title: 'Concept 1 — Understanding the Five Phase Progression',
@@ -6166,6 +6408,7 @@
       },
       b1s2c2: {
         title: 'Concept 2 — Building Breathing Control',
+        skipConceptActivity: true,
         text: '<p>Breathing control develops progressively through a series of successful experiences that build comfort, confidence and active breathing control.</p><p>Before swimmers can confidently submerge, they must first become comfortable with water contact and learn to actively control exhalation.</p><p>This concept explores the first two phases of the Five Phase Progression.</p>',
         points: [
           'Water contact and breathing control should develop together through successful experiences.',
@@ -6184,15 +6427,14 @@
             goalHTML: '<div class="progression-goal-box"><strong>Progression Goal</strong><p>The swimmer accepts water contact confidently and remains regulated throughout aquatic activities.</p><p>The swimmer demonstrates readiness to begin developing active breathing skills.</p></div>',
             points: [
               'Comfort should develop before challenge.',
-              'Positive experiences build future confidence.',
               'Water contact should remain predictable and manageable.',
               'Individual sensory responses should be respected.',
               'Progression should be guided by regulation rather than task completion.',
-              'Not all swimmers will progress at the same rate.',
               'In Practice — A swimmer may initially tolerate water on the hands but avoid water near the face.',
               'In Practice — Over time, positive experiences and repeated exposure can support increased confidence with water contact across different parts of the body and face.',
               'In Practice — Progression is determined by confidence and regulation rather than how quickly water reaches the face.'
-            ]
+            ],
+            activityId: 'b1s2c2p1'
           },
           {
             id: 'p2',
@@ -6202,22 +6444,22 @@
             universalHTML: '<div class="universal-progression"><div class="universal-tier"><strong>Static Control</strong><ul><li>Blowing through a straw</li><li>Blowing a feather</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Movement Integration</strong><ul><li>Moving a floating object using blowing</li><li>Walking whilst blowing</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="universal-tier"><strong>Dynamic Application</strong><ul><li>Breathing during aquatic games</li><li>Travelling whilst maintaining breathing control</li></ul></div></div>',
             goalHTML: '<div class="progression-goal-box"><strong>Progression Goal</strong><p>The swimmer demonstrates consistent active exhalation and maintains breathing control during aquatic activities.</p><p>The swimmer demonstrates readiness to begin gradual face immersion whilst maintaining breathing control.</p></div>',
             points: [
-              'Blowing should be taught before bubbles.',
               'Active exhalation is the foundation of aquatic breathing control.',
-              'Swimmers benefit from clear visual and physical feedback when learning to blow.',
-              'Breathing control should remain the priority throughout progression.',
+              'Blowing should be taught before bubbles.',
               'Breath holding should not be reinforced.',
-              'Breathing activities should remain enjoyable and engaging.',
+              'Breathing control should remain the priority throughout progression.',
               'In Practice — Some swimmers may quickly create bubbles but still rely on inconsistent breathing patterns.',
               'In Practice — Others may require extended practice with blowing activities before they are ready to create bubbles consistently.',
               'In Practice — The objective is not producing bubbles.',
               'In Practice — The objective is developing controlled and repeatable active exhalation.'
-            ]
+            ],
+            activityId: 'b1s2c2p2'
           }
         ]
       },
       b1s2c3: {
         title: 'Concept 3 — Developing Submersion',
+        skipConceptActivity: true,
         text: '<p>Submersion develops progressively through repeated successful experiences that build confidence, control and comfort beneath the water surface.</p><p>This concept explores how swimmers move from gradual face immersion towards confident and purposeful full submersion through two progressive phases of learning.</p>',
         phases: [
           {
@@ -6236,7 +6478,8 @@
               'In Practice — A swimmer may comfortably place their mouth and nose into the water whilst remaining hesitant to immerse the eyes.',
               'In Practice — This should be viewed as a natural part of progression rather than a barrier to development.',
               'In Practice — Activities should continue to provide positive opportunities for gradual exposure without pressure.'
-            ]
+            ],
+            activityId: 'b1s2c3p3'
           },
           {
             id: 'p4',
@@ -6255,7 +6498,8 @@
               'In Practice — Rather than asking swimmers to simply place their head underwater, instructors can encourage exploration, retrieval and object interaction.',
               'In Practice — Purpose often shifts the swimmer\'s focus away from the act of submerging and towards achieving a meaningful goal.',
               'In Practice — Purposeful underwater activities often increase engagement and create natural opportunities for repeated submersion experiences.'
-            ]
+            ],
+            activityId: 'b1s2c3p4'
           }
         ]
       },
@@ -6297,41 +6541,77 @@
         bad: 'Not quite. Consider which phase best represents the swimmer\'s current level of confidence, control and consistency.',
         variant: 'scenario'
       },
-      b1s2c2: {
+      b1s2c2p1: {
         type: 'choice',
-        activityType: 'Compare the Difference',
-        observation: '<strong>Swimmer A</strong><br>Blows continuously into the water for five seconds.<br><br><strong>Swimmer B</strong><br>Takes a breath, holds it and quickly lifts the head.',
-        q: 'Which swimmer is demonstrating more effective aquatic breathing?',
+        activityType: 'Adaptation Example',
+        observation: 'A swimmer becomes uncomfortable when water is poured over their head.',
+        q: 'What is the most appropriate adaptation?',
         options: [
-          { id: 'a', text: 'Swimmer A' },
-          { id: 'b', text: 'Swimmer B' }
+          { id: 'a', text: 'Continue pouring water until the swimmer accepts it.' },
+          { id: 'b', text: 'Move back to activities involving water on the hands, arms or face.' },
+          { id: 'c', text: 'Immediately introduce submersion activities.' },
+          { id: 'd', text: 'Stop all water contact activities.' }
         ],
-        correct: 'a',
-        ok: 'Correct. Controlled exhalation is the foundation of effective aquatic breathing.',
-        bad: 'Not quite. Consider which swimmer demonstrates controlled exhalation rather than breath holding.',
+        correct: 'b',
+        ok: 'Correct. Reducing demand can help maintain success whilst continuing progression.',
+        bad: 'Not quite. Consider reducing demand to maintain successful learning experiences.',
         variant: 'scenario'
       },
-      b1s2c3: {
+      b1s2c2p2: {
+        type: 'sequencing',
+        activityType: 'Progression Example',
+        q: 'Arrange the breathing activities into the correct progression order.',
+        sequence: [
+          'Blowing through a straw',
+          'Creating ripples',
+          'Creating bubbles'
+        ],
+        displayOrder: [
+          'Creating bubbles',
+          'Blowing through a straw',
+          'Creating ripples'
+        ],
+        ok: 'Correct. Blowing is the skill. Bubbles are the result.',
+        bad: 'Not quite. Reset and arrange the activities from earliest to latest progression.'
+      },
+      b1s2c3p3: {
         type: 'sequencing',
         activityType: 'Observation Activity',
-        task: 'Five images display different stages of immersion:<br><br>• Chin in<br>• Mouth in<br>• Nose in<br>• Eyes in<br>• Full Submersion',
+        task: 'Four images display different stages of partial face immersion:<br><br>• Chin in<br>• Mouth in<br>• Nose in<br>• Eyes in',
         q: 'Arrange the images in the most appropriate progression sequence from earliest immersion stage to most advanced immersion stage.',
         sequence: [
           'Chin in',
           'Mouth in',
           'Nose in',
-          'Eyes in',
-          'Full Submersion'
+          'Eyes in'
         ],
         displayOrder: [
           'Eyes in',
           'Chin in',
-          'Full Submersion',
           'Mouth in',
           'Nose in'
         ],
-        ok: 'Correct. Submersion develops progressively through increasingly challenging immersion experiences.',
+        ok: 'Correct. Face immersion develops progressively through increasingly challenging immersion experiences.',
         bad: 'Not quite. Reset and arrange the stages from earliest to most advanced immersion.'
+      },
+      b1s2c3p4: {
+        type: 'sequencing',
+        activityType: 'Progression Example',
+        q: 'Arrange the purposeful submersion stages into the correct progression order.',
+        sequence: [
+          'Look',
+          'Submerge',
+          'Retrieve',
+          'Return'
+        ],
+        displayOrder: [
+          'Return',
+          'Look',
+          'Submerge',
+          'Retrieve'
+        ],
+        ok: 'Correct. Purposeful activities often support repeated successful submersion.',
+        bad: 'Not quite. Reset and arrange the stages from earliest to latest progression.'
       },
       b1s2c4: {
         type: 'choice',
@@ -6736,6 +7016,7 @@
     setupBlockSectionCards();
     setupLearningOutcomes();
     setupSection1Concepts();
+    setupBlock2Section1Concepts();
     setupSection2Concepts();
     setupSection3Concepts();
     setupBlock1Quiz();
