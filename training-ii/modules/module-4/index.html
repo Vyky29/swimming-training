@@ -3511,8 +3511,12 @@
       margin:0 0 18px;
     }
     [data-concept-grid="section1"],
-    [data-concept-grid="block2-section1"]{
+    [data-concept-grid="block2-section1"],
+    [data-concept-grid="block2-section2"]{
       grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+    [data-concept-grid="block2-section3"]{
+      grid-template-columns:repeat(2,minmax(0,1fr));
     }
     [data-concept-grid="section2"]{
       grid-template-columns:repeat(5,minmax(0,1fr));
@@ -4031,30 +4035,30 @@
       margin-left:auto;
       margin-right:auto;
     }
-    #block1-quiz .quiz-inline{background:var(--bg);border-radius:24px;padding:28px 32px 60px;box-shadow:0 18px 40px rgba(18,50,71,.08);}
-    #block1-quiz .quiz-inline .quiz-inline-progress{margin-bottom:24px;}
-    #block1-quiz .quiz-inline .progress-track{height:10px;background:#e6edf2;border-radius:999px;overflow:hidden;}
-    #block1-quiz .quiz-inline .progress-fill{height:100%;width:0%;background:var(--gradBrand);border-radius:999px;transition:width .4s ease;}
-    #block1-quiz .quiz-inline .progress-meta{margin-top:8px;font-size:13px;font-weight:700;color:var(--ink);}
-    #block1-quiz .quiz-inline .quiz-hero{background:var(--gradBlue);color:#fff;border-radius:24px;padding:32px 40px;margin-bottom:28px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
-    #block1-quiz .quiz-inline .quiz-hero::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.1);top:-50px;right:-40px;}
-    #block1-quiz .quiz-inline .quiz-hero .tag{display:inline-block;background:rgba(255,255,255,.22);padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
-    #block1-quiz .quiz-inline .quiz-hero h1{font-size:clamp(22px,3.5vw,28px);font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
-    #block1-quiz .quiz-inline .quiz-hero p{opacity:.95;font-size:15px;position:relative;z-index:1;}
-    #block1-quiz .quiz-inline .q-card{background:#fff;border-radius:20px;padding:28px 32px;margin-bottom:24px;box-shadow:var(--shadow);border:1px solid var(--line);}
-    #block1-quiz .quiz-inline .q-card h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
-    #block1-quiz .quiz-inline .q-card .q-text{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:20px;}
-    #block1-quiz .quiz-inline .opt-list{list-style:none;padding:0;margin:0;}
-    #block1-quiz .quiz-inline .opt-list li{margin-bottom:10px;}
-    #block1-quiz .quiz-inline .opt-list label{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;border:2px solid #e7eef5;cursor:pointer;transition:var(--transition);font-weight:500;}
-    #block1-quiz .quiz-inline .opt-list label:hover{border-color:var(--blue);background:#f8fbfd;}
-    #block1-quiz .quiz-inline .opt-list input:checked+label,#block1-quiz .quiz-inline .opt-list label:has(input:checked){border-color:var(--blue);background:#edf6fb;}
-    #block1-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt{color:var(--blue);font-weight:600;}
-    #block1-quiz .quiz-inline .opt-txt{flex:1;}
-    #block1-quiz .quiz-inline .opt-list input[type="radio"],#block1-quiz .quiz-inline .opt-list input[type="checkbox"]{accent-color:var(--blue);width:22px;height:22px;flex-shrink:0;order:2;}
-    #block1-quiz .quiz-inline .feedback{margin-top:16px;padding:14px 18px;border-radius:12px;font-size:14px;font-weight:600;display:none;}
-    #block1-quiz .quiz-inline .feedback.correct{background:#edf6fb;color:#457B9D;display:flex;align-items:center;gap:10px;}
-    #block1-quiz .quiz-inline .feedback.incorrect{background:#fde8e8;color:#c53030;display:flex;align-items:center;gap:10px;}
+    #block1-quiz .quiz-inline, #block2-quiz .quiz-inline{background:var(--bg);border-radius:24px;padding:28px 32px 60px;box-shadow:0 18px 40px rgba(18,50,71,.08);}
+    #block1-quiz .quiz-inline .quiz-inline-progress, #block2-quiz .quiz-inline .quiz-inline-progress{margin-bottom:24px;}
+    #block1-quiz .quiz-inline .progress-track, #block2-quiz .quiz-inline .progress-track{height:10px;background:#e6edf2;border-radius:999px;overflow:hidden;}
+    #block1-quiz .quiz-inline .progress-fill, #block2-quiz .quiz-inline .progress-fill{height:100%;width:0%;background:var(--gradBrand);border-radius:999px;transition:width .4s ease;}
+    #block1-quiz .quiz-inline .progress-meta, #block2-quiz .quiz-inline .progress-meta{margin-top:8px;font-size:13px;font-weight:700;color:var(--ink);}
+    #block1-quiz .quiz-inline .quiz-hero, #block2-quiz .quiz-inline .quiz-hero{background:var(--gradBlue);color:#fff;border-radius:24px;padding:32px 40px;margin-bottom:28px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+    #block1-quiz .quiz-inline .quiz-hero::after, #block2-quiz .quiz-inline .quiz-hero::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.1);top:-50px;right:-40px;}
+    #block1-quiz .quiz-inline .quiz-hero .tag, #block2-quiz .quiz-inline .quiz-hero .tag{display:inline-block;background:rgba(255,255,255,.22);padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
+    #block1-quiz .quiz-inline .quiz-hero h1, #block2-quiz .quiz-inline .quiz-hero h1{font-size:clamp(22px,3.5vw,28px);font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
+    #block1-quiz .quiz-inline .quiz-hero p, #block2-quiz .quiz-inline .quiz-hero p{opacity:.95;font-size:15px;position:relative;z-index:1;}
+    #block1-quiz .quiz-inline .q-card, #block2-quiz .quiz-inline .q-card{background:#fff;border-radius:20px;padding:28px 32px;margin-bottom:24px;box-shadow:var(--shadow);border:1px solid var(--line);}
+    #block1-quiz .quiz-inline .q-card h3, #block2-quiz .quiz-inline .q-card h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    #block1-quiz .quiz-inline .q-card .q-text, #block2-quiz .quiz-inline .q-card .q-text{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:20px;}
+    #block1-quiz .quiz-inline .opt-list, #block2-quiz .quiz-inline .opt-list{list-style:none;padding:0;margin:0;}
+    #block1-quiz .quiz-inline .opt-list li, #block2-quiz .quiz-inline .opt-list li{margin-bottom:10px;}
+    #block1-quiz .quiz-inline .opt-list label, #block2-quiz .quiz-inline .opt-list label{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;border:2px solid #e7eef5;cursor:pointer;transition:var(--transition);font-weight:500;}
+    #block1-quiz .quiz-inline .opt-list label:hover, #block2-quiz .quiz-inline .opt-list label:hover{border-color:var(--blue);background:#f8fbfd;}
+    #block1-quiz .quiz-inline .opt-list input:checked+label,#block1-quiz .quiz-inline .opt-list label:has(input:checked),#block2-quiz .quiz-inline .opt-list label:has(input:checked){border-color:var(--blue);background:#edf6fb;}
+    #block1-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt,#block2-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt{color:var(--blue);font-weight:600;}
+    #block1-quiz .quiz-inline .opt-txt, #block2-quiz .quiz-inline .opt-txt{flex:1;}
+    #block1-quiz .quiz-inline .opt-list input[type="radio"],#block1-quiz .quiz-inline .opt-list input[type="checkbox"],#block2-quiz .quiz-inline .opt-list input[type="radio"]{accent-color:var(--blue);width:22px;height:22px;flex-shrink:0;order:2;}
+    #block1-quiz .quiz-inline .feedback, #block2-quiz .quiz-inline .feedback{margin-top:16px;padding:14px 18px;border-radius:12px;font-size:14px;font-weight:600;display:none;}
+    #block1-quiz .quiz-inline .feedback.correct, #block2-quiz .quiz-inline .feedback.correct{background:#edf6fb;color:#457B9D;display:flex;align-items:center;gap:10px;}
+    #block1-quiz .quiz-inline .feedback.incorrect, #block2-quiz .quiz-inline .feedback.incorrect{background:#fde8e8;color:#c53030;display:flex;align-items:center;gap:10px;}
     #block1-quiz .quiz-inline .match-game{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
     #block1-quiz .quiz-inline .match-slots .match-slot{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
     #block1-quiz .quiz-inline .match-slots .match-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
@@ -4067,15 +4071,15 @@
     #block1-quiz .quiz-inline .match-chip:hover{background:#edf6fb;}
     #block1-quiz .quiz-inline .match-chip.dragging{opacity:.6;cursor:grabbing;}
     #block1-quiz .quiz-inline .match-chip.selected{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,132,179,.18);}
-    #block1-quiz .quiz-inline .btn-submit{display:inline-flex;align-items:center;justify-content:center;padding:16px 32px;font-size:16px;font-weight:700;background:var(--blue);color:#fff;border:none;border-radius:14px;cursor:pointer;font-family:inherit;transition:var(--transition);margin-top:16px;}
-    #block1-quiz .quiz-inline .btn-submit:hover{background:#236d95;transform:translateY(-2px);}
-    #block1-quiz .quiz-inline .btn-submit:disabled{opacity:.7;cursor:not-allowed;transform:none;}
-    #block1-quiz .quiz-inline .score-card{background:var(--gradBlue);color:#fff;border-radius:24px;padding:40px;text-align:center;display:none;margin-top:24px;}
-    #block1-quiz .quiz-inline .score-card.show{display:block;}
-    #block1-quiz .quiz-inline .score-card h2{font-size:28px;margin-bottom:12px;}
-    #block1-quiz .quiz-inline .score-card .score-value{font-size:48px;font-weight:800;margin:16px 0;}
-    #block1-quiz .quiz-inline .score-card .score-msg{font-size:16px;opacity:.95;}
-    @media(max-width:600px){#block1-quiz .quiz-inline{padding:20px 16px;}#block1-quiz .quiz-inline .q-card{padding:20px;}#block1-quiz .quiz-inline .match-game{grid-template-columns:1fr;}}
+    #block1-quiz .quiz-inline .btn-submit, #block2-quiz .quiz-inline .btn-submit{display:inline-flex;align-items:center;justify-content:center;padding:16px 32px;font-size:16px;font-weight:700;background:var(--blue);color:#fff;border:none;border-radius:14px;cursor:pointer;font-family:inherit;transition:var(--transition);margin-top:16px;}
+    #block1-quiz .quiz-inline .btn-submit:hover, #block2-quiz .quiz-inline .btn-submit:hover{background:#236d95;transform:translateY(-2px);}
+    #block1-quiz .quiz-inline .btn-submit:disabled, #block2-quiz .quiz-inline .btn-submit:disabled{opacity:.7;cursor:not-allowed;transform:none;}
+    #block1-quiz .quiz-inline .score-card, #block2-quiz .quiz-inline .score-card{background:var(--gradBlue);color:#fff;border-radius:24px;padding:40px;text-align:center;display:none;margin-top:24px;}
+    #block1-quiz .quiz-inline .score-card.show, #block2-quiz .quiz-inline .score-card.show{display:block;}
+    #block1-quiz .quiz-inline .score-card h2, #block2-quiz .quiz-inline .score-card h2{font-size:28px;margin-bottom:12px;}
+    #block1-quiz .quiz-inline .score-card .score-value, #block2-quiz .quiz-inline .score-card .score-value{font-size:48px;font-weight:800;margin:16px 0;}
+    #block1-quiz .quiz-inline .score-card .score-msg, #block2-quiz .quiz-inline .score-card .score-msg{font-size:16px;opacity:.95;}
+    @media(max-width:600px){#block1-quiz .quiz-inline,#block2-quiz .quiz-inline{padding:20px 16px;}#block1-quiz .quiz-inline .q-card,#block2-quiz .quiz-inline .q-card{padding:20px;}#block1-quiz .quiz-inline .match-game{grid-template-columns:1fr;}}
   </style>
   <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css" />
   <link rel="stylesheet" href="/training-ii/styles/training2-module-template.css" />
@@ -4377,21 +4381,21 @@
                 <p class="lead">This block is organised into three progressive sections that explore how swimmers experience, develop and apply breathing control and submersion within aquatic learning.</p>
 
                 <div class="grid-2 block-intro-cards">
-                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="1">
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="1" data-block-nav="block1">
                     <div class="card-icon">1</div>
                     <h4>Section 1 — Understanding Breathing &amp; Submersion</h4>
                     <ul>
                       <li>Understanding how breathing and submersion influence confidence, regulation and participation.</li>
                     </ul>
                   </div>
-                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="2">
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="2" data-block-nav="block1">
                     <div class="card-icon">2</div>
                     <h4>Section 2 — Building Breathing Control &amp; Submersion</h4>
                     <ul>
                       <li>Developing breathing and submersion through structured progression and practical activities.</li>
                     </ul>
                   </div>
-                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="3">
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="3" data-block-nav="block1">
                     <div class="card-icon">3</div>
                     <h4>Section 3 — Application &amp; Integration</h4>
                     <ul>
@@ -4788,6 +4792,77 @@
               </div>
             </div>
 
+            <p class="lead" data-tts-source="block2-hero">Floating and balance are fundamental aquatic skills that underpin safe, confident participation in the water.<br><br>
+              This block explores how swimmers develop body control, buoyancy awareness, stability and safe reference positions, and how these skills support future aquatic development.<br><br>
+              Through structured support, progressive learning and repeated successful experiences, swimmers learn to maintain support, stability and control within the aquatic environment.</p>
+
+            <div class="block-mini-section" id="block2-outcomes">
+              <div class="section-title-row">
+                <h3>Learning Outcomes</h3>
+                <div class="section-top-actions">
+                  <button class="btn btn-tts" data-tts-button="block2-outcomes">🔊 Listen</button>
+                  <button class="btn btn-tts" data-tts-stop="block2-outcomes">⏹ Stop Audio</button>
+                </div>
+              </div>
+              <p class="outcomes-intro">By the end of this block, instructors should be able to:</p>
+              <div class="outcomes" data-outcomes-group="block2-outcomes" data-tts-source="block2-outcomes">
+                <div class="outcome clickable-progress" data-outcome-item="1">
+                  <span class="outcome-index">&bull;</span>
+                  <div>Understand how floating and balance influence confidence, safety, breathing control and participation.</div>
+                </div>
+                <div class="outcome clickable-progress" data-outcome-item="2">
+                  <span class="outcome-index">&bull;</span>
+                  <div>Recognise progression variables that influence floating and balance development.</div>
+                </div>
+                <div class="outcome clickable-progress" data-outcome-item="3">
+                  <span class="outcome-index">&bull;</span>
+                  <div>Apply structured teaching approaches to support floating and balance development.</div>
+                </div>
+                <div class="outcome clickable-progress" data-outcome-item="4">
+                  <span class="outcome-index">&bull;</span>
+                  <div>Recognise when to progress, consolidate or reduce demand during floating and balance learning.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-mini-section" id="block2-inside">
+              <div class="section-title-row">
+                <h3>Inside This Block</h3>
+                <div class="section-top-actions">
+                  <button class="btn btn-tts" data-tts-button="block2-inside">🔊 Listen</button>
+                  <button class="btn btn-tts" data-tts-stop="block2-inside">⏹ Stop Audio</button>
+                </div>
+              </div>
+
+              <div data-tts-source="block2-inside">
+                <p class="lead">This block is organised into three progressive sections that explore how swimmers experience, develop and apply floating and balance within aquatic learning.</p>
+
+                <div class="grid-2 block-intro-cards">
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="1" data-block-nav="block2">
+                    <div class="card-icon">1</div>
+                    <h4>Section 1 — Understanding Floating &amp; Balance</h4>
+                    <ul>
+                      <li>Understanding how floating and balance influence confidence, safety, breathing control and participation.</li>
+                    </ul>
+                  </div>
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="2" data-block-nav="block2">
+                    <div class="card-icon">2</div>
+                    <h4>Section 2 — Building Floating &amp; Balance</h4>
+                    <ul>
+                      <li>Developing floating and balance through body states, support, orientation and structured progression.</li>
+                    </ul>
+                  </div>
+                  <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="3" data-block-nav="block2">
+                    <div class="card-icon">3</div>
+                    <h4>Section 3 — Application &amp; Skill Integration</h4>
+                    <ul>
+                      <li>Applying floating and balance through informed progression decisions, movement control and future aquatic skill development.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="block-section-stage" id="block2-section1">
               <span class="section-eyebrow">&#128309; SECTION 1</span>
               <h3 class="block-section-title">Understanding Floating &amp; Balance</h3>
@@ -4850,6 +4925,301 @@
 
                   <div class="concept-media-actions">
                     <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-section-stage" id="block2-section2">
+              <span class="section-eyebrow">&#128309; SECTION 2</span>
+              <h3 class="block-section-title">Building Floating &amp; Balance</h3>
+
+              <p class="lead" data-tts-source="block2-section2">This section focuses on how floating and balance are developed through structured learning experiences.<br><br>
+                Floating does not develop through a single position or activity. It develops through changes in orientation, body organisation and support, allowing swimmers to gradually increase stability, confidence and control within the water.<br><br>
+                By understanding these variables, instructors can create progressive learning experiences that maintain success while increasing challenge.</p>
+
+              <div class="grid-2 block-intro-cards" data-block-intro="block2-section2">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
+                  <div class="card-icon">&#9678;</div>
+                  <h4>Section Focus</h4>
+                  <ul>
+                    <li>Understanding how floating and balance are developed through orientation, body organisation and progressive challenge.</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
+                  <div class="card-icon">&#8801;</div>
+                  <h4>What This Section Covers</h4>
+                  <ul>
+                    <li>How orientation influences floating and balance.</li>
+                    <li>How body organisation affects stability and control.</li>
+                    <li>How instructors adjust challenge through support and progression.</li>
+                    <li>How floating and balance provide foundations for future aquatic skills.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="concept-stage">
+                <h4>Explore the Key Concepts</h4>
+
+                <div class="concept-grid" data-concept-grid="block2-section2">
+                  <button class="concept-square" type="button" data-target="b2s2c1">Orientation and Floating</button>
+                  <button class="concept-square" type="button" data-target="b2s2c2">Body States and Floating Control</button>
+                  <button class="concept-square" type="button" data-target="b2s2c3">The Floating &amp; Balance Development Model</button>
+                </div>
+
+                <div class="concept-panel" data-panel-for="block2-section2">
+                  <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                  <div class="concept-heading-row">
+                    <h4></h4>
+                  </div>
+                  <p></p>
+
+                  <div class="concept-ideas-shell">
+                    <div class="concept-points-box">
+                      <h4>Key Ideas for Instructors</h4>
+                      <p class="key-ideas-instruction">Review each key idea below.</p>
+                      <ul></ul>
+                    </div>
+                    <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                      <div class="key-ideas-action-head">
+                        <span class="icon" aria-hidden="true"></span>
+                        <span class="label">In Practice</span>
+                      </div>
+                      <div class="text"></div>
+                    </div>
+                  </div>
+
+                  <div class="concept-image"></div>
+
+                  <div class="concept-media-actions">
+                    <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-section-stage" id="block2-section3">
+              <span class="section-eyebrow">&#128309; SECTION 3</span>
+              <h3 class="block-section-title">Application &amp; Skill Integration</h3>
+
+              <p class="lead" data-tts-source="block2-section3">This section focuses on how floating and balance support wider aquatic participation.<br><br>
+                As floating becomes more secure, it begins to support movement, safety, breathing control and the development of future aquatic skills.<br><br>
+                The focus shifts from developing floating itself to understanding how floating and balance continue to influence performance throughout the aquatic environment.</p>
+
+              <div class="grid-2 block-intro-cards" data-block-intro="block2-section3">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
+                  <div class="card-icon">&#9678;</div>
+                  <h4>Section Focus</h4>
+                  <ul>
+                    <li>Understanding how floating and balance support movement, aquatic participation and future skill development.</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
+                  <div class="card-icon">&#8801;</div>
+                  <h4>What This Section Covers</h4>
+                  <ul>
+                    <li>How floating influences movement.</li>
+                    <li>How floating supports future aquatic skills.</li>
+                    <li>How floating and balance contribute to wider aquatic participation.</li>
+                    <li>How instructors apply floating beyond dedicated floating activities.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="concept-stage">
+                <h4>Explore the Key Concepts</h4>
+
+                <div class="concept-grid" data-concept-grid="block2-section3">
+                  <button class="concept-square" type="button" data-target="b2s3c1">Floating Within Movement</button>
+                  <button class="concept-square" type="button" data-target="b2s3c2">Floating Beyond Floating</button>
+                </div>
+
+                <div class="concept-panel" data-panel-for="block2-section3">
+                  <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                  <div class="concept-heading-row">
+                    <h4></h4>
+                  </div>
+                  <p></p>
+
+                  <div class="concept-ideas-shell">
+                    <div class="concept-points-box">
+                      <h4>Key Ideas for Instructors</h4>
+                      <p class="key-ideas-instruction">Review each key idea below.</p>
+                      <ul></ul>
+                    </div>
+                    <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                      <div class="key-ideas-action-head">
+                        <span class="icon" aria-hidden="true"></span>
+                        <span class="label">In Practice</span>
+                      </div>
+                      <div class="text"></div>
+                    </div>
+                  </div>
+
+                  <div class="concept-image"></div>
+
+                  <div class="concept-media-actions">
+                    <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="completion completion-box" style="margin-top:32px;">
+                <div class="section-title-row" style="margin-bottom:0;">
+                  <h3 style="margin:0;font-size:1.35rem;line-height:1.35;color:#fff;">Section Key Principle</h3>
+                </div>
+                <div data-tts-source="block2-section3-principle" style="margin-top:22px;position:relative;z-index:1;">
+                  <p style="margin:0 auto;max-width:760px;font-size:1.06rem;line-height:1.85;color:#fff;">Floating is not the end goal.<br><br>
+                  As floating and balance become more secure, they continue to support breathing, safety, regulation, movement and future aquatic skills, providing a foundation for successful participation throughout the swimmer&rsquo;s aquatic development journey.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-mini-section" id="block2-recap">
+              <div class="section-title-row">
+                <h3>Key Ideas to Remember</h3>
+              </div>
+
+              <div class="recap-stack" data-tts-source="block2-recap">
+                <div class="recap-card clickable-progress">
+                  <h4>Floating and balance work together.</h4>
+                  <p>Floating and balance support stability, confidence and control in the water.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>Buoyancy is not enough.</h4>
+                  <p>Effective floating depends on body organisation, breathing and relaxation rather than buoyancy alone.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>Floating develops through variables.</h4>
+                  <p>Orientation, body organisation and appropriate support all influence how floating develops.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>Progression depends on control.</h4>
+                  <p>Progression should be based on confidence, control and consistency rather than position complexity.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>Floating supports future skills.</h4>
+                  <p>Floating provides foundations for movement, safety and future aquatic skill development.</p>
+                </div>
+              </div>
+
+              <label class="check-item clickable-progress">
+                <input type="checkbox" class="overall-check" data-stage-check="block2-recap" id="block2RecapCheck">
+                <span>I have reviewed the recap and I am ready to complete this block.</span>
+              </label>
+            </div>
+
+            <div class="block-mini-section" id="block2-quiz">
+              <div class="section-title-row">
+                <h3>Block 2 Quiz — Floating &amp; Balance</h3>
+              </div>
+
+              <div class="quiz-embed" style="margin-top:18px;">
+                <div class="quiz-inline" id="quizInlineBlock2">
+                  <div class="quiz-inline-progress">
+                    <div class="progress-track"><div class="progress-fill" id="progressFillBlock2"></div></div>
+                    <p class="progress-meta" id="progressTextBlock2">0 of 8 answered</p>
+                  </div>
+                  <header class="quiz-hero" data-tts-source="block2-quiz">
+                    <span class="tag">Block 2</span>
+                    <h1>Floating &amp; Balance</h1>
+                    <p>Confirm your understanding of floating and balance development, progression and integration within aquatic learning.</p>
+                  </header>
+                  <form id="quizFormBlock2">
+                    <div class="q-card" data-q="1">
+                      <h3>Single choice</h3>
+                      <p class="q-text">1. What is the primary role of buoyancy during floating?</p>
+                      <ul class="opt-list">
+                        <li><label for="q1a_b2"><span class="opt-txt">A. To create propulsion.</span><input type="radio" name="q1_b2" id="q1a_b2" value="A"></label></li>
+                        <li><label for="q1b_b2"><span class="opt-txt">B. To support the body in the water.</span><input type="radio" name="q1_b2" id="q1b_b2" value="B"></label></li>
+                        <li><label for="q1c_b2"><span class="opt-txt">C. To improve breathing control.</span><input type="radio" name="q1_b2" id="q1c_b2" value="C"></label></li>
+                        <li><label for="q1d_b2"><span class="opt-txt">D. To maintain balance automatically.</span><input type="radio" name="q1_b2" id="q1d_b2" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f1Block2"></div>
+                    </div>
+                    <div class="q-card" data-q="2">
+                      <h3>Single choice</h3>
+                      <p class="q-text">2. Which factor most influences how effectively a swimmer uses buoyancy?</p>
+                      <ul class="opt-list">
+                        <li><label for="q2a_b2"><span class="opt-txt">A. Pool depth.</span><input type="radio" name="q2_b2" id="q2a_b2" value="A"></label></li>
+                        <li><label for="q2b_b2"><span class="opt-txt">B. Water temperature.</span><input type="radio" name="q2_b2" id="q2b_b2" value="B"></label></li>
+                        <li><label for="q2c_b2"><span class="opt-txt">C. Body organisation, breathing and relaxation.</span><input type="radio" name="q2_b2" id="q2c_b2" value="C"></label></li>
+                        <li><label for="q2d_b2"><span class="opt-txt">D. Swimming speed.</span><input type="radio" name="q2_b2" id="q2d_b2" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f2Block2"></div>
+                    </div>
+                    <div class="q-card" data-q="3">
+                      <h3>Single choice</h3>
+                      <p class="q-text">3. A swimmer becomes tense, lifts the head and frequently moves the arms while floating. What does this most likely indicate?</p>
+                      <ul class="opt-list">
+                        <li><label for="q3a_b2"><span class="opt-txt">A. Effective floating and balance.</span><input type="radio" name="q3_b2" id="q3a_b2" value="A"></label></li>
+                        <li><label for="q3b_b2"><span class="opt-txt">B. Secure breathing control.</span><input type="radio" name="q3_b2" id="q3b_b2" value="B"></label></li>
+                        <li><label for="q3c_b2"><span class="opt-txt">C. Floating and balance are not yet secure.</span><input type="radio" name="q3_b2" id="q3c_b2" value="C"></label></li>
+                        <li><label for="q3d_b2"><span class="opt-txt">D. Readiness for progression.</span><input type="radio" name="q3_b2" id="q3d_b2" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f3Block2"></div>
+                    </div>
+                    <div class="q-card" data-q="4">
+                      <h3>Single choice</h3>
+                      <p class="q-text">4. Why might some swimmers find front floating more challenging than back floating?</p>
+                      <ul class="opt-list">
+                        <li><label for="q4a_b2"><span class="opt-txt">A. The water provides less support.</span><input type="radio" name="q4_b2" id="q4a_b2" value="A"></label></li>
+                        <li><label for="q4b_b2"><span class="opt-txt">B. Front floating requires greater breathing control and trust.</span><input type="radio" name="q4_b2" id="q4b_b2" value="B"></label></li>
+                        <li><label for="q4c_b2"><span class="opt-txt">C. Front floating is only suitable for advanced swimmers.</span><input type="radio" name="q4_b2" id="q4c_b2" value="C"></label></li>
+                        <li><label for="q4d_b2"><span class="opt-txt">D. Buoyancy is reduced in front floating.</span><input type="radio" name="q4_b2" id="q4d_b2" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f4Block2"></div>
+                    </div>
+                    <div class="q-card" data-q="5">
+                      <h3>Single choice</h3>
+                      <p class="q-text">5. Which body state typically creates the highest balance demand?</p>
+                      <ul class="opt-list">
+                        <li><label for="q5a_b2"><span class="opt-txt">A. Relaxed Body (Star Shape).</span><input type="radio" name="q5_b2" id="q5a_b2" value="A"></label></li>
+                        <li><label for="q5b_b2"><span class="opt-txt">B. Organised Body (Soldier Shape).</span><input type="radio" name="q5_b2" id="q5b_b2" value="B"></label></li>
+                        <li><label for="q5c_b2"><span class="opt-txt">C. Streamlined Body (Pencil Shape).</span><input type="radio" name="q5_b2" id="q5c_b2" value="C"></label></li>
+                        <li><label for="q5d_b2"><span class="opt-txt">D. All body states create equal balance demands.</span><input type="radio" name="q5_b2" id="q5d_b2" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f5Block2"></div>
+                    </div>
+                    <div class="q-card" data-q="6">
+                      <h3>Single choice</h3>
+                      <p class="q-text">6. According to the Floating &amp; Balance Development Model, which variables can be adjusted to modify challenge?</p>
+                      <ul class="opt-list">
+                        <li><label for="q6a_b2"><span class="opt-txt">A. Pool depth, temperature and equipment.</span><input type="radio" name="q6_b2" id="q6a_b2" value="A"></label></li>
+                        <li><label for="q6b_b2"><span class="opt-txt">B. Orientation, body state and support.</span><input type="radio" name="q6_b2" id="q6b_b2" value="B"></label></li>
+                        <li><label for="q6c_b2"><span class="opt-txt">C. Breathing, propulsion and stroke choice.</span><input type="radio" name="q6_b2" id="q6c_b2" value="C"></label></li>
+                        <li><label for="q6d_b2"><span class="opt-txt">D. Distance, speed and water depth.</span><input type="radio" name="q6_b2" id="q6d_b2" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f6Block2"></div>
+                    </div>
+                    <div class="q-card" data-q="7">
+                      <h3>Single choice</h3>
+                      <p class="q-text">7. A swimmer struggles in a Front Soldier Float. What should an instructor consider first?</p>
+                      <ul class="opt-list">
+                        <li><label for="q7a_b2"><span class="opt-txt">A. Introducing propulsion activities.</span><input type="radio" name="q7_b2" id="q7a_b2" value="A"></label></li>
+                        <li><label for="q7b_b2"><span class="opt-txt">B. Increasing challenge.</span><input type="radio" name="q7_b2" id="q7b_b2" value="B"></label></li>
+                        <li><label for="q7c_b2"><span class="opt-txt">C. Adjusting orientation, support or body state.</span><input type="radio" name="q7_b2" id="q7c_b2" value="C"></label></li>
+                        <li><label for="q7d_b2"><span class="opt-txt">D. Progressing to a Pencil Shape.</span><input type="radio" name="q7_b2" id="q7d_b2" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f7Block2"></div>
+                    </div>
+                    <div class="q-card" data-q="8">
+                      <h3>Single choice</h3>
+                      <p class="q-text">8. Which statement best reflects the role of floating within aquatic development?</p>
+                      <ul class="opt-list">
+                        <li><label for="q8a_b2"><span class="opt-txt">A. Floating is only important during dedicated floating activities.</span><input type="radio" name="q8_b2" id="q8a_b2" value="A"></label></li>
+                        <li><label for="q8b_b2"><span class="opt-txt">B. Floating becomes irrelevant once movement begins.</span><input type="radio" name="q8_b2" id="q8b_b2" value="B"></label></li>
+                        <li><label for="q8c_b2"><span class="opt-txt">C. Floating supports movement, safety, regulation and future aquatic skills.</span><input type="radio" name="q8_b2" id="q8c_b2" value="C"></label></li>
+                        <li><label for="q8d_b2"><span class="opt-txt">D. Floating should be mastered before any aquatic participation occurs.</span><input type="radio" name="q8_b2" id="q8d_b2" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f8Block2"></div>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtnBlock2">Submit answers</button>
+                  </form>
+                  <div class="score-card" id="scoreCardBlock2">
+                    <h2>Quiz complete</h2>
+                    <p class="score-value" id="scoreValueBlock2">0/8</p>
+                    <p class="score-msg" id="scoreMsgBlock2"></p>
                   </div>
                 </div>
               </div>
@@ -4997,7 +5367,7 @@
 
     function setupSidebarActiveState(){
       var links = document.querySelectorAll('.nav-link');
-      var targets = ['overview','journey','outcomes','key-concepts','block1','complete'].map(function(id){ return document.getElementById(id); }).filter(Boolean);
+      var targets = ['overview','journey','outcomes','key-concepts','block1','block2','complete'].map(function(id){ return document.getElementById(id); }).filter(Boolean);
       var observer = new IntersectionObserver(function(entries){
         var visible = entries.filter(function(e){ return e.isIntersecting; }).sort(function(a,b){ return b.intersectionRatio - a.intersectionRatio; });
         if(!visible.length) return;
@@ -5036,7 +5406,8 @@
           if((type === 'focus' && state[blockId].focus) || (type === 'breakdown' && state[blockId].breakdown)){
             card.classList.add('clicked');
           }
-          card.addEventListener('click', function(){
+          card.addEventListener('click', function(e){
+            e.stopPropagation();
             card.classList.add('clicked');
             if(type === 'focus') state[blockId].focus = true;
             else if(type === 'breakdown') state[blockId].breakdown = true;
@@ -5105,12 +5476,17 @@
     function setupBlockSectionCards(){
       document.querySelectorAll('[data-block-section-card]').forEach(function(card){
         function goToSection(){
-          var sectionId = 'block1-section' + card.getAttribute('data-block-section-card');
+          var blockNav = card.getAttribute('data-block-nav');
+          if(!blockNav){
+            var blockSection = card.closest('section[id^="block"]');
+            blockNav = blockSection ? blockSection.id : 'block1';
+          }
+          var sectionId = blockNav + '-section' + card.getAttribute('data-block-section-card');
           var target = document.getElementById(sectionId);
           if(!target) return;
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
           card.classList.add('clicked');
-          document.querySelectorAll('[data-block-section-card]').forEach(function(other){
+          document.querySelectorAll('[data-block-section-card][data-block-nav="' + blockNav + '"]').forEach(function(other){
             if(other !== card) other.classList.remove('clicked');
           });
         }
@@ -5297,7 +5673,7 @@
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Floating and Balance Working Together</strong><br><span class="muted">A single swimmer floating calmly on the back in a stable position.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="force-cards"><div class="force-card"><strong>Water supporting the body.</strong></div><div class="force-card"><strong>Stable body position.</strong></div><div class="force-card"><strong>Relaxed breathing.</strong></div><div class="force-card"><strong>Minimal unnecessary movement.</strong></div><div class="force-card"><strong>Confidence and control.</strong></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Floating provides support while balance allows the swimmer to remain stable and in control.</p>'
       },
       b2s1c2: {
-        title: 'Concept 2 — Buoyancy, Body Organisation and Floating',
+        title: 'Concept 2 — Understanding Buoyancy and Floating',
         text: '<p>Water naturally provides support to the body through buoyancy.</p><p>However, being supported by the water does not automatically result in effective floating. How the swimmer organises the body, manages breathing and responds to the water influences how successfully floating occurs.</p>',
         points: [
           'Buoyancy provides natural support to the body in the water.',
@@ -5322,6 +5698,9 @@
           'In Practice — Two swimmers may complete the same floating activity but demonstrate very different levels of control.',
           'In Practice — One swimmer remains calm, stable and organised throughout the activity. Another swimmer frequently lifts the head, changes position or uses unnecessary movement to feel secure.',
           'In Practice — Common signs that floating and balance are not yet secure may include tension, loss of alignment, sinking hips or legs, fear when lying on the back, difficulty remaining still and excessive effort to maintain position.',
+          'In Practice — Some swimmers may find back floating difficult because water touches the ears, they are required to look upwards, their feet leave the pool floor, or they feel unstable when leaning backwards.',
+          'In Practice — Some swimmers may find front floating difficult because breathing control is not yet secure, the face approaches or enters the water, visual access to the instructor is reduced, the feet leave the pool floor, or there is fear of submersion.',
+          'In Practice — Difficulty with floating is not always caused by physical ability. Sensory preferences, breathing control, confidence, previous experiences and perceived loss of control can all influence how a swimmer responds to floating.',
           'In Practice — By observing these responses, instructors gain valuable information about the swimmer\'s floating ability, confidence and overall comfort within the aquatic environment.'
         ],
         imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Signs of Effective and Ineffective Floating</strong><br><span class="muted">Two swimmers floating on their backs.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="land-water-split"><div class="split-side"><h5>Swimmer A</h5><ul class="phase-example-list"><li>Relaxed body position.</li><li>Head aligned with the body.</li><li>Hips close to the surface.</li><li>Calm breathing.</li><li>Stable floating position.</li><li>Minimal unnecessary movement.</li></ul></div><div class="split-side"><h5>Swimmer B</h5><ul class="phase-example-list"><li>Head lifted.</li><li>Tension throughout the body.</li><li>Hips and legs dropping.</li><li>Frequent position changes.</li><li>Irregular breathing.</li><li>Excessive movement to remain supported.</li></ul></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Body position, breathing, stability and movement provide observable indicators of floating and balance.</p>'
@@ -5380,6 +5759,178 @@
     };
 
     var block2Section1ConceptCompleted = {};
+
+    var block2Section2ConceptContent = {
+      b2s2c1: {
+        title: 'Concept 1 — Orientation and Floating',
+        text: '<p>Floating experiences can vary significantly depending on the swimmer\'s orientation in the water.</p><p>Back floating and front floating create different demands on breathing, balance, confidence and body control, meaning that each orientation may require a different teaching approach.</p>',
+        points: [
+          'Back floating often supports confidence, regulation and breathing.',
+          'Front floating introduces greater breathing and body control demands.',
+          'Different orientations create different learning experiences.',
+          'Orientation influences floating stability, confidence and participation.',
+          'In Practice — A swimmer may float confidently on the back but become hesitant when asked to float on the front.',
+          'In Practice — Although the body remains supported by the water in both situations, the change in breathing demands, sensory experience and visual access to the instructor may significantly alter the swimmer\'s response.',
+          'In Practice — Understanding these differences helps instructors select appropriate floating experiences and progression pathways.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Back Floating vs Front Floating</strong><br><span class="muted">Two swimmers floating in different orientations.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="land-water-split"><div class="split-side"><h5>Back Floating</h5><ul class="phase-example-list"><li>Face remains clear of the water.</li><li>Breathing remains unrestricted.</li><li>Swimmer can see and hear the instructor.</li><li>Stable and relaxed body position.</li></ul></div><div class="split-side"><h5>Front Floating</h5><ul class="phase-example-list"><li>Face approaches or enters the water.</li><li>Breathing requires greater control.</li><li>Reduced visual access to the instructor.</li><li>Increased demand on trust and body awareness.</li></ul></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Different orientations create different floating experiences and learning demands.</p>'
+      },
+      b2s2c2: {
+        title: 'Concept 2 — Body States and Floating Control',
+        text: '<p>Floating and balance are influenced by how the swimmer organises the body within the water.</p><p>As body organisation improves, swimmers often demonstrate greater stability, control and efficiency while floating.</p>',
+        points: [
+          'Body organisation influences floating stability and control.',
+          'Different body states create different levels of challenge.',
+          'Floating develops through increasing organisation and alignment.',
+          'Body states provide foundations for future aquatic movement.',
+          'In Practice — Two swimmers may both be able to float independently, yet display very different levels of control.',
+          'In Practice — One swimmer may maintain a relaxed Star Shape with ease, while another may demonstrate greater alignment and organisation in a Soldier Shape or Pencil Shape.',
+          'In Practice — These differences provide valuable information about the swimmer\'s floating development and readiness for future progression.',
+          'In Practice — Progression does not always require moving to the next body state. Swimmers may continue developing floating control within the same body state.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Body States in Floating</strong><br><span class="muted">Three swimmers demonstrating different body states.</span></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="force-cards"><div class="force-card"><strong>Relaxed Body (Star Shape)</strong><span>• Wide base of support.<br>• Relaxed body position.<br>• High stability.<br>• Supports confidence and regulation.</span></div><div class="force-card"><strong>Organised Body (Soldier Shape)</strong><span>• Improved alignment.<br>• Reduced base of support.<br>• Increased control demands.<br>• Greater body awareness.</span></div><div class="force-card"><strong>Streamlined Body (Pencil Shape)</strong><span>• Narrow body position.<br>• Reduced stability.<br>• High balance demands.<br>• Preparation for efficient movement.</span></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Body states represent increasing levels of organisation, control and stability within the water.</p>'
+      },
+      b2s2c3: {
+        title: 'Concept 3 — The Floating &amp; Balance Development Model',
+        text: '<p>Floating and balance do not develop through constantly introducing new activities.</p><p>Instead, instructors can modify key variables to increase or decrease challenge while maintaining confidence, control and successful learning experiences.</p>',
+        points: [
+          'Floating development can be adjusted by changing orientation, body state or support.',
+          'Difficulty should be increased gradually while maintaining stability, confidence and control.',
+          'Support may be provided through human support, equipment support or a combination of both.',
+          'Floating is often introduced through static control, but instructors should adapt the approach based on the swimmer\'s response, recognising that some swimmers may develop floating more successfully through movement.',
+          'In Practice — Progression does not always require a new activity.',
+          'In Practice — Often, progress can be achieved by adjusting a single variable within the same activity.',
+          'In Practice — When a swimmer experiences difficulty, instructors can modify orientation, body state or support before changing the activity itself.',
+          'In Practice — Support may be provided through:<br>• Human support, such as physical assistance from the instructor.<br>• Equipment support, such as noodles, floats or other appropriate resources.<br>• A combination of human and equipment support.',
+          'In Practice — For example, a swimmer who struggles in a Front Soldier Float may benefit from:<br>• Returning to Back Orientation.<br>• Increasing Human Support.<br>• Introducing Equipment Support.<br>• Returning to a Relaxed Body (Star Shape).',
+          'In Practice — This allows challenge to be adjusted while maintaining successful learning experiences and preserving confidence.',
+          'In Practice — Effective floating development is often achieved through small changes to existing activities rather than introducing entirely new tasks.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Floating &amp; Balance Development Model</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow pathway-flow--integration"><div class="integration-pathway-origin"><div class="pathway-step"><strong>Orientation</strong><span class="pathway-phase-label">Back → Front</span></div><div class="pathway-join" aria-hidden="true">*</div><div class="pathway-step"><strong>Body State</strong><span class="pathway-phase-label">Relaxed (Star) → Organised (Soldier) → Streamlined (Pencil)</span></div></div><div class="pathway-arrow" aria-hidden="true">*</div><div class="pathway-step"><strong>Support</strong><span class="pathway-phase-label">May include:</span><ul class="phase-example-list"><li>Human Support.</li><li>Equipment Support.</li><li>Human + Equipment Support.</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Reduced Support.</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Independent.</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Adjust Challenge.</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Maintain Control.</strong><span class="pathway-phase-label">Confidence.<br>Consistency.</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Floating &amp; Balance Development.</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Supports:</strong><ul class="phase-example-list"><li>Breathing.</li><li>Safety.</li><li>Regulation.</li><li>Gliding.</li><li>Rotation.</li><li>Propulsion.</li></ul></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Floating and balance are developed by adjusting orientation, body state and support while maintaining stability, confidence and control.</p><p class="concept-visual-note">The visual should clearly communicate that human support and equipment support are examples of support, not fixed progression stages.</p><p class="concept-visual-note">The progression pathway should be interpreted as: Supported Floating → Reduced Support → Independent Floating while allowing support to be provided through human assistance, equipment, or a combination of both.</p>'
+      }
+    };
+
+    var block2Section2ConceptActivityBank = {
+      b2s2c1: {
+        type: 'choice',
+        activityType: 'Compare the Difference',
+        observation: 'Two swimmers are practising floating.<br><br><strong>Swimmer A</strong> remains calm and stable while back floating.<br><br><strong>Swimmer B</strong> becomes tense and lifts the head when attempting front floating.',
+        q: 'Which factor is most likely influencing the difference in performance?',
+        options: [
+          { id: 'a', text: 'Pool depth.' },
+          { id: 'b', text: 'Orientation.' },
+          { id: 'c', text: 'Water temperature.' },
+          { id: 'd', text: 'Buoyancy.' }
+        ],
+        correct: 'b',
+        ok: 'Different orientations create different breathing, sensory and confidence demands, which can significantly influence floating performance.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b2s2c2: {
+        type: 'choice',
+        activityType: 'Observation Activity',
+        observation: 'Observe the three floating positions shown.',
+        q: 'Which body state is likely to place the highest demand on balance and stability?',
+        options: [
+          { id: 'a', text: 'Relaxed Body (Star Shape).' },
+          { id: 'b', text: 'Organised Body (Soldier Shape).' },
+          { id: 'c', text: 'Streamlined Body (Pencil Shape).' },
+          { id: 'd', text: 'All positions place equal demands on balance.' }
+        ],
+        correct: 'c',
+        ok: 'The Pencil Shape has the narrowest base of support and requires the greatest level of body organisation, balance and control.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b2s2c3: {
+        type: 'choice',
+        activityType: 'Decision Making Example',
+        observation: 'A swimmer can maintain an Independent Back Star Float consistently.<br><br>When progressing to a Front Star Float, the swimmer becomes tense, lifts the head and loses stability.',
+        q: 'What is the most appropriate instructor response?',
+        options: [
+          { id: 'a', text: 'Progress to a Front Soldier Float.' },
+          { id: 'b', text: 'Introduce gliding activities.' },
+          { id: 'c', text: 'Increase support while maintaining the Front Star Float.' },
+          { id: 'd', text: 'Stop floating activities and move to propulsion.' }
+        ],
+        correct: 'c',
+        ok: 'The swimmer is experiencing difficulty with the new orientation. Maintaining the same body state while increasing support allows the instructor to isolate the variable causing difficulty and maintain successful learning experiences.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      }
+    };
+
+    var block2Section2ConceptCompleted = {};
+
+    var block2Section3ConceptContent = {
+      b2s3c1: {
+        title: 'Concept 1 — Floating Within Movement',
+        text: '<p>Floating and balance do not disappear when movement begins.</p><p>As swimmers move through the water, floating continues to influence stability, body position and overall control. Developing floating and balance provides a foundation that allows movement to become more efficient and controlled.</p>',
+        points: [
+          'Floating continues to influence performance during movement.',
+          'Stability supports more controlled and efficient movement.',
+          'Poor floating control often affects movement quality.',
+          'Floating and movement should be viewed as interconnected skills.',
+          'In Practice — A swimmer may demonstrate a stable floating position but lose control when movement is introduced.',
+          'In Practice — This does not necessarily indicate a movement problem. The swimmer may still be developing the ability to maintain floating and balance while moving.',
+          'In Practice — Instructors should observe whether stability, alignment and control are maintained as movement demands increase.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Floating Supporting Movement</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow"><div class="pathway-step"><strong>Floating &amp; Balance</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Stable Body Position</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Movement Begins</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Control Maintained</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Efficient Movement</strong></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Floating remains active during movement and continues to support stability, body position and control.</p>'
+      },
+      b2s3c2: {
+        title: 'Concept 2 — Floating Beyond Floating',
+        text: '<p>Floating and balance are not isolated aquatic skills.</p><p>Although they are often introduced through dedicated floating activities, their influence extends far beyond floating itself.</p><p>As floating becomes more secure, it begins to support breathing, safety, recovery, regulation and the development of increasingly complex aquatic skills.</p>',
+        points: [
+          'Floating supports breathing, safety, recovery and regulation.',
+          'Floating provides a foundation for future aquatic skills.',
+          'Secure floating contributes to gliding, rotation, propulsion and future swimming development.',
+          'Floating should be viewed as an ongoing component of swimming rather than a separate activity.',
+          'In Practice — Floating and balance continue to influence aquatic participation even when floating is not the primary focus of the activity.',
+          'In Practice — Swimmers rely on floating and balance during breathing activities, recovery, safety situations, transitions between activities and the development of increasingly complex aquatic skills.',
+          'In Practice — As floating becomes more secure, it becomes increasingly automatic and responsive, supporting participation across a wide range of aquatic situations.',
+          'In Practice — Floating should therefore be viewed as a foundation that supports future progression rather than an isolated objective.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Floating Supporting Aquatic Development</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow"><div class="pathway-step"><strong>Floating &amp; Balance</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Supports:</strong><ul class="phase-example-list"><li>Breathing.</li><li>Safety &amp; Recovery.</li><li>Regulation.</li><li>Gliding.</li><li>Rotation.</li><li>Propulsion.</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Swimming Development</strong></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Floating and balance continue to support participation and progression throughout the swimmer&rsquo;s aquatic journey.</p>'
+      }
+    };
+
+    var block2Section3ConceptActivityBank = {
+      b2s3c1: {
+        type: 'choice',
+        activityType: 'Observation Activity',
+        observation: 'Two swimmers are moving through the water.<br><br>Swimmer A maintains a stable body position and controlled movement.<br><br>Swimmer B becomes unstable, changes body position frequently and requires excessive effort.',
+        q: 'Which swimmer is demonstrating more effective floating within movement?',
+        options: [
+          { id: 'a', text: 'Swimmer A.' },
+          { id: 'b', text: 'Swimmer B.' },
+          { id: 'c', text: 'Both swimmers equally.' },
+          { id: 'd', text: 'Cannot be determined.' }
+        ],
+        correct: 'a',
+        ok: 'Effective floating supports stability and body control during movement, allowing movement to appear more organised and efficient.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b2s3c2: {
+        type: 'choice',
+        activityType: 'Decision Making Example',
+        observation: 'A swimmer demonstrates the following during a variety of aquatic activities:<br><br>• Stable body position.<br>• Controlled breathing.<br>• Relaxed movement.<br>• Consistent balance during transitions.<br>• Efficient movement through the water.',
+        q: 'What is the most appropriate instructor conclusion?',
+        options: [
+          { id: 'a', text: 'Floating and balance are only secure during dedicated floating activities.' },
+          { id: 'b', text: 'Floating and balance continue to support wider aquatic participation.' },
+          { id: 'c', text: 'Floating is no longer important once movement begins.' },
+          { id: 'd', text: 'The swimmer should return immediately to supported floating activities.' }
+        ],
+        correct: 'b',
+        ok: 'Floating and balance remain active throughout aquatic participation and continue to support breathing, safety, regulation and future aquatic skill development.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      }
+    };
+
+    var block2Section3ConceptCompleted = {};
 
     function splitSection1ConceptPoints(points){
       var keyIdeas = [];
@@ -5511,6 +6062,12 @@
     }
 
     function getBlockConceptMaps(block){
+      if(block === 'block2-section3'){
+        return { content: block2Section3ConceptContent, activity: block2Section3ConceptActivityBank };
+      }
+      if(block === 'block2-section2'){
+        return { content: block2Section2ConceptContent, activity: block2Section2ConceptActivityBank };
+      }
       if(block === 'block2-section1'){
         return { content: block2Section1ConceptContent, activity: block2Section1ConceptActivityBank };
       }
@@ -6300,6 +6857,14 @@
       renderBlockConcept('block2-section1', target);
     }
 
+    function renderBlock2Section2Concept(target){
+      renderBlockConcept('block2-section2', target);
+    }
+
+    function renderBlock2Section3Concept(target){
+      renderBlockConcept('block2-section3', target);
+    }
+
     function closeSection1ConceptPanel(){
       var block = 'section1';
       var panel = document.querySelector('[data-panel-for="' + block + '"]');
@@ -6315,6 +6880,32 @@
 
     function closeBlock2Section1ConceptPanel(){
       var block = 'block2-section1';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      panel.classList.remove('show');
+      delete panel.dataset.currentTarget;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var stage = panel.closest('.concept-stage');
+      if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeBlock2Section2ConceptPanel(){
+      var block = 'block2-section2';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      panel.classList.remove('show');
+      delete panel.dataset.currentTarget;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var stage = panel.closest('.concept-stage');
+      if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeBlock2Section3ConceptPanel(){
+      var block = 'block2-section3';
       var panel = document.querySelector('[data-panel-for="' + block + '"]');
       if(!panel) return;
       panel.classList.remove('show');
@@ -6382,6 +6973,70 @@
             if(square) square.classList.add('visited');
           }
           closeBlock2Section1ConceptPanel();
+        });
+      }
+      panel.addEventListener('click', function(e){
+        var item = e.target.closest('.key-idea-item');
+        if(item) item.classList.add('clicked');
+      });
+    }
+
+    function setupBlock2Section2Concepts(){
+      var block = 'block2-section2';
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
+        button.addEventListener('click', function(e){
+          e.stopPropagation();
+          renderBlock2Section2Concept(button.dataset.target);
+        });
+      });
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      var backBtn = panel.querySelector('[data-concept-back]');
+      if(backBtn){
+        backBtn.addEventListener('click', closeBlock2Section2ConceptPanel);
+      }
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(finishBtn){
+        finishBtn.addEventListener('click', function(){
+          var target = panel.dataset.currentTarget;
+          if(target){
+            block2Section2ConceptCompleted[target] = true;
+            var square = document.querySelector('[data-concept-grid="' + block + '"] .concept-square[data-target="' + target + '"]');
+            if(square) square.classList.add('visited');
+          }
+          closeBlock2Section2ConceptPanel();
+        });
+      }
+      panel.addEventListener('click', function(e){
+        var item = e.target.closest('.key-idea-item');
+        if(item) item.classList.add('clicked');
+      });
+    }
+
+    function setupBlock2Section3Concepts(){
+      var block = 'block2-section3';
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
+        button.addEventListener('click', function(e){
+          e.stopPropagation();
+          renderBlock2Section3Concept(button.dataset.target);
+        });
+      });
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      var backBtn = panel.querySelector('[data-concept-back]');
+      if(backBtn){
+        backBtn.addEventListener('click', closeBlock2Section3ConceptPanel);
+      }
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(finishBtn){
+        finishBtn.addEventListener('click', function(){
+          var target = panel.dataset.currentTarget;
+          if(target){
+            block2Section3ConceptCompleted[target] = true;
+            var square = document.querySelector('[data-concept-grid="' + block + '"] .concept-square[data-target="' + target + '"]');
+            if(square) square.classList.add('visited');
+          }
+          closeBlock2Section3ConceptPanel();
         });
       }
       panel.addEventListener('click', function(e){
@@ -7008,6 +7663,90 @@
       updateQuizProgress();
     }
 
+    function setupBlock2Quiz(){
+      var total = 8;
+      var correctAnswers = { q1: 'B', q2: 'C', q3: 'C', q4: 'B', q5: 'C', q6: 'B', q7: 'C', q8: 'C' };
+      var correctLabels = {
+        q1: 'B. To support the body in the water.',
+        q2: 'C. Body organisation, breathing and relaxation.',
+        q3: 'C. Floating and balance are not yet secure.',
+        q4: 'B. Front floating requires greater breathing control and trust.',
+        q5: 'C. Streamlined Body (Pencil Shape).',
+        q6: 'B. Orientation, body state and support.',
+        q7: 'C. Adjusting orientation, support or body state.',
+        q8: 'C. Floating supports movement, safety, regulation and future aquatic skills.'
+      };
+      var root = document.getElementById('quizInlineBlock2');
+      if(!root) return;
+      var progressFill = document.getElementById('progressFillBlock2');
+      var progressText = document.getElementById('progressTextBlock2');
+      var quizForm = document.getElementById('quizFormBlock2');
+      var scoreCard = document.getElementById('scoreCardBlock2');
+      var scoreValue = document.getElementById('scoreValueBlock2');
+      var scoreMsg = document.getElementById('scoreMsgBlock2');
+      var submitBtn = document.getElementById('submitBtnBlock2');
+      if(!quizForm || !progressFill || !progressText) return;
+
+      function countAnswered(){
+        var n = 0;
+        for(var i = 1; i <= total; i++){
+          if(root.querySelector('input[name="q'+i+'_b2"]:checked')) n++;
+        }
+        return n;
+      }
+
+      function updateQuizProgress(){
+        progressFill.style.width = (countAnswered() / total * 100) + '%';
+        progressText.textContent = countAnswered() + ' of ' + total + ' answered';
+      }
+
+      quizForm.addEventListener('change', updateQuizProgress);
+
+      function showFeedback(id, correct, msg, showCorrect){
+        var el = document.getElementById('f' + id + 'Block2');
+        if(!el) return;
+        el.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
+        var text = correct ? msg : (showCorrect ? msg : 'Incorrect. Try again.');
+        el.innerHTML = (correct ? '&#10003; ' : '&#10007; ') + text;
+        el.style.display = 'flex';
+      }
+
+      quizForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var score = 0;
+        var results = [];
+
+        for(var i = 1; i <= total; i++){
+          var input = root.querySelector('input[name="q'+i+'_b2"]:checked');
+          var v = input ? input.value : null;
+          var key = 'q' + i;
+          var ok = v === correctAnswers[key];
+          if(ok) score++;
+          results.push({
+            i: i,
+            ok: ok,
+            msg: ok ? 'Correct.' : 'Incorrect. The correct answer is ' + correctLabels[key]
+          });
+        }
+
+        var showCorrect = score === total;
+        results.forEach(function(r){ showFeedback(r.i, r.ok, r.msg, showCorrect); });
+        progressFill.style.width = '100%';
+        progressText.textContent = total + ' of ' + total + ' answered';
+
+        var passed = score === total;
+        scoreValue.textContent = passed ? ('Quiz passed — ' + score + '/' + total) : (score + '/' + total);
+        scoreMsg.textContent = passed
+          ? 'You have successfully completed the Block 2 quiz.'
+          : 'You need all 8 correct before completing this block. Review the content and try again.';
+        scoreCard.classList.add('show');
+        if(submitBtn) submitBtn.disabled = passed;
+        scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      updateQuizProgress();
+    }
+
     setupChecks();
     setupDwellTime();
     setupSmoothScroll();
@@ -7017,9 +7756,12 @@
     setupLearningOutcomes();
     setupSection1Concepts();
     setupBlock2Section1Concepts();
+    setupBlock2Section2Concepts();
+    setupBlock2Section3Concepts();
     setupSection2Concepts();
     setupSection3Concepts();
     setupBlock1Quiz();
+    setupBlock2Quiz();
     setupSpeech();
     enableReviewMode();
     updateProgress();
