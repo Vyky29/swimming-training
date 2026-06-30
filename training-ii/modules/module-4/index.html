@@ -3512,7 +3512,8 @@
     }
     [data-concept-grid="section1"],
     [data-concept-grid="block2-section1"],
-    [data-concept-grid="block2-section2"]{
+    [data-concept-grid="block2-section2"],
+    [data-concept-grid="block3-section1"]{
       grid-template-columns:repeat(3,minmax(0,1fr));
     }
     [data-concept-grid="block2-section3"]{
@@ -5307,6 +5308,70 @@
             <div class="block-section-stage" id="block3-section1">
               <span class="section-eyebrow">&#128309; SECTION 1</span>
               <h3 class="block-section-title">Understanding Gliding &amp; Streamlining</h3>
+
+              <p class="lead" data-tts-source="block3-section1">This section focuses on understanding how gliding and streamlining enable swimmers to move efficiently through the water.<br><br>
+                It introduces the principles of controlled movement, explains how momentum is created and maintained, and explores how body alignment influences movement before active propulsion is introduced.</p>
+
+              <div class="grid-2 block-intro-cards" data-block-intro="block3-section1">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
+                  <div class="card-icon">&#9678;</div>
+                  <h4>Section Focus</h4>
+                  <ul>
+                    <li>Understanding how gliding and streamlining create efficient movement through body position, alignment and momentum.</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
+                  <div class="card-icon">&#8801;</div>
+                  <h4>What This Section Covers</h4>
+                  <ul>
+                    <li>What gliding and streamlining are.</li>
+                    <li>How movement is created and maintained.</li>
+                    <li>Why body alignment influences movement efficiency.</li>
+                    <li>How to recognise effective gliding.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="concept-stage">
+                <h4>Explore the Key Concepts</h4>
+
+                <div class="concept-grid" data-concept-grid="block3-section1">
+                  <button class="concept-square" type="button" data-target="b3s1c1">Understanding Gliding</button>
+                  <button class="concept-square" type="button" data-target="b3s1c2">Understanding Streamlining</button>
+                  <button class="concept-square" type="button" data-target="b3s1c3">Recognising Effective Gliding</button>
+                </div>
+
+                <div class="concept-panel" data-panel-for="block3-section1">
+                  <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                  <div class="concept-heading-row">
+                    <h4></h4>
+                  </div>
+                  <p></p>
+
+                  <div class="concept-ideas-shell">
+                    <div class="concept-points-box">
+                      <h4>Key Ideas for Instructors</h4>
+                      <p class="key-ideas-instruction">Review each key idea below.</p>
+                      <ul></ul>
+                    </div>
+                    <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                      <div class="key-ideas-action-head">
+                        <span class="icon" aria-hidden="true"></span>
+                        <span class="label">In Practice</span>
+                      </div>
+                      <div class="text"></div>
+                    </div>
+                  </div>
+
+                  <div class="concept-image"></div>
+
+                  <div class="concept-why-matters concept-why-matters-shell" data-concept-why-matters hidden></div>
+
+                  <div class="concept-media-actions">
+                    <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="block-section-stage" id="block3-section2">
@@ -5854,6 +5919,106 @@
 
     var block2Section1ConceptCompleted = {};
 
+    var block3Section1ConceptContent = {
+      b3s1c1: {
+        title: 'Concept 1 — Understanding Gliding',
+        text: '<p>Gliding is the ability to move through the water using momentum while maintaining a stable, aligned and controlled body position.</p><p>Unlike propulsion, gliding does not create movement. It maintains movement that has already been generated, allowing swimmers to travel efficiently through the water before active propulsion begins.</p>',
+        points: [
+          'Gliding is controlled movement maintained through momentum.',
+          'Momentum can be created in different ways depending on the swimmer and the activity.',
+          'Gliding maintains movement rather than creating new movement.',
+          'Body alignment, control and efficiency are more important than glide distance.',
+          'In Practice — Gliding may begin from a standing lean, a gentle push from the pool floor, a wall push or appropriate instructor support.',
+          'In Practice — Although momentum may be created in different ways, the purpose of gliding remains the same: maintaining smooth, controlled movement through effective body position and alignment.',
+          'In Practice — When observing gliding, instructors should focus on how well the swimmer maintains movement rather than how movement was initiated or how far the swimmer travels.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Understanding Gliding</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="pathway-flow"><div class="pathway-step"><strong>Creating Momentum</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Maintaining Momentum</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Controlled Gliding</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Active Propulsion</strong></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Gliding begins once momentum has been created. The quality of the glide depends on how effectively the swimmer maintains body position, alignment and control while moving through the water.</p>'
+      },
+      b3s1c2: {
+        title: 'Concept 2 — Understanding Streamlining',
+        text: '<p>Streamlining is the process of organising the body into its most efficient position for movement through the water.</p><p>By maintaining an aligned and organised body position, swimmers reduce water resistance, preserve momentum and move more efficiently through the water.</p>',
+        points: [
+          'Streamlining is an organised body position that reduces water resistance.',
+          'Good body position supports effective alignment and efficient movement.',
+          'Small changes in body position can significantly influence glide efficiency.',
+          'Efficient streamlining is achieved through body organisation rather than increased effort.',
+          'In Practice — Two swimmers may begin gliding with similar momentum but maintain movement very differently.',
+          'In Practice — A swimmer who maintains a long, aligned and organised body position will usually preserve momentum for longer than a swimmer whose body becomes bent, wide or poorly organised.',
+          'In Practice — When teaching streamlining, instructors should focus on improving body position and organisation rather than encouraging swimmers to create more momentum.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Understanding Streamlining</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="land-water-split"><div class="split-side"><h5>Swimmer A — Effective Streamlining</h5><ul class="phase-example-list"><li>Long body position.</li><li>Head aligned with the body.</li><li>Arms fully extended.</li><li>Legs together.</li><li>Low water resistance.</li></ul><div class="pathway-flow"><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Maintains momentum.</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Efficient glide.</strong></div></div></div><div class="split-side"><h5>Swimmer B — Ineffective Streamlining</h5><ul class="phase-example-list"><li>Head lifted.</li><li>Arms separated.</li><li>Hips bent.</li><li>Legs apart.</li><li>High water resistance.</li></ul><div class="pathway-flow"><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Loses momentum quickly.</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Reduced glide efficiency.</strong></div></div></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> The quality of a glide depends on how effectively the swimmer maintains an organised body position throughout the movement.</p>'
+      },
+      b3s1c3: {
+        title: 'Concept 3 — Recognising Effective Gliding',
+        text: '<p>Effective gliding can be recognised through the swimmer\'s body position, movement quality and ability to maintain momentum.</p><p>By observing how swimmers organise their body and move through the water, instructors can identify how effectively gliding is being maintained and make appropriate teaching decisions.</p>',
+        points: [
+          'Effective gliding is recognised through body position, alignment and movement quality.',
+          'Loss of momentum is often linked to changes in body organisation rather than lack of effort.',
+          'Observation should focus on how efficiently movement is maintained rather than how far the swimmer travels.',
+          'Individual factors may influence how effectively each swimmer is able to maintain a glide.',
+          'Not every swimmer will achieve the same glide. Success should be measured by helping each swimmer achieve their most efficient glide rather than comparing them with an ideal model.',
+          'In Practice — During a gliding activity, two swimmers begin with similar momentum but demonstrate very different outcomes.',
+          'In Practice — One swimmer maintains body position and continues gliding smoothly, while another quickly loses alignment and slows down.',
+          'In Practice — By observing these responses, instructors can identify how effectively each swimmer maintains momentum and decide what aspects of gliding require further development.'
+        ],
+        whyMattersHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">✦</span><span>clubSENsational Teaching Principle</span></div><p>The goal is not to achieve a perfect glide. The goal is to help every swimmer achieve their most efficient glide.</p>',
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Recognising Effective Gliding</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><div class="land-water-split"><div class="split-side"><h5>Swimmer A</h5><ul class="phase-example-list"><li>Stable body position.</li><li>Long body alignment.</li><li>Smooth, controlled movement.</li><li>Maintains momentum.</li><li>Minimal unnecessary movement.</li></ul></div><div class="split-side"><h5>Swimmer B</h5><ul class="phase-example-list"><li>Head lifted.</li><li>Bent hips.</li><li>Arms or legs separated.</li><li>Momentum lost quickly.</li><li>Excessive corrective movement.</li></ul></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Effective gliding is recognised through organised body position, efficient movement and the ability to maintain momentum.</p>'
+      }
+    };
+
+    var block3Section1ConceptActivityBank = {
+      b3s1c1: {
+        type: 'choice',
+        activityType: 'Compare the Difference',
+        observation: 'Two swimmers begin moving through the water using momentum.<br><br><strong>Swimmer A</strong><br><br>• Maintains a stable, aligned body position.<br>• Continues moving smoothly through the water.<br>• Preserves body position throughout the glide.<br><br><strong>Swimmer B</strong><br><br>• Bends at the hips shortly after movement begins.<br>• Lifts the head.<br>• Quickly loses momentum and slows down.',
+        q: 'Which swimmer is demonstrating more effective gliding?',
+        options: [
+          { id: 'a', text: 'Swimmer A.' },
+          { id: 'b', text: 'Swimmer B.' },
+          { id: 'c', text: 'Both swimmers equally.' },
+          { id: 'd', text: 'It cannot be determined.' }
+        ],
+        correct: 'a',
+        ok: 'Effective gliding is achieved by maintaining momentum through body alignment, stability and control. Swimmers who maintain an organised body position are better able to preserve movement and travel efficiently through the water.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b3s1c2: {
+        type: 'choice',
+        activityType: 'Compare the Difference',
+        observation: 'Two swimmers begin gliding with similar momentum.<br><br><strong>Swimmer A</strong><br><br>• Long, aligned body position.<br>• Arms fully extended.<br>• Head in line with the body.<br>• Legs together.<br>• Smooth, controlled movement.<br><br><strong>Swimmer B</strong><br><br>• Head lifted.<br>• Arms separated.<br>• Hips bent.<br>• Legs apart.<br>• Quickly loses momentum.',
+        q: 'Which factor is most likely explaining the difference in glide performance?',
+        options: [
+          { id: 'a', text: 'Swimmer A created more momentum.' },
+          { id: 'b', text: 'Swimmer A maintained a more effective streamlined body position.' },
+          { id: 'c', text: 'Swimmer A is physically stronger.' },
+          { id: 'd', text: 'Swimmer A is gliding in deeper water.' }
+        ],
+        correct: 'b',
+        ok: 'Effective streamlining reduces water resistance, allowing swimmers to preserve momentum and move more efficiently without increasing effort.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b3s1c3: {
+        type: 'choice',
+        activityType: 'Observation Activity',
+        observation: 'Observe the swimmer below.<br><br>The swimmer:<br><br>• Begins with good momentum.<br>• Lifts the head shortly after movement begins.<br>• Bends at the hips.<br>• Uses frequent arm movements to maintain direction.<br>• Loses momentum quickly.',
+        q: 'What is the most likely reason the glide becomes less effective?',
+        options: [
+          { id: 'a', text: 'The swimmer did not create enough momentum.' },
+          { id: 'b', text: 'Changes in body position reduced glide efficiency.' },
+          { id: 'c', text: 'The swimmer needs to create more momentum.' },
+          { id: 'd', text: 'The swimmer should travel further before stopping.' }
+        ],
+        correct: 'b',
+        ok: 'Effective gliding depends on maintaining body position, alignment and momentum throughout the movement. Changes in body organisation increase water resistance, reducing movement efficiency regardless of how momentum was initially created.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      }
+    };
+
+    var block3Section1ConceptCompleted = {};
+
     var block2Section2ConceptContent = {
       b2s2c1: {
         title: 'Concept 1 — Orientation and Floating',
@@ -6156,6 +6321,9 @@
     }
 
     function getBlockConceptMaps(block){
+      if(block === 'block3-section1'){
+        return { content: block3Section1ConceptContent, activity: block3Section1ConceptActivityBank };
+      }
       if(block === 'block2-section3'){
         return { content: block2Section3ConceptContent, activity: block2Section3ConceptActivityBank };
       }
@@ -6933,18 +7101,23 @@
 
       if(pEl && imageEl) pEl.insertAdjacentElement('afterend', imageEl);
       var layoutAnchor = imageEl && data.imageHTML ? imageEl : pEl;
-      if(whyShellEl && data.whyMattersHTML && layoutAnchor){
-        layoutAnchor.insertAdjacentElement('afterend', whyShellEl);
-        layoutAnchor = whyShellEl;
-      }
       if(layoutAnchor && ideasShellEl) layoutAnchor.insertAdjacentElement('afterend', ideasShellEl);
-      if(ideasShellEl && activityParts.shell) ideasShellEl.insertAdjacentElement('afterend', activityParts.shell);
+      var postIdeasAnchor = (ideasShellEl && showIdeasShell) ? ideasShellEl : layoutAnchor;
+      if(whyShellEl && data.whyMattersHTML){
+        postIdeasAnchor.insertAdjacentElement('afterend', whyShellEl);
+        postIdeasAnchor = whyShellEl;
+      }
+      if(postIdeasAnchor && activityParts.shell) postIdeasAnchor.insertAdjacentElement('afterend', activityParts.shell);
 
       scrollConceptPanelIntoView(panel);
     }
 
     function renderSection1Concept(target){
       renderBlockConcept('section1', target);
+    }
+
+    function renderBlock3Section1Concept(target){
+      renderBlockConcept('block3-section1', target);
     }
 
     function renderBlock2Section1Concept(target){
@@ -6961,6 +7134,19 @@
 
     function closeSection1ConceptPanel(){
       var block = 'section1';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      panel.classList.remove('show');
+      delete panel.dataset.currentTarget;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var stage = panel.closest('.concept-stage');
+      if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeBlock3Section1ConceptPanel(){
+      var block = 'block3-section1';
       var panel = document.querySelector('[data-panel-for="' + block + '"]');
       if(!panel) return;
       panel.classList.remove('show');
@@ -7035,6 +7221,38 @@
             if(square) square.classList.add('visited');
           }
           closeSection1ConceptPanel();
+        });
+      }
+      panel.addEventListener('click', function(e){
+        var item = e.target.closest('.key-idea-item');
+        if(item) item.classList.add('clicked');
+      });
+    }
+
+    function setupBlock3Section1Concepts(){
+      var block = 'block3-section1';
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
+        button.addEventListener('click', function(e){
+          e.stopPropagation();
+          renderBlock3Section1Concept(button.dataset.target);
+        });
+      });
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      var backBtn = panel.querySelector('[data-concept-back]');
+      if(backBtn){
+        backBtn.addEventListener('click', closeBlock3Section1ConceptPanel);
+      }
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(finishBtn){
+        finishBtn.addEventListener('click', function(){
+          var target = panel.dataset.currentTarget;
+          if(target){
+            block3Section1ConceptCompleted[target] = true;
+            var square = document.querySelector('[data-concept-grid="' + block + '"] .concept-square[data-target="' + target + '"]');
+            if(square) square.classList.add('visited');
+          }
+          closeBlock3Section1ConceptPanel();
         });
       }
       panel.addEventListener('click', function(e){
@@ -7850,6 +8068,7 @@
     setupLearningOutcomes();
     setupSection1Concepts();
     setupBlock2Section1Concepts();
+    setupBlock3Section1Concepts();
     setupBlock2Section2Concepts();
     setupBlock2Section3Concepts();
     setupSection2Concepts();
