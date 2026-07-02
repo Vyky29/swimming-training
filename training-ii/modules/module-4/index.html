@@ -3514,14 +3514,16 @@
     [data-concept-grid="block2-section1"],
     [data-concept-grid="block2-section2"],
     [data-concept-grid="block3-section1"],
-    [data-concept-grid="block4-section1"]{
+    [data-concept-grid="block4-section1"],
+    [data-concept-grid="block4-section2"]{
       grid-template-columns:repeat(3,minmax(0,1fr));
     }
     [data-concept-grid="block3-section2"]{
       grid-template-columns:repeat(4,minmax(0,1fr));
     }
     [data-concept-grid="block2-section3"],
-    [data-concept-grid="block3-section3"]{
+    [data-concept-grid="block3-section3"],
+    [data-concept-grid="block4-section3"]{
       grid-template-columns:repeat(2,minmax(0,1fr));
     }
     [data-concept-grid="section2"]{
@@ -4041,30 +4043,30 @@
       margin-left:auto;
       margin-right:auto;
     }
-    #block1-quiz .quiz-inline, #block2-quiz .quiz-inline, #block3-quiz .quiz-inline{background:var(--bg);border-radius:24px;padding:28px 32px 60px;box-shadow:0 18px 40px rgba(18,50,71,.08);}
-    #block1-quiz .quiz-inline .quiz-inline-progress, #block2-quiz .quiz-inline .quiz-inline-progress, #block3-quiz .quiz-inline .quiz-inline-progress{margin-bottom:24px;}
-    #block1-quiz .quiz-inline .progress-track, #block2-quiz .quiz-inline .progress-track, #block3-quiz .quiz-inline .progress-track{height:10px;background:#e6edf2;border-radius:999px;overflow:hidden;}
-    #block1-quiz .quiz-inline .progress-fill, #block2-quiz .quiz-inline .progress-fill, #block3-quiz .quiz-inline .progress-fill{height:100%;width:0%;background:var(--gradBrand);border-radius:999px;transition:width .4s ease;}
-    #block1-quiz .quiz-inline .progress-meta, #block2-quiz .quiz-inline .progress-meta, #block3-quiz .quiz-inline .progress-meta{margin-top:8px;font-size:13px;font-weight:700;color:var(--ink);}
-    #block1-quiz .quiz-inline .quiz-hero, #block2-quiz .quiz-inline .quiz-hero, #block3-quiz .quiz-inline .quiz-hero{background:var(--gradBlue);color:#fff;border-radius:24px;padding:32px 40px;margin-bottom:28px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
-    #block1-quiz .quiz-inline .quiz-hero::after, #block2-quiz .quiz-inline .quiz-hero::after, #block3-quiz .quiz-inline .quiz-hero::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.1);top:-50px;right:-40px;}
-    #block1-quiz .quiz-inline .quiz-hero .tag, #block2-quiz .quiz-inline .quiz-hero .tag, #block3-quiz .quiz-inline .quiz-hero .tag{display:inline-block;background:rgba(255,255,255,.22);padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
-    #block1-quiz .quiz-inline .quiz-hero h1, #block2-quiz .quiz-inline .quiz-hero h1, #block3-quiz .quiz-inline .quiz-hero h1{font-size:clamp(22px,3.5vw,28px);font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
-    #block1-quiz .quiz-inline .quiz-hero p, #block2-quiz .quiz-inline .quiz-hero p, #block3-quiz .quiz-inline .quiz-hero p{opacity:.95;font-size:15px;position:relative;z-index:1;}
-    #block1-quiz .quiz-inline .q-card, #block2-quiz .quiz-inline .q-card, #block3-quiz .quiz-inline .q-card{background:#fff;border-radius:20px;padding:28px 32px;margin-bottom:24px;box-shadow:var(--shadow);border:1px solid var(--line);}
-    #block1-quiz .quiz-inline .q-card h3, #block2-quiz .quiz-inline .q-card h3, #block3-quiz .quiz-inline .q-card h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
-    #block1-quiz .quiz-inline .q-card .q-text, #block2-quiz .quiz-inline .q-card .q-text, #block3-quiz .quiz-inline .q-card .q-text{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:20px;}
-    #block1-quiz .quiz-inline .opt-list, #block2-quiz .quiz-inline .opt-list, #block3-quiz .quiz-inline .opt-list{list-style:none;padding:0;margin:0;}
-    #block1-quiz .quiz-inline .opt-list li, #block2-quiz .quiz-inline .opt-list li, #block3-quiz .quiz-inline .opt-list li{margin-bottom:10px;}
-    #block1-quiz .quiz-inline .opt-list label, #block2-quiz .quiz-inline .opt-list label, #block3-quiz .quiz-inline .opt-list label{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;border:2px solid #e7eef5;cursor:pointer;transition:var(--transition);font-weight:500;}
-    #block1-quiz .quiz-inline .opt-list label:hover, #block2-quiz .quiz-inline .opt-list label:hover, #block3-quiz .quiz-inline .opt-list label:hover{border-color:var(--blue);background:#f8fbfd;}
-    #block1-quiz .quiz-inline .opt-list input:checked+label,#block1-quiz .quiz-inline .opt-list label:has(input:checked),#block2-quiz .quiz-inline .opt-list label:has(input:checked),#block3-quiz .quiz-inline .opt-list label:has(input:checked){border-color:var(--blue);background:#edf6fb;}
-    #block1-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt,#block2-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt,#block3-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt{color:var(--blue);font-weight:600;}
-    #block1-quiz .quiz-inline .opt-txt, #block2-quiz .quiz-inline .opt-txt, #block3-quiz .quiz-inline .opt-txt{flex:1;}
-    #block1-quiz .quiz-inline .opt-list input[type="radio"],#block1-quiz .quiz-inline .opt-list input[type="checkbox"],#block2-quiz .quiz-inline .opt-list input[type="radio"],#block3-quiz .quiz-inline .opt-list input[type="radio"]{accent-color:var(--blue);width:22px;height:22px;flex-shrink:0;order:2;}
-    #block1-quiz .quiz-inline .feedback, #block2-quiz .quiz-inline .feedback, #block3-quiz .quiz-inline .feedback{margin-top:16px;padding:14px 18px;border-radius:12px;font-size:14px;font-weight:600;display:none;}
-    #block1-quiz .quiz-inline .feedback.correct, #block2-quiz .quiz-inline .feedback.correct, #block3-quiz .quiz-inline .feedback.correct{background:#edf6fb;color:#457B9D;display:flex;align-items:center;gap:10px;}
-    #block1-quiz .quiz-inline .feedback.incorrect, #block2-quiz .quiz-inline .feedback.incorrect, #block3-quiz .quiz-inline .feedback.incorrect{background:#fde8e8;color:#c53030;display:flex;align-items:center;gap:10px;}
+    #block1-quiz .quiz-inline, #block2-quiz .quiz-inline, #block3-quiz .quiz-inline, #block4-quiz .quiz-inline{background:var(--bg);border-radius:24px;padding:28px 32px 60px;box-shadow:0 18px 40px rgba(18,50,71,.08);}
+    #block1-quiz .quiz-inline .quiz-inline-progress, #block2-quiz .quiz-inline .quiz-inline-progress, #block3-quiz .quiz-inline .quiz-inline-progress, #block4-quiz .quiz-inline .quiz-inline-progress{margin-bottom:24px;}
+    #block1-quiz .quiz-inline .progress-track, #block2-quiz .quiz-inline .progress-track, #block3-quiz .quiz-inline .progress-track, #block4-quiz .quiz-inline .progress-track{height:10px;background:#e6edf2;border-radius:999px;overflow:hidden;}
+    #block1-quiz .quiz-inline .progress-fill, #block2-quiz .quiz-inline .progress-fill, #block3-quiz .quiz-inline .progress-fill, #block4-quiz .quiz-inline .progress-fill{height:100%;width:0%;background:var(--gradBrand);border-radius:999px;transition:width .4s ease;}
+    #block1-quiz .quiz-inline .progress-meta, #block2-quiz .quiz-inline .progress-meta, #block3-quiz .quiz-inline .progress-meta, #block4-quiz .quiz-inline .progress-meta{margin-top:8px;font-size:13px;font-weight:700;color:var(--ink);}
+    #block1-quiz .quiz-inline .quiz-hero, #block2-quiz .quiz-inline .quiz-hero, #block3-quiz .quiz-inline .quiz-hero, #block4-quiz .quiz-inline .quiz-hero{background:var(--gradBlue);color:#fff;border-radius:24px;padding:32px 40px;margin-bottom:28px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+    #block1-quiz .quiz-inline .quiz-hero::after, #block2-quiz .quiz-inline .quiz-hero::after, #block3-quiz .quiz-inline .quiz-hero::after, #block4-quiz .quiz-inline .quiz-hero::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.1);top:-50px;right:-40px;}
+    #block1-quiz .quiz-inline .quiz-hero .tag, #block2-quiz .quiz-inline .quiz-hero .tag, #block3-quiz .quiz-inline .quiz-hero .tag, #block4-quiz .quiz-inline .quiz-hero .tag{display:inline-block;background:rgba(255,255,255,.22);padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.5px;margin-bottom:12px;}
+    #block1-quiz .quiz-inline .quiz-hero h1, #block2-quiz .quiz-inline .quiz-hero h1, #block3-quiz .quiz-inline .quiz-hero h1, #block4-quiz .quiz-inline .quiz-hero h1{font-size:clamp(22px,3.5vw,28px);font-weight:800;margin-bottom:6px;position:relative;z-index:1;}
+    #block1-quiz .quiz-inline .quiz-hero p, #block2-quiz .quiz-inline .quiz-hero p, #block3-quiz .quiz-inline .quiz-hero p, #block4-quiz .quiz-inline .quiz-hero p{opacity:.95;font-size:15px;position:relative;z-index:1;}
+    #block1-quiz .quiz-inline .q-card, #block2-quiz .quiz-inline .q-card, #block3-quiz .quiz-inline .q-card, #block4-quiz .quiz-inline .q-card{background:#fff;border-radius:20px;padding:28px 32px;margin-bottom:24px;box-shadow:var(--shadow);border:1px solid var(--line);}
+    #block1-quiz .quiz-inline .q-card h3, #block2-quiz .quiz-inline .q-card h3, #block3-quiz .quiz-inline .q-card h3, #block4-quiz .quiz-inline .q-card h3{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+    #block1-quiz .quiz-inline .q-card .q-text, #block2-quiz .quiz-inline .q-card .q-text, #block3-quiz .quiz-inline .q-card .q-text, #block4-quiz .quiz-inline .q-card .q-text{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:20px;}
+    #block1-quiz .quiz-inline .opt-list, #block2-quiz .quiz-inline .opt-list, #block3-quiz .quiz-inline .opt-list, #block4-quiz .quiz-inline .opt-list{list-style:none;padding:0;margin:0;}
+    #block1-quiz .quiz-inline .opt-list li, #block2-quiz .quiz-inline .opt-list li, #block3-quiz .quiz-inline .opt-list li, #block4-quiz .quiz-inline .opt-list li{margin-bottom:10px;}
+    #block1-quiz .quiz-inline .opt-list label, #block2-quiz .quiz-inline .opt-list label, #block3-quiz .quiz-inline .opt-list label, #block4-quiz .quiz-inline .opt-list label{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:14px;border:2px solid #e7eef5;cursor:pointer;transition:var(--transition);font-weight:500;}
+    #block1-quiz .quiz-inline .opt-list label:hover, #block2-quiz .quiz-inline .opt-list label:hover, #block3-quiz .quiz-inline .opt-list label:hover, #block4-quiz .quiz-inline .opt-list label:hover{border-color:var(--blue);background:#f8fbfd;}
+    #block1-quiz .quiz-inline .opt-list input:checked+label,#block1-quiz .quiz-inline .opt-list label:has(input:checked),#block2-quiz .quiz-inline .opt-list label:has(input:checked),#block3-quiz .quiz-inline .opt-list label:has(input:checked),#block4-quiz .quiz-inline .opt-list label:has(input:checked){border-color:var(--blue);background:#edf6fb;}
+    #block1-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt,#block2-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt,#block3-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt,#block4-quiz .quiz-inline .opt-list label:has(input:checked) .opt-txt{color:var(--blue);font-weight:600;}
+    #block1-quiz .quiz-inline .opt-txt, #block2-quiz .quiz-inline .opt-txt, #block3-quiz .quiz-inline .opt-txt, #block4-quiz .quiz-inline .opt-txt{flex:1;}
+    #block1-quiz .quiz-inline .opt-list input[type="radio"],#block1-quiz .quiz-inline .opt-list input[type="checkbox"],#block2-quiz .quiz-inline .opt-list input[type="radio"],#block3-quiz .quiz-inline .opt-list input[type="radio"],#block4-quiz .quiz-inline .opt-list input[type="radio"]{accent-color:var(--blue);width:22px;height:22px;flex-shrink:0;order:2;}
+    #block1-quiz .quiz-inline .feedback, #block2-quiz .quiz-inline .feedback, #block3-quiz .quiz-inline .feedback, #block4-quiz .quiz-inline .feedback{margin-top:16px;padding:14px 18px;border-radius:12px;font-size:14px;font-weight:600;display:none;}
+    #block1-quiz .quiz-inline .feedback.correct, #block2-quiz .quiz-inline .feedback.correct, #block3-quiz .quiz-inline .feedback.correct, #block4-quiz .quiz-inline .feedback.correct{background:#edf6fb;color:#457B9D;display:flex;align-items:center;gap:10px;}
+    #block1-quiz .quiz-inline .feedback.incorrect, #block2-quiz .quiz-inline .feedback.incorrect, #block3-quiz .quiz-inline .feedback.incorrect, #block4-quiz .quiz-inline .feedback.incorrect{background:#fde8e8;color:#c53030;display:flex;align-items:center;gap:10px;}
     #block1-quiz .quiz-inline .match-game{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
     #block1-quiz .quiz-inline .match-slots .match-slot{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
     #block1-quiz .quiz-inline .match-slots .match-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
@@ -4077,15 +4079,15 @@
     #block1-quiz .quiz-inline .match-chip:hover{background:#edf6fb;}
     #block1-quiz .quiz-inline .match-chip.dragging{opacity:.6;cursor:grabbing;}
     #block1-quiz .quiz-inline .match-chip.selected{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 0 0 3px rgba(45,132,179,.18);}
-    #block1-quiz .quiz-inline .btn-submit, #block2-quiz .quiz-inline .btn-submit, #block3-quiz .quiz-inline .btn-submit{display:inline-flex;align-items:center;justify-content:center;padding:16px 32px;font-size:16px;font-weight:700;background:var(--blue);color:#fff;border:none;border-radius:14px;cursor:pointer;font-family:inherit;transition:var(--transition);margin-top:16px;}
-    #block1-quiz .quiz-inline .btn-submit:hover, #block2-quiz .quiz-inline .btn-submit:hover, #block3-quiz .quiz-inline .btn-submit:hover{background:#236d95;transform:translateY(-2px);}
-    #block1-quiz .quiz-inline .btn-submit:disabled, #block2-quiz .quiz-inline .btn-submit:disabled, #block3-quiz .quiz-inline .btn-submit:disabled{opacity:.7;cursor:not-allowed;transform:none;}
-    #block1-quiz .quiz-inline .score-card, #block2-quiz .quiz-inline .score-card, #block3-quiz .quiz-inline .score-card{background:var(--gradBlue);color:#fff;border-radius:24px;padding:40px;text-align:center;display:none;margin-top:24px;}
-    #block1-quiz .quiz-inline .score-card.show, #block2-quiz .quiz-inline .score-card.show, #block3-quiz .quiz-inline .score-card.show{display:block;}
-    #block1-quiz .quiz-inline .score-card h2, #block2-quiz .quiz-inline .score-card h2, #block3-quiz .quiz-inline .score-card h2{font-size:28px;margin-bottom:12px;}
-    #block1-quiz .quiz-inline .score-card .score-value, #block2-quiz .quiz-inline .score-card .score-value, #block3-quiz .quiz-inline .score-card .score-value{font-size:48px;font-weight:800;margin:16px 0;}
-    #block1-quiz .quiz-inline .score-card .score-msg, #block2-quiz .quiz-inline .score-card .score-msg, #block3-quiz .quiz-inline .score-card .score-msg{font-size:16px;opacity:.95;}
-    @media(max-width:600px){#block1-quiz .quiz-inline,#block2-quiz .quiz-inline,#block3-quiz .quiz-inline{padding:20px 16px;}#block1-quiz .quiz-inline .q-card,#block2-quiz .quiz-inline .q-card,#block3-quiz .quiz-inline .q-card{padding:20px;}#block1-quiz .quiz-inline .match-game{grid-template-columns:1fr;}}
+    #block1-quiz .quiz-inline .btn-submit, #block2-quiz .quiz-inline .btn-submit, #block3-quiz .quiz-inline .btn-submit, #block4-quiz .quiz-inline .btn-submit{display:inline-flex;align-items:center;justify-content:center;padding:16px 32px;font-size:16px;font-weight:700;background:var(--blue);color:#fff;border:none;border-radius:14px;cursor:pointer;font-family:inherit;transition:var(--transition);margin-top:16px;}
+    #block1-quiz .quiz-inline .btn-submit:hover, #block2-quiz .quiz-inline .btn-submit:hover, #block3-quiz .quiz-inline .btn-submit:hover, #block4-quiz .quiz-inline .btn-submit:hover{background:#236d95;transform:translateY(-2px);}
+    #block1-quiz .quiz-inline .btn-submit:disabled, #block2-quiz .quiz-inline .btn-submit:disabled, #block3-quiz .quiz-inline .btn-submit:disabled, #block4-quiz .quiz-inline .btn-submit:disabled{opacity:.7;cursor:not-allowed;transform:none;}
+    #block1-quiz .quiz-inline .score-card, #block2-quiz .quiz-inline .score-card, #block3-quiz .quiz-inline .score-card, #block4-quiz .quiz-inline .score-card{background:var(--gradBlue);color:#fff;border-radius:24px;padding:40px;text-align:center;display:none;margin-top:24px;}
+    #block1-quiz .quiz-inline .score-card.show, #block2-quiz .quiz-inline .score-card.show, #block3-quiz .quiz-inline .score-card.show, #block4-quiz .quiz-inline .score-card.show{display:block;}
+    #block1-quiz .quiz-inline .score-card h2, #block2-quiz .quiz-inline .score-card h2, #block3-quiz .quiz-inline .score-card h2, #block4-quiz .quiz-inline .score-card h2{font-size:28px;margin-bottom:12px;}
+    #block1-quiz .quiz-inline .score-card .score-value, #block2-quiz .quiz-inline .score-card .score-value, #block3-quiz .quiz-inline .score-card .score-value, #block4-quiz .quiz-inline .score-card .score-value{font-size:48px;font-weight:800;margin:16px 0;}
+    #block1-quiz .quiz-inline .score-card .score-msg, #block2-quiz .quiz-inline .score-card .score-msg, #block3-quiz .quiz-inline .score-card .score-msg, #block4-quiz .quiz-inline .score-card .score-msg{font-size:16px;opacity:.95;}
+    @media(max-width:600px){#block1-quiz .quiz-inline,#block2-quiz .quiz-inline,#block3-quiz .quiz-inline,#block4-quiz .quiz-inline{padding:20px 16px;}#block1-quiz .quiz-inline .q-card,#block2-quiz .quiz-inline .q-card,#block3-quiz .quiz-inline .q-card,#block4-quiz .quiz-inline .q-card{padding:20px;}#block1-quiz .quiz-inline .match-game{grid-template-columns:1fr;}}
   </style>
   <link rel="stylesheet" href="/training-ii/assets/training-content-containment.css" />
   <link rel="stylesheet" href="/training-ii/styles/training2-module-template.css" />
@@ -5747,9 +5749,9 @@
                   </div>
                   <div class="card icon-card block-intro-card clickable-progress" role="button" tabindex="0" data-block-section-card="3" data-block-nav="block4">
                     <div class="card-icon">3</div>
-                    <h4>Section 3 — Application &amp; Skill Integration</h4>
+                    <h4>Section 3 — Integration &amp; Functional Application</h4>
                     <ul>
-                      <li>Understand how the role of rotation changes as swimmers develop and how controlled rotation continues to support increasingly complex aquatic skills.</li>
+                      <li>Understand how longitudinal rotation becomes integrated into functional aquatic movement and continues to support future swimming development.</li>
                     </ul>
                   </div>
                 </div>
@@ -5820,6 +5822,314 @@
 
                   <div class="concept-media-actions">
                     <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-section-stage" id="block4-section2">
+              <span class="section-eyebrow">&#128309; SECTION 2</span>
+              <h3 class="block-section-title">Building Longitudinal Rotation</h3>
+
+              <p class="lead" data-tts-source="block4-section2">This section focuses on how longitudinal rotation is developed through progressive teaching variables.<br><br>
+                Rather than following a single fixed progression, instructors learn how to adapt rotation direction, body organisation and movement context to create individualised learning experiences.</p>
+
+              <div class="grid-2 block-intro-cards" data-block-intro="block4-section2">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
+                  <div class="card-icon">&#9678;</div>
+                  <h4>Section Focus</h4>
+                  <ul>
+                    <li>Developing longitudinal rotation through progressive teaching variables that can be adapted to each swimmer's level of control, confidence and aquatic development.</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
+                  <div class="card-icon">&#8801;</div>
+                  <h4>What This Section Covers</h4>
+                  <ul>
+                    <li>How rotation direction influences learning.</li>
+                    <li>How body organisation changes the level of challenge.</li>
+                    <li>How teaching variables can be combined to create individualised progressions.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="concept-stage">
+                <h4>Explore the Key Concepts</h4>
+
+                <div class="concept-grid" data-concept-grid="block4-section2">
+                  <button class="concept-square" type="button" data-target="b4s2c1">Rotation Direction</button>
+                  <button class="concept-square" type="button" data-target="b4s2c2">Body Organisation</button>
+                  <button class="concept-square" type="button" data-target="b4s2c3">The clubSENsational Rotation Development Model</button>
+                </div>
+
+                <div class="concept-panel" data-panel-for="block4-section2">
+                  <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                  <div class="concept-heading-row">
+                    <h4></h4>
+                  </div>
+                  <p></p>
+
+                  <div class="concept-ideas-shell">
+                    <div class="concept-points-box">
+                      <h4>Key Ideas for Instructors</h4>
+                      <p class="key-ideas-instruction">Review each key idea below.</p>
+                      <ul></ul>
+                    </div>
+                    <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                      <div class="key-ideas-action-head">
+                        <span class="icon" aria-hidden="true"></span>
+                        <span class="label">In Practice</span>
+                      </div>
+                      <div class="text"></div>
+                    </div>
+                  </div>
+
+                  <div class="concept-image"></div>
+
+                  <div class="concept-why-matters concept-why-matters-shell" data-concept-why-matters hidden></div>
+
+                  <div class="concept-media-actions">
+                    <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-section-stage" id="block4-section3">
+              <span class="section-eyebrow">&#128309; SECTION 3</span>
+              <h3 class="block-section-title">Integration &amp; Functional Application</h3>
+
+              <p class="lead" data-tts-source="block4-section3">This section explores how longitudinal rotation becomes integrated into wider aquatic movement.<br><br>
+                As swimmers develop greater control, rotation is no longer practised only as an isolated skill. It begins to support transitions, coordinated movement and future swimming development.</p>
+
+              <div class="grid-2 block-intro-cards" data-block-intro="block4-section3">
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="focus" role="button" tabindex="0">
+                  <div class="card-icon">&#9678;</div>
+                  <h4>Section Focus</h4>
+                  <ul>
+                    <li>Understanding how longitudinal rotation becomes part of functional aquatic movement and supports future skill development.</li>
+                  </ul>
+                </div>
+                <div class="card icon-card block-intro-card clickable-progress" data-card-type="breakdown" role="button" tabindex="0">
+                  <div class="card-icon">&#8801;</div>
+                  <h4>What This Section Covers</h4>
+                  <ul>
+                    <li>How longitudinal rotation evolves beyond isolated practice.</li>
+                    <li>How rotation becomes integrated into aquatic movement.</li>
+                    <li>How rotation supports transitions, coordination and movement efficiency.</li>
+                    <li>Why longitudinal rotation provides an important foundation for future swimming stroke development.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="concept-stage">
+                <h4>Explore the Key Concepts</h4>
+
+                <div class="concept-grid" data-concept-grid="block4-section3">
+                  <button class="concept-square" type="button" data-target="b4s3c1">The Long-Term Role of Longitudinal Rotation</button>
+                  <button class="concept-square" type="button" data-target="b4s3c2">Why Longitudinal Rotation Continues to Matter</button>
+                </div>
+
+                <div class="concept-panel" data-panel-for="block4-section3">
+                  <div class="back-container"><button type="button" class="back-button" data-concept-back aria-label="Back">&larr; Back</button></div>
+                  <div class="concept-heading-row">
+                    <h4></h4>
+                  </div>
+                  <p></p>
+
+                  <div class="concept-ideas-shell">
+                    <div class="concept-points-box">
+                      <h4>Key Ideas for Instructors</h4>
+                      <p class="key-ideas-instruction">Review each key idea below.</p>
+                      <ul></ul>
+                    </div>
+                    <div class="key-ideas-action concept-in-practice-box" data-concept-in-practice hidden>
+                      <div class="key-ideas-action-head">
+                        <span class="icon" aria-hidden="true"></span>
+                        <span class="label">In Practice</span>
+                      </div>
+                      <div class="text"></div>
+                    </div>
+                  </div>
+
+                  <div class="concept-image"></div>
+
+                  <div class="concept-why-matters concept-why-matters-shell" data-concept-why-matters hidden></div>
+
+                  <div class="concept-media-actions">
+                    <button class="concept-finish" type="button" data-finish-concept>Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-mini-section" id="block4-recap">
+              <div class="section-title-row">
+                <h3>Key Ideas to Remember</h3>
+              </div>
+
+              <div class="recap-stack" data-tts-source="block4-recap">
+                <div class="recap-card clickable-progress">
+                  <h4>Longitudinal rotation develops progressively.</h4>
+                  <p>Swimmers first learn to rotate with control before integrating the skill into wider aquatic movement.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>The teaching sequence remains consistent.</h4>
+                  <p>Back-to-front rotation is introduced first, followed by front-to-back rotation and later linked rotation.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>Body organisation changes the challenge.</h4>
+                  <p>Open Body, Soldier and Rocket positions progressively increase the level of control required.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>The clubSENsational Teaching Principle guides progression.</h4>
+                  <p>Teaching variables are selected and combined to create individualised learning experiences rather than following one fixed progression.</p>
+                </div>
+                <div class="recap-card clickable-progress">
+                  <h4>Rotation supports future aquatic development.</h4>
+                  <p>Although isolated rotation practice decreases over time, the skill remains essential for efficient movement, transitions and future swimming stroke development.</p>
+                </div>
+              </div>
+
+              <label class="check-item clickable-progress">
+                <input type="checkbox" class="overall-check" data-stage-check="block4-recap" id="block4RecapCheck">
+                <span>I have reviewed the recap and I am ready to complete this block.</span>
+              </label>
+            </div>
+
+            <div class="block-mini-section" id="block4-quiz">
+              <div class="section-title-row">
+                <h3>Block Quiz — Longitudinal Rotation</h3>
+              </div>
+
+              <div class="quiz-embed" style="margin-top:18px;">
+                <div class="quiz-inline" id="quizInlineBlock4">
+                  <div class="quiz-inline-progress">
+                    <div class="progress-track"><div class="progress-fill" id="progressFillBlock4"></div></div>
+                    <p class="progress-meta" id="progressTextBlock4">0 of 10 answered</p>
+                  </div>
+                  <header class="quiz-hero" data-tts-source="block4-quiz">
+                    <span class="tag">Block 4</span>
+                    <h1>Longitudinal Rotation</h1>
+                    <p>Confirm your understanding of longitudinal rotation development, progression and integration within aquatic learning.</p>
+                  </header>
+                  <form id="quizFormBlock4">
+                    <div class="q-card" data-q="1">
+                      <h3>Single choice</h3>
+                      <p class="q-text">1. What is the primary purpose of longitudinal rotation during early aquatic learning?</p>
+                      <ul class="opt-list">
+                        <li><label for="q1a_b4"><span class="opt-txt">A. To increase swimming speed.</span><input type="radio" name="q1_b4" id="q1a_b4" value="A"></label></li>
+                        <li><label for="q1b_b4"><span class="opt-txt">B. To develop controlled body position changes and orientation.</span><input type="radio" name="q1_b4" id="q1b_b4" value="B"></label></li>
+                        <li><label for="q1c_b4"><span class="opt-txt">C. To strengthen the arms.</span><input type="radio" name="q1_b4" id="q1c_b4" value="C"></label></li>
+                        <li><label for="q1d_b4"><span class="opt-txt">D. To improve kicking speed.</span><input type="radio" name="q1_b4" id="q1d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f1Block4"></div>
+                    </div>
+                    <div class="q-card" data-q="2">
+                      <h3>Single choice</h3>
+                      <p class="q-text">2. Which rotation direction should normally be introduced first?</p>
+                      <ul class="opt-list">
+                        <li><label for="q2a_b4"><span class="opt-txt">A. Front to Back.</span><input type="radio" name="q2_b4" id="q2a_b4" value="A"></label></li>
+                        <li><label for="q2b_b4"><span class="opt-txt">B. Linked Rotation.</span><input type="radio" name="q2_b4" id="q2b_b4" value="B"></label></li>
+                        <li><label for="q2c_b4"><span class="opt-txt">C. Back to Front.</span><input type="radio" name="q2_b4" id="q2c_b4" value="C"></label></li>
+                        <li><label for="q2d_b4"><span class="opt-txt">D. Any direction.</span><input type="radio" name="q2_b4" id="q2d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f2Block4"></div>
+                    </div>
+                    <div class="q-card" data-q="3">
+                      <h3>Single choice</h3>
+                      <p class="q-text">3. Which body organisation provides the greatest stability during rotation?</p>
+                      <ul class="opt-list">
+                        <li><label for="q3a_b4"><span class="opt-txt">A. Rocket.</span><input type="radio" name="q3_b4" id="q3a_b4" value="A"></label></li>
+                        <li><label for="q3b_b4"><span class="opt-txt">B. Soldier.</span><input type="radio" name="q3_b4" id="q3b_b4" value="B"></label></li>
+                        <li><label for="q3c_b4"><span class="opt-txt">C. Open Body.</span><input type="radio" name="q3_b4" id="q3c_b4" value="C"></label></li>
+                        <li><label for="q3d_b4"><span class="opt-txt">D. Streamline Kick.</span><input type="radio" name="q3_b4" id="q3d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f3Block4"></div>
+                    </div>
+                    <div class="q-card" data-q="4">
+                      <h3>Single choice</h3>
+                      <p class="q-text">4. According to the clubSENsational Teaching Principle, progression is created by:</p>
+                      <ul class="opt-list">
+                        <li><label for="q4a_b4"><span class="opt-txt">A. Following one fixed sequence.</span><input type="radio" name="q4_b4" id="q4a_b4" value="A"></label></li>
+                        <li><label for="q4b_b4"><span class="opt-txt">B. Selecting and combining teaching variables.</span><input type="radio" name="q4_b4" id="q4b_b4" value="B"></label></li>
+                        <li><label for="q4c_b4"><span class="opt-txt">C. Increasing speed every lesson.</span><input type="radio" name="q4_b4" id="q4c_b4" value="C"></label></li>
+                        <li><label for="q4d_b4"><span class="opt-txt">D. Introducing propulsion immediately.</span><input type="radio" name="q4_b4" id="q4d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f4Block4"></div>
+                    </div>
+                    <div class="q-card" data-q="5">
+                      <h3>Single choice</h3>
+                      <p class="q-text">5. Which teaching variable changes the physical challenge of rotation?</p>
+                      <ul class="opt-list">
+                        <li><label for="q5a_b4"><span class="opt-txt">A. Rotation Direction.</span><input type="radio" name="q5_b4" id="q5a_b4" value="A"></label></li>
+                        <li><label for="q5b_b4"><span class="opt-txt">B. Body Organisation.</span><input type="radio" name="q5_b4" id="q5b_b4" value="B"></label></li>
+                        <li><label for="q5c_b4"><span class="opt-txt">C. Pool depth.</span><input type="radio" name="q5_b4" id="q5c_b4" value="C"></label></li>
+                        <li><label for="q5d_b4"><span class="opt-txt">D. Breathing speed.</span><input type="radio" name="q5_b4" id="q5d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f5Block4"></div>
+                    </div>
+                    <div class="q-card" data-q="6">
+                      <h3>Single choice</h3>
+                      <p class="q-text">6. Which statement best describes effective progression?</p>
+                      <ul class="opt-list">
+                        <li><label for="q6a_b4"><span class="opt-txt">A. Every swimmer follows the same pathway.</span><input type="radio" name="q6_b4" id="q6a_b4" value="A"></label></li>
+                        <li><label for="q6b_b4"><span class="opt-txt">B. Progression depends only on age.</span><input type="radio" name="q6_b4" id="q6b_b4" value="B"></label></li>
+                        <li><label for="q6c_b4"><span class="opt-txt">C. Teaching variables are adapted to each swimmer.</span><input type="radio" name="q6_b4" id="q6c_b4" value="C"></label></li>
+                        <li><label for="q6d_b4"><span class="opt-txt">D. Rotation always progresses at the same pace.</span><input type="radio" name="q6_b4" id="q6d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f6Block4"></div>
+                    </div>
+                    <div class="q-card" data-q="7">
+                      <h3>Single choice</h3>
+                      <p class="q-text">7. As swimmers develop, longitudinal rotation becomes:</p>
+                      <ul class="opt-list">
+                        <li><label for="q7a_b4"><span class="opt-txt">A. Less important.</span><input type="radio" name="q7_b4" id="q7a_b4" value="A"></label></li>
+                        <li><label for="q7b_b4"><span class="opt-txt">B. An isolated exercise.</span><input type="radio" name="q7_b4" id="q7b_b4" value="B"></label></li>
+                        <li><label for="q7c_b4"><span class="opt-txt">C. Integrated into functional aquatic movement.</span><input type="radio" name="q7_b4" id="q7c_b4" value="C"></label></li>
+                        <li><label for="q7d_b4"><span class="opt-txt">D. Replaced by propulsion.</span><input type="radio" name="q7_b4" id="q7d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f7Block4"></div>
+                    </div>
+                    <div class="q-card" data-q="8">
+                      <h3>Single choice</h3>
+                      <p class="q-text">8. Why is longitudinal rotation important for future swimming development?</p>
+                      <ul class="opt-list">
+                        <li><label for="q8a_b4"><span class="opt-txt">A. It teaches racing starts.</span><input type="radio" name="q8_b4" id="q8a_b4" value="A"></label></li>
+                        <li><label for="q8b_b4"><span class="opt-txt">B. It provides an important foundation for future swimming stroke development.</span><input type="radio" name="q8_b4" id="q8b_b4" value="B"></label></li>
+                        <li><label for="q8c_b4"><span class="opt-txt">C. It replaces floating.</span><input type="radio" name="q8_b4" id="q8c_b4" value="C"></label></li>
+                        <li><label for="q8d_b4"><span class="opt-txt">D. It eliminates the need for breathing control.</span><input type="radio" name="q8_b4" id="q8d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f8Block4"></div>
+                    </div>
+                    <div class="q-card" data-q="9">
+                      <h3>Single choice</h3>
+                      <p class="q-text">9. Which statement best describes the long-term value of longitudinal rotation?</p>
+                      <ul class="opt-list">
+                        <li><label for="q9a_b4"><span class="opt-txt">A. It is only useful for beginners.</span><input type="radio" name="q9_b4" id="q9a_b4" value="A"></label></li>
+                        <li><label for="q9b_b4"><span class="opt-txt">B. It disappears once swimmers can glide.</span><input type="radio" name="q9_b4" id="q9b_b4" value="B"></label></li>
+                        <li><label for="q9c_b4"><span class="opt-txt">C. It continues to support efficient aquatic movement throughout development.</span><input type="radio" name="q9_b4" id="q9c_b4" value="C"></label></li>
+                        <li><label for="q9d_b4"><span class="opt-txt">D. It is only needed during floating.</span><input type="radio" name="q9_b4" id="q9d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f9Block4"></div>
+                    </div>
+                    <div class="q-card" data-q="10">
+                      <h3>Single choice</h3>
+                      <p class="q-text">10. Which statement best reflects the clubSENsational approach to developing longitudinal rotation?</p>
+                      <ul class="opt-list">
+                        <li><label for="q10a_b4"><span class="opt-txt">A. Every swimmer should follow the same progression.</span><input type="radio" name="q10_b4" id="q10a_b4" value="A"></label></li>
+                        <li><label for="q10b_b4"><span class="opt-txt">B. Progression is based on completing exercises as quickly as possible.</span><input type="radio" name="q10_b4" id="q10b_b4" value="B"></label></li>
+                        <li><label for="q10c_b4"><span class="opt-txt">C. Teaching variables are selected and combined to match each swimmer&apos;s control, confidence and readiness.</span><input type="radio" name="q10_b4" id="q10c_b4" value="C"></label></li>
+                        <li><label for="q10d_b4"><span class="opt-txt">D. Rotation should always be taught in exactly the same way.</span><input type="radio" name="q10_b4" id="q10d_b4" value="D"></label></li>
+                      </ul>
+                      <div class="feedback" id="f10Block4"></div>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtnBlock4">Submit answers</button>
+                  </form>
+                  <div class="score-card" id="scoreCardBlock4">
+                    <h2>Quiz complete</h2>
+                    <p class="score-value" id="scoreValueBlock4">0/10</p>
+                    <p class="score-msg" id="scoreMsgBlock4"></p>
                   </div>
                 </div>
               </div>
@@ -6458,24 +6768,258 @@
     var block4Section1ConceptContent = {
       b4s1c1: {
         title: 'Concept 1 — Understanding Longitudinal Rotation',
-        text: '',
-        points: []
+        text: '<p>Swimmers perform different types of rotation throughout aquatic development. This block focuses on longitudinal rotation, where the body rotates around its long axis while maintaining balance, orientation and control.</p><p>Longitudinal rotation allows swimmers to move safely between back and front positions through a controlled whole-body movement, providing an important foundation for aquatic development.</p>',
+        points: [
+          'Longitudinal rotation is a controlled movement around the body\'s long axis.',
+          'Effective rotation maintains balance, orientation and body organisation throughout the movement.',
+          'Rotation should occur as one coordinated whole-body movement rather than separate body segments.',
+          'Control is more important than speed when introducing rotation.',
+          'In Practice — Two swimmers perform the same longitudinal rotation. Although both reach the final position, one maintains balance, body organisation and orientation throughout the movement, while the other loses alignment before recovering.',
+          'In Practice — Successful rotation is defined by the quality of the movement, not simply by reaching the final position.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Understanding Longitudinal Rotation</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><p class="submersion-experience-label">Understanding Longitudinal Rotation</p><p class="concept-image-meta"><strong>This block focuses on:</strong></p><div class="force-cards"><div class="force-card"><strong>✓ Longitudinal Rotation</strong><span>Rotation around the body&rsquo;s long axis.</span></div></div><div class="pathway-flow"><div class="pathway-step"><strong>Back Float ↺ Front Float</strong></div></div><p class="concept-image-meta"><strong>Maintain throughout the movement:</strong></p><ul class="phase-example-list"><li>✓ Balance.</li><li>✓ Orientation.</li><li>✓ Control.</li></ul><p class="concept-visual-note"><strong>Visual Focus:</strong> Longitudinal rotation is not simply turning over in the water.<br><br>It is a controlled whole-body movement that allows swimmers to change body position while maintaining balance, orientation and breathing regulation throughout the movement.<br><br>Throughout this block, the term rotation refers to longitudinal rotation.</p>'
       },
       b4s1c2: {
         title: 'Concept 2 — Why Rotation Matters',
-        text: '',
-        points: []
+        text: '<p>Longitudinal rotation is much more than changing body position in the water. It is a fundamental aquatic skill that helps swimmers recover stability, regain orientation and continue participating safely when their position changes.</p><p>Whether planned or unexpected, changes in body position occur naturally during aquatic activities. Controlled rotation helps swimmers recover calmly and remain organised throughout the movement.</p>',
+        points: [
+          'Rotation helps swimmers recover stability when body position changes.',
+          'Controlled rotation improves orientation and body awareness in the water.',
+          'Successful rotation supports safe and confident aquatic participation.',
+          'Rotation provides a foundation for increasingly complex aquatic skills.',
+          'In Practice — During an aquatic activity, a swimmer unexpectedly loses balance and changes body position. Using controlled longitudinal rotation, the swimmer regains stability, recovers orientation and safely continues participating in the activity.',
+          'In Practice — Controlled rotation transforms an unexpected loss of balance into a safe, organised recovery.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Why Rotation Matters</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><p class="submersion-experience-label">Why Rotation Matters</p><div class="pathway-flow"><div class="pathway-step"><strong>Safe Changes in Body Position</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Recover Stability</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Regain Orientation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Safe Aquatic Participation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Supports Future Aquatic Skills</strong></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> Changes in body position happen naturally during aquatic activities.<br><br>Effective longitudinal rotation allows swimmers to recover control, regain orientation and continue participating safely rather than becoming disorganised or anxious.</p>'
       },
       b4s1c3: {
         title: 'Concept 3 — When Rotation Should Be Introduced',
-        text: '',
-        points: []
+        text: '<p>Longitudinal rotation should only be introduced when swimmers have developed the stability, body organisation and emotional regulation needed to remain in control as their body position changes.</p><p>Rather than following a fixed programme, instructors should introduce rotation only when swimmers consistently demonstrate the readiness needed to recover safely and confidently.</p>',
+        points: [
+          'Stable floating provides the foundation for controlled rotation.',
+          'Calm breathing helps swimmers remain regulated as body position changes.',
+          'Readiness is determined through observation rather than lesson sequence.',
+          'Progression should always follow the swimmer\'s development, not the programme.',
+          'In Practice — During a floating activity, two swimmers are asked to make a small change in body position. One swimmer remains calm, regains stability and continues floating confidently. The other becomes tense, immediately lifts the head and struggles to recover balance.',
+          'In Practice — Although both swimmers can complete the floating activity, only one currently demonstrates readiness for longitudinal rotation.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — When Rotation Should Be Introduced</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><p class="submersion-experience-label">When Should Rotation Be Introduced?</p><p class="concept-image-meta"><strong>Observe the swimmer.</strong></p><ul class="phase-example-list"><li>✓ Maintains stable floating.</li><li>✓ Remains calm as body position changes.</li><li>✓ Recovers stability independently.</li><li>✓ Maintains body organisation throughout movement.</li></ul><p class="concept-image-meta">Readiness is demonstrated through consistent control, not progression through a programme.</p><p class="concept-visual-note"><strong>Visual Focus:</strong> Rotation should never be introduced simply because it appears next in a programme.<br><br>Instead, it should be introduced only when swimmers consistently demonstrate the control needed to recover safely after small changes in body position.</p>'
       }
     };
 
-    var block4Section1ConceptActivityBank = {};
+    var block4Section1ConceptActivityBank = {
+      b4s1c1: {
+        type: 'choice',
+        activityType: 'Identifying Longitudinal Rotation',
+        observation: 'A swimmer performs a controlled body movement in the water.',
+        q: 'Which observation best describes effective longitudinal rotation?',
+        options: [
+          { id: 'a', text: 'The swimmer rotates quickly by twisting the shoulders while the hips follow later.' },
+          { id: 'b', text: 'The swimmer changes body position as one coordinated movement while maintaining balance and orientation.' },
+          { id: 'c', text: 'The swimmer lifts the head before the rest of the body turns.' },
+          { id: 'd', text: 'The swimmer relies on rapid arm movements to complete the turn.' }
+        ],
+        correct: 'b',
+        ok: 'Longitudinal rotation is defined by the quality of movement rather than the speed of the turn. Effective rotation occurs as one coordinated whole-body movement while maintaining balance, orientation and control.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b4s1c2: {
+        type: 'choice',
+        activityType: 'Understanding Why Rotation Matters',
+        observation: 'A swimmer unexpectedly loses balance while floating.',
+        q: 'What is the primary purpose of controlled longitudinal rotation?',
+        options: [
+          { id: 'a', text: 'To rotate as quickly as possible.' },
+          { id: 'b', text: 'To complete the movement using strong arm actions.' },
+          { id: 'c', text: 'To regain stability, recover orientation and return to a safe body position.' },
+          { id: 'd', text: 'To increase movement speed through the water.' }
+        ],
+        correct: 'c',
+        ok: 'Longitudinal rotation is valuable because it helps swimmers recover safely when body position changes. Effective rotation maintains balance, orientation and control, allowing swimmers to continue participating with confidence while supporting future aquatic skill development.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b4s1c3: {
+        type: 'choice',
+        activityType: 'Recognising Readiness for Rotation',
+        observation: 'Two swimmers demonstrate similar floating ability.',
+        q: 'Which observation suggests that a swimmer is ready to begin learning longitudinal rotation?',
+        options: [
+          { id: 'a', text: 'The swimmer rotates quickly but relies on speed to regain balance.' },
+          { id: 'b', text: 'The swimmer becomes anxious whenever body position changes.' },
+          { id: 'c', text: 'The swimmer calmly regains stability and maintains control after small changes in body position.' },
+          { id: 'd', text: 'The swimmer can only recover with continuous physical support.' }
+        ],
+        correct: 'c',
+        ok: 'Readiness for rotation is determined by the swimmer\'s ability to remain calm, organised and in control as body position changes. Before introducing longitudinal rotation, swimmers should consistently demonstrate stable floating, calm breathing, body organisation and the ability to recover confidently after small changes in position.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      }
+    };
 
     var block4Section1ConceptCompleted = {};
+
+    var block4Section2ConceptContent = {
+      b4s2c1: {
+        title: 'Concept 1 — Rotation Direction',
+        text: '<p>Longitudinal rotation can be performed in different directions, but the teaching sequence should always remain consistent.</p><p>Developing rotation in a progressive sequence helps swimmers build confidence, maintain orientation and develop controlled movement before more complex directional changes are introduced.</p>',
+        points: [
+          'Back-to-front rotation should always be introduced first.',
+          'Front-to-back rotation is introduced once the first direction is secure.',
+          'Both directions can later be linked to develop continuous rotation.',
+          'The teaching sequence remains consistent while support and complexity are adapted to the swimmer.',
+          'In Practice — During a swimming session, two swimmers are ready to begin learning longitudinal rotation.',
+          'In Practice — Although one swimmer requires more support than the other, both begin with back-to-front rotation. The teaching sequence remains consistent while the level of support is adapted to each swimmer.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Rotation Direction</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><p class="submersion-experience-label">Rotation Direction</p><p class="submersion-experience-label">Teaching Sequence</p><div class="pathway-flow"><div class="pathway-step"><strong>Back → Front</strong><span class="pathway-phase-label">Build confidence and orientation.</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Front → Back</strong><span class="pathway-phase-label">Develop independent control.</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Linked Rotation</strong><span class="pathway-phase-label">Combine both directions smoothly.</span></div></div><p class="concept-image-meta"><strong>The direction changes.<br>The teaching sequence does not.</strong></p><p class="concept-visual-note"><strong>Visual Focus:</strong> Although swimmers may eventually rotate confidently in both directions, teaching should always begin with Back → Front before progressing to Front → Back.<br><br>Once both directions are secure, they can be linked together to develop smooth, continuous rotation.<br><br>The teaching sequence remains consistent because it supports confidence, orientation and progressive skill development.</p>'
+      },
+      b4s2c2: {
+        title: 'Concept 2 — Body Organisation',
+        text: '<p>Body organisation is one of the most effective ways to adjust the difficulty of longitudinal rotation without changing the skill itself.</p><p>By progressively reducing the body&rsquo;s base of support, instructors can increase the control required while maintaining the same rotation direction and learning objective.</p>',
+        points: [
+          'Body organisation changes the level of challenge without changing the rotation skill.',
+          'Reducing the base of support increases the control required throughout the movement.',
+          'Progression should be based on movement quality rather than body position alone.',
+          'The same rotation direction can be practised using different body organisations.',
+          'In Practice — During the same swimming session, two swimmers are practising back-to-front rotation.',
+          'In Practice — Rather than changing the rotation direction, the instructor adjusts the body organisation. One swimmer works in an Open Body position, while the other progresses to a Soldier position. The learning objective remains the same, but the level of challenge is adapted to match each swimmer\'s current level of control.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Body Organisation</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><p class="submersion-experience-label">Body Organisation</p><div class="pathway-flow"><div class="pathway-step"><strong>Open Body</strong><span class="pathway-phase-label">Highest stability<br>Largest base of support</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Soldier</strong><span class="pathway-phase-label">Greater body alignment<br>Increased control demand</span></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Rocket</strong><span class="pathway-phase-label">Highest control demand<br>Smallest base of support</span></div></div><p class="concept-image-meta"><strong>The skill stays the same.<br>Body organisation changes the challenge.</strong></p><p class="concept-visual-note"><strong>Visual Focus:</strong> Changing body organisation allows instructors to increase or decrease the challenge of longitudinal rotation without changing the direction or purpose of the skill.<br><br>As the body becomes narrower, swimmers rely more on balance, alignment and body control rather than the support provided by the water.</p>'
+      },
+      b4s2c3: {
+        title: 'Concept 3 — The clubSENsational Rotation Development Model',
+        text: '<p>The clubSENsational Rotation Development Model applies the clubSENsational Teaching Principle to the development of longitudinal rotation.</p><p>Rather than following a single fixed progression, instructors select and combine teaching variables to create learning experiences that match each swimmer&rsquo;s current level of control, confidence and readiness.</p><p>This flexible approach allows the same rotation skill to be taught through multiple progression pathways while maintaining a consistent learning objective.</p>',
+        points: [
+          'The Rotation Development Model applies the clubSENsational Teaching Principle.',
+          'Teaching variables can be selected and adapted independently.',
+          'Different combinations of teaching variables create different progression pathways.',
+          'Progression should always be guided by observed control, confidence and readiness.',
+          'In Practice — Two swimmers are both developing back-to-front longitudinal rotation.',
+          'In Practice — One swimmer practises using an Open Body position during Static practice, while the other uses a Soldier position during Movement (Gliding). Although both swimmers are developing the same rotation skill, the instructor selects different combinations of teaching variables to provide an appropriate level of challenge for each individual.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — The clubSENsational Rotation Development Model</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><p class="submersion-experience-label">The clubSENsational Rotation Development Model</p><p class="submersion-experience-label">clubSENsational Teaching Principle</p><p class="concept-image-meta">Select and combine teaching variables<br>to create individualised progressions.</p><p class="submersion-experience-label">Teaching Variables</p><div class="force-cards"><div class="force-card"><strong>🔵 Rotation Direction</strong><span>• Back → Front<br>• Front → Back<br>• Linked Rotation</span></div><div class="force-card"><strong>🟢 Body Organisation</strong><span>• Open Body<br>• Soldier<br>• Rocket</span></div><div class="force-card"><strong>🟠 Movement Stage</strong><span>• Static<br>• Movement (Gliding)<br>• Dynamic (Propulsion)</span></div></div><div class="pathway-flow"><div class="pathway-step"><strong>Select &amp; Combine Teaching Variables</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Create Individualised Rotation Progressions</strong></div></div><p class="concept-visual-note"><strong>Visual Focus:</strong> The clubSENsational Rotation Development Model demonstrates how instructors apply the clubSENsational Teaching Principle during teaching.<br><br>Each teaching variable can be selected and adapted independently.<br><br>There is no single combination of teaching variables that suits every swimmer.<br><br>By selecting and combining teaching variables, instructors create individualised learning experiences while maintaining the same rotation skill and learning objective.</p>'
+      }
+    };
+
+    var block4Section2ConceptActivityBank = {
+      b4s2c1: {
+        type: 'choice',
+        activityType: 'Choosing the Correct Teaching Direction',
+        observation: 'A swimmer has developed confident back-to-front rotation and consistently maintains balance and orientation throughout the movement.',
+        q: 'What is the most appropriate next step?',
+        options: [
+          { id: 'a', text: 'Introduce linked rotation immediately.' },
+          { id: 'b', text: 'Introduce front-to-back rotation while maintaining appropriate support.' },
+          { id: 'c', text: 'Begin practising rotation with propulsion before introducing the opposite direction.' },
+          { id: 'd', text: 'Continue teaching only back-to-front rotation indefinitely.' }
+        ],
+        correct: 'b',
+        ok: 'Rotation direction follows a consistent teaching sequence. Swimmers first develop back-to-front rotation, then front-to-back rotation, before both directions are linked together. The direction changes. The teaching sequence does not. While support and complexity may change, the teaching sequence remains consistent to promote confidence, orientation and controlled skill development.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b4s2c2: {
+        type: 'choice',
+        activityType: 'Choosing the Appropriate Body Organisation',
+        observation: 'A swimmer consistently performs controlled back-to-front rotation using an Open Body position while maintaining balance and orientation throughout the movement.',
+        q: 'What is the most appropriate progression?',
+        options: [
+          { id: 'a', text: 'Progress to a Soldier position while maintaining the same rotation direction.' },
+          { id: 'b', text: 'Immediately introduce a Rocket position.' },
+          { id: 'c', text: 'Change to front-to-back rotation before adjusting body organisation.' },
+          { id: 'd', text: 'Keep the swimmer in an Open Body position regardless of progress.' }
+        ],
+        correct: 'a',
+        ok: 'Changing body organisation allows instructors to adjust the difficulty of longitudinal rotation without changing the skill itself. The direction remains the same, while body organisation is adapted to match each swimmer\'s level of control, confidence and readiness.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b4s2c3: {
+        type: 'choice',
+        activityType: 'Applying the Rotation Development Model',
+        observation: 'Two swimmers are working towards the same rotation objective but demonstrate different levels of control and confidence.',
+        q: 'What is the most appropriate teaching approach?',
+        options: [
+          { id: 'a', text: 'Use exactly the same progression for both swimmers.' },
+          { id: 'b', text: 'Select and combine teaching variables to match each swimmer\'s current level of development.' },
+          { id: 'c', text: 'Progress both swimmers to Rocket position regardless of movement quality.' },
+          { id: 'd', text: 'Change the rotation objective for the less confident swimmer.' }
+        ],
+        correct: 'b',
+        ok: 'The clubSENsational Teaching Principle is applied by selecting and combining teaching variables rather than following a single fixed progression. By adapting Rotation Direction, Body Organisation and Movement Stage, instructors create individualised learning experiences while maintaining the same learning objective.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      }
+    };
+
+    var block4Section2ConceptCompleted = {};
+
+    var block4Section3ConceptContent = {
+      b4s3c1: {
+        title: 'Concept 1 — The Long-Term Role of Longitudinal Rotation',
+        text: '<p>During early aquatic learning, longitudinal rotation is practised as an individual skill to develop control, orientation and confidence.</p><p>As swimmers progress, rotation becomes integrated into functional aquatic movement, supporting smooth transitions, coordinated propulsion and future swimming stroke development.</p>',
+        points: [
+          'Longitudinal rotation begins as an independent aquatic skill.',
+          'As swimmers develop, rotation becomes integrated into functional aquatic movement.',
+          'Integrated rotation supports body organisation, transitions and coordinated movement.',
+          'Longitudinal rotation provides an important foundation for future swimming stroke development.',
+          'In Practice — A swimmer who previously practised back-to-front rotation as a standalone activity now moves smoothly from floating into gliding before continuing into coordinated propulsion.',
+          'In Practice — The instructor no longer teaches rotation as an isolated exercise because the swimmer naturally uses controlled body rotation within aquatic movement.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — The Long-Term Role of Longitudinal Rotation</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><p class="submersion-experience-label">Longitudinal Rotation</p><div class="pathway-flow"><div class="pathway-step"><strong>Developed as an Individual Skill</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Integrated into Aquatic Movement</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Supports</strong><ul class="phase-example-list"><li>Efficient Body Alignment.</li><li>Smooth Transitions.</li><li>Coordinated Movement.</li></ul></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Foundation for Future Swimming Stroke Development</strong></div></div><p class="concept-image-meta"><strong>Rotation is not the final goal.<br>It supports what comes next.</strong></p><p class="concept-visual-note"><strong>Visual Focus:</strong> Longitudinal rotation begins as an isolated skill but gradually becomes part of wider aquatic movement.<br><br>As swimmers develop greater confidence and control, rotation supports efficient body organisation, smoother transitions and future stroke development.</p>'
+      },
+      b4s3c2: {
+        title: 'Concept 2 — Why Longitudinal Rotation Continues to Matter',
+        text: '<p>Although swimmers may stop practising isolated rotation exercises, longitudinal rotation remains important throughout aquatic development.</p><p>As the skill becomes integrated, it continues to support orientation, balance, breathing organisation, recovery and efficient movement.</p>',
+        points: [
+          'Rotation continues to support aquatic movement after isolated practice ends.',
+          'Efficient rotation contributes to orientation, balance and coordinated movement.',
+          'Integrated rotation supports recovery and safe aquatic participation.',
+          'The long-term value of rotation continues throughout future aquatic development.',
+          'In Practice — An experienced swimmer is no longer asked to complete isolated rotation drills.',
+          'In Practice — However, during swimming activities, they continue to use controlled longitudinal rotation to organise body position, recover balance and maintain efficient movement.'
+        ],
+        imageHTML: '<div class="concept-section-head"><span class="icon" aria-hidden="true">🎯</span><span>Concept Visual</span></div><p class="concept-image-meta"><strong>Visual Placeholder — Why Longitudinal Rotation Continues to Matter</strong></p><div class="concept-section-head"><span class="icon" aria-hidden="true">📐</span><span>Visual Structure</span></div><p class="submersion-experience-label">Longitudinal Rotation</p><div class="pathway-flow"><div class="pathway-step"><strong>Continues to Support</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Orientation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Balance</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Efficient Movement</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Breathing Organisation</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Recovery</strong></div><div class="pathway-arrow" aria-hidden="true">↓</div><div class="pathway-step"><strong>Future Swimming Development</strong></div></div><p class="concept-image-meta"><strong>The exercise disappears.<br>The skill remains.</strong></p><p class="concept-visual-note"><strong>Visual Focus:</strong> As swimmers become more independent, longitudinal rotation becomes increasingly automatic.<br><br>Although dedicated rotation exercises may become less frequent, the skill continues to support safe, efficient and confident aquatic movement.</p>'
+      }
+    };
+
+    var block4Section3ConceptActivityBank = {
+      b4s3c1: {
+        type: 'choice',
+        activityType: 'Identifying Functional Integration',
+        observation: 'A swimmer moves confidently from a back float into a front glide before continuing into coordinated propulsion without pausing between each movement.',
+        q: 'What does this demonstrate?',
+        options: [
+          { id: 'a', text: 'Rotation is still being practised as an isolated skill.' },
+          { id: 'b', text: 'Longitudinal rotation has become integrated into functional aquatic movement.' },
+          { id: 'c', text: 'The swimmer should return to practising only isolated rotation.' },
+          { id: 'd', text: 'Rotation is no longer important once propulsion develops.' }
+        ],
+        correct: 'b',
+        ok: 'The purpose of longitudinal rotation is not to remain an isolated exercise. Its long-term value lies in becoming part of efficient aquatic movement and supporting future swimming development.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      },
+      b4s3c2: {
+        type: 'choice',
+        activityType: 'Recognising Lasting Skill Value',
+        observation: 'A swimmer has progressed beyond isolated rotation activities but continues to demonstrate efficient body organisation, smooth transitions and coordinated movement.',
+        q: 'What does this indicate?',
+        options: [
+          { id: 'a', text: 'Longitudinal rotation is no longer important.' },
+          { id: 'b', text: 'Rotation has become an integrated skill that continues to support aquatic movement.' },
+          { id: 'c', text: 'Rotation should now be ignored during teaching.' },
+          { id: 'd', text: 'Rotation is only useful during floating activities.' }
+        ],
+        correct: 'b',
+        ok: 'Longitudinal rotation does not disappear as swimmers progress. It becomes an integrated movement skill that continues to support safe, efficient and confident aquatic development.',
+        bad: 'Not quite. Review the observation and select the most appropriate interpretation.',
+        variant: 'scenario'
+      }
+    };
+
+    var block4Section3ConceptCompleted = {};
 
     var block3Section2ConceptContent = {
       b3s2c1: {
@@ -6967,6 +7511,12 @@
     }
 
     function getBlockConceptMaps(block){
+      if(block === 'block4-section3'){
+        return { content: block4Section3ConceptContent, activity: block4Section3ConceptActivityBank };
+      }
+      if(block === 'block4-section2'){
+        return { content: block4Section2ConceptContent, activity: block4Section2ConceptActivityBank };
+      }
       if(block === 'block4-section1'){
         return { content: block4Section1ConceptContent, activity: block4Section1ConceptActivityBank };
       }
@@ -7779,6 +8329,14 @@
       renderBlockConcept('block3-section2', target);
     }
 
+    function renderBlock4Section3Concept(target){
+      renderBlockConcept('block4-section3', target);
+    }
+
+    function renderBlock4Section2Concept(target){
+      renderBlockConcept('block4-section2', target);
+    }
+
     function renderBlock4Section1Concept(target){
       renderBlockConcept('block4-section1', target);
     }
@@ -7827,6 +8385,32 @@
 
     function closeBlock3Section2ConceptPanel(){
       var block = 'block3-section2';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      panel.classList.remove('show');
+      delete panel.dataset.currentTarget;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var stage = panel.closest('.concept-stage');
+      if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeBlock4Section3ConceptPanel(){
+      var block = 'block4-section3';
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      panel.classList.remove('show');
+      delete panel.dataset.currentTarget;
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(btn){
+        btn.classList.remove('active');
+      });
+      var stage = panel.closest('.concept-stage');
+      if(stage) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeBlock4Section2ConceptPanel(){
+      var block = 'block4-section2';
       var panel = document.querySelector('[data-panel-for="' + block + '"]');
       if(!panel) return;
       panel.classList.remove('show');
@@ -7991,6 +8575,70 @@
             if(square) square.classList.add('visited');
           }
           closeBlock3Section2ConceptPanel();
+        });
+      }
+      panel.addEventListener('click', function(e){
+        var item = e.target.closest('.key-idea-item');
+        if(item) item.classList.add('clicked');
+      });
+    }
+
+    function setupBlock4Section3Concepts(){
+      var block = 'block4-section3';
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
+        button.addEventListener('click', function(e){
+          e.stopPropagation();
+          renderBlock4Section3Concept(button.dataset.target);
+        });
+      });
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      var backBtn = panel.querySelector('[data-concept-back]');
+      if(backBtn){
+        backBtn.addEventListener('click', closeBlock4Section3ConceptPanel);
+      }
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(finishBtn){
+        finishBtn.addEventListener('click', function(){
+          var target = panel.dataset.currentTarget;
+          if(target){
+            block4Section3ConceptCompleted[target] = true;
+            var square = document.querySelector('[data-concept-grid="' + block + '"] .concept-square[data-target="' + target + '"]');
+            if(square) square.classList.add('visited');
+          }
+          closeBlock4Section3ConceptPanel();
+        });
+      }
+      panel.addEventListener('click', function(e){
+        var item = e.target.closest('.key-idea-item');
+        if(item) item.classList.add('clicked');
+      });
+    }
+
+    function setupBlock4Section2Concepts(){
+      var block = 'block4-section2';
+      document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square').forEach(function(button){
+        button.addEventListener('click', function(e){
+          e.stopPropagation();
+          renderBlock4Section2Concept(button.dataset.target);
+        });
+      });
+      var panel = document.querySelector('[data-panel-for="' + block + '"]');
+      if(!panel) return;
+      var backBtn = panel.querySelector('[data-concept-back]');
+      if(backBtn){
+        backBtn.addEventListener('click', closeBlock4Section2ConceptPanel);
+      }
+      var finishBtn = panel.querySelector('[data-finish-concept]');
+      if(finishBtn){
+        finishBtn.addEventListener('click', function(){
+          var target = panel.dataset.currentTarget;
+          if(target){
+            block4Section2ConceptCompleted[target] = true;
+            var square = document.querySelector('[data-concept-grid="' + block + '"] .concept-square[data-target="' + target + '"]');
+            if(square) square.classList.add('visited');
+          }
+          closeBlock4Section2ConceptPanel();
         });
       }
       panel.addEventListener('click', function(e){
@@ -8861,6 +9509,92 @@
       updateQuizProgress();
     }
 
+    function setupBlock4Quiz(){
+      var total = 10;
+      var correctAnswers = { q1: 'B', q2: 'C', q3: 'C', q4: 'B', q5: 'B', q6: 'C', q7: 'C', q8: 'B', q9: 'C', q10: 'C' };
+      var correctLabels = {
+        q1: 'B. To develop controlled body position changes and orientation.',
+        q2: 'C. Back to Front.',
+        q3: 'C. Open Body.',
+        q4: 'B. Selecting and combining teaching variables.',
+        q5: 'B. Body Organisation.',
+        q6: 'C. Teaching variables are adapted to each swimmer.',
+        q7: 'C. Integrated into functional aquatic movement.',
+        q8: 'B. It provides an important foundation for future swimming stroke development.',
+        q9: 'C. It continues to support efficient aquatic movement throughout development.',
+        q10: 'C. Teaching variables are selected and combined to match each swimmer\'s control, confidence and readiness.'
+      };
+      var root = document.getElementById('quizInlineBlock4');
+      if(!root) return;
+      var progressFill = document.getElementById('progressFillBlock4');
+      var progressText = document.getElementById('progressTextBlock4');
+      var quizForm = document.getElementById('quizFormBlock4');
+      var scoreCard = document.getElementById('scoreCardBlock4');
+      var scoreValue = document.getElementById('scoreValueBlock4');
+      var scoreMsg = document.getElementById('scoreMsgBlock4');
+      var submitBtn = document.getElementById('submitBtnBlock4');
+      if(!quizForm || !progressFill || !progressText) return;
+
+      function countAnswered(){
+        var n = 0;
+        for(var i = 1; i <= total; i++){
+          if(root.querySelector('input[name="q'+i+'_b4"]:checked')) n++;
+        }
+        return n;
+      }
+
+      function updateQuizProgress(){
+        progressFill.style.width = (countAnswered() / total * 100) + '%';
+        progressText.textContent = countAnswered() + ' of ' + total + ' answered';
+      }
+
+      quizForm.addEventListener('change', updateQuizProgress);
+
+      function showFeedback(id, correct, msg, showCorrect){
+        var el = document.getElementById('f' + id + 'Block4');
+        if(!el) return;
+        el.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
+        var text = correct ? msg : (showCorrect ? msg : 'Incorrect. Try again.');
+        el.innerHTML = (correct ? '&#10003; ' : '&#10007; ') + text;
+        el.style.display = 'flex';
+      }
+
+      quizForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        var score = 0;
+        var results = [];
+
+        for(var i = 1; i <= total; i++){
+          var input = root.querySelector('input[name="q'+i+'_b4"]:checked');
+          var v = input ? input.value : null;
+          var key = 'q' + i;
+          var ok = v === correctAnswers[key];
+          if(ok) score++;
+          results.push({
+            i: i,
+            ok: ok,
+            msg: ok ? 'Correct.' : 'Incorrect. The correct answer is ' + correctLabels[key]
+          });
+        }
+
+        var showCorrect = score === total;
+        results.forEach(function(r){ showFeedback(r.i, r.ok, r.msg, showCorrect); });
+        progressFill.style.width = '100%';
+        progressText.textContent = total + ' of ' + total + ' answered';
+
+        var passed = score === total;
+        scoreValue.textContent = passed ? ('Quiz passed — ' + score + '/' + total) : (score + '/' + total);
+        scoreMsg.textContent = passed
+          ? 'You have successfully completed the Block 4 quiz.'
+          : 'You need all 10 correct before completing this block. Review the content and try again.';
+        scoreCard.classList.add('show');
+        if(submitBtn) submitBtn.disabled = passed;
+        scoreCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      updateQuizProgress();
+    }
+
     function setupBlock3Quiz(){
       var total = 8;
       var correctAnswers = { q1: 'B', q2: 'B', q3: 'B', q4: 'C', q5: 'C', q6: 'C', q7: 'B', q8: 'A' };
@@ -8956,6 +9690,8 @@
     setupBlock2Section1Concepts();
     setupBlock3Section1Concepts();
     setupBlock4Section1Concepts();
+    setupBlock4Section2Concepts();
+    setupBlock4Section3Concepts();
     setupBlock3Section2Concepts();
     setupBlock3Section3Concepts();
     setupBlock2Section2Concepts();
@@ -8965,6 +9701,7 @@
     setupBlock1Quiz();
     setupBlock2Quiz();
     setupBlock3Quiz();
+    setupBlock4Quiz();
     setupSpeech();
     enableReviewMode();
     updateProgress();
