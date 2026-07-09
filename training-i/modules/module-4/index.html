@@ -14,7 +14,7 @@
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260812');
-  @import url('/assets/programme-journey-map.css?v=20260709journey-header');
+  @import url('/assets/programme-journey-map.css?v=20260709ocean-wave');
 
   :root{
       --blue:#2d84b3;
@@ -2099,9 +2099,53 @@
       gap:16px;
     }
     .concept-square--core{
-      min-height:100px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-height:132px;
+      padding:14px 10px 12px;
       font-size:.85rem;
       line-height:1.3;
+    }
+    .b2-core-thumb{
+      width:64px;
+      height:56px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      flex:0 0 auto;
+    }
+    .b2-core-thumb img{
+      width:auto;
+      height:56px;
+      max-width:64px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));
+    }
+    .b2-core-hero{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:0;
+      padding:6px 8px 2px;
+      background:transparent;
+    }
+    .b2-core-hero img{
+      width:auto;
+      max-width:min(260px,72vw);
+      height:auto;
+      max-height:210px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 8px 18px rgba(18,50,71,.12));
+    }
+    .concept-panel[data-stage-theme="core"] .concept-image.b2-core-intro,
+    .concept-panel[data-stage-theme="core"] .b2-core-hero{
+      background:transparent !important;
+      border:none;
     }
     @media (max-width:760px){
       .concept-grid.concept-grid--core{
@@ -5333,9 +5377,18 @@
               <p>Open each concept in any order. Read the introduction, review the visual, work through the key ideas, then complete the short activity.</p>
 
               <div class="concept-grid concept-grid--core" data-concept-grid="block2">
-                <button class="concept-square concept-square--core level-card--core level-tone-1" data-target="b2core1"><span class="concept-square-stage-title">Regulation</span></button>
-                <button class="concept-square concept-square--core level-card--core level-tone-2" data-target="b2core2"><span class="concept-square-stage-title">Independence</span></button>
-                <button class="concept-square concept-square--core level-card--core level-tone-3" data-target="b2core3"><span class="concept-square-stage-title">Learning &amp; Engagement</span></button>
+                <button class="concept-square concept-square--core level-card--core level-tone-1" data-target="b2core1">
+                  <span class="b2-core-thumb" aria-hidden="true"><img src="/assets/images/module-4/core-areas/core-regulation-brain.png" alt="" width="64" height="56" loading="lazy" decoding="async" /></span>
+                  <span class="concept-square-stage-title">Regulation</span>
+                </button>
+                <button class="concept-square concept-square--core level-card--core level-tone-2" data-target="b2core2">
+                  <span class="b2-core-thumb" aria-hidden="true"><img src="/assets/images/module-4/core-areas/core-independence-rocket.png" alt="" width="64" height="56" loading="lazy" decoding="async" /></span>
+                  <span class="concept-square-stage-title">Independence</span>
+                </button>
+                <button class="concept-square concept-square--core level-card--core level-tone-3" data-target="b2core3">
+                  <span class="b2-core-thumb" aria-hidden="true"><img src="/assets/images/module-4/core-areas/core-engagement-wave.png" alt="" width="64" height="56" loading="lazy" decoding="async" /></span>
+                  <span class="concept-square-stage-title">Learning &amp; Engagement</span>
+                </button>
               </div>
 
               <div class="concept-panel" data-panel-for="block2">
@@ -5485,12 +5538,28 @@
                     <div class="pjm-ocean-map" aria-label="Ocean journey map">
                       <p class="pjm-ocean-map-label">Your journey through the levels</p>
                       <div class="pjm-ocean-track">
-                        <button type="button" class="pjm-ocean-node" data-level="1" aria-label="Level 1 Turtle"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-1-turtle.png" alt="" width="34" height="34" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Turtle</span></button>
-                        <button type="button" class="pjm-ocean-node" data-level="2" aria-label="Level 2 Starfish"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-2-starfish.png" alt="" width="34" height="34" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Starfish</span></button>
-                        <button type="button" class="pjm-ocean-node" data-level="3" aria-label="Level 3 Jellyfish"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-3-jellyfish.png" alt="" width="34" height="34" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Jellyfish</span></button>
-                        <button type="button" class="pjm-ocean-node" data-level="4" aria-label="Level 4 Ray"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="34" height="34" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Ray</span></button>
-                        <button type="button" class="pjm-ocean-node" data-level="5" aria-label="Level 5 Dolphin"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-5-dolphin.png" alt="" width="34" height="34" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Dolphin</span></button>
-                        <button type="button" class="pjm-ocean-node" data-level="6" aria-label="Level 6 Whale"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-6-whale.png" alt="" width="34" height="34" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Whale</span></button>
+                        <svg class="pjm-ocean-wave" viewBox="0 0 720 44" preserveAspectRatio="none" aria-hidden="true">
+                          <defs>
+                            <linearGradient id="pjmWaveFill" x1="0%" y1="0%" x2="100%" y2="0%">
+                              <stop offset="0%" stop-color="#89b5c1" stop-opacity="0.35"/>
+                              <stop offset="45%" stop-color="#2d84b3" stop-opacity="0.55"/>
+                              <stop offset="100%" stop-color="#12456b" stop-opacity="0.4"/>
+                            </linearGradient>
+                            <linearGradient id="pjmWaveStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                              <stop offset="0%" stop-color="#5a9fc4"/>
+                              <stop offset="50%" stop-color="#2d84b3"/>
+                              <stop offset="100%" stop-color="#12456b"/>
+                            </linearGradient>
+                          </defs>
+                          <path d="M0 24 C60 10, 120 34, 180 24 S300 10, 360 24 S480 34, 540 24 S660 10, 720 24 L720 44 L0 44 Z" fill="url(#pjmWaveFill)"/>
+                          <path d="M0 22 C60 8, 120 32, 180 22 S300 8, 360 22 S480 32, 540 22 S660 8, 720 22" fill="none" stroke="url(#pjmWaveStroke)" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
+                        <button type="button" class="pjm-ocean-node" data-level="1" aria-label="Level 1 Turtle"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-1-turtle.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Turtle</span></button>
+                        <button type="button" class="pjm-ocean-node" data-level="2" aria-label="Level 2 Starfish"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-2-starfish.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Starfish</span></button>
+                        <button type="button" class="pjm-ocean-node" data-level="3" aria-label="Level 3 Jellyfish"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-3-jellyfish.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Jellyfish</span></button>
+                        <button type="button" class="pjm-ocean-node" data-level="4" aria-label="Level 4 Ray"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Ray</span></button>
+                        <button type="button" class="pjm-ocean-node" data-level="5" aria-label="Level 5 Dolphin"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-5-dolphin.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Dolphin</span></button>
+                        <button type="button" class="pjm-ocean-node" data-level="6" aria-label="Level 6 Whale"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-6-whale.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Whale</span></button>
                       </div>
                     </div>
 
@@ -6174,7 +6243,7 @@
           'Regulation changes with environment, sensory load, and task demand: keep checking in.',
           'Use regulation as your guide for when to add challenge and when to support or repeat.',
           'In practice: When tension rises, simplify the task and reduce sensory load before you add challenge.'],
-        introMediaHTML: '<div class="concept-image"><div style="min-height:200px;border-radius:14px;background:linear-gradient(135deg,#fbf3fe 0%,#e8d4f4 100%);border:1px solid rgba(138,63,176,.35);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;box-sizing:border-box;"><p style="margin:0;font-weight:700;color:#5a2877;max-width:32ch;line-height:1.45;">Regulation is how safe and available the swimmer feels before skill demand rises.</p></div></div>',
+        introMediaHTML: '<div class="concept-image b2-core-intro"><figure class="b2-core-hero"><img src="/assets/images/module-4/core-areas/core-regulation-brain.png" alt="Regulation — calm, safe and emotionally available in the water" width="512" height="491" loading="lazy" decoding="async" /></figure></div>',
         imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core1"><p class="activity-question">A swimmer was regulated at the start but is now tense and avoiding eye contact. What should you do first?</p><div class="option-grid"><label class="option"><input type="radio" name="b2core1_act" value="A"><span>A. Push the planned main set to build resilience.</span></label><label class="option"><input type="radio" name="b2core1_act" value="B"><span>B. Slow down or simplify the task; reduce sensory load and prioritise re-regulation.</span></label><label class="option"><input type="radio" name="b2core1_act" value="C"><span>C. Add competition-style pressure to refocus attention.</span></label></div><div class="feedback" data-activity-feedback="b2core1"></div></div>'
       },
       b2core2: {
@@ -6185,7 +6254,7 @@
           'Independence can grow in small steps: observe over time, not only in one session.',
           'Use it alongside regulation and engagement to decide when to progress or consolidate.',
           'In practice: Track support needs over time in small steps before you progress or consolidate level.'],
-        introMediaHTML: '<div class="concept-image"><div style="min-height:200px;border-radius:14px;background:linear-gradient(135deg,#f5eefb 0%,#dcc4ee 100%);border:1px solid rgba(138,63,176,.35);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;box-sizing:border-box;"><p style="margin:0;font-weight:700;color:#5a2877;max-width:32ch;line-height:1.45;">Independence tracks support for movement, position, and safety — not only “can they do the stroke”.</p></div></div>',
+        introMediaHTML: '<div class="concept-image b2-core-intro"><figure class="b2-core-hero"><img src="/assets/images/module-4/core-areas/core-independence-rocket.png" alt="Independence — growing support-free movement, position and safety" width="506" height="512" loading="lazy" decoding="async" /></figure></div>',
         imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core2"><p class="activity-question">True or false: Independence only matters for physical skills, not for safety or engagement.</p><div class="option-grid option-grid--two"><label class="option"><input type="radio" name="b2core2_act" value="T"><span>True</span></label><label class="option"><input type="radio" name="b2core2_act" value="F"><span>False</span></label></div><div class="feedback" data-activity-feedback="b2core2"></div></div>'
       },
       b2core3: {
@@ -6196,7 +6265,7 @@
           'Motivation and focus show whether the swimmer is available for learning.',
           'Use it to adjust pace, demand, and how you present the next activity.',
           'In practice: If attention drifts, match pace and demand before assuming the task is too easy.'],
-        introMediaHTML: '<div class="concept-image"><div style="min-height:200px;border-radius:14px;background:linear-gradient(135deg,#faf5ff 0%,#e6d2f8 100%);border:1px solid rgba(138,63,176,.35);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;box-sizing:border-box;"><p style="margin:0;font-weight:700;color:#5a2877;max-width:32ch;line-height:1.45;">Learning &amp; engagement shows whether demand matches what the swimmer can access right now.</p></div></div>',
+        introMediaHTML: '<div class="concept-image b2-core-intro"><figure class="b2-core-hero"><img src="/assets/images/module-4/core-areas/core-engagement-wave.png" alt="Learning and engagement — participation, focus and response to teaching" width="501" height="512" loading="lazy" decoding="async" /></figure></div>',
         imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core3"><p class="activity-question">A swimmer is physically able to do the task but keeps drifting off. What does this suggest?</p><div class="option-grid"><label class="option"><input type="radio" name="b2core3_act" value="A"><span>A. They need a harder task to stay interested.</span></label><label class="option"><input type="radio" name="b2core3_act" value="B"><span>B. Learning &amp; engagement may be low: check regulation and match your demand.</span></label><label class="option"><input type="radio" name="b2core3_act" value="C"><span>C. Ignore attention if technique looks correct.</span></label></div><div class="feedback" data-activity-feedback="b2core3"></div></div>'
       },
 
