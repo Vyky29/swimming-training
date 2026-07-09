@@ -14,7 +14,7 @@
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260812');
-  @import url('/assets/programme-journey-map.css?v=20260709journey-pro');
+  @import url('/assets/programme-journey-map.css?v=20260709level-cards');
 
   :root{
       --blue:#2d84b3;
@@ -5804,22 +5804,65 @@
                     </div>
                   </div>
 
-                  <div class="pjm-level-rail" aria-label="Six adaptive levels">
-                    <p class="pjm-level-rail-label">Or choose a level</p>
-                    <div class="pjm-level-rail-track">
-                      <div class="pjm-level-rail-group pjm-level-rail-group--discover">
-                        <button type="button" class="pjm-ocean-node" data-level="1" aria-label="Level 1 Turtle"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-1-turtle.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Turtle</span></button>
-                        <button type="button" class="pjm-ocean-node" data-level="2" aria-label="Level 2 Starfish"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-2-starfish.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Starfish</span></button>
+                  <div class="pjm-level-cards" aria-label="Six levels with focus areas">
+                    <p class="pjm-level-cards-label">Choose a level</p>
+                    <div class="pjm-level-cards-grid">
+                      <div class="pjm-level-cards-col pjm-level-cards-col--discover">
+                        <p class="pjm-level-cards-col-label">Stage 1 · Discover</p>
+                        <div class="pjm-levels">
+                          <button type="button" class="pjm-level-card" data-level="1" aria-label="Level 1 Turtle">
+                            <div class="pjm-level-head">
+                              <div class="pjm-level-meta"><span class="pjm-level-num">Level 1</span><span class="pjm-level-animal">Turtle</span></div>
+                              <div class="pjm-mascot-mark" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-1-turtle.png" alt="" width="52" height="44" loading="lazy" decoding="async" /></div>
+                            </div>
+                            <ul class="pjm-chips"><li class="pjm-chip">Water Familiarisation I</li><li class="pjm-chip">Water Adaptation I</li><li class="pjm-chip">Breathing Control I</li><li class="pjm-chip">Water Safety I</li></ul>
+                          </button>
+                          <button type="button" class="pjm-level-card" data-level="2" aria-label="Level 2 Starfish">
+                            <div class="pjm-level-head">
+                              <div class="pjm-level-meta"><span class="pjm-level-num">Level 2</span><span class="pjm-level-animal">Starfish</span></div>
+                              <div class="pjm-mascot-mark" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-2-starfish.png" alt="" width="52" height="44" loading="lazy" decoding="async" /></div>
+                            </div>
+                            <ul class="pjm-chips"><li class="pjm-chip">Water Familiarisation II</li><li class="pjm-chip">Water Adaptation II</li><li class="pjm-chip">Breathing Control II</li><li class="pjm-chip">Water Safety II</li></ul>
+                          </button>
+                        </div>
                       </div>
-                      <span class="pjm-level-rail-sep pjm-level-rail-sep--discover" aria-hidden="true"></span>
-                      <div class="pjm-level-rail-group pjm-level-rail-group--explore">
-                        <button type="button" class="pjm-ocean-node" data-level="3" aria-label="Level 3 Jellyfish"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-3-jellyfish.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Jellyfish</span></button>
-                        <button type="button" class="pjm-ocean-node" data-level="4" aria-label="Level 4 Ray"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Ray</span></button>
+                      <div class="pjm-level-cards-col pjm-level-cards-col--explore">
+                        <p class="pjm-level-cards-col-label">Stage 2 · Explore</p>
+                        <div class="pjm-levels">
+                          <button type="button" class="pjm-level-card" data-level="3" aria-label="Level 3 Jellyfish">
+                            <div class="pjm-level-head">
+                              <div class="pjm-level-meta"><span class="pjm-level-num">Level 3</span><span class="pjm-level-animal">Jellyfish</span></div>
+                              <div class="pjm-mascot-mark" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-3-jellyfish.png" alt="" width="52" height="44" loading="lazy" decoding="async" /></div>
+                            </div>
+                            <ul class="pjm-chips"><li class="pjm-chip">Floating &amp; Balance I</li><li class="pjm-chip">Streamlining I</li><li class="pjm-chip">Propulsion I</li><li class="pjm-chip">Water Safety III</li></ul>
+                          </button>
+                          <button type="button" class="pjm-level-card" data-level="4" aria-label="Level 4 Ray">
+                            <div class="pjm-level-head">
+                              <div class="pjm-level-meta"><span class="pjm-level-num">Level 4</span><span class="pjm-level-animal">Ray</span></div>
+                              <div class="pjm-mascot-mark" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="52" height="44" loading="lazy" decoding="async" /></div>
+                            </div>
+                            <ul class="pjm-chips"><li class="pjm-chip">Floating &amp; Balance II</li><li class="pjm-chip">Streamlining II</li><li class="pjm-chip">Propulsion II</li><li class="pjm-chip">Water Safety IV</li></ul>
+                          </button>
+                        </div>
                       </div>
-                      <span class="pjm-level-rail-sep pjm-level-rail-sep--explore" aria-hidden="true"></span>
-                      <div class="pjm-level-rail-group pjm-level-rail-group--master">
-                        <button type="button" class="pjm-ocean-node" data-level="5" aria-label="Level 5 Dolphin"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-5-dolphin.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Dolphin</span></button>
-                        <button type="button" class="pjm-ocean-node" data-level="6" aria-label="Level 6 Whale"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-6-whale.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Whale</span></button>
+                      <div class="pjm-level-cards-col pjm-level-cards-col--master">
+                        <p class="pjm-level-cards-col-label">Stage 3 · Master</p>
+                        <div class="pjm-levels">
+                          <button type="button" class="pjm-level-card" data-level="5" aria-label="Level 5 Dolphin">
+                            <div class="pjm-level-head">
+                              <div class="pjm-level-meta"><span class="pjm-level-num">Level 5</span><span class="pjm-level-animal">Dolphin</span></div>
+                              <div class="pjm-mascot-mark" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-5-dolphin.png" alt="" width="52" height="44" loading="lazy" decoding="async" /></div>
+                            </div>
+                            <ul class="pjm-chips"><li class="pjm-chip">Streamline &amp; Rotation</li><li class="pjm-chip">Swimming Strokes</li><li class="pjm-chip">Starts, Turns &amp; Push Off</li><li class="pjm-chip">Integrated Water Safety</li></ul>
+                          </button>
+                          <button type="button" class="pjm-level-card" data-level="6" aria-label="Level 6 Whale">
+                            <div class="pjm-level-head">
+                              <div class="pjm-level-meta"><span class="pjm-level-num">Level 6</span><span class="pjm-level-animal">Whale</span></div>
+                              <div class="pjm-mascot-mark" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-6-whale.png" alt="" width="52" height="44" loading="lazy" decoding="async" /></div>
+                            </div>
+                            <ul class="pjm-chips"><li class="pjm-chip">Stroke Refinement</li><li class="pjm-chip">Timing &amp; Rhythm</li><li class="pjm-chip">Distance &amp; Endurance</li><li class="pjm-chip">Starts, Turns &amp; Push Off</li></ul>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -6449,10 +6492,30 @@
         text: '<p>Read the introduction below, then open any <strong>Focus Area</strong> or <strong>Activity</strong> card to continue.</p>',
         points: [],
         imageHTML: `
-          <div class="b2l1-intro-box b2l1-intro-box--solo b2l-stage--confidence">
+          <div class="b2l1-intro-box b2l-stage--confidence">
             <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
             <p class="b2l-intro-line">This level is the programme’s first formal water experience: calm contact, regulation, and trust with full support.</p>
             <p class="b2l-intro-line">Compared with informal water play, sessions here prioritise predictable safety rhythms before any performance demand.</p>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">🎯 Focus Areas</h4>
+              <p class="b2l1-section-intro">Focus Areas show what to look for at this level.<br>Each one highlights key development points you should recognise during sessions.</p>
+              <div class="b2l1-list" data-b2l1-focus-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l1_f1"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Familiarisation I</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l1_f2"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Adaptation I</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l1_f3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Breathing Control I</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l1_f4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Safety I</span></button>
+              </div>
+            </div>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">⚙ Activities in Practice</h4>
+              <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
+              <div class="b2l1-list" data-b2l1-activities-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l1_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Supported Water Entry</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l1_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Splash & Water Play</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l1_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Assisted Floating</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l1_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Guided Movement</span></button>
+              </div>
+            </div>
           </div>
         `
       },
@@ -6462,10 +6525,30 @@
         text: '<p>Read the introduction below, then open any <strong>Focus Area</strong> or <strong>Activity</strong> card to continue.</p>',
         points: [],
         imageHTML: `
-          <div class="b2l1-intro-box b2l1-intro-box--solo b2l-stage--confidence">
+          <div class="b2l1-intro-box b2l-stage--confidence">
             <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
             <p class="b2l-intro-line">Level 2 stretches tolerance for tasks and time in the water while keeping predictable support.</p>
             <p class="b2l-intro-line">Compared with Level 1, swimmers repeat actions more willingly and join short sequences with lighter prompting.</p>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">🎯 Focus Areas</h4>
+              <p class="b2l1-section-intro">Focus Areas show what to look for at this level.<br>Each one highlights key development points you should recognise during sessions.</p>
+              <div class="b2l1-list" data-b2l1-focus-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l2_f1"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Familiarisation II</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l2_f2"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Adaptation II</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l2_f3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Breathing Control II</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l2_f4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Safety II</span></button>
+              </div>
+            </div>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">⚙ Activities in Practice</h4>
+              <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
+              <div class="b2l1-list" data-b2l1-activities-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l2_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Supported Submersion</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l2_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Rotation Practice</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l2_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Short Distance Travel</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l2_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Breath & Movement Coordination</span></button>
+              </div>
+            </div>
           </div>
         `
       },
@@ -6475,10 +6558,30 @@
         text: '<p>Read the introduction below, then open any <strong>Focus Area</strong> or <strong>Activity</strong> card to continue.</p>',
         points: [],
         imageHTML: `
-          <div class="b2l1-intro-box b2l1-intro-box--solo b2l-stage--basic">
+          <div class="b2l1-intro-box b2l-stage--basic">
             <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
             <p class="b2l-intro-line">Level 3 introduces controlled floating, streamlining, simple rotation, and first propulsive actions.</p>
             <p class="b2l-intro-line">Compared with Level 2, work balances confidence play with clearer links to movement skills and recovery priorities.</p>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">🎯 Focus Areas</h4>
+              <p class="b2l1-section-intro">Focus Areas show what to look for at this level.<br>Each one highlights key development points you should recognise during sessions.</p>
+              <div class="b2l1-list" data-b2l1-focus-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l3_f1"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Floating & Balance I</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l3_f2"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Streamlining I</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l3_f3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Propulsion I</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l3_f4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Safety III</span></button>
+              </div>
+            </div>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">⚙ Activities in Practice</h4>
+              <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
+              <div class="b2l1-list" data-b2l1-activities-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l3_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Supported Glide</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l3_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Rotation Practice</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l3_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Assisted Propulsion</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l3_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Recovery Practice</span></button>
+              </div>
+            </div>
           </div>
         `
       },
@@ -6488,10 +6591,30 @@
         text: '<p>Read the introduction below, then open any <strong>Focus Area</strong> or <strong>Activity</strong> card to continue.</p>',
         points: [],
         imageHTML: `
-          <div class="b2l1-intro-box b2l1-intro-box--solo b2l-stage--basic">
+          <div class="b2l1-intro-box b2l-stage--basic">
             <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
             <p class="b2l-intro-line">This level develops consistent control and coordination.</p>
             <p class="b2l-intro-line">Swimmers begin to sustain movement and act with increasing independence.</p>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">🎯 Focus Areas</h4>
+              <p class="b2l1-section-intro">Focus Areas show what to look for at this level.<br>Each one highlights key development points you should recognise during sessions.</p>
+              <div class="b2l1-list" data-b2l1-focus-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l4_f1"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Floating & Balance II</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l4_f2"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Streamlining II</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l4_f3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Propulsion II</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l4_f4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Safety IV</span></button>
+              </div>
+            </div>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">⚙ Activities in Practice</h4>
+              <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
+              <div class="b2l1-list" data-b2l1-activities-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l4_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Independent Glide</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l4_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Controlled Rotation</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l4_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Propulsion Development</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l4_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Swim Float Swim Practice</span></button>
+              </div>
+            </div>
           </div>
         `
       },
@@ -6501,10 +6624,30 @@
         text: '<p>Read the introduction below, then open any <strong>Focus Area</strong> or <strong>Activity</strong> card to continue.</p>',
         points: [],
         imageHTML: `
-          <div class="b2l1-intro-box b2l1-intro-box--solo b2l-stage--structured">
+          <div class="b2l1-intro-box b2l-stage--structured">
             <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
             <p class="b2l-intro-line">This level focuses on technique and sustained independence.</p>
             <p class="b2l-intro-line">Swimmers begin to refine movement and apply skills consistently.</p>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">🎯 Focus Areas</h4>
+              <p class="b2l1-section-intro">Focus Areas show what to look for at this level.<br>Each one highlights key development points you should recognise during sessions.</p>
+              <div class="b2l1-list" data-b2l1-focus-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l5_f1"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Streamline & Rotation</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l5_f2"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Swimming Strokes</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l5_f3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Starts, Turns & Push Off</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l5_f4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Integrated Water Safety</span></button>
+              </div>
+            </div>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">⚙ Activities in Practice</h4>
+              <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
+              <div class="b2l1-list" data-b2l1-activities-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l5_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Stroke Development</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l5_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Turn Practice</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l5_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Push Off Drills</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l5_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Applied Swimming</span></button>
+              </div>
+            </div>
           </div>
         `
       },
@@ -6514,10 +6657,30 @@
         text: '<p>Read the introduction below, then open any <strong>Focus Area</strong> or <strong>Activity</strong> card to continue.</p>',
         points: [],
         imageHTML: `
-          <div class="b2l1-intro-box b2l1-intro-box--solo b2l-stage--structured">
+          <div class="b2l1-intro-box b2l-stage--structured">
             <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
             <p class="b2l-intro-line">This level focuses on efficiency, fluency, and full independence.</p>
             <p class="b2l-intro-line">Swimmers perform skills with consistency and control over longer distances.</p>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">🎯 Focus Areas</h4>
+              <p class="b2l1-section-intro">Focus Areas show what to look for at this level.<br>Each one highlights key development points you should recognise during sessions.</p>
+              <div class="b2l1-list" data-b2l1-focus-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l6_f1"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Stroke Refinement</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l6_f2"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Timing & Rhythm</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l6_f3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Distance & Endurance</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l6_f4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Starts, Turns & Push Off</span></button>
+              </div>
+            </div>
+            <div class="b2l1-section">
+              <h4 class="b2l1-section-title">⚙ Activities in Practice</h4>
+              <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
+              <div class="b2l1-list" data-b2l1-activities-list>
+                <button type="button" class="b2l1-item-btn" data-target="b2l6_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Continuous Swimming</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l6_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Rhythm Practice</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l6_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Endurance Sets</span></button>
+                <button type="button" class="b2l1-item-btn" data-target="b2l6_activities"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Advanced Turns</span></button>
+              </div>
+            </div>
           </div>
         `
       },
@@ -7589,7 +7752,7 @@
         var box = slot.querySelector('.b2l1-intro-box');
         if(!box) return;
         box.classList.remove('b2l1-intro-box--solo');
-        box.querySelectorAll('.b2l1-section').forEach(function(el){ el.remove(); });
+        if(box.querySelector('.b2l1-section')) return;
         if(sections.focus && sections.focus.length){
           box.insertAdjacentHTML('beforeend', buildBlock3LevelSectionHtml(sections.focus, 'focus'));
         }
@@ -10890,7 +11053,7 @@
     })();
   </script>
   
-  <script src="/shared/programme-journey-map.js?v=20260709journey-pro"></script>
+  <script src="/shared/programme-journey-map.js?v=20260709level-cards"></script>
   <script src="/shared/concept-visual-expand-system.js?v=20260725"></script>
 </body>
 </html>

@@ -32,25 +32,29 @@
     return Array.prototype.slice.call(root.querySelectorAll(sel));
   }
 
+  function forEachLevelCard(root, fn) {
+    qsa(root, '.pjm-level-card').forEach(fn);
+  }
+
   function setActiveStage(root, stageName) {
     qsa(root, '.pjm-stage-tile').forEach(function (tile) {
       var s = tile.getAttribute('data-stage');
       tile.classList.toggle('is-active', s === stageName);
       tile.classList.toggle('is-dimmed', s !== stageName);
     });
-    qsa(root, '.pjm-ocean-node').forEach(function (node) {
-      var lvlStage = STAGE_BY_LEVEL[Number(node.getAttribute('data-level'))];
-      node.classList.toggle('is-active', lvlStage === stageName);
-      node.classList.toggle('is-dimmed', lvlStage !== stageName);
+    forEachLevelCard(root, function (card) {
+      var lvlStage = STAGE_BY_LEVEL[Number(card.getAttribute('data-level'))];
+      card.classList.toggle('is-active', lvlStage === stageName);
+      card.classList.toggle('is-dimmed', lvlStage !== stageName);
     });
   }
 
   function setActiveLevel(root, level) {
     var stage = STAGE_BY_LEVEL[level];
-    qsa(root, '.pjm-ocean-node').forEach(function (node) {
-      var n = Number(node.getAttribute('data-level'));
-      node.classList.toggle('is-active', n === level);
-      node.classList.toggle('is-dimmed', n !== level);
+    forEachLevelCard(root, function (card) {
+      var n = Number(card.getAttribute('data-level'));
+      card.classList.toggle('is-active', n === level);
+      card.classList.toggle('is-dimmed', n !== level);
     });
     qsa(root, '.pjm-stage-tile').forEach(function (tile) {
       var s = tile.getAttribute('data-stage');
@@ -72,25 +76,25 @@
       tile.classList.toggle('is-nav-active', c === conceptId || (stageConcept && c === stageConcept));
       tile.classList.remove('is-dimmed');
     });
-    qsa(root, '.pjm-ocean-node').forEach(function (node) {
-      var n = Number(node.getAttribute('data-level'));
+    forEachLevelCard(root, function (card) {
+      var n = Number(card.getAttribute('data-level'));
       var levelConcept = LEVEL_TO_CONCEPT[n];
       var isLevelRoot = conceptId === levelConcept;
       var levelMatch = conceptId && conceptId.match(/b2l(\d)/);
       var sameLevel = levelMatch && Number(levelMatch[1]) === n;
-      node.classList.toggle('is-nav-active', isLevelRoot || sameLevel);
-      node.classList.remove('is-dimmed');
+      card.classList.toggle('is-nav-active', isLevelRoot || sameLevel);
+      card.classList.remove('is-dimmed');
     });
   }
 
   function clearActive(root) {
-    qsa(root, '.pjm-ocean-node, .pjm-stage-tile').forEach(function (el) {
+    qsa(root, '.pjm-stage-tile, .pjm-level-card').forEach(function (el) {
       el.classList.remove('is-active', 'is-dimmed', 'is-nav-active');
     });
   }
 
   function syncProgressState(root, isLevelComplete, isStageComplete) {
-    qsa(root, '.pjm-ocean-node').forEach(function (el) {
+    forEachLevelCard(root, function (el) {
       var level = Number(el.getAttribute('data-level'));
       var conceptId = LEVEL_TO_CONCEPT[level];
       var complete = typeof isLevelComplete === 'function' && isLevelComplete(conceptId);
@@ -122,7 +126,7 @@
       });
     });
 
-    qsa(root, '.pjm-ocean-node').forEach(function (el) {
+    forEachLevelCard(root, function (el) {
       el.addEventListener('mouseenter', function () {
         setActiveLevel(root, Number(el.getAttribute('data-level')));
       });
