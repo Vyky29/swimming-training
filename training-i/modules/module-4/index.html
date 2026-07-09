@@ -14,7 +14,7 @@
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260812');
-  @import url('/assets/programme-journey-map.css?v=20260709ocean-wave');
+  @import url('/assets/programme-journey-map.css?v=20260709ocean-soft');
 
   :root{
       --blue:#2d84b3;
@@ -996,7 +996,11 @@
     }
     .level-card--core.level-tone-1{ background:#7b2fa1; border-color:#7b2fa1; }
     .level-card--core.level-tone-2{ background:#9651bb; border-color:#9651bb; }
-    .level-card--core.level-tone-3{ background:#b276d2; border-color:#b276d2; }
+    .level-card--core.level-tone-3{
+      background:#2d84b3;
+      border-color:#2d84b3;
+      border-left-color:#1f6f96;
+    }
 
     .block-header{
       display:flex;
@@ -1843,6 +1847,66 @@
     .b2l-stage--basic .b2l-intro-book{ background:rgba(194,138,26,.18); color:#a67414; }
     .b2l-stage--structured .b2l-intro-book{ background:rgba(74,134,180,.16); color:#2d5f86; }
     .b2l-intro-book svg{ width:13px; height:13px; display:block; }
+    .b2l-level-mascot{
+      flex:0 0 auto;
+      width:52px;
+      height:46px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+    }
+    .b2l-level-mascot img{
+      width:auto;
+      height:46px;
+      max-width:52px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 4px 8px rgba(18,50,71,.12));
+    }
+    .b2l-focus-mascot-bar{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      margin:0 auto 14px;
+      padding:6px 8px;
+      max-width:min(360px,100%);
+    }
+    .b2l-focus-mascot-bar img{
+      width:auto;
+      height:48px;
+      max-width:52px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 4px 8px rgba(18,50,71,.12));
+    }
+    .b2l-focus-mascot-bar span{
+      font-size:.76rem;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:var(--ink);
+    }
+    .breadcrumb-mascot{
+      display:inline-flex;
+      align-items:flex-end;
+      justify-content:center;
+      width:22px;
+      height:20px;
+      margin-right:6px;
+      vertical-align:middle;
+    }
+    .breadcrumb-mascot img{
+      width:auto;
+      height:20px;
+      max-width:22px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 2px 4px rgba(18,50,71,.12));
+    }
+    .breadcrumb-part.current .breadcrumb-mascot img{
+      filter:drop-shadow(0 2px 4px rgba(0,0,0,.18));
+    }
     .b2l-intro-line{ margin:0; font-size:.96rem; line-height:1.64; }
     .b2l-intro-line + .b2l-intro-line{ margin-top:8px; }
     .b2l1-section{
@@ -2125,6 +2189,31 @@
       display:block;
       filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));
     }
+    .concept-square--core[data-target="b2core3"] .b2-core-thumb{
+      background:rgba(255,255,255,.96);
+      border-radius:12px;
+      padding:5px 8px 3px;
+      box-shadow:0 4px 12px rgba(18,50,71,.14);
+    }
+    .b2-level-thumb{
+      width:64px;
+      height:56px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      flex:0 0 auto;
+    }
+    .b2-level-thumb img{
+      width:auto;
+      height:56px;
+      max-width:64px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 4px 8px rgba(0,0,0,.22));
+    }
+    .concept-square--level .b2-level-thumb{
+      margin:0 0 2px;
+    }
     .b2-core-hero{
       display:flex;
       align-items:center;
@@ -2257,7 +2346,7 @@
     .concept-square--sublevel.level-card--core{ background:#8a3fb0; color:#fff; border-color:#8a3fb0; }
     .concept-square--sublevel.level-card--core.level-tone-1{ background:#7b2fa1; border-color:#7b2fa1; }
     .concept-square--sublevel.level-card--core.level-tone-2{ background:#9651bb; border-color:#9651bb; }
-    .concept-square--sublevel.level-card--core.level-tone-3{ background:#b276d2; border-color:#b276d2; }
+    .concept-square--sublevel.level-card--core.level-tone-3{ background:#2d84b3; border-color:#2d84b3; }
     .concept-square--sublevel.level-card--core:hover,
     .concept-square--sublevel.level-card--core:focus-visible{ background:#6f2395; border-color:#6f2395; color:#fff; }
     .concept-square--sublevel.level-card--core.visited{ color:#fff; }
@@ -2559,10 +2648,20 @@
       border-color:#6f2395;
       box-shadow:0 16px 28px rgba(138,63,176,.35);
     }
+    .concept-square--core.level-card--core.level-tone-3:hover,
+    .concept-square--core.level-card--core.level-tone-3:focus-visible{
+      background:#1f6f96;
+      border-color:#1f6f96;
+      box-shadow:0 16px 28px rgba(45,132,179,.32);
+    }
     .concept-square--core.level-card--core.visited{
       background:#8a3fb0;
       color:#fff;
       border-color:#8a3fb0;
+    }
+    .concept-square--core.level-card--core.level-tone-3.visited{
+      background:#2d84b3;
+      border-color:#2d84b3;
     }
 
     /* Unify stage/level card typography color */
@@ -2729,6 +2828,11 @@
       color:#fff;
       border-color:#6f2395;
     }
+    .concept-square.level-card--core.level-tone-3.active:hover,
+    .concept-square.level-card--core.level-tone-3.active:focus-visible{
+      background:#1f6f96;
+      border-color:#1f6f96;
+    }
 
     .concept-square.current-stage{
       box-shadow:0 0 0 3px #fff, 0 0 0 6px var(--ink);
@@ -2738,6 +2842,7 @@
     .concept-square.level-card--basic.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #ea8f22; }
     .concept-square.level-card--structured.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #4A86B4; }
     .concept-square.level-card--core.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #8a3fb0; }
+    .concept-square.level-card--core.level-tone-3.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #2d84b3; }
     .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured:hover,
     .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured:focus-visible,
     .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured.visited,
@@ -2873,15 +2978,55 @@
     .concept-level-badge{
       display:none;
     }
-    .level-badge-pill{
-      display:inline-block;
-      padding:10px 20px;
+    .concept-level-badge.is-visible{
+      display:block;
+    }
+    .level-badge-pill--mascot{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:10px 16px 10px 12px;
       border-radius:14px;
-      font-size:1rem;
       font-weight:800;
       color:#fff;
       border:2px solid transparent;
       box-shadow:0 4px 14px rgba(0,0,0,.12);
+    }
+    .level-badge-mascot{
+      flex:0 0 auto;
+      width:48px;
+      height:42px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+    }
+    .level-badge-mascot img{
+      width:auto;
+      height:42px;
+      max-width:48px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 4px 8px rgba(0,0,0,.18));
+    }
+    .level-badge-copy{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:2px;
+      line-height:1.1;
+    }
+    .level-badge-kicker{
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      opacity:.92;
+    }
+    .level-badge-animal{
+      font-size:.85rem;
+      font-weight:900;
+      letter-spacing:.04em;
+      text-transform:uppercase;
     }
     .level-badge--confidence-tone1{ background:#1a5c38; border-color:#1a5c38; }
     .level-badge--confidence-tone2{ background:#6da372; border-color:#6da372; color:#fff; }
@@ -3135,6 +3280,25 @@
       color:var(--concept-title-accent) !important;
       background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, var(--concept-title-accent-soft) 100%) !important;
       box-shadow:inset 0 0 0 1px var(--concept-title-accent-border), 0 8px 18px rgba(18,50,71,.08) !important;
+    }
+    .concept-title-icon--mascot{
+      background:transparent !important;
+      box-shadow:none !important;
+      border:none !important;
+      width:48px;
+      height:44px;
+      padding:0;
+      display:inline-flex;
+      align-items:flex-end;
+      justify-content:center;
+    }
+    .concept-title-icon--mascot img{
+      width:auto;
+      height:44px;
+      max-width:48px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 4px 8px rgba(18,50,71,.14));
     }
     .concept-panel[data-stage-theme="core"] .concept-breadcrumb .breadcrumb-part.current{ color:#8a3fb0; border-color:#8a3fb0; background:rgba(138,63,176,.18); }
 
@@ -3497,9 +3661,6 @@
     .subconcept-intro{
       margin:0 0 16px;
       line-height:1.7;
-    }
-    .concept-panel[data-level] [data-concept-level-badge]{
-      display:none !important;
     }
 
     .concept-panel h4{
@@ -5538,21 +5699,14 @@
                     <div class="pjm-ocean-map" aria-label="Ocean journey map">
                       <p class="pjm-ocean-map-label">Your journey through the levels</p>
                       <div class="pjm-ocean-track">
-                        <svg class="pjm-ocean-wave" viewBox="0 0 720 44" preserveAspectRatio="none" aria-hidden="true">
+                        <svg class="pjm-ocean-wave" viewBox="0 0 720 20" preserveAspectRatio="none" aria-hidden="true">
                           <defs>
-                            <linearGradient id="pjmWaveFill" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stop-color="#89b5c1" stop-opacity="0.35"/>
-                              <stop offset="45%" stop-color="#2d84b3" stop-opacity="0.55"/>
-                              <stop offset="100%" stop-color="#12456b" stop-opacity="0.4"/>
-                            </linearGradient>
-                            <linearGradient id="pjmWaveStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stop-color="#5a9fc4"/>
-                              <stop offset="50%" stop-color="#2d84b3"/>
-                              <stop offset="100%" stop-color="#12456b"/>
+                            <linearGradient id="pjmWaveFill" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" stop-color="#2d84b3" stop-opacity="0.28"/>
+                              <stop offset="100%" stop-color="#2d84b3" stop-opacity="0.06"/>
                             </linearGradient>
                           </defs>
-                          <path d="M0 24 C60 10, 120 34, 180 24 S300 10, 360 24 S480 34, 540 24 S660 10, 720 24 L720 44 L0 44 Z" fill="url(#pjmWaveFill)"/>
-                          <path d="M0 22 C60 8, 120 32, 180 22 S300 8, 360 22 S480 32, 540 22 S660 8, 720 22" fill="none" stroke="url(#pjmWaveStroke)" stroke-width="2.5" stroke-linecap="round"/>
+                          <path d="M0 9 C90 4, 180 13, 270 9 S450 4, 540 9 S630 13, 720 9 L720 20 L0 20 Z" fill="url(#pjmWaveFill)"/>
                         </svg>
                         <button type="button" class="pjm-ocean-node" data-level="1" aria-label="Level 1 Turtle"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-1-turtle.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Turtle</span></button>
                         <button type="button" class="pjm-ocean-node" data-level="2" aria-label="Level 2 Starfish"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-2-starfish.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Starfish</span></button>
@@ -6079,6 +6233,35 @@
       return icons[icon] || icons.spark;
     }
 
+    var LEVEL_MASCOTS = {
+      1: { src: '/assets/images/module-4/mascots/level-1-turtle.png', animal: 'Turtle' },
+      2: { src: '/assets/images/module-4/mascots/level-2-starfish.png', animal: 'Starfish' },
+      3: { src: '/assets/images/module-4/mascots/level-3-jellyfish.png', animal: 'Jellyfish' },
+      4: { src: '/assets/images/module-4/mascots/level-4-ray.png', animal: 'Ray' },
+      5: { src: '/assets/images/module-4/mascots/level-5-dolphin.png', animal: 'Dolphin' },
+      6: { src: '/assets/images/module-4/mascots/level-6-whale.png', animal: 'Whale' }
+    };
+
+    function getLevelMascot(level){
+      return LEVEL_MASCOTS[String(level)] || null;
+    }
+
+    function getLevelBadgeClass(level){
+      var n = parseInt(level, 10);
+      if(n <= 2) return n === 1 ? 'level-badge--confidence-tone1' : 'level-badge--confidence-tone2';
+      if(n <= 4) return n === 3 ? 'level-badge--basic-tone1' : 'level-badge--basic-tone2';
+      return n === 5 ? 'level-badge--structured-tone1' : 'level-badge--structured-tone2';
+    }
+
+    function getLevelMascotBadgeHtml(level){
+      var m = getLevelMascot(level);
+      if(!m) return '';
+      return '<div class="level-badge-pill level-badge-pill--mascot ' + getLevelBadgeClass(level) + '">' +
+        '<span class="level-badge-mascot" aria-hidden="true"><img src="' + m.src + '" alt="" loading="lazy" decoding="async" /></span>' +
+        '<span class="level-badge-copy"><span class="level-badge-kicker">Level ' + level + '</span><span class="level-badge-animal">' + m.animal + '</span></span>' +
+        '</div>';
+    }
+
     function setConceptTitle(el, title, target, block, subtitle){
       if(!el) return;
       el.textContent = '';
@@ -6089,7 +6272,15 @@
       var iconEl = document.createElement('span');
       iconEl.className = 'concept-title-icon';
       iconEl.setAttribute('aria-hidden', 'true');
-      iconEl.innerHTML = getConceptTitleIcon(title, target, block);
+      var levelMatch = target && target.match(/b2l(\d)/);
+      var levelForIcon = levelMatch ? levelMatch[1] : '';
+      var levelMascot = levelForIcon ? getLevelMascot(levelForIcon) : null;
+      if(block === 'block3' && levelMascot){
+        iconEl.classList.add('concept-title-icon--mascot');
+        iconEl.innerHTML = '<img src="' + levelMascot.src + '" alt="" loading="lazy" decoding="async" />';
+      } else {
+        iconEl.innerHTML = getConceptTitleIcon(title, target, block);
+      }
       var textEl = document.createElement('span');
       textEl.className = 'concept-title-text';
       textEl.textContent = title || '';
@@ -7565,6 +7756,51 @@
       const m = target && target.match(/b2l(\d)/);
       return m ? m[1] : '';
     }
+    function applyLevelMascotEnhancements(panel, target, block){
+      if(block !== 'block3' || !panel) return;
+      var level = getBlock2Level(target);
+      if(!level) return;
+
+      panel.querySelectorAll('.concept-square--level[data-target]').forEach(function(btn){
+        if(btn.querySelector('.b2-level-thumb')) return;
+        var lv = getBlock2Level(btn.dataset.target || '');
+        var mascot = lv ? getLevelMascot(lv) : null;
+        if(!mascot) return;
+        var thumb = document.createElement('span');
+        thumb.className = 'b2-level-thumb';
+        thumb.setAttribute('aria-hidden', 'true');
+        thumb.innerHTML = '<img src="' + mascot.src + '" alt="" width="56" height="56" loading="lazy" decoding="async" />';
+        btn.insertBefore(thumb, btn.firstChild);
+      });
+
+      var introHead = panel.querySelector('.b2l1-intro-head');
+      if(introHead && !introHead.querySelector('.b2l-level-mascot')){
+        var book = introHead.querySelector('.b2l-intro-book');
+        var mascotInfo = getLevelMascot(level);
+        if(book && mascotInfo){
+          var mark = document.createElement('span');
+          mark.className = 'b2l-level-mascot';
+          mark.setAttribute('aria-hidden', 'true');
+          mark.innerHTML = '<img src="' + mascotInfo.src + '" alt="" loading="lazy" decoding="async" />';
+          introHead.replaceChild(mark, book);
+        }
+      }
+
+      if(/_focus$|_activities$/.test(target || '')){
+        var grid = panel.querySelector('.concept-grid--sublevels');
+        var host = grid ? grid.parentElement : null;
+        if(host && !host.querySelector('.b2l-focus-mascot-bar')){
+          var barMascot = getLevelMascot(level);
+          if(barMascot){
+            var bar = document.createElement('div');
+            bar.className = 'b2l-focus-mascot-bar';
+            bar.setAttribute('aria-hidden', 'true');
+            bar.innerHTML = '<img src="' + barMascot.src + '" alt="" loading="lazy" decoding="async" /><span>Level ' + level + ' · ' + barMascot.animal + '</span>';
+            host.insertBefore(bar, grid);
+          }
+        }
+      }
+    }
     function getBlock2Breadcrumb(target){
       const stage = getBlock2StageTarget(target);
       const level = getBlock2Level(target);
@@ -7576,7 +7812,12 @@
       if(level && target === ('b2l' + level)) return parts;
       if(stage && !level) parts.push({ label: stageLabels[stage] || stage, active: !target.match(/_/), key: 'stage' });
       if(level){
-        parts.push({ label: levelLabels[level] || 'Level ' + level, active: target === ('b2l' + level), key: 'level' });
+        var levelMascot = getLevelMascot(level);
+        var levelLabel = levelLabels[level] || ('Level ' + level);
+        if(levelMascot){
+          levelLabel = '<span class="breadcrumb-mascot" aria-hidden="true"><img src="' + levelMascot.src + '" alt="" loading="lazy" decoding="async" /></span>' + levelLabel;
+        }
+        parts.push({ label: levelLabel, active: target === ('b2l' + level), key: 'level' });
         if(target.match(/^b2l[1-6]_f[1-4]$/)){
           parts.push({ label: 'Focus Areas', active: false, key: 'focus' });
           parts.push({ label: (conceptContent[target] && conceptContent[target].title) || target, active: true, key: 'focus-item' });
@@ -8600,11 +8841,15 @@
         const levelBadgeEl = panel.querySelector('[data-concept-level-badge]');
         if(levelBadgeEl){
           const lvl = getBlock2Level(target);
-          if(lvl){
-            levelBadgeEl.innerHTML = '';
-            levelBadgeEl.style.display = 'none';
+          const isLevelRoot = /^b2l[1-6]$/.test(target || '');
+          if(lvl && !isLevelRoot){
+            levelBadgeEl.innerHTML = getLevelMascotBadgeHtml(lvl);
+            levelBadgeEl.classList.add('is-visible');
+            levelBadgeEl.style.display = '';
+            levelBadgeEl.removeAttribute('aria-hidden');
           } else {
             levelBadgeEl.innerHTML = '';
+            levelBadgeEl.classList.remove('is-visible');
             levelBadgeEl.style.display = 'none';
           }
         }
@@ -8804,6 +9049,7 @@
             applyLevelBodyChrome(levelSummaryBox, panel.dataset.stageTheme || getBlock2Theme(target), panel.dataset.level || '');
           }
         }
+        applyLevelMascotEnhancements(panel, target, block);
       }
       var navEl = panel.querySelector('[data-parent-subconcept-nav]');
       if(navEl){
