@@ -2451,6 +2451,10 @@
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square[data-target]').forEach(function(btn){
         btn.classList.remove('active');
       });
+      if(block === 'block3' && typeof ProgrammeJourneyMap !== 'undefined'){
+        var journeyMap = document.querySelector('[data-programme-journey-map]');
+        if(journeyMap) ProgrammeJourneyMap.clearActive(journeyMap);
+      }
       lastStepKey = null;
       lastScrolledKey = null;
       userScrollUntil = 0;
