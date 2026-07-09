@@ -1,5 +1,5 @@
 /**
- * Programme Journey Map — Ocean Journey (Module 4 Block 3)
+ * Programme Journey Map — Stage + Level Ocean Journey (Module 4 Block 3)
  */
 (function (global) {
   'use strict';
@@ -22,8 +22,33 @@
     6: 'master'
   };
 
+  var STAGE_TO_CONCEPT = {
+    discover: 'b2c1',
+    explore: 'b2c2',
+    master: 'b2c3'
+  };
+
   function qsa(root, sel) {
     return Array.prototype.slice.call(root.querySelectorAll(sel));
+  }
+
+  function setActiveStage(root, stageName) {
+    qsa(root, '.pjm-stage-tile').forEach(function (tile) {
+      var s = tile.getAttribute('data-stage');
+      tile.classList.toggle('is-active', s === stageName);
+      tile.classList.toggle('is-dimmed', s !== stageName);
+    });
+    qsa(root, '.pjm-stage').forEach(function (el) {
+      var s = el.getAttribute('data-stage');
+      el.classList.toggle('is-highlighted', s === stageName);
+      el.classList.toggle('is-dimmed', s !== stageName);
+    });
+    qsa(root, '.pjm-ocean-node, .pjm-level-card').forEach(function (el) {
+      var lvlStage = STAGE_BY_LEVEL[Number(el.getAttribute('data-level'))];
+      var isActive = lvlStage === stageName;
+      el.classList.toggle('is-active', isActive);
+      el.classList.toggle('is-dimmed', !isActive);
+    });
   }
 
   function setActiveLevel(root, level) {
@@ -32,6 +57,11 @@
       var n = Number(node.getAttribute('data-level'));
       node.classList.toggle('is-active', n === level);
       node.classList.toggle('is-dimmed', n !== level);
+    });
+    qsa(root, '.pjm-stage-tile').forEach(function (tile) {
+      var s = tile.getAttribute('data-stage');
+      tile.classList.toggle('is-active', s === stage);
+      tile.classList.toggle('is-dimmed', s !== stage);
     });
     qsa(root, '.pjm-stage').forEach(function (el) {
       var s = el.getAttribute('data-stage');
@@ -46,7 +76,7 @@
   }
 
   function clearActive(root) {
-    qsa(root, '.pjm-ocean-node, .pjm-stage, .pjm-level-card').forEach(function (el) {
+    qsa(root, '.pjm-ocean-node, .pjm-stage, .pjm-level-card, .pjm-stage-tile').forEach(function (el) {
       el.classList.remove('is-active', 'is-highlighted', 'is-dimmed');
     });
   }
@@ -60,7 +90,25 @@
     });
   }
 
-  function wireInteractions(root) {
+  function wireInteractions(root, options) {
+    options = options || {};
+
+    qsa(root, '.pjm-stage-tile').forEach(function (tile) {
+      tile.addEventListener('mouseenter', function () {
+        setActiveStage(root, tile.getAttribute('data-stage'));
+      });
+      tile.addEventListener('focus', function () {
+        setActiveStage(root, tile.getAttribute('data-stage'));
+      });
+      tile.addEventListener('click', function () {
+        var stageName = tile.getAttribute('data-stage');
+        setActiveStage(root, stageName);
+        if (typeof options.onStageSelect === 'function') {
+          options.onStageSelect(STAGE_TO_CONCEPT[stageName], stageName);
+        }
+      });
+    });
+
     qsa(root, '.pjm-ocean-node, .pjm-level-card').forEach(function (el) {
       el.addEventListener('mouseenter', function () {
         setActiveLevel(root, Number(el.getAttribute('data-level')));
@@ -69,23 +117,21 @@
         setActiveLevel(root, Number(el.getAttribute('data-level')));
       });
       el.addEventListener('click', function () {
-        setActiveLevel(root, Number(el.getAttribute('data-level')));
+        var level = Number(el.getAttribute('data-level'));
+        setActiveLevel(root, level);
+        if (typeof options.onLevelSelect === 'function') {
+          options.onLevelSelect(level, LEVEL_TO_CONCEPT[level]);
+        }
       });
     });
+
     root.addEventListener('mouseleave', function () {
       clearActive(root);
     });
+
     qsa(root, '.pjm-stage').forEach(function (stage) {
       stage.addEventListener('mouseenter', function () {
-        var stageName = stage.getAttribute('data-stage');
-        qsa(root, '.pjm-stage').forEach(function (el) {
-          el.classList.toggle('is-highlighted', el.getAttribute('data-stage') === stageName);
-          el.classList.toggle('is-dimmed', el.getAttribute('data-stage') !== stageName);
-        });
-        qsa(root, '.pjm-ocean-node, .pjm-level-card').forEach(function (el) {
-          var lvlStage = STAGE_BY_LEVEL[Number(el.getAttribute('data-level'))];
-          el.classList.toggle('is-dimmed', lvlStage !== stageName);
-        });
+        setActiveStage(root, stage.getAttribute('data-stage'));
       });
     });
   }
@@ -93,7 +139,7 @@
   function init(root, options) {
     if (!root) return;
     options = options || {};
-    wireInteractions(root);
+    wireInteractions(root, options);
     syncProgressState(root, options.isLevelComplete);
     root._pjmOptions = options;
   }
@@ -107,6 +153,7 @@
   global.ProgrammeJourneyMap = {
     init: init,
     syncProgress: syncProgress,
-    LEVEL_TO_CONCEPT: LEVEL_TO_CONCEPT
+    LEVEL_TO_CONCEPT: LEVEL_TO_CONCEPT,
+    STAGE_TO_CONCEPT: STAGE_TO_CONCEPT
   };
 })(typeof window !== 'undefined' ? window : this);

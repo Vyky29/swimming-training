@@ -14,7 +14,7 @@
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260812');
-  @import url('/assets/programme-journey-map.css?v=20260709ocean-soft');
+  @import url('/assets/programme-journey-map.css?v=20260709stage-journey');
 
   :root{
       --blue:#2d84b3;
@@ -996,11 +996,7 @@
     }
     .level-card--core.level-tone-1{ background:#7b2fa1; border-color:#7b2fa1; }
     .level-card--core.level-tone-2{ background:#9651bb; border-color:#9651bb; }
-    .level-card--core.level-tone-3{
-      background:#2d84b3;
-      border-color:#2d84b3;
-      border-left-color:#1f6f96;
-    }
+    .level-card--core.level-tone-3{ background:#b894d6; border-color:#b894d6; border-left-color:#9b6fc4; }
 
     .block-header{
       display:flex;
@@ -2189,11 +2185,76 @@
       display:block;
       filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));
     }
-    .concept-square--core[data-target="b2core3"] .b2-core-thumb{
-      background:rgba(255,255,255,.96);
-      border-radius:12px;
-      padding:5px 8px 3px;
-      box-shadow:0 4px 12px rgba(18,50,71,.14);
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core,
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core.level-tone-1,
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core.level-tone-2,
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core.level-tone-3{
+      min-height:150px;
+      gap:10px;
+      padding:16px 12px 14px;
+      background:linear-gradient(180deg, #f4ecfa 0%, #e8dcf5 100%);
+      border:1px solid rgba(138,63,176,.22);
+      border-left:4px solid #a87fd0;
+      color:#4a2d6b !important;
+      box-shadow:0 8px 22px rgba(138,63,176,.1);
+      transition:transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .concept-grid.concept-grid--core .concept-square--core.level-tone-2{
+      background:linear-gradient(180deg, #f0e7f8 0%, #e2d3f2 100%);
+      border-left-color:#9668bd;
+    }
+    .concept-grid.concept-grid--core .concept-square--core.level-tone-3{
+      background:linear-gradient(180deg, #ece1f6 0%, #ddd0ef 100%);
+      border-left-color:#8558ad;
+    }
+    .concept-grid.concept-grid--core .b2-core-thumb{
+      width:76px;
+      height:68px;
+      background:#fff;
+      border-radius:16px;
+      padding:7px 10px 5px;
+      box-shadow:0 8px 18px rgba(74,45,107,.12), inset 0 0 0 1px rgba(138,63,176,.1);
+    }
+    .concept-grid.concept-grid--core .b2-core-thumb img{
+      height:54px;
+      max-width:68px;
+      filter:drop-shadow(0 3px 8px rgba(18,50,71,.1));
+    }
+    .concept-grid.concept-grid--core .concept-square-stage-title{
+      color:#4a2d6b !important;
+      font-weight:800;
+      letter-spacing:.01em;
+      line-height:1.25;
+    }
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core:hover,
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core:focus-visible{
+      transform:translateY(-2px);
+      background:linear-gradient(180deg, #ebe0f6 0%, #d9c9eb 100%) !important;
+      border-color:rgba(138,63,176,.34) !important;
+      color:#3f2459 !important;
+      box-shadow:0 14px 28px rgba(138,63,176,.16) !important;
+    }
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core.visited{
+      background:linear-gradient(180deg, #efe4f8 0%, #e2d3f2 100%) !important;
+      border-color:rgba(138,63,176,.28) !important;
+      color:#4a2d6b !important;
+    }
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core.active,
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core.active:hover,
+    .concept-grid.concept-grid--core .concept-square--core.level-card--core.active:focus-visible{
+      background:linear-gradient(180deg, #e4d4f2 0%, #d4c0e8 100%) !important;
+      border-color:#8a3fb0 !important;
+      color:#3f2459 !important;
+      box-shadow:0 0 0 3px #fff, 0 0 0 6px rgba(138,63,176,.32) !important;
+      outline:none;
+    }
+    .concept-grid.concept-grid--core .concept-square--core.level-completed{
+      box-shadow:0 0 0 2px rgba(138,63,176,.22), 0 0 14px rgba(138,63,176,.12);
+    }
+    .concept-grid.concept-grid--core .concept-square--core.level-completed::after{
+      background:#fff;
+      color:#168a4a;
+      box-shadow:0 2px 8px rgba(138,63,176,.15);
     }
     .b2-level-thumb{
       width:64px;
@@ -2346,7 +2407,7 @@
     .concept-square--sublevel.level-card--core{ background:#8a3fb0; color:#fff; border-color:#8a3fb0; }
     .concept-square--sublevel.level-card--core.level-tone-1{ background:#7b2fa1; border-color:#7b2fa1; }
     .concept-square--sublevel.level-card--core.level-tone-2{ background:#9651bb; border-color:#9651bb; }
-    .concept-square--sublevel.level-card--core.level-tone-3{ background:#2d84b3; border-color:#2d84b3; }
+    .concept-square--sublevel.level-card--core.level-tone-3{ background:#b894d6; border-color:#b894d6; }
     .concept-square--sublevel.level-card--core:hover,
     .concept-square--sublevel.level-card--core:focus-visible{ background:#6f2395; border-color:#6f2395; color:#fff; }
     .concept-square--sublevel.level-card--core.visited{ color:#fff; }
@@ -2648,20 +2709,10 @@
       border-color:#6f2395;
       box-shadow:0 16px 28px rgba(138,63,176,.35);
     }
-    .concept-square--core.level-card--core.level-tone-3:hover,
-    .concept-square--core.level-card--core.level-tone-3:focus-visible{
-      background:#1f6f96;
-      border-color:#1f6f96;
-      box-shadow:0 16px 28px rgba(45,132,179,.32);
-    }
     .concept-square--core.level-card--core.visited{
       background:#8a3fb0;
       color:#fff;
       border-color:#8a3fb0;
-    }
-    .concept-square--core.level-card--core.level-tone-3.visited{
-      background:#2d84b3;
-      border-color:#2d84b3;
     }
 
     /* Unify stage/level card typography color */
@@ -2828,11 +2879,6 @@
       color:#fff;
       border-color:#6f2395;
     }
-    .concept-square.level-card--core.level-tone-3.active:hover,
-    .concept-square.level-card--core.level-tone-3.active:focus-visible{
-      background:#1f6f96;
-      border-color:#1f6f96;
-    }
 
     .concept-square.current-stage{
       box-shadow:0 0 0 3px #fff, 0 0 0 6px var(--ink);
@@ -2842,7 +2888,6 @@
     .concept-square.level-card--basic.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #ea8f22; }
     .concept-square.level-card--structured.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #4A86B4; }
     .concept-square.level-card--core.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #8a3fb0; }
-    .concept-square.level-card--core.level-tone-3.current-stage{ box-shadow:0 0 0 3px #fff, 0 0 0 6px #2d84b3; }
     .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured:hover,
     .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured:focus-visible,
     .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square.level-card--structured.visited,
@@ -5696,6 +5741,45 @@
                   </div>
                 </header>
 
+                    <div class="pjm-stage-journey" aria-label="Three stages of the swimming journey">
+                      <p class="pjm-stage-journey-label">Your journey through the stages</p>
+                      <div class="pjm-stage-journey-track">
+                        <span class="pjm-stage-journey-connector" aria-hidden="true"></span>
+                        <button type="button" class="pjm-stage-tile pjm-stage-tile--discover" data-stage="discover" data-concept="b2c1" aria-label="Stage 1 Swim Confidence — open stage">
+                          <span class="pjm-stage-tile-media" aria-hidden="true"><img src="/assets/images/module-4/stages/stage-1-swim-confidence-pool.png" alt="" loading="lazy" decoding="async" /></span>
+                          <span class="pjm-stage-tile-copy">
+                            <span class="pjm-stage-tile-meta"><span class="pjm-stage-tile-num">Stage 1</span><span class="pjm-stage-tile-theme">Discover</span></span>
+                            <span class="pjm-stage-tile-title">Swim Confidence</span>
+                            <span class="pjm-stage-tile-desc">Pool · first contact · emotional safety</span>
+                          </span>
+                        </button>
+                        <button type="button" class="pjm-stage-tile pjm-stage-tile--explore" data-stage="explore" data-concept="b2c2" aria-label="Stage 2 Swim Basic — open stage">
+                          <span class="pjm-stage-tile-media" aria-hidden="true"><img src="/assets/images/module-4/stages/stage-2-swim-basic-reef.png" alt="" loading="lazy" decoding="async" /></span>
+                          <span class="pjm-stage-tile-copy">
+                            <span class="pjm-stage-tile-meta"><span class="pjm-stage-tile-num">Stage 2</span><span class="pjm-stage-tile-theme">Explore</span></span>
+                            <span class="pjm-stage-tile-title">Swim Basic</span>
+                            <span class="pjm-stage-tile-desc">Reef · floating · balance · propulsion</span>
+                          </span>
+                        </button>
+                        <button type="button" class="pjm-stage-tile pjm-stage-tile--master" data-stage="master" data-concept="b2c3" aria-label="Stage 3 Swim Structured — open stage">
+                          <span class="pjm-stage-tile-media" aria-hidden="true"><img src="/assets/images/module-4/stages/stage-3-swim-structured-ocean.png" alt="" loading="lazy" decoding="async" /></span>
+                          <span class="pjm-stage-tile-copy">
+                            <span class="pjm-stage-tile-meta"><span class="pjm-stage-tile-num">Stage 3</span><span class="pjm-stage-tile-theme">Master</span></span>
+                            <span class="pjm-stage-tile-title">Swim Structured</span>
+                            <span class="pjm-stage-tile-desc">Open ocean · strokes · endurance · turns</span>
+                          </span>
+                        </button>
+                      </div>
+                      <p class="pjm-stage-journey-note">
+                        <span class="pjm-stage-journey-note-icons" aria-hidden="true">
+                          <img src="/assets/images/module-4/core-areas/core-regulation-brain.png" alt="" width="26" height="22" loading="lazy" decoding="async" />
+                          <img src="/assets/images/module-4/core-areas/core-engagement-wave.png" alt="" width="26" height="22" loading="lazy" decoding="async" />
+                          <img src="/assets/images/module-4/core-areas/core-independence-rocket.png" alt="" width="26" height="22" loading="lazy" decoding="async" />
+                        </span>
+                        Core development travels with every stage
+                      </p>
+                    </div>
+
                     <div class="pjm-ocean-map" aria-label="Ocean journey map">
                       <p class="pjm-ocean-map-label">Your journey through the levels</p>
                       <div class="pjm-ocean-track">
@@ -5720,9 +5804,12 @@
                     <div class="pjm-stages">
                       <section class="pjm-stage pjm-stage--discover" data-stage="discover">
                         <header class="pjm-stage-head">
-                          <div class="pjm-stage-meta"><span class="pjm-stage-num">Stage 1</span><span class="pjm-stage-theme">Discover</span></div>
-                          <h4>Swim Confidence</h4>
-                          <p class="pjm-stage-desc">Emotional safety, water confidence, early independence</p>
+                          <div class="pjm-stage-head-media" aria-hidden="true"><img src="/assets/images/module-4/stages/stage-1-swim-confidence-pool.png" alt="" loading="lazy" decoding="async" /></div>
+                          <div class="pjm-stage-head-overlay">
+                            <div class="pjm-stage-meta"><span class="pjm-stage-num">Stage 1</span><span class="pjm-stage-theme">Discover</span></div>
+                            <h4>Swim Confidence</h4>
+                            <p class="pjm-stage-desc">Emotional safety, water confidence, early independence</p>
+                          </div>
                         </header>
                         <div class="pjm-levels">
                           <button type="button" class="pjm-level-card" data-level="1" aria-label="Level 1 Turtle">
@@ -5744,9 +5831,12 @@
 
                       <section class="pjm-stage pjm-stage--explore" data-stage="explore">
                         <header class="pjm-stage-head">
-                          <div class="pjm-stage-meta"><span class="pjm-stage-num">Stage 2</span><span class="pjm-stage-theme">Explore</span></div>
-                          <h4>Swim Basic</h4>
-                          <p class="pjm-stage-desc">Floating, balance, propulsion, safety sequences</p>
+                          <div class="pjm-stage-head-media" aria-hidden="true"><img src="/assets/images/module-4/stages/stage-2-swim-basic-reef.png" alt="" loading="lazy" decoding="async" /></div>
+                          <div class="pjm-stage-head-overlay">
+                            <div class="pjm-stage-meta"><span class="pjm-stage-num">Stage 2</span><span class="pjm-stage-theme">Explore</span></div>
+                            <h4>Swim Basic</h4>
+                            <p class="pjm-stage-desc">Floating, balance, propulsion, safety sequences</p>
+                          </div>
                         </header>
                         <div class="pjm-levels">
                           <button type="button" class="pjm-level-card" data-level="3" aria-label="Level 3 Jellyfish">
@@ -5768,9 +5858,12 @@
 
                       <section class="pjm-stage pjm-stage--master" data-stage="master">
                         <header class="pjm-stage-head">
-                          <div class="pjm-stage-meta"><span class="pjm-stage-num">Stage 3</span><span class="pjm-stage-theme">Master</span></div>
-                          <h4>Swim Structured</h4>
-                          <p class="pjm-stage-desc">Structured strokes, endurance, starts, turns and recovery</p>
+                          <div class="pjm-stage-head-media" aria-hidden="true"><img src="/assets/images/module-4/stages/stage-3-swim-structured-ocean.png" alt="" loading="lazy" decoding="async" /></div>
+                          <div class="pjm-stage-head-overlay">
+                            <div class="pjm-stage-meta"><span class="pjm-stage-num">Stage 3</span><span class="pjm-stage-theme">Master</span></div>
+                            <h4>Swim Structured</h4>
+                            <p class="pjm-stage-desc">Structured strokes, endurance, starts, turns and recovery</p>
+                          </div>
                         </header>
                         <div class="pjm-levels">
                           <button type="button" class="pjm-level-card" data-level="5" aria-label="Level 5 Dolphin">
@@ -7598,7 +7691,21 @@
       var journeyMapEl = document.querySelector('[data-programme-journey-map]');
       if(journeyMapEl && window.ProgrammeJourneyMap){
         if(!journeyMapEl.dataset.pjmInit){
-          ProgrammeJourneyMap.init(journeyMapEl, { isLevelComplete: isLevelFullyCompleted });
+          ProgrammeJourneyMap.init(journeyMapEl, {
+            isLevelComplete: isLevelFullyCompleted,
+            onStageSelect: function(conceptId){
+              if(!conceptId || !conceptContent[conceptId]) return;
+              var stageBtn = document.querySelector('[data-concept-grid="block3"] .concept-square[data-target="' + conceptId + '"]');
+              prepareConceptTransition(stageBtn || journeyMapEl);
+              renderConcept('block3', conceptId);
+            },
+            onLevelSelect: function(level){
+              var conceptId = ProgrammeJourneyMap.LEVEL_TO_CONCEPT[level];
+              if(!conceptId || !conceptContent[conceptId]) return;
+              prepareConceptTransition(journeyMapEl);
+              renderConcept('block3', conceptId);
+            }
+          });
           journeyMapEl.dataset.pjmInit = '1';
         } else {
           ProgrammeJourneyMap.syncProgress(journeyMapEl, isLevelFullyCompleted);
@@ -10956,7 +11063,7 @@
     })();
   </script>
   
-  <script src="/shared/programme-journey-map.js?v=20260709mascots"></script>
+  <script src="/shared/programme-journey-map.js?v=20260709stage-journey"></script>
   <script src="/shared/concept-visual-expand-system.js?v=20260725"></script>
 </body>
 </html>
