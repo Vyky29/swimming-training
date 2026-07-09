@@ -261,33 +261,6 @@
   line-height:1.35;
   opacity:.92;
 }
-.pjm-stage-journey-note{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:8px;
-  margin:12px 0 0;
-  font-size:.72rem;
-  font-weight:700;
-  color:var(--pjm-muted);
-  text-align:center;
-}
-.pjm-stage-journey-note-icons{
-  display:inline-flex;
-  align-items:flex-end;
-  gap:6px;
-}
-.pjm-stage-journey-note-icons img{
-  width:auto;
-  height:22px;
-  max-width:26px;
-  object-fit:contain;
-  display:block;
-  filter:drop-shadow(0 2px 4px rgba(18,50,71,.12));
-}
-
-/* Level rail ù slim grouped mascots */
 .pjm-level-rail{
   margin:0;
   padding:14px 0 0;
