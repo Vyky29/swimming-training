@@ -1,0 +1,240 @@
+/* Programme Structure infographic — Module 4 Block 3 */
+.programme-structure-infographic{
+  --psi-radius:18px;
+  --psi-shadow:0 14px 34px rgba(18,50,71,.08);
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(22,50,71,.10);
+  border-radius:22px;
+  background:linear-gradient(180deg,#f8fcfe 0%,#ffffff 38%,#f4fafc 100%);
+  box-shadow:var(--psi-shadow);
+  padding:22px 20px 18px;
+}
+.programme-structure-infographic::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:120px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%232d84b3' stroke-opacity='0.12' stroke-width='2' d='M0 42 C200 18 400 62 600 38 S900 20 1200 46'/%3E%3Cpath fill='none' stroke='%2389b5c1' stroke-opacity='0.18' stroke-width='1.5' d='M0 56 C180 34 360 68 540 50 S820 36 1200 58'/%3E%3C/svg%3E")
+    center bottom / cover no-repeat;
+  pointer-events:none;
+  opacity:.85;
+}
+
+.psi-header{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin-bottom:18px;
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(22,50,71,.08);
+}
+.psi-logo{
+  width:min(148px,34vw);
+  height:auto;
+  flex:0 0 auto;
+  display:block;
+  filter:drop-shadow(0 4px 10px rgba(18,50,71,.08));
+}
+.psi-header-copy{ min-width:0; flex:1; }
+.psi-kicker{
+  margin:0 0 4px;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#2d84b3;
+}
+.psi-title{
+  margin:0;
+  font-size:clamp(1.15rem,2.4vw,1.55rem);
+  font-weight:800;
+  line-height:1.15;
+  color:#163247;
+}
+.psi-sub{
+  margin:6px 0 0;
+  font-size:.82rem;
+  font-weight:600;
+  color:#70808f;
+}
+
+.psi-stages{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+}
+@media (min-width:900px){
+  .psi-stages{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:14px;
+  }
+}
+
+.psi-stage{
+  border-radius:var(--psi-radius);
+  overflow:hidden;
+  border:1px solid rgba(22,50,71,.08);
+  background:#fff;
+  box-shadow:0 8px 20px rgba(18,50,71,.05);
+}
+.psi-stage-head{
+  padding:12px 14px 10px;
+  border-bottom:1px solid rgba(255,255,255,.22);
+}
+.psi-stage-num{
+  display:inline-block;
+  margin-bottom:4px;
+  padding:3px 9px;
+  border-radius:999px;
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  background:rgba(255,255,255,.24);
+  color:#fff;
+}
+.psi-stage-head h4{
+  margin:0;
+  font-size:.92rem;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:#fff;
+  line-height:1.2;
+}
+.psi-stage--confidence .psi-stage-head{
+  background:linear-gradient(135deg,#1a5c38 0%,#2f7a4d 100%);
+}
+.psi-stage--basic .psi-stage-head{
+  background:linear-gradient(135deg,#ea8f22 0%,#c4a74a 100%);
+}
+.psi-stage--structured .psi-stage-head{
+  background:linear-gradient(135deg,#4eb0e5 0%,#12456b 100%);
+}
+
+.psi-levels{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  padding:12px;
+}
+@media (min-width:560px) and (max-width:899px){
+  .psi-levels{ grid-template-columns:1fr 1fr; }
+}
+
+.psi-level{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:100%;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(22,50,71,.08);
+  color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+}
+.psi-level--1{ background:linear-gradient(180deg,#1a5c38 0%,#174f31 100%); }
+.psi-level--2{ background:linear-gradient(180deg,#6da372 0%,#5f9464 100%); color:#fff; }
+.psi-level--3{ background:linear-gradient(180deg,#ea8f22 0%,#d47f1a 100%); }
+.psi-level--4{ background:linear-gradient(180deg,#d4bc62 0%,#c4a74a 100%); color:#fff; }
+.psi-level--5{ background:linear-gradient(180deg,#4eb0e5 0%,#3a9fd4 100%); }
+.psi-level--6{ background:linear-gradient(180deg,#12456b 0%,#0f3858 100%); }
+
+.psi-level-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:12px 12px 8px;
+}
+.psi-level-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:54px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.94);
+  color:#163247;
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+.psi-mascot{
+  width:42px;
+  height:42px;
+  flex:0 0 auto;
+  opacity:.95;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.12));
+}
+.psi-mascot svg{ width:100%; height:100%; display:block; }
+
+.psi-focus-list{
+  margin:0;
+  padding:0 12px 12px;
+  list-style:none;
+  flex:1;
+}
+.psi-focus-list li{
+  position:relative;
+  padding:0 0 7px 14px;
+  font-size:.68rem;
+  font-weight:700;
+  line-height:1.35;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  opacity:.96;
+}
+.psi-focus-list li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.45em;
+  width:5px;
+  height:5px;
+  border-radius:999px;
+  background:rgba(255,255,255,.78);
+}
+.psi-focus-list li:last-child{ padding-bottom:0; }
+
+.psi-level-footer{
+  margin-top:auto;
+  padding:8px 12px 10px;
+  border-top:1px solid rgba(255,255,255,.14);
+  background:rgba(0,0,0,.08);
+}
+.psi-mascot-name{
+  margin:0;
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  opacity:.88;
+}
+
+.psi-footer{
+  position:relative;
+  margin-top:16px;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(45,132,179,.14);
+  background:linear-gradient(180deg,rgba(233,243,247,.75),rgba(255,255,255,.92));
+}
+.psi-footer p{
+  margin:0;
+  font-size:.78rem;
+  font-weight:600;
+  line-height:1.45;
+  color:#314555;
+  text-align:center;
+}
+
+.block-intro-slide .concept-image .programme-structure-infographic{
+  margin-top:4px;
+}
