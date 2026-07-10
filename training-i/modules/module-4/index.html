@@ -2224,6 +2224,10 @@
       align-items:flex-end;
       justify-content:center;
       flex:0 0 auto;
+      background:transparent;
+      border:none;
+      box-shadow:none;
+      position:relative;
     }
     .b2-level-thumb img{
       width:auto;
@@ -2232,9 +2236,27 @@
       object-fit:contain;
       display:block;
       filter:drop-shadow(0 4px 8px rgba(0,0,0,.22));
+      background:transparent;
+      border-radius:0;
     }
     .concept-square--level .b2-level-thumb{
       margin:0 0 2px;
+    }
+    .concept-square--level .concept-activity-box,
+    .concept-square--level [data-expandable-visual],
+    .b2-level-thumb.concept-activity-box,
+    .b2-level-thumb [data-expandable-visual]{
+      background:transparent !important;
+      border:none !important;
+      box-shadow:none !important;
+      padding:0 !important;
+      overflow:visible !important;
+    }
+    .concept-square--level .img-expand-btn,
+    .b2-level-thumb .img-expand-btn,
+    .b2l-level-mascot .img-expand-btn,
+    .b2l-focus-mascot-bar .img-expand-btn{
+      display:none !important;
     }
     .b2-core-hero{
       display:flex;
@@ -8368,6 +8390,17 @@
       if(window.ConceptVisualExpand){
         ConceptVisualExpand.wire(panel, {
           panel: panel,
+          exclude: [
+            '.b2-level-thumb',
+            '.concept-square--level',
+            '.b2l-level-mascot',
+            '.b2l-focus-mascot-bar',
+            '.breadcrumb-mascot',
+            '.level-badge-mascot',
+            '.concept-title-icon--mascot',
+            '.pjm-mascot-mark',
+            '.pjm-ocean-node-icon'
+          ],
           getTitle: function(activePanel, img){
             var titleEl = activePanel.querySelector('.concept-panel-title') || activePanel.querySelector('[data-concept-breadcrumb] .breadcrumb-part.current');
             var title = titleEl && titleEl.textContent ? titleEl.textContent.trim() : 'Expanded image';
@@ -11034,7 +11067,7 @@
   </script>
   
   <script src="/shared/programme-journey-map.js?v=20260709mascots"></script>
-  <script src="/shared/concept-visual-expand-system.js?v=20260725"></script>
+  <script src="/shared/concept-visual-expand-system.js?v=20260710mascots"></script>
 </body>
 </html>
 
