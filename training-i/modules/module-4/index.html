@@ -2412,14 +2412,14 @@
     }
 
     .concept-square--level{
-      min-height:132px;
-      padding:20px 18px;
+      min-height:168px;
+      padding:18px 14px;
       font-size:.94rem;
       line-height:1.3;
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:8px;
+      gap:6px;
       text-align:center;
     }
     .concept-square--level .concept-square-level-kicker{
@@ -2433,6 +2433,23 @@
     .concept-square--level .concept-square-level-title{
       display:block;
       max-width:100%;
+      font-weight:900;
+      letter-spacing:.02em;
+    }
+    .concept-square--level .concept-square-level-blurbs{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      margin-top:2px;
+      max-width:100%;
+    }
+    .concept-square--level .concept-square-level-blurb{
+      display:block;
+      font-size:clamp(.68rem,.95vw,.78rem);
+      font-weight:650;
+      line-height:1.25;
+      opacity:.95;
+      text-align:center;
     }
     .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square{
       flex-direction:column;
@@ -6396,13 +6413,23 @@
           <div class="levels-section">
             <div class="levels-section-title">Levels 1 and 2</div>
             <div class="concept-grid concept-grid--levels" data-concept-grid="block3">
-              <button class="concept-square concept-square--level level-card--confidence level-tone-1" data-target="b2l1">
+              <button class="concept-square concept-square--level level-card--confidence level-tone-1" data-target="b2l1" aria-label="Level 1 Turtle">
+                <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-1-turtle.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
                 <span class="concept-square-level-kicker">Level 1</span>
-                <span class="concept-square-level-title">Early Sensory Exploration</span>
+                <span class="concept-square-level-title">Turtle</span>
+                <span class="concept-square-level-blurbs">
+                  <span class="concept-square-level-blurb">- Building early confidence in the water</span>
+                  <span class="concept-square-level-blurb">- Staying calm and safe with support</span>
+                </span>
               </button>
-              <button class="concept-square concept-square--level level-card--confidence level-tone-2" data-target="b2l2">
+              <button class="concept-square concept-square--level level-card--confidence level-tone-2" data-target="b2l2" aria-label="Level 2 Starfish">
+                <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-2-starfish.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
                 <span class="concept-square-level-kicker">Level 2</span>
-                <span class="concept-square-level-title">Growing Confidence</span>
+                <span class="concept-square-level-title">Starfish</span>
+                <span class="concept-square-level-blurbs">
+                  <span class="concept-square-level-blurb">- Progressing with reduced hesitation</span>
+                  <span class="concept-square-level-blurb">- Improving breathing with less help</span>
+                </span>
               </button>
             </div>
           </div>
@@ -6420,13 +6447,23 @@
           <div class="levels-section">
             <div class="levels-section-title">Levels 3 and 4</div>
             <div class="concept-grid concept-grid--levels" data-concept-grid="block3">
-              <button class="concept-square concept-square--level level-card--basic level-tone-1" data-target="b2l3">
+              <button class="concept-square concept-square--level level-card--basic level-tone-1" data-target="b2l3" aria-label="Level 3 Jellyfish">
+                <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-3-jellyfish.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
                 <span class="concept-square-level-kicker">Level 3</span>
-                <span class="concept-square-level-title">Fundamental Skills</span>
+                <span class="concept-square-level-title">Jellyfish</span>
+                <span class="concept-square-level-blurbs">
+                  <span class="concept-square-level-blurb">- Developing balance and body position</span>
+                  <span class="concept-square-level-blurb">- Moving forward with guidance and control</span>
+                </span>
               </button>
-              <button class="concept-square concept-square--level level-card--basic level-tone-2" data-target="b2l4">
+              <button class="concept-square concept-square--level level-card--basic level-tone-2" data-target="b2l4" aria-label="Level 4 Ray">
+                <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
                 <span class="concept-square-level-kicker">Level 4</span>
-                <span class="concept-square-level-title">Building Control</span>
+                <span class="concept-square-level-title">Ray</span>
+                <span class="concept-square-level-blurbs">
+                  <span class="concept-square-level-blurb">- More control and coordination in movement</span>
+                  <span class="concept-square-level-blurb">- Improving rotation, propulsion and direction</span>
+                </span>
               </button>
             </div>
           </div>
@@ -6444,13 +6481,23 @@
           <div class="levels-section">
             <div class="levels-section-title">Levels 5 and 6</div>
             <div class="concept-grid concept-grid--levels" data-concept-grid="block3">
-              <button class="concept-square concept-square--level level-card--structured level-tone-1" data-target="b2l5">
+              <button class="concept-square concept-square--level level-card--structured level-tone-1" data-target="b2l5" aria-label="Level 5 Dolphin">
+                <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-5-dolphin.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
                 <span class="concept-square-level-kicker">Level 5</span>
-                <span class="concept-square-level-title">Technique &amp; Independence</span>
+                <span class="concept-square-level-title">Dolphin</span>
+                <span class="concept-square-level-blurbs">
+                  <span class="concept-square-level-blurb">- Refining technique with stronger safety awareness</span>
+                  <span class="concept-square-level-blurb">- Longer sequences with increasing independence</span>
+                </span>
               </button>
-              <button class="concept-square concept-square--level level-card--structured level-tone-2" data-target="b2l6">
+              <button class="concept-square concept-square--level level-card--structured level-tone-2" data-target="b2l6" aria-label="Level 6 Whale">
+                <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-6-whale.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
                 <span class="concept-square-level-kicker">Level 6</span>
-                <span class="concept-square-level-title">Efficiency &amp; Fluency</span>
+                <span class="concept-square-level-title">Whale</span>
+                <span class="concept-square-level-blurbs">
+                  <span class="concept-square-level-blurb">- Efficiency, rhythm and endurance</span>
+                  <span class="concept-square-level-blurb">- Sustaining control and safety throughout sessions</span>
+                </span>
               </button>
             </div>
           </div>
