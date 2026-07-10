@@ -3527,8 +3527,40 @@
       box-shadow:0 8px 20px rgba(18,50,71,.04);
       min-width:0;
     }
-    .stage-intro-card-title{
+    .stage-intro-card-head{
+      display:flex;
+      align-items:center;
+      gap:12px;
       margin:0 0 10px;
+    }
+    .stage-intro-card-icon{
+      flex:0 0 auto;
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      background:currentColor;
+      -webkit-mask-repeat:no-repeat;
+      mask-repeat:no-repeat;
+      -webkit-mask-position:center;
+      mask-position:center;
+      -webkit-mask-size:contain;
+      mask-size:contain;
+      opacity:.95;
+    }
+    .stage-intro-card-icon--looks{
+      -webkit-mask-image:url('/assets/images/module-4/stage-icons/looks-eye.png');
+      mask-image:url('/assets/images/module-4/stage-icons/looks-eye.png');
+    }
+    .stage-intro-card-icon--priorities{
+      -webkit-mask-image:url('/assets/images/module-4/stage-icons/priorities-target.png');
+      mask-image:url('/assets/images/module-4/stage-icons/priorities-target.png');
+    }
+    .stage-intro-card-icon--goal{
+      -webkit-mask-image:url('/assets/images/module-4/stage-icons/goal-flag.png');
+      mask-image:url('/assets/images/module-4/stage-icons/goal-flag.png');
+    }
+    .stage-intro-card-title{
+      margin:0;
       font-size:.78rem;
       font-weight:800;
       letter-spacing:.06em;
@@ -3536,6 +3568,10 @@
       color:rgba(78,91,103,.92);
       line-height:1.3;
     }
+    .concept-panel[data-stage-theme="confidence"] .stage-intro-card-icon{ color:#1a5c38; }
+    .concept-panel[data-stage-theme="basic"] .stage-intro-card-icon{ color:#c97816; }
+    .concept-panel[data-stage-theme="structured"] .stage-intro-card-icon{ color:#356995; }
+    .concept-panel[data-stage-theme="core"] .stage-intro-card-icon{ color:#8a3fb0; }
     .stage-intro-card-body{
       margin:0;
       font-size:.9rem;
@@ -6093,15 +6129,24 @@
                 </div>
                 <div class="stage-intro-cards" aria-label="Stage overview">
                   <article class="stage-intro-card" data-stage-card="looks">
-                    <h5 class="stage-intro-card-title">What this looks like</h5>
+                    <div class="stage-intro-card-head">
+                      <span class="stage-intro-card-icon stage-intro-card-icon--looks" aria-hidden="true"></span>
+                      <h5 class="stage-intro-card-title">What this looks like</h5>
+                    </div>
                     <div class="stage-intro-card-body" data-panel="looks"></div>
                   </article>
                   <article class="stage-intro-card" data-stage-card="priorities">
-                    <h5 class="stage-intro-card-title">Instructor priorities</h5>
+                    <div class="stage-intro-card-head">
+                      <span class="stage-intro-card-icon stage-intro-card-icon--priorities" aria-hidden="true"></span>
+                      <h5 class="stage-intro-card-title">Instructor priorities</h5>
+                    </div>
                     <div class="stage-intro-card-body" data-panel="priorities"></div>
                   </article>
                   <article class="stage-intro-card" data-stage-card="goal">
-                    <h5 class="stage-intro-card-title">Goal</h5>
+                    <div class="stage-intro-card-head">
+                      <span class="stage-intro-card-icon stage-intro-card-icon--goal" aria-hidden="true"></span>
+                      <h5 class="stage-intro-card-title">Goal</h5>
+                    </div>
                     <div class="stage-intro-card-body" data-panel="goal"></div>
                   </article>
                 </div>
