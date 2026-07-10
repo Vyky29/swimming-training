@@ -167,7 +167,7 @@
       img.closest(
         '.b2-level-thumb, .concept-square--level, .b2l-level-mascot, .b2l-focus-mascot-bar, ' +
         '.breadcrumb-mascot, .level-badge-mascot, .concept-title-icon--mascot, ' +
-        '.pjm-mascot-mark, .pjm-ocean-node-icon, [data-no-expand="true"]'
+        '.pjm-mascot-mark, .pjm-ocean-node-icon, .stage-intro-hero, .stage-intro-hero-mascot, [data-no-expand="true"]'
       )
     ) {
       return true;
@@ -306,7 +306,8 @@
         '.entry-exit-fan-grid, .entry-exit-fan-item, .carousel-slide, .carousel-inline-slide, ' +
         '.b2pl-folder-grid, .subconcept-box, .b2-level-thumb, .concept-square--level, ' +
         '.b2l-level-mascot, .b2l-focus-mascot-bar, .breadcrumb-mascot, .level-badge-mascot, ' +
-        '.concept-title-icon--mascot, .pjm-mascot-mark, .pjm-ocean-node-icon, [data-no-expand="true"]'
+        '.concept-title-icon--mascot, .pjm-mascot-mark, .pjm-ocean-node-icon, ' +
+        '.stage-intro-hero, .stage-intro-hero-mascot, [data-no-expand="true"]'
       )
     );
   }
