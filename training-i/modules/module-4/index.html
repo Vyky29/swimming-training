@@ -3414,6 +3414,7 @@
       width:100%;
       overflow:hidden;
       background:rgba(18,50,71,.06);
+      border-radius:0 0 17px 17px;
     }
     .stage-intro-hero-world img{
       width:100%;
@@ -3443,18 +3444,19 @@
       justify-content:space-between;
       gap:12px;
       width:100%;
-      max-width:42rem;
-      margin:0 auto;
-      padding:14px 16px 0;
+      max-width:none;
+      margin:0;
+      padding:16px 18px 14px;
       box-sizing:border-box;
     }
     .stage-intro-hero-top .stage-intro-hero-copy{
       align-items:flex-start;
       text-align:left;
       margin:0;
-      padding:0 0 16px;
+      padding:0;
       flex:1 1 auto;
       min-width:0;
+      max-width:42rem;
     }
     .stage-intro-hero-tts{
       flex:0 0 auto;
@@ -3468,15 +3470,16 @@
         flex-direction:column;
         align-items:stretch;
         gap:10px;
+        padding:14px 14px 12px;
       }
       .stage-intro-hero-top .stage-intro-hero-copy{
         align-items:center;
         text-align:center;
+        max-width:none;
       }
       .stage-intro-hero-tts{
         justify-content:center;
         padding-top:0;
-        padding-bottom:12px;
       }
     }
     .concept-panel--stage-hero > .concept-panel-title-row{
@@ -6199,8 +6202,6 @@
               </div>
               <div class="stage-intro-wrap" data-stage-intro aria-hidden="true">
                 <div class="stage-intro-hero" data-stage-hero>
-                  <div class="stage-intro-hero-world" data-stage-hero-world aria-hidden="true"></div>
-                  <div class="stage-intro-hero-mascots" data-stage-hero-mascots aria-hidden="true"></div>
                   <div class="stage-intro-hero-top">
                     <div class="stage-intro-hero-copy">
                       <span class="stage-intro-hero-kicker" data-stage-hero-kicker></span>
@@ -6209,6 +6210,8 @@
                     </div>
                     <div class="stage-intro-hero-tts" data-stage-hero-tts></div>
                   </div>
+                  <div class="stage-intro-hero-world" data-stage-hero-world aria-hidden="true"></div>
+                  <div class="stage-intro-hero-mascots" data-stage-hero-mascots aria-hidden="true"></div>
                 </div>
                 <p class="stage-intro-cards-hint">Tap each card to review it. Complete all three to unlock the levels.</p>
                 <div class="stage-intro-cards" aria-label="Stage overview">
