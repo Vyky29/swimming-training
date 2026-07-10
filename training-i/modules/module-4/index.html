@@ -2174,24 +2174,27 @@
       line-height:1.3;
     }
     .b2-core-thumb{
-      width:72px;
-      height:64px;
+      width:76px;
+      height:68px;
       display:flex;
       align-items:flex-end;
       justify-content:center;
       flex:0 0 auto;
-      background:transparent;
-      border-radius:0;
-      padding:0;
-      box-shadow:none;
+      /* White stage keeps shirt whites true — purple must not show through PNG edges */
+      background:#fff;
+      border-radius:16px;
+      padding:7px 10px 5px;
+      box-shadow:0 8px 18px rgba(74,45,107,.14), inset 0 0 0 1px rgba(255,255,255,.9);
     }
     .b2-core-thumb img{
       width:auto;
-      height:64px;
-      max-width:72px;
+      height:54px;
+      max-width:68px;
       object-fit:contain;
       display:block;
-      filter:drop-shadow(0 6px 12px rgba(0,0,0,.28));
+      isolation:isolate;
+      mix-blend-mode:normal;
+      filter:drop-shadow(0 3px 8px rgba(18,50,71,.12));
     }
     .concept-grid.concept-grid--core .concept-square--core.level-card--core,
     .concept-grid.concept-grid--core .concept-square--core.level-card--core.level-tone-1,
@@ -2239,8 +2242,10 @@
       align-items:center;
       justify-content:center;
       margin:0;
-      padding:6px 8px 2px;
-      background:transparent;
+      padding:14px 16px 10px;
+      background:#fff;
+      border-radius:18px;
+      box-shadow:0 8px 20px rgba(74,45,107,.08), inset 0 0 0 1px rgba(138,63,176,.08);
     }
     .b2-core-hero img{
       width:auto;
@@ -2249,11 +2254,16 @@
       max-height:210px;
       object-fit:contain;
       display:block;
+      isolation:isolate;
+      mix-blend-mode:normal;
       filter:drop-shadow(0 8px 18px rgba(18,50,71,.12));
     }
-    .concept-panel[data-stage-theme="core"] .concept-image.b2-core-intro,
+    .concept-panel[data-stage-theme="core"] .concept-image.b2-core-intro{
+      background:rgba(138,63,176,.06) !important;
+      border-color:rgba(138,63,176,.12);
+    }
     .concept-panel[data-stage-theme="core"] .b2-core-hero{
-      background:transparent !important;
+      background:#fff !important;
       border:none;
     }
     @media (max-width:760px){
