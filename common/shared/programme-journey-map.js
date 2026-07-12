@@ -1,5 +1,6 @@
 /**
- * Programme Journey Map — Ocean Journey (Module 4 Block 3)
+ * Programme Journey Map — Stage Worlds (Module 4 Block 3)
+ * Three worlds × two animals; hover/focus syncs stage + level cards.
  */
 (function (global) {
   'use strict';
@@ -76,7 +77,11 @@
       clearActive(root);
     });
     qsa(root, '.pjm-stage').forEach(function (stage) {
-      stage.addEventListener('mouseenter', function () {
+      stage.addEventListener('mouseenter', function (e) {
+        // If already focusing a specific level inside, keep that highlight.
+        if (e.target && e.target.closest && e.target.closest('.pjm-ocean-node, .pjm-level-card')) {
+          return;
+        }
         var stageName = stage.getAttribute('data-stage');
         qsa(root, '.pjm-stage').forEach(function (el) {
           el.classList.toggle('is-highlighted', el.getAttribute('data-stage') === stageName);
@@ -85,6 +90,7 @@
         qsa(root, '.pjm-ocean-node, .pjm-level-card').forEach(function (el) {
           var lvlStage = STAGE_BY_LEVEL[Number(el.getAttribute('data-level'))];
           el.classList.toggle('is-dimmed', lvlStage !== stageName);
+          el.classList.remove('is-active');
         });
       });
     });

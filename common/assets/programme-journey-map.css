@@ -1,4 +1,5 @@
-/* The clubSENsational Swimming Journey ù standalone section (Module 4 Block 3) */
+/* The clubSENsational Swimming Journey ó Module 4 Block 3
+   Three stage worlds + six adaptive levels (integrated pathway map) */
 
 .swimming-journey-section{
   margin:28px 0 32px;
@@ -8,18 +9,15 @@
 
 .programme-journey-map{
   --pjm-radius:18px;
-  --pjm-shadow:0 16px 36px rgba(18,50,71,.07);
+  --pjm-shadow:0 18px 42px rgba(18,50,71,.08);
   --pjm-ink:#163247;
   --pjm-text:#314555;
   --pjm-muted:#70808f;
   --pjm-line:rgba(22,50,71,.10);
   --pjm-discover:#1f7a4d;
-  --pjm-discover-soft:#edf7f1;
   --pjm-explore:#c47f12;
-  --pjm-explore-soft:#fff8ea;
   --pjm-master:#2d84b3;
   --pjm-master-deep:#12456b;
-  --pjm-master-soft:#edf6fc;
   --pjm-green:#168a4a;
   --pjm-orange:#f4b740;
   --pjm-blue:#2d84b3;
@@ -29,20 +27,13 @@
   overflow:hidden;
   border:1px solid var(--pjm-line);
   border-radius:24px;
-  background:#fff;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(233,243,247,.9), transparent 60%),
+    #fff;
   box-shadow:var(--pjm-shadow);
   padding:28px 22px 24px;
 }
-.programme-journey-map::before{
-  content:"";
-  position:absolute;
-  inset:0 0 auto 0;
-  height:96px;
-  background:linear-gradient(180deg, rgba(237,246,252,.95) 0%, rgba(255,255,255,0) 100%);
-  pointer-events:none;
-}
 
-/* Header ù centred mark + title */
 .pjm-header{
   position:relative;
   display:flex;
@@ -50,7 +41,7 @@
   align-items:center;
   text-align:center;
   gap:10px;
-  margin-bottom:22px;
+  margin-bottom:14px;
   padding-bottom:18px;
   border-bottom:1px solid rgba(22,50,71,.08);
 }
@@ -71,7 +62,7 @@
   position:relative;
   z-index:6;
 }
-.pjm-header-copy{ max-width:520px; }
+.pjm-header-copy{ max-width:540px; }
 .pjm-title{
   margin:0;
   font-size:clamp(1.18rem,2.5vw,1.55rem);
@@ -86,152 +77,20 @@
   line-height:1.45;
   color:var(--pjm-muted);
 }
-
-/* Ocean journey rail */
-.pjm-ocean-map{
-  position:relative;
-  margin:0 0 24px;
-  padding:20px 12px 16px;
-  border-radius:18px;
-  background:
-    radial-gradient(circle 5px at 14% 82%, rgba(255,255,255,.5) 0%, transparent 100%),
-    radial-gradient(circle 4px at 72% 70%, rgba(255,255,255,.4) 0%, transparent 100%),
-    radial-gradient(circle 6px at 88% 85%, rgba(255,255,255,.35) 0%, transparent 100%),
-    radial-gradient(circle 3px at 38% 92%, rgba(255,255,255,.45) 0%, transparent 100%),
-    linear-gradient(180deg, #e9f5fa 0%, #d2ebf5 52%, #bddff0 100%);
-  border:1px solid rgba(45,132,179,.22);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
-  overflow:hidden;
-}
-.pjm-ocean-map-label{
-  margin:0 0 12px;
-  font-size:.66rem;
-  font-weight:800;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--pjm-master-deep);
+.pjm-map-lead{
+  margin:0 0 16px;
   text-align:center;
-}
-.pjm-ocean-track{
-  position:relative;
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:8px;
-  overflow-x:auto;
-  padding:12px 4px 10px;
-  min-height:108px;
-  scrollbar-width:thin;
-  isolation:isolate;
-}
-.pjm-ocean-wave{
-  position:absolute;
-  left:4%;
-  right:4%;
-  bottom:34px;
-  top:auto;
-  transform:none;
-  width:auto;
-  height:20px;
-  z-index:0;
-  pointer-events:none;
-  opacity:1;
-}
-.pjm-ocean-wave path{
-  vector-effect:non-scaling-stroke;
-}
-.pjm-ocean-node{
-  position:relative;
-  z-index:3;
-  flex:1 0 92px;
-  min-width:88px;
-  max-width:118px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-  padding:0;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  font:inherit;
-  color:inherit;
-  transition:transform .2s ease, opacity .2s ease;
-}
-.pjm-ocean-node:focus-visible{
-  outline:2px solid var(--pjm-master);
-  outline-offset:3px;
-  border-radius:10px;
-}
-.pjm-ocean-node:hover,
-.pjm-ocean-node.is-active{ transform:translateY(-3px); }
-.pjm-ocean-node.is-dimmed{ opacity:.4; }
-.pjm-ocean-node-icon{
-  position:relative;
-  z-index:2;
-  width:60px;
-  height:60px;
-  display:flex;
-  align-items:flex-end;
-  justify-content:center;
-  border-radius:999px;
-  background:transparent;
-  border:0;
-  box-shadow:none;
-  transition:transform .2s ease, opacity .2s ease;
-}
-.pjm-ocean-node-icon::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  bottom:2px;
-  transform:translateX(-50%);
-  width:46px;
-  height:10px;
-  border-radius:50%;
-  background:radial-gradient(ellipse at center, rgba(255,255,255,.72) 0%, rgba(255,255,255,0) 72%);
-  z-index:-1;
-  pointer-events:none;
-}
-.pjm-ocean-node-icon img{
-  position:relative;
-  z-index:1;
-  width:auto;
-  height:54px;
-  max-width:60px;
-  object-fit:contain;
-  display:block;
-  filter:drop-shadow(0 5px 12px rgba(18,50,71,.18));
-  transition:transform .2s ease, filter .2s ease;
-}
-.pjm-ocean-node:hover .pjm-ocean-node-icon img,
-.pjm-ocean-node.is-active .pjm-ocean-node-icon img{
-  transform:scale(1.05);
-  filter:drop-shadow(0 7px 16px rgba(45,132,179,.26));
-}
-.pjm-ocean-node.is-complete .pjm-ocean-node-icon img{
-  filter:drop-shadow(0 5px 14px rgba(204,149,43,.32));
-}
-.pjm-ocean-node-name{
-  margin:0;
-  font-size:.62rem;
-  font-weight:800;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  text-align:center;
-  line-height:1.2;
-  color:rgba(49,69,85,.72);
-}
-.pjm-ocean-node.is-active .pjm-ocean-node-name{
-  color:var(--pjm-master-deep);
-  font-size:.66rem;
+  font-size:.78rem;
+  font-weight:700;
+  letter-spacing:.04em;
+  color:var(--pjm-muted);
 }
 
-/* Stage columns */
+/* Three world columns */
 .pjm-stages{
   display:grid;
   grid-template-columns:1fr;
-  gap:16px;
+  gap:18px;
 }
 @media (min-width:980px){
   .pjm-stages{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
@@ -240,30 +99,70 @@
 .pjm-stage{
   display:flex;
   flex-direction:column;
-  border-radius:var(--pjm-radius);
+  border-radius:20px;
   overflow:hidden;
   border:1px solid var(--pjm-line);
   background:#fff;
-  box-shadow:0 6px 18px rgba(18,50,71,.04);
-  transition:box-shadow .24s ease, transform .24s ease, opacity .24s ease;
+  box-shadow:0 8px 22px rgba(18,50,71,.05);
+  transition:box-shadow .28s ease, transform .28s ease, opacity .28s ease, border-color .28s ease;
 }
 .pjm-stage.is-highlighted{
-  box-shadow:0 14px 32px rgba(45,132,179,.12);
-  transform:translateY(-2px);
+  box-shadow:0 18px 40px rgba(18,50,71,.14);
+  transform:translateY(-3px);
+  border-color:rgba(45,132,179,.28);
 }
-.pjm-stage.is-dimmed{ opacity:.55; }
+.pjm-stage.is-dimmed{ opacity:.52; }
+.pjm-stage--discover.is-highlighted{ border-color:rgba(31,122,77,.35); }
+.pjm-stage--explore.is-highlighted{ border-color:rgba(196,127,18,.4); }
+.pjm-stage--master.is-highlighted{ border-color:rgba(45,132,179,.4); }
+
+/* World hero ó photo + animals */
+.pjm-stage-world{
+  position:relative;
+  min-height:210px;
+  isolation:isolate;
+  overflow:hidden;
+}
+.pjm-stage-world-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 42%;
+  transform:scale(1.04);
+  transition:transform .55s ease;
+  z-index:0;
+}
+.pjm-stage.is-highlighted .pjm-stage-world-img,
+.pjm-stage:hover .pjm-stage-world-img{
+  transform:scale(1.08);
+}
+.pjm-stage-world-shade{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(8,24,40,.18) 0%, rgba(8,24,40,.08) 38%, rgba(8,24,40,.55) 78%, rgba(8,24,40,.78) 100%);
+}
+.pjm-stage--discover .pjm-stage-world-shade{
+  background:
+    linear-gradient(180deg, rgba(10,48,28,.16) 0%, rgba(10,48,28,.08) 36%, rgba(8,40,24,.52) 76%, rgba(6,32,18,.8) 100%);
+}
+.pjm-stage--explore .pjm-stage-world-shade{
+  background:
+    linear-gradient(180deg, rgba(72,40,8,.16) 0%, rgba(72,40,8,.08) 36%, rgba(56,32,6,.52) 76%, rgba(40,24,4,.8) 100%);
+}
+.pjm-stage--master .pjm-stage-world-shade{
+  background:
+    linear-gradient(180deg, rgba(8,32,56,.18) 0%, rgba(8,32,56,.08) 36%, rgba(8,28,48,.55) 76%, rgba(6,22,40,.82) 100%);
+}
 
 .pjm-stage-head{
-  padding:14px 16px 12px;
-}
-.pjm-stage--discover .pjm-stage-head{
-  background:linear-gradient(135deg,#1a5c38 0%,#3d9a72 100%);
-}
-.pjm-stage--explore .pjm-stage-head{
-  background:linear-gradient(135deg,#d47f1a 0%,#e8c96a 100%);
-}
-.pjm-stage--master .pjm-stage-head{
-  background:linear-gradient(135deg,#4eb0e5 0%,#12456b 100%);
+  position:relative;
+  z-index:2;
+  padding:14px 16px 6px;
 }
 .pjm-stage-meta{
   display:flex;
@@ -280,8 +179,9 @@
   font-weight:800;
   letter-spacing:.12em;
   text-transform:uppercase;
-  background:rgba(255,255,255,.22);
+  background:rgba(255,255,255,.2);
   color:#fff;
+  backdrop-filter:blur(6px);
 }
 .pjm-stage-theme{
   font-size:.6rem;
@@ -289,22 +189,139 @@
   letter-spacing:.14em;
   text-transform:uppercase;
   color:rgba(255,255,255,.9);
+  text-shadow:0 1px 8px rgba(0,0,0,.25);
 }
 .pjm-stage-head h4{
   margin:0;
-  font-size:.95rem;
+  font-size:1.02rem;
   font-weight:800;
   color:#fff;
   line-height:1.2;
+  text-shadow:0 2px 12px rgba(0,0,0,.35);
 }
 .pjm-stage-desc{
   margin:6px 0 0;
   font-size:.72rem;
   font-weight:600;
   line-height:1.4;
-  color:rgba(255,255,255,.9);
+  color:rgba(255,255,255,.92);
+  text-shadow:0 1px 8px rgba(0,0,0,.3);
+  max-width:28ch;
 }
 
+/* Animals living on the world */
+.pjm-stage-path{
+  position:relative;
+  z-index:3;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  gap:18px;
+  padding:8px 12px 16px;
+  margin-top:auto;
+  min-height:108px;
+}
+.pjm-ocean-node{
+  position:relative;
+  z-index:3;
+  flex:0 1 120px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  font:inherit;
+  color:inherit;
+  transition:transform .22s ease, opacity .22s ease, filter .22s ease;
+}
+.pjm-ocean-node:focus-visible{
+  outline:2px solid #fff;
+  outline-offset:4px;
+  border-radius:12px;
+}
+.pjm-ocean-node:hover,
+.pjm-ocean-node.is-active{
+  transform:translateY(-6px) scale(1.04);
+}
+.pjm-ocean-node.is-dimmed{
+  opacity:.38;
+  filter:saturate(.55);
+}
+.pjm-ocean-node-icon{
+  position:relative;
+  z-index:2;
+  width:68px;
+  height:68px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  border-radius:18px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.35);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.45);
+  backdrop-filter:blur(8px);
+  transition:background .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.pjm-ocean-node:hover .pjm-ocean-node-icon,
+.pjm-ocean-node.is-active .pjm-ocean-node-icon{
+  background:rgba(255,255,255,.34);
+  border-color:rgba(255,255,255,.65);
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.28),
+    0 0 0 3px rgba(255,255,255,.35),
+    inset 0 1px 0 rgba(255,255,255,.55);
+}
+.pjm-ocean-node-icon img{
+  position:relative;
+  z-index:1;
+  width:auto;
+  height:56px;
+  max-width:64px;
+  object-fit:contain;
+  display:block;
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,.28));
+  transition:transform .22s ease;
+}
+.pjm-ocean-node:hover .pjm-ocean-node-icon img,
+.pjm-ocean-node.is-active .pjm-ocean-node-icon img{
+  transform:scale(1.06);
+}
+.pjm-ocean-node.is-complete .pjm-ocean-node-icon{
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.22),
+    0 0 0 2px rgba(244,183,64,.65);
+}
+.pjm-ocean-node-name{
+  margin:0;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  text-align:center;
+  line-height:1.15;
+  color:#fff;
+  text-shadow:0 1px 8px rgba(0,0,0,.45);
+}
+.pjm-ocean-node-level{
+  margin:0;
+  font-size:.58rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.78);
+  text-shadow:0 1px 6px rgba(0,0,0,.4);
+}
+.pjm-ocean-node.is-active .pjm-ocean-node-name{
+  color:#fff;
+  font-size:.72rem;
+}
+
+/* Level focus cards under each world */
 .pjm-levels{
   display:grid;
   grid-template-columns:1fr;
@@ -313,12 +330,12 @@
   padding:14px;
   flex:1;
   align-items:stretch;
+  background:linear-gradient(180deg, rgba(248,251,253,.96), #fff);
 }
 @media (min-width:640px) and (max-width:979px){
   .pjm-levels{ grid-template-columns:1fr 1fr; }
 }
 
-/* Level cards */
 .pjm-level-card{
   display:flex;
   flex-direction:column;
@@ -379,17 +396,11 @@
   box-shadow:0 8px 22px rgba(204,149,43,.10);
 }
 .pjm-level-card.is-active[data-level="1"],
-.pjm-level-card.is-active[data-level="2"]{
-  background:rgba(22,138,74,0.20);
-}
+.pjm-level-card.is-active[data-level="2"]{ background:rgba(22,138,74,0.20); }
 .pjm-level-card.is-active[data-level="3"],
-.pjm-level-card.is-active[data-level="4"]{
-  background:rgba(196,127,18,0.22);
-}
+.pjm-level-card.is-active[data-level="4"]{ background:rgba(196,127,18,0.22); }
 .pjm-level-card.is-active[data-level="5"],
-.pjm-level-card.is-active[data-level="6"]{
-  background:rgba(45,132,179,0.20);
-}
+.pjm-level-card.is-active[data-level="6"]{ background:rgba(45,132,179,0.20); }
 
 .pjm-level-head{
   display:flex;
@@ -445,7 +456,6 @@
   background:rgba(45,132,179,0.20);
   color:#0f3d5c;
 }
-
 .pjm-level-animal{
   margin:0;
   font-size:.68rem;
@@ -527,11 +537,14 @@
 
 @media (max-width:639px){
   .programme-journey-map{ padding:20px 16px 18px; }
+  .pjm-stage-world{ min-height:190px; }
   .pjm-level-card{ padding:14px; }
+  .pjm-stage-path{ gap:12px; }
 }
 
 @media (prefers-reduced-motion:reduce){
   .pjm-ocean-node,
   .pjm-stage,
-  .pjm-level-card{ transition:none; }
+  .pjm-level-card,
+  .pjm-stage-world-img{ transition:none; }
 }
