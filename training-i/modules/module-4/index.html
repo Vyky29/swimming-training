@@ -2511,6 +2511,128 @@
       line-height:1.25;
     }
 
+    /* Block 3 stage picker — world photo + tinted overlay + white copy */
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick{
+      position:relative;
+      isolation:isolate;
+      overflow:hidden;
+      min-height:104px;
+      padding:0 !important;
+      background:transparent !important;
+      border-width:1px;
+      border-style:solid;
+      color:#fff !important;
+      box-shadow:0 10px 24px rgba(18,50,71,.10);
+      transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--confidence{
+      border-color:rgba(26,92,56,.42);
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--basic{
+      border-color:rgba(201,120,22,.42);
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--structured{
+      border-color:rgba(74,134,180,.42);
+    }
+    .concept-stage-pick-world{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      overflow:hidden;
+      pointer-events:none;
+    }
+    .concept-stage-pick-world img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center center;
+      opacity:.24;
+      transform:scale(1.05);
+      filter:saturate(.85);
+      transition:opacity .22s ease, transform .35s ease;
+    }
+    .concept-stage-pick-shade{
+      position:absolute;
+      inset:0;
+      transition:opacity .22s ease;
+    }
+    .concept-stage-pick-shade--confidence{
+      background:linear-gradient(135deg, rgba(26,92,56,.82) 0%, rgba(26,92,56,.66) 46%, rgba(20,61,46,.84) 100%);
+    }
+    .concept-stage-pick-shade--basic{
+      background:linear-gradient(135deg, rgba(201,120,22,.84) 0%, rgba(234,143,34,.68) 46%, rgba(168,98,16,.86) 100%);
+    }
+    .concept-stage-pick-shade--structured{
+      background:linear-gradient(135deg, rgba(74,134,180,.84) 0%, rgba(78,176,229,.66) 46%, rgba(18,69,107,.86) 100%);
+    }
+    .concept-stage-pick-copy{
+      position:relative;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      width:100%;
+      min-height:104px;
+      padding:20px 18px;
+      box-sizing:border-box;
+      text-align:center;
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick .concept-square-stage-kicker,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick .concept-square-stage-title{
+      position:relative;
+      z-index:1;
+      color:#fff !important;
+      text-shadow:0 1px 10px rgba(0,0,0,.28);
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick .concept-square-stage-kicker{
+      opacity:.92;
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick:hover,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick:focus-visible{
+      transform:translateY(-3px) scale(1.01);
+      background:transparent !important;
+      color:#fff !important;
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--confidence:hover,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--confidence:focus-visible{
+      border-color:rgba(26,92,56,.62);
+      box-shadow:0 16px 28px rgba(26,92,56,.28);
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--basic:hover,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--basic:focus-visible{
+      border-color:rgba(201,120,22,.62);
+      box-shadow:0 16px 28px rgba(234,143,34,.28);
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--structured:hover,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--structured:focus-visible{
+      border-color:rgba(74,134,180,.62);
+      box-shadow:0 16px 28px rgba(74,134,180,.28);
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick:hover .concept-stage-pick-world img,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick:focus-visible .concept-stage-pick-world img{
+      opacity:.32;
+      transform:scale(1.08);
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.visited,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.visited:hover,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.visited:focus-visible{
+      background:transparent !important;
+      color:#fff !important;
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.active,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.active:hover,
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.active:focus-visible{
+      background:transparent !important;
+      color:#fff !important;
+    }
+    .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.stage-completed::after{
+      z-index:3;
+    }
+
     /* Main grid stage boxes (Block 2) – same colours as level cards */
     .concept-square.level-card--confidence{
       background:#1a5c38;
@@ -6385,9 +6507,36 @@
               <p>Click a concept to open its explanation underneath. Each stage uses the same values and principles but focuses on different readiness and skills.</p>
 
               <div class="concept-grid" data-concept-grid="block3">
-                <button class="concept-square level-card--confidence" data-target="b2c1"><span class="concept-square-stage-kicker">Stage 1</span><span class="concept-square-stage-title">Swim Confidence</span></button>
-                <button class="concept-square level-card--basic" data-target="b2c2"><span class="concept-square-stage-kicker">Stage 2</span><span class="concept-square-stage-title">Swim Basic</span></button>
-                <button class="concept-square level-card--structured" data-target="b2c3"><span class="concept-square-stage-kicker">Stage 3</span><span class="concept-square-stage-title">Swim Structured</span></button>
+                <button class="concept-square concept-square--stage-pick level-card--confidence" data-target="b2c1" type="button">
+                  <span class="concept-stage-pick-world" aria-hidden="true">
+                    <img src="/assets/images/module-4/worlds/stage-1-world-bg.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />
+                    <span class="concept-stage-pick-shade concept-stage-pick-shade--confidence"></span>
+                  </span>
+                  <span class="concept-stage-pick-copy">
+                    <span class="concept-square-stage-kicker">Stage 1</span>
+                    <span class="concept-square-stage-title">Swim Confidence</span>
+                  </span>
+                </button>
+                <button class="concept-square concept-square--stage-pick level-card--basic" data-target="b2c2" type="button">
+                  <span class="concept-stage-pick-world" aria-hidden="true">
+                    <img src="/assets/images/module-4/worlds/stage-2-world-bg.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />
+                    <span class="concept-stage-pick-shade concept-stage-pick-shade--basic"></span>
+                  </span>
+                  <span class="concept-stage-pick-copy">
+                    <span class="concept-square-stage-kicker">Stage 2</span>
+                    <span class="concept-square-stage-title">Swim Basic</span>
+                  </span>
+                </button>
+                <button class="concept-square concept-square--stage-pick level-card--structured" data-target="b2c3" type="button">
+                  <span class="concept-stage-pick-world" aria-hidden="true">
+                    <img src="/assets/images/module-4/worlds/stage-3-world-bg.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />
+                    <span class="concept-stage-pick-shade concept-stage-pick-shade--structured"></span>
+                  </span>
+                  <span class="concept-stage-pick-copy">
+                    <span class="concept-square-stage-kicker">Stage 3</span>
+                    <span class="concept-square-stage-title">Swim Structured</span>
+                  </span>
+                </button>
               </div>
 
             </div>
