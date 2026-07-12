@@ -3891,9 +3891,6 @@
       height:52px;
       max-width:58px;
     }
-    .concept-panel[data-level] .concept-title-subtitle{
-      margin-left:72px;
-    }
     .concept-panel-title-row .concept-breadcrumb{
       flex:1;
       min-width:0;
@@ -3905,13 +3902,214 @@
     .b2l1-intro-box.is-summary-in-title .b2l1-section:first-of-type{
       margin-top:0;
     }
+    /* Level root hero (b2l1–b2l6): integrated mascot + copy + listen controls */
+    .concept-panel--level-hero > .concept-panel-title-row,
+    .concept-panel--level-hero.concept-panel--insight-layout > .concept-panel-title-row{
+      margin-bottom:18px;
+      padding:0 !important;
+      border:0 !important;
+      border-bottom:0 !important;
+      background:transparent !important;
+      box-shadow:none !important;
+    }
+    .concept-panel--level-hero .concept-panel-toolbar{
+      display:none !important;
+    }
+    .concept-panel--level-hero .concept-panel-header{
+      width:100%;
+    }
+    .concept-panel--level-hero .concept-panel-title-display{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      gap:0;
+      width:100%;
+      padding:16px 18px 14px;
+      border-radius:18px;
+      border:1px solid var(--concept-title-accent-border, rgba(45,132,179,.22));
+      box-shadow:0 10px 24px rgba(18,50,71,.06);
+      overflow:hidden;
+      isolation:isolate;
+      min-height:118px;
+    }
+    .concept-level-hero-world{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      overflow:hidden;
+      border-radius:inherit;
+      pointer-events:none;
+    }
+    .concept-level-hero-world img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center center;
+      opacity:.26;
+      transform:scale(1.05);
+      filter:saturate(.82) blur(.2px);
+    }
+    .concept-level-hero-world-shade{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(118deg, rgba(255,255,255,.90) 0%, rgba(255,255,255,.74) 44%, rgba(255,255,255,.86) 100%);
+    }
+    .concept-level-hero-world--confidence .concept-level-hero-world-shade{
+      background:linear-gradient(118deg, rgba(241,250,243,.92) 0%, rgba(226,241,229,.76) 42%, rgba(248,252,249,.88) 100%);
+    }
+    .concept-level-hero-world--basic .concept-level-hero-world-shade{
+      background:linear-gradient(118deg, rgba(255,251,244,.92) 0%, rgba(255,242,220,.76) 42%, rgba(255,252,247,.88) 100%);
+    }
+    .concept-level-hero-world--structured .concept-level-hero-world-shade{
+      background:linear-gradient(118deg, rgba(242,249,253,.92) 0%, rgba(226,239,249,.76) 42%, rgba(246,251,254,.88) 100%);
+    }
+    .concept-panel--level-hero .concept-panel-title-display::after{
+      content:'';
+      display:block;
+      flex:0 0 auto;
+      width:100%;
+      height:3px;
+      margin-top:14px;
+      border-radius:999px;
+      background:var(--concept-title-line, linear-gradient(90deg, #4eb0e5 0%, #12456b 100%));
+      opacity:.92;
+      position:relative;
+      z-index:2;
+    }
+    .concept-panel--level-hero .concept-panel-title,
+    .concept-panel--level-hero.concept-panel--insight-layout .concept-panel-title-display .concept-panel-title{
+      flex:1 1 auto;
+      min-width:0;
+      margin:0 !important;
+      padding:0 132px 0 0 !important;
+      border:0;
+      background:transparent;
+      box-shadow:none;
+      position:relative;
+      z-index:2;
+    }
+    .concept-panel--level-hero .concept-panel-title::after,
+    .concept-panel--level-hero.concept-panel--insight-layout .concept-panel-title-display .concept-panel-title::after{
+      display:none !important;
+      content:none !important;
+    }
+    .concept-panel--level-hero .concept-panel-tts,
+    .concept-panel--level-hero.concept-panel--insight-layout .concept-panel-title-display .concept-panel-tts{
+      position:absolute;
+      top:16px;
+      right:18px;
+      margin:0 !important;
+      z-index:3;
+    }
+    .concept-panel--level-hero .btn-tts-inline,
+    .concept-panel--level-hero .btn-tts-stop-inline{
+      background:rgba(255,255,255,.82);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .concept-level-hero{
+      display:flex;
+      align-items:stretch;
+      gap:16px;
+      width:100%;
+      min-width:0;
+    }
+    .concept-level-hero__mark{
+      flex:0 0 76px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      align-self:stretch;
+      min-height:76px;
+      padding:10px 8px;
+      border-radius:16px;
+      background:rgba(255,255,255,.86);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border:1px solid var(--concept-title-accent-border, rgba(45,132,179,.22));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 8px 18px rgba(18,50,71,.07);
+    }
+    .concept-level-hero__mark img{
+      width:auto;
+      height:58px;
+      max-width:64px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 5px 10px rgba(18,50,71,.14));
+    }
+    .concept-level-hero__body{
+      flex:1 1 auto;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:8px;
+      padding:2px 0;
+    }
+    .concept-level-hero__kicker{
+      display:block;
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      line-height:1.2;
+      opacity:.78;
+      color:var(--concept-title-accent, var(--blue));
+    }
+    .concept-level-hero__title{
+      display:block;
+      font-size:clamp(1.28rem,2.4vw,1.55rem);
+      font-weight:800;
+      line-height:1.15;
+      letter-spacing:-.01em;
+      color:var(--concept-title-accent, var(--blue));
+      text-shadow:0 1px 0 rgba(255,255,255,.85);
+    }
+    .concept-level-hero__subtitle{
+      margin:0;
+      max-width:38rem;
+      font-size:.94rem;
+      font-weight:600;
+      line-height:1.5;
+      color:var(--ink, #123247);
+      opacity:.92;
+      text-shadow:0 1px 0 rgba(255,255,255,.75);
+    }
     @media (max-width:640px){
-      .concept-panel[data-level] .concept-title-subtitle,
-      .concept-panel-title .concept-title-subtitle{
-        margin-left:0;
-      }
       .concept-panel[data-level] > .concept-panel-title-row{
         padding:14px 14px;
+      }
+      .concept-panel--level-hero .concept-panel-title-display{
+        padding:14px 14px 12px;
+      }
+      .concept-panel--level-hero .concept-panel-title,
+      .concept-panel--level-hero.concept-panel--insight-layout .concept-panel-title-display .concept-panel-title{
+        padding-right:0 !important;
+      }
+      .concept-panel--level-hero .concept-panel-tts,
+      .concept-panel--level-hero.concept-panel--insight-layout .concept-panel-title-display .concept-panel-tts{
+        position:static;
+        width:100%;
+        justify-content:flex-start;
+        margin-top:12px !important;
+        order:2;
+      }
+      .concept-panel--level-hero .concept-panel-title-display::after{
+        order:3;
+      }
+      .concept-level-hero{
+        flex-direction:row;
+        align-items:flex-start;
+      }
+      .concept-level-hero__mark{
+        flex-basis:68px;
+        min-height:68px;
+      }
+      .concept-level-hero__mark img{
+        height:50px;
       }
       .concept-panel-tts{
         width:100%;
@@ -6661,6 +6859,34 @@
       return LEVEL_MASCOTS[String(level)] || null;
     }
 
+    function getLevelWorldBg(level){
+      var n = parseInt(level, 10);
+      if(n <= 2) return '/assets/images/module-4/worlds/stage-1-world-bg.jpg';
+      if(n <= 4) return '/assets/images/module-4/worlds/stage-2-world-bg.jpg';
+      return '/assets/images/module-4/worlds/stage-3-world-bg.jpg';
+    }
+
+    function applyLevelHeroWorld(panel, level){
+      if(!panel) return;
+      var existing = panel.querySelector('.concept-level-hero-world');
+      if(!panel.classList.contains('concept-panel--level-hero')){
+        if(existing) existing.remove();
+        return;
+      }
+      var titleDisplay = panel.querySelector('.concept-panel-title-display');
+      if(!titleDisplay) return;
+      var worldHost = existing || document.createElement('div');
+      if(!existing){
+        worldHost.className = 'concept-level-hero-world';
+        worldHost.setAttribute('aria-hidden', 'true');
+        titleDisplay.insertBefore(worldHost, titleDisplay.firstChild);
+      }
+      var theme = panel.dataset.stageTheme || 'core';
+      worldHost.className = 'concept-level-hero-world concept-level-hero-world--' + theme;
+      worldHost.innerHTML = '<img src="' + getLevelWorldBg(level) + '" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />' +
+        '<span class="concept-level-hero-world-shade"></span>';
+    }
+
     function getLevelBadgeClass(level){
       var n = parseInt(level, 10);
       if(n <= 2) return n === 1 ? 'level-badge--confidence-tone1' : 'level-badge--confidence-tone2';
@@ -6680,6 +6906,38 @@
     function setConceptTitle(el, title, target, block, subtitle){
       if(!el) return;
       el.textContent = '';
+      var levelMatch = target && target.match(/^b2l(\d)(?:_|$)/);
+      var levelForIcon = levelMatch ? levelMatch[1] : '';
+      var levelMascot = levelForIcon ? getLevelMascot(levelForIcon) : null;
+      var isLevelRoot = block === 'block3' && /^b2l[1-6]$/.test(target || '');
+      if(isLevelRoot && levelMascot){
+        var hero = document.createElement('div');
+        hero.className = 'concept-level-hero';
+        var mark = document.createElement('div');
+        mark.className = 'concept-level-hero__mark';
+        mark.setAttribute('aria-hidden', 'true');
+        mark.innerHTML = '<img src="' + levelMascot.src + '" alt="" loading="lazy" decoding="async" />';
+        var body = document.createElement('div');
+        body.className = 'concept-level-hero__body';
+        var kickerEl = document.createElement('span');
+        kickerEl.className = 'concept-level-hero__kicker';
+        kickerEl.textContent = 'Level ' + levelForIcon;
+        var titleTextEl = document.createElement('span');
+        titleTextEl.className = 'concept-level-hero__title';
+        titleTextEl.textContent = levelMascot.animal;
+        body.appendChild(kickerEl);
+        body.appendChild(titleTextEl);
+        if(subtitle){
+          var subtitleEl = document.createElement('p');
+          subtitleEl.className = 'concept-level-hero__subtitle';
+          subtitleEl.textContent = subtitle;
+          body.appendChild(subtitleEl);
+        }
+        hero.appendChild(mark);
+        hero.appendChild(body);
+        el.appendChild(hero);
+        return;
+      }
       var stack = document.createElement('span');
       stack.className = 'concept-title-stack';
       var wrap = document.createElement('span');
@@ -6687,10 +6945,6 @@
       var iconEl = document.createElement('span');
       iconEl.className = 'concept-title-icon';
       iconEl.setAttribute('aria-hidden', 'true');
-      var levelMatch = target && target.match(/^b2l(\d)(?:_|$)/);
-      var levelForIcon = levelMatch ? levelMatch[1] : '';
-      var levelMascot = levelForIcon ? getLevelMascot(levelForIcon) : null;
-      var isLevelRoot = block === 'block3' && /^b2l[1-6]$/.test(target || '');
       if(block === 'block3' && levelMascot){
         iconEl.classList.add('concept-title-icon--mascot');
         iconEl.innerHTML = '<img src="' + levelMascot.src + '" alt="" loading="lazy" decoding="async" />';
@@ -6701,17 +6955,8 @@
       copyEl.className = 'concept-title-copy';
       var textEl = document.createElement('span');
       textEl.className = 'concept-title-text';
-      if(isLevelRoot && levelMascot){
-        var kickerEl = document.createElement('span');
-        kickerEl.className = 'concept-title-kicker';
-        kickerEl.textContent = 'Level ' + levelForIcon;
-        textEl.textContent = levelMascot.animal;
-        copyEl.appendChild(kickerEl);
-        copyEl.appendChild(textEl);
-      } else {
-        textEl.textContent = title || '';
-        copyEl.appendChild(textEl);
-      }
+      textEl.textContent = title || '';
+      copyEl.appendChild(textEl);
       wrap.appendChild(iconEl);
       wrap.appendChild(copyEl);
       stack.appendChild(wrap);
@@ -8167,6 +8412,9 @@
       const titleEl = panel.querySelector('.concept-panel-title');
       const titleTextEl = titleEl ? titleEl.querySelector('.concept-title-text') : null;
       const iconEl = panel.querySelector('.concept-title-icon');
+      const levelHero = panel.classList.contains('concept-panel--level-hero');
+      const titleDisplay = panel.querySelector('.concept-panel-title-display');
+      const cardEl = (levelHero && titleDisplay) ? titleDisplay : titleRow;
       if(!titleRow) return;
       if(!theme){
         titleRow.style.removeProperty('--concept-title-accent');
@@ -8176,6 +8424,11 @@
         titleRow.style.background = '';
         titleRow.style.borderColor = '';
         titleRow.style.boxShadow = '';
+        if(titleDisplay && levelHero){
+          titleDisplay.style.removeProperty('background');
+          titleDisplay.style.removeProperty('border-color');
+          titleDisplay.style.removeProperty('box-shadow');
+        }
         if(titleEl) titleEl.style.removeProperty('color');
         if(titleTextEl) titleTextEl.style.removeProperty('color');
         if(iconEl){
@@ -8192,9 +8445,22 @@
       titleRow.style.setProperty('--concept-title-accent-soft', styles.soft);
       titleRow.style.setProperty('--concept-title-accent-border', styles.border);
       titleRow.style.setProperty('--concept-title-line', styles.line);
-      titleRow.style.setProperty('background', styles.surface, 'important');
-      titleRow.style.setProperty('border-color', styles.border, 'important');
-      titleRow.style.setProperty('box-shadow', '0 10px 24px rgba(18,50,71,.06)', 'important');
+      if(levelHero && titleDisplay){
+        titleRow.style.setProperty('background', 'transparent', 'important');
+        titleRow.style.setProperty('border-color', 'transparent', 'important');
+        titleRow.style.setProperty('box-shadow', 'none', 'important');
+        titleDisplay.style.setProperty('--concept-title-accent', styles.accent);
+        titleDisplay.style.setProperty('--concept-title-accent-soft', styles.soft);
+        titleDisplay.style.setProperty('--concept-title-accent-border', styles.border);
+        titleDisplay.style.setProperty('--concept-title-line', styles.line);
+        titleDisplay.style.setProperty('background', 'transparent', 'important');
+        titleDisplay.style.setProperty('border-color', styles.border, 'important');
+        titleDisplay.style.setProperty('box-shadow', '0 10px 24px rgba(18,50,71,.06)', 'important');
+      } else {
+        titleRow.style.setProperty('background', styles.surface, 'important');
+        titleRow.style.setProperty('border-color', styles.border, 'important');
+        titleRow.style.setProperty('box-shadow', '0 10px 24px rgba(18,50,71,.06)', 'important');
+      }
       if(titleEl) titleEl.style.setProperty('color', styles.accent, 'important');
       if(titleTextEl) titleTextEl.style.setProperty('color', styles.accent, 'important');
       if(iconEl){
@@ -9351,6 +9617,7 @@
       const isPathwayStageEarly = block === 'block3' && (target === 'b2c1' || target === 'b2c2' || target === 'b2c3');
       const isBlock2LevelRootEarly = block === 'block3' && /^b2l[1-6]$/.test(target || '');
       const hideInsightIntroEarly = isPathwayStageEarly || isBlock2LevelRootEarly;
+      panel.classList.toggle('concept-panel--level-hero', isBlock2LevelRootEarly);
       if(titleEl){
         setConceptTitle(titleEl, data.title || '', target, block, stageSubtitle);
         titleEl.style.display = '';
@@ -9527,7 +9794,11 @@
         ? ConceptInsightIntro.renderIntro(panel, data, 4, target, { restoreComplete: !!alreadyCompleted })
         : null;
       if(typeof ConceptInsightIntro !== 'undefined'){
-        ConceptInsightIntro.updatePanelLayout(panel, block, target, !!(resolvedInsight && !isPathwayStage));
+        ConceptInsightIntro.updatePanelLayout(panel, block, target, !!(resolvedInsight && !isPathwayStage && !isBlock2LevelRootEarly));
+      }
+      if(block === 'block3'){
+        applyStageTitleChrome(panel, panel.dataset.stageTheme, panel.dataset.level || '');
+        applyLevelHeroWorld(panel, panel.dataset.level || '');
       }
       if(isPathwayStage){
         panel.classList.remove('concept-panel--insight-layout');
