@@ -129,14 +129,14 @@
   width:100%;
   height:100%;
   object-fit:cover;
-  object-position:center 42%;
-  transform:scale(1.04);
+  object-position:center center;
+  transform:scale(1.02);
   transition:transform .55s ease;
   z-index:0;
 }
 .pjm-stage.is-highlighted .pjm-stage-world-img,
 .pjm-stage:hover .pjm-stage-world-img{
-  transform:scale(1.08);
+  transform:scale(1.05);
 }
 .pjm-stage-world-shade{
   position:absolute;
@@ -144,19 +144,19 @@
   z-index:1;
   pointer-events:none;
   background:
-    linear-gradient(180deg, rgba(8,24,40,.18) 0%, rgba(8,24,40,.08) 38%, rgba(8,24,40,.55) 78%, rgba(8,24,40,.78) 100%);
+    linear-gradient(180deg, rgba(8,24,40,.12) 0%, rgba(8,24,40,.04) 32%, rgba(8,24,40,.38) 72%, rgba(8,24,40,.62) 100%);
 }
 .pjm-stage--discover .pjm-stage-world-shade{
   background:
-    linear-gradient(180deg, rgba(10,48,28,.16) 0%, rgba(10,48,28,.08) 36%, rgba(8,40,24,.52) 76%, rgba(6,32,18,.8) 100%);
+    linear-gradient(180deg, rgba(10,48,28,.10) 0%, rgba(10,48,28,.04) 30%, rgba(8,40,24,.34) 70%, rgba(6,32,18,.58) 100%);
 }
 .pjm-stage--explore .pjm-stage-world-shade{
   background:
-    linear-gradient(180deg, rgba(72,40,8,.16) 0%, rgba(72,40,8,.08) 36%, rgba(56,32,6,.52) 76%, rgba(40,24,4,.8) 100%);
+    linear-gradient(180deg, rgba(72,40,8,.10) 0%, rgba(72,40,8,.04) 30%, rgba(56,32,6,.34) 70%, rgba(40,24,4,.58) 100%);
 }
 .pjm-stage--master .pjm-stage-world-shade{
   background:
-    linear-gradient(180deg, rgba(8,32,56,.18) 0%, rgba(8,32,56,.08) 36%, rgba(8,28,48,.55) 76%, rgba(6,22,40,.82) 100%);
+    linear-gradient(180deg, rgba(8,32,56,.12) 0%, rgba(8,32,56,.04) 30%, rgba(8,28,48,.38) 70%, rgba(6,22,40,.62) 100%);
 }
 
 .pjm-stage-head{
