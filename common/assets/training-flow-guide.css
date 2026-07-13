@@ -101,6 +101,39 @@ html[data-guided-flow="true"]{
   }
 }
 
+/* Expandable visuals: never clip the amber explore pulse (Module 5 frames used overflow:hidden) */
+.flow-guide-pulse.flow-guide-pulse--expand,
+.flow-guide-pulse[data-flow-tone="explore"].concept-activity-box,
+.flow-guide-pulse[data-flow-tone="explore"].m5-nested-visual-frame,
+.flow-guide-pulse[data-flow-tone="explore"].b2c2-direct-image,
+.flow-guide-pulse[data-flow-tone="explore"].b2c3-direct-image,
+.flow-guide-pulse[data-flow-tone="explore"].m5-nested-visual-shell,
+.flow-guide-pulse[data-flow-tone="explore"].m5-screen-visual-card,
+.flow-guide-pulse[data-flow-tone="explore"].m5-folder-overview-card,
+.flow-guide-pulse[data-flow-tone="explore"].entry-exit-fan,
+.flow-guide-pulse[data-flow-tone="explore"].entry-exit-fan-item,
+.flow-guide-pulse[data-flow-tone="explore"][data-expandable-visual]{
+  overflow: visible !important;
+  isolation: isolate;
+  z-index: 6;
+}
+
+html[data-guided-flow="true"] .concept-panel:has(.flow-guide-pulse.flow-guide-pulse--expand),
+html[data-guided-flow="true"] .concept-panel:has(.flow-guide-pulse[data-flow-tone="explore"]) .concept-image,
+html[data-guided-flow="true"] .concept-panel:has(.flow-guide-pulse[data-flow-tone="explore"]) .m5-nested-visual-shell,
+html[data-guided-flow="true"] .concept-panel:has(.flow-guide-pulse[data-flow-tone="explore"]) .b2-screens{
+  overflow: visible !important;
+}
+
+/* Beat Module 5 local overflow:hidden on nested frames while pulsing */
+html[data-guided-flow="true"] .portal .b2-screens .m5-nested-visual-frame.flow-guide-pulse,
+html[data-guided-flow="true"] .portal .b2-screens .b2c2-direct-image.flow-guide-pulse,
+html[data-guided-flow="true"] .portal .b2-screens .b2c3-direct-image.flow-guide-pulse,
+html[data-guided-flow="true"] .portal .b2-screens .entry-exit-fan-item.flow-guide-pulse,
+html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-guide-pulse{
+  overflow: visible !important;
+}
+
 /* Soft outer ring for hosts that clip box-shadow badly */
 .flow-guide-ring{
   position: absolute;

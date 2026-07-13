@@ -721,26 +721,28 @@
     var panel = btn && btn.closest && btn.closest('.concept-panel');
     var visualBox = findVisualExpandBox(btn);
     var pulseHost = resolveM5VisualPulseHost(visualBox) || visualBox;
-    var pulseEls = [];
-    if(pulseHost) pulseEls.push(pulseHost);
-    var primary = btn || pulseHost;
-    if(pulseHost && isM5VisualPulseHost(pulseHost)){
-      var splitVisual = !pulseHost.querySelector('.concept-points-box');
-      if(splitVisual){
-        var innerFrame = pulseHost.querySelector('.m5-nested-visual-frame, .entry-exit-fan-item, .entry-exit-fan, .concept-activity-box:has(> img[src])');
-        primary = btn || innerFrame || pulseHost;
-        pulseEls = btn ? [btn] : (innerFrame ? [innerFrame] : [pulseHost]);
-      } else {
-        primary = btn || pulseHost;
-        pulseEls = btn ? [btn, pulseHost] : [pulseHost];
+    var imageFrame = null;
+    if(pulseHost && pulseHost.querySelector){
+      imageFrame = pulseHost.querySelector(
+        '.m5-nested-visual-frame:has(> img[src]), .b2c2-direct-image:has(> img[src]), .b2c3-direct-image:has(> img[src]), .entry-exit-fan-item:has(> img[src]), .concept-activity-box:has(> img[src]), [data-expandable-visual]:has(> img[src])'
+      );
+      if(!imageFrame && pulseHost.matches && pulseHost.matches('.m5-nested-visual-frame, .b2c2-direct-image, .b2c3-direct-image, .concept-activity-box, [data-expandable-visual], .entry-exit-fan, .entry-exit-fan-item')){
+        imageFrame = pulseHost;
       }
-    } else if(btn && pulseEls.indexOf(btn) === -1) {
-      pulseEls.push(btn);
+    }
+    // Always cue the full image surface (same as Module 2 "How Learning Is Accessed").
+    // Never pulse only the expand button ? instructors need the whole visual to flash.
+    var pulseEls = [];
+    var frameTarget = imageFrame || pulseHost || visualBox;
+    if(frameTarget) pulseEls.push(frameTarget);
+    if(pulseHost && pulseHost !== frameTarget && isM5VisualPulseHost(pulseHost) && pulseHost.querySelector('.concept-points-box')){
+      // Combined shell+points: also cue the outer card so context stays clear
+      pulseEls.push(pulseHost);
     }
     return {
       kind: 'expand-visual',
       tone: 'expand',
-      el: primary,
+      el: btn || frameTarget || pulseHost,
       pulseEls: pulseEls,
       noScroll: options.noScroll !== false,
       scrollBlock: options.scrollBlock || 'center',
@@ -811,7 +813,7 @@
         if(visualHost && visualHost.querySelector('img[src]') && isVisibleEl(visualHost)){
           var pulseHost = resolveM5VisualPulseHost(visualHost.closest('.concept-section-card') || visualHost) || visualHost;
           var expandBtn = scope.querySelector('.img-expand-btn[data-visual-expanded="false"], .img-expand-btn:not([data-visual-expanded="true"])');
-          var pulseTargets = expandBtn ? [expandBtn, pulseHost] : [pulseHost];
+          var pulseTargets = [pulseHost];
           var shouldScrollFallback = scrollThisPhase;
           if(shouldScrollFallback && scrollFlag) panel.dataset[scrollFlag] = 'true';
           return {

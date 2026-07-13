@@ -57,6 +57,15 @@
   overflow: hidden;
 }
 
+/* Guided expand pulse must paint outside the image frame */
+.portal .concept-panel .concept-activity-box.flow-guide-pulse,
+.portal .concept-panel [data-expandable-visual].flow-guide-pulse,
+.portal .concept-panel .m5-nested-visual-frame.flow-guide-pulse,
+.portal .concept-panel .b2c2-direct-image.flow-guide-pulse,
+.portal .concept-panel .b2c3-direct-image.flow-guide-pulse {
+  overflow: visible !important;
+}
+
 .portal .concept-panel [data-expandable-visual].concept-activity-box,
 .portal .concept-panel [data-expandable-visual].b2c2-direct-image,
 .portal .concept-panel [data-expandable-visual].b2c3-direct-image,

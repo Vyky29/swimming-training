@@ -13,6 +13,18 @@
       '<path d="M20 6L9 17l-5-5"/>' +
     '</svg>';
 
+  var ICON_LOOK =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>' +
+      '<circle cx="12" cy="12" r="3"/>' +
+    '</svg>';
+
+  var ICON_AVOID =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+      '<circle cx="12" cy="12" r="9"/>' +
+      '<path d="M8 8l8 8"/>' +
+    '</svg>';
+
   var observerPaused = false;
 
   function iconHtml(done) {
@@ -27,16 +39,6 @@
       .replace(/"/g, '&quot;');
   }
 
-  function supportCell(mod, label, text) {
-    if (!text) return '';
-    return (
-      '<div class="inprac-support__cell inprac-support__cell--' + mod + '">' +
-        '<span class="inprac-support__label">' + label + '</span>' +
-        '<p class="inprac-support__text">' + escapeHtml(text) + '</p>' +
-      '</div>'
-    );
-  }
-
   function shellInnerHtml(done) {
     var completed = !!done;
     return (
@@ -44,19 +46,41 @@
         '<div class="inprac__top">' +
           '<span class="icon inprac__icon" aria-hidden="true">' + iconHtml(completed) + '</span>' +
           '<div class="inprac__titles">' +
-            '<p class="inprac__eyebrow">Pool-side cue</p>' +
+            '<p class="inprac__eyebrow">Coach cue</p>' +
             '<p class="label inprac__title">In Practice</p>' +
           '</div>' +
-          '<span class="inprac__status" data-inprac-status>' + (completed ? 'Reviewed' : 'Tap to review') + '</span>' +
+          '<span class="inprac__status" data-inprac-status>' + (completed ? 'Done' : 'Review') + '</span>' +
         '</div>' +
         '<div class="key-ideas-action__scenario inprac__body" data-in-practice-slots>' +
-          '<p class="inprac__lead" data-inprac-lead></p>' +
-          '<div class="inprac-support" data-inprac-support></div>' +
+          '<div class="inprac__do">' +
+            '<span class="inprac__do-label">Do</span>' +
+            '<p class="inprac__lead" data-inprac-lead></p>' +
+          '</div>' +
+          '<ul class="inprac__beats">' +
+            '<li class="inprac__beat inprac__beat--look" data-inprac-look-wrap hidden>' +
+              '<span class="inprac__beat-ico" aria-hidden="true">' + ICON_LOOK + '</span>' +
+              '<div class="inprac__beat-copy">' +
+                '<span class="inprac__beat-label">Look for</span>' +
+                '<p class="inprac__beat-text" data-inprac-look></p>' +
+              '</div>' +
+            '</li>' +
+            '<li class="inprac__beat inprac__beat--avoid" data-inprac-avoid-wrap hidden>' +
+              '<span class="inprac__beat-ico" aria-hidden="true">' + ICON_AVOID + '</span>' +
+              '<div class="inprac__beat-copy">' +
+                '<span class="inprac__beat-label">Avoid</span>' +
+                '<p class="inprac__beat-text" data-inprac-avoid></p>' +
+              '</div>' +
+            '</li>' +
+          '</ul>' +
+          '<p class="inprac__then" data-inprac-then hidden></p>' +
           '<span class="text inprac__sr"> </span>' +
         '</div>' +
         '<div class="inprac__footer">' +
+          '<span class="inprac__hint" data-inprac-hint>' +
+            (completed ? 'Cue reviewed' : 'Tap when you have got it') +
+          '</span>' +
           '<span class="key-ideas-action__cta inprac__cta" data-inprac-cta>' +
-            (completed ? 'Reviewed' : 'Mark as reviewed') +
+            (completed ? 'Done' : 'Got it') +
           '</span>' +
         '</div>' +
       '</div>'
@@ -96,30 +120,45 @@
     var done = actionEl.classList.contains('is-completed');
     var status = actionEl.querySelector('[data-inprac-status]');
     var cta = actionEl.querySelector('[data-inprac-cta]');
-    if (status) status.textContent = done ? 'Reviewed' : 'Tap to review';
-    if (cta) cta.textContent = done ? 'Reviewed' : 'Mark as reviewed';
+    var hint = actionEl.querySelector('[data-inprac-hint]');
+    if (status) status.textContent = done ? 'Done' : 'Review';
+    if (cta) cta.textContent = done ? 'Done' : 'Got it';
+    if (hint) hint.textContent = done ? 'Cue reviewed' : 'Tap when you have got it';
     actionEl.setAttribute('aria-pressed', done ? 'true' : 'false');
     refreshIcon(actionEl, done);
+  }
+
+  function setBeat(wrap, textEl, text) {
+    if (!wrap || !textEl) return;
+    var value = String(text || '').trim();
+    if (!value) {
+      wrap.setAttribute('hidden', '');
+      textEl.textContent = '';
+      return;
+    }
+    textEl.textContent = value;
+    wrap.removeAttribute('hidden');
   }
 
   function renderCardSlots(actionEl, card) {
     if (!actionEl || !card) return;
     var lead = actionEl.querySelector('[data-inprac-lead]');
-    var support = actionEl.querySelector('[data-inprac-support]');
+    var lookWrap = actionEl.querySelector('[data-inprac-look-wrap]');
+    var look = actionEl.querySelector('[data-inprac-look]');
+    var avoidWrap = actionEl.querySelector('[data-inprac-avoid-wrap]');
+    var avoid = actionEl.querySelector('[data-inprac-avoid]');
+    var thenEl = actionEl.querySelector('[data-inprac-then]');
     var sr = actionEl.querySelector('.inprac__sr, .text');
     var move = card.move || card.scene || '';
-    var html =
-      supportCell('scene', 'In the pool', card.scene) +
-      supportCell('notice', "You'll notice", card.notice) +
-      supportCell('watch', 'Watch for', card.watch) +
-      supportCell('next', 'Try next', card.next);
 
     observerPaused = true;
     if (lead) lead.textContent = move;
-    if (support) {
-      support.innerHTML = html;
-      if (html) support.removeAttribute('hidden');
-      else support.setAttribute('hidden', '');
+    setBeat(lookWrap, look, card.notice || '');
+    setBeat(avoidWrap, avoid, card.watch || '');
+    if (thenEl) {
+      // Keep "Then" off the primary coach surface — Do / Look / Avoid is enough poolside
+      thenEl.textContent = '';
+      thenEl.setAttribute('hidden', '');
     }
     if (sr) sr.textContent = move;
     observerPaused = false;
@@ -239,7 +278,12 @@
 
   function ensureStructure(actionEl) {
     if (!actionEl) return false;
-    if (actionEl.querySelector('.inprac') && actionEl.querySelector('[data-in-practice-slots]')) {
+    // Require coach shell (Do / Look / Avoid) so older grids get rebuilt
+    if (
+      actionEl.querySelector('.inprac') &&
+      actionEl.querySelector('[data-inprac-lead]') &&
+      actionEl.querySelector('[data-inprac-look-wrap]')
+    ) {
       return false;
     }
 
@@ -264,7 +308,12 @@
   }
 
   function isStructureReady(actionEl) {
-    return !!(actionEl && actionEl.querySelector('.inprac') && actionEl.querySelector('[data-in-practice-slots]'));
+    return !!(
+      actionEl &&
+      actionEl.querySelector('.inprac') &&
+      actionEl.querySelector('[data-inprac-lead]') &&
+      actionEl.querySelector('[data-inprac-look-wrap]')
+    );
   }
 
   function enhanceAction(actionEl, force) {
