@@ -9,12 +9,12 @@
 
 @import url('/assets/water-orbit-branding.css');
   @import url('/assets/module-completion-flow.css');
-  @import url('/assets/module-roadmap.css');
+  @import url('/assets/module-roadmap.css?v=20260713roadmap2');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260713pulse20');
-  @import url('/assets/module-block-accordion.css?v=20260713accordion5');
+  @import url('/assets/module-block-accordion.css?v=20260713accordion6');
   @import url('/assets/programme-journey-map.css?v=20260713ocean-fix');
 
   :root{
@@ -7011,7 +7011,7 @@
   </div>
 
   <script src="/shared/parent-subconcept-layout.js"></script>
-  <script src="/shared/module-block-accordion.js?v=20260713accordion5"></script>
+  <script src="/shared/module-block-accordion.js?v=20260713accordion6"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function(){
     if (typeof console !== 'undefined') console.log('Module 4: DOMContentLoaded');
@@ -9288,17 +9288,41 @@
         return;
       }
 
-      // Block 4: after a subconcept, return to parent choice; after a full concept menu, return to block 4 grid
+      // Block 4: leaf Done → next sibling subconcept; after last leaf → parent hub
       if(block === 'block4'){
         if(['b3c2_physical','b3c2_motor','b3c2_cognitive'].indexOf(target) !== -1){
-          renderConcept('block4', 'b3c2');
           conceptHistory.block4 = [];
+          var factorFamily = ['b3c2_physical','b3c2_motor','b3c2_cognitive'];
+          var nextFactor = null;
+          var fi = factorFamily.indexOf(target);
+          var fj;
+          for(fj = fi + 1; fj < factorFamily.length; fj++){
+            if(!conceptCompletion.block4.has(factorFamily[fj])){ nextFactor = factorFamily[fj]; break; }
+          }
+          if(!nextFactor){
+            for(fj = 0; fj < fi; fj++){
+              if(!conceptCompletion.block4.has(factorFamily[fj])){ nextFactor = factorFamily[fj]; break; }
+            }
+          }
+          renderConcept('block4', nextFactor || 'b3c2');
           return;
         }
         if(['b3c3_step1','b3c3_step2','b3c3_step3'].indexOf(target) !== -1){
-          markConceptComplete('block4', 'b3c3');
-          renderConcept('block4', 'b3c3');
           conceptHistory.block4 = [];
+          var stepFamily = ['b3c3_step1','b3c3_step2','b3c3_step3'];
+          var nextStep = null;
+          var si = stepFamily.indexOf(target);
+          var sj;
+          for(sj = si + 1; sj < stepFamily.length; sj++){
+            if(!conceptCompletion.block4.has(stepFamily[sj])){ nextStep = stepFamily[sj]; break; }
+          }
+          if(!nextStep){
+            for(sj = 0; sj < si; sj++){
+              if(!conceptCompletion.block4.has(stepFamily[sj])){ nextStep = stepFamily[sj]; break; }
+            }
+          }
+          if(!nextStep) markConceptComplete('block4', 'b3c3');
+          renderConcept('block4', nextStep || 'b3c3');
           return;
         }
         if(['b3c1','b3c2','b3c3'].indexOf(target) !== -1){

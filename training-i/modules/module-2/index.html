@@ -9,12 +9,12 @@
 
 @import url('/assets/water-orbit-branding.css');
   @import url('/assets/module-completion-flow.css');
-  @import url('/assets/module-roadmap.css');
+  @import url('/assets/module-roadmap.css?v=20260713roadmap2');
   @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260713pulse20');
-  @import url('/assets/module-block-accordion.css?v=20260713accordion5');
+  @import url('/assets/module-block-accordion.css?v=20260713accordion6');
 
   :root{
     --blue:#2d84b3;
@@ -4462,7 +4462,7 @@
   </div>
 
   <script src="/shared/parent-subconcept-layout.js"></script>
-    <script src="/shared/module-block-accordion.js?v=20260713accordion5"></script>
+    <script src="/shared/module-block-accordion.js?v=20260713accordion6"></script>
 <script>
     function escapeHtml(str){
       if(str == null) return '';
@@ -5407,15 +5407,34 @@
       return '';
     }
 
+    function nextSiblingSubconcept(family, current, viewedSet){
+      var start = family.indexOf(current);
+      if(start < 0) return null;
+      var i;
+      for(i = start + 1; i < family.length; i++){
+        if(!viewedSet.has(family[i])) return family[i];
+      }
+      for(i = 0; i < start; i++){
+        if(!viewedSet.has(family[i])) return family[i];
+      }
+      return null;
+    }
+
     function finishConcept(block, target){
       if(block === 'block2' && block2StateTargets.indexOf(target) !== -1){
         conceptHistory[block] = [];
-        renderConcept(block, 'b2c2');
+        block2StatesViewed.add(target);
+        if(block2StatesViewed.size === block2StateTargets.length) markConceptComplete(block, 'b2c2');
+        var nextState = nextSiblingSubconcept(block2StateTargets, target, block2StatesViewed);
+        renderConcept(block, nextState || 'b2c2');
         return;
       }
       if(block === 'block3' && block3FactorTargets.indexOf(target) !== -1){
         conceptHistory[block] = [];
-        renderConcept(block, 'b3c2');
+        block3FactorsViewed.add(target);
+        if(block3FactorsViewed.size === block3FactorTargets.length) markConceptComplete(block, 'b3c2');
+        var nextFactor = nextSiblingSubconcept(block3FactorTargets, target, block3FactorsViewed);
+        renderConcept(block, nextFactor || 'b3c2');
         return;
       }
       markConceptComplete(block, target);

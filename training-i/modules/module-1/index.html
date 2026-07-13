@@ -3,12 +3,12 @@
 
 @import url('/assets/water-orbit-branding.css');
   @import url('/assets/module-completion-flow.css');
-  @import url('/assets/module-roadmap.css');
+  @import url('/assets/module-roadmap.css?v=20260713roadmap2');
 @import url('/assets/module-hero-system.css');
 @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
 @import url('/assets/concept-insight-intro.css?v=20260617');
 @import url('/assets/training-flow-guide.css?v=20260713pulse20');
-  @import url('/assets/module-block-accordion.css?v=20260713accordion5');
+  @import url('/assets/module-block-accordion.css?v=20260713accordion6');
 
 :root{
     --blue:#2d84b3;
@@ -4261,7 +4261,7 @@
   </div>
 </div>
 
-<script src="/shared/module-block-accordion.js?v=20260713accordion5"></script>
+<script src="/shared/module-block-accordion.js?v=20260713accordion6"></script>
 <script>
   const conceptContent = {
     b1c1: {
@@ -4833,22 +4833,31 @@
     return '';
   }
 
+  function nextSiblingSubconcept(family, current, doneSet){
+    var start = family.indexOf(current);
+    if(start < 0) return null;
+    var i;
+    for(i = start + 1; i < family.length; i++){
+      if(!doneSet.has(family[i])) return family[i];
+    }
+    for(i = 0; i < start; i++){
+      if(!doneSet.has(family[i])) return family[i];
+    }
+    return null;
+  }
+
   function finishConcept(block, target){
     markConceptComplete(block, target);
 
-    if(block === 'block1' && target === 'b1c3' && !conceptCompletion.block1.has('b1c4')){
-      renderConcept('block1', 'b1c2', false, { skipPanelScroll: true });
-      if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
-        TrainingFlowGuide.requestRefresh([120, 400, 800]);
+    if(block === 'block1' && (target === 'b1c3' || target === 'b1c4')){
+      var nextLeaf = nextSiblingSubconcept(['b1c3', 'b1c4'], target, conceptCompletion.block1);
+      if(nextLeaf){
+        renderConcept('block1', nextLeaf, false, { skipPanelScroll: true });
+        if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
+          TrainingFlowGuide.requestRefresh([120, 400, 800]);
+        }
+        return;
       }
-      setTimeout(function(){
-        var p = document.querySelector('[data-panel-for="block1"]');
-        var grid = p ? p.querySelector('.overview-subconcept-grid') : null;
-        if(grid) grid.scrollIntoView({ behavior:'smooth', block:'nearest' });
-      }, 120);
-      return;
-    }
-    if(block === 'block1' && target === 'b1c4'){
       if(typeof TrainingFlowGuide !== 'undefined'){
         if(TrainingFlowGuide.returnToConceptGrid) TrainingFlowGuide.returnToConceptGrid(block);
         if(TrainingFlowGuide.requestRefresh) TrainingFlowGuide.requestRefresh([120, 400, 800, 1200]);

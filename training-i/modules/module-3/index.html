@@ -9,12 +9,12 @@
 
 @import url('/assets/water-orbit-branding.css');
   @import url('/assets/module-completion-flow.css');
-  @import url('/assets/module-roadmap.css');
+  @import url('/assets/module-roadmap.css?v=20260713roadmap2');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260713pulse20');
-  @import url('/assets/module-block-accordion.css?v=20260713accordion5');
+  @import url('/assets/module-block-accordion.css?v=20260713accordion6');
 
   :root{
       --blue:#2d84b3;
@@ -3728,7 +3728,7 @@
   </div>
 
   <script src="/shared/parent-subconcept-layout.js"></script>
-    <script src="/shared/module-block-accordion.js?v=20260713accordion5"></script>
+    <script src="/shared/module-block-accordion.js?v=20260713accordion6"></script>
 <script>
     function escapeHtml(str){
       if(str == null) return '';
@@ -4691,13 +4691,27 @@
       return '';
     }
 
+    function nextSiblingSubconcept(family, current, viewedSet){
+      var start = family.indexOf(current);
+      if(start < 0) return null;
+      var i;
+      for(i = start + 1; i < family.length; i++){
+        if(!viewedSet.has(family[i])) return family[i];
+      }
+      for(i = 0; i < start; i++){
+        if(!viewedSet.has(family[i])) return family[i];
+      }
+      return null;
+    }
+
     function finishConcept(block, target){
       if(block === 'block3' && block3ApproachTargets.indexOf(target) !== -1){
         block3ApproachesViewed.add(target);
-        if(block3ApproachesViewed.size === 5){
+        if(block3ApproachesViewed.size === block3ApproachTargets.length){
           markConceptComplete(block, 'b3c3');
         }
-        renderConcept(block, 'b3c3');
+        var nextApproach = nextSiblingSubconcept(block3ApproachTargets, target, block3ApproachesViewed);
+        renderConcept(block, nextApproach || 'b3c3');
         return;
       }
       markConceptComplete(block, target);
