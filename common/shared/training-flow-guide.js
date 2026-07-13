@@ -877,10 +877,38 @@
     if(hasUnclickedKeyIdeasInScope(panel)) return null;
     if(!preKeyIdeasVisualsComplete(panel)) return null;
 
-    return sectionScrollStep('inpractice', inPractice, 'Read the In Practice scenario', {
+    var nextPart = null;
+    if(global.InPracticeSystem && typeof InPracticeSystem.nextUnreviewedPart === 'function'){
+      nextPart = InPracticeSystem.nextUnreviewedPart(inPractice);
+    } else {
+      var parts = Array.from(inPractice.querySelectorAll('[data-inprac-part]')).filter(function(part){
+        return !part.hasAttribute('hidden') && !part.closest('[hidden]') && !part.classList.contains('is-reviewed');
+      });
+      nextPart = parts[0] || null;
+    }
+
+    if(nextPart){
+      var partKey = nextPart.getAttribute('data-inprac-part') || '';
+      var partLabel = partKey === 'do' ? 'Do'
+        : partKey === 'look' ? 'Look for'
+        : partKey === 'avoid' ? 'Avoid'
+        : 'In Practice cue';
+      return sectionScrollStep('inpractice', nextPart, 'Review In Practice: ' + partLabel, {
+        scrollEl: inPractice,
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'inpractice',
+        pulseEls: [nextPart]
+      });
+    }
+
+    var cta = inPractice.querySelector('[data-inprac-cta]');
+    return sectionScrollStep('inpractice', cta || inPractice, 'Confirm In Practice with Got it', {
+      scrollEl: inPractice,
       scrollBlock: 'center',
       forceScroll: true,
-      tone: 'inpractice'
+      tone: 'inpractice',
+      pulseEls: [cta || inPractice]
     });
   }
 
@@ -1514,8 +1542,39 @@
   }
 
   function bindInPracticeReview(moduleConfig){
+    document.addEventListener('in-practice-progress', function(e){
+      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+      var action = e.target && e.target.closest ? e.target.closest('.key-ideas-action') : null;
+      if(!action) action = e.target;
+      if(!action || !action.classList || !action.classList.contains('key-ideas-action')) return;
+      var panel = action.closest('.concept-panel');
+      if(!panel) return;
+      bumpFlowAdvance(moduleConfig, 80);
+    }, true);
+
+    document.addEventListener('in-practice-complete', function(e){
+      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
+      var action = e.target && e.target.closest ? e.target.closest('.key-ideas-action') : null;
+      if(!action) action = e.target;
+      if(!action || !action.classList || !action.classList.contains('key-ideas-action')) return;
+      var panel = action.closest('.concept-panel');
+      if(!panel) return;
+      var nestedAction = findScopedInPracticeAction(panel);
+      if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return;
+      action.classList.add('is-completed');
+      if(!nestedAction) panel.dataset.inPracticeDone = 'true';
+      var icon = action.querySelector('.inprac__icon, .icon');
+      if(icon){
+        icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+      }
+      bumpFlowAdvance(moduleConfig, 120);
+    }, true);
+
+    // Legacy fallback: only Got it / completed CTA may finish the card
     document.addEventListener('click', function(e){
-      var action = e.target.closest && e.target.closest('.key-ideas-action');
+      var cta = e.target.closest && e.target.closest('[data-inprac-cta]');
+      if(!cta) return;
+      var action = cta.closest('.key-ideas-action');
       if(!action || action.hasAttribute('hidden')) return;
       if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
       var panel = action.closest('.concept-panel');
@@ -1523,24 +1582,10 @@
       var nestedAction = findScopedInPracticeAction(panel);
       if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return;
       if(action.classList.contains('is-completed')) return;
-      if(panel.dataset.inPracticeDone === 'true' && !nestedAction) return;
-
+      if(global.InPracticeSystem && typeof InPracticeSystem.partsComplete === 'function' && !InPracticeSystem.partsComplete(action)) return;
       action.classList.add('is-completed');
       if(!nestedAction) panel.dataset.inPracticeDone = 'true';
-      var icon = action.querySelector('.icon');
-      if(icon && action.classList.contains('is-completed')){
-        icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
-      }
       bumpFlowAdvance(moduleConfig, 120);
-    }, true);
-
-    document.addEventListener('keydown', function(e){
-      if(e.key !== 'Enter' && e.key !== ' ') return;
-      var action = e.target.closest && e.target.closest('.key-ideas-action');
-      if(!action || action.hasAttribute('hidden')) return;
-      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
-      e.preventDefault();
-      action.click();
     }, true);
   }
 
@@ -2079,14 +2124,27 @@
   }
 
   function ensureInPracticeRing(action){
-    if(!action || !action.classList.contains('key-ideas-action')) return;
-    var ring = action.querySelector('.' + IN_PRACTICE_RING_CLASS);
+    if(!action) return;
+    var host = action.classList.contains('key-ideas-action') ||
+      action.classList.contains('inprac__part') ||
+      action.hasAttribute('data-inprac-cta')
+      ? action
+      : null;
+    if(!host) return;
+    var ring = host.querySelector('.' + IN_PRACTICE_RING_CLASS);
     if(!ring){
       ring = document.createElement('span');
       ring.className = IN_PRACTICE_RING_CLASS;
       ring.setAttribute('aria-hidden', 'true');
     }
-    action.appendChild(ring);
+    host.classList.add('flow-guide-pulse--ring-host');
+    host.appendChild(ring);
+    if(host.classList.contains('inprac__part') || host.hasAttribute('data-inprac-cta')){
+      ring.style.borderRadius = '14px';
+    }
+    if(host.hasAttribute('data-inprac-cta')){
+      ring.style.borderRadius = '999px';
+    }
   }
 
 
@@ -2208,6 +2266,7 @@
       ensureM5NavRing(el, panel);
     } else if(tone === 'practice'){
       el.classList.add(PULSE_IN_PRACTICE);
+      el.classList.add('flow-guide-pulse--ring-host');
       ensureInPracticeRing(el);
     } else if(tone === 'explore'){
       el.classList.add(PULSE_EXPAND);
@@ -2317,7 +2376,7 @@
 
     var key = stepKey(step);
     if(key === lastStepKey && activePulseEl === target && !step.noPulse && !pulseClassesMissing(target, step)){
-      if((step.tone === 'inpractice' || step.kind === 'inpractice') && target.classList.contains('key-ideas-action')){
+      if(step.tone === 'inpractice' || step.kind === 'inpractice'){
         ensureInPracticeRing(target);
       }
       if(usesExpandPulse(step) && activePulseEls.length){
@@ -2484,7 +2543,7 @@
   function bindRefresh(moduleConfig){
     bindConceptFlowInteractions(moduleConfig);
 
-    ['click', 'change', 'input', 'concept-insight-pillars-change', 'concept-visual-expand-wire', 'concept-visual-expand-change', 'flow-guide-in-practice-ready'].forEach(function(name){
+    ['click', 'change', 'input', 'concept-insight-pillars-change', 'concept-visual-expand-wire', 'concept-visual-expand-change', 'flow-guide-in-practice-ready', 'in-practice-progress', 'in-practice-complete'].forEach(function(name){
       document.addEventListener(name, function(e){
         var panel = e.target && e.target.closest && e.target.closest('.concept-panel.show');
         if(panel) ensurePanelVisualWired(panel);

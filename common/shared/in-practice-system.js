@@ -52,24 +52,27 @@
           '<span class="inprac__status" data-inprac-status>' + (completed ? 'Done' : 'Review') + '</span>' +
         '</div>' +
         '<div class="key-ideas-action__scenario inprac__body" data-in-practice-slots>' +
-          '<div class="inprac__do">' +
+          '<div class="inprac__do inprac__part" data-inprac-part="do" role="button" tabindex="0">' +
             '<span class="inprac__do-label">Do</span>' +
             '<p class="inprac__lead" data-inprac-lead></p>' +
+            '<span class="inprac__part-check" aria-hidden="true"></span>' +
           '</div>' +
           '<ul class="inprac__beats">' +
-            '<li class="inprac__beat inprac__beat--look" data-inprac-look-wrap hidden>' +
+            '<li class="inprac__beat inprac__beat--look inprac__part" data-inprac-part="look" data-inprac-look-wrap hidden role="button" tabindex="0">' +
               '<span class="inprac__beat-ico" aria-hidden="true">' + ICON_LOOK + '</span>' +
               '<div class="inprac__beat-copy">' +
                 '<span class="inprac__beat-label">Look for</span>' +
                 '<p class="inprac__beat-text" data-inprac-look></p>' +
               '</div>' +
+              '<span class="inprac__part-check" aria-hidden="true"></span>' +
             '</li>' +
-            '<li class="inprac__beat inprac__beat--avoid" data-inprac-avoid-wrap hidden>' +
+            '<li class="inprac__beat inprac__beat--avoid inprac__part" data-inprac-part="avoid" data-inprac-avoid-wrap hidden role="button" tabindex="0">' +
               '<span class="inprac__beat-ico" aria-hidden="true">' + ICON_AVOID + '</span>' +
               '<div class="inprac__beat-copy">' +
                 '<span class="inprac__beat-label">Avoid</span>' +
                 '<p class="inprac__beat-text" data-inprac-avoid></p>' +
               '</div>' +
+              '<span class="inprac__part-check" aria-hidden="true"></span>' +
             '</li>' +
           '</ul>' +
           '<p class="inprac__then" data-inprac-then hidden></p>' +
@@ -77,9 +80,9 @@
         '</div>' +
         '<div class="inprac__footer">' +
           '<span class="inprac__hint" data-inprac-hint>' +
-            (completed ? 'Cue reviewed' : 'Tap when you have got it') +
+            (completed ? 'Cue reviewed' : 'Tap each cue, then Got it') +
           '</span>' +
-          '<span class="key-ideas-action__cta inprac__cta" data-inprac-cta>' +
+          '<span class="key-ideas-action__cta inprac__cta" data-inprac-cta role="button" tabindex="0" aria-disabled="' + (completed ? 'false' : 'true') + '">' +
             (completed ? 'Done' : 'Got it') +
           '</span>' +
         '</div>' +
@@ -121,11 +124,112 @@
     var status = actionEl.querySelector('[data-inprac-status]');
     var cta = actionEl.querySelector('[data-inprac-cta]');
     var hint = actionEl.querySelector('[data-inprac-hint]');
-    if (status) status.textContent = done ? 'Done' : 'Review';
-    if (cta) cta.textContent = done ? 'Done' : 'Got it';
-    if (hint) hint.textContent = done ? 'Cue reviewed' : 'Tap when you have got it';
+    var parts = getVisibleParts(actionEl);
+    var reviewed = parts.filter(function (part) { return part.classList.contains('is-reviewed'); }).length;
+    var partsReady = !parts.length || reviewed >= parts.length;
+
+    if (status) {
+      status.textContent = done ? 'Done' : (partsReady ? 'Confirm' : (reviewed + '/' + parts.length));
+    }
+    if (cta) {
+      cta.textContent = done ? 'Done' : 'Got it';
+      cta.setAttribute('aria-disabled', done || partsReady ? 'false' : 'true');
+      cta.classList.toggle('is-locked', !done && !partsReady);
+      cta.classList.toggle('is-ready', !done && partsReady);
+    }
+    if (hint) {
+      hint.textContent = done
+        ? 'Cue reviewed'
+        : (partsReady ? 'Tap Got it to continue' : 'Tap each cue · ' + reviewed + ' of ' + parts.length);
+    }
     actionEl.setAttribute('aria-pressed', done ? 'true' : 'false');
     refreshIcon(actionEl, done);
+  }
+
+  function getVisibleParts(actionEl) {
+    if (!actionEl || !actionEl.querySelectorAll) return [];
+    return Array.from(actionEl.querySelectorAll('[data-inprac-part]')).filter(function (part) {
+      if (part.hasAttribute('hidden')) return false;
+      if (part.closest('[hidden]')) return false;
+      return true;
+    });
+  }
+
+  function partsComplete(actionEl) {
+    var parts = getVisibleParts(actionEl);
+    if (!parts.length) return true;
+    return parts.every(function (part) { return part.classList.contains('is-reviewed'); });
+  }
+
+  function nextUnreviewedPart(actionEl) {
+    var parts = getVisibleParts(actionEl);
+    for (var i = 0; i < parts.length; i++) {
+      if (!parts[i].classList.contains('is-reviewed')) return parts[i];
+    }
+    return null;
+  }
+
+  function markPartReviewed(part) {
+    if (!part || part.classList.contains('is-reviewed')) return false;
+    part.classList.add('is-reviewed');
+    part.setAttribute('aria-pressed', 'true');
+    return true;
+  }
+
+  function completeAction(actionEl) {
+    if (!actionEl || actionEl.classList.contains('is-completed')) return false;
+    if (!partsComplete(actionEl)) return false;
+    actionEl.classList.add('is-completed');
+    syncChrome(actionEl);
+    try {
+      actionEl.dispatchEvent(new CustomEvent('in-practice-complete', { bubbles: true }));
+    } catch (err) {}
+    return true;
+  }
+
+  function bindPartInteractions(actionEl) {
+    if (!actionEl || actionEl.getAttribute('data-inprac-parts-bound') === '1') return;
+    actionEl.setAttribute('data-inprac-parts-bound', '1');
+
+    actionEl.addEventListener('click', function (e) {
+      var part = e.target.closest && e.target.closest('[data-inprac-part]');
+      if (part && actionEl.contains(part) && !part.hasAttribute('hidden')) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (actionEl.classList.contains('is-completed')) return;
+        if (markPartReviewed(part)) {
+          syncChrome(actionEl);
+          try {
+            actionEl.dispatchEvent(new CustomEvent('in-practice-progress', { bubbles: true, detail: { part: part } }));
+          } catch (err) {}
+        }
+        return;
+      }
+
+      var cta = e.target.closest && e.target.closest('[data-inprac-cta]');
+      if (cta && actionEl.contains(cta)) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (actionEl.classList.contains('is-completed')) return;
+        if (!partsComplete(actionEl)) {
+          syncChrome(actionEl);
+          return;
+        }
+        completeAction(actionEl);
+        try {
+          actionEl.dispatchEvent(new CustomEvent('in-practice-progress', { bubbles: true, detail: { cta: true } }));
+        } catch (err2) {}
+      }
+    });
+
+    actionEl.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var part = e.target.closest && e.target.closest('[data-inprac-part]');
+      var cta = e.target.closest && e.target.closest('[data-inprac-cta]');
+      if (!part && !cta) return;
+      e.preventDefault();
+      (part || cta).click();
+    });
   }
 
   function setBeat(wrap, textEl, text) {
@@ -134,6 +238,8 @@
     if (!value) {
       wrap.setAttribute('hidden', '');
       textEl.textContent = '';
+      wrap.classList.remove('is-reviewed');
+      wrap.setAttribute('aria-pressed', 'false');
       return;
     }
     textEl.textContent = value;
@@ -201,47 +307,8 @@
   }
 
   function bindStaticAction(actionEl) {
-    if (!actionEl || actionEl.getAttribute('data-in-practice-bound') === '1') return;
-    actionEl.setAttribute('data-in-practice-bound', '1');
-    actionEl.addEventListener('click', function () {
-      actionEl.classList.add('is-completed');
-      syncChrome(actionEl);
-    });
-    actionEl.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        actionEl.click();
-      }
-    });
-  }
-
-  function ensureStaticPointsBox(pointsBox) {
-    if (!pointsBox || pointsBox.querySelector('.key-ideas-action')) return false;
-    var items = pointsBox.querySelectorAll('.key-idea-item');
-    if (!items.length) return false;
-
-    var screenKey = staticScreenKey(pointsBox);
-    var fallback = defaultStaticCopy(screenKey);
-    if (!fallback) return false;
-
-    observerPaused = true;
-    var actionEl = document.createElement('div');
-    actionEl.className = 'key-ideas-action';
-    actionEl.dataset.inPracticeTarget = screenKey;
-    actionEl.innerHTML = shellInnerHtml(false);
-    pointsBox.appendChild(actionEl);
-    bindStaticAction(actionEl);
-    enhanceAction(actionEl, true);
-    observerPaused = false;
-    return true;
-  }
-
-  function ensureStaticPointsBoxes(root) {
-    var changed = false;
-    (root || document).querySelectorAll('.concept-points-box').forEach(function (box) {
-      if (ensureStaticPointsBox(box)) changed = true;
-    });
-    return changed;
+    if (!actionEl) return;
+    bindPartInteractions(actionEl);
   }
 
   function applyScenarioCopy(actionEl) {
@@ -282,7 +349,8 @@
     if (
       actionEl.querySelector('.inprac') &&
       actionEl.querySelector('[data-inprac-lead]') &&
-      actionEl.querySelector('[data-inprac-look-wrap]')
+      actionEl.querySelector('[data-inprac-look-wrap]') &&
+      actionEl.querySelector('[data-inprac-part="do"]')
     ) {
       return false;
     }
@@ -294,6 +362,7 @@
 
     observerPaused = true;
     actionEl.innerHTML = shellInnerHtml(done);
+    actionEl.removeAttribute('data-inprac-parts-bound');
     restoreGuidedFlowRing(actionEl, guidedRing);
     observerPaused = false;
 
@@ -301,9 +370,6 @@
     if (sr && text) sr.textContent = text;
     var lead = actionEl.querySelector('[data-inprac-lead]');
     if (lead && text) lead.textContent = text;
-
-    actionEl.setAttribute('role', 'button');
-    if (!actionEl.hasAttribute('tabindex')) actionEl.setAttribute('tabindex', '0');
     return true;
   }
 
@@ -312,8 +378,46 @@
       actionEl &&
       actionEl.querySelector('.inprac') &&
       actionEl.querySelector('[data-inprac-lead]') &&
-      actionEl.querySelector('[data-inprac-look-wrap]')
+      actionEl.querySelector('[data-inprac-look-wrap]') &&
+      actionEl.querySelector('[data-inprac-part="do"]')
     );
+  }
+
+  function ensureStaticPointsBox(pointsBox) {
+    if (!pointsBox || pointsBox.querySelector('.key-ideas-action')) return false;
+    var items = pointsBox.querySelectorAll('.key-idea-item');
+    if (!items.length) return false;
+
+    var screenKey = staticScreenKey(pointsBox);
+    var fallback = defaultStaticCopy(screenKey);
+    if (!fallback) return false;
+
+    observerPaused = true;
+    var actionEl = document.createElement('div');
+    actionEl.className = 'key-ideas-action';
+    actionEl.dataset.inPracticeTarget = screenKey;
+    actionEl.innerHTML = shellInnerHtml(false);
+    pointsBox.appendChild(actionEl);
+    bindStaticAction(actionEl);
+    enhanceAction(actionEl, true);
+    observerPaused = false;
+    return true;
+  }
+
+  function ensureStaticPointsBoxes(root) {
+    var changed = false;
+    (root || document).querySelectorAll('.concept-points-box').forEach(function (box) {
+      if (ensureStaticPointsBox(box)) changed = true;
+    });
+    return changed;
+  }
+
+  function syncCompletedParts(actionEl) {
+    if (!actionEl || !actionEl.classList.contains('is-completed')) return;
+    getVisibleParts(actionEl).forEach(function (part) {
+      part.classList.add('is-reviewed');
+      part.setAttribute('aria-pressed', 'true');
+    });
   }
 
   function enhanceAction(actionEl, force) {
@@ -321,10 +425,9 @@
     if (actionEl.hasAttribute('hidden')) return;
 
     ensureStructure(actionEl);
-    if (!actionEl.getAttribute('role')) actionEl.setAttribute('role', 'button');
-    if (!actionEl.hasAttribute('tabindex')) actionEl.setAttribute('tabindex', '0');
-
+    bindPartInteractions(actionEl);
     applyScenarioCopy(actionEl);
+    syncCompletedParts(actionEl);
     syncChrome(actionEl);
     actionEl.dataset.inPracticeReady = '1';
     if (actionEl.classList.contains('flow-guide-pulse--inpractice')) {
@@ -435,6 +538,9 @@
     resolveCopy: resolveCopy,
     resolveCard: resolveCard,
     ensureStaticPointsBoxes: ensureStaticPointsBoxes,
+    getVisibleParts: getVisibleParts,
+    partsComplete: partsComplete,
+    nextUnreviewedPart: nextUnreviewedPart,
     paint: function (actionEl) { enhanceAction(actionEl, true); }
   };
 
