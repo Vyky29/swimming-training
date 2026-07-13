@@ -8,7 +8,7 @@
 @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
 @import url('/assets/concept-insight-intro.css?v=20260617');
 @import url('/assets/training-flow-guide.css?v=20260713dualring1');
-  @import url('/assets/module-block-accordion.css?v=20260713flowaudit1');
+  @import url('/assets/module-block-accordion.css?v=20260713m1hub1');
 
 :root{
     --blue:#2d84b3;
@@ -4261,7 +4261,7 @@
   </div>
 </div>
 
-<script src="/shared/module-block-accordion.js?v=20260713flowaudit1"></script>
+<script src="/shared/module-block-accordion.js?v=20260713m1hub1"></script>
 <script>
   const conceptContent = {
     b1c1: {
@@ -4858,12 +4858,15 @@
     if(block === 'block1' && (target === 'b1c3' || target === 'b1c4')){
       var nextLeaf = nextSiblingSubconcept(['b1c3', 'b1c4'], target, conceptCompletion.block1);
       if(nextLeaf){
-        renderConcept('block1', nextLeaf, false, { skipPanelScroll: true });
+        // Return to Overview hub so both choice boxes stay visible; pulse the next leaf
+        renderConcept('block1', 'b1c2', false, { skipPanelScroll: true, resumeHub: true });
         if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
           TrainingFlowGuide.requestRefresh([120, 400, 800]);
         }
         return;
       }
+      // Both force-type leaves done → mark Overview complete and go to Block Done
+      markConceptComplete(block, 'b1c2');
       if(typeof TrainingFlowGuide !== 'undefined'){
         if(TrainingFlowGuide.returnToConceptGrid) TrainingFlowGuide.returnToConceptGrid(block);
         if(TrainingFlowGuide.requestRefresh) TrainingFlowGuide.requestRefresh([120, 400, 800, 1200]);
@@ -5997,7 +6000,7 @@
     panel.classList.add('show');
     panel.dataset.currentTarget = target;
     panel.dataset.currentBlock = block;
-    var conceptAlreadyDone = conceptCompletion[block] && conceptCompletion[block].has(target);
+    var conceptAlreadyDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) || !!opts.resumeHub;
     setConceptTitle(panel.querySelector('h4'), data.title, target, block);
     var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
       ? ConceptInsightIntro.renderIntro(panel, data, 1, target, { restoreComplete: !!conceptAlreadyDone })
@@ -6293,7 +6296,7 @@
       };
     }
 
-    var alreadyCompleted = conceptCompletion[block] && conceptCompletion[block].has(target);
+    var alreadyCompleted = (conceptCompletion[block] && conceptCompletion[block].has(target)) || !!opts.resumeHub;
     panel.dataset.conceptDwellEnd = alreadyCompleted ? '0' : String(Date.now() + MIN_CONCEPT_DWELL_MS);
     const finishBtn = panel.querySelector('[data-finish-concept]');
     if(finishBtn){
@@ -6386,6 +6389,18 @@
     if(window.ConceptVisualExpand){
       ConceptVisualExpand.wire(panel, { panel: panel });
     }
+    if(opts.resumeHub){
+      panel.querySelectorAll('.img-expand-btn').forEach(function(btn){
+        btn.setAttribute('data-visual-expanded', 'true');
+      });
+      panel.dataset.flowVisualScrollPreKeyideas = 'true';
+      panel.dataset.flowVisualScrollPreActivity = 'true';
+      panel.dataset.flowVisualScrollPostActivity = 'true';
+      panel.dataset.keyIdeasDone = 'true';
+      panel.dataset.inPracticeDone = 'true';
+      panel.dataset.inPracticeDoneFor = target;
+      panel.dataset.inPracticeRequired = 'false';
+    }
     if(typeof ParentSubconceptLayout !== 'undefined'){
       ParentSubconceptLayout.lockStandardConceptOrder(panel);
     }
@@ -6399,7 +6414,10 @@
         var isDynamic = subTarget === 'b1c4';
         var isCompleted = conceptCompletion.block1.has(subTarget);
         var isLocked = !REVIEW_MODE && isDynamic && !supportiveDone;
-        var isNext = !REVIEW_MODE && isDynamic && supportiveDone && !dynamicDone;
+        var isNext = !REVIEW_MODE && !isCompleted && (
+          (subTarget === 'b1c3' && !supportiveDone) ||
+          (subTarget === 'b1c4' && supportiveDone && !dynamicDone)
+        );
         btn.classList.toggle('visited', isCompleted);
         btn.classList.toggle('is-locked', isLocked);
         btn.classList.toggle('is-next', isNext);
@@ -6837,7 +6855,7 @@
 <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
 <script src="/shared/training-flow-config.js?v=20260716"></script>
-<script src="/shared/training-flow-guide.js?v=20260713flowaudit1"></script>
+<script src="/shared/training-flow-guide.js?v=20260713m1hub1"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
