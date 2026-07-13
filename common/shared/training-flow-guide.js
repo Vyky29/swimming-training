@@ -2301,6 +2301,45 @@
     return null;
   }
 
+  function findStartQuizButton(){
+    var scopes = [];
+    var complete = document.getElementById('complete');
+    var keyideas = document.getElementById('keyideas');
+    if(complete && !complete.classList.contains('gated-locked')) scopes.push(complete);
+    if(keyideas && !keyideas.classList.contains('gated-locked')) scopes.push(keyideas);
+    for(var i = 0; i < scopes.length; i++){
+      var btn = scopes[i].querySelector(
+        '.completion-actions a[href="#quiz"], a.btn.btn-primary[href="#quiz"], .btn-start-quiz, [data-start-quiz]'
+      );
+      if(btn && isVisibleEl(btn)) return btn;
+    }
+    return null;
+  }
+
+  function isQuizStarted(){
+    var quiz = document.getElementById('quiz');
+    if(!quiz) return false;
+    if(quiz.classList.contains('quiz-visible')) return true;
+    if(!quiz.classList.contains('gated-locked') && window.location.hash === '#quiz') return true;
+    var completeCheck = document.querySelector('input[data-stage-check="complete"]');
+    if(completeCheck && isChecked(completeCheck)) return true;
+    return false;
+  }
+
+  function resolveStartQuizStep(){
+    if(isQuizStarted()) return null;
+    var btn = findStartQuizButton();
+    if(!btn) return null;
+    return sectionScrollStep('start-quiz', btn, 'Start Quiz', {
+      scrollEl: btn.closest('.completion') || btn.closest('.completion-actions') || btn,
+      scrollBlock: 'center',
+      forceScroll: true,
+      tone: 'primary',
+      pulseEls: [btn],
+      keyToken: 'start-quiz'
+    });
+  }
+
   function resolveSectionStage(sectionId){
     if(sectionId.indexOf('block') === 0) return null;
     if(!isModuleStarted()) return null;
@@ -2311,18 +2350,57 @@
     var recapStep = resolveKeyIdeasRecapSection(sectionId);
     if(recapStep) return recapStep;
 
+    // Completion CTA: pulse the real Start Quiz button (never the sidebar Quiz nav link)
+    if(sectionId === 'complete'){
+      return resolveStartQuizStep();
+    }
+
+    // M4: Start Quiz sits under Key Ideas after the takeaway check
+    if(sectionId === 'keyideas'){
+      var keyideasCheck = $('input[data-stage-check="keyideas"]');
+      if(keyideasCheck && !isChecked(keyideasCheck)){
+        if(isDisabled(keyideasCheck)){
+          var keyideasSection = document.getElementById('keyideas');
+          return sectionScrollStep('recap-wait', keyideasSection || keyideasCheck, 'Spend a moment reviewing these key ideas', {
+            scrollEl: (keyideasSection && keyideasSection.querySelector('.recap-stack--key-ideas')) || keyideasSection || keyideasCheck,
+            scrollBlock: 'start',
+            forceScroll: true,
+            tone: 'expand',
+            keyToken: 'keyideas:wait'
+          });
+        }
+        return sectionScrollStep('recap-check', keyideasCheck.closest('.check-item') || keyideasCheck, 'Confirm you have reviewed the key ideas', {
+          scrollEl: keyideasCheck.closest('.key-ideas-recap__footer') || keyideasCheck.closest('.check-item') || keyideasCheck,
+          scrollBlock: 'center',
+          forceScroll: true,
+          tone: 'primary',
+          keyToken: 'keyideas:check'
+        });
+      }
+      var keyideasStart = resolveStartQuizStep();
+      if(keyideasStart) return keyideasStart;
+      return null;
+    }
+
+    if(sectionId === 'quiz'){
+      var beforeQuiz = resolveStartQuizStep();
+      if(beforeQuiz) return beforeQuiz;
+      var quiz = $('#quiz');
+      if(!quiz || quiz.classList.contains('gated-locked')) return null;
+      var quizTarget = quiz.querySelector('.quiz-inline, .quiz-hero, .q-card, .quiz-embed') || quiz;
+      return sectionScrollStep('quiz', quizTarget, 'Complete the module quiz', {
+        scrollEl: quiz,
+        scrollBlock: 'start',
+        forceScroll: true,
+        tone: 'primary',
+        keyToken: 'quiz'
+      });
+    }
+
     var check = $('input[data-stage-check="' + sectionId + '"]');
     if(!check || isChecked(check)) return null;
     if(isDisabled(check)) return null;
 
-    if(sectionId === 'complete'){
-      var startQuiz = $('a[href="#quiz"], .btn-start-quiz, [data-start-quiz]');
-      if(startQuiz) return { kind: 'start-quiz', el: startQuiz, label: 'Start module quiz' };
-    }
-    if(sectionId === 'quiz'){
-      var quiz = $('#quiz');
-      return quiz ? { kind: 'quiz', el: quiz, label: 'Complete the module quiz' } : null;
-    }
     var section = document.getElementById(sectionId);
     var labels = {
       recap: 'Review module recap',
