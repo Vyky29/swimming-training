@@ -14,6 +14,7 @@
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260812');
+  @import url('/assets/module-block-accordion.css?v=20260713accordion');
   @import url('/assets/programme-journey-map.css?v=20260713ocean-fix');
 
   :root{
@@ -2279,29 +2280,60 @@
       align-items:center;
       justify-content:center;
       margin:0;
-      padding:6px 8px 2px;
+      padding:0;
       background:transparent;
       border-radius:0;
       box-shadow:none;
+      width:100%;
     }
     .b2-core-hero img{
-      width:auto;
-      max-width:min(260px,72vw);
+      width:100%;
+      max-width:min(920px,100%);
       height:auto;
-      max-height:210px;
+      max-height:none;
       object-fit:contain;
       display:block;
       isolation:isolate;
       mix-blend-mode:normal;
-      filter:drop-shadow(0 8px 18px rgba(18,50,71,.12));
+      border-radius:14px;
+      filter:drop-shadow(0 10px 22px rgba(18,50,71,.12));
     }
     .concept-panel[data-stage-theme="core"] .concept-image.b2-core-intro{
+      position:relative;
       background:transparent !important;
       border:none;
+      padding:0;
+      overflow:visible;
     }
     .concept-panel[data-stage-theme="core"] .b2-core-hero{
       background:transparent !important;
       border:none;
+    }
+    .concept-panel[data-stage-theme="core"] .concept-image.b2-core-intro .img-expand-btn{
+      top:12px;
+      right:12px;
+      z-index:3;
+    }
+    .concept-image.b1-foundation-intro{
+      position:relative;
+      overflow:visible;
+      padding:0;
+      background:transparent;
+      border:none;
+    }
+    .concept-image.b1-foundation-intro img{
+      width:100%;
+      max-width:min(920px,100%);
+      height:auto;
+      display:block;
+      margin:0 auto;
+      border-radius:14px;
+      filter:drop-shadow(0 10px 22px rgba(18,50,71,.12));
+    }
+    .concept-image.b1-foundation-intro .img-expand-btn{
+      top:12px;
+      right:12px;
+      z-index:3;
     }
     @media (max-width:760px){
       .concept-grid.concept-grid--core{
@@ -6975,6 +7007,7 @@
   </div>
 
   <script src="/shared/parent-subconcept-layout.js"></script>
+  <script src="/shared/module-block-accordion.js?v=20260713accordion"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function(){
     if (typeof console !== 'undefined') console.log('Module 4: DOMContentLoaded');
@@ -7142,7 +7175,7 @@
           'Progress depends on how the swimmer functions',
           'In practice: Focus on how the swimmer responds, not just what they achieve'
         ],
-        introMediaHTML: '<div class="concept-image"><img src="https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_56_40-PM.png" alt="Programme purpose infographic" loading="lazy" /></div>',
+        introMediaHTML: '<div class="concept-image b1-foundation-intro"><img src="/assets/images/module-4/foundations/programme-purpose-poster.png" alt="Programme Purpose poster: promote inclusion, support progress, build confidence, and develop functional skills" width="1024" height="682" loading="lazy" decoding="async" /></div>',
         imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b1c1"><p class="activity-question">What is the main focus of the programme?</p><div class="option-grid"><label class="option"><input type="radio" name="b1c1_act" value="A"><span>A. Completing all swimming techniques</span></label><label class="option"><input type="radio" name="b1c1_act" value="B"><span>B. Building functional ability in water</span></label><label class="option"><input type="radio" name="b1c1_act" value="C"><span>C. Increasing speed and distance</span></label><label class="option"><input type="radio" name="b1c1_act" value="D"><span>D. Preparing for competition</span></label></div><div class="feedback" data-activity-feedback="b1c1"></div>'
       },
       b1c2: {
@@ -7155,7 +7188,7 @@
           'Confidence builds through positive experience',
           'In practice: Adapt expectations to the swimmer, not the swimmer to expectations'
         ],
-        introMediaHTML: '<div class="concept-image"><img src="https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_58_44-PM.png" alt="Programme values infographic" loading="lazy" /></div>',
+        introMediaHTML: '<div class="concept-image b1-foundation-intro"><img src="/assets/images/module-4/foundations/programme-values-poster.png" alt="Programme Values poster: person-centred, respect and dignity, safety first, inclusion, progress, and empowerment" width="1024" height="682" loading="lazy" decoding="async" /></div>',
         imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b1c2"><p class="activity-question">Every swimmer should follow the same progression pathway at the same pace.</p><div class="option-grid option-grid--two"><label class="option"><input type="radio" name="b1c2_act" value="A"><span>A. True</span></label><label class="option"><input type="radio" name="b1c2_act" value="B"><span>B. False</span></label></div><div class="feedback" data-activity-feedback="b1c2"></div>'
       },
       b1c3: {
@@ -7295,7 +7328,7 @@
           'Regulation changes with environment, sensory load, and task demand: keep checking in.',
           'Use regulation as your guide for when to add challenge and when to support or repeat.',
           'In practice: When tension rises, simplify the task and reduce sensory load before you add challenge.'],
-        introMediaHTML: '<div class="concept-image b2-core-intro"><figure class="b2-core-hero"><img src="/assets/images/module-4/core-areas/core-regulation-brain.png" alt="Regulation — calm, safe and emotionally available in the water" width="512" height="491" loading="lazy" decoding="async" /></figure></div>',
+        introMediaHTML: '<div class="concept-image b2-core-intro"><figure class="b2-core-hero"><img src="/assets/images/module-4/core-areas/core-regulation-poster.png" alt="Regulation poster: zones, influencing factors, and checking regulation before adding challenge" width="1024" height="682" loading="lazy" decoding="async" /></figure></div>',
         imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core1"><p class="activity-question">A swimmer was regulated at the start but is now tense and avoiding eye contact. What should you do first?</p><div class="option-grid"><label class="option"><input type="radio" name="b2core1_act" value="A"><span>A. Push the planned main set to build resilience.</span></label><label class="option"><input type="radio" name="b2core1_act" value="B"><span>B. Slow down or simplify the task; reduce sensory load and prioritise re-regulation.</span></label><label class="option"><input type="radio" name="b2core1_act" value="C"><span>C. Add competition-style pressure to refocus attention.</span></label></div><div class="feedback" data-activity-feedback="b2core1"></div></div>'
       },
       b2core2: {
@@ -7306,7 +7339,7 @@
           'Independence can grow in small steps: observe over time, not only in one session.',
           'Use it alongside regulation and engagement to decide when to progress or consolidate.',
           'In practice: Track support needs over time in small steps before you progress or consolidate level.'],
-        introMediaHTML: '<div class="concept-image b2-core-intro"><figure class="b2-core-hero"><img src="/assets/images/module-4/core-areas/core-independence-rocket.png" alt="Independence — growing support-free movement, position and safety" width="506" height="512" loading="lazy" decoding="async" /></figure></div>',
+        introMediaHTML: '<div class="concept-image b2-core-intro"><figure class="b2-core-hero"><img src="/assets/images/module-4/core-areas/core-independence-poster.png" alt="Independence poster: trying for themselves, gradual release, and building independence" width="1024" height="682" loading="lazy" decoding="async" /></figure></div>',
         imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core2"><p class="activity-question">True or false: Independence only matters for physical skills, not for safety or engagement.</p><div class="option-grid option-grid--two"><label class="option"><input type="radio" name="b2core2_act" value="T"><span>True</span></label><label class="option"><input type="radio" name="b2core2_act" value="F"><span>False</span></label></div><div class="feedback" data-activity-feedback="b2core2"></div></div>'
       },
       b2core3: {
@@ -7317,7 +7350,7 @@
           'Motivation and focus show whether the swimmer is available for learning.',
           'Use it to adjust pace, demand, and how you present the next activity.',
           'In practice: If attention drifts, match pace and demand before assuming the task is too easy.'],
-        introMediaHTML: '<div class="concept-image b2-core-intro"><figure class="b2-core-hero"><img src="/assets/images/module-4/core-areas/core-engagement-wave.png" alt="Learning and engagement — participation, focus and response to teaching" width="501" height="512" loading="lazy" decoding="async" /></figure></div>',
+        introMediaHTML: '<div class="concept-image b2-core-intro"><figure class="b2-core-hero"><img src="/assets/images/module-4/core-areas/core-engagement-poster.png" alt="Learning and engagement poster: motivation, participation, challenge, and what supports learning" width="1024" height="819" loading="lazy" decoding="async" /></figure></div>',
         imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core3"><p class="activity-question">A swimmer is physically able to do the task but keeps drifting off. What does this suggest?</p><div class="option-grid"><label class="option"><input type="radio" name="b2core3_act" value="A"><span>A. They need a harder task to stay interested.</span></label><label class="option"><input type="radio" name="b2core3_act" value="B"><span>B. Learning &amp; engagement may be low: check regulation and match your demand.</span></label><label class="option"><input type="radio" name="b2core3_act" value="C"><span>C. Ignore attention if technique looks correct.</span></label></div><div class="feedback" data-activity-feedback="b2core3"></div></div>'
       },
 
@@ -8843,6 +8876,7 @@
         lockBox.querySelector('.lock-message').innerHTML = '<strong>Unlocked.</strong> You can now complete the reflection checkpoint.';
       }
       if(gate) gate.classList.add('open');
+      if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
     }
 
     function setupDwellTime(){
@@ -8957,6 +8991,10 @@
       if(section){
         section.classList.remove('gated-locked');
       }
+      if(window.ModuleBlockAccordion && /^block[1-4]$/.test(String(stageId || ''))){
+        ModuleBlockAccordion.ensureOpen(stageId, { scroll: true });
+        ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
+      }
     }
 
     function getBlock4MainConceptCompletedCount(){
@@ -8983,6 +9021,7 @@
         tryUnlockBlockGate(block);
       }
       if(block === 'block3') updateStageCompletedStates();
+      if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
     }
 
     function markConceptComplete(block, target){
@@ -11385,6 +11424,7 @@
             feedback.textContent = correctFeedback[block];
             feedback.className = 'feedback show good';
             checkbox.disabled = false;
+            if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
           } else {
             feedback.textContent = wrongFeedback[block];
             feedback.className = 'feedback show warn';
@@ -11392,6 +11432,7 @@
             checkbox.checked = false;
             checkbox.closest('.check-item')?.classList.remove('clicked');
             updateProgress();
+            if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
           }
         });
       });
@@ -11404,6 +11445,7 @@
         else unlockStage(next);
       }
       updateProgress();
+      if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh();
     }
 
     function setupChecks(){
@@ -11498,6 +11540,7 @@
             if(type === 'focus') state[key].focus = true;
             else if(type === 'breakdown') state[key].breakdown = true;
             saveBlockIntroState(state);
+            if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
           });
           card.addEventListener('keydown', e => {
             if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); card.click(); }
@@ -11727,6 +11770,16 @@
       if(REVIEW_MODE) enableReviewMode();
       updateProgress();
       if (typeof window !== 'undefined') window.updateProgress = updateProgress;
+      if (typeof window !== 'undefined') {
+        window.getModuleBlockConceptProgress = function(block){
+          if(!conceptGroups[block]) return { done: 0, total: 0 };
+          var done = block === 'block3'
+            ? getPathwayCompletedInOrderCount()
+            : (block === 'block4' ? getBlock4MainConceptCompletedCount() : conceptCompletion[block].size);
+          return { done: done, total: conceptGroups[block].total };
+        };
+      }
+      if(window.ModuleBlockAccordion) ModuleBlockAccordion.init();
       document.querySelectorAll('.btn-save-progress').forEach(function(btn){
         if(btn) btn.addEventListener('click', function(){
           if(REVIEW_MODE) return;
@@ -11753,7 +11806,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260812"></script>
+  <script src="/shared/training-flow-guide.js?v=20260713accordion"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The clubSENsational Swimming Programme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --ink:#0c2436;
+      --muted:#4a6273;
+      --line:rgba(12,36,54,.1);
+      --confidence:#1a5c38;
+      --confidence-soft:#6da372;
+      --basic:#c97816;
+      --basic-soft:#ea8f22;
+      --structured:#1580b0;
+      --structured-deep:#0d3554;
+      --brand:#2d84b3;
+      --core:#6b3fa0;
+    }
+    *{ box-sizing:border-box; }
+    html,body{
+      margin:0;
+      padding:0;
+      background:#cfdce6;
+      color:var(--ink);
+      font-family:"Manrope",system-ui,sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    body{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:16px;
+      padding:20px 14px 36px;
+    }
+    .poster-toolbar{
+      width:min(1180px,100%);
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:14px;
+      background:rgba(255,255,255,.82);
+      border:1px solid rgba(12,36,54,.08);
+    }
+    .poster-toolbar p{
+      margin:0;
+      font-size:.8rem;
+      font-weight:600;
+      color:var(--muted);
+    }
+    .poster-toolbar button{
+      appearance:none;
+      border:0;
+      border-radius:999px;
+      padding:10px 16px;
+      font:inherit;
+      font-size:.8rem;
+      font-weight:800;
+      color:#fff;
+      background:var(--brand);
+      cursor:pointer;
+    }
+    .poster-toolbar button:hover{ background:#246e96; }
+
+    .poster{
+      --poster-w:1180px;
+      width:var(--poster-w);
+      max-width:100%;
+      aspect-ratio:420 / 297;
+      position:relative;
+      overflow:hidden;
+      border-radius:20px;
+      background:
+        radial-gradient(90% 70% at 0% 0%, rgba(110,198,230,.22), transparent 55%),
+        radial-gradient(70% 55% at 100% 0%, rgba(167,139,212,.14), transparent 48%),
+        linear-gradient(168deg, #f3f8fc 0%, #fbfcfe 46%, #eaf3f9 100%);
+      border:1px solid rgba(12,36,54,.1);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.75) inset,
+        0 30px 64px rgba(12,36,54,.16);
+      display:grid;
+      grid-template-rows:auto auto 1fr auto auto;
+      padding:24px 26px 18px;
+      gap:12px;
+    }
+    .poster::before{
+      content:"";
+      position:absolute;
+      inset:9px;
+      border:1px solid rgba(45,132,179,.16);
+      border-radius:14px;
+      pointer-events:none;
+      z-index:0;
+    }
+    .poster > *{ position:relative; z-index:1; min-width:0; }
+
+    .hero{
+      display:grid;
+      grid-template-columns:72px 1fr;
+      gap:16px;
+      align-items:center;
+      padding-bottom:2px;
+    }
+    .hero-logo{
+      width:72px;
+      height:72px;
+      object-fit:contain;
+      filter:drop-shadow(0 8px 16px rgba(12,36,54,.12));
+    }
+    .hero-kicker{
+      margin:0 0 3px;
+      font-size:.64rem;
+      font-weight:800;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--brand);
+    }
+    .hero-title{
+      margin:0;
+      font-family:"Fraunces",Georgia,serif;
+      font-size:clamp(1.45rem,2.5vw,2.05rem);
+      font-weight:700;
+      line-height:1.08;
+      letter-spacing:-.02em;
+      color:var(--ink);
+    }
+    .hero-lead{
+      margin:7px 0 0;
+      max-width:48rem;
+      font-size:.86rem;
+      font-weight:600;
+      line-height:1.45;
+      color:var(--muted);
+    }
+
+    .foundation{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .found-panel{
+      border-radius:14px;
+      padding:11px 14px 12px;
+      background:rgba(255,255,255,.78);
+      border:1px solid var(--line);
+    }
+    .found-panel h2{
+      margin:0 0 5px;
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--brand);
+    }
+    .found-panel p{
+      margin:0;
+      font-size:.78rem;
+      font-weight:650;
+      line-height:1.4;
+      color:var(--ink);
+    }
+    .found-list{
+      margin:8px 0 0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px 10px;
+    }
+    .found-list li{
+      font-size:.7rem;
+      font-weight:700;
+      color:var(--muted);
+      padding:4px 9px;
+      border-radius:999px;
+      background:rgba(45,132,179,.08);
+      border:1px solid rgba(45,132,179,.12);
+    }
+    .found-panel--values h2{ color:var(--confidence); }
+    .found-panel--values .found-list li{
+      background:rgba(26,92,56,.07);
+      border-color:rgba(26,92,56,.14);
+    }
+
+    .stages{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:11px;
+      min-height:0;
+    }
+    .stage{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      min-height:0;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(12,36,54,.12);
+      box-shadow:0 10px 22px rgba(12,36,54,.08);
+      color:#fff;
+    }
+    .stage-world{
+      position:absolute;
+      inset:0;
+      z-index:0;
+    }
+    .stage-world img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .stage--confidence .stage-world img{ object-position:center 40%; }
+    .stage--basic .stage-world img{ object-position:center 55%; }
+    .stage--structured .stage-world img{
+      object-position:center 72%;
+      filter:saturate(1.12) brightness(1.18);
+    }
+    .stage-shade{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+    }
+    .stage--confidence .stage-shade{
+      background:linear-gradient(180deg, rgba(26,92,56,.4) 0%, rgba(14,48,30,.52) 46%, rgba(10,36,24,.84) 100%);
+    }
+    .stage--basic .stage-shade{
+      background:linear-gradient(180deg, rgba(201,120,22,.38) 0%, rgba(140,78,12,.5) 46%, rgba(90,50,8,.84) 100%);
+    }
+    .stage--structured .stage-shade{
+      background:linear-gradient(180deg, rgba(74,134,180,.32) 0%, rgba(21,80,120,.46) 44%, rgba(10,40,70,.8) 100%);
+    }
+    .stage-body{
+      position:relative;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      flex:1;
+      min-height:0;
+      padding:12px 12px 10px;
+      gap:8px;
+    }
+    .stage-meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .stage-num,
+    .stage-theme{
+      font-size:.58rem;
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .stage-num{
+      padding:3px 8px;
+      border-radius:999px;
+      background:rgba(255,255,255,.18);
+      backdrop-filter:blur(6px);
+    }
+    .stage-theme{ opacity:.9; }
+    .stage h3{
+      margin:0;
+      font-family:"Fraunces",Georgia,serif;
+      font-size:1.08rem;
+      font-weight:700;
+      line-height:1.12;
+      letter-spacing:-.01em;
+      text-shadow:0 1px 12px rgba(0,0,0,.28);
+    }
+    .stage-focus{
+      margin:0;
+      font-size:.72rem;
+      font-weight:650;
+      line-height:1.35;
+      color:rgba(255,255,255,.92);
+      text-shadow:0 1px 10px rgba(0,0,0,.25);
+    }
+    .stage-levels{
+      margin-top:auto;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:7px;
+    }
+    .level{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      padding:7px 7px 7px 6px;
+      border-radius:12px;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.22);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+    .level img{
+      width:38px;
+      height:38px;
+      object-fit:contain;
+      flex:0 0 auto;
+      filter:drop-shadow(0 4px 8px rgba(0,0,0,.25));
+    }
+    .level-copy{ min-width:0; }
+    .level-kicker{
+      display:block;
+      font-size:.52rem;
+      font-weight:800;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      opacity:.85;
+    }
+    .level-name{
+      display:block;
+      margin-top:1px;
+      font-size:.8rem;
+      font-weight:800;
+      line-height:1.1;
+    }
+    .level-note{
+      display:block;
+      margin-top:2px;
+      font-size:.58rem;
+      font-weight:600;
+      line-height:1.25;
+      opacity:.9;
+    }
+
+    .cores{
+      border-radius:16px;
+      padding:12px 14px 13px;
+      background:
+        linear-gradient(135deg, rgba(107,63,160,.06), rgba(255,255,255,.88)),
+        rgba(255,255,255,.86);
+      border:1px solid rgba(107,63,160,.14);
+      box-shadow:0 8px 20px rgba(12,36,54,.05);
+    }
+    .cores-head{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:6px 16px;
+      margin-bottom:10px;
+    }
+    .cores-head h2{
+      margin:0;
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--core);
+    }
+    .cores-head p{
+      margin:0;
+      font-size:.74rem;
+      font-weight:650;
+      color:var(--muted);
+      max-width:42rem;
+      line-height:1.35;
+    }
+    .cores-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+    }
+    .core{
+      display:grid;
+      grid-template-columns:52px 1fr;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+      border-radius:14px;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(107,63,160,.12);
+    }
+    .core img{
+      width:52px;
+      height:52px;
+      object-fit:contain;
+      filter:drop-shadow(0 6px 12px rgba(12,36,54,.1));
+    }
+    .core h3{
+      margin:0;
+      font-size:.88rem;
+      font-weight:800;
+      color:var(--core);
+      line-height:1.15;
+    }
+    .core p{
+      margin:4px 0 0;
+      font-size:.7rem;
+      font-weight:600;
+      line-height:1.35;
+      color:var(--muted);
+    }
+
+    .footer{
+      display:grid;
+      grid-template-columns:1.5fr auto 1fr;
+      gap:12px;
+      align-items:end;
+      padding-top:2px;
+      border-top:1px solid rgba(12,36,54,.1);
+    }
+    .footer-pathway strong{
+      display:block;
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--brand);
+    }
+    .footer-pathway p{
+      margin:4px 0 0;
+      font-size:.74rem;
+      font-weight:650;
+      line-height:1.4;
+      color:var(--muted);
+      max-width:36rem;
+    }
+    .footer-rail{
+      display:flex;
+      align-items:center;
+      gap:5px;
+      padding-bottom:2px;
+    }
+    .footer-rail span{
+      width:26px;
+      height:4px;
+      border-radius:999px;
+    }
+    .footer-rail span:nth-child(1){ background:var(--confidence); }
+    .footer-rail span:nth-child(2){ background:var(--confidence-soft); }
+    .footer-rail span:nth-child(3){ background:var(--basic-soft); }
+    .footer-rail span:nth-child(4){ background:var(--basic); }
+    .footer-rail span:nth-child(5){ background:var(--structured); }
+    .footer-rail span:nth-child(6){ background:var(--structured-deep); }
+    .footer-brand{
+      text-align:right;
+      font-size:.68rem;
+      font-weight:650;
+      line-height:1.4;
+      color:var(--muted);
+    }
+    .footer-brand a{
+      color:var(--brand);
+      text-decoration:none;
+      font-weight:800;
+    }
+
+    @media (max-width:980px){
+      .poster{
+        aspect-ratio:auto;
+        height:auto;
+      }
+      .foundation,
+      .stages,
+      .cores-grid,
+      .footer{
+        grid-template-columns:1fr;
+      }
+      .footer-brand{ text-align:left; }
+    }
+
+    @media print{
+      body{
+        background:#fff;
+        padding:0;
+      }
+      .poster-toolbar{ display:none !important; }
+      .poster{
+        width:297mm;
+        height:210mm;
+        max-width:none;
+        aspect-ratio:auto;
+        border-radius:0;
+        box-shadow:none;
+        border:0;
+      }
+      .poster::before{ inset:5mm; }
+      @page{
+        size:A4 landscape;
+        margin:0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="poster-toolbar">
+    <p>Draft poster · Print or save as PDF from the browser</p>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <article class="poster" aria-label="clubSENsational Swimming Programme poster">
+    <header class="hero">
+      <img class="hero-logo" src="./clubsensational-portal-logo.png" alt="clubSENsational" width="72" height="72" />
+      <div>
+        <p class="hero-kicker">The clubSENsational Swimming Programme</p>
+        <h1 class="hero-title">Three stages. Six levels. One celebrated pathway.</h1>
+        <p class="hero-lead">Your term certificate celebrates stage, level, and growth in the water. This map shows what those words mean: where your swimmer is now, and how every step forward is recognised.</p>
+      </div>
+    </header>
+
+    <section class="foundation" aria-label="Purpose and values">
+      <div class="found-panel">
+        <h2>Purpose</h2>
+        <p>We support swimmers beyond skill completion, focusing on how they experience, respond, and function in water. Development is guided with care, not only skill delivery.</p>
+        <ul class="found-list">
+          <li>Functional independence</li>
+          <li>Skills as tools</li>
+          <li>Emotional and physical readiness</li>
+        </ul>
+      </div>
+      <div class="found-panel found-panel--values">
+        <h2>Values</h2>
+        <p>Every decision keeps learning safe, inclusive, and meaningful, with progress that belongs to each swimmer.</p>
+        <ul class="found-list">
+          <li>Individual pathway</li>
+          <li>Safety before progression</li>
+          <li>Confidence through positive experience</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="stages" aria-label="Stages and levels">
+      <article class="stage stage--confidence">
+        <div class="stage-world" aria-hidden="true">
+          <img src="./images/module-4/worlds/stage-1-world-bg.jpg" alt="" width="1200" height="800" />
+        </div>
+        <div class="stage-shade" aria-hidden="true"></div>
+        <div class="stage-body">
+          <div class="stage-meta">
+            <span class="stage-num">Stage 1</span>
+            <span class="stage-theme">Discover</span>
+          </div>
+          <h3>Swim Confidence</h3>
+          <p class="stage-focus">Emotional readiness and sensory experience before technique: safety, comfort, and trust in the water.</p>
+          <div class="stage-levels">
+            <div class="level">
+              <img src="./images/module-4/mascots/level-1-turtle.png" alt="" width="38" height="38" />
+              <div class="level-copy">
+                <span class="level-kicker">Level 1 · First Splash</span>
+                <span class="level-name">Turtle</span>
+                <span class="level-note">Calm first contact and trust</span>
+              </div>
+            </div>
+            <div class="level">
+              <img src="./images/module-4/mascots/level-2-starfish.png" alt="" width="38" height="38" />
+              <div class="level-copy">
+                <span class="level-kicker">Level 2 · Water Explorer</span>
+                <span class="level-name">Starfish</span>
+                <span class="level-note">Longer engagement, lighter prompting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stage stage--basic">
+        <div class="stage-world" aria-hidden="true">
+          <img src="./images/module-4/worlds/stage-2-world-bg.jpg" alt="" width="1200" height="800" />
+        </div>
+        <div class="stage-shade" aria-hidden="true"></div>
+        <div class="stage-body">
+          <div class="stage-meta">
+            <span class="stage-num">Stage 2</span>
+            <span class="stage-theme">Explore</span>
+          </div>
+          <h3>Swim Basic</h3>
+          <p class="stage-focus">Fundamental skills for safe, confident movement: floating, balance, propulsion, and safety sequences.</p>
+          <div class="stage-levels">
+            <div class="level">
+              <img src="./images/module-4/mascots/level-3-jellyfish.png" alt="" width="38" height="38" />
+              <div class="level-copy">
+                <span class="level-kicker">Level 3 · Floating Friend</span>
+                <span class="level-name">Jellyfish</span>
+                <span class="level-note">Float, streamline, early propulsion</span>
+              </div>
+            </div>
+            <div class="level">
+              <img src="./images/module-4/mascots/level-4-ray.png" alt="" width="38" height="38" />
+              <div class="level-copy">
+                <span class="level-kicker">Level 4 · Ocean Navigator</span>
+                <span class="level-name">Ray</span>
+                <span class="level-note">Control, coordination, independence</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stage stage--structured">
+        <div class="stage-world" aria-hidden="true">
+          <img src="./images/module-4/worlds/stage-3-world-bg.jpg" alt="" width="1200" height="800" />
+        </div>
+        <div class="stage-shade" aria-hidden="true"></div>
+        <div class="stage-body">
+          <div class="stage-meta">
+            <span class="stage-num">Stage 3</span>
+            <span class="stage-theme">Master</span>
+          </div>
+          <h3>Swim Structured</h3>
+          <p class="stage-focus">Stroke refinement, rhythm, and endurance: structured swimming with integrated water safety.</p>
+          <div class="stage-levels">
+            <div class="level">
+              <img src="./images/module-4/mascots/level-5-dolphin.png" alt="" width="38" height="38" />
+              <div class="level-copy">
+                <span class="level-kicker">Level 5 · Independent Swimmer</span>
+                <span class="level-name">Dolphin</span>
+                <span class="level-note">Technique and sustained independence</span>
+              </div>
+            </div>
+            <div class="level">
+              <img src="./images/module-4/mascots/level-6-whale.png" alt="" width="38" height="38" />
+              <div class="level-copy">
+                <span class="level-kicker">Level 6 · Ocean Master</span>
+                <span class="level-name">Whale</span>
+                <span class="level-note">Efficiency, fluency, endurance</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="cores" aria-label="Core development areas">
+      <div class="cores-head">
+        <h2>Core Development Areas</h2>
+        <p>On your certificate, Development this term celebrates these three areas alongside stage and level, not only swimming skills.</p>
+      </div>
+      <div class="cores-grid">
+        <article class="core">
+          <img src="./images/module-4/core-areas/core-regulation-brain.png" alt="" width="52" height="52" />
+          <div>
+            <h3>Regulation</h3>
+            <p>How calm, safe, and emotionally available the swimmer feels in the water.</p>
+          </div>
+        </article>
+        <article class="core">
+          <img src="./images/module-4/core-areas/core-independence-rocket.png" alt="" width="52" height="52" />
+          <div>
+            <h3>Independence</h3>
+            <p>How much support is needed for position, movement, and safety.</p>
+          </div>
+        </article>
+        <article class="core">
+          <img src="./images/module-4/core-areas/core-engagement-wave.png" alt="" width="52" height="52" />
+          <div>
+            <h3>Learning and Engagement</h3>
+            <p>How the swimmer participates, attends, and responds to teaching.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-pathway">
+        <strong>How we celebrate progress</strong>
+        <p>Each term certificate names the stage, level, and animal pathway, and highlights growth in regulation, independence, and engagement. Progress is individual. Returning to earlier foundations is still progress.</p>
+      </div>
+      <div class="footer-rail" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="footer-brand">
+        clubSENsational Ltd<br />
+        <a href="https://www.clubsensational.org">www.clubsensational.org</a>
+      </div>
+    </footer>
+  </article>
+</body>
+</html>

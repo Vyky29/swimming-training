@@ -1,0 +1,249 @@
+/* Module block accordion — guided one-open-at-a-time shells (training modules) */
+.section.block-part{
+  margin:22px 0 18px;
+  padding:16px 16px 14px;
+  border-radius:22px;
+  border:1px solid transparent;
+  box-shadow:0 12px 32px rgba(18,50,71,.07);
+  position:relative;
+  overflow:hidden;
+}
+.section.block-part::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:5px;
+  border-radius:22px 0 0 22px;
+  pointer-events:none;
+}
+.section.block-part.block-part--foundations{
+  border-color:rgba(45,132,179,.2);
+  background:linear-gradient(165deg, rgba(233,243,247,.98) 0%, rgba(255,255,255,.98) 42%, #fff 100%);
+}
+.section.block-part.block-part--foundations::before{
+  background:linear-gradient(180deg,#1d4ed8,#2d84b3);
+}
+.section.block-part.block-part--core{
+  border-color:rgba(138,63,176,.2);
+  background:linear-gradient(165deg, rgba(244,236,250,.96) 0%, rgba(255,255,255,.98) 40%, #fff 100%);
+}
+.section.block-part.block-part--core::before{
+  background:linear-gradient(180deg,#7b2fa1,#a855f7);
+}
+.section.block-part.block-part--pathway{
+  border-color:rgba(26,92,56,.18);
+  background:linear-gradient(165deg, rgba(236,248,240,.96) 0%, rgba(255,255,255,.98) 40%, #fff 100%);
+}
+.section.block-part.block-part--pathway::before{
+  background:linear-gradient(180deg,#1a5c38,#6da372);
+}
+.section.block-part.block-part--progress{
+  border-color:rgba(201,120,22,.24);
+  background:linear-gradient(165deg, rgba(255,248,235,.96) 0%, rgba(255,255,255,.98) 40%, #fff 100%);
+}
+.section.block-part.block-part--progress::before{
+  background:linear-gradient(180deg,#c97816,#ea8f22);
+}
+
+.section.block-part > .section-top{
+  display:none !important;
+}
+
+.block-part-head{
+  width:100%;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  text-align:left;
+  cursor:pointer;
+  background:transparent;
+  border:0;
+  font:inherit;
+  color:inherit;
+  padding:4px 8px 14px 12px;
+  border-bottom:1px solid rgba(15,23,42,.06);
+  margin:0 2px 6px;
+  border-radius:12px;
+  transition:background .15s ease;
+}
+.block-part-head:hover{ background:rgba(255,255,255,.45); }
+.block-part-head:focus-visible{
+  outline:2px solid rgba(45,132,179,.45);
+  outline-offset:2px;
+}
+.block-part-head-main{ min-width:0; flex:1; }
+.block-part-head-meta{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:0 0 auto;
+  padding-top:2px;
+}
+.block-part-kicker{
+  margin:0 0 4px;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.block-part--foundations .block-part-kicker{ color:#1d4ed8; }
+.block-part--core .block-part-kicker{ color:#7b2fa1; }
+.block-part--pathway .block-part-kicker{ color:#1a5c38; }
+.block-part--progress .block-part-kicker{ color:#9a6b12; }
+.block-part-title{
+  margin:0 0 6px;
+  font-size:1.18rem;
+  font-weight:900;
+  color:var(--ink, #163247);
+  letter-spacing:.01em;
+}
+.block-part-text{
+  margin:0;
+  font-size:.9rem;
+  line-height:1.5;
+  color:var(--muted, #70808f);
+  font-weight:600;
+  max-width:62ch;
+}
+.block-part-status{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  border:1px solid rgba(15,23,42,.08);
+  background:rgba(255,255,255,.75);
+  color:rgba(78,91,103,.92);
+  white-space:nowrap;
+}
+.block-part-status[data-state="locked"]{
+  color:#9a6b12;
+  background:rgba(255,248,230,.95);
+  border-color:rgba(204,149,43,.28);
+}
+.block-part-status[data-state="not_started"]{
+  color:rgba(100,116,139,.95);
+  background:rgba(248,250,252,.9);
+}
+.block-part-status[data-state="in_progress"]{
+  color:#1d4ed8;
+  background:rgba(219,234,254,.85);
+  border-color:rgba(37,99,235,.2);
+}
+.block-part-status[data-state="ready"]{
+  color:#7b2fa1;
+  background:rgba(243,232,255,.92);
+  border-color:rgba(168,85,247,.28);
+}
+.block-part-status[data-state="complete"]{
+  color:#047857;
+  background:rgba(209,250,229,.9);
+  border-color:rgba(16,185,129,.28);
+}
+.block-part-status[data-state="complete"]::before,
+.block-part-status[data-state="ready"]::before{
+  content:"";
+  width:7px;
+  height:7px;
+  border-radius:99px;
+  background:currentColor;
+  box-shadow:0 0 0 3px rgba(16,185,129,.18);
+}
+.block-part-status[data-state="ready"]::before{
+  background:#a855f7;
+  box-shadow:0 0 0 3px rgba(168,85,247,.2);
+}
+.block-part-chevron{
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,42,.08);
+  background:rgba(255,255,255,.8);
+  position:relative;
+  flex:0 0 auto;
+  transition:transform .2s ease, background .15s ease;
+}
+.block-part-chevron::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:46%;
+  width:7px;
+  height:7px;
+  border-right:2px solid rgba(15,23,42,.55);
+  border-bottom:2px solid rgba(15,23,42,.55);
+  transform:translate(-50%,-60%) rotate(45deg);
+}
+.section.block-part.is-open .block-part-chevron{
+  transform:rotate(180deg);
+  background:#fff;
+}
+.section.block-part:not(.is-open){
+  padding-bottom:12px;
+}
+.section.block-part:not(.is-open) .block-part-head{
+  border-bottom-color:transparent;
+  margin-bottom:0;
+  padding-bottom:4px;
+}
+.section.block-part:not(.is-open) .block-part-text{
+  display:none;
+}
+.section.block-part .block-part-body{
+  display:none;
+  padding-top:2px;
+}
+.section.block-part.is-open .block-part-body{
+  display:block;
+}
+.section.block-part.is-complete:not(.is-open){
+  box-shadow:0 8px 22px rgba(18,50,71,.05);
+}
+.section.block-part.gated-locked .block-part-head{
+  cursor:pointer;
+}
+.section.block-part .block-part-body > .section-body{
+  margin:0;
+  padding:0;
+}
+.section.block-part .block-header .block-title-wrap h3{
+  /* Title lives in accordion head; keep TTS actions */
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+.section.block-part .block-header{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  margin-top:4px;
+}
+
+/* Guided flow can pulse the accordion head when a block should be opened */
+html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
+  box-shadow:0 0 0 3px rgba(45,132,179,.28);
+}
+
+@media (max-width:720px){
+  .block-part-head{
+    flex-direction:column;
+    gap:10px;
+  }
+  .block-part-head-meta{
+    width:100%;
+    justify-content:space-between;
+  }
+}

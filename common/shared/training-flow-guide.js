@@ -1301,7 +1301,7 @@
   function getBlockDisplayName(block){
     var section = document.getElementById(block);
     if(!section) return block;
-    var title = section.querySelector('.block-title-wrap h3, .block-header h3, h3');
+    var title = section.querySelector('.block-part-title, .block-title-wrap h3, .block-header h3, h3');
     if(title && title.textContent.trim()) return title.textContent.trim();
     return block.replace('block', 'Block ');
   }
@@ -1721,6 +1721,10 @@
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
     if(!insideModuleReviewed()) return null;
+
+    if(global.ModuleBlockAccordion && typeof global.ModuleBlockAccordion.ensureOpen === 'function'){
+      try{ global.ModuleBlockAccordion.ensureOpen(block); }catch(err){}
+    }
 
     var introStep = resolveBlockIntroCards(block);
     if(introStep) return introStep;
@@ -2402,7 +2406,7 @@
     if(nextModule){
       rail.hidden = false;
       var textEl = rail.querySelector('.flow-guide-rail__text');
-      if(textEl) textEl.innerHTML = 'Recommended next: <strong>Module ' + nextModule.number + ' ù ' + nextModule.title + '</strong>';
+      if(textEl) textEl.innerHTML = 'Recommended next: <strong>Module ' + nextModule.number + ' ? ' + nextModule.title + '</strong>';
     } else {
       rail.hidden = true;
     }
@@ -2480,6 +2484,7 @@
       else initModulePage();
     },
     refresh: refresh,
+    scheduleRefresh: scheduleRefresh,
     requestRefresh: function(delay){
       lastStepKey = null;
       lastScrolledKey = null;
