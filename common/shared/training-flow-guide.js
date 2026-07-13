@@ -546,6 +546,7 @@
 
   function conceptReadyForFinishCue(panel){
     if(!panel) return false;
+    syncPanelInPracticeDone(panel);
     if(getVisibleInsightPillars(panel).length) return false;
     if(!preKeyIdeasVisualsComplete(panel)) return false;
     if(hasUnclickedKeyIdeasInScope(panel)) return false;
@@ -671,7 +672,11 @@
     if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return true;
     var inPractice = nestedAction || panel.querySelector('.key-ideas-action');
     if(!inPractice || inPractice.hasAttribute('hidden')) return true;
-    return inPractice.classList.contains('is-completed') || panel.dataset.inPracticeDone === 'true';
+    if(inPractice.classList.contains('is-completed') || panel.dataset.inPracticeDone === 'true'){
+      if(panel.dataset.inPracticeDone !== 'true') panel.dataset.inPracticeDone = 'true';
+      return true;
+    }
+    return false;
   }
 
   function ensurePanelVisualWired(panel){
@@ -1568,6 +1573,29 @@
     });
   }
 
+  function markPanelInPracticeDone(panel, action){
+    if(!panel) return;
+    if(action) action.classList.add('is-completed');
+    panel.dataset.inPracticeDone = 'true';
+    try {
+      panel.setAttribute('data-in-practice-done', 'true');
+    } catch (err) {}
+  }
+
+  function syncPanelInPracticeDone(panel){
+    if(!panel) return false;
+    if(panel.dataset.inPracticeRequired !== 'true') return true;
+    if(panel.dataset.inPracticeDone === 'true') return true;
+    var root = getM5InteractiveRoot(panel);
+    var action = (root && root.querySelector('.key-ideas-action:not([hidden])')) ||
+      panel.querySelector('.key-ideas-action:not([hidden])');
+    if(action && action.classList.contains('is-completed')){
+      markPanelInPracticeDone(panel, action);
+      return true;
+    }
+    return false;
+  }
+
   function bindInPracticeReview(moduleConfig){
     document.addEventListener('in-practice-progress', function(e){
       if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
@@ -1580,21 +1608,20 @@
     }, true);
 
     document.addEventListener('in-practice-complete', function(e){
-      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
       var action = e.target && e.target.closest ? e.target.closest('.key-ideas-action') : null;
       if(!action) action = e.target;
       if(!action || !action.classList || !action.classList.contains('key-ideas-action')) return;
       var panel = action.closest('.concept-panel');
       if(!panel) return;
-      var nestedAction = findScopedInPracticeAction(panel);
-      if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return;
-      action.classList.add('is-completed');
-      if(!nestedAction) panel.dataset.inPracticeDone = 'true';
+      if(panel.dataset.inPracticeRequired === 'false' && !findScopedInPracticeAction(panel)) return;
+      markPanelInPracticeDone(panel, action);
       var icon = action.querySelector('.inprac__icon, .icon');
       if(icon){
         icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
       }
-      bumpFlowAdvance(moduleConfig, 120);
+      if(document.documentElement.getAttribute('data-guided-flow') === 'true'){
+        bumpFlowAdvance(moduleConfig, 120);
+      }
     }, true);
 
     // Legacy fallback: only Got it / completed CTA may finish the card
@@ -1603,16 +1630,18 @@
       if(!cta) return;
       var action = cta.closest('.key-ideas-action');
       if(!action || action.hasAttribute('hidden')) return;
-      if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
       var panel = action.closest('.concept-panel');
       if(!panel) return;
-      var nestedAction = findScopedInPracticeAction(panel);
-      if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return;
-      if(action.classList.contains('is-completed')) return;
+      if(panel.dataset.inPracticeRequired === 'false' && !findScopedInPracticeAction(panel)) return;
+      if(action.classList.contains('is-completed')){
+        markPanelInPracticeDone(panel, action);
+        return;
+      }
       if(global.InPracticeSystem && typeof InPracticeSystem.partsComplete === 'function' && !InPracticeSystem.partsComplete(action)) return;
-      action.classList.add('is-completed');
-      if(!nestedAction) panel.dataset.inPracticeDone = 'true';
-      bumpFlowAdvance(moduleConfig, 120);
+      markPanelInPracticeDone(panel, action);
+      if(document.documentElement.getAttribute('data-guided-flow') === 'true'){
+        bumpFlowAdvance(moduleConfig, 120);
+      }
     }, true);
   }
 
@@ -2834,7 +2863,9 @@
     resolveNextStep: resolveNextStep,
     markModuleComplete: markModuleComplete,
     returnToConceptGrid: returnToConceptGrid,
-    clearM5FlowTracking: clearM5FlowTracking
+    clearM5FlowTracking: clearM5FlowTracking,
+    syncPanelInPracticeDone: syncPanelInPracticeDone,
+    markPanelInPracticeDone: markPanelInPracticeDone
   };
 
   if(document.readyState === 'loading'){

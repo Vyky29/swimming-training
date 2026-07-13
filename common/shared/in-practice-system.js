@@ -180,6 +180,11 @@
     if (!actionEl || actionEl.classList.contains('is-completed')) return false;
     if (!partsComplete(actionEl)) return false;
     actionEl.classList.add('is-completed');
+    var panel = actionEl.closest && actionEl.closest('.concept-panel');
+    if (panel) {
+      panel.dataset.inPracticeDone = 'true';
+      try { panel.setAttribute('data-in-practice-done', 'true'); } catch (err0) {}
+    }
     syncChrome(actionEl);
     try {
       actionEl.dispatchEvent(new CustomEvent('in-practice-complete', { bubbles: true }));

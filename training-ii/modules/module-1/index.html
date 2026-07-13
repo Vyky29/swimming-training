@@ -12,7 +12,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
     @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/module-block-accordion.css?v=20260713accordion5');
-  @import url('/assets/training-flow-guide.css?v=20260713pulse9');
+  @import url('/assets/training-flow-guide.css?v=20260713pulse10');
   
     :root{
       --blue:#2d84b3;
@@ -4133,7 +4133,7 @@
   
     <script src="/shared/training-flow-config.js?v=20260716"></script>
     <script src="/shared/module-block-accordion.js?v=20260713accordion5"></script>
-    <script src="/shared/training-flow-guide.js?v=20260713pulse9"></script>
+    <script src="/shared/training-flow-guide.js?v=20260713pulse10"></script>
 <script>
     const conceptContent = {
       b1c1: {
@@ -4647,6 +4647,22 @@
       }, 120);
     }
   
+
+    function isInPracticeCompleteForPanel(panel){
+      if(!panel) return true;
+      if(panel.dataset.inPracticeRequired !== 'true') return true;
+      if(panel.dataset.inPracticeDone === 'true') return true;
+      var action = panel.querySelector('.key-ideas-action:not([hidden])');
+      if(action && action.classList.contains('is-completed')){
+        panel.dataset.inPracticeDone = 'true';
+        return true;
+      }
+      if(window.TrainingFlowGuide && typeof TrainingFlowGuide.syncPanelInPracticeDone === 'function'){
+        return !!TrainingFlowGuide.syncPanelInPracticeDone(panel);
+      }
+      return false;
+    }
+
     function updateConceptFinishState(panel, block, target){
       var data = conceptContent[target];
       var finishBtn = panel ? panel.querySelector('[data-finish-concept]') : null;
@@ -4663,7 +4679,7 @@
       var sensoryFlipped = panel.querySelectorAll('[data-sense-card].flipped').length;
       var sensoryOk = !data.requiresSensoryBoxes || sensoryFlipped === 7;
       var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
-      var inPracticeOk = panel.dataset.inPracticeRequired !== 'true' || panel.dataset.inPracticeDone === 'true';
+      var inPracticeOk = isInPracticeCompleteForPanel(panel);
       var canFinish = dwellOk && carouselOk && matchingOk && categorizeOk && sensoryOk && choiceOk && sequenceOk && keyIdeasOk && inPracticeOk;
       finishBtn.disabled = !canFinish;
       finishBtn.style.opacity = canFinish ? '1' : '.55';
@@ -5682,7 +5698,7 @@
         var actionText = actionEl.querySelector('.text');
         if(inPracticeLine && actionText){
           panel.dataset.inPracticeRequired = 'true';
-          panel.dataset.inPracticeDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) ? 'true' : 'false';
+          panel.dataset.inPracticeDone = ((conceptCompletion[block] && conceptCompletion[block].has(target)) || panel.dataset.inPracticeDone === 'true' || (actionEl && actionEl.classList.contains('is-completed'))) ? 'true' : 'false';
 
           actionText.textContent = (window.InPracticeCopy && InPracticeCopy.resolve(target, inPracticeLine)) || inPracticeLine;
           actionEl.dataset.inPracticeTarget = target;
@@ -6712,7 +6728,7 @@
   })();
   </script>
   <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260713practice9"></script>
+<script src="/shared/in-practice-system.js?v=20260713practice11"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260707"></script>
   <script src="/training-ii/shared/parent-subconcept-layout.js"></script>

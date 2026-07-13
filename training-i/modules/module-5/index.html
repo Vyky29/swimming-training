@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260611a');
-  @import url('/assets/training-flow-guide.css?v=20260713pulse9');
+  @import url('/assets/training-flow-guide.css?v=20260713pulse10');
   @import url('/assets/module-block-accordion.css?v=20260713accordion5');
 
   :root{
@@ -6096,6 +6096,21 @@
       setupChoiceActivityInShell(shell, panel, block, target, cfg, {});
     }
 
+    function isInPracticeCompleteForPanel(panel){
+      if(!panel) return true;
+      if(panel.dataset.inPracticeRequired !== 'true') return true;
+      if(panel.dataset.inPracticeDone === 'true') return true;
+      var action = panel.querySelector('.key-ideas-action:not([hidden])');
+      if(action && action.classList.contains('is-completed')){
+        panel.dataset.inPracticeDone = 'true';
+        return true;
+      }
+      if(window.TrainingFlowGuide && typeof TrainingFlowGuide.syncPanelInPracticeDone === 'function'){
+        return !!TrainingFlowGuide.syncPanelInPracticeDone(panel);
+      }
+      return false;
+    }
+
     function updateConceptFinishStateM5(panel, block, target){
       if(!panel) return;
       var data = conceptContent[target];
@@ -6122,7 +6137,7 @@
       var keyIdeasOk = !keyItems.length || (scopeRoot.querySelectorAll('.key-idea-item.clicked').length === keyItems.length);
 
       var inPracticeEl = scopeRoot.querySelector('.key-ideas-action:not([hidden])');
-      var inPracticeOk = !inPracticeEl || inPracticeEl.classList.contains('is-completed');
+      var inPracticeOk = isInPracticeCompleteForPanel(panel) || !inPracticeEl || inPracticeEl.classList.contains('is-completed');
 
       var introSlot = panel.querySelector('.concept-intro-slot');
       var pillars = introSlot && introSlot.offsetParent !== null
@@ -7429,7 +7444,7 @@
         var actionTextEl = actionEl.querySelector('.text');
         if(inPracticeLine && actionTextEl){
           panel.dataset.inPracticeRequired = 'true';
-          panel.dataset.inPracticeDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) ? 'true' : 'false';
+          panel.dataset.inPracticeDone = ((conceptCompletion[block] && conceptCompletion[block].has(target)) || panel.dataset.inPracticeDone === 'true' || (actionEl && actionEl.classList.contains('is-completed'))) ? 'true' : 'false';
 
           actionTextEl.textContent = (window.InPracticeCopy && InPracticeCopy.resolve(target, inPracticeLine)) || inPracticeLine;
           actionEl.dataset.inPracticeTarget = target;
@@ -7954,7 +7969,7 @@
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260713practice9"></script>
+<script src="/shared/in-practice-system.js?v=20260713practice11"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260707"></script>
   <script src="/shared/parent-subconcept-layout.js"></script>
@@ -7966,7 +7981,7 @@
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
   <script src="/shared/guided-concept-layout.js?v=20260821"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713pulse9"></script>
+  <script src="/shared/training-flow-guide.js?v=20260713pulse10"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
