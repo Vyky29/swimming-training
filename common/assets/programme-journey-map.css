@@ -552,3 +552,27 @@
   .pjm-level-card,
   .pjm-stage-world-img{ transition:none; }
 }
+
+/* Guided tour — tap levels 1?6 before opening stage tiles */
+.pjm-level-card.is-tour-visited,
+.pjm-ocean-node.is-tour-visited{
+  outline:2px solid rgba(204,149,43,.55);
+  outline-offset:2px;
+}
+.pjm-level-card.is-tour-locked,
+.pjm-ocean-node.is-tour-locked{
+  opacity:.42;
+  filter:grayscale(.35);
+}
+.pjm-level-card.is-tour-next,
+.pjm-ocean-node.is-tour-next{
+  opacity:1;
+  filter:none;
+}
+.concept-grid.is-pjm-tour-locked .concept-square{
+  opacity:.55;
+  cursor:not-allowed;
+}
+.concept-grid.is-pjm-tour-locked .concept-square:hover{
+  transform:none;
+}

@@ -13,9 +13,9 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260713dualring1');
+  @import url('/assets/training-flow-guide.css?v=20260714pjmtour1');
   @import url('/assets/module-block-accordion.css?v=20260713flowaudit1');
-  @import url('/assets/programme-journey-map.css?v=20260713ocean-fix');
+  @import url('/assets/programme-journey-map.css?v=20260714pjmtour1');
 
   :root{
       --blue:#2d84b3;
@@ -6446,7 +6446,7 @@
                   </div>
                 </header>
 
-                    <p class="pjm-map-lead">Explore each stage — hover or tap a level to see its focus.</p>
+                    <p class="pjm-map-lead">Tap each of the six levels in order to explore the journey — then open a stage below.</p>
 
                     <div class="pjm-stages" aria-label="Three stages and six adaptive levels">
                       <section class="pjm-stage pjm-stage--discover" data-stage="discover">
@@ -8505,10 +8505,17 @@
       });
       var journeyMapEl = document.querySelector('[data-programme-journey-map]');
       if(journeyMapEl && window.ProgrammeJourneyMap){
+        var tourAlreadyDone = block2StageIds.some(function(id){
+          return isStageFullyCompleted(id) || conceptCompletion.block3.has(id);
+        });
         if(!journeyMapEl.dataset.pjmInit){
-          ProgrammeJourneyMap.init(journeyMapEl, { isLevelComplete: isLevelFullyCompleted });
+          ProgrammeJourneyMap.init(journeyMapEl, {
+            isLevelComplete: isLevelFullyCompleted,
+            tourComplete: tourAlreadyDone
+          });
           journeyMapEl.dataset.pjmInit = '1';
         } else {
+          if(tourAlreadyDone) ProgrammeJourneyMap.markTourComplete(journeyMapEl);
           ProgrammeJourneyMap.syncProgress(journeyMapEl, isLevelFullyCompleted);
         }
       }
@@ -10089,9 +10096,14 @@
         if(titleRowEl) titleRowEl.style.display = '';
         restorePanelTts();
       }
-      var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
-        ? ConceptInsightIntro.renderIntro(panel, data, 4, target, { restoreComplete: !!alreadyCompleted })
-        : null;
+      var resolvedInsight = null;
+      if(!hideInsightIntroEarly && typeof ConceptInsightIntro !== 'undefined'){
+        resolvedInsight = ConceptInsightIntro.renderIntro(panel, data, 4, target, { restoreComplete: !!alreadyCompleted });
+      } else if(typeof ConceptInsightIntro !== 'undefined'){
+        // Pathway stage / level hubs use custom stage intro — clear leftover pillars
+        var introClear = panel.querySelector('.concept-intro-slot');
+        if(introClear) introClear.innerHTML = '';
+      }
       if(typeof ConceptInsightIntro !== 'undefined'){
         ConceptInsightIntro.updatePanelLayout(panel, block, target, !!(resolvedInsight && !isPathwayStage && !isBlock2LevelRootEarly));
       }
@@ -10499,6 +10511,11 @@
         var block = grid.getAttribute('data-concept-grid');
         var target = btn.getAttribute('data-target');
         if(!block || !target || !conceptGroups || !conceptGroups[block] || !conceptContent || !conceptContent[target]) return;
+        if(btn.classList.contains('is-locked') || btn.getAttribute('aria-disabled') === 'true'){
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
         e.preventDefault();
         e.stopPropagation();
         prepareConceptTransition(btn);
@@ -12023,7 +12040,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713startquiz1"></script>
+  <script src="/shared/training-flow-guide.js?v=20260714pjmtour1"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -12380,7 +12397,7 @@
     })();
   </script>
   
-  <script src="/shared/programme-journey-map.js?v=20260713worlds"></script>
+  <script src="/shared/programme-journey-map.js?v=20260714pjmtour1"></script>
   <script src="/shared/concept-visual-expand-system.js?v=20260710stagecards"></script>
 </body>
 </html>

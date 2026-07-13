@@ -300,11 +300,19 @@
   }
 
   function getVisibleInsightPillars(panel){
-    var introSlot = panel && panel.querySelector('.concept-intro-slot');
-    if(introSlot && isVisibleEl(introSlot)){
-      return introSlot.querySelectorAll('.concept-insight-pillar:not(.clicked)');
+    if(!panel) return [];
+    var introSlot = panel.querySelector('.concept-intro-slot');
+    // Pathway stage hubs hide the intro slot (display:none). Do not guide
+    // pillars that remain in the DOM but are invisible ? they steal the pulse.
+    if(introSlot && (introSlot.style.display === 'none' || !isVisibleEl(introSlot))){
+      return [];
     }
-    return panel ? panel.querySelectorAll('.concept-insight-pillar:not(.clicked)') : [];
+    var nodes = introSlot
+      ? introSlot.querySelectorAll('.concept-insight-pillar:not(.clicked)')
+      : panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
+    return Array.prototype.filter.call(nodes, function(el){
+      return isVisibleEl(el) && el.offsetParent !== null;
+    });
   }
 
   function hasUnclickedKeyIdeasInScope(panel){
@@ -650,9 +658,9 @@
 
     var onNestedLeaf = panelHasM5NestedNav(panel) && isM5LeafScreen(getM5ActiveScreen(panel));
     var label = !finishVisible
-      ? 'Ready to finish — Done appears next'
+      ? 'Ready to finish ? Done appears next'
       : (finish.disabled
-        ? 'Done will unlock next — keep it in view'
+        ? 'Done will unlock next ? keep it in view'
         : (onNestedLeaf ? 'Tap Done to complete this section' : 'Tap Done to finish this concept'));
 
     return sectionScrollStep('finish', host, label, {
@@ -1527,10 +1535,7 @@
     var panelBlock = panel.getAttribute('data-panel-for');
     if(panelBlock && blockConceptsComplete(panelBlock)) return null;
 
-    var introSlot = panel.querySelector('.concept-intro-slot');
-    var pillars = introSlot && isVisibleEl(introSlot)
-      ? introSlot.querySelectorAll('.concept-insight-pillar:not(.clicked)')
-      : panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
+    var pillars = getVisibleInsightPillars(panel);
     if(pillars.length){
       var title = pillars[0].querySelector('.concept-insight-pillar__title');
       return withM5Tone(panel, sectionScrollStep('pillar', pillars[0], 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point'), {
@@ -2147,6 +2152,41 @@
     return reflectionDone(block);
   }
 
+  function resolveProgrammeJourneyTour(block, moduleConfig){
+    if(!block || !moduleConfig || moduleConfig.pathwayBlock !== block) return null;
+    if(getOpenPanel(block)) return null;
+
+    var map = document.querySelector('#' + block + ' [data-programme-journey-map]') ||
+      document.querySelector('[data-programme-journey-map]');
+    if(!map || !isVisibleEl(map)) return null;
+
+    // Returning learners who already opened a stage skip the overview tour
+    var stageButtons = getConceptButtons(block);
+    if(stageButtons.some(isConceptDone)){
+      if(global.ProgrammeJourneyMap && typeof global.ProgrammeJourneyMap.markTourComplete === 'function'){
+        global.ProgrammeJourneyMap.markTourComplete(map);
+      } else {
+        map.setAttribute('data-pjm-tour-complete', 'true');
+      }
+      return null;
+    }
+
+    if(map.getAttribute('data-pjm-tour-complete') === 'true') return null;
+    if(!global.ProgrammeJourneyMap || typeof global.ProgrammeJourneyMap.getNextTourTarget !== 'function') return null;
+
+    var next = global.ProgrammeJourneyMap.getNextTourTarget(map);
+    if(!next || !next.el) return null;
+
+    var label = next.label || ('Tap Level ' + next.level);
+    return sectionScrollStep('pjm-level', next.el, label, {
+      scrollEl: next.el.closest('.pjm-stage') || map,
+      scrollBlock: 'center',
+      forceScroll: true,
+      tone: 'expand',
+      keyToken: block + ':pjm-level:' + next.level
+    });
+  }
+
   function resolveBlock(block, moduleConfig){
     if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
@@ -2183,6 +2223,9 @@
 
     var slideExpandStep = resolveBlockIntroSlideExpand(block);
     if(slideExpandStep) return slideExpandStep;
+
+    var journeyTourStep = resolveProgrammeJourneyTour(block, moduleConfig);
+    if(journeyTourStep) return journeyTourStep;
 
     var openPanel = getOpenPanel(block);
     if(openPanel){
@@ -2578,6 +2621,7 @@
       'subconcept': true,
       'stage-card': true,
       'stage-level': true,
+      'pjm-level': true,
       'block-progress': true,
       'finish': true
     };
@@ -3207,6 +3251,16 @@
           bumpFlowAdvance(moduleConfig, 120);
         }, 0);
       }
+    }, true);
+
+    document.addEventListener('click', function(e){
+      var mapHit = e.target && e.target.closest && e.target.closest('.pjm-ocean-node[data-level], .pjm-level-card[data-level]');
+      if(!mapHit) return;
+      var map = mapHit.closest('[data-programme-journey-map]');
+      if(!map) return;
+      setTimeout(function(){
+        bumpFlowAdvance(moduleConfig, 100);
+      }, 0);
     }, true);
 
     document.addEventListener('input', function(e){

@@ -81,7 +81,9 @@ html[data-guided-flow="true"]{
 .flow-guide-pulse.key-idea-item,
 .flow-guide-pulse.stage-intro-card,
 .flow-guide-pulse.recap-takeaway-card,
-.flow-guide-pulse.recap-card{
+.flow-guide-pulse.recap-card,
+.flow-guide-pulse.pjm-level-card,
+.flow-guide-pulse.pjm-ocean-node{
   border-radius: 12px;
 }
 
