@@ -2,954 +2,1024 @@
   'use strict';
 
   /**
-   * In Practice — premium session cards for clubSENsational swimming.
-   * Each entry: scene, notice, move, watch, next
+   * In Practice — concept-aligned session cards for clubSENsational swimming.
+   * Each entry: scene, notice, move, watch, next (written from the concept teaching).
    */
   var COPY = {
+    b1c2: {
+      scene: 'Several forces act on the body at once — some lift and organise, others resist and unsettle.',
+      notice: 'Watch whether the swimmer is being held up, pressed on, or pushed off balance by the water itself.',
+      move: 'Name which force is helping and which is challenging before you change depth, speed, or support.',
+      watch: 'Treating every struggle as ‘won’t try’ misses force interaction and leads to the wrong fix.',
+      next: 'Pick one force to work with first — usually support — before you invite more dynamic challenge.',
+    },
     b1c3: {
-      scene: 'When challenge rises in the water, support must rise first — or stay available.',
-      notice: 'Comfort and control tell you whether the next demand belongs yet.',
-      move: 'Layer support before demand. Let comfort settle before you raise the challenge.',
-      watch: 'Demand without support can look like "won't" when it is "can't yet".',
-      next: 'Layer support, confirm calm, then raise one variable at a time.'
+      scene: 'Buoyancy lightens the body and pressure wraps around it — support can feel organising or unfamiliar.',
+      notice: 'Notice whether added support brings calmer posture or unexpected tension and withdrawal.',
+      move: 'Use support to build comfort before you increase challenge.',
+      watch: 'Raising demand while support is still unsettled can look like refusal when it is overload.',
+      next: 'Confirm comfort with the current support, then raise one variable at a time.',
     },
     b1c4: {
-      scene: 'In a clubSENsational swimming session, this shows up with the swimmer in the water — not only on the plan.',
-      notice: 'Small shifts in breath, posture, eye contact, or willingness often appear before the bigger behaviour.',
-      move: 'Build control first. Speed and effort follow when the body can hold it.',
-      watch: 'If regulation or safety drops, simplify immediately. Progress can wait.',
-      next: 'Protect the relationship first, then reintroduce one clear next step.'
+      scene: 'As the swimmer moves, water resists in every direction and the body becomes less predictable than on land.',
+      notice: 'Watch control of direction and body line collapse when speed or effort jumps too soon.',
+      move: 'Prioritise control before increasing speed or effort.',
+      watch: 'Speed without control turns resistance into chaos and erodes confidence quickly.',
+      next: 'Slow the action, restore a clear body line, then reintroduce effort in a short, managed burst.',
     },
     b2c1: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Scan continuously. Subtle shifts in position or response often precede obvious distress.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+      scene: 'Drowning risk in a busy lane can look quiet — a still face, a subtle sink, little splash or call for help.',
+      notice: 'Scan for early changes in position, breath response, and orientation before any dramatic distress appears.',
+      move: 'Monitor swimmers actively at all times and do not wait for clear distress signals before you respond.',
+      watch: 'Waiting for an obvious emergency signal leaves almost no time to prevent a silent incident.',
+      next: 'Close the gap, check airway and response, and reset positioning before you resume the activity.',
     },
     b2c2: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Calibrate supervision to the swimmer in front of you, not only to the activity on the plan.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+      scene: 'Two swimmers in the same activity can carry very different risk — confidence on the surface is not the same as safety.',
+      notice: 'Look past the plan and read awareness, understanding, and ability to respond for this swimmer today.',
+      move: 'Adapt supervision and support to the individual swimmer, not only to the activity.',
+      watch: 'Matching supervision to the activity alone leaves higher-vulnerability swimmers under-protected.',
+      next: 'Raise proximity and simplify cues for the higher-risk profile before you progress the group task.',
+    },
+    b2c2_alert: {
+      scene: 'Alert looks engaged but brittle — attention flickers and coordination starts to fray under rising demand.',
+      notice: 'Notice faster breath, tighter grip, or shorter focus windows before you add more challenge.',
+      move: 'Maintain structure and avoid increasing demand too quickly.',
+      watch: 'Accelerating in an alert state often tips the swimmer into overload.',
+      next: 'Hold the familiar structure, shorten the block, and only progress once alert settles toward calm.',
+    },
+    b2c2_calm: {
+      scene: 'In a calm state the swimmer is regulated, available, and able to process new skill work.',
+      notice: 'Look for soft muscle tone, steady breath, and responsive eye contact that invite progression.',
+      move: 'Progress learning steadily while you keep demand measured so calm holds.',
+      watch: 'Overloading a calm swimmer too quickly can tip them into alert or overload without warning.',
+      next: 'Add one clear progression step, then confirm calm still holds before the next increase.',
+    },
+    b2c2_overloaded: {
+      scene: 'Overloaded swimmers cannot access learning — they may withdraw, resist, or shut down under the same task.',
+      notice: 'Read overload as capacity collapse, not refusal of the activity.',
+      move: 'Reduce expectations and prioritise regulation before any skill demand.',
+      watch: 'Continuing to teach through overload deepens distress and damages trust.',
+      next: 'Strip to a familiar regulating action, restore calm, then decide whether the original task returns today.',
     },
     b2c3: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Use clear structure, close proximity, and adapted communication to reduce preventable risk.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+      scene: 'Sensory pull to water, reduced danger awareness, impulsivity, or unclear communication can raise risk without warning.',
+      notice: 'Notice wandering, sudden immersion interest, missed cues, or delayed responses as safety information.',
+      move: 'Use clear structure, close supervision, and adapted communication to reduce preventable risk.',
+      watch: 'Assuming neurodiverse difference is ‘behaviour’ rather than risk leaves gaps in positioning and communication.',
+      next: 'Agree one clear signal, stay within arm’s reach where needed, and keep the activity structure predictable.',
     },
     b2c4: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Prevention is proximity and positioning. Stay close, stay visible, organise the space.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+      scene: 'Prevention shows in how you stand, how close you are, and how the space is organised before anything goes wrong.',
+      notice: 'Check whether supervision is active, sightlines are clear, and the session layout reduces unpredictable movement.',
+      move: 'Stay close, maintain visibility, and organise the environment so safety systems work ahead of reaction.',
+      watch: 'Relying on late reaction instead of prevention turns every near-miss into a scramble.',
+      next: 'Reset lanes, equipment, and instructor positions so every swimmer stays in continuous view.',
     },
     b3c1: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Let the body settle into the water before you add structure, instruction, or task demand.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+      scene: 'Entry hits temperature, pressure, movement, and balance at once — the body is adapting before any skill begins.',
+      notice: 'Read hesitation, gripping, or stillness at entry as sensory adjustment, not defiance.',
+      move: 'Allow time for sensory adjustment before introducing structured demands.',
+      watch: 'Stacking instructions on a body that has not settled yet usually increases overload.',
+      next: 'Hold a quiet settling moment at the edge or in shallow water, then introduce one clear next action.',
     },
     b3c2: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Read sensory signals in the body before you assume understanding or readiness.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+      scene: 'Balance, body awareness, and touch feel different in water — movement depends on more than muscles alone.',
+      notice: 'Observe how the swimmer organises sensory input before you assume they have understood the task.',
+      move: 'Observe sensory responses before assuming understanding or readiness.',
+      watch: 'Mistaking sensory processing delay for non-compliance leads to rushed prompts and lost trust.',
+      next: 'Give processing time after each cue, then check for a physical response before you add the next demand.',
+    },
+    b3c2_env: {
+      scene: 'Noise, crowding, layout, and unpredictability around the pool change how available the swimmer feels.',
+      notice: 'Watch attention fragment when people, sound, or space demand rises.',
+      move: 'Adjust positioning, space, and structure where possible to lower environmental demand.',
+      watch: 'Pushing skill work in a chaotic setting often looks like non-compliance when it is environmental overload.',
+      next: 'Move to a quieter edge or clearer zone, then restart with a simpler, more predictable exchange.',
+    },
+    b3c2_internal: {
+      scene: 'Fatigue, anxiety, and sensory processing travel in with the swimmer — often before anything shows on the surface.',
+      notice: 'Track energy drop, irritability, or sudden skill loss against what may be happening internally today.',
+      move: 'Observe subtle changes in behaviour and energy, and treat today as a new baseline when internal load is high.',
+      watch: 'Expecting last week’s performance ignores invisible internal load and sets the swimmer up to fail.',
+      next: 'Shorten tasks, prioritise success and connection, then rebuild only what today’s capacity allows.',
+    },
+    b3c2_water: {
+      scene: 'Depth, temperature, and water movement change physical comfort and emotional load at the same time.',
+      notice: 'Notice tension or withdrawal when depth, waves, or temperature shift mid-activity.',
+      move: 'Adjust depth, positioning, or support in the water before you change the skill demand.',
+      watch: 'Leaving water conditions mismatched while raising task demand stacks two challenges at once.',
+      next: 'Return to a more manageable depth or stiller water, restore calm, then rebuild the activity.',
     },
     b3c3: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Treat land skills as a reference, not a guarantee. Water asks the body to reorganise.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+      scene: 'A land-familiar action can feel unstable once buoyancy and reduced ground feedback take over.',
+      notice: 'Watch for surprise, searching with the hands, or loss of a land-trained pattern as the body relearns control.',
+      move: 'Do not expect immediate transfer from land to water.',
+      watch: 'Expecting land performance in water pushes swimmers into panic when perception does not match memory.',
+      next: 'Re-teach the same action in water with more support and shorter holds until the feel becomes predictable.',
+    },
+    b3c3_step1: {
+      scene: 'Step 1 places the swimmer in the stage that matches the environment they manage consistently across the term.',
+      notice: 'Base stage on usual safety, comfort, and regulation — not one advanced skill flash.',
+      move: 'Select the stage that best matches the swimmer’s usual experience in water across the term.',
+      watch: 'Choosing stage from a peak performance moment misplaces the whole pathway decision.',
+      next: 'Write the stage that reflects typical sessions, then check it against safety and regulation evidence.',
+    },
+    b3c3_step2: {
+      scene: 'Step 2 confirms current level through focus-area ratings — support, control, and repeatability matter more than occasional success.',
+      notice: 'Use Fully / Partially / Independent ratings to test whether the level is truly secure.',
+      move: 'Use the focus-area ratings to confirm the level, not just to justify a first impression.',
+      watch: 'Locking a level from first impression without focus-area evidence creates shaky confirmation.',
+      next: 'Rate each focus area against the term pattern, then adjust the level if the ratings disagree.',
+    },
+    b3c3_step3: {
+      scene: 'Step 3 rates core development areas across the term and adds brief evidence — this explains access to learning, not only skill ticks.',
+      notice: 'Capture Rarely / Sometimes / Always patterns that explain progress, barriers, and next steps.',
+      move: 'Use the development-area ratings to understand how the swimmer accesses learning, not just how they perform skills.',
+      watch: 'Treating development areas as a skill checklist misses the barriers that should shape next-term planning.',
+      next: 'Add one short evidence note per rating that a colleague could act on next term.',
     },
     b3c4: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Tune pace, space, and support to the swimmer\'s sensory profile, not a standard template.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+      scene: 'The same splash or depth can organise one swimmer and overwhelm another — sensory profiles diverge sharply.',
+      notice: 'Notice seeking (more pressure, more movement) versus withdrawing (less input, quieter space).',
+      move: 'Adapt pace, environment, and support to the swimmer’s sensory needs.',
+      watch: 'One-size sensory demand leaves seekers under-stimulated and hypersensitive swimmers flooded.',
+      next: 'Adjust one sensory lever — depth, splash, proximity, or quiet — and re-check regulation before progressing.',
     },
     m1_b1c1: {
       scene: 'The first moments in water often look unstable — the environment is actively moving the body.',
-      notice: 'Wobble, search for balance, and changing effort can be adaptation, not inability.',
+      notice: 'Wobble, searching for balance, and changing effort can be adaptation, not inability.',
       move: 'Read early instability as adaptation to an active environment, not as lack of ability.',
-      watch: 'Avoid labelling early instability as failure before the body has time to organise.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+      watch: 'Labelling early instability as failure stops the body from getting time to organise.',
+      next: 'Hold still support, allow settling, then add only one small demand once control begins to return.',
     },
     m2_b1c1: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Read readiness in the body and face before you introduce anything new.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'A swimmer may have the physical capacity for a skill yet still be unavailable to learn it in this minute.',
+      notice: 'Check engagement and emotional availability before you treat non-response as a teaching failure.',
+      move: 'Check readiness before introducing new tasks.',
+      watch: 'Teaching into unreadiness burns trust and turns the session into compliance pressure.',
+      next: 'Confirm a calm join-up signal, then introduce only the next small learning demand.',
     },
     m2_b1c2: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'When state shifts, reshape pace and expectation before you reshape the task.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'When regulation drops, the same cue that worked earlier stops landing — behaviour is reflecting state.',
+      notice: 'Watch for tightened face, shallow breath, or withdrawal as signs that learning access has narrowed.',
+      move: 'Adjust pace and expectations when regulation is limiting engagement.',
+      watch: 'Pushing content through dysregulation teaches survival, not skill.',
+      next: 'Lower demand until regulation returns, then reintroduce the task in a shorter form.',
     },
     m2_b1c3: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Respond to the need beneath the behaviour. What you see is rarely the full story.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'A refusal, freeze, or outburst often carries meaning about state and need, not just ‘won’t cooperate’.',
+      notice: 'Interpret the behaviour as information about emotional state before you escalate the correction.',
+      move: 'Respond to needs, not just behaviour.',
+      watch: 'Correcting the surface behaviour alone leaves the underlying state unchanged and likely to return.',
+      next: 'Name what you think the swimmer needs (space, clarity, support), then adapt the next interaction.',
     },
     m2_b1c4: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Treat readiness as live data. Observe, adjust, and observe again throughout the session.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'Readiness can shift mid-set as fatigue, noise, or demand rises — what was possible ten minutes ago may not be now.',
+      notice: 'Track engagement changes across the session rather than locking to the opening plan.',
+      move: 'Observe and adjust continuously as readiness fluctuates.',
+      watch: 'Sticking to a fixed plan when readiness drops turns earlier success into later overload.',
+      next: 'Re-check state at each transition and resize the next block to what is available now.',
     },
     m2_b2c1: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Catch state early. Match pace and support to what is present, not what the plan assumed.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'Emotional state changes how the swimmer joins tasks, hears you, and stays with the activity.',
+      notice: 'Catch early shifts in tone, approach, and muscle tension before engagement fully breaks.',
+      move: 'Notice state early and match your pace and support to what you see.',
+      watch: 'Ignoring state until behaviour peaks leaves you repairing damage instead of protecting learning.',
+      next: 'Match one adjustment — slower pace, closer support, or simpler cue — and reassess within a minute.',
     },
     m2_b2c2: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Name the state before you change the approach. Each state asks for a different response.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
-    },
-    b2c2_calm: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'When regulation is steady, progress with intention and keep demand measured so calm holds.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
-    },
-    b2c2_alert: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Hold the structure. Alert states need stability, not acceleration.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
-    },
-    b2c2_overloaded: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Strip the task back to regulation first. Learning returns when demand falls.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+      scene: 'Swimmers move between calm, alert, and overloaded states as demand and environment change.',
+      notice: 'Identify which state you are seeing before you decide whether to progress, hold, or reduce.',
+      move: 'Identify the swimmer’s state before adapting your approach.',
+      watch: 'Using a calm-state plan on an overloaded swimmer accelerates withdrawal or dysregulation.',
+      next: 'Choose the response that fits the current state, then confirm the shift before you add challenge.',
     },
     m2_b3c1: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Read the whole picture: pool conditions, environment, and what the swimmer brought in today.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'Influences stack — pool noise, depth, and what the swimmer brought in can shift state within minutes.',
+      notice: 'Scan environment, water conditions, and internal load together rather than blaming one factor.',
+      move: 'Scan environment, water conditions, and what the swimmer may be carrying internally.',
+      watch: 'Fixating on one influence misses how factors combine and change the swimmer’s state.',
+      next: 'Change the strongest lever you can control first, then re-check state before you resume teaching.',
     },
-    b3c2_env: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Reposition, open space, or simplify the setting before you push the swimmer harder.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
-    },
-    b3c2_water: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Adjust depth, support, or body position in the water before you change the task.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
-    },
-    b3c2_internal: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Track energy, tension, and withdrawal. Internal load often shifts before behaviour does.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+    m2_b3c2: {
+      scene: 'Emotional state is shaped by environmental, water-based, and internal influences interacting through the session.',
+      notice: 'Sort what you see into those three factor types before you decide how to adapt.',
+      move: 'Identify whether the strongest influence is environmental, water-based, or internal, then adapt that lever.',
+      watch: 'Treating every state shift as a sensory-entry problem misses pool, social, and internal load factors.',
+      next: 'Name the dominant factor out loud for yourself, adjust it, and confirm the swimmer’s state softens.',
     },
     m3_b1c1: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Look beyond visible participation. True engagement is connection and availability to learn.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'A swimmer can be in the water and still not be available — presence is not the same as engagement.',
+      notice: 'Look for connection and responsiveness, including quiet observation that still tracks the activity.',
+      move: 'Look beyond visible participation and notice whether the swimmer is truly connected and available to learn.',
+      watch: 'Counting compliance as engagement leads you to progress when join-up has already gone.',
+      next: 'Seek one clear connection signal, then resume teaching only when availability returns.',
     },
     m3_b1c2: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Track small patterns of connection. Subtle signals often arrive before obvious participation.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'Engagement often arrives as a glance, a turn toward you, a copy, or a return after a pause — not a full performance.',
+      notice: 'Track small patterns of connection across the minute rather than waiting for obvious participation.',
+      move: 'Pay attention to small patterns of connection rather than waiting for obvious participation.',
+      watch: 'Missing subtle engagement cues makes you raise pressure when the swimmer was already joining in their way.',
+      next: 'Reinforce the small join-up you see, then build one step from that connection.',
     },
     m3_b1c3: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'When engagement drops, pause and rebuild it before you add instruction or progression.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'More instruction on a disconnected swimmer usually adds pressure without improving learning.',
+      notice: 'Notice when cues stop landing and connection has thinned before you add another verbal demand.',
+      move: 'Pause, reduce pressure, and rebuild engagement before continuing.',
+      watch: 'Teaching through disconnection trains avoidance and empties the relationship.',
+      next: 'Drop to a simpler shared action, restore join-up, then return to the learning aim.',
     },
     m3_b2c1: {
-      scene: 'You are ready to progress a task, but the swimmer's connection with you has thinned.',
+      scene: 'You are ready to progress a task, but the swimmer’s connection with you has thinned.',
       notice: 'Participation may still look present while availability to learn has dropped.',
-      move: 'Secure connection before you advance the task. A joined swimmer learns; a distant one survives.',
+      move: 'Prioritise connection before progressing tasks so the swimmer remains engaged.',
       watch: 'Advancing without join-up turns the session into compliance, not learning.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      next: 'Reconnect with a simpler exchange, then return to the learning aim.',
     },
     m3_b2c2: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Keep interaction calm, consistent, and predictable. Trust is built in repetition, not intensity.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'Trust grows when the same calm, predictable interaction repeats across entries, cues, and exits.',
+      notice: 'Watch whether the swimmer settles when your pacing and responses stay consistent.',
+      move: 'Keep your interaction calm, consistent, and predictable to strengthen trust.',
+      watch: 'Inconsistent tone or sudden changes make the pool feel unsafe even when the skill is familiar.',
+      next: 'Repeat today’s successful interaction pattern before you introduce anything new.',
     },
     m3_b2c3: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Let tone, signals, and pacing do the connecting. How you deliver shapes whether they stay with you.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'Your tone, body language, clarity, and pacing become part of the swimmer’s sensory and emotional load.',
+      notice: 'Notice whether your delivery softens or hardens the swimmer’s willingness to stay with you.',
+      move: 'Use a calm tone, clear signals, and consistent pacing to support connection.',
+      watch: 'Rushed or unclear instructor behaviour can disconnect a swimmer faster than the task itself.',
+      next: 'Slow your delivery, simplify the signal, and check that the swimmer is still joined before you continue.',
     },
     m3_b2c4: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Adjust pace and demand at the first sign of strain. Protecting the relationship protects learning.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'Connection can thin mid-session when uncertainty, pressure, or fatigue rises — it is not fixed.',
+      notice: 'Catch early strain in the relationship and adjust before full disconnection takes hold.',
+      move: 'Adjust pace and demand early to protect the relationship and maintain engagement.',
+      watch: 'Waiting until connection is gone makes reconnection slower and progress less likely.',
+      next: 'Return briefly to a familiar shared action, then rebuild toward the original aim.',
     },
     m3_b3c1: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Watch engagement shift in real time. Intervene early before disengagement takes hold.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'Engagement rises and falls with fatigue, confidence, sensory load, and task demand — change is normal.',
+      notice: 'Treat dips in engagement as information about the experience, not as automatic refusal.',
+      move: 'Notice early changes and adjust before disengagement increases.',
+      watch: 'Ignoring early dips lets disengagement become the default mode for the rest of the block.',
+      next: 'Make one early adjustment to pace or demand and confirm engagement begins to recover.',
     },
     m3_b3c2: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Treat pace and structure as live controls. Stability comes from continuous fine adjustment.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'Engagement holds when pace, structure, and challenge stay matched to what the swimmer can manage now.',
+      notice: 'Watch for boredom from repetition or overload from complexity as early warning signs.',
+      move: 'Adjust pace and structure continuously to keep engagement stable.',
+      watch: 'Leaving a poorly paced plan running quietly drains connection until the swimmer checks out.',
+      next: 'Tighten structure or shorten the challenge, then re-check that the swimmer is still with you.',
     },
     m3_b3c3: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Observe first, then choose. The right engagement approach depends on the swimmer in front of you.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
-    },
-    m3_b3c3_mod: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Demonstrate the pattern clearly before you expect the swimmer to attempt it.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
-    },
-    m3_b3c3_turn: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Use simple back-and-forth exchanges to keep the swimmer inside the interaction with you.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'No single engagement approach fits every swimmer — modelling, turn-taking, play, and intensive interaction sit in a toolkit.',
+      notice: 'Observe response first, then choose the approach that restores or protects connection in this moment.',
+      move: 'Observe the swimmer and choose the approach that best supports connection in that moment.',
+      watch: 'Forcing one favourite method on every swimmer leaves some disconnected by design.',
+      next: 'Try one approach for a short exchange, keep it if join-up rises, and switch if it does not.',
     },
     m3_b3c3_guide: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Leave room for the try. Guide lightly and resist taking over too soon.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'Guided discovery leaves room for the swimmer to try while you shape the edges of the exploration.',
+      notice: 'Watch for active trying versus freezing — guide more when exploration stalls, less when curiosity leads.',
+      move: 'Allow space for the swimmer to try while you guide gently.',
+      watch: 'Taking over too early removes ownership; leaving too little support leaves the swimmer stuck.',
+      next: 'Set a clear try, offer one light prompt if needed, then celebrate the attempt before refining.',
     },
     m3_b3c3_intensive: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Join the swimmer\'s rhythm before you introduce structure or higher demand.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'Intensive interaction starts by joining the swimmer’s rhythm or communication before any structured demand.',
+      notice: 'Look for shared attention building as you match pace, sound, or movement rather than redirecting first.',
+      move: 'Join the swimmer’s rhythm before introducing structure.',
+      watch: 'Imposing structure before join-up can feel like interruption and push the swimmer further away.',
+      next: 'Match for a short bout of shared attention, then introduce one tiny structured step.',
+    },
+    m3_b3c3_mod: {
+      scene: 'A clear demonstration lowers verbal load and gives visual learners time to process before they try.',
+      notice: 'Watch whether the swimmer’s eyes track your model before you expect an attempt.',
+      move: 'Demonstrate clearly before expecting the swimmer to attempt the task.',
+      watch: 'Asking for performance before a clear model raises confusion and pressure.',
+      next: 'Show once slowly, pause, then invite a supported attempt.',
     },
     m3_b3c3_play: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'Use play with purpose. Enjoyment should build engagement toward a clear learning aim.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'Purposeful play raises motivation and softens pressure while still pointing at a learning aim.',
+      notice: 'Check that the play still serves the skill goal rather than becoming random distraction.',
+      move: 'Use purposeful play to build engagement, not random activity.',
+      watch: 'Play without a learning aim can entertain without progressing, or escalate sensory load.',
+      next: 'Name the learning aim inside the game, play one short round, then mark the skill you practised.',
+    },
+    m3_b3c3_turn: {
+      scene: 'Simple back-and-forth patterns create predictable shared interaction and reduce performance pressure.',
+      notice: 'Notice whether alternating turns keeps the swimmer oriented toward you and the activity.',
+      move: 'Use simple back-and-forth patterns to maintain engagement.',
+      watch: 'Long instructor monologues or continuous solo demand can break the shared rhythm.',
+      next: 'Run three clean turn cycles on a familiar action, then fold in the learning aim.',
     },
     m3_b3c4: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'When disengagement appears, pause, reduce demand, and reconnect before you continue.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'Disengagement is a signal that overload, confusion, or lost connection needs a change — not more pressure.',
+      notice: 'Read withdrawal or mechanical participation as information about what to adjust next.',
+      move: 'Pause, reduce demand, and reconnect before continuing.',
+      watch: 'Increasing pressure at the first sign of disengagement usually deepens the disconnect.',
+      next: 'Reset with a familiar regulating exchange, then decide whether the original task returns in a simpler form.',
     },
     m4_b1c1: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Judge progress by how the swimmer functions in water, not only by skills achieved.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      scene: 'The pathway is about how the swimmer functions in water — confidence, regulation, and independence — not skill ticks alone.',
+      notice: 'Track response quality alongside any skill outcome you can see.',
+      move: 'Focus on how the swimmer responds, not just what they achieve.',
+      watch: 'Chasing skill completion without functional readiness produces fragile, unsafe progress labels.',
+      next: 'Ask what the swimmer can manage calmly today, then choose the next step from that answer.',
     },
     m4_b1c2: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Shape the session around the swimmer\'s pathway. Adapt expectation before you force conformity.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      scene: 'Programme values ask you to keep pathways individual, safe, inclusive, and confidence-building in every decision.',
+      notice: 'Notice when expectations are bending the swimmer instead of adapting to the swimmer.',
+      move: 'Adapt expectations to the swimmer, not the swimmer to expectations.',
+      watch: 'Forcing a standard pathway against the swimmer’s readiness contradicts the programme’s values.',
+      next: 'Rewrite today’s success criteria to match this swimmer’s current safe capacity.',
     },
     m4_b1c3: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Let principles guide the moment. Sound decisions beat rigid sequences.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      scene: 'Progression principles — individual pace, confidence before technique, simple to complex, structure for learning — guide live decisions.',
+      notice: 'Use the principles as a decision filter when the plan and the swimmer disagree.',
+      move: 'Use principles to guide decisions, not a fixed sequence.',
+      watch: 'Following a rigid sequence past the swimmer’s readiness breaks confidence and technique together.',
+      next: 'Pick the principle that matters most in this moment and let it choose the next action.',
+    },
+    m4_b2c1: {
+      scene: 'Swim Confidence is first contact: hesitation at entry, closeness to you, short cautious engagement, and avoided face immersion are common.',
+      notice: 'Read emotional readiness and sensory comfort before you look for technique.',
+      move: 'Build emotional safety with predictable routines and low, achievable demands before you introduce challenge.',
+      watch: 'Pushing technique or independence too early in Swim Confidence turns caution into fear.',
+      next: 'Keep today’s block short, familiar, and fully supported until calm willingness to engage holds.',
+    },
+    m4_b2c2: {
+      scene: 'Swim Basic is where floating, balance, streamlining, rotation, and first propulsion become the work — control before complexity.',
+      notice: 'Watch shared control of body position improve as physical support can reduce in small steps.',
+      move: 'Teach core movement patterns clearly and build control before you add complexity or independence.',
+      watch: 'Jumping to stroke shape before basic control is secure creates effort without safe movement.',
+      next: 'Consolidate one fundamental pattern with clear recovery, then fade support only when control stays calm.',
+    },
+    m4_b2c3: {
+      scene: 'Swim Structured is stroke refinement, rhythm, endurance, and integrated water safety over longer, more demanding swimming.',
+      notice: 'Check that technique, breathing recovery, and safety decisions stay intact as volume and pace rise.',
+      move: 'Refine stroke quality and develop rhythm and endurance while keeping safety integrated in every task.',
+      watch: 'Chasing distance without technique and safety standards produces tired swimming, not structured progress.',
+      next: 'Name the stroke and safety standard for the set, then stop or simplify if either drops under fatigue.',
     },
     m4_b2core1: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
+      scene: 'Regulation — calm, safety, and emotional availability — shifts with environment, sensory load, and task demand through the session.',
+      notice: 'Use regulation as the live guide for when to add challenge and when to slow or repeat.',
       move: 'When tension rises, simplify the task and reduce sensory load before you add challenge.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+      watch: 'Adding challenge on rising tension teaches through distress and breaks availability.',
+      next: 'Drop demand until regulation returns, then reintroduce only what the swimmer can hold calmly.',
     },
     m4_b2core2: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
+      scene: 'Independence is how much physical support, prompting, or shared control the swimmer still needs for position, movement, and safety.',
+      notice: 'Track support needs across sessions, not only from one strong attempt.',
       move: 'Track support needs over time in small steps before you progress or consolidate level.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      watch: 'Mistaking one independent moment for secure independence leads to unsafe support reduction.',
+      next: 'Reduce one support element only, confirm calm control holds, then decide on level movement.',
     },
     m4_b2core3: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
+      scene: 'Learning and engagement show in attention, motivation, and response to teaching — not only in compliance.',
+      notice: 'Notice whether the swimmer is available for learning or merely going through motions.',
       move: 'If attention drifts, match pace and demand before assuming the task is too easy.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
-    },
-    m4_b2l1_overview: {
-      scene: 'When challenge rises in the water, support must rise first — or stay available.',
-      notice: 'Comfort and control tell you whether the next demand belongs yet.',
-      move: 'Prioritise calm and support across all four focus areas before you add skill demand.',
-      watch: 'Demand without support can look like "won't" when it is "can't yet".',
-      next: 'Layer support, confirm calm, then raise one variable at a time.'
-    },
-    m4_b2l1_f1: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Let the swimmer explore water contact at their pace with full support.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
-    },
-    m4_b2l1_f2: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Keep movement gentle and fully supported until body position feels predictable.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
-    },
-    m4_b2l1_f3: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Introduce face exposure in tiny steps only when the swimmer is regulated.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
-    },
-    m4_b2l1_f4: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Stay close and name safe zones before you expect independent movement.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      watch: 'Raising demand when engagement is thin creates compliance without learning.',
+      next: 'Resize the activity to current attention, restore join-up, then progress only if engagement holds.',
     },
     m4_b2l1_activities: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
+      scene: 'Level 1 sessions run supported entries/exits, calm edge work, gentle position changes, and bubble play only when ready.',
+      notice: 'Look for consistent calm participation across entry, movement, and face exposure before reducing support.',
       move: 'Keep entry, movement, and face exposure fully supported until calm participation is consistent.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      watch: 'Mixing unsupported challenge into early activities undoes the calm associations Level 1 is building.',
+      next: 'End on a calm supported success and note which focus area felt most secure today.',
     },
-    m4_b2l2_overview: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Extend time and variety only when comfort from Level 1 is steady.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l1_f1: {
+      scene: 'Water Familiarisation I is accepting water on the body, staying near water, and simple touch or play with water.',
+      notice: 'Watch comfort with pouring, splash, and remaining in the aquatic space without forced immersion.',
+      move: 'Let the swimmer explore water contact at their pace with full support.',
+      watch: 'Forcing water contact before acceptance builds aversion that later skills cannot repair easily.',
+      next: 'Offer one gentle water-contact activity and stop while the experience is still positive.',
     },
-    m4_b2l2_f1: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Use familiar routines to lengthen time in water without raising pressure.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l1_f2: {
+      scene: 'Water Adaptation I is supported travel, direction change, and using walls, rails, or floats as environmental supports.',
+      notice: 'Notice whether body position stays predictable as movement begins in the water.',
+      move: 'Keep movement gentle and fully supported until body position feels predictable.',
+      watch: 'Unsupported travel too early leaves the swimmer fighting the water instead of adapting to it.',
+      next: 'Practise one short supported travel path, then return to a known point of safety.',
     },
-    m4_b2l2_f2: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Add movement variety gradually while support stays available.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l1_f3: {
+      scene: 'Breathing Control I is surface awareness — blowing as water pours, bubbles at the surface, and gentle face-near exposure.',
+      notice: 'Check regulation before any face exposure; breath work should stay playful and tiny.',
+      move: 'Introduce face exposure in tiny steps only when the swimmer is regulated.',
+      watch: 'Pushing face immersion for performance creates breath-holding and fear around the face.',
+      next: 'Try one bubble or pour-and-blow moment, celebrate calm exhalation, then stop while success holds.',
     },
-    m4_b2l2_f3: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Link bubble play and short immersions to calm, not performance.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+    m4_b2l1_f4: {
+      scene: 'Water Safety I is supported entry and exit, calm positioning near edges, and knowing points of safety.',
+      notice: 'Watch whether the swimmer can orient toward wall, steps, or support without panic.',
+      move: 'Stay close and name safe zones before you expect independent movement.',
+      watch: 'Expecting independent movement before safe zones are clear raises preventable risk.',
+      next: 'Practise one supported entry or exit to a named safe point, then repeat for predictability.',
     },
-    m4_b2l2_f4: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Teach edge use and safe zones before you reduce proximity support.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+    m4_b2l1_overview: {
+      scene: 'Level 1 (Turtle) is first supported contact — familiarisation, adaptation, gentle breathing awareness, and safe entries/exits.',
+      notice: 'Judge success by calm and security across the four focus areas, not by early skill display.',
+      move: 'Prioritise calm and support across all four focus areas before you add skill demand.',
+      watch: 'Adding skill demand before calm associations form makes the pool feel unsafe.',
+      next: 'Confirm calm participation in each focus area, then raise only one small variable.',
     },
     m4_b2l2_activities: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
+      scene: 'Level 2 sessions extend familiar time in water, vary supported movement, and grow edge independence carefully.',
+      notice: 'Confirm longer time and variety stay regulated before you cut support or add complexity.',
       move: 'Extend time in water through familiar routines before you reduce support or add complexity.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      watch: 'Cutting support to ‘make progress’ while routines are still fragile creates false independence.',
+      next: 'Keep today’s extension inside a known routine and log which support you can safely fade next time.',
     },
-    m4_b2l3_overview: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Build float, streamline, and first propulsion with recovery at the wall every time.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l2_f1: {
+      scene: 'Water Familiarisation II brings head and face contact and continued activity through small waves or splash.',
+      notice: 'Watch whether face contact and changing water conditions stay regulated inside familiar routines.',
+      move: 'Use familiar routines to lengthen time in water without raising pressure.',
+      watch: 'Novel face demand outside a familiar routine often collapses regulation quickly.',
+      next: 'Pair face contact with a known game or cue, keep it brief, and exit while calm remains.',
     },
-    m4_b2l3_f1: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Hold floats short and supported until balance feels stable in both positions.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l2_f2: {
+      scene: 'Water Adaptation II includes feet-off travel, forward/back body positions, and combining travel, turns, and position change.',
+      notice: 'Notice whether support still anchors control as movement patterns combine.',
+      move: 'Add movement variety gradually while support stays available.',
+      watch: 'Combining patterns before single patterns are calm creates overload disguised as ‘busy swimming’.',
+      next: 'Link two known movements with support present, then return to the wall to reset.',
     },
-    m4_b2l3_f2: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Keep streamlines and rotations simple before you link them to travel.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l2_f3: {
+      scene: 'Breathing Control II links bubbles with the face in, movement with exhalation, and short submersion to retrieve.',
+      notice: 'Tie immersions to calm — breath work is regulation practice, not a performance test.',
+      move: 'Link bubble play and short immersions to calm, not performance.',
+      watch: 'Treating immersion as a target to hit under pressure builds breath-holding and avoidance.',
+      next: 'Complete one calm bubble-and-move cycle, then rest before any deeper immersion attempt.',
     },
-    m4_b2l3_f3: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Connect first kicks and arms to clear direction and recovery.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l2_f4: {
+      scene: 'Water Safety II is moving between pool areas safely, travelling away from and back to safety, and recovering to stand.',
+      notice: 'Check that edge use and safe-zone returns stay clear before you reduce how close you stay.',
+      move: 'Teach edge use and safe zones before you reduce proximity support.',
+      watch: 'Reducing proximity before edge competence is secure leaves recovery gaps.',
+      next: 'Practise travel-to-wall recovery with you close, then fade one step of proximity only if calm holds.',
     },
-    m4_b2l3_f4: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Practice recovery to the wall within every short skill block.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l2_overview: {
+      scene: 'Level 2 (Starfish) lengthens time in water and adds variety while comfort from Level 1 must stay steady.',
+      notice: 'Extend only what is already calm — longer familiarity, more movement variety, short immersions, safer edge use.',
+      move: 'Extend time and variety only when comfort from Level 1 is steady.',
+      watch: 'Adding Level 2 variety on shaky Level 1 comfort recreates early fear with more demand.',
+      next: 'Confirm Level 1 calm holds, then lengthen one familiar routine by a short, planned amount.',
     },
     m4_b2l3_activities: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
+      scene: 'Level 3 sessions mix supported floats, long shapes, simple rotations, and first propulsion with wall recovery.',
+      notice: 'Judge the session by whether recovery stays clear and repeatable alongside new movement.',
       move: 'Link float, streamline, and first propulsion to clear recovery at the wall every time.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      watch: 'Chaining skills without recovery turns a learning block into an endurance and safety problem.',
+      next: 'Use a float–move–recover loop and keep each loop short enough that control stays ahead of fatigue.',
     },
-    m4_b2l4_overview: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Increase independence in floats, glides, and propulsion while safety sequences stay structured.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+    m4_b2l3_f1: {
+      scene: 'Floating & Balance I holds wide and narrow shapes on front and back with support as needed.',
+      notice: 'Watch whether balance feels stable enough in both positions before you lengthen the hold.',
+      move: 'Hold floats short and supported until balance feels stable in both positions.',
+      watch: 'Long unsupported floats before stability arrives create panic and thrashing.',
+      next: 'Practise one short supported float each side, then recover to the wall.',
     },
-    m4_b2l4_f1: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Shorten support only when floats and transitions stay calm and controlled.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+    m4_b2l3_f2: {
+      scene: 'Streamlining & Rotation I introduces open-shape glides and simple front–back rotations.',
+      notice: 'Keep shapes simple and controlled before linking them to travel distance.',
+      move: 'Keep streamlines and rotations simple before you link them to travel.',
+      watch: 'Adding travel before streamline and rotation control holds turns the body into uncontrolled rolling.',
+      next: 'Complete one clean glide or rotation to the wall, then stop while quality is still high.',
     },
-    m4_b2l4_f2: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Extend glide length only while streamline holds without constant prompting.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l3_f3: {
+      scene: 'Propulsion I is first functional kicks and arm actions that actually move the swimmer with clear direction.',
+      notice: 'Connect effort to direction and a planned recovery, not splash for its own sake.',
+      move: 'Connect first kicks and arms to clear direction and recovery.',
+      watch: 'Unfocused propulsion without direction or recovery exhausts the swimmer and raises risk.',
+      next: 'Set a short travel target to the wall, cue one propulsive pattern, then recover immediately.',
     },
-    m4_b2l4_f3: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Raise propulsion demand when breathing and direction stay steady.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l3_f4: {
+      scene: 'Water Safety III includes jump entries, signalling for help when prompted, and recovering to stand from horizontal positions.',
+      notice: 'Build recovery and help-seeking into every skill block, not as a separate lecture.',
+      move: 'Practise recovery to the wall within every short skill block.',
+      watch: 'Teaching skills without recovery practice leaves the swimmer without a plan when balance fails.',
+      next: 'After each float or propulsion try, rehearse stand or wall recovery once before repeating.',
     },
-    m4_b2l4_f4: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Run swim-float-swim sequences with support before you expect solo recovery.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l3_overview: {
+      scene: 'Level 3 (Jellyfish) lays floating, balance, streamlining, rotation, and first propulsion with recovery always available.',
+      notice: 'Shared control of position should grow while the wall remains a clear recovery option every time.',
+      move: 'Build float, streamline, and first propulsion with recovery at the wall every time.',
+      watch: 'Skill blocks without planned recovery leave swimmers stranded when control drops.',
+      next: 'End each short skill bout with a clear wall recovery before you start the next attempt.',
     },
     m4_b2l4_activities: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
+      scene: 'Level 4 applies independent glides, controlled rotation, propulsion development, and structured swim-float-swim.',
+      notice: 'Keep tasks short and clearly cued so control stays ahead of fatigue.',
       move: 'Keep glides and rotations short and repeatable so control stays ahead of fatigue.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      watch: 'Long continuous blocks at this level often trade quality for tired, unsafe movement.',
+      next: 'Use short quality repeats with rest, and stop the set when shape or calm begins to slip.',
     },
-    m4_b2l5_overview: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Hold technique standards explicit as stroke volume and wall work increase.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l4_f1: {
+      scene: 'Floating & Balance II includes rocket and tuck floats and moving between shapes while floating.',
+      notice: 'Shorten support only when floats and shape transitions stay calm and controlled.',
+      move: 'Shorten support only when floats and transitions stay calm and controlled.',
+      watch: 'Removing support during unstable transitions often triggers sudden tension and sink risk.',
+      next: 'Practise one shape change with light support available, then remove support only on the stable hold.',
     },
-    m4_b2l5_f1: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Keep streamline and rotation quality visible before you add set density.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l4_f2: {
+      scene: 'Streamlining & Rotation II adds push-off glides in narrow shapes and glide–rotation combinations.',
+      notice: 'Extend glide length only while the streamline holds without constant prompting.',
+      move: 'Extend glide length only while streamline holds without constant prompting.',
+      watch: 'Longer glides with collapsing shape teach poor alignment under the label of progress.',
+      next: 'Mark a short quality glide, stop while the line holds, then add distance next time.',
     },
-    m4_b2l5_f2: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Name the stroke standard clearly and protect it as fatigue rises.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l4_f3: {
+      scene: 'Propulsion II develops recognised kick and arm patterns with breathing and directional control.',
+      notice: 'Raise propulsion demand only when breathing and direction stay steady.',
+      move: 'Raise propulsion demand when breathing and direction stay steady.',
+      watch: 'More propulsion with poor breathing or direction trains effort without usable swimming.',
+      next: 'Protect breath and direction first, then add one coordination demand in a short repeat.',
     },
-    m4_b2l5_f3: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Teach starts, turns, and push-offs as repeatable sequences, not one-off demos.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l4_f4: {
+      scene: 'Water Safety IV covers sitting dive entry, post-immersion back float, and swim-float-kick sequences.',
+      notice: 'Run swim-float-swim with support visible before you expect solo recovery through the sequence.',
+      move: 'Run swim-float-swim sequences with support before you expect solo recovery.',
+      watch: 'Solo swim-float-swim before the sequence is secure leaves the swimmer without a calm recovery plan mid-length.',
+      next: 'Walk the full sequence with support once, then fade support on the float phase only if calm holds.',
     },
-    m4_b2l5_f4: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Check safety decisions during busy swimming, not only at session start.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+    m4_b2l4_overview: {
+      scene: 'Level 4 (Ray) grows independent floats, glide–rotation links, efficient propulsion, and structured swim-float-swim safety.',
+      notice: 'Independence can rise only while safety sequences remain structured and calm.',
+      move: 'Increase independence in floats, glides, and propulsion while safety sequences stay structured.',
+      watch: 'Independence without structured safety sequences creates unsupported risk at the wrong moment.',
+      next: 'Fade one support element inside a known safety sequence and confirm calm recovery still works.',
     },
     m4_b2l5_activities: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
-      move: 'Hold technique standards explicit as volume rises. Quality and safety stay linked.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+      scene: 'Level 5 sessions combine stroke development, turn practice, push-off drills, and continuous applied swimming.',
+      notice: 'Keep quality and safety linked as volume rises — they are not separate goals.',
+      move: 'Hold technique standards explicit as volume rises; quality and safety stay linked.',
+      watch: 'Treating volume as the main win quietly discards the technique and safety the level requires.',
+      next: 'Cap the set when either technique or safety decision-making softens, then reset.',
     },
-    m4_b2l6_overview: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Increase distance and density only while fluency and self-regulation stay stable.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l5_f1: {
+      scene: 'Streamlining & Rotation III includes rocket push-offs with rolls and underwater rotational work.',
+      notice: 'Keep streamline and rotation quality visible before you add set density.',
+      move: 'Keep streamline and rotation quality visible before you add set density.',
+      watch: 'Dense sets with collapsing streamlines teach survival swimming, not efficient transition skill.',
+      next: 'Complete fewer high-quality push-off rotations, then add density only when quality is automatic.',
     },
-    m4_b2l6_f1: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Protect stroke shape over longer repeats before you chase speed.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l5_f2: {
+      scene: 'Swimming Strokes I builds front crawl, backstroke, breaststroke, and dolphin kick with early coordination.',
+      notice: 'Name the stroke standard clearly and protect it as fatigue rises.',
+      move: 'Name the stroke standard clearly and protect it as fatigue rises.',
+      watch: 'Letting fatigue rewrite stroke shape embeds errors that are hard to undo later.',
+      next: 'Stop or rest at the first lasting breakdown of the named stroke standard.',
     },
-    m4_b2l6_f2: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Adjust pace from rhythm cues, not from pressure to finish the set.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l5_f3: {
+      scene: 'Dives, Starts & Turns I covers kneeling/head-first entries, basic turns, and tumble-turn sequences.',
+      notice: 'Teach starts, turns, and push-offs as repeatable sequences, not one-off demonstrations.',
+      move: 'Teach starts, turns, and push-offs as repeatable sequences, not one-off demos.',
+      watch: 'One successful demo does not equal a secure, safe wall skill under session pressure.',
+      next: 'Rehearse the full sequence three calm times with the same cues before you add pace.',
     },
-    m4_b2l6_f3: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Extend distance in steps while breathing recovery stays efficient.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l5_f4: {
+      scene: 'Integrated Water Safety & Recovery includes treading while signalling, swim-float-kick over a length, and holding a rescue aid.',
+      notice: 'Check safety decisions during busy swimming, not only at session start.',
+      move: 'Check safety decisions during busy swimming, not only at session start.',
+      watch: 'Safety that exists only in the warm-up disappears when swimming becomes demanding.',
+      next: 'Insert one safety check mid-set — signal, float recovery, or aid hold — before continuing volume.',
     },
-    m4_b2l6_f4: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Link wall skills to stroke rhythm so flow does not break under fatigue.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+    m4_b2l5_overview: {
+      scene: 'Level 5 (Dolphin) links rocket glides and rotations, early stroke coordination, starts/turns, and integrated safety over longer work.',
+      notice: 'Hold technique and safety standards explicit as stroke volume and wall work increase.',
+      move: 'Hold technique standards explicit as stroke volume and wall work increase.',
+      watch: 'Volume without standards produces mileage that looks like progress while technique and safety erode.',
+      next: 'State the technique and safety criteria before the set and stop if either fails.',
     },
     m4_b2l6_activities: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
+      scene: 'Level 6 sessions combine continuous swimming, rhythm practice, endurance sets, and advanced turns with push-off quality.',
+      notice: 'Length and density rise only when fluency and self-regulation remain stable together.',
       move: 'Increase distance and set density only while fluency and self-regulation stay stable.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      watch: 'Stacking endurance and advanced turns when regulation is already thin invites collapse.',
+      next: 'Choose either a distance focus or a turns focus for the main set — not both at maximum — and stop while quality holds.',
+    },
+    m4_b2l6_f1: {
+      scene: 'Swimming Strokes II requires continuous recognised strokes, coordinated timing, and controlled stroke changes.',
+      notice: 'Protect stroke shape and timing over longer repeats before you chase speed.',
+      move: 'Protect stroke shape and timing over longer repeats before you chase speed.',
+      watch: 'Speed before shape breaks timing and undoes stroke consistency.',
+      next: 'Hold pace steady on a quality repeat, then add speed only if shape still holds.',
+    },
+    m4_b2l6_f2: {
+      scene: 'Distance & Endurance asks for continuous swimming over length or cycle targets with efficient breathing recovery.',
+      notice: 'Extend distance in steps while breathing recovery stays efficient.',
+      move: 'Extend distance in steps while breathing recovery stays efficient.',
+      watch: 'Jumping distance when breath recovery is already strained trains panic swimming.',
+      next: 'Add a short distance step only after the previous distance ended with calm breathing.',
+    },
+    m4_b2l6_f3: {
+      scene: 'Dives, Starts & Turns II links standing/racing starts, advanced turns, and swim-tumble-glide-swim sequences to stroke rhythm.',
+      notice: 'Keep wall skills connected to stroke flow so fatigue does not break the sequence.',
+      move: 'Link wall skills to stroke rhythm so flow does not break under fatigue.',
+      watch: 'Isolated wall skills that collapse under fatigue never transfer into continuous swimming.',
+      next: 'Practise the full swim–turn–glide–swim chain at manageable pace before you add race intensity.',
+    },
+    m4_b2l6_f4: {
+      scene: 'Advanced wall work at Level 6 must stay tied to continuous swimming — starts and turns serve stroke rhythm under load.',
+      notice: 'Watch whether push-offs and turns still feed clean stroke timing as fatigue rises.',
+      move: 'Rehearse standing starts and advanced turns inside continuous swimming, not as isolated wall tricks.',
+      watch: 'Practising turns as separate tricks leaves a break in rhythm every time the swimmer hits the wall tired.',
+      next: 'Run one full length with a quality turn and glide, then rest before density increases.',
+    },
+    m4_b2l6_overview: {
+      scene: 'Level 6 (Whale) targets efficiency, fluency, and independence over longer distances with controlled stroke changes and wall skills.',
+      notice: 'Increase distance and density only while fluency and self-regulation stay stable.',
+      move: 'Increase distance and density only while fluency and self-regulation stay stable.',
+      watch: 'Endurance built on dysregulation or collapsing fluency is not Level 6 progress.',
+      next: 'Extend one variable — distance or density — only after the previous extension stayed fluent and calm.',
     },
     m4_b3c1: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Consolidation and pause are part of progress. Allow time before you move the swimmer on.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      scene: 'Development includes consolidation, pauses, and sometimes productive regression — it is not a straight line.',
+      notice: 'Readiness, not the calendar, should decide when progression is real.',
+      move: 'Allow time to consolidate before progressing.',
+      watch: 'Forcing linear progression past readiness produces labels the swimmer cannot sustain.',
+      next: 'Keep the swimmer on the secure work until calm consistency returns, then reconsider the next step.',
     },
     m4_b3c2: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Adapt how you teach. Access to learning changes when instruction matches the swimmer.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      scene: 'Physical, motor-planning, and cognitive differences change how swimmers access the same skill.',
+      notice: 'Adapt how you teach — cues, chunking, support — not only which skill you name.',
+      move: 'Adjust how you teach, not just what you teach.',
+      watch: 'Repeating the same delivery louder when access differs looks like teaching but blocks learning.',
+      next: 'Change one teaching variable (visual, chunk size, or physical prompt) and check whether access improves.',
     },
-    b3c3_step1: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Place the stage where the swimmer usually lives in the water across the term, not their best moment.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+    m4_b3c3: {
+      scene: 'Term Review uses the framework to decide stage, level, and development areas from consistent term patterns — not one strong moment.',
+      notice: 'Gather what the swimmer managed safely and repeatedly across sessions before you complete the form.',
+      move: 'Review stage, level, and development areas against consistent term evidence, not isolated highlights.',
+      watch: 'Form decisions based on best moments inflate placement and set unsafe expectations next term.',
+      next: 'Open the form only after you can describe the swimmer’s usual pattern in one clear sentence.',
     },
-    b3c3_step2: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Use focus-area ratings to test the level you chose. Consistency matters more than first impression.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+    m4_b3c3_step1: {
+      scene: 'Step 1 places the swimmer in the stage that matches the environment they manage consistently across the term.',
+      notice: 'Base stage on usual safety, comfort, and regulation — not one advanced skill flash.',
+      move: 'Select the stage that best matches the swimmer’s usual experience in water across the term.',
+      watch: 'Choosing stage from a peak performance moment misplaces the whole pathway decision.',
+      next: 'Write the stage that reflects typical sessions, then check it against safety and regulation evidence.',
     },
-    b3c3_step3: {
-      scene: 'Water changes how the body feels and organises — sensory load is part of every entry and drill.',
-      notice: 'Watch for startle, withdrawal, gripping, or sudden stillness as sensory information, not defiance.',
-      move: 'Read development areas as access to learning, not only as a record of skill performance.',
-      watch: 'Adding instruction on top of sensory overwhelm rarely helps.',
-      next: 'Allow settling time and adapt pace, space, and support before you add structure.'
+    m4_b3c3_step2: {
+      scene: 'Step 2 confirms current level through focus-area ratings — support, control, and repeatability matter more than occasional success.',
+      notice: 'Use Fully / Partially / Independent ratings to test whether the level is truly secure.',
+      move: 'Use the focus-area ratings to confirm the level, not just to justify a first impression.',
+      watch: 'Locking a level from first impression without focus-area evidence creates shaky confirmation.',
+      next: 'Rate each focus area against the term pattern, then adjust the level if the ratings disagree.',
+    },
+    m4_b3c3_step3: {
+      scene: 'Step 3 rates core development areas across the term and adds brief evidence — this explains access to learning, not only skill ticks.',
+      notice: 'Capture Rarely / Sometimes / Always patterns that explain progress, barriers, and next steps.',
+      move: 'Use the development-area ratings to understand how the swimmer accesses learning, not just how they perform skills.',
+      watch: 'Treating development areas as a skill checklist misses the barriers that should shape next-term planning.',
+      next: 'Add one short evidence note per rating that a colleague could act on next term.',
     },
     m5_b1c1: {
-      scene: 'You need the swimmer to understand what comes next, but verbal instruction is stacking too fast.',
-      notice: 'Eyes go to your face, then away — processing load is rising.',
+      scene: 'When verbal instruction stacks, eyes leave your face and processing load rises — the swimmer needs something to look at.',
+      notice: 'Notice whether a clear image holds expectation better than another sentence.',
       move: 'Show the visual before you explain. Let the image carry expectation when words are hard to process.',
-      watch: 'More words rarely fix overload; a clear visual often will.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'More words rarely fix overload; they usually add to it.',
+      next: 'Place the visual first, pause, then add only the words the image does not already carry.',
     },
     m5_b1c2: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Cognitive load drops when skills appear as one visible step at a time instead of a verbal stack.',
+      notice: 'Watch whether attention stays on the current step when you stop stacking instructions.',
       move: 'Present one visible step at a time rather than stacking several verbal instructions.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Multiple verbal steps at once scatter attention and raise frustration.',
+      next: 'Show step one, wait for the response, then reveal step two.',
     },
     m5_b1c3: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Predictable visuals of what comes next pull participation forward without relying on pressure.',
+      notice: 'Check whether the swimmer anticipates the next activity from the schedule rather than from urging.',
       move: 'Use the schedule to show what comes next so participation is driven by predictability, not pressure.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Pressure without predictability often looks like non-compliance when it is uncertainty.',
+      next: 'Point to the next schedule item before you move, and wait for the swimmer to orient to it.',
     },
     m5_b2c1: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
-      move: 'Show the PixtoLearn system before you explain it. Let visuals carry expectation when words are hard to process.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      scene: 'PixtoLearn is a whole visual system — consistency, reduced load, and regulation support — not a single card trick.',
+      notice: 'See whether the swimmer begins to expect the same visual language across the session.',
+      move: 'Show the PixtoLearn system before you explain it, and let visuals carry expectation when words are hard to process.',
+      watch: 'Introducing cards inconsistently teaches that visuals are optional and predictability collapses.',
+      next: 'Introduce the system visually at the start, then keep the same language through every transition.',
     },
     m5_b2c2: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Folders and categories give a structured pathway so session planning stays focused and progressive.',
+      notice: 'Confirm folder and category choices match the swimmer’s level before the session begins.',
       move: 'Choose folder and category before the session starts so progression stays predictable.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Improvising folder choices mid-session creates visual chaos and unclear progression.',
+      next: 'Set folder and category on the plan, pull only those cards, and stick to that pathway today.',
     },
     m5_b2c3: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Different flashcards serve instruction, choice, regulation, and closure — the same kit supports different moments.',
+      notice: 'Match card type to the moment rather than using one card for every purpose.',
       move: 'Keep flashcards within reach and match card type to the moment: instruction, choice, regulation, or closure.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Cards left out of reach or mismatched to the moment become decoration instead of teaching tools.',
+      next: 'Place the relevant card type in hand before the transition so you are not searching mid-need.',
+    },
+    m5_b3c1: {
+      scene: 'Visual schedules show the session sequence — First & Then, three-step, or longer — so the swimmer can see what happens next.',
+      notice: 'Watch whether the schedule reduces uncertainty at transitions and supports motivation through less preferred activities.',
+      move: 'Select the schedule length that matches the swimmer’s current load, show it before you start, and refer to it at every transition.',
+      watch: 'Running sessions without a visible sequence leaves transitions sudden and raises preventable dysregulation.',
+      next: 'Build today’s schedule on the poolside, show it once, then point to each step as you move through it.',
     },
     m5_b3c2: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'A PixtoLearn sequence links individual skills into a continuous chain only after each skill is taught alone.',
+      notice: 'Check that each flashcard skill is secure before you ask for a multi-step sequence.',
       move: 'Teach each skill alone before you link flashcards into a continuous sequence.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Linking cards before parts are secure produces rushed, confused sequences and failed transitions.',
+      next: 'Master one card, then add the next link with a clear controlled transition.',
     },
     m5_b3c3: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Session planning with PixtoLearn starts from level, one main outcome, then visible phases: entry, main, cool-down/exit.',
+      notice: 'Keep structure visible while leaving room to flex within the phases.',
       move: 'Anchor the session to one main outcome, then break it into visible phases with flashcards.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
-    },
-    m5_f5: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
-      move: 'Build the session plan before swimmers arrive so visuals, sequence, and outcomes stay aligned.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Sessions with many outcomes and no visible phases scatter attention and weaken transitions.',
+      next: 'Write one outcome and three phase cards before you enter the water, then deliver to that plan.',
     },
     m5_f1_s1: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
-      move: 'Model the entry routine visually before you ask the swimmer to attempt it.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      scene: 'Safe entry and exit routines give swimmers repeatable access to the pool and reduce hesitation at the edge.',
+      notice: 'Watch for growing independence in the access routine when the visual sequence stays consistent.',
+      move: 'Model the entry and exit routine visually before you ask the swimmer to attempt it.',
+      watch: 'Unclear access routines create uncertainty and raise risk at every start and finish.',
+      next: 'Show the entry card sequence once, practise it supported, then fade prompts as the routine holds.',
     },
     m5_f1_s2: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Water movement exploration — walking, splashing, turning, reaching — builds body awareness before formal skills.',
+      notice: 'Notice playful exploration that still stays within a clear visual structure.',
       move: 'Use movement exploration to build familiarity before you name formal skills.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Jumping to formal skill labels before exploration leaves the body without a map of how water feels.',
+      next: 'Offer one exploratory movement card, join the play briefly, then link it to the next learning aim.',
     },
     m5_f1_s3: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Aquatic breathing and submersion manage face contact and controlled exhalation as regulation skills.',
+      notice: 'Introduce face and breath work only in short, playful steps tied to calm.',
       move: 'Introduce face and breath work playfully in short steps tied to regulation.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Demanding submersion for performance before regulation is ready builds fear around the face.',
+      next: 'Use a breath or bubble card for one calm try, then mark Finished while success still feels safe.',
     },
     m5_f2_s1: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
+      scene: 'Floating and balance ask the swimmer to trust buoyancy and hold position with less external support over time.',
+      notice: 'Watch stability in position grow before you expect longer independent floats.',
       move: 'Let buoyancy and support do the work before you expect independent float holds.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      watch: 'Demanding independent floats before trust in buoyancy arrives creates thrashing and fear.',
+      next: 'Hold a short supported float shown on the card, then recover before you fade support.',
     },
     m5_f2_s2: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Streamlining, rotation, and sculling develop efficient alignment and fine control in the water.',
+      notice: 'Confirm long body shape holds before you add rotation or sculling complexity.',
       move: 'Show the long body shape visually, then add short rotation and sculling drills once alignment holds.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Adding rotation on a collapsing line teaches inefficient, unstable movement.',
+      next: 'Cue the streamline card first, then add one rotation or scull only while the line stays clean.',
     },
     m5_f2_s3: {
-      scene: 'Safety is continuous in clubSENsational sessions — close, visible, and organised around the swimmer.',
-      notice: 'Subtle position or response changes often precede obvious distress.',
+      scene: 'Water safety in this folder is embedded in learning — fatigue management and safer responses inside every activity.',
+      notice: 'Look for safety cues appearing inside skill blocks, not only as a separate talk.',
       move: 'Embed safety cues inside every activity block, not as a separate lecture.',
-      watch: 'Never wait for a clear emergency signal before you adjust proximity or support.',
-      next: 'Reset space, positioning, and communication so prevention stays ahead of risk.'
+      watch: 'Treating safety as a bolt-on topic leaves it unused when swimming becomes demanding.',
+      next: 'Add one safety card to each main activity and rehearse it before you move on.',
     },
     m5_f3_s1: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Stroke development combines movement, breathing, position, and timing — parts must connect, not just be copied.',
+      notice: 'Break the stroke into visible parts and check understanding of each link.',
       move: 'Break stroke into visible parts before you expect a full coordinated pattern.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Expecting a whole stroke copy without part connections produces empty mimicry under fatigue.',
+      next: 'Teach one visible part with its card, link it to breath or position, then combine only when both hold.',
     },
     m5_f3_s2: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
+      scene: 'Diving, starts, and turns need readiness, submersion confidence, and clear safety expectations before pace rises.',
+      notice: 'Confirm dynamic-entry readiness and use visuals to sequence wall skills before you add speed.',
       move: 'Confirm readiness before dynamic entries, and teach wall skills as repeatable sequences with visuals before you add pace.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      watch: 'Rushing starts and turns without readiness turns dynamic skills into safety incidents.',
+      next: 'Walk the visual sequence of the start or turn calmly three times, then add pace only if control holds.',
     },
     m5_f4_s1: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Games motivate practice only when they rehearse a clear session outcome rather than filling empty time.',
+      notice: 'Check that the game still points at the skill on the plan.',
       move: 'Choose games that rehearse the session outcome, not just fill time.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Random games raise arousal without learning and can derail the session structure.',
+      next: 'Pick one game card tied to today’s outcome, play a short round, then return to the schedule.',
     },
     m5_f4_s2: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Toys and equipment support engagement and structure when they clarify the goal — they should not replace the swimmer’s control.',
+      notice: 'Match equipment to the learning goal and watch whether the swimmer still participates actively.',
       move: 'Match equipment to the learning goal and fade it when the skill holds without it.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Equipment without a goal becomes distraction; equipment that never fades blocks independence.',
+      next: 'Introduce the equipment card with the activity purpose, then plan when you will fade that support.',
     },
     m5_f4_s3: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Extras — routine and communication cards — make expectations, needs, and transitions visible when words are limited.',
+      notice: 'Use these cards when demand or uncertainty rises at transitions.',
       move: 'Use routine and communication cards at transitions when demand or uncertainty rises.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Leaving communication supports unused at hard transitions forces verbal-only coping under stress.',
+      next: 'Place the relevant extra card at the transition point before the swimmer has to guess what happens next.',
+    },
+    m5_f5: {
+      scene: 'Session Plans connect skills, visuals, structure, and progression into one deliverable plan — not isolated activities.',
+      notice: 'Check that the plan’s sequence, visuals, and outcomes still align before swimmers arrive.',
+      move: 'Build the session plan before swimmers arrive so visuals, sequence, and outcomes stay aligned.',
+      watch: 'Building the plan in the water leads to isolated activities without a coherent progression.',
+      next: 'Finalise the plan and card stack on deck, then follow that sequence through the session.',
     },
     m5_fc31: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Flashcards have a Main side for the swimmer and a Break It Down side for step-by-step teaching.',
+      notice: 'Start with the whole picture, then flip when step-by-step support is needed.',
       move: 'Show Main first for the whole picture, then flip to Break It Down when step-by-step support is needed.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Teaching only from Break It Down without showing Main can leave the swimmer without the target image.',
+      next: 'Show Main, model, then flip to Break It Down only for the steps that still need support.',
     },
     m5_fc32: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Toys and equipment flashcards prepare the swimmer for what will be used and can offer controlled choice.',
+      notice: 'Show the equipment card before you hand the item over so purpose stays clear.',
       move: 'Introduce equipment with the flashcard before you hand it over so the activity purpose stays clear.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Handing equipment without a visual first creates grab-and-distract moments without learning focus.',
+      next: 'Show the card, name the purpose, then offer the equipment or a controlled choice between two cards.',
     },
     m5_fc33: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'Break Time and Choosing cards give structured regulation and autonomy without abandoning the session framework.',
+      notice: 'Offer these cards when regulation or autonomy needs rise, not only after a meltdown.',
       move: 'Offer Break Time and Choosing cards when regulation or autonomy needs rise.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Withholding structured breaks until crisis hits makes regulation feel like failure rather than a tool.',
+      next: 'Present Break Time or Choosing early at the first strain signal, then return to the schedule after.',
     },
     m5_fc34: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'How Do You Feel and Where cards support communication of feelings, needs, and location when speech is hard.',
+      notice: 'Keep these cards accessible so the swimmer can signal without relying on speech alone.',
       move: 'Check in with How Do You Feel and Where cards when communication slows or distress appears.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Expecting verbal answers under distress leaves needs invisible and unmet.',
+      next: 'Hold the feelings or location card out, wait for a selection, and respond to what is shown.',
     },
     m5_fc35: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'White cards personalise the system for temporary or individual needs the standard kit does not cover.',
+      notice: 'Use them when nothing in the kit represents what this swimmer needs right now.',
       move: 'Use white cards for swimmer-specific needs that the standard kit does not cover yet.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Forcing a poor-fit standard card leaves the swimmer without a usable visual for a real need.',
+      next: 'Create one clear white card for today’s specific need and keep its meaning consistent across the session.',
     },
     m5_fc36: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'The Finished card signals that an activity, sequence, or session has ended and what comes next can begin.',
+      notice: 'Use it consistently so endings feel clear and manageable rather than abrupt.',
       move: 'Signal Finished clearly at activity end so the swimmer knows what comes next.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Ending without a clear Finished signal leaves uncertainty hanging into the next transition.',
+      next: 'Show Finished, pause for orientation, then point to the next schedule item.',
     },
     m5_vs1: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'First & Then is a two-activity schedule that shows what comes first and what happens next with minimal cognitive load.',
+      notice: 'Use it when the swimmer needs immediate structure or motivation through a less preferred first activity.',
       move: 'Use First and Then for two-step sequences until the swimmer follows both parts reliably.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Jumping to longer schedules before two-step reliability lands overloads sequence processing.',
+      next: 'Set one First and one Then, complete both, then reset the board for the next pair.',
     },
     m5_vs2: {
-      scene: 'On deck and in the water, visuals carry expectation when words are hard to process.',
-      notice: 'Watch whether the swimmer looks to the card, anticipates the next step, and stays with the sequence.',
+      scene: 'First, Next & Then expands to three activities — still manageable, useful for short progressions or new skills.',
+      notice: 'Add the middle step only once two-step schedules are stable across sessions.',
       move: 'Add the middle step on the schedule once First and Then is stable across sessions.',
-      watch: 'If confusion or overload rises, reduce verbal load and show one visual step at a time.',
-      next: 'Keep the same visual language across transitions so predictability does the coaching.'
+      watch: 'Three-step schedules introduced too early recreate the overload that First & Then was solving.',
+      next: 'Build a three-step schedule for one short block, then return to two-step if transitions fray.',
     },
     m5_vs3: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
+      scene: 'Four or more activities give a fuller session overview — structure, duration, and flow from the start.',
+      notice: 'Break longer schedules into First & Then or three-step chunks when the full board overwhelms.',
       move: 'Expand to four or more activities only when transitions stay calm with shorter schedules.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      watch: 'Full-session boards for swimmers who still struggle with two steps raise preventable overload.',
+      next: 'Show the full schedule once, then work it in smaller chunks if transition calm begins to drop.',
     },
     t2_b1c1: {
-      scene: 'A swimmer looks confident in water but structured stroke work keeps falling apart.',
-      notice: 'Control and calm are there; technical demand may be arriving too early.',
-      move: 'Strong aquatic confidence shows before technique. Honour control and readiness before structured strokes.',
-      watch: 'Do not confuse aquatic confidence with stroke readiness.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'A swimmer moves calmly and confidently around the pool without structured strokes — aquatic confidence is already visible.',
+      notice: 'Control and calm are present; technical demand may still be arriving too early.',
+      move: 'Recognise strong aquatic confidence and do not introduce technique before control and readiness are established.',
+      watch: 'Confusing aquatic confidence with stroke readiness forces structure before the foundation can hold it.',
+      next: 'Keep today’s work on control and confidence; revisit technique only when readiness cues stay steady under mild structure.',
     },
     t2_b1c2: {
-      scene: 'In the pool, foundational control and readiness decide whether structured swimming can land today.',
-      notice: 'Look for balance, breath ease, and calm face contact — not only effort or splash.',
-      move: 'When coordination collapses under demand, return to balance and body control, not the next skill.',
-      watch: 'If coordination collapses under demand, the foundation is asking for more time.',
-      next: 'Return to control work, then rebuild structure in smaller pieces.'
+      scene: 'A swimmer kicks strongly with a float but loses body position and becomes dysregulated when asked to coordinate movement.',
+      notice: 'Strong isolated effort is not the same as ready coordinated structure.',
+      move: 'Return to balance and body control instead of progressing when coordination collapses under demand.',
+      watch: 'Pushing coordination after collapse trains dysregulation into the next skill attempt.',
+      next: 'Strip back to a balance or control drill, restore calm, then rebuild coordination in smaller pieces.',
     },
     t2_b1c3: {
-      scene: 'In the pool, foundational control and readiness decide whether structured swimming can land today.',
-      notice: 'Look for balance, breath ease, and calm face contact — not only effort or splash.',
-      move: 'Face contact may need repeated, gentle exposure. Progression is exposure over time, not force.',
-      watch: 'If coordination collapses under demand, the foundation is asking for more time.',
-      next: 'Return to control work, then rebuild structure in smaller pieces.'
+      scene: 'A swimmer enjoys splashing and movement but avoids putting their face in the water across sessions.',
+      notice: 'Progress may show in confidence and participation long before face immersion appears.',
+      move: 'Allow gradual face exposure over multiple sessions rather than forcing submersion.',
+      watch: 'Forcing submersion against avoidance damages trust and can freeze other progress.',
+      next: 'Plan one tiny, optional face-near step today and stop while the experience remains positive.',
     },
     t2_b1c4: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Active movement is not readiness. Stay with foundational work until control holds under structure.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'A swimmer moves energetically around the pool but becomes tense when a structured task is introduced.',
+      notice: 'Activity alone does not equal readiness for structured swimming — watch the response to structure.',
+      move: 'Maintain foundational aquatic work rather than progressing to structured swimming until control holds under structure.',
+      watch: 'Mistaking energetic movement for structured readiness introduces technique into tension.',
+      next: 'Stay with foundational work until structured cues no longer produce tension, then add one small structured step.',
     },
     t2_b2c1: {
-      scene: 'Across the clubSENsational pathway, this moment sits inside a stage and level — progress is individual.',
-      notice: 'Track regulation, independence, and engagement alongside the aquatic skill itself.',
-      move: 'Breath-holding and tension often sit behind poor float. Address regulation before you chase position.',
-      watch: 'A skill without calm access is not secure progress. Do not rush the pathway label.',
-      next: 'Consolidate what is stable before you add demand, distance, or independence.'
+      scene: 'A swimmer struggles to float because they hold their breath and become tense, which then collapses balance and body position.',
+      notice: 'Breathing, tension, and balance are interacting — the float problem is multi-layered.',
+      move: 'Address breath-holding and tension before you chase float position.',
+      watch: 'Coaching position alone while breath is locked keeps the float failing for the wrong reason.',
+      next: 'Cue a calm exhale first, then return to the float once the body softens.',
     },
     t2_b2c2: {
-      scene: 'In the pool, foundational control and readiness decide whether structured swimming can land today.',
-      notice: 'Look for balance, breath ease, and calm face contact — not only effort or splash.',
-      move: 'Repeated head-lifting signals breathing and regulation. Treat these as the lever for progress.',
-      watch: 'If coordination collapses under demand, the foundation is asking for more time.',
-      next: 'Return to control work, then rebuild structure in smaller pieces.'
+      scene: 'A swimmer avoids face contact and repeatedly lifts their head during activities.',
+      notice: 'Breathing and regulation are the key areas influencing progress in this pattern.',
+      move: 'Treat breathing and regulation as the levers for progress when head-lifting and face avoidance dominate.',
+      watch: 'Chasing propulsion or float shape while breathing fear remains leaves the root problem untouched.',
+      next: 'Prioritise a calm breath or face-near activity before you return to the original skill goal.',
     },
     t2_b2c3: {
-      scene: 'In the pool, foundational control and readiness decide whether structured swimming can land today.',
-      notice: 'Look for balance, breath ease, and calm face contact — not only effort or splash.',
-      move: 'Balance problems often trace to breathing uncertainty. Observe the whole pattern, not one symptom.',
-      watch: 'If coordination collapses under demand, the foundation is asking for more time.',
-      next: 'Return to control work, then rebuild structure in smaller pieces.'
+      scene: 'A swimmer repeatedly lifts their head during floating because breathing control feels uncertain, which then unsettles balance.',
+      notice: 'Balance difficulty here is linked to breathing uncertainty — observe the whole pattern.',
+      move: 'Observe the whole pattern: breathing uncertainty often sits behind the balance problem.',
+      watch: 'Correcting balance in isolation while breath fear remains usually recreates the same head lift.',
+      next: 'Settle breathing first in a supported position, then revisit the float with that calm breath available.',
     },
     t2_b2c4: {
-      scene: 'In the pool, foundational control and readiness decide whether structured swimming can land today.',
-      notice: 'Look for balance, breath ease, and calm face contact — not only effort or splash.',
-      move: 'Some foundations need many sessions. Protect gradual exposure and mark small gains without rushing.',
-      watch: 'If coordination collapses under demand, the foundation is asking for more time.',
-      next: 'Return to control work, then rebuild structure in smaller pieces.'
+      scene: 'A swimmer takes multiple sessions to place their face in the water comfortably — foundations need time.',
+      notice: 'Small calm gains across sessions are real progress even when the skill is not finished.',
+      move: 'Maintain gradual exposure and mark small progress without rushing.',
+      watch: 'Rushing foundations to match a timetable undermines the calm control later skills require.',
+      next: 'Celebrate today’s small exposure gain and keep the same gradual plan for the next session.',
     },
     t2_b3c1: {
-      scene: 'Emotional state shapes every swimming minute — readiness is live data in the water.',
-      notice: 'Face, breath, muscle tone, and approach/avoidance tell you what the plan cannot.',
-      move: 'Calm entry with minimal guidance is independence forming. Give space before you step back in.',
-      watch: 'Pushing through a dysregulated state costs trust and learning.',
-      next: 'Match pace and support to what is present, then re-check before you progress.'
+      scene: 'A swimmer enters the water calmly with minimal physical guidance — independence is beginning to show as self-management.',
+      notice: 'Control and confidence in organising oneself matter more than moving without any adult nearby.',
+      move: 'Allow space for the swimmer to organise themselves independently before you give further support.',
+      watch: 'Stepping in too quickly removes the practice of self-management that independence requires.',
+      next: 'Wait through a short self-organisation window, then assist only if control does not return.',
     },
     t2_b3c2: {
-      scene: 'In the pool, foundational control and readiness decide whether structured swimming can land today.',
-      notice: 'Look for balance, breath ease, and calm face contact — not only effort or splash.',
-      move: 'Pause after a wobble. Recovery is the lesson; assist only when self-correction is not returning.',
-      watch: 'If coordination collapses under demand, the foundation is asking for more time.',
-      next: 'Return to control work, then rebuild structure in smaller pieces.'
+      scene: 'A swimmer loses balance during floating and briefly becomes unsettled — recovery is the learning moment.',
+      notice: 'Watch whether calm self-correction returns before you take over.',
+      move: 'Pause, allow time for recovery, and assist only if self-correction is not returning.',
+      watch: 'Rescuing every wobble immediately prevents the swimmer from practising recovery and confidence.',
+      next: 'Count a short recovery window, celebrate self-correction if it comes, and assist lightly only if needed.',
     },
     t2_b3c3: {
-      scene: 'In the pool, foundational control and readiness decide whether structured swimming can land today.',
-      notice: 'Look for balance, breath ease, and calm face contact — not only effort or splash.',
-      move: 'If tension rises when support drops, restore light contact, regulate, then fade support more slowly.',
-      watch: 'If coordination collapses under demand, the foundation is asking for more time.',
-      next: 'Return to control work, then rebuild structure in smaller pieces.'
+      scene: 'A swimmer becomes tense when you slightly reduce support — the fade was faster than regulation could hold.',
+      notice: 'Timing of support reduction must follow regulation and confidence, not the plan alone.',
+      move: 'Restore light contact, wait for regulation, then reduce support again more gradually.',
+      watch: 'Persisting with a fade that produces tension teaches fear of independence.',
+      next: 'Return to the last successful support level, regulate, then fade by a smaller step.',
     },
     t2_b3c4: {
-      scene: 'In session, engagement is the doorway to learning — connection before correction.',
-      notice: 'Notice join-up signals: shared attention, turn-taking, soft body, following your cue.',
-      move: 'When demand outpaces capacity, simplify the task and rebuild engagement before you advance again.',
-      watch: 'If the swimmer goes distant or mechanical, stop advancing the task and rebuild contact.',
-      next: 'Reconnect with a simpler exchange, then return to the learning aim.'
+      scene: 'A swimmer withdraws and avoids the task when demand increases too quickly — independence goals vary and do not require structured swimming.',
+      notice: 'Disengagement here is information that complexity outpaced capacity.',
+      move: 'Reduce complexity and return to a more familiar activity to rebuild engagement.',
+      watch: 'Pushing independence goals through withdrawal damages the confidence independence needs.',
+      next: 'Rebuild with a familiar successful activity, then reintroduce a smaller step toward today’s independence aim.',
     },
   };
 
   var MODULE_ALIASES = {
     'training-i/modules/module-1': {
-      b1c1: 'm1_b1c1'
+      b1c1: 'm1_b1c1', b1c2: 'b1c2'
     },
     'training-i/modules/module-2': {
       b1c1: 'm2_b1c1', b1c2: 'm2_b1c2', b1c3: 'm2_b1c3', b1c4: 'm2_b1c4',
-      b2c1: 'm2_b2c1', b2c2: 'm2_b2c2', b3c1: 'm2_b3c1'
+      b2c1: 'm2_b2c1', b2c2: 'm2_b2c2', b3c1: 'm2_b3c1', b3c2: 'm2_b3c2',
     },
     'training-i/modules/module-3': {
-      b1c1: 'm3_b1c1', b1c2: 'm3_b1c2', b1c3: 'm3_b1c3',
-      b2c1: 'm3_b2c1', b2c2: 'm3_b2c2', b2c3: 'm3_b2c3', b2c4: 'm3_b2c4',
-      b3c1: 'm3_b3c1', b3c2: 'm3_b3c2', b3c3: 'm3_b3c3',
-      b3c3_mod: 'm3_b3c3_mod', b3c3_turn: 'm3_b3c3_turn', b3c3_guide: 'm3_b3c3_guide',
-      b3c3_intensive: 'm3_b3c3_intensive', b3c3_play: 'm3_b3c3_play',
-      b3c4: 'm3_b3c4'
+      b1c1: 'm3_b1c1', b1c2: 'm3_b1c2', b1c3: 'm3_b1c3', b2c1: 'm3_b2c1',
+      b2c2: 'm3_b2c2', b2c3: 'm3_b2c3', b2c4: 'm3_b2c4', b3c1: 'm3_b3c1',
+      b3c2: 'm3_b3c2', b3c3: 'm3_b3c3', b3c3_mod: 'm3_b3c3_mod', b3c3_turn: 'm3_b3c3_turn',
+      b3c3_guide: 'm3_b3c3_guide', b3c3_intensive: 'm3_b3c3_intensive', b3c3_play: 'm3_b3c3_play', b3c4: 'm3_b3c4',
     },
     'training-i/modules/module-4': {
-      b1c1: 'm4_b1c1', b1c2: 'm4_b1c2', b1c3: 'm4_b1c3',
-      b2core1: 'm4_b2core1', b2core2: 'm4_b2core2', b2core3: 'm4_b2core3',
-      b2l1_overview: 'm4_b2l1_overview', b2l1_f1: 'm4_b2l1_f1', b2l1_f2: 'm4_b2l1_f2', b2l1_f3: 'm4_b2l1_f3', b2l1_f4: 'm4_b2l1_f4', b2l1_activities: 'm4_b2l1_activities',
-      b2l2_overview: 'm4_b2l2_overview', b2l2_f1: 'm4_b2l2_f1', b2l2_f2: 'm4_b2l2_f2', b2l2_f3: 'm4_b2l2_f3', b2l2_f4: 'm4_b2l2_f4', b2l2_activities: 'm4_b2l2_activities',
-      b2l3_overview: 'm4_b2l3_overview', b2l3_f1: 'm4_b2l3_f1', b2l3_f2: 'm4_b2l3_f2', b2l3_f3: 'm4_b2l3_f3', b2l3_f4: 'm4_b2l3_f4', b2l3_activities: 'm4_b2l3_activities',
-      b2l4_overview: 'm4_b2l4_overview', b2l4_f1: 'm4_b2l4_f1', b2l4_f2: 'm4_b2l4_f2', b2l4_f3: 'm4_b2l4_f3', b2l4_f4: 'm4_b2l4_f4', b2l4_activities: 'm4_b2l4_activities',
-      b2l5_overview: 'm4_b2l5_overview', b2l5_f1: 'm4_b2l5_f1', b2l5_f2: 'm4_b2l5_f2', b2l5_f3: 'm4_b2l5_f3', b2l5_f4: 'm4_b2l5_f4', b2l5_activities: 'm4_b2l5_activities',
-      b2l6_overview: 'm4_b2l6_overview', b2l6_f1: 'm4_b2l6_f1', b2l6_f2: 'm4_b2l6_f2', b2l6_f3: 'm4_b2l6_f3', b2l6_f4: 'm4_b2l6_f4', b2l6_activities: 'm4_b2l6_activities',
-      b3c1: 'm4_b3c1', b3c2: 'm4_b3c2'
+      b1c1: 'm4_b1c1', b1c2: 'm4_b1c2', b1c3: 'm4_b1c3', b2c1: 'm4_b2c1',
+      b2c2: 'm4_b2c2', b2c3: 'm4_b2c3', b2core1: 'm4_b2core1', b2core2: 'm4_b2core2',
+      b2core3: 'm4_b2core3', b2l1_overview: 'm4_b2l1_overview', b2l1_f1: 'm4_b2l1_f1', b2l1_f2: 'm4_b2l1_f2',
+      b2l1_f3: 'm4_b2l1_f3', b2l1_f4: 'm4_b2l1_f4', b2l1_activities: 'm4_b2l1_activities', b2l2_overview: 'm4_b2l2_overview',
+      b2l2_f1: 'm4_b2l2_f1', b2l2_f2: 'm4_b2l2_f2', b2l2_f3: 'm4_b2l2_f3', b2l2_f4: 'm4_b2l2_f4',
+      b2l2_activities: 'm4_b2l2_activities', b2l3_overview: 'm4_b2l3_overview', b2l3_f1: 'm4_b2l3_f1', b2l3_f2: 'm4_b2l3_f2',
+      b2l3_f3: 'm4_b2l3_f3', b2l3_f4: 'm4_b2l3_f4', b2l3_activities: 'm4_b2l3_activities', b2l4_overview: 'm4_b2l4_overview',
+      b2l4_f1: 'm4_b2l4_f1', b2l4_f2: 'm4_b2l4_f2', b2l4_f3: 'm4_b2l4_f3', b2l4_f4: 'm4_b2l4_f4',
+      b2l4_activities: 'm4_b2l4_activities', b2l5_overview: 'm4_b2l5_overview', b2l5_f1: 'm4_b2l5_f1', b2l5_f2: 'm4_b2l5_f2',
+      b2l5_f3: 'm4_b2l5_f3', b2l5_f4: 'm4_b2l5_f4', b2l5_activities: 'm4_b2l5_activities', b2l6_overview: 'm4_b2l6_overview',
+      b2l6_f1: 'm4_b2l6_f1', b2l6_f2: 'm4_b2l6_f2', b2l6_f3: 'm4_b2l6_f3', b2l6_f4: 'm4_b2l6_f4',
+      b2l6_activities: 'm4_b2l6_activities', b3c1: 'm4_b3c1', b3c2: 'm4_b3c2', b3c3: 'm4_b3c3',
+      b3c3_step1: 'm4_b3c3_step1', b3c3_step2: 'm4_b3c3_step2', b3c3_step3: 'm4_b3c3_step3'
     },
     'training-i/modules/module-5': {
-      b1c1: 'm5_b1c1', b1c2: 'm5_b1c2', b1c3: 'm5_b1c3',
-      b2c1: 'm5_b2c1', b2c2: 'm5_b2c2', b2c3: 'm5_b2c3',
-      b3c2: 'm5_b3c2', b3c3: 'm5_b3c3',
-      f5: 'm5_f5', 'f1-s1': 'm5_f1_s1', 'f1-s2': 'm5_f1_s2', 'f1-s3': 'm5_f1_s3',
-      'f2-s1': 'm5_f2_s1', 'f2-s2': 'm5_f2_s2', 'f2-s3': 'm5_f2_s3',
-      'f3-s1': 'm5_f3_s1', 'f3-s2': 'm5_f3_s2',
-      'f4-s1': 'm5_f4_s1', 'f4-s2': 'm5_f4_s2', 'f4-s3': 'm5_f4_s3',
-      fc31: 'm5_fc31', fc32: 'm5_fc32', fc33: 'm5_fc33', fc34: 'm5_fc34', fc35: 'm5_fc35', fc36: 'm5_fc36',
-      vs1: 'm5_vs1', vs2: 'm5_vs2', vs3: 'm5_vs3'
+      b1c1: 'm5_b1c1', b1c2: 'm5_b1c2', b1c3: 'm5_b1c3', b2c1: 'm5_b2c1',
+      b2c2: 'm5_b2c2', b2c3: 'm5_b2c3', b3c1: 'm5_b3c1', b3c2: 'm5_b3c2',
+      b3c3: 'm5_b3c3', f5: 'm5_f5', 'f1-s1': 'm5_f1_s1', 'f1-s2': 'm5_f1_s2',
+      'f1-s3': 'm5_f1_s3', 'f2-s1': 'm5_f2_s1', 'f2-s2': 'm5_f2_s2', 'f2-s3': 'm5_f2_s3',
+      'f3-s1': 'm5_f3_s1', 'f3-s2': 'm5_f3_s2', 'f4-s1': 'm5_f4_s1', 'f4-s2': 'm5_f4_s2',
+      'f4-s3': 'm5_f4_s3', fc31: 'm5_fc31', fc32: 'm5_fc32', fc33: 'm5_fc33',
+      fc34: 'm5_fc34', fc35: 'm5_fc35', fc36: 'm5_fc36', vs1: 'm5_vs1',
+      vs2: 'm5_vs2', vs3: 'm5_vs3'
     },
     'training-ii/modules/module-1': {
       b1c1: 't2_b1c1', b1c2: 't2_b1c2', b1c3: 't2_b1c3', b1c4: 't2_b1c4',
       b2c1: 't2_b2c1', b2c2: 't2_b2c2', b2c3: 't2_b2c3', b2c4: 't2_b2c4',
-      b3c1: 't2_b3c1', b3c2: 't2_b3c2', b3c3: 't2_b3c3', b3c4: 't2_b3c4'
-    }
+      b3c1: 't2_b3c1', b3c2: 't2_b3c2', b3c3: 't2_b3c3', b3c4: 't2_b3c4',
+    },
   };
 
-  
   function detectModuleKey() {
     var path = (window.location.pathname || '').replace(/\/index\.html$/, '').replace(/\/$/, '');
     if (path.indexOf('training-ii/modules/module-1') !== -1) return 'training-ii/modules/module-1';
