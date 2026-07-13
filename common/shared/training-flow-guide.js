@@ -737,14 +737,14 @@
         imageFrame = pulseHost.querySelector('.concept-activity-box:has(> img[src]), [data-expandable-visual]') || pulseHost;
       }
     }
-    // Always cue the full image surface (same as Module 2 "How Learning Is Accessed").
-    // Never pulse only the expand button ? instructors need the whole visual to flash.
+    // Cue the photo frame and the expand control together (same idea as pulsing a concept button).
     var pulseEls = [];
     var frameTarget = imageFrame || pulseHost || visualBox;
     if(frameTarget) pulseEls.push(frameTarget);
+    if(btn && pulseEls.indexOf(btn) === -1) pulseEls.push(btn);
     if(pulseHost && pulseHost !== frameTarget && isM5VisualPulseHost(pulseHost) && pulseHost.querySelector('.concept-points-box')){
       // Combined shell+points: also cue the outer card so context stays clear
-      pulseEls.push(pulseHost);
+      if(pulseEls.indexOf(pulseHost) === -1) pulseEls.push(pulseHost);
     }
     return {
       kind: 'expand-visual',
@@ -820,19 +820,25 @@
         if(visualHost && visualHost.querySelector('img[src]') && isVisibleEl(visualHost)){
           var pulseHost = resolveM5VisualPulseHost(visualHost.closest('.concept-section-card') || visualHost) || visualHost;
           var expandBtn = scope.querySelector('.img-expand-btn[data-visual-expanded="false"], .img-expand-btn:not([data-visual-expanded="true"])');
-          var pulseTargets = [pulseHost];
           var shouldScrollFallback = scrollThisPhase;
           if(shouldScrollFallback && scrollFlag) panel.dataset[scrollFlag] = 'true';
+          if(expandBtn){
+            return buildExpandVisualStep(expandBtn, {
+              noScroll: !shouldScrollFallback,
+              forceScroll: shouldScrollFallback,
+              scrollEl: pulseHost
+            });
+          }
           return {
-            kind: expandBtn ? 'expand-visual' : 'm5-visual-review',
+            kind: 'm5-visual-review',
             tone: 'expand',
-            el: expandBtn || pulseHost,
-            pulseEls: pulseTargets,
+            el: pulseHost,
+            pulseEls: [pulseHost],
             noScroll: !shouldScrollFallback,
             scrollBlock: 'center',
             forceScroll: shouldScrollFallback,
             scrollEl: pulseHost,
-            label: expandBtn ? 'Expand the image to view it full size' : 'Review the visual image'
+            label: 'Review the visual image'
           };
         }
       }
@@ -1952,7 +1958,8 @@
 
   function isVisualExpandPulseHost(el){
     if(!el || !el.classList) return false;
-    return el.classList.contains('concept-activity-box') ||
+    return el.classList.contains('img-expand-btn') ||
+      el.classList.contains('concept-activity-box') ||
       el.classList.contains('m5-nested-visual-frame') ||
       el.classList.contains('b2c2-direct-image') ||
       el.classList.contains('b2c3-direct-image') ||
@@ -1974,9 +1981,16 @@
       ring.setAttribute('aria-hidden', 'true');
       el.appendChild(ring);
     }
-    var style = global.getComputedStyle ? global.getComputedStyle(el) : null;
+    ring.classList.toggle('flow-guide-expand-ring--btn', el.classList.contains('img-expand-btn'));
+    if(el.classList.contains('img-expand-btn')){
+      ring.style.borderRadius = '999px';
+      return;
+    }
+    var img = el.querySelector && (el.querySelector(':scope > img') || el.querySelector('img'));
+    var style = global.getComputedStyle ? global.getComputedStyle(img || el) : null;
     var radius = style && style.borderRadius ? style.borderRadius : '';
     if(radius && radius !== '0px') ring.style.borderRadius = radius;
+    else ring.style.borderRadius = '14px';
   }
 
   function hasReflectionRing(gate){

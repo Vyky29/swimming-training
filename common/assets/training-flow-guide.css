@@ -163,12 +163,42 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
 }
 .flow-guide-expand-ring{
   position: absolute;
-  inset: -6px;
+  inset: -8px;
   border-radius: 16px;
   pointer-events: none;
   z-index: 55;
-  animation: flowGuideRing 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
+  animation: flowGuideExpandHalo 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
   --_pulse-rgb: var(--flow-tone-explore-rgb);
+}
+.flow-guide-expand-ring--btn{
+  inset: -10px;
+  border-radius: 999px !important;
+  z-index: 60;
+  animation-duration: 1.35s;
+}
+@keyframes flowGuideExpandHalo{
+  0%, 100%{
+    box-shadow:
+      0 0 0 2px rgba(var(--_pulse-rgb, var(--flow-tone-explore-rgb)), .55),
+      0 0 0 0 rgba(var(--_pulse-rgb, var(--flow-tone-explore-rgb)), .28),
+      0 0 18px rgba(var(--_pulse-rgb, var(--flow-tone-explore-rgb)), .18);
+  }
+  50%{
+    box-shadow:
+      0 0 0 3px rgba(var(--_pulse-rgb, var(--flow-tone-explore-rgb)), .95),
+      0 0 0 11px rgba(var(--_pulse-rgb, var(--flow-tone-explore-rgb)), .3),
+      0 0 30px rgba(var(--_pulse-rgb, var(--flow-tone-explore-rgb)), .42);
+  }
+}
+
+/* Expand control: keep above the photo and pulse as a clear circular cue */
+.portal .img-expand-btn.flow-guide-pulse,
+.img-expand-btn.flow-guide-pulse{
+  border-radius: 999px !important;
+  overflow: visible !important;
+  position: absolute !important;
+  z-index: 8 !important;
+  isolation: isolate;
 }
 .flow-guide-block-intro-ring{
   --_pulse-rgb: var(--flow-tone-explore-rgb);
@@ -365,6 +395,11 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
   .flow-guide-rail.flow-guide-pulse,
   .module-card.flow-guide-next-module{
     animation: none !important;
+  }
+  .flow-guide-expand-ring{
+    box-shadow:
+      0 0 0 3px rgba(var(--flow-tone-explore-rgb), .85),
+      0 0 0 8px rgba(var(--flow-tone-explore-rgb), .22) !important;
   }
   .flow-guide-pulse{
     box-shadow:
