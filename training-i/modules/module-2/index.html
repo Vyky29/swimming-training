@@ -13,7 +13,7 @@
   @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260713pulse7');
+  @import url('/assets/training-flow-guide.css?v=20260713pulse9');
   @import url('/assets/module-block-accordion.css?v=20260713accordion5');
 
   :root{
@@ -6209,7 +6209,7 @@
           actionEl.setAttribute('hidden', '');
           actionEl.innerHTML = inPracticeShellHtml(false);
           pointsBox.appendChild(actionEl);
-        } else if(!actionEl.querySelector('.key-ideas-action__content')){
+        } else if(!actionEl.querySelector('[data-inprac-part="do"]')){
           actionEl.innerHTML = inPracticeShellHtml(panel.dataset.inPracticeDone === 'true');
           actionEl.removeAttribute('data-in-practice-bound');
         }
@@ -6230,7 +6230,7 @@
           }
           if(actionEl.getAttribute('data-in-practice-bound') !== '1'){
             actionEl.setAttribute('data-in-practice-bound', '1');
-            actionEl.addEventListener('click', function(){
+            actionEl.addEventListener('in-practice-complete', function(){
               panel.dataset.inPracticeDone = 'true';
               actionEl.classList.add('is-completed');
               var ic = actionEl.querySelector('.icon'); if(ic) ic.innerHTML = inPracticeActionIconHtml(true);
@@ -6813,7 +6813,7 @@
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260713practice8"></script>
+<script src="/shared/in-practice-system.js?v=20260713practice9"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260707"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
@@ -6822,7 +6822,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713pulse7"></script>
+  <script src="/shared/training-flow-guide.js?v=20260713pulse9"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

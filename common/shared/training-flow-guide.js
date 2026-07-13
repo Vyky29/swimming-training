@@ -544,14 +544,41 @@
     return true;
   }
 
+  function conceptReadyForFinishCue(panel){
+    if(!panel) return false;
+    if(getVisibleInsightPillars(panel).length) return false;
+    if(!preKeyIdeasVisualsComplete(panel)) return false;
+    if(hasUnclickedKeyIdeasInScope(panel)) return false;
+    if(!inPracticeFlowComplete(panel)) return false;
+    if(isActivityIncomplete(panel)) return false;
+    return true;
+  }
+
+  function ensureFinishRing(btn){
+    if(!btn) return;
+    var ring = btn.querySelector('.' + EXPAND_RING_CLASS);
+    if(!ring){
+      ring = document.createElement('span');
+      ring.className = EXPAND_RING_CLASS + ' flow-guide-finish-ring';
+      ring.setAttribute('aria-hidden', 'true');
+      btn.appendChild(ring);
+    }
+    btn.classList.add('flow-guide-pulse--ring-host');
+    ring.style.borderRadius = '999px';
+  }
+
   function resolveM5FinishStep(panel){
     if(!panel) return null;
     var finish = panel.querySelector('[data-finish-concept]');
-    if(!finish || finish.disabled || !isVisibleEl(finish)) return null;
+    if(!finish || !isVisibleEl(finish)) return null;
     if(finish.style.display === 'none') return null;
+    // Pulse Done once earlier gates are clear ? even while dwell keeps the button disabled
+    if(!conceptReadyForFinishCue(panel)) return null;
 
     var onNestedLeaf = panelHasM5NestedNav(panel) && isM5LeafScreen(getM5ActiveScreen(panel));
-    var label = onNestedLeaf ? 'Tap Done to complete this section' : 'Tap Done to finish this concept';
+    var label = finish.disabled
+      ? 'Done will unlock next ? keep it in view'
+      : (onNestedLeaf ? 'Tap Done to complete this section' : 'Tap Done to finish this concept');
 
     return sectionScrollStep('finish', finish, label, {
       scrollEl: finish,
@@ -2270,7 +2297,10 @@
       ensureInPracticeRing(el);
     } else if(tone === 'explore'){
       el.classList.add(PULSE_EXPAND);
-      if(usesExpandPulse(step) && isVisualExpandPulseHost(el)){
+      if(step.kind === 'finish' || (el.matches && el.matches('[data-finish-concept], .concept-finish'))){
+        el.classList.add('flow-guide-pulse--ring-host');
+        ensureFinishRing(el);
+      } else if(usesExpandPulse(step) && isVisualExpandPulseHost(el)){
         el.classList.add('flow-guide-pulse--ring-host');
         pinExpandButton(el);
         ensureExpandRing(el);
@@ -2381,7 +2411,11 @@
       }
       if(usesExpandPulse(step) && activePulseEls.length){
         for(var ei = 0; ei < activePulseEls.length; ei++){
-          if(isVisualExpandPulseHost(activePulseEls[ei])) ensureExpandRing(activePulseEls[ei]);
+          if(step.kind === 'finish' || (activePulseEls[ei].matches && activePulseEls[ei].matches('[data-finish-concept], .concept-finish'))){
+            ensureFinishRing(activePulseEls[ei]);
+          } else if(isVisualExpandPulseHost(activePulseEls[ei])){
+            ensureExpandRing(activePulseEls[ei]);
+          }
         }
       }
       if(step.kind === 'reflection' || step.tone === 'reflection'){
@@ -2510,6 +2544,8 @@
           if(panel.dataset.flowActivityStarted !== 'true'){
             panel.dataset.flowActivityStarted = 'true';
           }
+        } else {
+          bumpFlowAdvance(moduleConfig, 220);
         }
         if(e.target.closest('.feedback.show.good, [data-activity-feedback].show.good') ||
           (e.target.closest('[data-choice-option]') && !isActivityIncomplete(panel))){
@@ -2567,9 +2603,21 @@
           if(mutation.type === 'attributes'){
             if(mutation.attributeName === 'data-choice-shell-complete' ||
               mutation.attributeName === 'data-choice-complete' ||
-              mutation.attributeName === 'data-activity-complete'){
+              mutation.attributeName === 'data-activity-complete' ||
+              mutation.attributeName === 'data-carousel-complete' ||
+              mutation.attributeName === 'data-categorize-complete' ||
+              mutation.attributeName === 'data-sequence-complete' ||
+              mutation.attributeName === 'data-matched-count' ||
+              mutation.attributeName === 'data-in-practice-done'){
               bumpFlowAdvance(moduleConfig, 220);
               return;
+            }
+            if(mutation.attributeName === 'disabled'){
+              var disabledEl = mutation.target;
+              if(disabledEl && disabledEl.matches && disabledEl.matches('[data-finish-concept], .concept-finish')){
+                bumpFlowAdvance(moduleConfig, 220);
+                return;
+              }
             }
             if(mutation.attributeName === 'class'){
               var t = mutation.target;

@@ -232,9 +232,9 @@
     });
   }
 
-  function setBeat(wrap, textEl, text) {
+  function setBeat(wrap, textEl, text, fallback) {
     if (!wrap || !textEl) return;
-    var value = String(text || '').trim();
+    var value = String(text || fallback || '').trim();
     if (!value) {
       wrap.setAttribute('hidden', '');
       textEl.textContent = '';
@@ -244,7 +244,11 @@
     }
     textEl.textContent = value;
     wrap.removeAttribute('hidden');
+    wrap.setAttribute('aria-pressed', wrap.classList.contains('is-reviewed') ? 'true' : 'false');
   }
+
+  var FALLBACK_LOOK = 'Read the body and the moment before you push the plan.';
+  var FALLBACK_AVOID = 'If calm, safety, or connection drops, simplify before you continue.';
 
   function renderCardSlots(actionEl, card) {
     if (!actionEl || !card) return;
@@ -259,8 +263,9 @@
 
     observerPaused = true;
     if (lead) lead.textContent = move;
-    setBeat(lookWrap, look, card.notice || '');
-    setBeat(avoidWrap, avoid, card.watch || '');
+    // Always show Look for / Avoid when there is a Do cue so guided pulse can step through all three
+    setBeat(lookWrap, look, card.notice || '', move ? FALLBACK_LOOK : '');
+    setBeat(avoidWrap, avoid, card.watch || '', move ? FALLBACK_AVOID : '');
     if (thenEl) {
       // Keep "Then" off the primary coach surface — Do / Look / Avoid is enough poolside
       thenEl.textContent = '';
@@ -313,7 +318,7 @@
 
   function applyScenarioCopy(actionEl) {
     if (!actionEl) return;
-    var textEl = actionEl.querySelector('.text, [data-inprac-lead]');
+    var textEl = actionEl.querySelector('[data-inprac-lead]') || actionEl.querySelector('.text');
     var current = textEl ? (textEl.textContent || '').trim() : '';
     var card = resolveCard(actionEl, current);
     if (!card || (!card.move && !card.scene && !current)) return;
@@ -430,9 +435,9 @@
     syncCompletedParts(actionEl);
     syncChrome(actionEl);
     actionEl.dataset.inPracticeReady = '1';
-    if (actionEl.classList.contains('flow-guide-pulse--inpractice')) {
+    try {
       actionEl.dispatchEvent(new CustomEvent('flow-guide-in-practice-ready', { bubbles: true }));
-    }
+    } catch (err) {}
   }
 
   function scan(root) {
