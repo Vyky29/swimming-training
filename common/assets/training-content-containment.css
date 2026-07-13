@@ -631,6 +631,16 @@ body {
   --concept-title-line: linear-gradient(90deg, #cc952b 0%, #2d84b3 100%);
 }
 
+/* Inside a coloured block: inherit block accent (stage/level panels keep their own themes) */
+.portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) {
+  --concept-title-accent: var(--block-accent-ink, var(--block-accent, #2d84b3));
+  --concept-title-accent-soft: var(--block-accent-soft, rgba(45, 132, 179, 0.12));
+  --concept-title-accent-border: var(--block-accent-border, rgba(45, 132, 179, 0.18));
+  --concept-title-surface: var(--block-title-surface, linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%));
+  --concept-title-line: var(--block-title-line, linear-gradient(90deg, #cc952b 0%, #2d84b3 100%));
+  --key-idea-badge: var(--block-accent-ink, var(--block-accent, #2d84b3));
+}
+
 .portal .concept-panel > .concept-heading-row,
 .portal .concept-panel > .concept-panel-title-row {
   display: grid;

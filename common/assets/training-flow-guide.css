@@ -7,7 +7,8 @@ html[data-guided-flow="true"],
 html[data-guided-flow="hub"]{
   --flow-accent-rgb: 45, 132, 179;
   --flow-accent: rgb(var(--flow-accent-rgb));
-  --flow-pulse-inset: .72;
+  --flow-pulse-ring-rgb: 255, 255, 255;
+  --flow-pulse-inset: .95;
   --flow-pulse-halo: .28;
   --flow-pulse-glow: .22;
 }
@@ -109,13 +110,15 @@ html[data-guided-flow="true"]{
 @keyframes flowGuidePulse{
   0%, 100%{
     box-shadow:
-      inset 0 0 0 2px rgba(var(--_pulse-rgb), var(--flow-pulse-inset)),
+      inset 0 0 0 2px rgba(var(--flow-pulse-ring-rgb, 255, 255, 255), var(--flow-pulse-inset)),
+      inset 0 0 0 3.5px rgba(var(--_pulse-rgb), .38),
       0 0 0 0 rgba(var(--_pulse-rgb), var(--flow-pulse-halo)),
       0 0 14px rgba(var(--_pulse-rgb), .12);
   }
   50%{
     box-shadow:
-      inset 0 0 0 2.5px rgba(var(--_pulse-rgb), 1),
+      inset 0 0 0 2.5px rgba(var(--flow-pulse-ring-rgb, 255, 255, 255), 1),
+      inset 0 0 0 4.5px rgba(var(--_pulse-rgb), .62),
       0 0 0 7px rgba(var(--_pulse-rgb), calc(var(--flow-pulse-halo) + .08)),
       0 0 26px rgba(var(--_pulse-rgb), var(--flow-pulse-glow));
   }
@@ -206,13 +209,15 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
 @keyframes flowGuideExpandHalo{
   0%, 100%{
     box-shadow:
-      0 0 0 2px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .55),
+      0 0 0 2px rgba(var(--flow-pulse-ring-rgb, 255, 255, 255), .9),
+      0 0 0 4px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .5),
       0 0 0 0 rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .28),
       0 0 18px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .18);
   }
   50%{
     box-shadow:
-      0 0 0 3px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .95),
+      0 0 0 2.5px rgba(var(--flow-pulse-ring-rgb, 255, 255, 255), 1),
+      0 0 0 5px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .88),
       0 0 0 11px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .3),
       0 0 30px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .42);
   }
@@ -235,13 +240,15 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
 @keyframes flowGuideRing{
   0%, 100%{
     box-shadow:
-      inset 0 0 0 2.5px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .88),
+      inset 0 0 0 2.5px rgba(var(--flow-pulse-ring-rgb, 255, 255, 255), .95),
+      inset 0 0 0 4px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .42),
       0 0 0 0 rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .4),
       0 0 16px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .18);
   }
   50%{
     box-shadow:
-      inset 0 0 0 3px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), 1),
+      inset 0 0 0 3px rgba(var(--flow-pulse-ring-rgb, 255, 255, 255), 1),
+      inset 0 0 0 5px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .7),
       0 0 0 8px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .34),
       0 0 26px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .36);
   }
@@ -441,12 +448,14 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
   }
   .flow-guide-expand-ring{
     box-shadow:
-      0 0 0 3px rgba(var(--flow-tone-explore-rgb), .85),
+      0 0 0 2px rgba(var(--flow-pulse-ring-rgb, 255, 255, 255), .95),
+      0 0 0 5px rgba(var(--flow-tone-explore-rgb), .75),
       0 0 0 8px rgba(var(--flow-tone-explore-rgb), .22) !important;
   }
   .flow-guide-pulse{
     box-shadow:
-      inset 0 0 0 2px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .85),
+      inset 0 0 0 2px rgba(var(--flow-pulse-ring-rgb, 255, 255, 255), .95),
+      inset 0 0 0 3.5px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .5),
       0 0 0 4px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .18) !important;
   }
 }

@@ -16,11 +16,11 @@
   z-index:0;
   pointer-events:none;
   background:
-    radial-gradient(circle 7px at 94% 22%, rgba(45,132,179,.08) 0%, transparent 70%),
-    radial-gradient(circle 11px at 6% 68%, rgba(137,181,193,.07) 0%, transparent 70%),
-    radial-gradient(circle 5px at 72% 38%, rgba(45,132,179,.06) 0%, transparent 70%),
-    radial-gradient(circle at 18% 18%, rgba(137,181,193,.2) 0%, rgba(137,181,193,0) 34%),
-    radial-gradient(circle at 82% 72%, rgba(204,149,43,.12) 0%, rgba(204,149,43,0) 32%);
+    radial-gradient(circle 7px at 94% 22%, rgba(var(--block-accent-rgb, 45, 132, 179), .1) 0%, transparent 70%),
+    radial-gradient(circle 11px at 6% 68%, rgba(var(--block-accent-rgb, 45, 132, 179), .07) 0%, transparent 70%),
+    radial-gradient(circle 5px at 72% 38%, rgba(var(--block-accent-rgb, 45, 132, 179), .06) 0%, transparent 70%),
+    radial-gradient(circle at 18% 18%, rgba(var(--block-accent-rgb, 45, 132, 179), .14) 0%, transparent 34%),
+    radial-gradient(circle at 82% 72%, rgba(204,149,43,.1) 0%, rgba(204,149,43,0) 32%);
 }
 
 .portal .concept-stage::after{
@@ -34,6 +34,16 @@
   pointer-events:none;
   opacity:.07;
   background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20600%2048%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27%232d84b3%27%20d%3D%27M0%2C26%20C100%2C14%20200%2C38%20300%2C26%20S500%2C16%20600%2C26%20L600%2C48%20L0%2C48%20Z%27/%3E%3C%2Fsvg%3E");
+  background-repeat:repeat-x;
+  background-position:center bottom;
+  background-size:600px 48px;
+}
+.portal .section.block-part .concept-stage::after{
+  opacity:.1;
+  background-image:
+    linear-gradient(rgba(var(--block-accent-rgb, 45, 132, 179), .55), rgba(var(--block-accent-rgb, 45, 132, 179), .55)),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20600%2048%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20fill%3D%27%23ffffff%27%20d%3D%27M0%2C26%20C100%2C14%20200%2C38%20300%2C26%20S500%2C16%20600%2C26%20L600%2C48%20L0%2C48%20Z%27/%3E%3C%2Fsvg%3E");
+  background-blend-mode: multiply, normal;
   background-repeat:repeat-x;
   background-position:center bottom;
   background-size:600px 48px;
@@ -203,42 +213,7 @@
 }
 
 /* ----- Explore-the-key-concepts pickers: match block accent ----- */
-.portal .section.block-part--foundations{
-  --concept-block-grad: linear-gradient(135deg, #ea8f22 0%, #f0a84a 100%);
-  --concept-block-border: rgba(234, 143, 34, .28);
-  --concept-block-shadow: rgba(234, 143, 34, .22);
-  --concept-block-ink: #c2410c;
-  --concept-block-soft: #fff7ed;
-  --concept-block-soft-border: rgba(234, 143, 34, .38);
-  --concept-block-hover: #fff4e6;
-}
-.portal .section.block-part--core{
-  --concept-block-grad: linear-gradient(135deg, #7b2fa1 0%, #a855f7 100%);
-  --concept-block-border: rgba(123, 47, 161, .28);
-  --concept-block-shadow: rgba(123, 47, 161, .22);
-  --concept-block-ink: #7b2fa1;
-  --concept-block-soft: #faf5ff;
-  --concept-block-soft-border: rgba(168, 85, 247, .38);
-  --concept-block-hover: #f5ecfc;
-}
-.portal .section.block-part--pathway{
-  --concept-block-grad: linear-gradient(135deg, #1a5c38 0%, #6da372 100%);
-  --concept-block-border: rgba(26, 92, 56, .28);
-  --concept-block-shadow: rgba(26, 92, 56, .2);
-  --concept-block-ink: #1a5c38;
-  --concept-block-soft: #edf7f1;
-  --concept-block-soft-border: rgba(26, 92, 56, .36);
-  --concept-block-hover: #e8f5ee;
-}
-.portal .section.block-part--progress{
-  --concept-block-grad: linear-gradient(135deg, #d4a823 0%, #e8c84a 100%);
-  --concept-block-border: rgba(212, 168, 35, .3);
-  --concept-block-shadow: rgba(212, 168, 35, .22);
-  --concept-block-ink: #a16207;
-  --concept-block-soft: #fffbeb;
-  --concept-block-soft-border: rgba(212, 168, 35, .4);
-  --concept-block-hover: #fef6d8;
-}
+/* Tokens live on .block-part--* in module-block-accordion.css (--concept-block-* / --block-accent-*). */
 
 .portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]),
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget]{

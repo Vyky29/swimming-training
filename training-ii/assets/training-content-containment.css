@@ -58,6 +58,14 @@ code{
 .portal .concept-panel[data-stage-theme][data-level]{
   --key-idea-badge:var(--block2-level-accent, var(--blue, #2d84b3));
 }
+.portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]){
+  --concept-title-accent: var(--block-accent-ink, var(--block-accent, #2d84b3));
+  --concept-title-accent-soft: var(--block-accent-soft, rgba(45, 132, 179, 0.12));
+  --concept-title-accent-border: var(--block-accent-border, rgba(45, 132, 179, 0.18));
+  --concept-title-surface: var(--block-title-surface, linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%));
+  --concept-title-line: var(--block-title-line, linear-gradient(90deg, #cc952b 0%, #2d84b3 100%));
+  --key-idea-badge: var(--block-accent-ink, var(--block-accent, #2d84b3));
+}
 .portal .concept-points-box .key-idea-item.clicked .key-idea-index,
 .portal .outcome.clicked .outcome-index{
   background-color:var(--key-idea-badge, var(--blue, #2d84b3)) !important;
