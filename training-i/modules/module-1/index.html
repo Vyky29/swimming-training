@@ -8,7 +8,7 @@
 @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
 @import url('/assets/concept-insight-intro.css?v=20260617');
 @import url('/assets/training-flow-guide.css?v=20260713dualring1');
-  @import url('/assets/module-block-accordion.css?v=20260713accordion9');
+  @import url('/assets/module-block-accordion.css?v=20260713flowaudit1');
 
 :root{
     --blue:#2d84b3;
@@ -3796,7 +3796,7 @@
           </div>
 
           <div class="lock-box" data-lock-box="block1">
-            <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
+            <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock this block.</div>
           </div>
 
           <div class="reflection-gate" data-gate="block1">
@@ -3919,7 +3919,7 @@
           </div>
 
           <div class="lock-box" data-lock-box="block2">
-            <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
+            <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock this block.</div>
           </div>
 
           <div class="reflection-gate" data-gate="block2">
@@ -4041,7 +4041,7 @@
           </div>
 
           <div class="lock-box" data-lock-box="block3">
-            <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
+            <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock this block.</div>
           </div>
 
           <div class="reflection-gate" data-gate="block3">
@@ -4261,7 +4261,7 @@
   </div>
 </div>
 
-<script src="/shared/module-block-accordion.js?v=20260713accordion6"></script>
+<script src="/shared/module-block-accordion.js?v=20260713flowaudit1"></script>
 <script>
   const conceptContent = {
     b1c1: {
@@ -4508,9 +4508,15 @@
     var gate = document.querySelector('[data-gate="' + block + '"]');
     if(lockBox){
       lockBox.classList.add('ready');
-      lockBox.querySelector('.lock-message').innerHTML = '<strong>Unlocked.</strong> You can now complete the reflection checkpoint.';
+      lockBox.querySelector('.lock-message').innerHTML = '<strong>Unlocked.</strong> Mark this block complete to continue.';
     }
-    if(gate) gate.classList.add('open');
+    if(gate){
+      gate.classList.add('open');
+      gate.hidden = true;
+      gate.setAttribute('data-reflection-bypassed', 'true');
+    }
+    var blockCheck = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
+    if(blockCheck) blockCheck.disabled = false;
   if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
   }
 
@@ -4944,12 +4950,17 @@
     var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
     var insightPillarsOk = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
     var inPracticeOk = isInPracticeCompleteForPanel(panel);
-    var canFinish = dwellOk && carouselOk && matchingOk && categorizeOk && sensoryOk && choiceOk && sequenceOk && keyIdeasOk && insightPillarsOk && inPracticeOk;
+    var parentLeavesOk = true;
+    if(target === 'b1c2'){
+      parentLeavesOk = conceptCompletion.block1.has('b1c3') && conceptCompletion.block1.has('b1c4');
+    }
+    var canFinish = dwellOk && carouselOk && matchingOk && categorizeOk && sensoryOk && choiceOk && sequenceOk && keyIdeasOk && insightPillarsOk && inPracticeOk && parentLeavesOk;
     finishBtn.disabled = !canFinish;
     finishBtn.style.opacity = canFinish ? '1' : '.55';
     finishBtn.style.cursor = canFinish ? 'pointer' : 'not-allowed';
     var secLeft = dwellEnd ? Math.ceil((dwellEnd - Date.now()) / 1000) : 0;
     if(canFinish) finishBtn.textContent = 'Done';
+    else if(!parentLeavesOk) finishBtn.textContent = 'Complete all subconcepts first';
     else if(data.requiresCarousel && !carouselOk) finishBtn.textContent = 'Complete the slides above first';
     else if(data.requiresSensoryBoxes && !sensoryOk) finishBtn.textContent = 'Open all 7 senses first';
     else if(data.requiresMatching && !matchingOk) finishBtn.textContent = 'Complete the matching activity';
@@ -6826,7 +6837,7 @@
 <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
 <script src="/shared/training-flow-config.js?v=20260716"></script>
-<script src="/shared/training-flow-guide.js?v=20260713dualring1"></script>
+<script src="/shared/training-flow-guide.js?v=20260713flowaudit1"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>

@@ -197,7 +197,11 @@
   background:rgba(219,234,254,.85);
   border-color:rgba(37,99,235,.2);
 }
-/* Ready inherits each block's accent (foundations / core / pathway / progress) */
+/* Reflection checkpoints removed - concepts done then mark block complete */
+.reflection-gate,
+[data-gate]{
+  display:none !important;
+}
 .block-part-status[data-state="ready"]{
   color:#1d4ed8;
   background:rgba(219,234,254,.92);
@@ -340,7 +344,7 @@
   white-space:nowrap;
   border:0;
 }
-/* Drop legacy title chrome ù vertical bar + underline leftovers */
+/* Drop legacy title chrome ¬ù vertical bar + underline leftovers */
 .section.block-part .block-header::before,
 .section.block-part .block-title-wrap::after{
   content:none !important;
@@ -492,7 +496,7 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
   color: #a16207 !important;
 }
 
-/* Block Focus / Covers cards ó force accent (beat html[data-guided-flow] blue !important) */
+/* Block Focus / Covers cards ¬ù force accent (beat html[data-guided-flow] blue !important) */
 html[data-guided-flow="true"] .section.block-part--foundations .block-intro-card:not(.clicked),
 html:not([data-guided-flow="true"]) .section.block-part--foundations .block-intro-card,
 html[data-guided-flow="true"] .section.block-part--foundations .block-intro-card.clicked{

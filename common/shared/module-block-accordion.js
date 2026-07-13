@@ -137,8 +137,16 @@
   }
 
   function reflectionReady(key){
+    var lockBox = document.querySelector('[data-lock-box="' + key + '"]');
+    if(lockBox && lockBox.classList.contains('ready')) return true;
     var gate = document.querySelector('[data-gate="' + key + '"]');
-    return !!(gate && gate.classList.contains('open'));
+    if(gate && gate.classList.contains('open')) return true;
+    var progress = getConceptProgress(key);
+    return !!(progress.total > 0 && progress.done >= progress.total);
+  }
+
+  function isGuidedFlow(){
+    return document.documentElement.getAttribute('data-guided-flow') === 'true';
   }
 
   function getBlockPartState(key){
@@ -254,7 +262,9 @@
       }
     });
 
-    if(!options.skipAutoAdvance){
+    // Guided flow keeps accordions closed after Done — learner taps the next block head.
+    // Outside guided flow, auto-open the next complete→ready block once.
+    if(!options.skipAutoAdvance && !isGuidedFlow()){
       var current = openBlockPart;
       var idx = current ? BLOCK_PART_ORDER.indexOf(current) : -1;
       if(
@@ -270,6 +280,8 @@
           return;
         }
       }
+    } else if(isGuidedFlow() && openBlockPart && states[openBlockPart] === 'complete'){
+      openBlockPart = null;
     }
 
     // Keep current open/closed state. Do not force-open Block 1 on load.
@@ -312,7 +324,7 @@
       }, 0);
     });
 
-    // Start fully collapsed � learner opens a block intentionally
+    // Start fully collapsed — learner opens a block intentionally
     openBlockPart = null;
     refresh({ skipAutoAdvance: true });
   }

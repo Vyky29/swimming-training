@@ -589,6 +589,29 @@
     return true;
   }
 
+  function getSubconceptNavButtons(nav){
+    if(!nav) return [];
+    return $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget], .overview-subconcept-btn', nav);
+  }
+
+  function isOnParentHubWithSubconcepts(panel){
+    var nav = getSubconceptNav(panel);
+    if(!nav || !isVisibleEl(nav)) return false;
+    var navButtons = getSubconceptNavButtons(nav);
+    if(!navButtons.length) return false;
+    var current = panel.dataset.currentTarget || '';
+    var isLeaf = navButtons.some(function(btn){ return getNavTarget(btn) === current; });
+    return !isLeaf;
+  }
+
+  function parentHubHasIncompleteLeaves(panel){
+    if(!isOnParentHubWithSubconcepts(panel)) return false;
+    var navButtons = getSubconceptNavButtons(getSubconceptNav(panel));
+    return navButtons.some(function(btn){
+      return !isConceptDone(btn) && !isConceptLocked(btn, activeModuleConfig);
+    });
+  }
+
   function conceptReadyForFinishCue(panel){
     if(!panel) return false;
     syncPanelInPracticeDone(panel);
@@ -597,6 +620,8 @@
     if(hasUnclickedKeyIdeasInScope(panel)) return false;
     if(!inPracticeFlowComplete(panel)) return false;
     if(isActivityIncomplete(panel)) return false;
+    // Parent hubs must finish leaves before Done
+    if(parentHubHasIncompleteLeaves(panel)) return false;
     return true;
   }
 
@@ -625,9 +650,9 @@
 
     var onNestedLeaf = panelHasM5NestedNav(panel) && isM5LeafScreen(getM5ActiveScreen(panel));
     var label = !finishVisible
-      ? 'Ready to finish ? Done appears next'
+      ? 'Ready to finish — Done appears next'
       : (finish.disabled
-        ? 'Done will unlock next ? keep it in view'
+        ? 'Done will unlock next — keep it in view'
         : (onNestedLeaf ? 'Tap Done to complete this section' : 'Tap Done to finish this concept'));
 
     return sectionScrollStep('finish', host, label, {
@@ -1457,9 +1482,41 @@
     return null;
   }
 
+  function resolveResumeParentHub(block, moduleConfig){
+    // Progress incomplete but every grid square looks done ? reopen a parent hub
+    if(blockConceptsComplete(block)) return null;
+    if(nextConceptInBlock(block, moduleConfig)) return null;
+
+    var grid = document.querySelector('[data-concept-grid="' + block + '"]');
+    if(!grid) return null;
+
+    var parents = $$('.concept-square--parent[data-target], .concept-square[data-has-subconcepts]', grid);
+    if(!parents.length){
+      parents = getConceptButtons(block).filter(isConceptDone);
+    }
+    if(!parents.length) return null;
+
+    var btn = parents[0];
+    for(var i = 0; i < parents.length; i++){
+      if(parents[i].classList.contains('active')){
+        btn = parents[i];
+        break;
+      }
+    }
+    var label = (btn.textContent || '').replace(/\s+/g, ' ').trim();
+    var gridFrame = getConceptGridScrollAnchor(block);
+    return sectionScrollStep('concept', btn, (label ? ('Continue: ' + label) : 'Reopen this concept to finish its subconcepts'), {
+      scrollEl: gridFrame || btn,
+      scrollBlock: 'start',
+      forceScroll: true,
+      tone: 'expand',
+      keyToken: block + ':resume-parent:' + (btn.getAttribute('data-target') || '')
+    });
+  }
+
   function resolveConceptPick(block, moduleConfig){
     if(getOpenPanel(block)) return null;
-    return nextConceptInBlock(block, moduleConfig);
+    return nextConceptInBlock(block, moduleConfig) || resolveResumeParentHub(block, moduleConfig);
   }
 
   function panelIncompleteTarget(panel){
@@ -1612,7 +1669,7 @@
   function resolveReflectionCheckpoint(block){
     if(!blockConceptsComplete(block)) return null;
 
-    // Reflection quizzes add friction without enough learning value ? skip to block Done
+    // Reflection checkpoints removed: unlock and pulse the block Done checkbox
     bypassReflectionGate(block);
 
     var blockCheck = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
@@ -2141,10 +2198,20 @@
     if(!blockConceptsComplete(block)){
       var gridStep = resolveConceptGrid(block, moduleConfig);
       if(gridStep) return gridStep;
+      var resumeParent = resolveResumeParentHub(block, moduleConfig);
+      if(resumeParent) return resumeParent;
       var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
       if(lockBox){
         return sectionScrollStep('block-progress', lockBox, 'Finish all concepts in this block', {
           scrollEl: lockBox,
+          scrollBlock: 'start',
+          forceScroll: true
+        });
+      }
+      var headFallback = document.querySelector('#' + block + ' .block-part-head') || document.getElementById(block);
+      if(headFallback){
+        return sectionScrollStep('block-progress', headFallback, 'Continue this block', {
+          scrollEl: document.getElementById(block) || headFallback,
           scrollBlock: 'start',
           forceScroll: true
         });
@@ -2161,6 +2228,19 @@
     var reflectionStep = resolveReflectionCheckpoint(block);
     if(reflectionStep) return reflectionStep;
 
+    // Concepts done and checkbox already marked ? treat as waiting for UI sync
+    var blockCheck = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
+    if(blockCheck && !isChecked(blockCheck)){
+      var checkItem = blockCheck.closest('.check-item') || blockCheck;
+      return sectionScrollStep('block-check', checkItem, 'Mark ' + getBlockDisplayName(block) + ' complete', {
+        scrollEl: checkItem,
+        scrollBlock: 'reflection-view',
+        scrollBlockId: block,
+        forceScroll: true,
+        tone: 'primary',
+        pulseEls: [checkItem]
+      });
+    }
     return null;
   }
 
@@ -2281,17 +2361,59 @@
 
   function advanceAccordionPastCompleted(moduleConfig){
     if(!global.ModuleBlockAccordion) return;
-    var earliest = getEarliestIncompleteBlock(moduleConfig);
-    if(!earliest || isBlockSectionLocked(earliest)) return;
     var openKey = typeof global.ModuleBlockAccordion.getOpen === 'function'
       ? global.ModuleBlockAccordion.getOpen()
       : null;
-    // Only move when a finished block is still the open accordion
-    if(!openKey || !isBlockFullyComplete(openKey)) return;
-    if(openKey === earliest) return;
-    if(typeof global.ModuleBlockAccordion.ensureOpen === 'function'){
-      try{ global.ModuleBlockAccordion.ensureOpen(earliest, { scroll: true }); }catch(err){}
+    // Guided flow: keep fans closed after Done ? learner clicks the next block head
+    if(openKey && isBlockFullyComplete(openKey)){
+      if(typeof global.ModuleBlockAccordion.closeAll === 'function'){
+        try{ global.ModuleBlockAccordion.closeAll({ scroll: false }); }catch(err){}
+      } else if(typeof global.ModuleBlockAccordion.setOpen === 'function'){
+        try{ global.ModuleBlockAccordion.setOpen(null, { scroll: false }); }catch(err){}
+      }
     }
+  }
+
+  function ensurePostBlockSectionsReachable(moduleConfig){
+    if(!allBlocksComplete(moduleConfig)) return;
+    var sections = (moduleConfig && moduleConfig.sections) || [];
+    for(var i = 0; i < sections.length; i++){
+      var id = sections[i];
+      if(id.indexOf('block') === 0) continue;
+      if(id === 'journey' || id === 'outcomes' || id === 'inside-module') continue;
+      var section = document.getElementById(id);
+      if(section && section.classList.contains('gated-locked')){
+        section.classList.remove('gated-locked');
+      }
+    }
+  }
+
+  function resolveSafetyNetStep(moduleConfig){
+    var earliest = getEarliestIncompleteBlock(moduleConfig);
+    if(!earliest) return null;
+    if(isBlockSectionLocked(earliest)){
+      var locked = document.getElementById(earliest);
+      if(locked){
+        return sectionScrollStep('block-open', locked, 'Continue to ' + getBlockDisplayName(earliest), {
+          scrollEl: locked,
+          scrollBlock: 'start',
+          forceScroll: true
+        });
+      }
+      return null;
+    }
+    var step = resolveBlock(earliest, moduleConfig);
+    if(step) return step;
+    var head = document.querySelector('#' + earliest + ' .block-part-head') || document.getElementById(earliest);
+    if(head){
+      return sectionScrollStep('block-open', head, 'Open ' + getBlockDisplayName(earliest), {
+        scrollEl: document.getElementById(earliest) || head,
+        scrollBlock: 'start',
+        forceScroll: true,
+        tone: 'primary'
+      });
+    }
+    return null;
   }
 
   function resolveNextStep(moduleConfig){
@@ -2346,13 +2468,17 @@
       if(blockStep) return blockStep;
     }
 
-    if(!allBlocksComplete(moduleConfig)) return null;
+    if(!allBlocksComplete(moduleConfig)){
+      return resolveSafetyNetStep(moduleConfig);
+    }
+
+    ensurePostBlockSectionsReachable(moduleConfig);
 
     var sections = moduleConfig.sections || [];
     for(var s = 0; s < sections.length; s++){
       var id = sections[s];
       if(id.indexOf('block') === 0) continue;
-      if(id === 'journey' || id === 'outcomes') continue;
+      if(id === 'journey' || id === 'outcomes' || id === 'inside-module') continue;
       var step = resolveSectionStage(id);
       if(step) return step;
     }
@@ -2859,6 +2985,7 @@
     if(openPanel){
       syncM5AccentContext(openPanel);
       resetPanelFlowScope(openPanel);
+      syncParentHubFinishGate(openPanel);
     }
     applyGuide(resolveNextStep(moduleConfig));
   }
@@ -2894,7 +3021,39 @@
     return false;
   }
 
+  function syncParentHubFinishGate(panel){
+    if(!panel) return;
+    var finish = panel.querySelector('[data-finish-concept]');
+    if(!finish) return;
+    if(parentHubHasIncompleteLeaves(panel)){
+      finish.disabled = true;
+      finish.setAttribute('data-flow-parent-leaf-gate', '1');
+      if((finish.textContent || '').trim() === 'Done' || finish.getAttribute('data-flow-parent-leaf-gate') === '1'){
+        finish.textContent = 'Complete all subconcepts first';
+      }
+      finish.style.opacity = '.55';
+      finish.style.cursor = 'not-allowed';
+    } else if(finish.getAttribute('data-flow-parent-leaf-gate') === '1'){
+      finish.removeAttribute('data-flow-parent-leaf-gate');
+    }
+  }
+
   function bindConceptFlowInteractions(moduleConfig){
+    document.addEventListener('click', function(e){
+      var finishGate = e.target && e.target.closest ? e.target.closest('[data-finish-concept]') : null;
+      if(finishGate){
+        var gatePanel = finishGate.closest('.concept-panel.show');
+        if(gatePanel && parentHubHasIncompleteLeaves(gatePanel)){
+          e.preventDefault();
+          e.stopPropagation();
+          if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+          syncParentHubFinishGate(gatePanel);
+          bumpFlowAdvance(moduleConfig, 80);
+          return;
+        }
+      }
+    }, true);
+
     document.addEventListener('click', function(e){
       var navBtn = e.target.closest && e.target.closest('[data-b2-go]');
       if(navBtn){

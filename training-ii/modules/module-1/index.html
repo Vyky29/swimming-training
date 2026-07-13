@@ -11,7 +11,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
     @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
-  @import url('/assets/module-block-accordion.css?v=20260713accordion9');
+  @import url('/assets/module-block-accordion.css?v=20260713flowaudit1');
   @import url('/assets/training-flow-guide.css?v=20260713dualring1');
   
     :root{
@@ -3714,7 +3714,7 @@
             </div>
 
             <div class="lock-box" data-lock-box="block1">
-              <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
+              <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock this block.</div>
             </div>
 
             <div class="reflection-gate" data-gate="block1" data-reflection-type="questions">
@@ -3840,7 +3840,7 @@
             </div>
 
             <div class="lock-box" data-lock-box="block2">
-              <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
+              <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock this block.</div>
             </div>
 
             <div class="reflection-gate" data-gate="block2" data-reflection-type="questions">
@@ -3966,7 +3966,7 @@
             </div>
 
             <div class="lock-box" data-lock-box="block3">
-              <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock the reflection checkpoint.</div>
+              <div class="lock-message"><strong>Section locked.</strong> Complete all concepts to unlock this block.</div>
             </div>
 
             <div class="reflection-gate" data-gate="block3" data-reflection-type="questions">
@@ -4134,8 +4134,8 @@
   </div>
   
     <script src="/shared/training-flow-config.js?v=20260716"></script>
-    <script src="/shared/module-block-accordion.js?v=20260713accordion6"></script>
-    <script src="/shared/training-flow-guide.js?v=20260713dualring1"></script>
+    <script src="/shared/module-block-accordion.js?v=20260713flowaudit1"></script>
+    <script src="/shared/training-flow-guide.js?v=20260713flowaudit1"></script>
 <script>
     const conceptContent = {
       b1c1: {
@@ -4348,9 +4348,15 @@
       var gate = document.querySelector('[data-gate="' + block + '"]');
       if(lockBox){
         lockBox.classList.add('ready');
-        lockBox.querySelector('.lock-message').innerHTML = '<strong>Unlocked.</strong> You can now complete the reflection checkpoint.';
+        lockBox.querySelector('.lock-message').innerHTML = '<strong>Unlocked.</strong> Mark this block complete to continue.';
       }
-      if(gate) gate.classList.add('open');
+      if(gate){
+      gate.classList.add('open');
+      gate.hidden = true;
+      gate.setAttribute('data-reflection-bypassed', 'true');
+    }
+    var blockCheck = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
+    if(blockCheck) blockCheck.disabled = false;
   if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
     }
   
