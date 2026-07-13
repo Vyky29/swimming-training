@@ -39,6 +39,22 @@ html[data-guided-flow="true"]{
   animation: flowGuidePulse 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 
+/* Expand control must stay top-right ? never inherit relative flow from .flow-guide-pulse */
+.portal .img-expand-btn.flow-guide-pulse,
+.img-expand-btn.flow-guide-pulse{
+  --_pulse-rgb: var(--flow-tone-explore-rgb);
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  left: auto !important;
+  bottom: auto !important;
+  border-radius: 999px !important;
+  overflow: visible !important;
+  z-index: 8 !important;
+  isolation: isolate;
+  animation: none !important;
+}
+
 .flow-guide-pulse[data-flow-tone="explore"],
 .flow-guide-pulse.flow-guide-pulse--expand{
   --_pulse-rgb: var(--flow-tone-explore-rgb);
@@ -191,15 +207,7 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
   }
 }
 
-/* Expand control: keep above the photo and pulse as a clear circular cue */
-.portal .img-expand-btn.flow-guide-pulse,
-.img-expand-btn.flow-guide-pulse{
-  border-radius: 999px !important;
-  overflow: visible !important;
-  position: absolute !important;
-  z-index: 8 !important;
-  isolation: isolate;
-}
+/* Expand control pulse uses the ring child only (position locked top-right above) */
 .flow-guide-block-intro-ring{
   --_pulse-rgb: var(--flow-tone-explore-rgb);
 }
