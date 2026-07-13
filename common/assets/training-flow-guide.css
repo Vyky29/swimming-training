@@ -259,11 +259,15 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
   font-family: Montserrat, system-ui, sans-serif;
   pointer-events: none;
 }
+/* Full-pill pulse like concept buttons ? ring child, not only the tiny dot */
 .flow-guide-rail.flow-guide-pulse{
   --_pulse-rgb: var(--flow-accent-rgb);
-  animation: flowGuideRailPulse 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
-  z-index: 1200;
+  border-radius: 999px !important;
+  overflow: visible !important;
   isolation: isolate;
+  z-index: 1200 !important;
+  animation: none !important;
+  position: fixed !important;
 }
 .flow-guide-rail.flow-guide-pulse[data-flow-tone="explore"],
 .flow-guide-rail.flow-guide-pulse.flow-guide-pulse--expand{
@@ -277,23 +281,17 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
 .flow-guide-rail.flow-guide-pulse.flow-guide-pulse--activity{
   --_pulse-rgb: var(--flow-tone-activity-rgb);
 }
-@keyframes flowGuideRailPulse{
-  0%, 100%{
-    box-shadow:
-      0 10px 30px rgba(15, 23, 42, .12),
-      0 0 0 1px rgba(255,255,255,.6) inset,
-      inset 0 0 0 2px rgba(var(--_pulse-rgb), .72),
-      0 0 0 0 rgba(var(--_pulse-rgb), .28),
-      0 0 14px rgba(var(--_pulse-rgb), .12);
-  }
-  50%{
-    box-shadow:
-      0 10px 30px rgba(15, 23, 42, .12),
-      0 0 0 1px rgba(255,255,255,.6) inset,
-      inset 0 0 0 2.5px rgba(var(--_pulse-rgb), 1),
-      0 0 0 7px rgba(var(--_pulse-rgb), .36),
-      0 0 26px rgba(var(--_pulse-rgb), .28);
-  }
+.flow-guide-rail-ring{
+  position: absolute;
+  inset: -7px;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 0;
+  animation: flowGuideRing 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+.flow-guide-rail.flow-guide-pulse > :not(.flow-guide-rail-ring){
+  position: relative;
+  z-index: 1;
 }
 .flow-guide-rail[hidden]{ display: none !important; }
 .flow-guide-rail__copy{
@@ -359,6 +357,7 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
   .flow-guide-block-intro-ring,
   .flow-guide-in-practice-ring,
   .flow-guide-expand-ring,
+  .flow-guide-rail-ring,
   .flow-guide-reflection-ring,
   .flow-guide-block-check-ring,
   .flow-guide-m5-nav-ring,

@@ -8,6 +8,7 @@
   var BLOCK_INTRO_RING_CLASS = 'flow-guide-block-intro-ring';
   var IN_PRACTICE_RING_CLASS = 'flow-guide-in-practice-ring';
   var EXPAND_RING_CLASS = 'flow-guide-expand-ring';
+  var RAIL_RING_CLASS = 'flow-guide-rail-ring';
   var REFLECTION_RING_CLASS = 'flow-guide-reflection-ring';
   var BLOCK_CHECK_RING_CLASS = 'flow-guide-block-check-ring';
   var M5_NAV_RING_CLASS = 'flow-guide-m5-nav-ring';
@@ -2216,23 +2217,42 @@
     return rail;
   }
 
+  function ensureRailRing(rail){
+    if(!rail) return;
+    var ring = rail.querySelector('.' + RAIL_RING_CLASS);
+    if(!ring){
+      ring = document.createElement('span');
+      ring.className = RAIL_RING_CLASS;
+      ring.setAttribute('aria-hidden', 'true');
+      rail.appendChild(ring);
+    }
+  }
+
+  function removeRailRing(rail){
+    if(!rail) rail = document.getElementById(RAIL_ID);
+    if(!rail) return;
+    rail.querySelectorAll('.' + RAIL_RING_CLASS).forEach(function(ring){ ring.remove(); });
+  }
+
   function updateRail(step){
     var rail = ensureRail();
     var textEl = rail.querySelector('.flow-guide-rail__text');
     var eyebrow = rail.querySelector('.flow-guide-rail__eyebrow');
     if(!step){
       rail.hidden = true;
-      rail.classList.remove(PULSE_CLASS, PULSE_EXPAND, PULSE_ACTIVITY, PULSE_IN_PRACTICE);
+      rail.classList.remove(PULSE_CLASS, PULSE_EXPAND, PULSE_ACTIVITY, PULSE_IN_PRACTICE, 'flow-guide-pulse--ring-host');
       rail.removeAttribute('data-flow-tone');
+      removeRailRing(rail);
       return;
     }
     rail.hidden = false;
     var tone = resolvePulseTone(step);
-    rail.classList.add(PULSE_CLASS);
+    rail.classList.add(PULSE_CLASS, 'flow-guide-pulse--ring-host');
     rail.setAttribute('data-flow-tone', tone);
     rail.classList.toggle(PULSE_EXPAND, tone === 'explore');
     rail.classList.toggle(PULSE_ACTIVITY, tone === 'activity');
     rail.classList.toggle(PULSE_IN_PRACTICE, tone === 'practice');
+    ensureRailRing(rail);
     if(eyebrow){
       eyebrow.textContent = tone === 'practice' ? 'Try this'
         : tone === 'activity' ? 'Complete activity'
