@@ -153,7 +153,7 @@
   margin:0 0 6px;
   font-size:1.18rem;
   font-weight:900;
-  color:var(--ink, #163247);
+  color:var(--block-accent-ink, var(--ink, #163247));
   letter-spacing:.01em;
 }
 .block-part-text{
@@ -375,11 +375,29 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
 .portal .section.block-part .overview-subconcept-shell h5{
   color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3)));
 }
+.portal .section.block-part .block-header .block-title-wrap h3,
+.portal .section.block-part .block-title-wrap h3{
+  color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3))) !important;
+}
+.portal .section.block-part .block-title-wrap::after{
+  background: var(--block-title-line, linear-gradient(90deg, var(--block-accent, #2d84b3) 0%, color-mix(in srgb, var(--block-accent, #2d84b3) 55%, #fff) 100%)) !important;
+}
 .portal .section.block-part .block-header .section-pill,
 .portal .section.block-part .section-body > .section-pill{
   color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3)));
   border-color: var(--block-accent-border, rgba(45,132,179,.2));
   background: var(--block-accent-soft, rgba(45,132,179,.08));
+}
+.portal .section.block-part .lead{
+  color: var(--muted, #70808f);
+}
+.portal .section.block-part .icon-card .card-icon{
+  background: var(--concept-block-grad, var(--block-accent, #2d84b3));
+  box-shadow: 0 10px 20px rgba(var(--block-accent-rgb, 45, 132, 179), .22);
+}
+.portal .section.block-part .icon-card:hover .card-icon{
+  background: var(--concept-block-hover, #eef6fc);
+  color: var(--ink, #163247);
 }
 .portal .section.block-part .concept-finish:not([class*="level-"]):not([class*="stage-"]),
 .portal .section.block-part [data-finish-concept]:not([class*="level-"]):not([class*="stage-"]){
@@ -409,7 +427,7 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
 }
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title{
-  color: var(--block-accent-ink, var(--ink, #163247));
+  color: var(--block-accent-ink, var(--block-accent, #2d84b3)) !important;
 }
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) .concept-breadcrumb,
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) .concept-level-badge,

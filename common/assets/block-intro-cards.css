@@ -4,8 +4,12 @@
  *
  * Selectors must use html[...] — not :not([data-guided-flow]) alone, or body
  * matches and static !important rules override the guided pulse on every page.
+ *
+ * Inside .section.block-part, colours follow --block-accent* (foundations /
+ * core / pathway / progress). Outside blocks, keep module blue.
  */
 
+/* ----- Default (module blue) ----- */
 html:not([data-guided-flow="true"]) .block-intro-card {
   background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
   border: 2px solid #2d84b3 !important;
@@ -58,4 +62,53 @@ html[data-guided-flow="true"] .block-intro-card.clicked .card-icon {
 
 html[data-guided-flow="true"] .block-intro-card:not(.clicked):hover {
   border-color: #2d84b3;
+}
+
+/* ----- Inside coloured blocks: match block accent ----- */
+html:not([data-guided-flow="true"]) .section.block-part .block-intro-card {
+  background: linear-gradient(180deg, var(--concept-block-soft, #eef7fc) 0%, #ffffff 100%) !important;
+  border: 2px solid var(--block-accent, #2d84b3) !important;
+  box-shadow: 0 6px 20px rgba(var(--block-accent-rgb, 45, 132, 179), .22) !important;
+}
+
+html:not([data-guided-flow="true"]) .section.block-part .block-intro-card .card-icon {
+  background: var(--block-accent, #2d84b3) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 20px rgba(var(--block-accent-rgb, 45, 132, 179), .22) !important;
+}
+
+html:not([data-guided-flow="true"]) .section.block-part .block-intro-card:hover {
+  border-color: var(--block-accent, #2d84b3) !important;
+  box-shadow: 0 6px 20px rgba(var(--block-accent-rgb, 45, 132, 179), .22) !important;
+}
+
+html[data-guided-flow="true"] .section.block-part .block-intro-card:not(.clicked) {
+  background: linear-gradient(180deg, var(--concept-block-hover, #f8fbfd) 0%, #ffffff 100%) !important;
+  border: 2px solid rgba(var(--block-accent-rgb, 45, 132, 179), .38) !important;
+  box-shadow: 0 6px 18px rgba(var(--block-accent-rgb, 45, 132, 179), .12);
+}
+
+html[data-guided-flow="true"] .section.block-part .block-intro-card:not(.clicked) .card-icon {
+  background: var(--block-accent, #2d84b3) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 20px rgba(var(--block-accent-rgb, 45, 132, 179), .22);
+}
+
+html[data-guided-flow="true"] .section.block-part .block-intro-card.clicked {
+  background: linear-gradient(180deg, var(--concept-block-soft, #eef7fc) 0%, #ffffff 100%) !important;
+  border: 2px solid var(--block-accent, #2d84b3) !important;
+  box-shadow: 0 6px 20px rgba(var(--block-accent-rgb, 45, 132, 179), .22) !important;
+}
+
+html[data-guided-flow="true"] .section.block-part .block-intro-card.clicked .card-icon {
+  background: var(--block-accent-ink, var(--block-accent, #2d84b3)) !important;
+  color: #fff !important;
+}
+
+html[data-guided-flow="true"] .section.block-part .block-intro-card:not(.clicked):hover {
+  border-color: var(--block-accent, #2d84b3) !important;
+}
+
+.portal .section.block-part .block-intro-card h4 {
+  color: var(--block-accent-ink, var(--block-accent, #2d84b3)) !important;
 }
