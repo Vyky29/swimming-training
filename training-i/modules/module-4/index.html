@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260713pulse10');
+  @import url('/assets/training-flow-guide.css?v=20260713pulse17');
   @import url('/assets/module-block-accordion.css?v=20260713accordion5');
   @import url('/assets/programme-journey-map.css?v=20260713ocean-fix');
 
@@ -9805,6 +9805,9 @@
           card.classList.add('is-complete');
           card.setAttribute('aria-pressed', 'true');
           syncStageCards();
+          if(window.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+            TrainingFlowGuide.bumpFlowAdvance(140);
+          }
         };
         card.onkeydown = function(e){
           if(e.key === 'Enter' || e.key === ' '){
@@ -9814,6 +9817,9 @@
         };
       });
       syncStageCards();
+      if(window.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+        TrainingFlowGuide.bumpFlowAdvance(180);
+      }
     }
 
     function renderConcept(block, target, fromBack){
@@ -9849,6 +9855,10 @@
       panel.classList.add('show');
       panel.dataset.currentTarget = target;
       panel.dataset.currentBlock = block;
+      delete panel.dataset.activityComplete;
+      panel.removeAttribute('data-activity-complete');
+      delete panel.dataset.matchedCount;
+      delete panel.dataset.matchingPairsCount;
       panel.dataset.conceptFlow = (block === 'block1' || block === 'block2' || block === 'block4') ? 'flat' : '';
       const titleEl = panel.querySelector('.concept-panel-title');
       const stageSubtitle = block === 'block3' ? getBlock2HeaderSubtitle(target, data) : '';
@@ -10790,8 +10800,14 @@
           panel.dataset.matchingPairsCount = String(slots.length);
           if(allFilled && allCorrect){
             panel.dataset.activityComplete = 'true';
-          } else if(panel.dataset.activityComplete === 'true'){
+            panel.setAttribute('data-activity-complete', 'true');
+            var flowHost = container.closest('[data-concept-activity-flow]');
+            if(flowHost) flowHost.setAttribute('data-activity-complete', 'true');
+          } else if(panel.dataset.activityComplete === 'true' || panel.getAttribute('data-activity-complete') === 'true'){
             delete panel.dataset.activityComplete;
+            panel.removeAttribute('data-activity-complete');
+            var flowHostClear = container.closest('[data-concept-activity-flow]');
+            if(flowHostClear) flowHostClear.removeAttribute('data-activity-complete');
           }
         }
         if(!allFilled){
@@ -11900,7 +11916,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713pulse15"></script>
+  <script src="/shared/training-flow-guide.js?v=20260713pulse17"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

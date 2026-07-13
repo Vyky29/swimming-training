@@ -244,8 +244,9 @@
     var due = Date.now() + ms;
     if(opts.forceAdvance) refreshForceAdvance = true;
 
-    // Keep the soonest pending refresh; never let a slow schedule cancel a bump
-    if(refreshTimer && due >= refreshDueAt){
+    // Force bumps always reschedule from "now" so post-handler state (e.g. match
+    // success) is observed. Non-force keeps the soonest pending refresh.
+    if(!opts.forceAdvance && refreshTimer && due >= refreshDueAt){
       return;
     }
     if(refreshTimer) clearTimeout(refreshTimer);
@@ -1067,22 +1068,44 @@
     return slots.length || 0;
   }
 
+  function matchingSuccessFeedback(scope){
+    if(!scope) return false;
+    return !!scope.querySelector(
+      '.concept-activity-interactive .feedback.show.good, ' +
+      '.match-game ~ .feedback.show.good, ' +
+      '.feedback.show.good, ' +
+      '[data-activity-feedback].show.good, ' +
+      '[data-activity-feedback].is-correct'
+    );
+  }
+
   function isMatchingActivityIncomplete(panel){
     if(!panel.querySelector('[data-matching-activity], [data-match-grid], [data-match-board], .matching-wrap, .match-game')) return false;
 
-    // Slot / chip placement games (e.g. Module 4 b1c3): complete only with correct feedback
-    var slots = panel.querySelectorAll('.match-game .match-slot, .concept-activity-interactive .match-slot');
+    // Prefer the visible activity shell so quiz / leftover slots outside it are ignored
+    var scope = findActivityRoot(panel) || panel;
+
+    // Success feedback wins ? do not require slot counts (avoids phantom empty slots)
+    if(matchingSuccessFeedback(scope) || matchingSuccessFeedback(panel)) return false;
+
+    // Wrong attempt still needs a retry
+    if(scope.querySelector(
+      '.concept-activity-interactive .feedback.show.warn, ' +
+      '.feedback.show.warn, ' +
+      '[data-activity-feedback].show.warn'
+    )) return true;
+
+    // Slot / chip placement games (e.g. Module 4 b1c3)
+    var slots = scope.querySelectorAll('.match-game .match-slot');
+    if(!slots.length){
+      slots = panel.querySelectorAll('.concept-activity-interactive .match-game .match-slot');
+    }
     if(slots.length){
-      var filled = 0;
       for(var s = 0; s < slots.length; s++){
-        if(slots[s].querySelector('.slot-drop .match-chip, .match-chip')) filled++;
+        if(!slots[s].querySelector('.slot-drop .match-chip, .match-chip')) return true;
       }
-      if(filled < slots.length) return true;
-      return !panel.querySelector(
-        '.concept-activity-interactive .feedback.show.good, ' +
-        '.match-game ~ .feedback.show.good, ' +
-        '[data-activity-feedback].show.good'
-      );
+      // All filled but no success feedback yet
+      return true;
     }
 
     // Pair-click matching that syncs dataset.matchedCount
@@ -1090,7 +1113,8 @@
     var requiredMatches = countRequiredMatches(panel);
     if(requiredMatches) return matchedCount < requiredMatches;
 
-    var actBlock = panel.querySelector('.concept-activity-interactive .match-game');
+    var actBlock = scope.querySelector('.concept-activity-interactive .match-game') ||
+      panel.querySelector('.concept-activity-interactive .match-game');
     if(actBlock){
       var act = actBlock.closest('.concept-activity-interactive');
       if(act && !act.querySelector('.feedback.show.good')) return true;
@@ -1178,7 +1202,14 @@
 
   function isActivityIncomplete(panel){
     if(!panel || !panelHasGuidedActivity(panel)) return false;
-    if(panel.dataset.activityComplete === 'true') return false;
+    if(panel.dataset.activityComplete === 'true' || panel.getAttribute('data-activity-complete') === 'true') return false;
+
+    // Match / apply activities: green success feedback means the activity gate is done
+    var activityRoot = findActivityRoot(panel);
+    if(activityRoot && activityRoot.querySelector('.match-game, [data-matching-activity], .matching-wrap') &&
+      matchingSuccessFeedback(activityRoot)){
+      return false;
+    }
 
     if(isM5ChoiceShellIncomplete(panel)) return true;
     if(isVisibleActivityShellComplete(panel)) return false;
@@ -1252,6 +1283,61 @@
 
   function getNavTarget(btn){
     return btn.getAttribute('data-target') || btn.getAttribute('data-overview-subtarget') || '';
+  }
+
+  function stageIntroCardLabel(card){
+    if(!card) return 'Review stage card';
+    var key = card.getAttribute('data-stage-card') || '';
+    if(key === 'looks') return 'Review: What this looks like';
+    if(key === 'priorities') return 'Review: Instructor priorities';
+    if(key === 'goal') return 'Review: Goal';
+    var title = card.querySelector('.stage-intro-card-title');
+    var text = title && title.textContent ? title.textContent.replace(/\s+/g, ' ').trim() : '';
+    return text ? ('Review: ' + text) : 'Review stage card';
+  }
+
+  function resolveStageIntroCards(panel){
+    if(!panel || panel.dataset.stageCardsRequired !== 'true') return null;
+    if(panel.dataset.stageCardsDone === 'true') return null;
+    var wrap = panel.querySelector('.stage-intro-wrap[aria-hidden="false"], .stage-intro-wrap:not([aria-hidden="true"])');
+    if(wrap && !isVisibleEl(wrap)) return null;
+    var cards = panel.querySelectorAll('.stage-intro-card[data-stage-card]');
+    if(!cards.length) return null;
+    for(var i = 0; i < cards.length; i++){
+      if(cards[i].classList.contains('is-complete')) continue;
+      if(!isVisibleEl(cards[i])) continue;
+      return sectionScrollStep('stage-card', cards[i], stageIntroCardLabel(cards[i]), {
+        scrollEl: cards[i],
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand',
+        keyToken: (panel.dataset.currentTarget || '') + ':stage-card:' + (cards[i].getAttribute('data-stage-card') || i)
+      });
+    }
+    return null;
+  }
+
+  function resolveStageLevelPick(panel){
+    if(!panel || panel.dataset.stageCardsRequired !== 'true') return null;
+    if(panel.dataset.stageCardsDone !== 'true') return null;
+    var levels = panel.querySelector('.levels-section');
+    if(!levels || !isVisibleEl(levels) || levels.classList.contains('is-locked')) return null;
+    var buttons = levels.querySelectorAll('.concept-square[data-target]');
+    for(var i = 0; i < buttons.length; i++){
+      var btn = buttons[i];
+      if(btn.hasAttribute('disabled') || btn.getAttribute('aria-disabled') === 'true') continue;
+      if(!isVisibleEl(btn)) continue;
+      if(isConceptDone(btn)) continue;
+      var label = (btn.textContent || '').replace(/\s+/g, ' ').trim() || 'Open next level';
+      return sectionScrollStep('stage-level', btn, 'Open ' + label, {
+        scrollEl: levels,
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand',
+        keyToken: (panel.dataset.currentTarget || '') + ':stage-level:' + (btn.getAttribute('data-target') || i)
+      });
+    }
+    return null;
   }
 
   function resolveSubconceptNav(panel){
@@ -1377,6 +1463,12 @@
 
     var m5NavStep = resolveM5NestedNav(panel);
     if(m5NavStep) return m5NavStep;
+
+    var stageCardStep = resolveStageIntroCards(panel);
+    if(stageCardStep) return stageCardStep;
+
+    var stageLevelStep = resolveStageLevelPick(panel);
+    if(stageLevelStep) return stageLevelStep;
 
     var keyIdeaStep = resolveKeyIdeaItems(panel);
     if(keyIdeaStep) return withM5Tone(panel, keyIdeaStep);
@@ -2389,6 +2481,13 @@
     progress: '201, 120, 22'
   };
 
+  var STAGE_THEME_RGB = {
+    confidence: '26, 92, 56',
+    basic: '201, 120, 22',
+    structured: '53, 105, 149',
+    core: '138, 63, 176'
+  };
+
   function detectBlockVariant(blockId){
     if(!blockId) return null;
     var section = document.getElementById(blockId);
@@ -2413,18 +2512,34 @@
       var openPart = document.querySelector('.section.block-part.is-open[data-block-part]');
       if(openPart) blockId = openPart.getAttribute('data-block-part');
     }
-    if(!blockId){
-      var openPanel = getActiveOpenPanel();
-      if(openPanel) blockId = openPanel.getAttribute('data-panel-for');
-    }
+    var openPanel = getActiveOpenPanel();
+    if(!blockId && openPanel) blockId = openPanel.getAttribute('data-panel-for');
+
     var variant = detectBlockVariant(blockId) || 'foundations';
     root.setAttribute('data-guided-block-variant', variant);
-    root.style.setProperty('--flow-accent-rgb', VARIANT_RGB[variant] || VARIANT_RGB.foundations);
-    if(step && step.kind && (step.kind.indexOf('m5-') === 0 || step.tone === 'm5-nav')){
-      var panel = step.el && step.el.closest && step.el.closest('.concept-panel');
-      var custom = panel && panel.dataset && panel.dataset.flowM5AccentRgb;
-      if(custom) root.style.setProperty('--flow-m5-accent-rgb', custom);
+
+    var accentRgb = VARIANT_RGB[variant] || VARIANT_RGB.foundations;
+    var panel = (step && step.el && step.el.closest && step.el.closest('.concept-panel')) || openPanel;
+    if(panel){
+      var stageTheme = panel.getAttribute('data-stage-theme') || panel.dataset.stageTheme || '';
+      if(stageTheme && STAGE_THEME_RGB[stageTheme]){
+        accentRgb = STAGE_THEME_RGB[stageTheme];
+        root.setAttribute('data-guided-stage-theme', stageTheme);
+      } else {
+        root.removeAttribute('data-guided-stage-theme');
+      }
+      if(step && step.kind && (step.kind.indexOf('m5-') === 0 || step.tone === 'm5-nav')){
+        var custom = panel.dataset && panel.dataset.flowM5AccentRgb;
+        if(custom){
+          accentRgb = custom;
+          root.style.setProperty('--flow-m5-accent-rgb', custom);
+        }
+      }
+    } else {
+      root.removeAttribute('data-guided-stage-theme');
     }
+
+    root.style.setProperty('--flow-accent-rgb', accentRgb);
   }
 
   function resolvePulseTone(step){
@@ -2739,6 +2854,13 @@
         bumpFlowAdvance(moduleConfig, 120);
       }
 
+      var stageCard = e.target.closest && e.target.closest('.stage-intro-card[data-stage-card]');
+      if(stageCard && panel.contains(stageCard)){
+        setTimeout(function(){
+          bumpFlowAdvance(moduleConfig, 120);
+        }, 0);
+      }
+
       var keyIdea = e.target.closest && e.target.closest('.key-idea-item');
       if(keyIdea && panel.contains(keyIdea)){
         bumpFlowAdvance(moduleConfig, 120);
@@ -2755,8 +2877,11 @@
         if(panel.dataset.flowActivityStarted !== 'true'){
           panel.dataset.flowActivityStarted = 'true';
         }
-        // Always re-evaluate after activity interaction so Done can cue reliably
-        bumpFlowAdvance(moduleConfig, 180);
+        // Defer past target/bubble handlers (e.g. match place + checkMatch) so
+        // success state is set before the guide re-resolves.
+        setTimeout(function(){
+          bumpFlowAdvance(moduleConfig, 120);
+        }, 0);
       }
     }, true);
 
