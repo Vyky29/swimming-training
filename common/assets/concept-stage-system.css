@@ -215,7 +215,7 @@
 /* ----- Explore-the-key-concepts pickers: match block accent ----- */
 /* Tokens live on .block-part--* in module-block-accordion.css (--concept-block-* / --block-accent-*). */
 
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]),
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]),
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget]{
   border-color: var(--concept-block-border, rgba(45,132,179,.18));
   background: var(--concept-block-grad, var(--gradBlue, linear-gradient(135deg,#2d84b3 0%,#89b5c1 100%)));
@@ -223,8 +223,8 @@
   color: #fff;
 }
 
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]):hover,
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]):focus-visible,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]):hover,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]):focus-visible,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget]:hover,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget]:focus-visible{
   background: var(--concept-block-hover, #eef6fc) !important;
@@ -233,9 +233,9 @@
   box-shadow: 0 16px 28px var(--concept-block-shadow, rgba(18,50,71,.1)) !important;
 }
 
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]):hover::before,
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]):focus-visible::before,
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).visited::before,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]):hover::before,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]):focus-visible::before,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).visited::before,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget]:hover::before,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget]:focus-visible::before,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget].visited::before{
@@ -243,7 +243,7 @@
   border-color: color-mix(in srgb, var(--concept-block-ink, #2d84b3) 22%, transparent);
 }
 
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).visited,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).visited,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget].visited{
   border-color: var(--concept-block-soft-border, rgba(45,132,179,.38));
   background: linear-gradient(180deg, var(--concept-block-soft, #eef7fc) 0%, #ffffff 100%) !important;
@@ -251,12 +251,12 @@
   box-shadow: 0 14px 26px var(--concept-block-shadow, rgba(45,132,179,.16));
 }
 
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).visited::after,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).visited::after,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget].visited::after{
   color: var(--concept-block-ink, var(--blue, #2d84b3));
 }
 
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).active:not(.visited),
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).active:not(.visited),
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget].active:not(.visited){
   background: var(--concept-block-grad, var(--gradBlue)) !important;
   color: #fff !important;
@@ -265,8 +265,8 @@
   box-shadow: 0 12px 26px var(--concept-block-shadow, rgba(45,132,179,.18));
 }
 
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).active:not(.visited):hover,
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).active:not(.visited):focus-visible,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).active:not(.visited):hover,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).active:not(.visited):focus-visible,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget].active:not(.visited):hover,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget].active:not(.visited):focus-visible{
   background: var(--concept-block-hover, #eef6fc) !important;
@@ -274,7 +274,55 @@
   border-color: var(--concept-block-soft-border, #c5d4e0) !important;
 }
 
-.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).visited.active,
+.portal .section.block-part .concept-stage > .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):not([class*="concept-square--state"]):not([class*="concept-square--factor"]):not([class*="concept-square--approach"]):not([class*="concept-square--core"]):not([class*="concept-square--level"]):not([class*="concept-square--sublevel"]):not([class*="concept-square--term-review"]).visited.active,
 .portal .section.block-part .overview-subconcept-grid > .concept-square[data-overview-subtarget].visited.active{
   outline: 2px solid color-mix(in srgb, var(--concept-block-ink, #2d84b3) 42%, transparent);
+}
+
+
+/* ===== Specialty subconcept tiles (states / factors) ===== */
+/* Kept out of the shared blue/block fills. Load last so module blues cannot win. */
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square.concept-square--state-calm,
+.portal .concept-panel .concept-grid--factors > .concept-square.concept-square--state-calm{
+  background: linear-gradient(180deg, #c8e6c9 0%, #a5d6a7 100%) !important;
+  border-color: #43a047 !important;
+  color: #1b4332 !important;
+}
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square.concept-square--state-alert,
+.portal .concept-panel .concept-grid--factors > .concept-square.concept-square--state-alert{
+  background: linear-gradient(180deg, #fff59d 0%, #ffee58 100%) !important;
+  border-color: #f9a825 !important;
+  color: #5d4037 !important;
+}
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square.concept-square--state-overloaded,
+.portal .concept-panel .concept-grid--factors > .concept-square.concept-square--state-overloaded{
+  background: linear-gradient(180deg, #ffcdd2 0%, #ef9a9a 100%) !important;
+  border-color: #e53935 !important;
+  color: #4a148c !important;
+}
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square.concept-square--factor-water,
+.portal .concept-panel .concept-grid--factors > .concept-square.concept-square--factor-water{
+  background: linear-gradient(180deg, #90caf9 0%, #64b5f6 100%) !important;
+  border-color: #1565c0 !important;
+  color: #0d47a1 !important;
+}
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square.concept-square--factor-env,
+.portal .concept-panel .concept-grid--factors > .concept-square.concept-square--factor-env{
+  background: linear-gradient(180deg, #ffcc80 0%, #ffb74d 100%) !important;
+  border-color: #ef6c00 !important;
+  color: #e65100 !important;
+}
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square.concept-square--factor-internal,
+.portal .concept-panel .concept-grid--factors > .concept-square.concept-square--factor-internal{
+  background: linear-gradient(180deg, #ce93d8 0%, #ba68c8 100%) !important;
+  border-color: #8e24aa !important;
+  color: #4a148c !important;
+}
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--state"]::before,
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--factor"]::before,
+.portal .concept-panel .concept-grid--factors > .concept-square[class*="concept-square--state"]::before,
+.portal .concept-panel .concept-grid--factors > .concept-square[class*="concept-square--factor"]::before{
+  background-color: rgba(255,255,255,.55) !important;
+  background-image: var(--concept-nav-icon-on-light) !important;
+  border-color: rgba(18,50,71,.14) !important;
 }
