@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260611a');
-  @import url('/assets/training-flow-guide.css?v=20260713guide4');
+  @import url('/assets/training-flow-guide.css?v=20260713practice4');
   @import url('/assets/module-block-accordion.css?v=20260713accordion4');
 
   :root{
@@ -1810,10 +1810,9 @@
       font-weight:800;
     }
     .concept-activity-box + .concept-activity-box{ margin-top:10px; }
-    .concept-activity-box:hover{
-      transform:translateY(-2px);
-      border-color:var(--blue);
-      box-shadow:0 10px 22px rgba(18,50,71,.08);
+    /* Text-only boxes may soften on hover; image hosts stay flat like Modules 1–4 */
+    .concept-activity-box:hover:not([data-expandable-visual]):not(:has(> img)){
+      border-color:rgba(45,132,179,.28);
     }
 
     .concept-image img{
@@ -2169,7 +2168,6 @@
       background:transparent;
       border:none;
       pointer-events:none;
-      filter:drop-shadow(0 6px 12px rgba(18,50,71,.12));
     }
     .b2-screens[data-b2-screens="b2c2"] .b2c2-home-grid .img-expand-btn,
     .b2-screens[data-b2-screens="b2c2"] .b2c2-home-grid [data-expandable-visual] > .img-expand-btn{
@@ -2305,7 +2303,6 @@
       border:none;
       border-radius:10px;
       pointer-events:none;
-      filter:drop-shadow(0 8px 16px rgba(18,50,71,.16));
     }
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-card img:not([src]),
     .b2-screens[data-b2-screens="b2c3"] .b2c3-mini-card img[src=""]{
@@ -2417,7 +2414,6 @@
       border:none;
       border-radius:10px;
       pointer-events:none;
-      filter:drop-shadow(0 8px 16px rgba(18,50,71,.14));
     }
     .portal .concept-intro-slot .m5-insight-mini-peek--single{
       padding:0;
@@ -2443,7 +2439,6 @@
       background:transparent;
       border:none;
       pointer-events:none;
-      filter:drop-shadow(0 8px 16px rgba(18,50,71,.14));
     }
     .portal .concept-intro-slot .m5-insight-mini-peek .img-expand-btn{
       display:none !important;
@@ -2651,10 +2646,14 @@
         max-height:min(260px,38vh);
       }
     }
+    /* Nested visual hosts stay flat on hover — same as concept imagery training-wide */
     .portal .b2-screens .m5-nested-visual-shell:hover,
     .portal .b2-screens .m5-folder-overview-card:hover,
     .portal .b2-screens .m5-nested-visual-frame:hover{
-      border-color:rgba(45,132,179,.22);
+      border-color:rgba(45,132,179,.12);
+      box-shadow:none;
+      transform:none;
+      filter:none;
     }
     .portal .b2-screens .b2-nav{
       width:100%;
@@ -3647,10 +3646,10 @@
     .entry-exit-fan-item{
       position:relative;
       border-radius:12px;
-      overflow:hidden;
-      box-shadow:0 8px 20px rgba(18,50,71,.12);
-      border:1px solid rgba(45,132,179,.12);
-      background:#fff;
+      overflow:visible;
+      box-shadow:none;
+      border:none;
+      background:transparent;
     }
     .entry-exit-fan-item img{
       display:block;
@@ -3724,7 +3723,7 @@
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
-  <link rel="stylesheet" href="/assets/module-concept-media.css" />
+  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260713img1" />
   <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260603" />
 <link rel="stylesheet" href="https://swimming-training.vercel.app/assets/concept-stage-system.css?v=20260603" crossorigin="anonymous" />
 </head>
@@ -7420,10 +7419,15 @@
           panel.dataset.inPracticeDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) ? 'true' : 'false';
 
           actionTextEl.textContent = (window.InPracticeCopy && InPracticeCopy.resolve(target, inPracticeLine)) || inPracticeLine;
+          actionEl.dataset.inPracticeTarget = target;
           actionEl.removeAttribute('hidden');
           actionEl.classList.toggle('is-completed', panel.dataset.inPracticeDone === 'true');
-          var iconEl = actionEl.querySelector('.icon');
-          if(iconEl) iconEl.innerHTML = inPracticeActionIconHtml(panel.dataset.inPracticeDone === 'true');
+          if(window.InPracticeSystem && typeof InPracticeSystem.paint === 'function'){
+            InPracticeSystem.paint(actionEl);
+          } else {
+            var iconEl = actionEl.querySelector('.icon');
+            if(iconEl) iconEl.innerHTML = inPracticeActionIconHtml(panel.dataset.inPracticeDone === 'true');
+          }
           if(actionEl.getAttribute('data-in-practice-bound') !== '1'){
             actionEl.setAttribute('data-in-practice-bound', '1');
             actionEl.addEventListener('click', function(){
@@ -7936,8 +7940,8 @@
   </script>
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
-  <script src="/shared/in-practice-copy.js?v=20260713practice2"></script>
-<script src="/shared/in-practice-system.js?v=20260713practice2"></script>
+  <script src="/shared/in-practice-copy.js?v=20260713practice4"></script>
+<script src="/shared/in-practice-system.js?v=20260713practice4"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260707"></script>
   <script src="/shared/parent-subconcept-layout.js"></script>
@@ -7949,7 +7953,7 @@
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
   <script src="/shared/guided-concept-layout.js?v=20260821"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713guide4"></script>
+  <script src="/shared/training-flow-guide.js?v=20260713practice4"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

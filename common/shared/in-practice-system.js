@@ -1,24 +1,16 @@
 (function () {
   'use strict';
 
-  var HINT_COPY = 'Review this pool-side cue, then mark it done.';
-
   var ICON_POOL =
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">' +
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M4 9h16a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z"/>' +
       '<path d="M2 13c1.6-.9 3.2-.9 4.8 0s3.2.9 4.8 0 3.2-.9 4.8 0 3.2.9 4.8 0"/>' +
       '<path d="M8 9V7M12 9V7M16 9V7"/>' +
     '</svg>';
 
   var ICON_DONE =
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">' +
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M20 6L9 17l-5-5"/>' +
-    '</svg>';
-
-  var WAVE_SVG =
-    '<svg class="key-ideas-action__wave-svg" viewBox="0 0 240 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">' +
-      '<path fill="currentColor" d="M0 72c20-12 40-12 60 0s40 12 60 0 40-12 60 0 40 12 60 0v48H0z" opacity=".55"/>' +
-      '<path fill="currentColor" d="M0 88c24-10 48-10 72 0s48 10 72 0 48-10 72 0 48 10 72 0v32H0z" opacity=".35"/>' +
     '</svg>';
 
   var observerPaused = false;
@@ -35,46 +27,51 @@
       .replace(/"/g, '&quot;');
   }
 
-  function slotHtml(mod, label, text) {
+  function supportCell(mod, label, text) {
     if (!text) return '';
     return (
-      '<div class="key-ideas-action__slot key-ideas-action__slot--' + mod + '">' +
-        '<p class="key-ideas-action__slot-label">' + label + '</p>' +
-        '<p class="key-ideas-action__slot-text' + (mod === 'move' ? ' text' : '') + '">' + escapeHtml(text) + '</p>' +
+      '<div class="inprac-support__cell inprac-support__cell--' + mod + '">' +
+        '<span class="inprac-support__label">' + label + '</span>' +
+        '<p class="inprac-support__text">' + escapeHtml(text) + '</p>' +
       '</div>'
     );
   }
 
   function shellInnerHtml(done) {
+    var completed = !!done;
     return (
-      '<div class="key-ideas-action__body">' +
-        '<div class="key-ideas-action__wave">' + WAVE_SVG + '</div>' +
-        '<div class="key-ideas-action__content">' +
-          '<div class="key-ideas-action-head">' +
-            '<span class="icon" aria-hidden="true">' + iconHtml(!!done) + '</span>' +
-            '<div class="key-ideas-action-head__meta">' +
-              '<span class="key-ideas-action-eyebrow">Session cue · clubSENsational</span>' +
-              '<span class="label">In Practice</span>' +
-              '<span class="key-ideas-action-hint">' + HINT_COPY + '</span>' +
-            '</div>' +
+      '<div class="key-ideas-action__body inprac">' +
+        '<div class="inprac__top">' +
+          '<span class="icon inprac__icon" aria-hidden="true">' + iconHtml(completed) + '</span>' +
+          '<div class="inprac__titles">' +
+            '<p class="inprac__eyebrow">Pool-side cue</p>' +
+            '<p class="label inprac__title">In Practice</p>' +
           '</div>' +
-          '<div class="key-ideas-action__scenario" data-in-practice-slots>' +
-            '<p class="text" hidden></p>' +
-          '</div>' +
-          '<div class="key-ideas-action__footer">' +
-            '<span class="key-ideas-action__cta">Mark as reviewed</span>' +
-          '</div>' +
+          '<span class="inprac__status" data-inprac-status>' + (completed ? 'Reviewed' : 'Tap to review') + '</span>' +
+        '</div>' +
+        '<div class="key-ideas-action__scenario inprac__body" data-in-practice-slots>' +
+          '<p class="inprac__lead" data-inprac-lead></p>' +
+          '<div class="inprac-support" data-inprac-support></div>' +
+          '<span class="text inprac__sr"> </span>' +
+        '</div>' +
+        '<div class="inprac__footer">' +
+          '<span class="key-ideas-action__cta inprac__cta" data-inprac-cta>' +
+            (completed ? 'Reviewed' : 'Mark as reviewed') +
+          '</span>' +
         '</div>' +
       '</div>'
     );
   }
 
+  function getTarget(actionEl) {
+    if (!actionEl) return '';
+    if (actionEl.dataset.inPracticeTarget) return actionEl.dataset.inPracticeTarget;
+    var panel = actionEl.closest('.concept-panel');
+    return (panel && panel.dataset.currentTarget) || '';
+  }
+
   function resolveCopy(actionEl, fallback) {
-    var target = actionEl && actionEl.dataset.inPracticeTarget;
-    if (!target) {
-      var panel = actionEl && actionEl.closest('.concept-panel');
-      target = panel && panel.dataset.currentTarget;
-    }
+    var target = getTarget(actionEl);
     if (window.InPracticeCopy && typeof InPracticeCopy.resolve === 'function') {
       return InPracticeCopy.resolve(target, fallback);
     }
@@ -82,11 +79,8 @@
   }
 
   function resolveCard(actionEl, fallback) {
-    var target = actionEl && actionEl.dataset.inPracticeTarget;
-    if (!target) {
-      var panel = actionEl && actionEl.closest('.concept-panel');
-      target = panel && panel.dataset.currentTarget;
-    }
+    var target = getTarget(actionEl);
+    if (target) actionEl.dataset.inPracticeTarget = target;
     if (window.InPracticeCopy && typeof InPracticeCopy.resolveCard === 'function') {
       return InPracticeCopy.resolveCard(target, fallback);
     }
@@ -94,33 +88,42 @@
       return InPracticeCopy.asCard(null, fallback || resolveCopy(actionEl, fallback));
     }
     var line = fallback || resolveCopy(actionEl, '');
-    return {
-      scene: '',
-      notice: '',
-      move: line,
-      watch: '',
-      next: ''
-    };
+    return { scene: '', notice: '', move: line, watch: '', next: '' };
+  }
+
+  function syncChrome(actionEl) {
+    if (!actionEl) return;
+    var done = actionEl.classList.contains('is-completed');
+    var status = actionEl.querySelector('[data-inprac-status]');
+    var cta = actionEl.querySelector('[data-inprac-cta]');
+    if (status) status.textContent = done ? 'Reviewed' : 'Tap to review';
+    if (cta) cta.textContent = done ? 'Reviewed' : 'Mark as reviewed';
+    actionEl.setAttribute('aria-pressed', done ? 'true' : 'false');
+    refreshIcon(actionEl, done);
   }
 
   function renderCardSlots(actionEl, card) {
     if (!actionEl || !card) return;
-    var scenario = actionEl.querySelector('[data-in-practice-slots]') || actionEl.querySelector('.key-ideas-action__scenario');
-    if (!scenario) return;
-
+    var lead = actionEl.querySelector('[data-inprac-lead]');
+    var support = actionEl.querySelector('[data-inprac-support]');
+    var sr = actionEl.querySelector('.inprac__sr, .text');
+    var move = card.move || card.scene || '';
     var html =
-      slotHtml('scene', 'In the pool', card.scene) +
-      slotHtml('notice', "What you'll notice", card.notice) +
-      slotHtml('move', 'Your move', card.move) +
-      slotHtml('watch', 'Watch for', card.watch) +
-      slotHtml('next', 'Try next', card.next);
-
-    // Keep a hidden .text with plain move for any legacy readers
-    html += '<p class="text" hidden>' + escapeHtml(card.move || '') + '</p>';
+      supportCell('scene', 'In the pool', card.scene) +
+      supportCell('notice', "You'll notice", card.notice) +
+      supportCell('watch', 'Watch for', card.watch) +
+      supportCell('next', 'Try next', card.next);
 
     observerPaused = true;
-    scenario.innerHTML = html;
+    if (lead) lead.textContent = move;
+    if (support) {
+      support.innerHTML = html;
+      if (html) support.removeAttribute('hidden');
+      else support.setAttribute('hidden', '');
+    }
+    if (sr) sr.textContent = move;
     observerPaused = false;
+    syncChrome(actionEl);
   }
 
   function staticScreenKey(pointsBox) {
@@ -163,7 +166,7 @@
     actionEl.setAttribute('data-in-practice-bound', '1');
     actionEl.addEventListener('click', function () {
       actionEl.classList.add('is-completed');
-      refreshIcon(actionEl, true);
+      syncChrome(actionEl);
     });
     actionEl.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -204,16 +207,17 @@
 
   function applyScenarioCopy(actionEl) {
     if (!actionEl) return;
-    var textEl = actionEl.querySelector('.text');
+    var textEl = actionEl.querySelector('.text, [data-inprac-lead]');
     var current = textEl ? (textEl.textContent || '').trim() : '';
     var card = resolveCard(actionEl, current);
-    if (!card || (!card.move && !card.scene)) return;
+    if (!card || (!card.move && !card.scene && !current)) return;
+    if (!card.move && current) card.move = current;
     renderCardSlots(actionEl, card);
   }
 
   function refreshIcon(actionEl, done) {
     if (!actionEl) return;
-    var iconEl = actionEl.querySelector('.key-ideas-action-head .icon');
+    var iconEl = actionEl.querySelector('.key-ideas-action-head .icon, .inprac__icon');
     if (!iconEl) return;
     var state = done ? '1' : '0';
     if (iconEl.dataset.inPracticeDone === state) return;
@@ -235,11 +239,11 @@
 
   function ensureStructure(actionEl) {
     if (!actionEl) return false;
-    if (actionEl.querySelector('[data-in-practice-slots]') && actionEl.querySelector('.key-ideas-action-eyebrow')) {
+    if (actionEl.querySelector('.inprac') && actionEl.querySelector('[data-in-practice-slots]')) {
       return false;
     }
 
-    var textEl = actionEl.querySelector('.text');
+    var textEl = actionEl.querySelector('.text, [data-inprac-lead]');
     var text = textEl ? textEl.textContent : '';
     var done = actionEl.classList.contains('is-completed');
     var guidedRing = preserveGuidedFlowRing(actionEl);
@@ -249,8 +253,10 @@
     restoreGuidedFlowRing(actionEl, guidedRing);
     observerPaused = false;
 
-    textEl = actionEl.querySelector('.text');
-    if (textEl && text) textEl.textContent = text;
+    var sr = actionEl.querySelector('.text');
+    if (sr && text) sr.textContent = text;
+    var lead = actionEl.querySelector('[data-inprac-lead]');
+    if (lead && text) lead.textContent = text;
 
     actionEl.setAttribute('role', 'button');
     if (!actionEl.hasAttribute('tabindex')) actionEl.setAttribute('tabindex', '0');
@@ -258,40 +264,19 @@
   }
 
   function isStructureReady(actionEl) {
-    return !!(
-      actionEl &&
-      actionEl.querySelector('.key-ideas-action__content') &&
-      actionEl.querySelector('.key-ideas-action-eyebrow') &&
-      actionEl.querySelector('[data-in-practice-slots]')
-    );
+    return !!(actionEl && actionEl.querySelector('.inprac') && actionEl.querySelector('[data-in-practice-slots]'));
   }
 
   function enhanceAction(actionEl, force) {
     if (!actionEl || !actionEl.classList.contains('key-ideas-action')) return;
     if (actionEl.hasAttribute('hidden')) return;
-    if (!force && actionEl.dataset.inPracticeReady === '1' && isStructureReady(actionEl)) {
-      refreshIcon(actionEl, actionEl.classList.contains('is-completed'));
-      return;
-    }
 
     ensureStructure(actionEl);
-
     if (!actionEl.getAttribute('role')) actionEl.setAttribute('role', 'button');
     if (!actionEl.hasAttribute('tabindex')) actionEl.setAttribute('tabindex', '0');
 
-    var wave = actionEl.querySelector('.key-ideas-action__wave');
-    if (!wave) {
-      var body = actionEl.querySelector('.key-ideas-action__body') || actionEl;
-      observerPaused = true;
-      wave = document.createElement('div');
-      wave.className = 'key-ideas-action__wave';
-      wave.innerHTML = WAVE_SVG;
-      body.insertBefore(wave, body.firstChild);
-      observerPaused = false;
-    }
-
     applyScenarioCopy(actionEl);
-    refreshIcon(actionEl, actionEl.classList.contains('is-completed'));
+    syncChrome(actionEl);
     actionEl.dataset.inPracticeReady = '1';
     if (actionEl.classList.contains('flow-guide-pulse--inpractice')) {
       actionEl.dispatchEvent(new CustomEvent('flow-guide-in-practice-ready', { bubbles: true }));
@@ -300,7 +285,7 @@
 
   function scan(root) {
     (root || document).querySelectorAll('.key-ideas-action:not([hidden])').forEach(function (el) {
-      enhanceAction(el);
+      enhanceAction(el, true);
     });
   }
 
@@ -318,11 +303,13 @@
       nodes.forEach(function (node) {
         if (node.nodeType !== 1) return;
         if (node.classList && node.classList.contains('key-ideas-action')) {
-          enhanceAction(node);
+          enhanceAction(node, true);
           return;
         }
         if (node.querySelectorAll) {
-          node.querySelectorAll('.key-ideas-action:not([hidden])').forEach(enhanceAction);
+          node.querySelectorAll('.key-ideas-action:not([hidden])').forEach(function (el) {
+            enhanceAction(el, true);
+          });
           ensureStaticPointsBoxes(node);
         }
       });
@@ -342,6 +329,13 @@
           if (!mutation.target.hasAttribute('hidden')) {
             pendingNodes.push(mutation.target);
           }
+        }
+        if (
+          mutation.attributeName === 'class' &&
+          mutation.target.classList &&
+          mutation.target.classList.contains('key-ideas-action')
+        ) {
+          syncChrome(mutation.target);
         }
         return;
       }
@@ -363,7 +357,7 @@
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['hidden']
+      attributeFilter: ['hidden', 'class']
     });
 
     document.addEventListener('visibilitychange', function () {
@@ -374,8 +368,9 @@
           childList: true,
           subtree: true,
           attributes: true,
-          attributeFilter: ['hidden']
+          attributeFilter: ['hidden', 'class']
         });
+        scan(root);
       }
     });
   }
@@ -390,7 +385,8 @@
     renderCardSlots: renderCardSlots,
     resolveCopy: resolveCopy,
     resolveCard: resolveCard,
-    ensureStaticPointsBoxes: ensureStaticPointsBoxes
+    ensureStaticPointsBoxes: ensureStaticPointsBoxes,
+    paint: function (actionEl) { enhanceAction(actionEl, true); }
   };
 
   window.inPracticeActionIconHtml = iconHtml;

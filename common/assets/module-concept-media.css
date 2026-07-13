@@ -2,7 +2,7 @@
  * Unified primary imagery across Training I / II modules.
  * Infographics and concept visuals show in full (contain) — no 16:9 crop or inner scroll.
  */
-@import url('/assets/concept-visual-expand.css?v=20260709');
+@import url('/assets/concept-visual-expand.css?v=20260713img1');
 
 .portal [data-expand-media] {
   display: none !important;
@@ -76,6 +76,27 @@
   background: transparent;
   box-shadow: none;
   padding: 0;
+}
+
+/* Expandable imagery: no host lift/glow on hover — only the expand button cues focus (training-wide) */
+.portal .concept-panel .concept-activity-box[data-expandable-visual]:hover,
+.portal .concept-panel .concept-activity-box:has(> img):hover,
+.portal .concept-panel [data-expandable-visual].b2c2-direct-image:hover,
+.portal .concept-panel [data-expandable-visual].b2c3-direct-image:hover,
+.portal .concept-panel [data-expandable-visual].entry-exit-fan-item:hover,
+.portal .section-visual-shell .concept-activity-box:hover {
+  transform: none !important;
+  filter: none;
+}
+
+.portal .concept-panel [data-expandable-visual] > img,
+.portal .concept-panel [data-expandable-visual] figure > img,
+.portal .concept-panel .concept-activity-box > img,
+.portal .concept-panel .b2c2-folder-art img,
+.portal .concept-panel .b2c3-mini-card img,
+.portal .concept-panel .m5-insight-mini-card img,
+.portal .concept-panel .m5-insight-folder-art img {
+  filter: none;
 }
 
 /* Wide photo strips (opt-in only) */

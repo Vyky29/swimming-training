@@ -123,8 +123,8 @@ html[data-guided-flow="true"]{
   animation: flowGuideRing 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 .flow-guide-in-practice-ring{
-  inset: -7px;
-  border-radius: 999px;
+  inset: -6px;
+  border-radius: 22px;
   animation-duration: 2.1s;
   --_pulse-rgb: var(--flow-tone-practice-rgb);
 }
