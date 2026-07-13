@@ -1947,11 +1947,19 @@
     });
   }
 
+  function isBlockFullyComplete(block){
+    // Stage checkbox checked = COMPLETE badge. Never pulse "Open" on finished blocks.
+    return reflectionDone(block);
+  }
+
   function resolveBlock(block, moduleConfig){
     if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
     if(!insideModuleReviewed()) return null;
+
+    // Finished blocks are done ? advance to the next incomplete block instead
+    if(isBlockFullyComplete(block)) return null;
 
     // Keep accordion collapsed until the learner opens it (or completes previous and auto-advances)
     if(global.ModuleBlockAccordion){
@@ -2071,7 +2079,9 @@
   function getEarliestIncompleteBlock(moduleConfig){
     var blocks = (moduleConfig && moduleConfig.blocks) || [];
     for(var i = 0; i < blocks.length; i++){
-      if(!blockConceptsComplete(blocks[i])) return blocks[i];
+      // Fully marked complete (checkbox) ? skip. Otherwise this block still needs work
+      // (concepts, reflection, or the final "mark complete" check).
+      if(!isBlockFullyComplete(blocks[i])) return blocks[i];
     }
     return null;
   }
@@ -2080,6 +2090,21 @@
     var blocks = (moduleConfig && moduleConfig.blocks) || [];
     var idx = blocks.indexOf(block);
     return idx >= 0 ? idx : 999;
+  }
+
+  function advanceAccordionPastCompleted(moduleConfig){
+    if(!global.ModuleBlockAccordion) return;
+    var earliest = getEarliestIncompleteBlock(moduleConfig);
+    if(!earliest || isBlockSectionLocked(earliest)) return;
+    var openKey = typeof global.ModuleBlockAccordion.getOpen === 'function'
+      ? global.ModuleBlockAccordion.getOpen()
+      : null;
+    // Only move when a finished block is still the open accordion
+    if(!openKey || !isBlockFullyComplete(openKey)) return;
+    if(openKey === earliest) return;
+    if(typeof global.ModuleBlockAccordion.ensureOpen === 'function'){
+      try{ global.ModuleBlockAccordion.ensureOpen(earliest, { scroll: true }); }catch(err){}
+    }
   }
 
   function resolveNextStep(moduleConfig){
@@ -2098,10 +2123,19 @@
     if(inside) return inside;
 
     var earliestIncomplete = getEarliestIncompleteBlock(moduleConfig);
+    advanceAccordionPastCompleted(moduleConfig);
+
     var openPanel = getActiveOpenPanel();
     if(openPanel){
       var openBlock = openPanel.getAttribute('data-panel-for');
-      if(openBlock){
+      if(openBlock && isBlockFullyComplete(openBlock)){
+        openPanel.classList.remove('show');
+        delete openPanel.dataset.currentTarget;
+        delete openPanel.dataset.currentBlock;
+        lastStepKey = null;
+        lastScrolledKey = null;
+        openPanel = null;
+      } else if(openBlock){
         var openIdx = blockOrderIndex(moduleConfig, openBlock);
         var earliestIdx = earliestIncomplete ? blockOrderIndex(moduleConfig, earliestIncomplete) : openIdx;
         if(!earliestIncomplete || openIdx <= earliestIdx){
@@ -2120,6 +2154,7 @@
     var blocks = moduleConfig.blocks || [];
     for(var b = 0; b < blocks.length; b++){
       if(isBlockSectionLocked(blocks[b])) continue;
+      if(isBlockFullyComplete(blocks[b])) continue;
       var blockStep = resolveBlock(blocks[b], moduleConfig);
       if(blockStep) return blockStep;
     }
