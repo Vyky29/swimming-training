@@ -38,6 +38,23 @@
       gap:16px;
       padding:20px 14px 36px;
     }
+    body.poster-export{
+      background:#fff;
+      padding:0;
+      gap:0;
+      min-height:0;
+    }
+    body.poster-export .poster-toolbar{ display:none !important; }
+    body.poster-export .poster{
+      width:297mm;
+      max-width:none;
+      height:210mm;
+      aspect-ratio:auto;
+      border-radius:0;
+      box-shadow:none;
+      border:0;
+    }
+    body.poster-export .poster::before{ inset:5mm; }
     .poster-toolbar{
       width:min(1180px,100%);
       display:flex;
@@ -497,7 +514,7 @@
 </head>
 <body>
   <div class="poster-toolbar">
-    <p>Draft poster · Print or save as PDF from the browser</p>
+    <p>Draft poster  Print or save as PDF from the browser</p>
     <button type="button" onclick="window.print()">Print / Save PDF</button>
   </div>
 
@@ -549,7 +566,7 @@
             <div class="level">
               <img src="./images/module-4/mascots/level-1-turtle.png" alt="" width="38" height="38" />
               <div class="level-copy">
-                <span class="level-kicker">Level 1 · First Splash</span>
+                <span class="level-kicker">Level 1  First Splash</span>
                 <span class="level-name">Turtle</span>
                 <span class="level-note">Calm first contact and trust</span>
               </div>
@@ -557,7 +574,7 @@
             <div class="level">
               <img src="./images/module-4/mascots/level-2-starfish.png" alt="" width="38" height="38" />
               <div class="level-copy">
-                <span class="level-kicker">Level 2 · Water Explorer</span>
+                <span class="level-kicker">Level 2  Water Explorer</span>
                 <span class="level-name">Starfish</span>
                 <span class="level-note">Longer engagement, lighter prompting</span>
               </div>
@@ -582,7 +599,7 @@
             <div class="level">
               <img src="./images/module-4/mascots/level-3-jellyfish.png" alt="" width="38" height="38" />
               <div class="level-copy">
-                <span class="level-kicker">Level 3 · Floating Friend</span>
+                <span class="level-kicker">Level 3  Floating Friend</span>
                 <span class="level-name">Jellyfish</span>
                 <span class="level-note">Float, streamline, early propulsion</span>
               </div>
@@ -590,7 +607,7 @@
             <div class="level">
               <img src="./images/module-4/mascots/level-4-ray.png" alt="" width="38" height="38" />
               <div class="level-copy">
-                <span class="level-kicker">Level 4 · Ocean Navigator</span>
+                <span class="level-kicker">Level 4  Ocean Navigator</span>
                 <span class="level-name">Ray</span>
                 <span class="level-note">Control, coordination, independence</span>
               </div>
@@ -615,7 +632,7 @@
             <div class="level">
               <img src="./images/module-4/mascots/level-5-dolphin.png" alt="" width="38" height="38" />
               <div class="level-copy">
-                <span class="level-kicker">Level 5 · Independent Swimmer</span>
+                <span class="level-kicker">Level 5  Independent Swimmer</span>
                 <span class="level-name">Dolphin</span>
                 <span class="level-note">Technique and sustained independence</span>
               </div>
@@ -623,7 +640,7 @@
             <div class="level">
               <img src="./images/module-4/mascots/level-6-whale.png" alt="" width="38" height="38" />
               <div class="level-copy">
-                <span class="level-kicker">Level 6 · Ocean Master</span>
+                <span class="level-kicker">Level 6  Ocean Master</span>
                 <span class="level-name">Whale</span>
                 <span class="level-note">Efficiency, fluency, endurance</span>
               </div>
@@ -677,5 +694,17 @@
       </div>
     </footer>
   </article>
+  <script>
+    (function(){
+      var q = String(location.search || '');
+      if(/[?&](print|export|face=c)=/.test(q) || /[?&]print=1/.test(q) || /[?&]export=1/.test(q) || /[?&]face=c/.test(q)){
+        document.documentElement.classList.add('poster-export');
+        document.addEventListener('DOMContentLoaded', function(){
+          document.body.classList.add('poster-export');
+        });
+        document.body.classList.add('poster-export');
+      }
+    })();
+  </script>
 </body>
 </html>

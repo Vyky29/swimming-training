@@ -1,7 +1,6 @@
 (function(global){
   'use strict';
 
-  var BLOCK_PART_ORDER = ['block1', 'block2', 'block3', 'block4'];
   var STATUS_LABEL = {
     locked: 'Locked',
     not_started: 'Not started',
@@ -9,7 +8,8 @@
     ready: 'Ready',
     complete: 'Complete'
   };
-  var META = {
+  var VARIANT_CYCLE = ['foundations', 'core', 'pathway', 'progress'];
+  var FALLBACK_META = {
     block1: {
       variant: 'foundations',
       kicker: 'Block 1',
@@ -36,8 +36,9 @@
     }
   };
 
+  var BLOCK_PART_ORDER = [];
   var openBlockPart = 'block1';
-  var autoAdvanced = { block1: false, block2: false, block3: false };
+  var autoAdvanced = {};
   var wired = false;
   var enhanced = false;
 
@@ -46,6 +47,60 @@
   }
   function $$(sel, root){
     return Array.prototype.slice.call((root || document).querySelectorAll(sel));
+  }
+
+  function cleanText(el){
+    if(!el) return '';
+    return String(el.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function escapeHtml(str){
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function discoverBlockOrder(){
+    var sections = $$('.section.gated-block[id^="block"]');
+    var keys = sections
+      .map(function(sec){ return sec.id; })
+      .filter(function(id){ return /^block\d+$/.test(id); });
+    keys.sort(function(a, b){
+      return (parseInt(a.replace('block', ''), 10) || 0) - (parseInt(b.replace('block', ''), 10) || 0);
+    });
+    if(!keys.length) keys = ['block1', 'block2', 'block3'];
+    BLOCK_PART_ORDER = keys;
+    if(BLOCK_PART_ORDER.indexOf(openBlockPart) < 0) openBlockPart = BLOCK_PART_ORDER[0] || 'block1';
+    api.ORDER = BLOCK_PART_ORDER.slice();
+    return BLOCK_PART_ORDER;
+  }
+
+  function resolveMeta(key, section, index){
+    var fallback = FALLBACK_META[key] || {};
+    var attrTitle = section.getAttribute('data-block-title');
+    var attrText = section.getAttribute('data-block-text');
+    var attrKicker = section.getAttribute('data-block-kicker');
+    var attrVariant = section.getAttribute('data-block-variant');
+
+    var pill = cleanText(section.querySelector('.section-top .section-pill'));
+    var titleEl = section.querySelector('.block-header .block-title-wrap h3, .block-title-wrap h3, .section-body h3');
+    var leadEl = section.querySelector('.section-body > .lead, .section-body .lead');
+    var scrapedTitle = cleanText(titleEl);
+    var scrapedText = cleanText(leadEl);
+
+    // Prefer explicit body title over "Block N - ..." duplicates in some Training II shells
+    if(scrapedTitle && /^block\s*\d+\s*[-:\u2013\u2014]/i.test(scrapedTitle)){
+      scrapedTitle = scrapedTitle.replace(/^block\s*\d+\s*[-:\u2013\u2014]\s*/i, '').trim() || scrapedTitle;
+    }
+
+    var title = (attrTitle || scrapedTitle || fallback.title || key).trim();
+    var text = (attrText || scrapedText || fallback.text || '').trim();
+    var kicker = (attrKicker || pill || fallback.kicker || ('Block ' + String(key).replace('block', ''))).trim();
+    var variant = (attrVariant || fallback.variant || VARIANT_CYCLE[index % VARIANT_CYCLE.length] || 'foundations').trim();
+
+    return { variant: variant, kicker: kicker, title: title, text: text };
   }
 
   function isLocked(key){
@@ -69,14 +124,14 @@
         return { done: parseInt(m[1], 10) || 0, total: parseInt(m[2], 10) || 0 };
       }
     }
-    var buttons = $$( '[data-concept-grid="' + key + '"] .concept-square[data-target]' );
+    var buttons = $$('[data-concept-grid="' + key + '"] .concept-square[data-target]');
     if(!buttons.length) return { done: 0, total: 0 };
     var done = buttons.filter(function(btn){ return btn.classList.contains('visited'); }).length;
     return { done: done, total: buttons.length };
   }
 
   function introCardsStarted(key){
-    var cards = $$( '[data-block-intro="' + key + '"] .block-intro-card' );
+    var cards = $$('[data-block-intro="' + key + '"] .block-intro-card');
     if(!cards.length) return false;
     return cards.some(function(card){ return card.classList.contains('clicked'); });
   }
@@ -99,11 +154,12 @@
   function enhanceSections(){
     if(enhanced) return;
     enhanced = true;
-    BLOCK_PART_ORDER.forEach(function(key){
+    discoverBlockOrder();
+    BLOCK_PART_ORDER.forEach(function(key, index){
       var section = document.getElementById(key);
       if(!section || !section.classList.contains('gated-block')) return;
       if(section.querySelector('.block-part-head')) return;
-      var meta = META[key] || { variant: 'foundations', kicker: key, title: key, text: '' };
+      var meta = resolveMeta(key, section, index);
       section.classList.add('block-part', 'block-part--' + meta.variant);
       section.setAttribute('data-block-part', key);
 
@@ -123,9 +179,9 @@
       head.setAttribute('aria-controls', wrap.id);
       head.innerHTML =
         '<div class="block-part-head-main">' +
-          '<p class="block-part-kicker">' + meta.kicker + '</p>' +
-          '<h3 class="block-part-title">' + meta.title + '</h3>' +
-          (meta.text ? '<p class="block-part-text">' + meta.text + '</p>' : '') +
+          '<p class="block-part-kicker">' + escapeHtml(meta.kicker) + '</p>' +
+          '<h3 class="block-part-title">' + escapeHtml(meta.title) + '</h3>' +
+          (meta.text ? '<p class="block-part-text">' + escapeHtml(meta.text) + '</p>' : '') +
         '</div>' +
         '<div class="block-part-head-meta">' +
           '<span class="block-part-status" data-block-part-status data-state="not_started">Not started</span>' +
@@ -194,13 +250,14 @@
 
     if(!options.skipAutoAdvance){
       var current = openBlockPart;
+      var idx = BLOCK_PART_ORDER.indexOf(current);
       if(
-        (current === 'block1' || current === 'block2' || current === 'block3') &&
+        idx >= 0 &&
+        idx < BLOCK_PART_ORDER.length - 1 &&
         states[current] === 'complete' &&
         !autoAdvanced[current]
       ){
         autoAdvanced[current] = true;
-        var idx = BLOCK_PART_ORDER.indexOf(current);
         var next = BLOCK_PART_ORDER[idx + 1];
         if(next){
           setOpen(next, { scroll: true });
@@ -209,7 +266,7 @@
       }
     }
 
-    if(BLOCK_PART_ORDER.indexOf(openBlockPart) < 0) openBlockPart = 'block1';
+    if(BLOCK_PART_ORDER.indexOf(openBlockPart) < 0) openBlockPart = BLOCK_PART_ORDER[0] || 'block1';
     setOpen(openBlockPart, { scroll: false });
   }
 
@@ -229,7 +286,6 @@
       });
     });
 
-    // Roadmap / hash navigation should open the matching block
     document.addEventListener('click', function(e){
       var link = e.target && e.target.closest ? e.target.closest('a[href^="#block"]') : null;
       if(!link) return;
@@ -243,8 +299,7 @@
     });
 
     var openEl = document.querySelector('.section.block-part.is-open[data-block-part]');
-    openBlockPart = (openEl && openEl.getAttribute('data-block-part')) || 'block1';
-    // Prefer first unlocked incomplete block on first paint
+    openBlockPart = (openEl && openEl.getAttribute('data-block-part')) || (BLOCK_PART_ORDER[0] || 'block1');
     var preferred = null;
     for(var i = 0; i < BLOCK_PART_ORDER.length; i++){
       var k = BLOCK_PART_ORDER[i];
@@ -262,13 +317,15 @@
     wire();
   }
 
-  global.ModuleBlockAccordion = {
+  var api = {
     init: init,
     refresh: refresh,
     setOpen: setOpen,
     ensureOpen: ensureOpen,
     getState: getBlockPartState,
     getOpen: function(){ return openBlockPart; },
-    ORDER: BLOCK_PART_ORDER.slice()
+    ORDER: []
   };
+
+  global.ModuleBlockAccordion = api;
 })(typeof window !== 'undefined' ? window : this);

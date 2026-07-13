@@ -14,6 +14,7 @@
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260611a');
   @import url('/assets/training-flow-guide.css?v=20260820');
+  @import url('/assets/module-block-accordion.css?v=20260713accordion2');
 
   :root{
       --blue:#2d84b3;
@@ -4508,7 +4509,8 @@
     </div>
   </div>
 
-  <script>
+    <script src="/shared/module-block-accordion.js?v=20260713accordion2"></script>
+<script>
     function getConceptTitleIcon(title, target, block){
       var key = [title || '', target || '', block || ''].join(' ').toLowerCase();
       var icon = 'spark';
@@ -6514,6 +6516,7 @@
         lockBox.querySelector('.lock-message').innerHTML = '<strong>Unlocked.</strong> You can now complete the reflection checkpoint.';
       }
       if(gate) gate.classList.add('open');
+  if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
     }
 
     function setupDwellTime(){
@@ -6621,11 +6624,15 @@
     }
 
     function unlockStage(stageId){
-      const section = document.getElementById(stageId);
-      if(section){
-        section.classList.remove('gated-locked');
-      }
-    }
+  const section = document.getElementById(stageId);
+  if(section){
+    section.classList.remove('gated-locked');
+  }
+  if(window.ModuleBlockAccordion && /^block\d+$/.test(String(stageId || ''))){
+    ModuleBlockAccordion.ensureOpen(stageId, { scroll: true });
+    ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
+  }
+}
 
     function updateConceptProgress(block){
       const count = conceptCompletion[block].size;
@@ -6644,7 +6651,8 @@
       if(count === total){
         tryUnlockBlockGate(block);
       }
-    }
+      if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
+}
 
     function markConceptComplete(block, target){
       conceptCompletion[block].add(target);
@@ -7652,6 +7660,7 @@
             feedback.textContent = correctFeedback[block];
             feedback.className = 'feedback show good';
             if(checkbox) checkbox.disabled = false;
+            if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
           } else {
             feedback.textContent = wrongFeedback[block];
             feedback.className = 'feedback show warn';
@@ -7661,6 +7670,7 @@
               checkbox.closest('.check-item')?.classList.remove('clicked');
             }
             updateProgress();
+            if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
           }
         });
       });
@@ -7672,6 +7682,7 @@
         unlockStage(next);
       }
       updateProgress();
+  if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh();
     }
 
     function setupChecks(){
@@ -7913,6 +7924,7 @@
     setupModal();
     if(REVIEW_MODE) enableReviewMode();
     updateProgress();
+    if(window.ModuleBlockAccordion) ModuleBlockAccordion.init();
     document.querySelectorAll('.btn-save-progress').forEach(function(btn){
       btn.addEventListener('click', function(){
         if(REVIEW_MODE) return;

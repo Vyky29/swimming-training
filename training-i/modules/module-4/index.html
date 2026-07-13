@@ -14,7 +14,7 @@
   @import url('/assets/key-ideas-recap-system.css?v=20260623');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260812');
-  @import url('/assets/module-block-accordion.css?v=20260713accordion');
+  @import url('/assets/module-block-accordion.css?v=20260713accordion2');
   @import url('/assets/programme-journey-map.css?v=20260713ocean-fix');
 
   :root{
@@ -7007,7 +7007,7 @@
   </div>
 
   <script src="/shared/parent-subconcept-layout.js"></script>
-  <script src="/shared/module-block-accordion.js?v=20260713accordion"></script>
+  <script src="/shared/module-block-accordion.js?v=20260713accordion2"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function(){
     if (typeof console !== 'undefined') console.log('Module 4: DOMContentLoaded');
@@ -8991,7 +8991,7 @@
       if(section){
         section.classList.remove('gated-locked');
       }
-      if(window.ModuleBlockAccordion && /^block[1-4]$/.test(String(stageId || ''))){
+      if(window.ModuleBlockAccordion && /^block\d+$/.test(String(stageId || ''))){
         ModuleBlockAccordion.ensureOpen(stageId, { scroll: true });
         ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
       }

@@ -11,6 +11,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
     @import url('/assets/key-ideas-recap-system.css?v=20260623');
+  @import url('/assets/module-block-accordion.css?v=20260713accordion2');
   
     :root{
       --blue:#2d84b3;
@@ -4129,7 +4130,8 @@
     </div>
   </div>
   
-  <script>
+    <script src="/shared/module-block-accordion.js?v=20260713accordion2"></script>
+<script>
     const conceptContent = {
       b1c1: {
         title: 'Concept 1 - Two Ways of Understanding Swimming',
@@ -4344,6 +4346,7 @@
         lockBox.querySelector('.lock-message').innerHTML = '<strong>Unlocked.</strong> You can now complete the reflection checkpoint.';
       }
       if(gate) gate.classList.add('open');
+  if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
     }
   
     function setupDwellTime(){
@@ -4451,11 +4454,15 @@
     }
   
     function unlockStage(stageId){
-      const section = document.getElementById(stageId);
-      if(section){
-        section.classList.remove('gated-locked');
-      }
-    }
+  const section = document.getElementById(stageId);
+  if(section){
+    section.classList.remove('gated-locked');
+  }
+  if(window.ModuleBlockAccordion && /^block\d+$/.test(String(stageId || ''))){
+    ModuleBlockAccordion.ensureOpen(stageId, { scroll: true });
+    ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
+  }
+}
 
     function enableReviewMode(){
       if(!REVIEW_MODE) return;
@@ -4498,7 +4505,8 @@
       if(count === total){
         tryUnlockBlockGate(block);
       }
-    }
+      if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
+}
   
     function markConceptComplete(block, target){
       conceptCompletion[block].add(target);
@@ -6008,6 +6016,7 @@
       const checkbox = document.querySelector(`[data-check-for="${block}"]`);
       if(!gate || !feedback || !checkbox) return;
       if(REVIEW_MODE) checkbox.disabled = false;
+            if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
 
       function setGood(message){
         feedback.textContent = message;
@@ -6023,6 +6032,7 @@
         checkbox.checked = false;
         checkbox.closest('.check-item')?.classList.remove('clicked');
         updateProgress();
+            if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
       }
 
       if(gate.dataset.reflectionType === 'questions'){
@@ -6126,6 +6136,7 @@
         unlockStage(next);
       }
       updateProgress();
+  if(window.ModuleBlockAccordion) ModuleBlockAccordion.refresh();
     }
   
     function setupChecks(){
@@ -6494,6 +6505,7 @@
     setupModal();
     enableReviewMode();
     updateProgress();
+    if(window.ModuleBlockAccordion) ModuleBlockAccordion.init();
     document.querySelectorAll('.btn-save-progress').forEach(function(btn){
       btn.addEventListener('click', function(){
         var cb = document.querySelector('.overall-check[data-stage-check="complete"]');
