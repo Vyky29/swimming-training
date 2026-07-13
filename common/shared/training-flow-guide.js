@@ -1140,20 +1140,23 @@
       return false;
     }
 
+    // Non-M5 / flat panels: only incomplete when explicitly marked false.
+    // Missing choiceShellComplete on generic [data-concept-activity-title] must NOT block Done.
     var incompleteShell = panel.querySelector(
       '[data-concept-activity-title][data-choice-shell-complete="false"], ' +
       '[data-m5-b2-choice-mount][data-choice-shell-complete="false"], ' +
       '[data-m5-b2-nested-key][data-choice-shell-complete="false"]'
     );
     if(incompleteShell) return true;
+
     var nestedKeysAll = panel.querySelectorAll('[data-m5-b2-nested-key]');
     for(var j = 0; j < nestedKeysAll.length; j++){
       if(nestedKeysAll[j].dataset.choiceShellComplete !== 'true') return true;
     }
-    var actTitle = panel.querySelector('[data-concept-activity-title]');
-    if(actTitle && actTitle.dataset.choiceShellComplete !== 'true') return true;
-    var flatMount = getFlatConceptActivityShell(panel);
-    if(flatMount && flatMount.dataset.choiceShellComplete !== 'true') return true;
+
+    var m5Mount = panel.querySelector('[data-m5-b2-choice-mount]');
+    if(m5Mount && m5Mount.dataset.choiceShellComplete !== 'true') return true;
+
     return false;
   }
 
@@ -1203,11 +1206,17 @@
   function isActivityIncomplete(panel){
     if(!panel || !panelHasGuidedActivity(panel)) return false;
     if(panel.dataset.activityComplete === 'true' || panel.getAttribute('data-activity-complete') === 'true') return false;
+    if(panel.dataset.categorizeComplete === 'true') return false;
 
     // Match / apply activities: green success feedback means the activity gate is done
     var activityRoot = findActivityRoot(panel);
     if(activityRoot && activityRoot.querySelector('.match-game, [data-matching-activity], .matching-wrap') &&
       matchingSuccessFeedback(activityRoot)){
+      return false;
+    }
+    if(activityRoot && activityRoot.querySelector('[data-categorize-activity]') &&
+      (matchingSuccessFeedback(activityRoot) ||
+        activityRoot.querySelector('[data-categorize-feedback].is-correct, [data-activity-feedback].is-correct, .feedback.show.good'))){
       return false;
     }
 
@@ -1216,13 +1225,16 @@
 
     if(panel.querySelector('[data-carousel], [data-carousel-activity]') && panel.dataset.carouselComplete !== 'true') return true;
     if(panel.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true'){
-      if(!panel.querySelector('[data-concept-activity-title][data-choice-shell-complete="true"]')) return true;
+      if(!panel.querySelector('[data-concept-activity-title][data-choice-shell-complete="true"]') &&
+        !panel.querySelector('[data-activity-feedback].is-correct, .feedback.show.good')) return true;
     }
     if(isMatchingActivityIncomplete(panel)) return true;
-    if(panel.querySelector('[data-categorize-activity]') && panel.dataset.categorizeComplete !== 'true'){
-      var categorizeRoot = panel.querySelector('[data-categorize-activity]');
-      var categorizeBlock = categorizeRoot && categorizeRoot.closest('.concept-activity-interactive[data-activity]');
-      if(!categorizeBlock || !categorizeBlock.querySelector('.feedback.show.good')) return true;
+    if(panel.querySelector('[data-categorize-activity]')){
+      var catDone = panel.dataset.categorizeComplete === 'true' ||
+        !!panel.querySelector(
+          '.feedback.show.good, [data-activity-feedback].is-correct, [data-categorize-feedback].is-correct'
+        );
+      if(!catDone) return true;
     }
     if(panel.querySelector('[data-sequence-activity], [data-sequence-list]') && panel.dataset.sequenceComplete !== 'true') return true;
     if(panel.querySelector('[data-reflect-continue]') && panel.dataset.reflectAckComplete !== 'true') return true;
@@ -1348,27 +1360,43 @@
     var navButtons = $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn', nav);
     if(!navButtons.length) return null;
 
-    var unvisited = navButtons.filter(function(btn){ return !isConceptDone(btn); });
-    if(!unvisited.length) return null;
-
     var current = panel.dataset.currentTarget || '';
     var isLeafTarget = navButtons.some(function(btn){ return getNavTarget(btn) === current; });
+    // On a leaf: let leaf pillars / activity / Done run ? do not steal the pulse here
+    if(isLeafTarget) return null;
 
-    if(isLeafTarget){
-      var hasIncomplete = getVisibleInsightPillars(panel).length || hasUnclickedKeyIdeasInScope(panel);
-      var finish = panel.querySelector('[data-finish-concept]');
-      if(hasIncomplete || (finish && finish.disabled) || isActivityIncomplete(panel)) return null;
-      return null;
-    }
+    var unvisited = navButtons.filter(function(btn){
+      return !isConceptDone(btn) && !isConceptLocked(btn, activeModuleConfig);
+    });
+    if(!unvisited.length) return null;
 
     var panelBlock = panel.getAttribute('data-panel-for');
     if(panelBlock && blockConceptsComplete(panelBlock)) return null;
 
+    var btn = null;
+    for(var i = 0; i < navButtons.length; i++){
+      if(navButtons[i].classList.contains('is-next') && !isConceptDone(navButtons[i]) && !isConceptLocked(navButtons[i], activeModuleConfig)){
+        btn = navButtons[i];
+        break;
+      }
+    }
+    if(!btn) btn = unvisited[0];
+
     return {
       kind: 'subconcept',
-      el: unvisited[0],
-      label: 'Choose the next subconcept'
+      el: btn,
+      label: (btn.textContent || '').replace(/\s+/g, ' ').trim() || 'Choose the next subconcept'
     };
+  }
+
+  function parentHubContentReady(panel){
+    if(!panel) return true;
+    if(getVisibleInsightPillars(panel).length) return false;
+    if(!preKeyIdeasVisualsComplete(panel)) return false;
+    if(hasUnclickedKeyIdeasInScope(panel)) return false;
+    if(!inPracticeFlowComplete(panel)) return false;
+    if(isActivityIncomplete(panel)) return false;
+    return true;
   }
 
   function resolveParentSubconceptResume(panel, moduleConfig){
@@ -1442,9 +1470,6 @@
     var panelBlock = panel.getAttribute('data-panel-for');
     if(panelBlock && blockConceptsComplete(panelBlock)) return null;
 
-    var parentSubconceptStep = resolveParentSubconceptResume(panel, activeModuleConfig);
-    if(parentSubconceptStep) return withM5Tone(panel, parentSubconceptStep);
-
     var introSlot = panel.querySelector('.concept-intro-slot');
     var pillars = introSlot && isVisibleEl(introSlot)
       ? introSlot.querySelectorAll('.concept-insight-pillar:not(.clicked)')
@@ -1485,16 +1510,22 @@
     var postActivityVisualStep = resolveNextVisualExpand(panel, { phase: 'postActivity' });
     if(postActivityVisualStep) return withM5Tone(panel, postActivityVisualStep);
 
-    var subconceptStep = resolveSubconceptNav(panel);
-    if(subconceptStep){
-      var btn = subconceptStep.el;
-      var label = btn && btn.textContent ? btn.textContent.replace(/\s+/g, ' ').trim() : subconceptStep.label;
-      return sectionScrollStep('subconcept', btn, label || subconceptStep.label, {
-        scrollEl: btn.closest('.overview-subconcept-grid') || btn,
-        scrollBlock: 'center',
-        forceScroll: true,
-        tone: 'expand'
-      });
+    // Subconcepts only after parent hub content is ready (do not skip intro/activity)
+    if(parentHubContentReady(panel)){
+      var parentSubconceptStep = resolveParentSubconceptResume(panel, activeModuleConfig);
+      if(parentSubconceptStep) return withM5Tone(panel, parentSubconceptStep);
+
+      var subconceptStep = resolveSubconceptNav(panel);
+      if(subconceptStep){
+        var btn = subconceptStep.el;
+        var label = btn && btn.textContent ? btn.textContent.replace(/\s+/g, ' ').trim() : subconceptStep.label;
+        return sectionScrollStep('subconcept', btn, label || subconceptStep.label, {
+          scrollEl: btn.closest('.overview-subconcept-grid') || btn.closest('[data-parent-subconcept-nav]') || btn,
+          scrollBlock: 'center',
+          forceScroll: true,
+          tone: 'expand'
+        });
+      }
     }
 
     var finishStep = resolveM5FinishStep(panel);
@@ -1552,28 +1583,42 @@
     return block.replace('block', 'Block ');
   }
 
+  function bypassReflectionGate(block){
+    var gate = document.querySelector('[data-gate="' + block + '"]');
+    var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
+    var blockCheck = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
+    if(lockBox){
+      lockBox.classList.add('ready');
+      var msg = lockBox.querySelector('.lock-message');
+      if(msg) msg.innerHTML = '<strong>Unlocked.</strong> Mark this block complete to continue.';
+    }
+    if(gate){
+      gate.classList.add('open');
+      gate.setAttribute('data-reflection-bypassed', 'true');
+      gate.hidden = true;
+      var correct = gate.querySelector('input[type="radio"][value="correct"]');
+      if(correct && !correct.checked){
+        correct.checked = true;
+        try {
+          correct.dispatchEvent(new Event('change', { bubbles: true }));
+        } catch(err){}
+      }
+      var feedback = gate.querySelector('.feedback, [data-feedback]');
+      if(feedback) feedback.className = 'feedback show good';
+    }
+    if(blockCheck) blockCheck.disabled = false;
+  }
+
   function resolveReflectionCheckpoint(block){
     if(!blockConceptsComplete(block)) return null;
 
-    var gate = document.querySelector('[data-gate="' + block + '"]');
+    // Reflection quizzes add friction without enough learning value ? skip to block Done
+    bypassReflectionGate(block);
+
     var blockCheck = document.querySelector('input[data-check-for="' + block + '"], input[data-stage-check="' + block + '"]');
     if(blockCheck && isChecked(blockCheck)) return null;
 
-    if(!gate || !gate.classList.contains('open')){
-      var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
-      if(lockBox){
-        return sectionScrollStep('block-progress', lockBox, 'Complete the reflection checkpoint', {
-          scrollEl: lockBox,
-          scrollBlock: 'reflection-view',
-          scrollBlockId: block,
-          forceScroll: true,
-          tone: 'primary'
-        });
-      }
-      return null;
-    }
-
-    if(reflectionQuestionPassed(block) && blockCheck && !isChecked(blockCheck)){
+    if(blockCheck && !isChecked(blockCheck)){
       var checkItem = blockCheck.closest('.check-item') || blockCheck;
       return sectionScrollStep('block-check', checkItem, 'Mark ' + getBlockDisplayName(block) + ' complete', {
         scrollEl: checkItem,
@@ -1582,28 +1627,6 @@
         forceScroll: true,
         tone: 'primary',
         pulseEls: [checkItem]
-      });
-    }
-
-    if(!reflectionQuestionPassed(block)){
-      var options = gate.querySelectorAll('.option');
-      var firstOption = null;
-      for(var o = 0; o < options.length; o++){
-        if(!options[o].querySelector('input:checked')){
-          firstOption = options[o];
-          break;
-        }
-      }
-      if(!firstOption && options.length) firstOption = options[0];
-      var pulseTargets = [gate];
-      if(firstOption) pulseTargets.push(firstOption);
-      return sectionScrollStep('reflection', firstOption || gate, 'Answer the reflection checkpoint', {
-        scrollEl: gate,
-        scrollBlock: 'reflection-view',
-        scrollBlockId: block,
-        forceScroll: true,
-        pulseEls: pulseTargets,
-        tone: 'reflection'
       });
     }
 
@@ -2138,15 +2161,61 @@
     var reflectionStep = resolveReflectionCheckpoint(block);
     if(reflectionStep) return reflectionStep;
 
-    if(blockConceptsComplete(block) && !reflectionDone(block) && !isReflectionPhase(block)){
-      var waitLock = document.querySelector('[data-lock-box="' + block + '"]');
-      if(waitLock){
-        return sectionScrollStep('block-progress', waitLock, 'Reflection checkpoint unlocks shortly', {
-          scrollEl: waitLock,
+    return null;
+  }
+
+  function resolveKeyIdeasRecapSection(sectionId){
+    if(sectionId !== 'recap' && sectionId !== 'keyideas') return null;
+    if(!isModuleStarted()) return null;
+    if(!isChecked($('input[data-stage-check="journey"]'))) return null;
+    if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
+    if(!insideModuleReviewed()) return null;
+
+    var section = document.getElementById(sectionId);
+    if(!section || section.classList.contains('gated-locked')) return null;
+
+    var check = section.querySelector('input[data-stage-check="' + sectionId + '"]') ||
+      $('input[data-stage-check="' + sectionId + '"]');
+    if(check && isChecked(check)) return null;
+
+    var cards = section.querySelectorAll(
+      '.recap-stack--key-ideas .recap-takeaway-card, ' +
+      '.recap-stack--key-ideas .recap-card.clickable-progress, ' +
+      '#recap .recap-takeaway-card, #keyideas .recap-takeaway-card'
+    );
+    for(var i = 0; i < cards.length; i++){
+      if(cards[i].classList.contains('clicked')) continue;
+      if(!isVisibleEl(cards[i])) continue;
+      var title = cards[i].querySelector('.recap-takeaway-card__title, h4');
+      var label = title && title.textContent
+        ? ('Read: ' + title.textContent.replace(/\s+/g, ' ').trim())
+        : ('Review key idea ' + (i + 1));
+      return sectionScrollStep('recap-idea', cards[i], label, {
+        scrollEl: cards[i],
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand',
+        keyToken: sectionId + ':idea:' + i
+      });
+    }
+
+    if(check && !isChecked(check)){
+      if(isDisabled(check)){
+        return sectionScrollStep('recap-wait', section, 'Spend a moment reviewing these key ideas', {
+          scrollEl: section.querySelector('.recap-stack--key-ideas') || section,
           scrollBlock: 'start',
-          forceScroll: true
+          forceScroll: true,
+          tone: 'expand',
+          keyToken: sectionId + ':wait'
         });
       }
+      return sectionScrollStep('recap-check', check.closest('.check-item') || check, 'Confirm you have reviewed the key ideas', {
+        scrollEl: check.closest('.key-ideas-recap__footer') || check.closest('.check-item') || check,
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'primary',
+        keyToken: sectionId + ':check'
+      });
     }
 
     return null;
@@ -2158,6 +2227,9 @@
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
     if(!insideModuleReviewed()) return null;
+
+    var recapStep = resolveKeyIdeasRecapSection(sectionId);
+    if(recapStep) return recapStep;
 
     var check = $('input[data-stage-check="' + sectionId + '"]');
     if(!check || isChecked(check)) return null;
@@ -2295,10 +2367,13 @@
       'expand-visual': true,
       'block-intro': true,
       'keyidea': true,
+      'recap-idea': true,
       'outcome': true,
       'pillar': true,
       'concept': true,
       'subconcept': true,
+      'stage-card': true,
+      'stage-level': true,
       'block-progress': true,
       'finish': true
     };
@@ -2475,10 +2550,11 @@
 
 
   var VARIANT_RGB = {
-    foundations: '45, 132, 179',
-    core: '123, 47, 161',
-    pathway: '26, 92, 56',
-    progress: '201, 120, 22'
+    module: '45, 132, 179',       /* club / hub / journey / recap */
+    foundations: '234, 143, 34',  /* Block 1 ? orange (not module blue) */
+    core: '123, 47, 161',         /* Block 2 ? purple */
+    pathway: '26, 92, 56',        /* Block 3 ? green */
+    progress: '212, 168, 35'      /* Block 4 ? yellow */
   };
 
   var STAGE_THEME_RGB = {
@@ -2515,10 +2591,12 @@
     var openPanel = getActiveOpenPanel();
     if(!blockId && openPanel) blockId = openPanel.getAttribute('data-panel-for');
 
-    var variant = detectBlockVariant(blockId) || 'foundations';
+    var variant = blockId
+      ? (detectBlockVariant(blockId) || 'foundations')
+      : 'module';
     root.setAttribute('data-guided-block-variant', variant);
 
-    var accentRgb = VARIANT_RGB[variant] || VARIANT_RGB.foundations;
+    var accentRgb = VARIANT_RGB[variant] || VARIANT_RGB.module;
     var panel = (step && step.el && step.el.closest && step.el.closest('.concept-panel')) || openPanel;
     if(panel){
       var stageTheme = panel.getAttribute('data-stage-theme') || panel.dataset.stageTheme || '';
@@ -2844,6 +2922,15 @@
           }
           bumpFlowAdvance(moduleConfig, 180);
         }
+      }
+
+      var recapIdea = e.target.closest && e.target.closest(
+        '.recap-takeaway-card, .recap-stack--key-ideas .recap-card.clickable-progress'
+      );
+      if(recapIdea){
+        setTimeout(function(){
+          bumpFlowAdvance(moduleConfig, 140);
+        }, 0);
       }
 
       var panel = e.target.closest && e.target.closest('.concept-panel.show');

@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260713pulse17');
+  @import url('/assets/training-flow-guide.css?v=20260713pulse20');
   @import url('/assets/module-block-accordion.css?v=20260713accordion5');
   @import url('/assets/programme-journey-map.css?v=20260713ocean-fix');
 
@@ -10467,14 +10467,37 @@
         }
         var allCorrect = inZones.every(function(o){ return o.el.dataset.category === o.zone; });
         inZones.forEach(function(o){ if(o.el.dataset.category === o.zone) o.el.classList.add('correct'); });
+        var panel = activityRootEl.closest('.concept-panel');
         if(allCorrect){
-          feedbackEl.textContent = okMsg || 'All correct!';
+          feedbackEl.textContent = okMsg || 'Well done — all correct!';
           feedbackEl.className = 'feedback show good';
+          if(panel){
+            panel.dataset.categorizeComplete = 'true';
+            panel.dataset.activityComplete = 'true';
+            panel.setAttribute('data-activity-complete', 'true');
+            if(typeof syncConceptFinishBtn === 'function'){
+              syncConceptFinishBtn(panel, panel.dataset.currentBlock, panel.dataset.currentTarget, { respectDwell: true });
+            }
+          }
+          if(window.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+            TrainingFlowGuide.bumpFlowAdvance(220);
+          }
         } else {
           var toPool = inZones.filter(function(o){ return o.el.dataset.category !== o.zone; }).map(function(o){ return o.el; });
           toPool.forEach(function(el){ el.classList.remove('correct'); poolItems.appendChild(el); });
           feedbackEl.textContent = (requiredCount - toPool.length) + ' correct! Move the remaining ' + toPool.length + ' into the right area.';
           feedbackEl.className = 'feedback show warn';
+          if(panel){
+            panel.dataset.categorizeComplete = '';
+            delete panel.dataset.activityComplete;
+            panel.removeAttribute('data-activity-complete');
+            if(typeof syncConceptFinishBtn === 'function'){
+              syncConceptFinishBtn(panel, panel.dataset.currentBlock, panel.dataset.currentTarget, { respectDwell: true });
+            }
+          }
+          if(window.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+            TrainingFlowGuide.bumpFlowAdvance(160);
+          }
         }
       }
       activityRootEl.querySelectorAll('.categorize-item').forEach(function(item){
@@ -11916,7 +11939,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713pulse17"></script>
+  <script src="/shared/training-flow-guide.js?v=20260713pulse20"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

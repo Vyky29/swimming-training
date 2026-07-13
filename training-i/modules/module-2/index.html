@@ -13,7 +13,7 @@
   @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260713pulse17');
+  @import url('/assets/training-flow-guide.css?v=20260713pulse20');
   @import url('/assets/module-block-accordion.css?v=20260713accordion5');
 
   :root{
@@ -2750,6 +2750,17 @@
     word-wrap:break-word;
     overflow-wrap:break-word;
   }
+
+  .categorize-feedback.is-correct,
+  .categorize-feedback.show.good{
+    margin-top:12px;
+    padding:12px 14px;
+    border-radius:12px;
+    background:rgba(32,124,82,.12);
+    color:#1a5c38;
+    border:1px solid rgba(32,124,82,.28);
+  }
+
   .sequence-list{
     display:grid;
     gap:10px;
@@ -5867,15 +5878,41 @@
       allPlaced = inZones.length === requiredCount;
       allCorrect = allPlaced && inZones.every(function(o){ return o.el.dataset.category === o.zone; });
       panel.dataset.categorizeComplete = allCorrect ? 'true' : '';
+      if(allCorrect){
+        panel.dataset.activityComplete = 'true';
+        panel.setAttribute('data-activity-complete', 'true');
+        var actShell = panel.querySelector('[data-concept-activity-title]');
+        if(actShell) actShell.dataset.choiceShellComplete = 'true';
+      } else {
+        delete panel.dataset.activityComplete;
+        panel.removeAttribute('data-activity-complete');
+        var actShellClear = panel.querySelector('[data-concept-activity-title]');
+        if(actShellClear) delete actShellClear.dataset.choiceShellComplete;
+      }
       updateConceptFinishState(panel, block, target);
       if(allPlaced && allCorrect){
         if(feedbackEl){
-          var successMsg = conceptContent[target] && conceptContent[target].categorizeSuccess ? conceptContent[target].categorizeSuccess : 'All correct!';
+          var successMsg = conceptContent[target] && conceptContent[target].categorizeSuccess ? conceptContent[target].categorizeSuccess : 'Well done — all correct!';
           feedbackEl.textContent = successMsg;
-          feedbackEl.style.color = 'var(--successText)';
+          feedbackEl.classList.add('is-correct', 'show', 'good');
+          feedbackEl.style.color = '';
+        }
+        var sharedFb = panel.querySelector('[data-activity-feedback]');
+        if(sharedFb){
+          sharedFb.hidden = false;
+          sharedFb.textContent = (conceptContent[target] && conceptContent[target].categorizeSuccess) ? conceptContent[target].categorizeSuccess : 'Well done — all correct!';
+          sharedFb.classList.add('is-correct', 'show', 'good');
+        }
+        if(window.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+          TrainingFlowGuide.bumpFlowAdvance(220);
         }
       } else if(inZones.length === 0){
-        if(feedbackEl) feedbackEl.textContent = '';
+        if(feedbackEl){
+          feedbackEl.textContent = '';
+          feedbackEl.classList.remove('is-correct', 'show', 'good');
+        }
+      } else if(feedbackEl){
+        feedbackEl.classList.remove('is-correct', 'show', 'good');
       }
     }
     panel.querySelectorAll('.categorize-item').forEach(function(item){
@@ -6883,7 +6920,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713pulse17"></script>
+  <script src="/shared/training-flow-guide.js?v=20260713pulse20"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

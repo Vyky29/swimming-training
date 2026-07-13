@@ -12,10 +12,11 @@ html[data-guided-flow="hub"]{
   --flow-pulse-glow: .22;
 }
 
-html[data-guided-block-variant="foundations"]{ --flow-accent-rgb: 45, 132, 179; }
+html[data-guided-block-variant="module"]{ --flow-accent-rgb: 45, 132, 179; }
+html[data-guided-block-variant="foundations"]{ --flow-accent-rgb: 234, 143, 34; }
 html[data-guided-block-variant="core"]{ --flow-accent-rgb: 123, 47, 161; }
 html[data-guided-block-variant="pathway"]{ --flow-accent-rgb: 26, 92, 56; }
-html[data-guided-block-variant="progress"]{ --flow-accent-rgb: 201, 120, 22; }
+html[data-guided-block-variant="progress"]{ --flow-accent-rgb: 212, 168, 35; }
 
 /* Place = color. Role tones all inherit the active place accent (block/stage/M5). */
 html[data-guided-flow="true"]{
@@ -77,7 +78,9 @@ html[data-guided-flow="true"]{
 
 .flow-guide-pulse.concept-insight-pillar,
 .flow-guide-pulse.key-idea-item,
-.flow-guide-pulse.stage-intro-card{
+.flow-guide-pulse.stage-intro-card,
+.flow-guide-pulse.recap-takeaway-card,
+.flow-guide-pulse.recap-card{
   border-radius: 12px;
 }
 
