@@ -156,6 +156,10 @@
   color:var(--block-accent-ink, var(--ink, #163247));
   letter-spacing:.01em;
 }
+.block-part--foundations .block-part-title{ color:#c2410c !important; }
+.block-part--core .block-part-title{ color:#7b2fa1 !important; }
+.block-part--pathway .block-part-title{ color:#1a5c38 !important; }
+.block-part--progress .block-part-title{ color:#a16207 !important; }
 .block-part-text{
   margin:0;
   font-size:.9rem;
@@ -369,11 +373,11 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
 
 /* ----- Generic block chrome (not specialty widgets) ----- */
 .portal .section.block-part .concept-stage h4{
-  color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3)));
+  color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3))) !important;
 }
 .portal .section.block-part .concept-stage > p strong,
 .portal .section.block-part .overview-subconcept-shell h5{
-  color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3)));
+  color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3))) !important;
 }
 .portal .section.block-part .block-header .block-title-wrap h3,
 .portal .section.block-part .block-title-wrap h3{
@@ -391,13 +395,19 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
 .portal .section.block-part .lead{
   color: var(--muted, #70808f);
 }
-.portal .section.block-part .icon-card .card-icon{
-  background: var(--concept-block-grad, var(--block-accent, #2d84b3));
-  box-shadow: 0 10px 20px rgba(var(--block-accent-rgb, 45, 132, 179), .22);
+.portal .section.block-part .icon-card .card-icon,
+.portal .section.block-part .block-intro-card .card-icon{
+  background: var(--block-accent, #2d84b3) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 20px rgba(var(--block-accent-rgb, 45, 132, 179), .22) !important;
 }
-.portal .section.block-part .icon-card:hover .card-icon{
-  background: var(--concept-block-hover, #eef6fc);
-  color: var(--ink, #163247);
+.portal .section.block-part .icon-card:hover .card-icon,
+.portal .section.block-part .block-intro-card:hover .card-icon{
+  background: var(--concept-block-hover, #eef6fc) !important;
+  color: var(--ink, #163247) !important;
+}
+.portal .section.block-part .block-intro-card h4{
+  color: var(--block-accent-ink, var(--block-accent, #2d84b3)) !important;
 }
 .portal .section.block-part .concept-finish:not([class*="level-"]):not([class*="stage-"]),
 .portal .section.block-part [data-finish-concept]:not([class*="level-"]):not([class*="stage-"]){
@@ -415,7 +425,7 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
   background: linear-gradient(90deg, var(--block-accent, #2d84b3), color-mix(in srgb, var(--block-accent, #2d84b3) 55%, #fff));
 }
 .portal .section.block-part .concept-points-box > h4{
-  color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3)));
+  color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3))) !important;
 }
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]){
   --concept-title-accent: var(--block-accent-ink, var(--block-accent, #2d84b3));
@@ -426,14 +436,113 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
   --key-idea-badge: var(--block-accent-ink, var(--block-accent, #2d84b3));
 }
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
-.portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title{
+.portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
+.portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) .concept-title-text,
+.portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) .concept-title-main{
   color: var(--block-accent-ink, var(--block-accent, #2d84b3)) !important;
+}
+.portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) .concept-title-icon{
+  color: var(--block-accent-ink, var(--block-accent, #2d84b3)) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.94) 0%, var(--block-accent-soft, rgba(45,132,179,.12)) 100%) !important;
+  box-shadow: inset 0 0 0 1px var(--block-accent-border, rgba(45,132,179,.18)), 0 8px 18px rgba(18,50,71,.08) !important;
 }
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) .concept-breadcrumb,
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) .concept-level-badge,
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) .concept-meta-badge{
-  background: var(--block-accent-soft, rgba(45, 132, 179, 0.1));
-  color: var(--block-accent-ink, var(--block-accent, #2d84b3));
+  background: var(--block-accent-soft, rgba(45, 132, 179, 0.1)) !important;
+  color: var(--block-accent-ink, var(--block-accent, #2d84b3)) !important;
+}
+.portal .section.block-part .overview-subconcept-shell h5,
+.portal .section.block-part [data-parent-subconcept-nav] h5,
+.portal .section.block-part .concept-parent-subconcepts h5{
+  color: var(--block-accent-ink, var(--block-accent, #2d84b3)) !important;
+}
+
+/* Hard per-variant colors so titles never fall back to module blue/ink */
+.portal .section.block-part--foundations .block-part-title,
+.portal .section.block-part--foundations .concept-stage h4,
+.portal .section.block-part--foundations .block-intro-card h4,
+.portal .section.block-part--foundations .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
+.portal .section.block-part--foundations .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
+.portal .section.block-part--foundations .concept-panel:not([data-stage-theme]):not([data-level]) .concept-title-text{
+  color: #c2410c !important;
+}
+.portal .section.block-part--core .block-part-title,
+.portal .section.block-part--core .concept-stage h4,
+.portal .section.block-part--core .block-intro-card h4,
+.portal .section.block-part--core .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
+.portal .section.block-part--core .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
+.portal .section.block-part--core .concept-panel:not([data-stage-theme]):not([data-level]) .concept-title-text{
+  color: #7b2fa1 !important;
+}
+.portal .section.block-part--pathway .block-part-title,
+.portal .section.block-part--pathway .concept-stage h4,
+.portal .section.block-part--pathway .block-intro-card h4,
+.portal .section.block-part--pathway .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
+.portal .section.block-part--pathway .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
+.portal .section.block-part--pathway .concept-panel:not([data-stage-theme]):not([data-level]) .concept-title-text{
+  color: #1a5c38 !important;
+}
+.portal .section.block-part--progress .block-part-title,
+.portal .section.block-part--progress .concept-stage h4,
+.portal .section.block-part--progress .block-intro-card h4,
+.portal .section.block-part--progress .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
+.portal .section.block-part--progress .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
+.portal .section.block-part--progress .concept-panel:not([data-stage-theme]):not([data-level]) .concept-title-text{
+  color: #a16207 !important;
+}
+
+/* Block Focus / Covers cards — force accent (beat html[data-guided-flow] blue !important) */
+html[data-guided-flow="true"] .section.block-part--foundations .block-intro-card:not(.clicked),
+html:not([data-guided-flow="true"]) .section.block-part--foundations .block-intro-card,
+html[data-guided-flow="true"] .section.block-part--foundations .block-intro-card.clicked{
+  background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%) !important;
+  border: 2px solid #ea8f22 !important;
+  box-shadow: 0 6px 20px rgba(234, 143, 34, .22) !important;
+}
+html[data-guided-flow="true"] .section.block-part--foundations .block-intro-card .card-icon,
+html:not([data-guided-flow="true"]) .section.block-part--foundations .block-intro-card .card-icon{
+  background: #ea8f22 !important;
+  color: #fff !important;
+}
+
+html[data-guided-flow="true"] .section.block-part--core .block-intro-card:not(.clicked),
+html:not([data-guided-flow="true"]) .section.block-part--core .block-intro-card,
+html[data-guided-flow="true"] .section.block-part--core .block-intro-card.clicked{
+  background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%) !important;
+  border: 2px solid #7b2fa1 !important;
+  box-shadow: 0 6px 20px rgba(123, 47, 161, .22) !important;
+}
+html[data-guided-flow="true"] .section.block-part--core .block-intro-card .card-icon,
+html:not([data-guided-flow="true"]) .section.block-part--core .block-intro-card .card-icon{
+  background: #7b2fa1 !important;
+  color: #fff !important;
+}
+
+html[data-guided-flow="true"] .section.block-part--pathway .block-intro-card:not(.clicked),
+html:not([data-guided-flow="true"]) .section.block-part--pathway .block-intro-card,
+html[data-guided-flow="true"] .section.block-part--pathway .block-intro-card.clicked{
+  background: linear-gradient(180deg, #edf7f1 0%, #ffffff 100%) !important;
+  border: 2px solid #1a5c38 !important;
+  box-shadow: 0 6px 20px rgba(26, 92, 56, .2) !important;
+}
+html[data-guided-flow="true"] .section.block-part--pathway .block-intro-card .card-icon,
+html:not([data-guided-flow="true"]) .section.block-part--pathway .block-intro-card .card-icon{
+  background: #1a5c38 !important;
+  color: #fff !important;
+}
+
+html[data-guided-flow="true"] .section.block-part--progress .block-intro-card:not(.clicked),
+html:not([data-guided-flow="true"]) .section.block-part--progress .block-intro-card,
+html[data-guided-flow="true"] .section.block-part--progress .block-intro-card.clicked{
+  background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%) !important;
+  border: 2px solid #d4a823 !important;
+  box-shadow: 0 6px 20px rgba(212, 168, 35, .22) !important;
+}
+html[data-guided-flow="true"] .section.block-part--progress .block-intro-card .card-icon,
+html:not([data-guided-flow="true"]) .section.block-part--progress .block-intro-card .card-icon{
+  background: #d4a823 !important;
+  color: #fff !important;
 }
 
 @media (max-width:720px){
