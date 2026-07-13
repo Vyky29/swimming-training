@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var HINT_COPY = "Click to confirm you've read this scenario.";
+  var HINT_COPY = 'Review this pool-side cue, then mark it done.';
 
   var ICON_POOL =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">' +
@@ -27,6 +27,24 @@
     return done ? ICON_DONE : ICON_POOL;
   }
 
+  function escapeHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function slotHtml(mod, label, text) {
+    if (!text) return '';
+    return (
+      '<div class="key-ideas-action__slot key-ideas-action__slot--' + mod + '">' +
+        '<p class="key-ideas-action__slot-label">' + label + '</p>' +
+        '<p class="key-ideas-action__slot-text' + (mod === 'move' ? ' text' : '') + '">' + escapeHtml(text) + '</p>' +
+      '</div>'
+    );
+  }
+
   function shellInnerHtml(done) {
     return (
       '<div class="key-ideas-action__body">' +
@@ -35,12 +53,16 @@
           '<div class="key-ideas-action-head">' +
             '<span class="icon" aria-hidden="true">' + iconHtml(!!done) + '</span>' +
             '<div class="key-ideas-action-head__meta">' +
+              '<span class="key-ideas-action-eyebrow">Session cue · clubSENsational</span>' +
               '<span class="label">In Practice</span>' +
               '<span class="key-ideas-action-hint">' + HINT_COPY + '</span>' +
             '</div>' +
           '</div>' +
-          '<div class="key-ideas-action__scenario">' +
-            '<p class="text"></p>' +
+          '<div class="key-ideas-action__scenario" data-in-practice-slots>' +
+            '<p class="text" hidden></p>' +
+          '</div>' +
+          '<div class="key-ideas-action__footer">' +
+            '<span class="key-ideas-action__cta">Mark as reviewed</span>' +
           '</div>' +
         '</div>' +
       '</div>'
@@ -57,6 +79,48 @@
       return InPracticeCopy.resolve(target, fallback);
     }
     return fallback || '';
+  }
+
+  function resolveCard(actionEl, fallback) {
+    var target = actionEl && actionEl.dataset.inPracticeTarget;
+    if (!target) {
+      var panel = actionEl && actionEl.closest('.concept-panel');
+      target = panel && panel.dataset.currentTarget;
+    }
+    if (window.InPracticeCopy && typeof InPracticeCopy.resolveCard === 'function') {
+      return InPracticeCopy.resolveCard(target, fallback);
+    }
+    if (window.InPracticeCopy && typeof InPracticeCopy.asCard === 'function') {
+      return InPracticeCopy.asCard(null, fallback || resolveCopy(actionEl, fallback));
+    }
+    var line = fallback || resolveCopy(actionEl, '');
+    return {
+      scene: '',
+      notice: '',
+      move: line,
+      watch: '',
+      next: ''
+    };
+  }
+
+  function renderCardSlots(actionEl, card) {
+    if (!actionEl || !card) return;
+    var scenario = actionEl.querySelector('[data-in-practice-slots]') || actionEl.querySelector('.key-ideas-action__scenario');
+    if (!scenario) return;
+
+    var html =
+      slotHtml('scene', 'In the pool', card.scene) +
+      slotHtml('notice', "What you'll notice", card.notice) +
+      slotHtml('move', 'Your move', card.move) +
+      slotHtml('watch', 'Watch for', card.watch) +
+      slotHtml('next', 'Try next', card.next);
+
+    // Keep a hidden .text with plain move for any legacy readers
+    html += '<p class="text" hidden>' + escapeHtml(card.move || '') + '</p>';
+
+    observerPaused = true;
+    scenario.innerHTML = html;
+    observerPaused = false;
   }
 
   function staticScreenKey(pointsBox) {
@@ -123,10 +187,6 @@
     actionEl.className = 'key-ideas-action';
     actionEl.dataset.inPracticeTarget = screenKey;
     actionEl.innerHTML = shellInnerHtml(false);
-    var textEl = actionEl.querySelector('.text');
-    if (textEl) {
-      textEl.textContent = resolveCopy(actionEl, fallback);
-    }
     pointsBox.appendChild(actionEl);
     bindStaticAction(actionEl);
     enhanceAction(actionEl, true);
@@ -145,15 +205,10 @@
   function applyScenarioCopy(actionEl) {
     if (!actionEl) return;
     var textEl = actionEl.querySelector('.text');
-    if (!textEl) return;
-    var current = (textEl.textContent || '').trim();
-    if (!current) return;
-    var refined = resolveCopy(actionEl, current);
-    if (refined && refined !== current) {
-      observerPaused = true;
-      textEl.textContent = refined;
-      observerPaused = false;
-    }
+    var current = textEl ? (textEl.textContent || '').trim() : '';
+    var card = resolveCard(actionEl, current);
+    if (!card || (!card.move && !card.scene)) return;
+    renderCardSlots(actionEl, card);
   }
 
   function refreshIcon(actionEl, done) {
@@ -179,7 +234,10 @@
   }
 
   function ensureStructure(actionEl) {
-    if (!actionEl || actionEl.querySelector('.key-ideas-action__content')) return false;
+    if (!actionEl) return false;
+    if (actionEl.querySelector('[data-in-practice-slots]') && actionEl.querySelector('.key-ideas-action-eyebrow')) {
+      return false;
+    }
 
     var textEl = actionEl.querySelector('.text');
     var text = textEl ? textEl.textContent : '';
@@ -203,8 +261,8 @@
     return !!(
       actionEl &&
       actionEl.querySelector('.key-ideas-action__content') &&
-      actionEl.querySelector('.key-ideas-action__wave') &&
-      actionEl.querySelector('.key-ideas-action__scenario .text')
+      actionEl.querySelector('.key-ideas-action-eyebrow') &&
+      actionEl.querySelector('[data-in-practice-slots]')
     );
   }
 
@@ -229,14 +287,6 @@
       wave.className = 'key-ideas-action__wave';
       wave.innerHTML = WAVE_SVG;
       body.insertBefore(wave, body.firstChild);
-      observerPaused = false;
-    }
-
-    var scenario = actionEl.querySelector('.key-ideas-action__scenario');
-    var textEl = actionEl.querySelector('.text');
-    if (textEl && scenario && textEl.parentElement !== scenario) {
-      observerPaused = true;
-      scenario.appendChild(textEl);
       observerPaused = false;
     }
 
@@ -337,7 +387,9 @@
     ensureStructure: ensureStructure,
     enhanceAction: enhanceAction,
     applyScenarioCopy: applyScenarioCopy,
+    renderCardSlots: renderCardSlots,
     resolveCopy: resolveCopy,
+    resolveCard: resolveCard,
     ensureStaticPointsBoxes: ensureStaticPointsBoxes
   };
 

@@ -1,26 +1,28 @@
 /**
- * In Practice ó premium pool-side scenario card (Training I & II)
+ * In Practice ù premium pool-side session card (Training I & II)
  * Loaded via training-content-containment.css after module inline styles.
  */
 
 .portal .concept-points-box .key-ideas-action {
   position: relative;
-  margin-top: clamp(16px, 2.2vw, 20px);
+  margin-top: clamp(18px, 2.4vw, 24px);
   display: block !important;
   padding: 0 !important;
   border: 1px solid rgba(45, 132, 179, 0.16) !important;
-  border-radius: 18px !important;
-  background: linear-gradient(155deg, #f7fcff 0%, #ffffff 42%, #f2f9fd 100%) !important;
+  border-radius: 22px !important;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(45, 132, 179, 0.08), transparent 55%),
+    linear-gradient(160deg, #f4fbff 0%, #ffffff 38%, #eef7fc 100%) !important;
   color: var(--text, #2a3f4f);
   cursor: pointer;
   overflow: hidden;
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.98) inset,
-    0 14px 32px rgba(18, 50, 71, 0.07) !important;
+    0 16px 36px rgba(18, 50, 71, 0.08) !important;
   transition:
-    transform 0.26s ease,
-    border-color 0.26s ease,
-    box-shadow 0.26s ease;
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
 }
 
 .portal .key-ideas-action::before {
@@ -29,10 +31,10 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
+  width: 5px;
   z-index: 2;
-  background: linear-gradient(180deg, #4a9cc4 0%, #2d84b3 55%, #1e6a94 100%);
-  border-radius: 18px 0 0 18px;
+  background: linear-gradient(180deg, #5eb0d4 0%, #2d84b3 48%, #1a5f86 100%);
+  border-radius: 22px 0 0 22px;
 }
 
 .portal .key-ideas-action[hidden] {
@@ -41,15 +43,15 @@
 
 .portal .key-ideas-action:hover {
   transform: translateY(-2px);
-  border-color: rgba(45, 132, 179, 0.28) !important;
+  border-color: rgba(45, 132, 179, 0.3) !important;
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.98) inset,
-    0 18px 38px rgba(18, 50, 71, 0.1) !important;
+    0 20px 42px rgba(18, 50, 71, 0.12) !important;
 }
 
 .portal .key-ideas-action:focus-visible {
   outline: 2px solid rgba(45, 132, 179, 0.45);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 .portal .key-ideas-action__body {
@@ -70,12 +72,12 @@
 
 .portal .key-ideas-action__wave-svg {
   position: absolute;
-  right: -4%;
-  bottom: -2px;
-  width: min(52%, 280px);
+  right: -6%;
+  bottom: -4px;
+  width: min(58%, 320px);
   height: auto;
-  min-height: 54%;
-  opacity: 0.09;
+  min-height: 48%;
+  opacity: 0.1;
 }
 
 .portal .key-ideas-action__content {
@@ -83,13 +85,13 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: clamp(16px, 2.2vw, 20px) clamp(18px, 2.4vw, 22px) clamp(16px, 2.2vw, 20px) clamp(20px, 2.6vw, 24px);
+  gap: 14px;
+  padding: clamp(18px, 2.4vw, 22px) clamp(18px, 2.5vw, 24px) clamp(16px, 2.2vw, 20px) clamp(22px, 2.8vw, 28px);
 }
 
 .portal .key-ideas-action-head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
   min-width: 0;
 }
@@ -100,99 +102,192 @@
   gap: 3px;
   min-width: 0;
   flex: 1 1 auto;
+  padding-right: 28px;
+}
+
+.portal .key-ideas-action-eyebrow {
+  display: block;
+  margin: 0 0 2px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(45, 132, 179, 0.92);
+  line-height: 1.2;
 }
 
 .portal .key-ideas-action .icon {
   flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%) !important;
+  background: linear-gradient(145deg, #3f97c2 0%, #246f9a 100%) !important;
   color: #fff !important;
   line-height: 0;
-  box-shadow: 0 10px 22px rgba(45, 132, 179, 0.24);
+  box-shadow: 0 12px 24px rgba(45, 132, 179, 0.28);
   transition: transform 0.24s ease, box-shadow 0.24s ease;
 }
 
 .portal .key-ideas-action:hover .icon {
   transform: translateY(-1px);
-  box-shadow: 0 12px 26px rgba(45, 132, 179, 0.3);
+  box-shadow: 0 14px 28px rgba(45, 132, 179, 0.34);
 }
 
 .portal .key-ideas-action .icon svg {
   display: block;
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
 }
 
 .portal .key-ideas-action .label {
   display: block;
   margin: 0 !important;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #1a4a63 !important;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: #14384c !important;
   line-height: 1.2;
 }
 
 .portal .key-ideas-action-hint {
   display: block;
-  margin: 0;
+  margin: 2px 0 0;
   font-size: 0.78rem;
   font-weight: 500;
   line-height: 1.4;
   letter-spacing: 0.01em;
-  color: rgba(74, 122, 150, 0.78);
+  color: rgba(74, 122, 150, 0.82);
 }
 
 .portal .key-ideas-action__scenario {
-  padding: 13px 15px 14px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.72);
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.portal .key-ideas-action__slot {
+  padding: 12px 14px 13px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(45, 132, 179, 0.1);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
 }
 
+.portal .key-ideas-action__slot--move {
+  background: linear-gradient(135deg, rgba(233, 245, 251, 0.95), rgba(255, 255, 255, 0.92));
+  border-color: rgba(45, 132, 179, 0.2);
+}
+
+.portal .key-ideas-action__slot--watch {
+  border-color: rgba(201, 120, 22, 0.18);
+  background: rgba(255, 248, 235, 0.72);
+}
+
+.portal .key-ideas-action__slot--next {
+  border-color: rgba(26, 92, 56, 0.16);
+  background: rgba(236, 248, 240, 0.7);
+}
+
+.portal .key-ideas-action__slot-label {
+  margin: 0 0 5px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(26, 74, 99, 0.78);
+}
+
+.portal .key-ideas-action__slot--watch .key-ideas-action__slot-label {
+  color: rgba(154, 107, 18, 0.9);
+}
+
+.portal .key-ideas-action__slot--next .key-ideas-action__slot-label {
+  color: rgba(26, 92, 56, 0.9);
+}
+
+.portal .key-ideas-action__slot-text,
 .portal .key-ideas-action .text {
   display: block;
   margin: 0 !important;
   padding: 0 !important;
-  font-size: clamp(0.92rem, 1.05vw, 0.98rem);
-  font-weight: 500;
-  line-height: 1.65;
-  color: #2a4050 !important;
+  font-size: clamp(0.9rem, 1.05vw, 0.98rem);
+  font-weight: 600;
+  line-height: 1.58;
+  color: #243948 !important;
   text-align: left;
-  max-width: 68ch;
+  max-width: 70ch;
+}
+
+.portal .key-ideas-action__slot--move .key-ideas-action__slot-text {
+  font-weight: 700;
+  color: #163247 !important;
+  font-size: clamp(0.95rem, 1.1vw, 1.02rem);
+}
+
+.portal .key-ideas-action__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.portal .key-ideas-action__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1d5f82;
+  background: rgba(45, 132, 179, 0.1);
+  border: 1px solid rgba(45, 132, 179, 0.16);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.portal .key-ideas-action:hover .key-ideas-action__cta {
+  background: rgba(45, 132, 179, 0.16);
 }
 
 .portal .key-ideas-action.is-completed {
-  border: 2px solid var(--blue, #2d84b3) !important;
-  background: linear-gradient(155deg, #e9f5fb 0%, #f6fbfe 50%, #eef7fc 100%) !important;
-  box-shadow: 0 14px 34px rgba(45, 132, 179, 0.15) !important;
+  border: 2px solid rgba(45, 132, 179, 0.55) !important;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(45, 132, 179, 0.12), transparent 55%),
+    linear-gradient(155deg, #e7f4fb 0%, #f7fcff 52%, #eaf6fb 100%) !important;
+  box-shadow: 0 16px 36px rgba(45, 132, 179, 0.16) !important;
 }
 
 .portal .key-ideas-action.is-completed .icon {
-  background: linear-gradient(145deg, #2d84b3 0%, #1e6a94 100%) !important;
+  background: linear-gradient(145deg, #2d84b3 0%, #1a5f86 100%) !important;
 }
 
-.portal .key-ideas-action.is-completed .key-ideas-action__scenario {
-  background: rgba(255, 255, 255, 0.86);
-  border-color: rgba(45, 132, 179, 0.18);
+.portal .key-ideas-action.is-completed .key-ideas-action__cta {
+  color: #fff;
+  background: #2d84b3;
+  border-color: #2d84b3;
+}
+
+.portal .key-ideas-action.is-completed .key-ideas-action__cta::before {
+  content: '\2713';
+  font-size: 0.75rem;
 }
 
 .portal .key-ideas-action.is-completed::after {
   content: '\2713';
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
   z-index: 3;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -212,11 +307,27 @@
 
 @media (max-width: 640px) {
   .portal .key-ideas-action__wave-svg {
-    width: 62%;
-    opacity: 0.07;
+    width: 68%;
+    opacity: 0.08;
   }
 
   .portal .key-ideas-action-head {
     align-items: flex-start;
+  }
+
+  .portal .key-ideas-action__footer {
+    justify-content: stretch;
+  }
+
+  .portal .key-ideas-action__cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal .key-ideas-action,
+  .portal .key-ideas-action .icon {
+    transition: none;
   }
 }
