@@ -51,7 +51,7 @@
 }
 
 /* ----- Main concept pickers (Training I/II block grids) ----- */
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]),
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]),
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]{
   flex-direction:column;
   gap:10px;
@@ -75,7 +75,7 @@
   transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease, background .28s ease, color .28s ease;
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]) .concept-square__label,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]) .concept-square__label,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget] .concept-square__label{
   display:block;
   width:100%;
@@ -91,12 +91,12 @@
   text-wrap:balance;
 }
 
-.portal .concept-stage .concept-grid > button.concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]),
+.portal .concept-stage .concept-grid > button.concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]),
 .portal .overview-subconcept-grid > button.concept-square[data-overview-subtarget]{
   font-weight:700 !important;
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"])::before,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"])::before,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]::before{
   content:'';
   display:block;
@@ -113,8 +113,8 @@
   box-shadow:0 2px 8px rgba(18,50,71,.06);
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):hover,
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):focus-visible,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):hover,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):focus-visible,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]:hover,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]:focus-visible{
   transform:translateY(-2px) !important;
@@ -125,23 +125,23 @@
   outline:none;
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):hover::before,
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):focus-visible::before,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):hover::before,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):focus-visible::before,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]:hover::before,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]:focus-visible::before,
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).visited::before,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).visited::before,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget].visited::before{
   background-color:rgba(45,132,179,.1);
   background-image:var(--concept-nav-icon-on-light);
   border-color:rgba(45,132,179,.18);
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):active,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]):active,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]:active{
   transform:translateY(-1px) !important;
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).visited,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).visited,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget].visited{
   position:relative;
   border-color:rgba(45,132,179,.38);
@@ -150,7 +150,7 @@
   box-shadow:0 14px 26px rgba(45,132,179,.16);
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).visited::after,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).visited::after,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget].visited::after{
   content:'\2713';
   position:absolute;
@@ -170,7 +170,7 @@
   box-shadow:0 2px 8px rgba(18,50,71,.1);
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).active:not(.visited),
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).active:not(.visited),
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget].active:not(.visited){
   background:var(--gradBlue, linear-gradient(135deg,#2d84b3 0%,#89b5c1 100%)) !important;
   color:#fff !important;
@@ -180,8 +180,8 @@
   box-shadow:0 12px 26px rgba(45,132,179,.18);
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).active:not(.visited):hover,
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).active:not(.visited):focus-visible,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).active:not(.visited):hover,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).active:not(.visited):focus-visible,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget].active:not(.visited):hover,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget].active:not(.visited):focus-visible{
   background:#eef6fc !important;
@@ -189,15 +189,105 @@
   border-color:#c5d4e0 !important;
 }
 
-.portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).visited.active,
+.portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]).visited.active,
 .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget].visited.active{
   outline:2px solid rgba(45,132,179,.42);
   outline-offset:2px;
 }
 
 @media (prefers-reduced-motion:reduce){
-  .portal .concept-stage .concept-grid > .concept-square:not([class*="concept-square--"]):not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]),
+  .portal .concept-stage .concept-grid > .concept-square:not([class*="level-card--"]):not([class*="b3c2-path-btn"]):not([class*="b3c3-overview"]),
   .portal .overview-subconcept-grid > .concept-square[data-overview-subtarget]{
     transition:none;
   }
+}
+
+/* ----- Parent concept pickers: block accent (orange / purple / green / yellow) ----- */
+.portal .section.block-part--foundations{
+  --concept-parent-grad: linear-gradient(135deg, #ea8f22 0%, #f0a84a 100%);
+  --concept-parent-border: rgba(234, 143, 34, .28);
+  --concept-parent-shadow: rgba(234, 143, 34, .22);
+  --concept-parent-ink: #c2410c;
+  --concept-parent-soft: #fff7ed;
+  --concept-parent-soft-border: rgba(234, 143, 34, .38);
+  --concept-parent-hover: #fff4e6;
+}
+.portal .section.block-part--core{
+  --concept-parent-grad: linear-gradient(135deg, #7b2fa1 0%, #a855f7 100%);
+  --concept-parent-border: rgba(123, 47, 161, .28);
+  --concept-parent-shadow: rgba(123, 47, 161, .22);
+  --concept-parent-ink: #7b2fa1;
+  --concept-parent-soft: #faf5ff;
+  --concept-parent-soft-border: rgba(168, 85, 247, .38);
+  --concept-parent-hover: #f5ecfc;
+}
+.portal .section.block-part--pathway{
+  --concept-parent-grad: linear-gradient(135deg, #1a5c38 0%, #6da372 100%);
+  --concept-parent-border: rgba(26, 92, 56, .28);
+  --concept-parent-shadow: rgba(26, 92, 56, .2);
+  --concept-parent-ink: #1a5c38;
+  --concept-parent-soft: #edf7f1;
+  --concept-parent-soft-border: rgba(26, 92, 56, .36);
+  --concept-parent-hover: #e8f5ee;
+}
+.portal .section.block-part--progress{
+  --concept-parent-grad: linear-gradient(135deg, #d4a823 0%, #e8c84a 100%);
+  --concept-parent-border: rgba(212, 168, 35, .3);
+  --concept-parent-shadow: rgba(212, 168, 35, .22);
+  --concept-parent-ink: #a16207;
+  --concept-parent-soft: #fffbeb;
+  --concept-parent-soft-border: rgba(212, 168, 35, .4);
+  --concept-parent-hover: #fef6d8;
+}
+
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent{
+  border-color: var(--concept-parent-border, rgba(45,132,179,.18));
+  background: var(--concept-parent-grad, var(--gradBlue, linear-gradient(135deg,#2d84b3 0%,#89b5c1 100%)));
+  box-shadow: 0 12px 26px var(--concept-parent-shadow, rgba(18,50,71,.07));
+  color: #fff;
+}
+
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent:hover,
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent:focus-visible{
+  background: var(--concept-parent-hover, #eef6fc) !important;
+  color: var(--ink, #163247) !important;
+  border-color: var(--concept-parent-soft-border, #c5d4e0) !important;
+  box-shadow: 0 16px 28px var(--concept-parent-shadow, rgba(18,50,71,.1)) !important;
+}
+
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent:hover::before,
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent:focus-visible::before,
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent.visited::before{
+  background-color: color-mix(in srgb, var(--concept-parent-ink, #2d84b3) 12%, transparent);
+  border-color: color-mix(in srgb, var(--concept-parent-ink, #2d84b3) 22%, transparent);
+}
+
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent.visited{
+  border-color: var(--concept-parent-soft-border, rgba(45,132,179,.38));
+  background: linear-gradient(180deg, var(--concept-parent-soft, #eef7fc) 0%, #ffffff 100%) !important;
+  color: var(--ink, #163247) !important;
+  box-shadow: 0 14px 26px var(--concept-parent-shadow, rgba(45,132,179,.16));
+}
+
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent.visited::after{
+  color: var(--concept-parent-ink, var(--blue, #2d84b3));
+}
+
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent.active:not(.visited){
+  background: var(--concept-parent-grad, var(--gradBlue)) !important;
+  color: #fff !important;
+  border-color: var(--concept-parent-ink, var(--blue, #2d84b3)) !important;
+  outline: 2px solid color-mix(in srgb, var(--concept-parent-ink, #2d84b3) 45%, transparent);
+  box-shadow: 0 12px 26px var(--concept-parent-shadow, rgba(45,132,179,.18));
+}
+
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent.active:not(.visited):hover,
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent.active:not(.visited):focus-visible{
+  background: var(--concept-parent-hover, #eef6fc) !important;
+  color: var(--ink, #163247) !important;
+  border-color: var(--concept-parent-soft-border, #c5d4e0) !important;
+}
+
+.portal .concept-stage .concept-grid > .concept-square.concept-square--parent.visited.active{
+  outline: 2px solid color-mix(in srgb, var(--concept-parent-ink, #2d84b3) 42%, transparent);
 }

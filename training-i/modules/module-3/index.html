@@ -2941,8 +2941,8 @@
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
   <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260713pulse2" />
-  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260603" />
-<link rel="stylesheet" href="https://swimming-training.vercel.app/assets/concept-stage-system.css?v=20260603" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260713parent1" />
+<link rel="stylesheet" href="https://swimming-training.vercel.app/assets/concept-stage-system.css?v=20260713parent1" crossorigin="anonymous" />
 </head>
 <body>
   <div class="portal">
@@ -3465,7 +3465,7 @@
               <div class="concept-grid" data-concept-grid="block3">
                 <button class="concept-square" data-target="b3c1">Engagement Changes</button>
                 <button class="concept-square" data-target="b3c2">Maintaining Engagement</button>
-                <button class="concept-square" data-target="b3c3">Using Engagement Approaches</button>
+                <button class="concept-square concept-square--parent" data-target="b3c3">Using Engagement Approaches</button>
                 <button class="concept-square" data-target="b3c4">Responding to Disengagement</button>
               </div>
 
@@ -3727,7 +3727,7 @@
     </div>
   </div>
 
-  <script src="/shared/parent-subconcept-layout.js"></script>
+  <script src="/shared/parent-subconcept-layout.js?v=20260713parent1"></script>
     <script src="/shared/module-block-accordion.js?v=20260713accordion6"></script>
 <script>
     function escapeHtml(str){
@@ -6042,6 +6042,9 @@
     }
 
     setupConcepts();
+    if(typeof ParentSubconceptLayout !== "undefined" && ParentSubconceptLayout.markParentConceptSquares){
+      ParentSubconceptLayout.markParentConceptSquares(conceptContent);
+    }
     setupCarousels();
     setupReflection('block1','gate1');
     setupReflection('block2','gate2');

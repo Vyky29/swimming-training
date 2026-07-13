@@ -147,6 +147,25 @@
     return null;
   }
 
+  function isParentConceptData(data){
+    if(!data) return false;
+    if(getParentSubconceptNavMarkupFromData(data)) return true;
+    var html = String(data.imageHTML || '') + String(data.introMediaHTML || '');
+    return /data-overview-subtarget|data-parent-subtarget|b3c3-overview-step|b3c2-subconcepts|concept-grid--factors|concept-grid--approaches|parentSubconceptNavHTML/.test(html);
+  }
+
+  /** Mark main-grid concept squares that open a parent hub (subconcept chooser). */
+  function markParentConceptSquares(conceptContent){
+    if(!conceptContent) return;
+    Object.keys(conceptContent).forEach(function(key){
+      if(!isParentConceptData(conceptContent[key])) return;
+      document.querySelectorAll('.concept-grid > .concept-square[data-target="' + key + '"]').forEach(function(btn){
+        if(btn.closest('.concept-panel')) return;
+        btn.classList.add('concept-square--parent');
+      });
+    });
+  }
+
   global.ParentSubconceptLayout = {
     panelHasSubconceptNavSlot: panelHasSubconceptNavSlot,
     lockIntroductionKeyIdeasPrimaryImage: lockIntroductionKeyIdeasPrimaryImage,
@@ -154,6 +173,8 @@
     pinSubconceptNavBeforeMediaActions: pinSubconceptNavBeforeMediaActions,
     lockParentSubconceptOrder: lockParentSubconceptOrder,
     getParentSubconceptNavMarkupFromData: getParentSubconceptNavMarkupFromData,
+    isParentConceptData: isParentConceptData,
+    markParentConceptSquares: markParentConceptSquares,
     getSubconceptNav: getSubconceptNav,
     getPrimaryImageSlot: getPrimaryImageSlot,
     getIntro: getIntro
