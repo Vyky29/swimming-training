@@ -1722,8 +1722,26 @@
     if(!isChecked($('input[data-stage-check="outcomes"]'))) return null;
     if(!insideModuleReviewed()) return null;
 
-    if(global.ModuleBlockAccordion && typeof global.ModuleBlockAccordion.ensureOpen === 'function'){
-      try{ global.ModuleBlockAccordion.ensureOpen(block); }catch(err){}
+    // Keep accordion collapsed until the learner opens it (or completes previous and auto-advances)
+    if(global.ModuleBlockAccordion){
+      var openKey = typeof global.ModuleBlockAccordion.getOpen === 'function'
+        ? global.ModuleBlockAccordion.getOpen()
+        : null;
+      if(openKey !== block){
+        var head = document.querySelector('#' + block + ' .block-part-head');
+        if(head){
+          return sectionScrollStep('block-open', head, 'Open ' + getBlockDisplayName(block), {
+            scrollEl: document.getElementById(block) || head,
+            scrollBlock: 'start',
+            forceScroll: true,
+            tone: 'primary',
+            scrollBlockId: block
+          });
+        }
+        if(typeof global.ModuleBlockAccordion.ensureOpen === 'function'){
+          try{ global.ModuleBlockAccordion.ensureOpen(block); }catch(err){}
+        }
+      }
     }
 
     var introStep = resolveBlockIntroCards(block);

@@ -37,7 +37,7 @@
   };
 
   var BLOCK_PART_ORDER = [];
-  var openBlockPart = 'block1';
+  var openBlockPart = null;
   var autoAdvanced = {};
   var wired = false;
   var enhanced = false;
@@ -72,7 +72,7 @@
     });
     if(!keys.length) keys = ['block1', 'block2', 'block3'];
     BLOCK_PART_ORDER = keys;
-    if(BLOCK_PART_ORDER.indexOf(openBlockPart) < 0) openBlockPart = BLOCK_PART_ORDER[0] || 'block1';
+    if(openBlockPart && BLOCK_PART_ORDER.indexOf(openBlockPart) < 0) openBlockPart = null;
     api.ORDER = BLOCK_PART_ORDER.slice();
     return BLOCK_PART_ORDER;
   }
@@ -193,17 +193,17 @@
 
   function setOpen(key, opts){
     var options = opts || {};
-    if(BLOCK_PART_ORDER.indexOf(key) < 0) return;
-    openBlockPart = key;
+    if(key && BLOCK_PART_ORDER.indexOf(key) < 0) return;
+    openBlockPart = key || null;
     $$('.section.block-part[data-block-part]').forEach(function(part){
       var partKey = part.getAttribute('data-block-part');
-      var isOpen = partKey === key;
+      var isOpen = !!(openBlockPart && partKey === openBlockPart);
       part.classList.toggle('is-open', isOpen);
       var btn = part.querySelector('.block-part-head');
       if(btn) btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
-    if(options.scroll){
-      var el = document.getElementById(key);
+    if(options.scroll && openBlockPart){
+      var el = document.getElementById(openBlockPart);
       if(el && typeof el.scrollIntoView === 'function'){
         try{ el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
         catch(_){ el.scrollIntoView(true); }
@@ -212,7 +212,7 @@
     try{
       document.dispatchEvent(new CustomEvent('module-block-part-change', {
         bubbles: true,
-        detail: { block: key, open: true }
+        detail: { block: openBlockPart, open: !!openBlockPart }
       }));
     }catch(_){}
     if(global.TrainingFlowGuide && typeof global.TrainingFlowGuide.requestRefresh === 'function'){
@@ -222,6 +222,10 @@
     } else if(global.TrainingFlowGuide && typeof global.TrainingFlowGuide.refresh === 'function'){
       try{ global.TrainingFlowGuide.refresh(); }catch(_){}
     }
+  }
+
+  function closeAll(opts){
+    setOpen(null, opts || {});
   }
 
   function ensureOpen(key, opts){
@@ -252,7 +256,7 @@
 
     if(!options.skipAutoAdvance){
       var current = openBlockPart;
-      var idx = BLOCK_PART_ORDER.indexOf(current);
+      var idx = current ? BLOCK_PART_ORDER.indexOf(current) : -1;
       if(
         idx >= 0 &&
         idx < BLOCK_PART_ORDER.length - 1 &&
@@ -268,7 +272,10 @@
       }
     }
 
-    if(BLOCK_PART_ORDER.indexOf(openBlockPart) < 0) openBlockPart = BLOCK_PART_ORDER[0] || 'block1';
+    // Keep current open/closed state. Do not force-open Block 1 on load.
+    if(openBlockPart && BLOCK_PART_ORDER.indexOf(openBlockPart) < 0){
+      openBlockPart = null;
+    }
     setOpen(openBlockPart, { scroll: false });
   }
 
@@ -283,7 +290,12 @@
       btn.addEventListener('click', function(){
         var key = part.getAttribute('data-block-part');
         if(!key) return;
-        setOpen(key, { scroll: true });
+        // Toggle: click open head to close; otherwise open that part
+        if(openBlockPart === key){
+          closeAll({ scroll: false });
+        } else {
+          setOpen(key, { scroll: true });
+        }
         refresh({ skipAutoAdvance: true });
       });
     });
@@ -300,18 +312,8 @@
       }, 0);
     });
 
-    var openEl = document.querySelector('.section.block-part.is-open[data-block-part]');
-    openBlockPart = (openEl && openEl.getAttribute('data-block-part')) || (BLOCK_PART_ORDER[0] || 'block1');
-    var preferred = null;
-    for(var i = 0; i < BLOCK_PART_ORDER.length; i++){
-      var k = BLOCK_PART_ORDER[i];
-      var st = getBlockPartState(k);
-      if(st !== 'locked' && st !== 'complete'){
-        preferred = k;
-        break;
-      }
-    }
-    if(preferred) openBlockPart = preferred;
+    // Start fully collapsed  learner opens a block intentionally
+    openBlockPart = null;
     refresh({ skipAutoAdvance: true });
   }
 
@@ -323,6 +325,7 @@
     init: init,
     refresh: refresh,
     setOpen: setOpen,
+    closeAll: closeAll,
     ensureOpen: ensureOpen,
     getState: getBlockPartState,
     getOpen: function(){ return openBlockPart; },

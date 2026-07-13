@@ -7,8 +7,8 @@
 @import url('/assets/module-hero-system.css');
 @import url('/assets/key-ideas-recap-system.css?v=20260623');
 @import url('/assets/concept-insight-intro.css?v=20260617');
-@import url('/assets/training-flow-guide.css?v=20260713guide3');
-  @import url('/assets/module-block-accordion.css?v=20260713accordion3');
+@import url('/assets/training-flow-guide.css?v=20260713guide4');
+  @import url('/assets/module-block-accordion.css?v=20260713accordion4');
 
 :root{
     --blue:#2d84b3;
@@ -4250,7 +4250,7 @@
   </div>
 </div>
 
-<script src="/shared/module-block-accordion.js?v=20260713accordion3"></script>
+<script src="/shared/module-block-accordion.js?v=20260713accordion4"></script>
 <script>
   const conceptContent = {
     b1c1: {
@@ -4615,7 +4615,6 @@
     section.classList.remove('gated-locked');
   }
   if(window.ModuleBlockAccordion && /^block\d+$/.test(String(stageId || ''))){
-    ModuleBlockAccordion.ensureOpen(stageId, { scroll: true });
     ModuleBlockAccordion.refresh({ skipAutoAdvance: true });
   }
 }
@@ -6712,7 +6711,7 @@
 <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
 <script src="/shared/training-flow-config.js?v=20260716"></script>
-<script src="/shared/training-flow-guide.js?v=20260713guide3"></script>
+<script src="/shared/training-flow-guide.js?v=20260713guide4"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
