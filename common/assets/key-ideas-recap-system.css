@@ -210,8 +210,13 @@
 }
 
 .outcome.clicked .outcome-index {
-  background: var(--blue, #2d84b3);
-  color: #fff;
+  background-color: var(--blue, #2d84b3) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  forced-color-adjust: none;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
 }
 
 .outcome.clicked::after {

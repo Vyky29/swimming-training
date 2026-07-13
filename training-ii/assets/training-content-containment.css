@@ -2,7 +2,7 @@
 @import url('/assets/tts-controls.css?v=20260622');
 @import url('/assets/clickable-card-hint.css?v=20260622');
 @import url('/assets/review-cards-visual-system.css?v=20260622');
-@import url('/assets/key-ideas-recap-system.css?v=20260623');
+@import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
 @import url('/assets/in-practice-system.css?v=20260713practice9');
 @import url('/assets/concept-section-icons.css?v=20260707');
 @import url('/assets/block-intro-cards.css?v=20260719');
@@ -48,4 +48,23 @@ code{
 .training-portal :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,em,li,a,button,label,div){
   overflow-wrap:break-word;
   word-break:break-word;
+}
+
+/* Clicked number badges: keep solid fill under white text (Training I parity) */
+.portal .concept-panel[data-stage-theme="confidence"]{ --key-idea-badge:#1a5c38; }
+.portal .concept-panel[data-stage-theme="basic"]{ --key-idea-badge:#c97816; }
+.portal .concept-panel[data-stage-theme="structured"]{ --key-idea-badge:#4a86b4; }
+.portal .concept-panel[data-stage-theme="core"]{ --key-idea-badge:#8a3fb0; }
+.portal .concept-panel[data-stage-theme][data-level]{
+  --key-idea-badge:var(--block2-level-accent, var(--blue, #2d84b3));
+}
+.portal .concept-points-box .key-idea-item.clicked .key-idea-index,
+.portal .outcome.clicked .outcome-index{
+  background-color:var(--key-idea-badge, var(--blue, #2d84b3)) !important;
+  background-image:none !important;
+  color:#ffffff !important;
+  -webkit-text-fill-color:#ffffff !important;
+  forced-color-adjust:none;
+  print-color-adjust:exact;
+  -webkit-print-color-adjust:exact;
 }

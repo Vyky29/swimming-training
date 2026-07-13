@@ -11,7 +11,7 @@
   @import url('/assets/module-completion-flow.css');
   @import url('/assets/module-roadmap.css');
 @import url('/assets/module-hero-system.css');
-  @import url('/assets/key-ideas-recap-system.css?v=20260623');
+  @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260617');
   @import url('/assets/training-flow-guide.css?v=20260713pulse10');
   @import url('/assets/module-block-accordion.css?v=20260713accordion5');
@@ -4539,8 +4539,10 @@
       box-shadow:0 4px 12px rgba(45,132,179,.2);
     }
     .concept-points-box .key-idea-item.clicked .key-idea-index{
-      background:var(--blue);
-      color:#fff;
+      background-color:var(--blue, #2d84b3);
+    background-image:none;
+    color:#fff;
+    -webkit-text-fill-color:#fff;
     }
     .concept-points-box .key-idea-item.clicked::after{
       content:' ✓';
@@ -4911,8 +4913,10 @@
       box-shadow:0 4px 12px rgba(var(--block2-level-rgb),0.22) !important;
     }
     .concept-panel[data-stage-theme][data-level] .key-idea-item.clicked .key-idea-index{
-      background:var(--block2-level-accent) !important;
+      background-color:var(--block2-level-accent, var(--blue, #2d84b3)) !important;
+      background-image:none !important;
       color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
     }
     .concept-panel[data-stage-theme="confidence"][data-level] .btn-tts-inline,
     .concept-panel[data-stage-theme="confidence"][data-level] .btn-tts-stop-inline{
@@ -5847,7 +5851,7 @@
       min-width:0;
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260801" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260713keyidea1" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
@@ -9673,11 +9677,30 @@
     function isInPracticeCompleteForPanel(panel){
       if(!panel) return true;
       if(panel.dataset.inPracticeRequired !== 'true') return true;
-      if(panel.dataset.inPracticeDone === 'true') return true;
+      var current = panel.dataset.currentTarget || '';
+      if(panel.__inPracticeDoneMap && current && panel.__inPracticeDoneMap[current]){
+        panel.dataset.inPracticeDone = 'true';
+        panel.dataset.inPracticeDoneFor = current;
+        return true;
+      }
+      if(panel.dataset.inPracticeDone === 'true'){
+        if(panel.dataset.inPracticeDoneFor === current) return true;
+        panel.dataset.inPracticeDone = 'false';
+        delete panel.dataset.inPracticeDoneFor;
+      }
       var action = panel.querySelector('.key-ideas-action:not([hidden])');
       if(action && action.classList.contains('is-completed')){
-        panel.dataset.inPracticeDone = 'true';
-        return true;
+        var actionTarget = action.dataset.inPracticeTarget || '';
+        if(!actionTarget || actionTarget === current){
+          panel.dataset.inPracticeDone = 'true';
+          panel.dataset.inPracticeDoneFor = current || actionTarget;
+          return true;
+        }
+        action.classList.remove('is-completed');
+        action.querySelectorAll('[data-inprac-part].is-reviewed').forEach(function(part){
+          part.classList.remove('is-reviewed');
+          part.setAttribute('aria-pressed', 'false');
+        });
       }
       if(window.TrainingFlowGuide && typeof TrainingFlowGuide.syncPanelInPracticeDone === 'function'){
         return !!TrainingFlowGuide.syncPanelInPracticeDone(panel);
@@ -10096,7 +10119,28 @@
         var actionTextEl = actionEl.querySelector('.text');
         if(inPracticeLine && actionTextEl){
           panel.dataset.inPracticeRequired = 'true';
-          panel.dataset.inPracticeDone = ((conceptCompletion[block] && conceptCompletion[block].has(target)) || panel.dataset.inPracticeDone === 'true' || (actionEl && actionEl.classList.contains('is-completed'))) ? 'true' : 'false';
+          if(!panel.__inPracticeDoneMap) panel.__inPracticeDoneMap = {};
+        var prevInPracticeTarget = actionEl.dataset.inPracticeTarget || '';
+        if(prevInPracticeTarget && (panel.dataset.inPracticeDone === 'true' || actionEl.classList.contains('is-completed'))){
+          panel.__inPracticeDoneMap[prevInPracticeTarget] = true;
+        }
+        var conceptInPracticeDone = !!(conceptCompletion[block] && conceptCompletion[block].has(target));
+        var sameInPracticeTarget = prevInPracticeTarget === target;
+        var sessionInPracticeDone = !!panel.__inPracticeDoneMap[target];
+        if(!sameInPracticeTarget){
+          actionEl.classList.remove('is-completed');
+          actionEl.querySelectorAll('[data-inprac-part].is-reviewed').forEach(function(part){
+            part.classList.remove('is-reviewed');
+            part.setAttribute('aria-pressed', 'false');
+          });
+        }
+        panel.dataset.inPracticeDone = (conceptInPracticeDone || sessionInPracticeDone) ? 'true' : 'false';
+        if(panel.dataset.inPracticeDone === 'true'){
+          panel.dataset.inPracticeDoneFor = target;
+          panel.__inPracticeDoneMap[target] = true;
+        } else {
+          delete panel.dataset.inPracticeDoneFor;
+        }
 
           actionTextEl.textContent = (window.InPracticeCopy && InPracticeCopy.resolve(target, inPracticeLine)) || inPracticeLine;
           actionEl.dataset.inPracticeTarget = target;
@@ -10112,6 +10156,9 @@
             actionEl.setAttribute('data-in-practice-bound', '1');
             actionEl.addEventListener('in-practice-complete', function(){
               panel.dataset.inPracticeDone = 'true';
+              panel.dataset.inPracticeDoneFor = target;
+              if(!panel.__inPracticeDoneMap) panel.__inPracticeDoneMap = {};
+              panel.__inPracticeDoneMap[target] = true;
               actionEl.classList.add('is-completed');
               var ic = actionEl.querySelector('.icon'); if(ic) ic.innerHTML = inPracticeActionIconHtml(true);
               syncConceptFinishBtn(panel, block, target, { respectDwell: true });
@@ -11817,7 +11864,7 @@
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260713practice11"></script>
+<script src="/shared/in-practice-system.js?v=20260713practice13"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260707"></script>
   <script src="/shared/concept-insight-intro.js?v=20260622"></script>
@@ -11826,7 +11873,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713pulse10"></script>
+  <script src="/shared/training-flow-guide.js?v=20260713pulse13"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

@@ -561,6 +561,39 @@ body {
   gap: var(--training-list-gap);
 }
 
+/*
+ * Clicked number badges: white text must always sit on a solid brand fill.
+ * Without this, color:#fff can win while the circle fill is lost (theme
+ * overrides, forced-colors, or partial background shorthand resets) and
+ * the index disappears on pale cards.
+ */
+.portal .concept-panel[data-stage-theme="confidence"] {
+  --key-idea-badge: #1a5c38;
+}
+.portal .concept-panel[data-stage-theme="basic"] {
+  --key-idea-badge: #c97816;
+}
+.portal .concept-panel[data-stage-theme="structured"] {
+  --key-idea-badge: #4a86b4;
+}
+.portal .concept-panel[data-stage-theme="core"] {
+  --key-idea-badge: #8a3fb0;
+}
+.portal .concept-panel[data-stage-theme][data-level] {
+  --key-idea-badge: var(--block2-level-accent, var(--blue, #2d84b3));
+}
+
+.portal .concept-points-box .key-idea-item.clicked .key-idea-index,
+.portal .outcome.clicked .outcome-index {
+  background-color: var(--key-idea-badge, var(--blue, #2d84b3)) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  forced-color-adjust: none;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
 /* Recap / learning outcomes: keep grid layout; unify inter-card gap token */
 .portal .recap-stack,
 .portal .outcomes {

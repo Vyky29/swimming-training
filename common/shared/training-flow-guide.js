@@ -16,6 +16,8 @@
   var activePulseEl = null;
   var activePulseEls = [];
   var refreshTimer = null;
+  var refreshDueAt = 0;
+  var refreshForceAdvance = false;
   var lastStepKey = null;
   var lastScrolledKey = null;
   var userScrollUntil = 0;
@@ -35,7 +37,39 @@
 
   function stepKey(step){
     if(!step || !step.el) return '';
-    return step.kind + '|' + (step.el.id || step.el.getAttribute('data-target') || step.label);
+    if(step.keyToken) return step.kind + '|' + step.keyToken;
+    var el = step.el;
+    var token = el.id ||
+      el.getAttribute('data-inprac-part') ||
+      (el.hasAttribute('data-inprac-cta') ? 'inprac-cta' : '') ||
+      (el.hasAttribute('data-finish-concept') ? 'finish' : '') ||
+      el.getAttribute('data-target') ||
+      el.getAttribute('data-b2-go') ||
+      el.getAttribute('data-overview-subtarget') ||
+      (el.classList && el.classList.contains('img-expand-btn') ? ('expand:' + (el.getAttribute('data-expand-for') || el.getAttribute('aria-controls') || '')) : '') ||
+      step.label ||
+      '';
+    var panel = el.closest && el.closest('.concept-panel');
+    var scope = panel ? ((panel.dataset.currentTarget || '') + ':' + (panel.dataset.m5NestedScreen || '')) : '';
+    return step.kind + '|' + scope + '|' + token;
+  }
+
+  function sectionScrollStep(kind, el, label, options){
+    options = options || {};
+    return {
+      kind: kind,
+      el: el,
+      label: label,
+      scrollBlock: options.scrollBlock || 'center',
+      scrollBlockId: options.scrollBlockId,
+      forceScroll: options.forceScroll !== false,
+      noScroll: options.noScroll === true,
+      tone: options.tone,
+      scrollEl: options.scrollEl,
+      pulseEls: options.pulseEls,
+      keyToken: options.keyToken,
+      noPulse: options.noPulse === true
+    };
   }
 
   function isModuleStarted(){
@@ -96,22 +130,6 @@
     if(visibleHeight <= 0) return false;
     var minVisible = Math.min(96, Math.max(48, rect.height * 0.28));
     return visibleHeight >= minVisible;
-  }
-
-  function sectionScrollStep(kind, el, label, options){
-    options = options || {};
-    return {
-      kind: kind,
-      el: el,
-      label: label,
-      scrollBlock: options.scrollBlock || 'center',
-      scrollBlockId: options.scrollBlockId,
-      forceScroll: options.forceScroll !== false,
-      noScroll: options.noScroll === true,
-      tone: options.tone,
-      scrollEl: options.scrollEl,
-      pulseEls: options.pulseEls
-    };
   }
 
   function getConceptGridScrollAnchor(block){
@@ -215,10 +233,36 @@
   }
 
   function bumpFlowAdvance(moduleConfig, delay){
-    lastStepKey = null;
-    lastScrolledKey = null;
-    userScrollUntil = 0;
-    scheduleRefresh(moduleConfig, delay || 180);
+    scheduleRefresh(moduleConfig, delay || 160, { forceAdvance: true });
+  }
+
+  function scheduleRefresh(moduleConfig, delay, opts){
+    opts = opts || {};
+    var cfg = moduleConfig || activeModuleConfig;
+    if(!cfg) return;
+    var ms = typeof delay === 'number' ? delay : 260;
+    var due = Date.now() + ms;
+    if(opts.forceAdvance) refreshForceAdvance = true;
+
+    // Keep the soonest pending refresh; never let a slow schedule cancel a bump
+    if(refreshTimer && due >= refreshDueAt){
+      return;
+    }
+    if(refreshTimer) clearTimeout(refreshTimer);
+    refreshDueAt = due;
+    var wait = Math.max(0, refreshDueAt - Date.now());
+    refreshTimer = setTimeout(function(){
+      refreshTimer = null;
+      refreshDueAt = 0;
+      var force = refreshForceAdvance;
+      refreshForceAdvance = false;
+      if(force){
+        lastStepKey = null;
+        lastScrolledKey = null;
+        userScrollUntil = 0;
+      }
+      refresh(cfg);
+    }, wait);
   }
 
   function resetPanelFlowScope(panel){
@@ -571,22 +615,27 @@
   function resolveM5FinishStep(panel){
     if(!panel) return null;
     var finish = panel.querySelector('[data-finish-concept]');
-    if(!finish || !isVisibleEl(finish)) return null;
-    if(finish.style.display === 'none') return null;
-    // Pulse Done once earlier gates are clear ? even while dwell keeps the button disabled
+    if(!finish) return null;
     if(!conceptReadyForFinishCue(panel)) return null;
 
-    var onNestedLeaf = panelHasM5NestedNav(panel) && isM5LeafScreen(getM5ActiveScreen(panel));
-    var label = finish.disabled
-      ? 'Done will unlock next ? keep it in view'
-      : (onNestedLeaf ? 'Tap Done to complete this section' : 'Tap Done to finish this concept');
+    var finishVisible = isVisibleEl(finish) && finish.style.display !== 'none';
+    var host = finishVisible ? finish : (panel.querySelector('.concept-media-actions') || finish);
+    if(!host || (!finishVisible && !isVisibleEl(host))) return null;
 
-    return sectionScrollStep('finish', finish, label, {
-      scrollEl: finish,
+    var onNestedLeaf = panelHasM5NestedNav(panel) && isM5LeafScreen(getM5ActiveScreen(panel));
+    var label = !finishVisible
+      ? 'Ready to finish ? Done appears next'
+      : (finish.disabled
+        ? 'Done will unlock next ? keep it in view'
+        : (onNestedLeaf ? 'Tap Done to complete this section' : 'Tap Done to finish this concept'));
+
+    return sectionScrollStep('finish', host, label, {
+      scrollEl: host,
       scrollBlock: 'center',
       forceScroll: true,
       tone: 'expand',
-      pulseEls: [finish]
+      pulseEls: [finishVisible ? finish : host],
+      keyToken: (panel.dataset.currentTarget || '') + ':finish'
     });
   }
 
@@ -668,14 +717,18 @@
 
   function inPracticeFlowComplete(panel){
     if(!panel) return true;
+    syncPanelInPracticeDone(panel);
     var nestedAction = findScopedInPracticeAction(panel);
     if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return true;
     var inPractice = nestedAction || panel.querySelector('.key-ideas-action');
     if(!inPractice || inPractice.hasAttribute('hidden')) return true;
-    if(inPractice.classList.contains('is-completed') || panel.dataset.inPracticeDone === 'true'){
-      if(panel.dataset.inPracticeDone !== 'true') panel.dataset.inPracticeDone = 'true';
+    var current = panel.dataset.currentTarget || '';
+    if(panel.__inPracticeDoneMap && current && panel.__inPracticeDoneMap[current]) return true;
+    if(inPractice.classList.contains('is-completed')){
+      markPanelInPracticeDone(panel, inPractice);
       return true;
     }
+    if(panel.dataset.inPracticeDone === 'true' && panel.dataset.inPracticeDoneFor === current) return true;
     return false;
   }
 
@@ -899,12 +952,13 @@
 
   function resolveInPractice(panel){
     if(!panel) return null;
+    syncPanelInPracticeDone(panel);
     var nestedAction = findScopedInPracticeAction(panel);
     if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return null;
 
     var inPractice = nestedAction || panel.querySelector('.key-ideas-action');
     if(!inPractice || inPractice.hasAttribute('hidden')) return null;
-    if(inPractice.classList.contains('is-completed') || panel.dataset.inPracticeDone === 'true') return null;
+    if(inPracticeFlowComplete(panel)) return null;
     if(getVisibleInsightPillars(panel).length) return null;
     if(hasUnclickedKeyIdeasInScope(panel)) return null;
     if(!preKeyIdeasVisualsComplete(panel)) return null;
@@ -919,6 +973,7 @@
       nextPart = parts[0] || null;
     }
 
+    var scopeKey = (panel.dataset.currentTarget || '') + ':' + (inPractice.dataset.inPracticeTarget || '');
     if(nextPart){
       var partKey = nextPart.getAttribute('data-inprac-part') || '';
       var partLabel = partKey === 'do' ? 'Do'
@@ -930,7 +985,8 @@
         scrollBlock: 'center',
         forceScroll: true,
         tone: 'inpractice',
-        pulseEls: [nextPart]
+        pulseEls: [nextPart],
+        keyToken: scopeKey + ':part:' + partKey
       });
     }
 
@@ -940,7 +996,8 @@
       scrollBlock: 'center',
       forceScroll: true,
       tone: 'inpractice',
-      pulseEls: [cta || inPractice]
+      pulseEls: [cta || inPractice],
+      keyToken: scopeKey + ':cta'
     });
   }
 
@@ -1577,6 +1634,12 @@
     if(!panel) return;
     if(action) action.classList.add('is-completed');
     panel.dataset.inPracticeDone = 'true';
+    var doneFor = (action && action.dataset.inPracticeTarget) || panel.dataset.currentTarget || '';
+    if(doneFor){
+      panel.dataset.inPracticeDoneFor = doneFor;
+      if(!panel.__inPracticeDoneMap) panel.__inPracticeDoneMap = {};
+      panel.__inPracticeDoneMap[doneFor] = true;
+    }
     try {
       panel.setAttribute('data-in-practice-done', 'true');
     } catch (err) {}
@@ -1585,13 +1648,31 @@
   function syncPanelInPracticeDone(panel){
     if(!panel) return false;
     if(panel.dataset.inPracticeRequired !== 'true') return true;
-    if(panel.dataset.inPracticeDone === 'true') return true;
+    var current = panel.dataset.currentTarget || '';
+    if(panel.__inPracticeDoneMap && current && panel.__inPracticeDoneMap[current]){
+      panel.dataset.inPracticeDone = 'true';
+      panel.dataset.inPracticeDoneFor = current;
+      return true;
+    }
+    if(panel.dataset.inPracticeDone === 'true'){
+      if(panel.dataset.inPracticeDoneFor === current) return true;
+      panel.dataset.inPracticeDone = 'false';
+      delete panel.dataset.inPracticeDoneFor;
+    }
     var root = getM5InteractiveRoot(panel);
     var action = (root && root.querySelector('.key-ideas-action:not([hidden])')) ||
       panel.querySelector('.key-ideas-action:not([hidden])');
     if(action && action.classList.contains('is-completed')){
-      markPanelInPracticeDone(panel, action);
-      return true;
+      var actionTarget = action.dataset.inPracticeTarget || '';
+      if(!actionTarget || actionTarget === current){
+        markPanelInPracticeDone(panel, action);
+        return true;
+      }
+      action.classList.remove('is-completed');
+      action.querySelectorAll('[data-inprac-part].is-reviewed').forEach(function(part){
+        part.classList.remove('is-reviewed');
+        part.setAttribute('aria-pressed', 'false');
+      });
     }
     return false;
   }
@@ -1602,9 +1683,8 @@
       var action = e.target && e.target.closest ? e.target.closest('.key-ideas-action') : null;
       if(!action) action = e.target;
       if(!action || !action.classList || !action.classList.contains('key-ideas-action')) return;
-      var panel = action.closest('.concept-panel');
-      if(!panel) return;
-      bumpFlowAdvance(moduleConfig, 80);
+      if(!action.closest('.concept-panel')) return;
+      bumpFlowAdvance(moduleConfig, 90);
     }, true);
 
     document.addEventListener('in-practice-complete', function(e){
@@ -1619,26 +1699,6 @@
       if(icon){
         icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
       }
-      if(document.documentElement.getAttribute('data-guided-flow') === 'true'){
-        bumpFlowAdvance(moduleConfig, 120);
-      }
-    }, true);
-
-    // Legacy fallback: only Got it / completed CTA may finish the card
-    document.addEventListener('click', function(e){
-      var cta = e.target.closest && e.target.closest('[data-inprac-cta]');
-      if(!cta) return;
-      var action = cta.closest('.key-ideas-action');
-      if(!action || action.hasAttribute('hidden')) return;
-      var panel = action.closest('.concept-panel');
-      if(!panel) return;
-      if(panel.dataset.inPracticeRequired === 'false' && !findScopedInPracticeAction(panel)) return;
-      if(action.classList.contains('is-completed')){
-        markPanelInPracticeDone(panel, action);
-        return;
-      }
-      if(global.InPracticeSystem && typeof InPracticeSystem.partsComplete === 'function' && !InPracticeSystem.partsComplete(action)) return;
-      markPanelInPracticeDone(panel, action);
       if(document.documentElement.getAttribute('data-guided-flow') === 'true'){
         bumpFlowAdvance(moduleConfig, 120);
       }
@@ -1832,6 +1892,61 @@
     return null;
   }
 
+  function resolvePanelHoldStep(panel){
+    if(!panel || !panel.classList.contains('show')) return null;
+    syncPanelInPracticeDone(panel);
+    var target = panel.dataset.currentTarget || '';
+
+    if(!inPracticeFlowComplete(panel)){
+      var action = findScopedInPracticeAction(panel) || panel.querySelector('.key-ideas-action:not([hidden])');
+      if(action){
+        return sectionScrollStep('inpractice-hold', action, 'Continue In Practice', {
+          scrollEl: action,
+          scrollBlock: 'center',
+          forceScroll: true,
+          tone: 'inpractice',
+          pulseEls: [action],
+          keyToken: target + ':inpractice-hold'
+        });
+      }
+    }
+
+    if(isActivityIncomplete(panel)){
+      var root = findActivityRoot(panel);
+      if(root){
+        return sectionScrollStep('activity-hold', root, 'Complete the activity', {
+          scrollEl: root,
+          scrollBlock: 'center',
+          forceScroll: true,
+          tone: 'activity',
+          pulseEls: [root],
+          keyToken: target + ':activity-hold'
+        });
+      }
+    }
+
+    var finish = panel.querySelector('[data-finish-concept]');
+    if(finish){
+      var finishVisible = isVisibleEl(finish) && finish.style.display !== 'none';
+      var host = finishVisible ? finish : (panel.querySelector('.concept-media-actions') || panel);
+      return sectionScrollStep('finish-hold', host, finish.disabled ? 'Done unlocks next ? keep going' : 'Tap Done to finish this concept', {
+        scrollEl: host,
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand',
+        pulseEls: [finishVisible ? finish : host],
+        keyToken: target + ':finish-hold'
+      });
+    }
+
+    return sectionScrollStep('panel-hold', panel, 'Continue this concept', {
+      scrollEl: panel,
+      scrollBlock: 'start',
+      forceScroll: false,
+      keyToken: target + ':panel-hold'
+    });
+  }
+
   function resolveBlock(block, moduleConfig){
     if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
@@ -1870,6 +1985,11 @@
     if(openPanel){
       var inside = panelIncompleteTarget(openPanel);
       if(inside) return inside;
+      // Never fall through to the concept grid while a concept panel is still open
+      if(!blockConceptsComplete(block)){
+        var hold = resolvePanelHoldStep(openPanel);
+        if(hold) return hold;
+      }
     }
 
     if(!blockConceptsComplete(block)){
@@ -2492,27 +2612,32 @@
     applyGuide(resolveNextStep(moduleConfig));
   }
 
-  function scheduleRefresh(moduleConfig, delay){
-    var cfg = moduleConfig || activeModuleConfig;
-    if(refreshTimer) clearTimeout(refreshTimer);
-    refreshTimer = setTimeout(function(){ refresh(cfg); }, delay || 260);
-  }
-
   function shouldIgnoreMutation(target, mutation){
     if(!target || target.id === RAIL_ID) return true;
     if(mutation.type === 'attributes' && mutation.attributeName === 'class'){
-      if(target.classList && target.classList.contains('feedback')) return false;
-      if(target.classList && target.classList.contains('match-item')) return false;
-    }
-    if(mutation.type === 'childList'){
-      if(target.classList && target.classList.contains(PULSE_CLASS)) return true;
-      if(target.classList && target.classList.contains('block-intro-card')) return true;
-      if(target.classList && target.classList.contains('key-ideas-action')){
-        if(target.classList.contains(PULSE_IN_PRACTICE) || target.classList.contains(PULSE_CLASS)) return false;
-        return true;
+      if(target.classList && (
+        target.classList.contains('feedback') ||
+        target.classList.contains('match-item') ||
+        target.classList.contains('is-reviewed') ||
+        target.classList.contains('clicked') ||
+        target.classList.contains('is-completed') ||
+        target.classList.contains('is-selected') ||
+        target.classList.contains('is-correct')
+      )) return false;
+      // Ignore only pure pulse/ring class noise
+      if(target.classList && target.classList.contains(PULSE_CLASS)){
+        var meaningful = target.classList.contains('is-reviewed') ||
+          target.classList.contains('clicked') ||
+          target.classList.contains('is-completed');
+        if(!meaningful) return true;
       }
     }
-    if(mutation.type === 'attributes' && mutation.attributeName === 'class'){
+    if(mutation.type === 'childList'){
+      if(target.classList && target.classList.contains('block-intro-card')) return true;
+      if(target.classList && target.classList.contains('key-ideas-action')){
+        // Rebuilds must refresh the guide so pulses reattach
+        return false;
+      }
       if(target.classList && target.classList.contains(PULSE_CLASS)) return true;
     }
     return false;
@@ -2569,17 +2694,11 @@
 
       var activityRoot = findActivityRoot(panel);
       if(activityRoot && activityRoot.contains(e.target)){
-        if(isActivityIncomplete(panel)){
-          if(panel.dataset.flowActivityStarted !== 'true'){
-            panel.dataset.flowActivityStarted = 'true';
-          }
-        } else {
-          bumpFlowAdvance(moduleConfig, 220);
+        if(panel.dataset.flowActivityStarted !== 'true'){
+          panel.dataset.flowActivityStarted = 'true';
         }
-        if(e.target.closest('.feedback.show.good, [data-activity-feedback].show.good') ||
-          (e.target.closest('[data-choice-option]') && !isActivityIncomplete(panel))){
-          bumpFlowAdvance(moduleConfig, 200);
-        }
+        // Always re-evaluate after activity interaction so Done can cue reliably
+        bumpFlowAdvance(moduleConfig, 180);
       }
     }, true);
 
@@ -2608,7 +2727,7 @@
   function bindRefresh(moduleConfig){
     bindConceptFlowInteractions(moduleConfig);
 
-    ['click', 'change', 'input', 'concept-insight-pillars-change', 'concept-visual-expand-wire', 'concept-visual-expand-change', 'flow-guide-in-practice-ready', 'in-practice-progress', 'in-practice-complete'].forEach(function(name){
+    ['click', 'change', 'input', 'concept-insight-pillars-change', 'concept-visual-expand-wire', 'concept-visual-expand-change', 'flow-guide-in-practice-ready'].forEach(function(name){
       document.addEventListener(name, function(e){
         var panel = e.target && e.target.closest && e.target.closest('.concept-panel.show');
         if(panel) ensurePanelVisualWired(panel);
@@ -2620,6 +2739,20 @@
         if(name === 'concept-insight-pillars-change' && panel){
           bumpFlowAdvance(moduleConfig, 140);
           return;
+        }
+        if(name === 'flow-guide-in-practice-ready'){
+          bumpFlowAdvance(moduleConfig, 100);
+          return;
+        }
+        // Clicks on In Practice / activity are advanced by dedicated handlers ? avoid canceling bumps
+        if(name === 'click'){
+          var t = e.target;
+          if(t && t.closest && (
+            t.closest('[data-inprac-part], [data-inprac-cta], .key-ideas-action') ||
+            t.closest('[data-choice-option], [data-choice-activity], [data-matching-activity], [data-categorize-activity], [data-sequence-activity], [data-carousel], [data-sense-card]')
+          )){
+            return;
+          }
         }
         scheduleRefresh(moduleConfig);
       }, true);

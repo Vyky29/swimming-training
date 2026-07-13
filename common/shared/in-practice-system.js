@@ -183,6 +183,12 @@
     var panel = actionEl.closest && actionEl.closest('.concept-panel');
     if (panel) {
       panel.dataset.inPracticeDone = 'true';
+      var doneFor = actionEl.dataset.inPracticeTarget || panel.dataset.currentTarget || '';
+      panel.dataset.inPracticeDoneFor = doneFor;
+      if (doneFor) {
+        if (!panel.__inPracticeDoneMap) panel.__inPracticeDoneMap = {};
+        panel.__inPracticeDoneMap[doneFor] = true;
+      }
       try { panel.setAttribute('data-in-practice-done', 'true'); } catch (err0) {}
     }
     syncChrome(actionEl);
