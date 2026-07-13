@@ -161,6 +161,15 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
   animation-duration: 2.1s;
   --_pulse-rgb: var(--flow-tone-practice-rgb);
 }
+.flow-guide-expand-ring{
+  position: absolute;
+  inset: -6px;
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 55;
+  animation: flowGuideRing 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
+  --_pulse-rgb: var(--flow-tone-explore-rgb);
+}
 .flow-guide-block-intro-ring{
   --_pulse-rgb: var(--flow-tone-explore-rgb);
 }
@@ -189,10 +198,11 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
   }
 }
 
-/* Intro / reflection hosts: ring child, no competing animation on host */
+/* Intro / reflection / expand image hosts: ring child, no competing animation on host */
 .flow-guide-pulse.block-intro-card,
 .flow-guide-pulse.reflection-gate,
-.flow-guide-pulse.check-item.flow-guide-pulse--ring-host{
+.flow-guide-pulse.check-item.flow-guide-pulse--ring-host,
+.flow-guide-pulse.flow-guide-pulse--expand.flow-guide-pulse--ring-host{
   animation: none !important;
   overflow: visible !important;
   position: relative !important;
@@ -200,10 +210,28 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
   z-index: 6;
 }
 
+/* Module pages force box-shadow:none !important on visual frames ? keep pulse ring visible */
+.portal .concept-panel .concept-activity-box.flow-guide-pulse,
+.portal .concept-panel .m5-nested-visual-frame.flow-guide-pulse,
+.portal .concept-panel .b2c2-direct-image.flow-guide-pulse,
+.portal .concept-panel .b2c3-direct-image.flow-guide-pulse,
+.portal .concept-panel .m5-nested-visual-shell.flow-guide-pulse,
+.portal .concept-panel .m5-screen-visual-card.flow-guide-pulse,
+.portal .concept-panel [data-expandable-visual].flow-guide-pulse,
+.portal .concept-panel .concept-image.flow-guide-pulse{
+  overflow: visible !important;
+  position: relative !important;
+  z-index: 6;
+}
+
 html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card),
 html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card) .section-body,
 html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-intro-card),
-html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.reflection-gate){
+html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.reflection-gate),
+html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring),
+html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .concept-image,
+html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .m5-nested-visual-shell,
+html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-screens{
   overflow: visible !important;
 }
 
@@ -230,6 +258,42 @@ html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.reflect
   color: #163247;
   font-family: Montserrat, system-ui, sans-serif;
   pointer-events: none;
+}
+.flow-guide-rail.flow-guide-pulse{
+  --_pulse-rgb: var(--flow-accent-rgb);
+  animation: flowGuideRailPulse 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
+  z-index: 1200;
+  isolation: isolate;
+}
+.flow-guide-rail.flow-guide-pulse[data-flow-tone="explore"],
+.flow-guide-rail.flow-guide-pulse.flow-guide-pulse--expand{
+  --_pulse-rgb: var(--flow-tone-explore-rgb);
+}
+.flow-guide-rail.flow-guide-pulse[data-flow-tone="practice"],
+.flow-guide-rail.flow-guide-pulse.flow-guide-pulse--inpractice{
+  --_pulse-rgb: var(--flow-tone-practice-rgb);
+}
+.flow-guide-rail.flow-guide-pulse[data-flow-tone="activity"],
+.flow-guide-rail.flow-guide-pulse.flow-guide-pulse--activity{
+  --_pulse-rgb: var(--flow-tone-activity-rgb);
+}
+@keyframes flowGuideRailPulse{
+  0%, 100%{
+    box-shadow:
+      0 10px 30px rgba(15, 23, 42, .12),
+      0 0 0 1px rgba(255,255,255,.6) inset,
+      inset 0 0 0 2px rgba(var(--_pulse-rgb), .72),
+      0 0 0 0 rgba(var(--_pulse-rgb), .28),
+      0 0 14px rgba(var(--_pulse-rgb), .12);
+  }
+  50%{
+    box-shadow:
+      0 10px 30px rgba(15, 23, 42, .12),
+      0 0 0 1px rgba(255,255,255,.6) inset,
+      inset 0 0 0 2.5px rgba(var(--_pulse-rgb), 1),
+      0 0 0 7px rgba(var(--_pulse-rgb), .36),
+      0 0 26px rgba(var(--_pulse-rgb), .28);
+  }
 }
 .flow-guide-rail[hidden]{ display: none !important; }
 .flow-guide-rail__copy{
@@ -294,10 +358,12 @@ html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.reflect
   .flow-guide-ring,
   .flow-guide-block-intro-ring,
   .flow-guide-in-practice-ring,
+  .flow-guide-expand-ring,
   .flow-guide-reflection-ring,
   .flow-guide-block-check-ring,
   .flow-guide-m5-nav-ring,
   .flow-guide-rail__dot,
+  .flow-guide-rail.flow-guide-pulse,
   .module-card.flow-guide-next-module{
     animation: none !important;
   }

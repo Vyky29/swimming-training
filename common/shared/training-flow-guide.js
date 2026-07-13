@@ -7,6 +7,7 @@
   var PULSE_IN_PRACTICE = 'flow-guide-pulse--inpractice';
   var BLOCK_INTRO_RING_CLASS = 'flow-guide-block-intro-ring';
   var IN_PRACTICE_RING_CLASS = 'flow-guide-in-practice-ring';
+  var EXPAND_RING_CLASS = 'flow-guide-expand-ring';
   var REFLECTION_RING_CLASS = 'flow-guide-reflection-ring';
   var BLOCK_CHECK_RING_CLASS = 'flow-guide-block-check-ring';
   var M5_NAV_RING_CLASS = 'flow-guide-m5-nav-ring';
@@ -656,18 +657,19 @@
 
   function findVisualExpandBox(btn){
     if(!btn) return null;
-    return btn.closest('.m5-nested-visual-shell') ||
-      btn.closest('.m5-screen-visual-card') ||
-      btn.closest('.m5-folder-overview-card') ||
-      btn.closest('[data-expandable-visual]') ||
-      btn.closest('.concept-image') ||
-      btn.closest('[data-concept-primary-image]') ||
-      btn.closest('[data-concept-intro-media]') ||
+    return btn.closest('[data-expandable-visual]') ||
+      btn.closest('.concept-activity-box') ||
+      btn.closest('.m5-nested-visual-frame') ||
       btn.closest('.b2c2-direct-image') ||
       btn.closest('.b2c3-direct-image') ||
       btn.closest('.entry-exit-fan-item') ||
+      btn.closest('.m5-nested-visual-shell') ||
+      btn.closest('.m5-screen-visual-card') ||
+      btn.closest('.m5-folder-overview-card') ||
+      btn.closest('.concept-image') ||
+      btn.closest('[data-concept-primary-image]') ||
+      btn.closest('[data-concept-intro-media]') ||
       btn.closest('figure') ||
-      btn.closest('.concept-activity-box') ||
       btn.closest('.concept-section-card.section-visual-shell') ||
       btn.closest('.concept-section-card') ||
       btn.parentElement;
@@ -678,7 +680,7 @@
     var fanItem = scope.querySelector('.entry-exit-fan-item:not([data-visual-expanded="true"]) .img-expand-btn');
     if(fanItem) return findVisualExpandBox(fanItem) || fanItem;
     var expandBtn = scope.querySelector('.img-expand-btn[data-visual-expanded="false"], .img-expand-btn:not([data-visual-expanded="true"])');
-    if(expandBtn) return expandBtn;
+    if(expandBtn) return findVisualExpandBox(expandBtn) || expandBtn;
     var fan = scope.querySelector('.entry-exit-fan');
     if(fan && !fan.querySelector('.concept-points-box')) return fan;
     var frame = scope.querySelector('.m5-nested-visual-frame:not(:has(.concept-points-box)), .concept-activity-box:has(> img[src]):not(:has(.concept-points-box))');
@@ -728,6 +730,10 @@
       );
       if(!imageFrame && pulseHost.matches && pulseHost.matches('.m5-nested-visual-frame, .b2c2-direct-image, .b2c3-direct-image, .concept-activity-box, [data-expandable-visual], .entry-exit-fan, .entry-exit-fan-item')){
         imageFrame = pulseHost;
+      }
+      // Module 5 block1 shells often wrap the photo in .concept-image > .concept-activity-box
+      if(!imageFrame && pulseHost.classList && pulseHost.classList.contains('concept-image')){
+        imageFrame = pulseHost.querySelector('.concept-activity-box:has(> img[src]), [data-expandable-visual]') || pulseHost;
       }
     }
     // Always cue the full image surface (same as Module 2 "How Learning Is Accessed").
@@ -1933,6 +1939,45 @@
     });
   }
 
+  function removeExpandRings(){
+    document.querySelectorAll('.' + EXPAND_RING_CLASS).forEach(function(ring){
+      ring.remove();
+    });
+  }
+
+  function hasExpandRing(el){
+    return !!(el && el.querySelector('.' + EXPAND_RING_CLASS));
+  }
+
+  function isVisualExpandPulseHost(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('concept-activity-box') ||
+      el.classList.contains('m5-nested-visual-frame') ||
+      el.classList.contains('b2c2-direct-image') ||
+      el.classList.contains('b2c3-direct-image') ||
+      el.classList.contains('m5-nested-visual-shell') ||
+      el.classList.contains('m5-screen-visual-card') ||
+      el.classList.contains('m5-folder-overview-card') ||
+      el.classList.contains('entry-exit-fan') ||
+      el.classList.contains('entry-exit-fan-item') ||
+      el.classList.contains('concept-image') ||
+      el.hasAttribute('data-expandable-visual');
+  }
+
+  function ensureExpandRing(el){
+    if(!el) return;
+    var ring = el.querySelector('.' + EXPAND_RING_CLASS);
+    if(!ring){
+      ring = document.createElement('span');
+      ring.className = EXPAND_RING_CLASS;
+      ring.setAttribute('aria-hidden', 'true');
+      el.appendChild(ring);
+    }
+    var style = global.getComputedStyle ? global.getComputedStyle(el) : null;
+    var radius = style && style.borderRadius ? style.borderRadius : '';
+    if(radius && radius !== '0px') ring.style.borderRadius = radius;
+  }
+
   function hasReflectionRing(gate){
     return !!(gate && gate.querySelector('.' + REFLECTION_RING_CLASS));
   }
@@ -2077,6 +2122,7 @@
     }
     removeBlockIntroRings();
     removeInPracticeRings();
+    removeExpandRings();
     removeReflectionRings();
     removeBlockCheckRings();
     removeM5NavRings();
@@ -2106,7 +2152,10 @@
       if(!hasM5NavRing(el)) return true;
       return false;
     }
-    if(usesExpandPulse(step)) return !el.classList.contains(PULSE_EXPAND);
+    if(usesExpandPulse(step)){
+      if(isVisualExpandPulseHost(el) && !hasExpandRing(el)) return true;
+      return !el.classList.contains(PULSE_EXPAND);
+    }
     return false;
   }
 
@@ -2127,6 +2176,10 @@
       ensureInPracticeRing(el);
     } else if(tone === 'explore'){
       el.classList.add(PULSE_EXPAND);
+      if(usesExpandPulse(step) && isVisualExpandPulseHost(el)){
+        el.classList.add('flow-guide-pulse--ring-host');
+        ensureExpandRing(el);
+      }
     }
     if(step.kind === 'block-intro' || el.classList.contains('block-intro-card')){
       el.classList.add('flow-guide-pulse--ring-host');
@@ -2169,11 +2222,18 @@
     var eyebrow = rail.querySelector('.flow-guide-rail__eyebrow');
     if(!step){
       rail.hidden = true;
+      rail.classList.remove(PULSE_CLASS, PULSE_EXPAND, PULSE_ACTIVITY, PULSE_IN_PRACTICE);
+      rail.removeAttribute('data-flow-tone');
       return;
     }
     rail.hidden = false;
+    var tone = resolvePulseTone(step);
+    rail.classList.add(PULSE_CLASS);
+    rail.setAttribute('data-flow-tone', tone);
+    rail.classList.toggle(PULSE_EXPAND, tone === 'explore');
+    rail.classList.toggle(PULSE_ACTIVITY, tone === 'activity');
+    rail.classList.toggle(PULSE_IN_PRACTICE, tone === 'practice');
     if(eyebrow){
-      var tone = resolvePulseTone(step);
       eyebrow.textContent = tone === 'practice' ? 'Try this'
         : tone === 'activity' ? 'Complete activity'
         : tone === 'reflect' ? 'Checkpoint'
@@ -2201,6 +2261,11 @@
     if(key === lastStepKey && activePulseEl === target && !step.noPulse && !pulseClassesMissing(target, step)){
       if((step.tone === 'inpractice' || step.kind === 'inpractice') && target.classList.contains('key-ideas-action')){
         ensureInPracticeRing(target);
+      }
+      if(usesExpandPulse(step) && activePulseEls.length){
+        for(var ei = 0; ei < activePulseEls.length; ei++){
+          if(isVisualExpandPulseHost(activePulseEls[ei])) ensureExpandRing(activePulseEls[ei]);
+        }
       }
       if(step.kind === 'reflection' || step.tone === 'reflection'){
         ensureReflectionRingsForStep(step);

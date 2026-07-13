@@ -46,7 +46,7 @@
         '<div class="inprac__top">' +
           '<span class="icon inprac__icon" aria-hidden="true">' + iconHtml(completed) + '</span>' +
           '<div class="inprac__titles">' +
-            '<p class="inprac__eyebrow">Coach cue</p>' +
+            '<p class="inprac__eyebrow">Instructor cue</p>' +
             '<p class="label inprac__title">In Practice</p>' +
           '</div>' +
           '<span class="inprac__status" data-inprac-status>' + (completed ? 'Done' : 'Review') + '</span>' +

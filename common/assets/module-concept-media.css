@@ -62,8 +62,10 @@
 .portal .concept-panel [data-expandable-visual].flow-guide-pulse,
 .portal .concept-panel .m5-nested-visual-frame.flow-guide-pulse,
 .portal .concept-panel .b2c2-direct-image.flow-guide-pulse,
-.portal .concept-panel .b2c3-direct-image.flow-guide-pulse {
+.portal .concept-panel .b2c3-direct-image.flow-guide-pulse,
+.portal .concept-panel .concept-image.flow-guide-pulse {
   overflow: visible !important;
+  position: relative !important;
 }
 
 .portal .concept-panel [data-expandable-visual].concept-activity-box,
