@@ -4712,11 +4712,19 @@
     function finishConcept(block, target){
       if(block === 'block3' && block3ApproachTargets.indexOf(target) !== -1){
         block3ApproachesViewed.add(target);
-        if(block3ApproachesViewed.size === block3ApproachTargets.length){
-          markConceptComplete(block, 'b3c3');
-        }
         var nextApproach = nextSiblingSubconcept(block3ApproachTargets, target, block3ApproachesViewed);
-        renderConcept(block, nextApproach || 'b3c3');
+        if(nextApproach){
+          renderConcept(block, 'b3c3', false, { resumeHub: true, skipPanelScroll: true });
+          if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
+            TrainingFlowGuide.requestRefresh([120, 400, 800]);
+          }
+          return;
+        }
+        markConceptComplete(block, 'b3c3');
+        if(typeof TrainingFlowGuide !== 'undefined'){
+          if(TrainingFlowGuide.returnToConceptGrid) TrainingFlowGuide.returnToConceptGrid(block);
+          if(TrainingFlowGuide.requestRefresh) TrainingFlowGuide.requestRefresh([120, 400, 800, 1200]);
+        }
         return;
       }
       markConceptComplete(block, target);
@@ -5381,7 +5389,8 @@
       return '<p>' + raw + '</p>';
     }
 
-    function renderConcept(block, target, fromBack){
+    function renderConcept(block, target, fromBack, opts){
+      opts = opts || {};
       const data = conceptContent[target];
       const panel = document.querySelector(`[data-panel-for="${block}"]`);
       if(!data || !panel) return;
@@ -5412,10 +5421,10 @@
         button.classList.toggle('active', button.dataset.target === mainGridTarget);
       });
 
-      var alreadyCompleted = conceptCompletion[block] && (
+      var alreadyCompleted = (conceptCompletion[block] && (
         conceptCompletion[block].has(target) ||
         (mainGridTarget && conceptCompletion[block].has(mainGridTarget))
-      );
+      )) || !!opts.resumeHub;
       panel.dataset.conceptDwellEnd = alreadyCompleted ? '0' : String(Date.now() + MIN_CONCEPT_DWELL_MS);
       panel.classList.add('show');
       panel.dataset.currentTarget = target;
@@ -5556,9 +5565,15 @@
       setupCarousels(panel, null, null);
 
       if(isB3c3Container){
+        var nextNeeded = null;
+        for(var ai = 0; ai < block3ApproachTargets.length; ai++){
+          if(!block3ApproachesViewed.has(block3ApproachTargets[ai])){ nextNeeded = block3ApproachTargets[ai]; break; }
+        }
         panel.querySelectorAll('[data-parent-subconcept-nav] .concept-square[data-target]').forEach(function(btn){
           var t = btn.getAttribute('data-target');
-          if(block3ApproachesViewed.has(t)) btn.classList.add('visited');
+          var done = block3ApproachesViewed.has(t);
+          btn.classList.toggle('visited', done);
+          btn.classList.toggle('is-next', !REVIEW_MODE && !!nextNeeded && t === nextNeeded);
           btn.addEventListener('click', function(e){
             e.preventDefault();
             e.stopPropagation();
@@ -5566,6 +5581,21 @@
             renderConcept(block, btn.getAttribute('data-target'));
           });
         });
+      }
+
+      if(opts.resumeHub){
+        panel.querySelectorAll('.img-expand-btn').forEach(function(btn){
+          btn.setAttribute('data-visual-expanded', 'true');
+        });
+        panel.dataset.flowVisualScrollPreKeyideas = 'true';
+        panel.dataset.flowVisualScrollPreActivity = 'true';
+        panel.dataset.flowVisualScrollPostActivity = 'true';
+        panel.dataset.keyIdeasDone = 'true';
+        panel.dataset.inPracticeDone = 'true';
+        panel.dataset.inPracticeDoneFor = target;
+        panel.dataset.inPracticeRequired = 'false';
+        panel.querySelectorAll('.concept-insight-pillar').forEach(function(p){ p.classList.add('clicked'); });
+        panel.dataset.insightPillarsDone = 'true';
       }
 
       const ttsBtn = panel.querySelector('[data-concept-tts]');
@@ -5678,7 +5708,9 @@
       updateConceptFinishState(panel, block, target);
 
       updateConceptProgress(block);
-      scrollPanelIntoView(panel);
+      if(!opts.skipPanelScroll){
+        scrollPanelIntoView(panel);
+      }
     }
     function setupConcepts(){
       document.addEventListener('click', function(e){

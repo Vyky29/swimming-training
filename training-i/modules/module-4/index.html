@@ -9293,7 +9293,7 @@
         return;
       }
 
-      // Block 4: leaf Done → next sibling subconcept; after last leaf → parent hub
+      // Block 4: leaf Done → return to parent chooser for next sibling; after last leaf → parent Done / grid
       if(block === 'block4'){
         if(['b3c2_physical','b3c2_motor','b3c2_cognitive'].indexOf(target) !== -1){
           conceptHistory.block4 = [];
@@ -9309,7 +9309,18 @@
               if(!conceptCompletion.block4.has(factorFamily[fj])){ nextFactor = factorFamily[fj]; break; }
             }
           }
-          renderConcept('block4', nextFactor || 'b3c2');
+          if(nextFactor){
+            renderConcept('block4', 'b3c2', false, { resumeHub: true, skipPanelScroll: true });
+            if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
+              TrainingFlowGuide.requestRefresh([120, 400, 800]);
+            }
+            return;
+          }
+          if(!conceptCompletion.block4.has('b3c2')) markConceptComplete('block4', 'b3c2');
+          if(typeof TrainingFlowGuide !== 'undefined'){
+            if(TrainingFlowGuide.returnToConceptGrid) TrainingFlowGuide.returnToConceptGrid('block4');
+            if(TrainingFlowGuide.requestRefresh) TrainingFlowGuide.requestRefresh([120, 400, 800, 1200]);
+          }
           return;
         }
         if(['b3c3_step1','b3c3_step2','b3c3_step3'].indexOf(target) !== -1){
@@ -9326,8 +9337,18 @@
               if(!conceptCompletion.block4.has(stepFamily[sj])){ nextStep = stepFamily[sj]; break; }
             }
           }
-          if(!nextStep) markConceptComplete('block4', 'b3c3');
-          renderConcept('block4', nextStep || 'b3c3');
+          if(nextStep){
+            renderConcept('block4', 'b3c3', false, { resumeHub: true, skipPanelScroll: true });
+            if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
+              TrainingFlowGuide.requestRefresh([120, 400, 800]);
+            }
+            return;
+          }
+          if(!conceptCompletion.block4.has('b3c3')) markConceptComplete('block4', 'b3c3');
+          if(typeof TrainingFlowGuide !== 'undefined'){
+            if(TrainingFlowGuide.returnToConceptGrid) TrainingFlowGuide.returnToConceptGrid('block4');
+            if(TrainingFlowGuide.requestRefresh) TrainingFlowGuide.requestRefresh([120, 400, 800, 1200]);
+          }
           return;
         }
         if(['b3c1','b3c2','b3c3'].indexOf(target) !== -1){
@@ -9851,7 +9872,8 @@
       }
     }
 
-    function renderConcept(block, target, fromBack){
+    function renderConcept(block, target, fromBack, opts){
+      opts = opts || {};
       const data = conceptContent[target];
       const panel = document.querySelector(`[data-panel-for="${block}"]`);
       if(!data || !panel) return;
@@ -9879,7 +9901,7 @@
         button.classList.toggle('active', button.dataset.target === target);
       });
 
-      var alreadyCompleted = conceptCompletion[block] && conceptCompletion[block].has(target);
+      var alreadyCompleted = (conceptCompletion[block] && conceptCompletion[block].has(target)) || !!opts.resumeHub;
       panel.dataset.conceptDwellEnd = alreadyCompleted ? '0' : String(Date.now() + MIN_CONCEPT_DWELL_MS);
       panel.classList.add('show');
       panel.dataset.currentTarget = target;
@@ -10308,11 +10330,24 @@
 
       // Block 4: inner tiles for interpreting progress (development not linear, access differences, framework use)
       if(block === 'block4'){
+        const factorFamily = ['b3c2_physical','b3c2_motor','b3c2_cognitive'];
+        const stepFamily = ['b3c3_step1','b3c3_step2','b3c3_step3'];
+        var nextNeeded = null;
+        if(target === 'b3c2'){
+          for(var fni = 0; fni < factorFamily.length; fni++){
+            if(!conceptCompletion.block4.has(factorFamily[fni])){ nextNeeded = factorFamily[fni]; break; }
+          }
+        } else if(target === 'b3c3'){
+          for(var sni = 0; sni < stepFamily.length; sni++){
+            if(!conceptCompletion.block4.has(stepFamily[sni])){ nextNeeded = stepFamily[sni]; break; }
+          }
+        }
         const innerButtons3 = panel.querySelectorAll('[data-parent-subconcept-nav] .concept-square[data-target], [data-concept-primary-image] .concept-square[data-target], .concept-image .concept-square[data-target]');
         innerButtons3.forEach(button => {
           const btTarget = button.dataset.target;
           button.classList.toggle('active', btTarget === target);
-          if(conceptCompletion[block].has(btTarget)) button.classList.add('visited');
+          button.classList.toggle('visited', conceptCompletion[block].has(btTarget));
+          button.classList.toggle('is-next', !REVIEW_MODE && !!nextNeeded && btTarget === nextNeeded);
           button.onclick = () => {
             const nextTarget = button.dataset.target;
             if(!nextTarget || !conceptContent[nextTarget]) return;
@@ -10320,6 +10355,21 @@
             renderConcept('block4', nextTarget);
           };
         });
+      }
+
+      if(opts.resumeHub){
+        panel.querySelectorAll('.img-expand-btn').forEach(function(btn){
+          btn.setAttribute('data-visual-expanded', 'true');
+        });
+        panel.dataset.flowVisualScrollPreKeyideas = 'true';
+        panel.dataset.flowVisualScrollPreActivity = 'true';
+        panel.dataset.flowVisualScrollPostActivity = 'true';
+        panel.dataset.keyIdeasDone = 'true';
+        panel.dataset.inPracticeDone = 'true';
+        panel.dataset.inPracticeDoneFor = target;
+        panel.dataset.inPracticeRequired = 'false';
+        panel.querySelectorAll('.concept-insight-pillar').forEach(function(p){ p.classList.add('clicked'); });
+        panel.dataset.insightPillarsDone = 'true';
       }
 
       const backBtn = panel.querySelector('[data-concept-back]');
@@ -10433,7 +10483,9 @@
       }
 
       updateConceptProgress(block);
-      scrollPanelIntoView(panel);
+      if(!opts.skipPanelScroll){
+        scrollPanelIntoView(panel);
+      }
     }
 
     function setupConcepts(){

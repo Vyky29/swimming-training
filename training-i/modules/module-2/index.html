@@ -5460,17 +5460,39 @@
       if(block === 'block2' && block2StateTargets.indexOf(target) !== -1){
         conceptHistory[block] = [];
         block2StatesViewed.add(target);
-        if(block2StatesViewed.size === block2StateTargets.length) markConceptComplete(block, 'b2c2');
         var nextState = nextSiblingSubconcept(block2StateTargets, target, block2StatesViewed);
-        renderConcept(block, nextState || 'b2c2');
+        if(nextState){
+          // Show Calm/Alert/Overloaded chooser again and pulse the next state
+          renderConcept(block, 'b2c2', false, { resumeHub: true, skipPanelScroll: true });
+          if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
+            TrainingFlowGuide.requestRefresh([120, 400, 800]);
+          }
+          return;
+        }
+        markConceptComplete(block, 'b2c2');
+        if(typeof TrainingFlowGuide !== 'undefined'){
+          if(TrainingFlowGuide.returnToConceptGrid) TrainingFlowGuide.returnToConceptGrid(block);
+          if(TrainingFlowGuide.requestRefresh) TrainingFlowGuide.requestRefresh([120, 400, 800, 1200]);
+        }
         return;
       }
       if(block === 'block3' && block3FactorTargets.indexOf(target) !== -1){
         conceptHistory[block] = [];
         block3FactorsViewed.add(target);
-        if(block3FactorsViewed.size === block3FactorTargets.length) markConceptComplete(block, 'b3c2');
         var nextFactor = nextSiblingSubconcept(block3FactorTargets, target, block3FactorsViewed);
-        renderConcept(block, nextFactor || 'b3c2');
+        if(nextFactor){
+          // Show Water/Environmental/Internal chooser again and pulse the next factor
+          renderConcept(block, 'b3c2', false, { resumeHub: true, skipPanelScroll: true });
+          if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
+            TrainingFlowGuide.requestRefresh([120, 400, 800]);
+          }
+          return;
+        }
+        markConceptComplete(block, 'b3c2');
+        if(typeof TrainingFlowGuide !== 'undefined'){
+          if(TrainingFlowGuide.returnToConceptGrid) TrainingFlowGuide.returnToConceptGrid(block);
+          if(TrainingFlowGuide.requestRefresh) TrainingFlowGuide.requestRefresh([120, 400, 800, 1200]);
+        }
         return;
       }
       markConceptComplete(block, target);
@@ -6235,7 +6257,8 @@
     }
   }
 
-    function renderConcept(block, target, fromBack){
+    function renderConcept(block, target, fromBack, opts){
+      opts = opts || {};
       const data = conceptContent[target];
       const panel = document.querySelector(`[data-panel-for="${block}"]`);
       if(!data || !panel) return;
@@ -6275,7 +6298,7 @@
         button.classList.toggle('active', button.dataset.target === mainGridTarget);
       });
 
-      var alreadyCompleted = conceptCompletion[block] && (conceptCompletion[block].has(target) || (mainGridTarget && conceptCompletion[block].has(mainGridTarget)));
+      var alreadyCompleted = (conceptCompletion[block] && (conceptCompletion[block].has(target) || (mainGridTarget && conceptCompletion[block].has(mainGridTarget)))) || !!opts.resumeHub;
       panel.dataset.conceptDwellEnd = alreadyCompleted ? '0' : String(Date.now() + MIN_CONCEPT_DWELL_MS);
       panel.classList.add('show');
       panel.dataset.currentTarget = target;
@@ -6287,7 +6310,7 @@
       delete panel.dataset.sequenceComplete;
       var titleHeading = panel.querySelector('.concept-heading-row h4') || panel.querySelector('h4');
       if(titleHeading) setConceptTitle(titleHeading, data.title, target, block);
-      var conceptAlreadyDone = conceptCompletion[block] && conceptCompletion[block].has(target);
+      var conceptAlreadyDone = (conceptCompletion[block] && conceptCompletion[block].has(target)) || !!opts.resumeHub;
       var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
         ? ConceptInsightIntro.renderIntro(panel, data, 2, target, { restoreComplete: !!conceptAlreadyDone })
         : null;
@@ -6420,10 +6443,18 @@
       // Instructor thinking / why-matters blocks intentionally removed by request
 
       if(isB2c2Container || isB3c2Container){
+        var family = isB2c2Container ? block2StateTargets : block3FactorTargets;
+        var viewed = isB2c2Container ? block2StatesViewed : block3FactorsViewed;
+        var nextNeeded = null;
+        for(var fi = 0; fi < family.length; fi++){
+          if(!viewed.has(family[fi])){ nextNeeded = family[fi]; break; }
+        }
         panel.querySelectorAll('[data-parent-subconcept-nav] .concept-square[data-target]').forEach(btn => {
           var t = btn.getAttribute('data-target');
-          if(block === 'block2' && block2StatesViewed.has(t)) btn.classList.add('visited');
-          if(block === 'block3' && block3FactorsViewed.has(t)) btn.classList.add('visited');
+          var done = viewed.has(t);
+          btn.classList.toggle('visited', done);
+          btn.classList.toggle('is-next', !REVIEW_MODE && !!nextNeeded && t === nextNeeded);
+          btn.classList.remove('is-locked');
           btn.addEventListener('click', function(e){
             e.preventDefault();
             e.stopPropagation();
@@ -6431,6 +6462,21 @@
             renderConcept(block, this.getAttribute('data-target'));
           });
         });
+      }
+
+      if(opts.resumeHub){
+        panel.querySelectorAll('.img-expand-btn').forEach(function(btn){
+          btn.setAttribute('data-visual-expanded', 'true');
+        });
+        panel.dataset.flowVisualScrollPreKeyideas = 'true';
+        panel.dataset.flowVisualScrollPreActivity = 'true';
+        panel.dataset.flowVisualScrollPostActivity = 'true';
+        panel.dataset.keyIdeasDone = 'true';
+        panel.dataset.inPracticeDone = 'true';
+        panel.dataset.inPracticeDoneFor = target;
+        panel.dataset.inPracticeRequired = 'false';
+        panel.querySelectorAll('.concept-insight-pillar').forEach(function(p){ p.classList.add('clicked'); });
+        panel.dataset.insightPillarsDone = 'true';
       }
 
       const ttsBtn = panel.querySelector('[data-concept-tts]');
@@ -6555,7 +6601,9 @@
       }
 
       updateConceptProgress(block);
-      scrollPanelIntoView(panel);
+      if(!opts.skipPanelScroll){
+        scrollPanelIntoView(panel);
+      }
     }
 
     function setupConcepts(){
