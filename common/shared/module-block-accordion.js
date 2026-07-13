@@ -215,7 +215,9 @@
         detail: { block: key, open: true }
       }));
     }catch(_){}
-    if(global.TrainingFlowGuide && typeof global.TrainingFlowGuide.scheduleRefresh === 'function'){
+    if(global.TrainingFlowGuide && typeof global.TrainingFlowGuide.requestRefresh === 'function'){
+      global.TrainingFlowGuide.requestRefresh(120);
+    } else if(global.TrainingFlowGuide && typeof global.TrainingFlowGuide.scheduleRefresh === 'function'){
       global.TrainingFlowGuide.scheduleRefresh(null, 120);
     } else if(global.TrainingFlowGuide && typeof global.TrainingFlowGuide.refresh === 'function'){
       try{ global.TrainingFlowGuide.refresh(); }catch(_){}

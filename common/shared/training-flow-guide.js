@@ -1990,6 +1990,61 @@
     action.appendChild(ring);
   }
 
+
+  var VARIANT_RGB = {
+    foundations: '45, 132, 179',
+    core: '123, 47, 161',
+    pathway: '26, 92, 56',
+    progress: '201, 120, 22'
+  };
+
+  function detectBlockVariant(blockId){
+    if(!blockId) return null;
+    var section = document.getElementById(blockId);
+    if(!section) return null;
+    var classes = section.className || '';
+    var m = classes.match(/block-part--([a-z]+)/);
+    if(m) return m[1];
+    var order = (activeModuleConfig && activeModuleConfig.blocks) || [];
+    var idx = order.indexOf(blockId);
+    return ['foundations', 'core', 'pathway', 'progress'][idx >= 0 ? idx % 4 : 0];
+  }
+
+  function syncGuidedAccent(step){
+    var root = document.documentElement;
+    var blockId = null;
+    if(step && step.scrollBlockId) blockId = step.scrollBlockId;
+    if(!blockId && step && step.el && step.el.closest){
+      var part = step.el.closest('[data-block-part], section[id^="block"]');
+      if(part) blockId = part.getAttribute('data-block-part') || part.id;
+    }
+    if(!blockId){
+      var openPart = document.querySelector('.section.block-part.is-open[data-block-part]');
+      if(openPart) blockId = openPart.getAttribute('data-block-part');
+    }
+    if(!blockId){
+      var openPanel = getActiveOpenPanel();
+      if(openPanel) blockId = openPanel.getAttribute('data-panel-for');
+    }
+    var variant = detectBlockVariant(blockId) || 'foundations';
+    root.setAttribute('data-guided-block-variant', variant);
+    root.style.setProperty('--flow-accent-rgb', VARIANT_RGB[variant] || VARIANT_RGB.foundations);
+    if(step && step.kind && (step.kind.indexOf('m5-') === 0 || step.tone === 'm5-nav')){
+      var panel = step.el && step.el.closest && step.el.closest('.concept-panel');
+      var custom = panel && panel.dataset && panel.dataset.flowM5AccentRgb;
+      if(custom) root.style.setProperty('--flow-m5-accent-rgb', custom);
+    }
+  }
+
+  function resolvePulseTone(step){
+    if(!step) return 'guide';
+    if(step.tone === 'inpractice' || step.kind === 'inpractice') return 'practice';
+    if(isActivityPulseStep(step) || step.tone === 'activity') return 'activity';
+    if(step.kind === 'reflection' || step.tone === 'reflection' || step.kind === 'block-check') return 'reflect';
+    if(usesExpandPulse(step) || step.tone === 'expand' || step.kind === 'block-intro' || step.kind === 'm5-nested-nav' || step.tone === 'm5-nav') return 'explore';
+    return 'guide';
+  }
+
   function clearPulse(){
     var els = activePulseEls.length ? activePulseEls.slice() : (activePulseEl ? [activePulseEl] : []);
     for(var i = 0; i < els.length; i++){
@@ -1997,6 +2052,8 @@
       els[i].classList.remove(PULSE_EXPAND);
       els[i].classList.remove(PULSE_ACTIVITY);
       els[i].classList.remove(PULSE_IN_PRACTICE);
+      els[i].classList.remove('flow-guide-pulse--ring-host');
+      els[i].removeAttribute('data-flow-tone');
     }
     removeBlockIntroRings();
     removeInPracticeRings();
@@ -2036,40 +2093,52 @@
   function applyPulseToEl(el, step){
     if(!el) return;
     var panel = el.closest && el.closest('.concept-panel');
+    var tone = resolvePulseTone(step);
     el.classList.add(PULSE_CLASS);
+    el.setAttribute('data-flow-tone', tone);
     var activityStep = isActivityPulseStep(step);
     var usesM5Tone = !activityStep && (step.tone === 'm5-nav' || step.kind === 'm5-nested-nav' || step.kind === 'm5-nested-return' || step.kind === 'm5-visual-review');
     if(activityStep){
       el.classList.add(PULSE_ACTIVITY);
     } else if(usesM5Tone){
       ensureM5NavRing(el, panel);
-    } else if(step.tone === 'inpractice' || step.kind === 'inpractice'){
+    } else if(tone === 'practice'){
       el.classList.add(PULSE_IN_PRACTICE);
       ensureInPracticeRing(el);
-    } else if(usesExpandPulse(step)){
+    } else if(tone === 'explore'){
       el.classList.add(PULSE_EXPAND);
     }
     if(step.kind === 'block-intro' || el.classList.contains('block-intro-card')){
+      el.classList.add('flow-guide-pulse--ring-host');
       ensureBlockIntroRing(el);
     }
     if(step.kind === 'reflection' || step.tone === 'reflection'){
+      el.classList.add('flow-guide-pulse--ring-host');
       ensureReflectionRingsForStep(step);
     }
     if(step.kind === 'block-check'){
       var checkEl = el.classList.contains('check-item') ? el : el.closest('.check-item');
-      if(checkEl) ensureBlockCheckRing(checkEl);
+      if(checkEl){
+        checkEl.classList.add('flow-guide-pulse--ring-host');
+        ensureBlockCheckRing(checkEl);
+      }
     }
   }
 
   function ensureRail(){
     var rail = document.getElementById(RAIL_ID);
-    if(rail) return rail;
+    if(rail){
+      if(!rail.querySelector('.flow-guide-rail__eyebrow')){
+        rail.innerHTML = '<span class="flow-guide-rail__dot" aria-hidden="true"></span><div class="flow-guide-rail__copy"><span class="flow-guide-rail__eyebrow">Guided next</span><span class="flow-guide-rail__text"></span></div>';
+      }
+      return rail;
+    }
     rail = document.createElement('div');
     rail.id = RAIL_ID;
     rail.className = 'flow-guide-rail';
     rail.setAttribute('role', 'status');
     rail.setAttribute('aria-live', 'polite');
-    rail.innerHTML = '<span class="flow-guide-rail__dot" aria-hidden="true"></span><span class="flow-guide-rail__text"></span>';
+    rail.innerHTML = '<span class="flow-guide-rail__dot" aria-hidden="true"></span><div class="flow-guide-rail__copy"><span class="flow-guide-rail__eyebrow">Guided next</span><span class="flow-guide-rail__text"></span></div>';
     document.body.appendChild(rail);
     return rail;
   }
@@ -2077,15 +2146,25 @@
   function updateRail(step){
     var rail = ensureRail();
     var textEl = rail.querySelector('.flow-guide-rail__text');
+    var eyebrow = rail.querySelector('.flow-guide-rail__eyebrow');
     if(!step){
       rail.hidden = true;
       return;
     }
     rail.hidden = false;
-    if(textEl) textEl.innerHTML = 'Next step: <strong>' + step.label + '</strong>';
+    if(eyebrow){
+      var tone = resolvePulseTone(step);
+      eyebrow.textContent = tone === 'practice' ? 'Try this'
+        : tone === 'activity' ? 'Complete activity'
+        : tone === 'reflect' ? 'Checkpoint'
+        : tone === 'explore' ? 'Explore'
+        : 'Guided next';
+    }
+    if(textEl) textEl.innerHTML = '<strong>' + String(step.label || '').replace(/</g, '&lt;') + '</strong>';
   }
 
   function applyGuide(step){
+    syncGuidedAccent(step);
     if(!step || !step.el){
       clearPulse();
       updateRail(null);
@@ -2149,8 +2228,9 @@
   }
 
   function scheduleRefresh(moduleConfig, delay){
+    var cfg = moduleConfig || activeModuleConfig;
     if(refreshTimer) clearTimeout(refreshTimer);
-    refreshTimer = setTimeout(function(){ refresh(moduleConfig); }, delay || 260);
+    refreshTimer = setTimeout(function(){ refresh(cfg); }, delay || 260);
   }
 
   function shouldIgnoreMutation(target, mutation){
@@ -2406,7 +2486,9 @@
     if(nextModule){
       rail.hidden = false;
       var textEl = rail.querySelector('.flow-guide-rail__text');
-      if(textEl) textEl.innerHTML = 'Recommended next: <strong>Module ' + nextModule.number + ' ? ' + nextModule.title + '</strong>';
+      var eyebrow = rail.querySelector('.flow-guide-rail__eyebrow');
+      if(eyebrow) eyebrow.textContent = 'Recommended';
+      if(textEl) textEl.innerHTML = '<strong>Module ' + nextModule.number + ' \u2014 ' + nextModule.title + '</strong>';
     } else {
       rail.hidden = true;
     }

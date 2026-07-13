@@ -1,570 +1,276 @@
 /**
- * Guided demo flow ù premium next-step cue (no locks).
+ * Guided flow cue ? premium next-step pulse + rail
+ * Accent follows open block variant via --flow-accent-rgb
  */
 
-.portal .flow-guide-pulse,
-.flow-guide-pulse {
+html[data-guided-flow="true"],
+html[data-guided-flow="hub"]{
+  --flow-accent-rgb: 45, 132, 179;
+  --flow-accent: rgb(var(--flow-accent-rgb));
+  --flow-pulse-inset: .72;
+  --flow-pulse-halo: .28;
+  --flow-pulse-glow: .22;
+}
+
+html[data-guided-block-variant="foundations"]{ --flow-accent-rgb: 45, 132, 179; }
+html[data-guided-block-variant="core"]{ --flow-accent-rgb: 123, 47, 161; }
+html[data-guided-block-variant="pathway"]{ --flow-accent-rgb: 26, 92, 56; }
+html[data-guided-block-variant="progress"]{ --flow-accent-rgb: 201, 120, 22; }
+
+/* Soft role tints (still rooted in block accent unless overridden) */
+html[data-guided-flow="true"]{
+  --flow-tone-read-rgb: var(--flow-accent-rgb);
+  --flow-tone-explore-rgb: 201, 120, 22;
+  --flow-tone-practice-rgb: 42, 140, 96;
+  --flow-tone-activity-rgb: 88, 72, 190;
+  --flow-tone-reflect-rgb: var(--flow-accent-rgb);
+}
+
+/* ===== Pulse target ===== */
+.flow-guide-pulse,
+.portal .flow-guide-pulse{
+  --_pulse-rgb: var(--flow-accent-rgb);
   position: relative;
   z-index: 5;
   outline: none !important;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: visible;
   isolation: isolate;
-  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
+  animation: flowGuidePulse 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+
+.flow-guide-pulse[data-flow-tone="explore"],
+.flow-guide-pulse.flow-guide-pulse--expand{
+  --_pulse-rgb: var(--flow-tone-explore-rgb);
+}
+
+.flow-guide-pulse[data-flow-tone="practice"],
+.flow-guide-pulse.flow-guide-pulse--inpractice{
+  --_pulse-rgb: var(--flow-tone-practice-rgb);
+  animation-duration: 2.1s;
+}
+
+.flow-guide-pulse[data-flow-tone="activity"],
+.flow-guide-pulse.flow-guide-pulse--activity{
+  --_pulse-rgb: var(--flow-tone-activity-rgb);
+}
+
+.flow-guide-pulse[data-flow-tone="reflect"]{
+  --_pulse-rgb: var(--flow-tone-reflect-rgb);
 }
 
 .flow-guide-pulse.concept-insight-pillar,
-.portal .flow-guide-pulse.concept-insight-pillar,
-.flow-guide-pulse.key-idea-item,
-.portal .flow-guide-pulse.key-idea-item {
-  border-radius: 10px;
+.flow-guide-pulse.key-idea-item{
+  border-radius: 12px;
 }
 
 .flow-guide-pulse.concept-square,
-.portal .flow-guide-pulse.concept-square,
 .flow-guide-pulse.module-roadmap__item,
-.portal .flow-guide-pulse.module-roadmap__item,
 .flow-guide-pulse.journey-item.module-roadmap__item,
 .flow-guide-pulse.outcome,
 .flow-guide-pulse.check-item,
 .flow-guide-pulse.concept-points-box,
-.portal .flow-guide-pulse.concept-points-box,
 .flow-guide-pulse.section-activity-shell,
-.portal .flow-guide-pulse.section-activity-shell,
 .flow-guide-pulse[data-concept-activity],
-.portal .flow-guide-pulse[data-concept-activity],
-.flow-guide-pulse[data-concept-activity-flow],
-.portal .flow-guide-pulse[data-concept-activity-flow],
 .flow-guide-pulse.activity-container--concept,
-.portal .flow-guide-pulse.activity-container--concept,
-.flow-guide-pulse[data-m5-b2-nested-key],
-.portal .flow-guide-pulse[data-m5-b2-nested-key],
-.flow-guide-pulse[data-m5-b2-choice-mount],
-.portal .flow-guide-pulse[data-m5-b2-choice-mount],
-.flow-guide-pulse.concept-section-card.section-activity,
-.portal .flow-guide-pulse.concept-section-card.section-activity,
 .flow-guide-pulse.module-roadmap-wrap,
-.portal .flow-guide-pulse.module-roadmap-wrap,
-.flow-guide-pulse.journey-wrap.module-roadmap-wrap,
-.portal .flow-guide-pulse.journey-wrap.module-roadmap-wrap {
-  border-radius: 14px;
-}
-
-.flow-guide-pulse.block-intro-card,
-.portal .flow-guide-pulse.block-intro-card {
-  border-radius: 14px;
-  overflow: visible !important;
-  z-index: 6;
-  position: relative !important;
-  isolation: isolate;
-  animation: none !important;
-}
-
-.flow-guide-block-intro-ring,
-.portal .flow-guide-block-intro-ring {
-  position: absolute;
-  inset: -5px;
-  border-radius: 18px;
-  pointer-events: none;
-  z-index: 50;
-  animation: flowGuideBlockIntroRing 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-.flow-guide-pulse.block-intro-card:not(.clicked)::after,
-.portal .flow-guide-pulse.block-intro-card:not(.clicked)::after {
-  content: none;
-  display: none;
-}
-
-.flow-guide-pulse.block-intro-card:not(.clicked):hover,
-.portal .flow-guide-pulse.block-intro-card:not(.clicked):hover {
-  transform: none !important;
-}
-
-html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card),
-.portal section[id^="block"]:has(.flow-guide-pulse.block-intro-card) {
-  overflow: visible !important;
-}
-
-html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card) .section-body,
-.portal section[id^="block"]:has(.flow-guide-pulse.block-intro-card) .section-body {
-  overflow: visible !important;
-}
-
-html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-intro-card),
-.portal .block-intro-cards:has(.flow-guide-pulse.block-intro-card) {
-  overflow: visible !important;
-}
-
-@keyframes flowGuideBlockIntroRing {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 3px rgba(214, 120, 28, .88),
-      0 0 0 0 rgba(214, 120, 28, .45),
-      0 0 16px rgba(214, 120, 28, .24);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 4px rgba(214, 120, 28, 1),
-      0 0 0 9px rgba(214, 120, 28, .4),
-      0 0 28px rgba(214, 120, 28, .48);
-  }
-}
-
-.flow-guide-pulse.reflection-gate,
-.portal .flow-guide-pulse.reflection-gate {
-  position: relative !important;
-  overflow: visible !important;
-  z-index: 6;
-  isolation: isolate;
-  animation: none !important;
-  border-radius: 22px;
-}
-
-.flow-guide-reflection-ring,
-.portal .flow-guide-reflection-ring {
-  position: absolute;
-  inset: -6px;
-  border-radius: 26px;
-  pointer-events: none;
-  z-index: 50;
-  animation: flowGuideReflectionRing 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-.flow-guide-pulse.reflection-gate .option.flow-guide-pulse,
-.portal .flow-guide-pulse.reflection-gate .option.flow-guide-pulse {
-  position: relative;
-  z-index: 7;
-  border-radius: 14px;
-  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.reflection-gate),
-.portal section[id^="block"]:has(.flow-guide-pulse.reflection-gate) {
-  overflow: visible !important;
-}
-
-html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.reflection-gate) .section-body,
-.portal section[id^="block"]:has(.flow-guide-pulse.reflection-gate) .section-body {
-  overflow: visible !important;
-}
-
-@keyframes flowGuideReflectionRing {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 3px rgba(18, 120, 178, .88),
-      0 0 0 0 rgba(18, 120, 178, .45),
-      0 0 16px rgba(18, 120, 178, .24);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 4px rgba(18, 120, 178, 1),
-      0 0 0 9px rgba(18, 120, 178, .4),
-      0 0 28px rgba(18, 120, 178, .48);
-  }
-}
-
-.flow-guide-pulse.check-item.flow-guide-pulse,
-.portal .flow-guide-pulse.check-item.flow-guide-pulse {
-  position: relative !important;
-  overflow: visible !important;
-  z-index: 6;
-  isolation: isolate;
-  border-radius: 14px;
-  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-.flow-guide-block-check-ring,
-.portal .flow-guide-block-check-ring {
-  position: absolute;
-  inset: -5px;
-  border-radius: 18px;
-  pointer-events: none;
-  z-index: 50;
-  animation: flowGuideReflectionRing 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-.flow-guide-pulse.lock-box.flow-guide-pulse,
-.portal .flow-guide-pulse.lock-box.flow-guide-pulse {
-  border-radius: 14px;
-  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-.flow-guide-pulse.b2c2-folder-tile.flow-guide-pulse,
-.flow-guide-pulse.b2c3-flash-tile.flow-guide-pulse,
-.flow-guide-pulse.b2pl-lvl-btn.flow-guide-pulse,
-.portal .flow-guide-pulse.b2c2-folder-tile.flow-guide-pulse,
-.portal .flow-guide-pulse.b2c3-flash-tile.flow-guide-pulse,
-.portal .flow-guide-pulse.b2pl-lvl-btn.flow-guide-pulse {
-  position: relative !important;
-  overflow: visible !important;
-  z-index: 6;
-  isolation: isolate;
-  animation: none !important;
-}
-
-.flow-guide-m5-nav-ring,
-.portal .flow-guide-m5-nav-ring {
-  position: absolute;
-  inset: -5px;
-  border-radius: 18px;
-  pointer-events: none;
-  z-index: 50;
-  animation: flowGuideM5NavRing 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-@keyframes flowGuideM5NavRing {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 3px rgba(var(--flow-m5-accent-rgb, 214, 120, 28), .88),
-      0 0 0 0 rgba(var(--flow-m5-accent-rgb, 214, 120, 28), .45),
-      0 0 16px rgba(var(--flow-m5-accent-rgb, 214, 120, 28), .24);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 4px rgba(var(--flow-m5-accent-rgb, 214, 120, 28), 1),
-      0 0 0 9px rgba(var(--flow-m5-accent-rgb, 214, 120, 28), .4),
-      0 0 28px rgba(var(--flow-m5-accent-rgb, 214, 120, 28), .48);
-  }
-}
-
-.flow-guide-pulse.m5-nested-visual-shell.flow-guide-pulse--expand,
-.flow-guide-pulse.m5-screen-visual-card.flow-guide-pulse--expand,
-.flow-guide-pulse.m5-folder-overview-card.flow-guide-pulse--expand,
-.flow-guide-pulse.m5-nested-visual-frame.flow-guide-pulse--expand,
-.flow-guide-pulse.entry-exit-fan.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.m5-nested-visual-shell.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.m5-screen-visual-card.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.m5-folder-overview-card.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.m5-nested-visual-frame.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.entry-exit-fan.flow-guide-pulse--expand {
-  overflow: visible !important;
-  position: relative !important;
-  z-index: 6;
-  isolation: isolate;
-  border-radius: 14px;
-  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-.flow-guide-pulse.concept-insight-pillar.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.concept-insight-pillar.flow-guide-pulse--expand,
-.flow-guide-pulse.key-idea-item.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.key-idea-item.flow-guide-pulse--expand,
-.flow-guide-pulse.section-activity-shell.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.section-activity-shell.flow-guide-pulse--expand,
-.flow-guide-pulse.m5-nested-visual-frame,
-.flow-guide-pulse.entry-exit-fan,
-.flow-guide-pulse.concept-insight-pillar,
-.flow-guide-pulse.key-idea-item,
-.flow-guide-pulse.section-activity-shell,
-.flow-guide-pulse.m5-nested-visual-shell,
-.flow-guide-pulse.m5-screen-visual-card,
-.portal .flow-guide-pulse.m5-nested-visual-frame,
-.portal .flow-guide-pulse.entry-exit-fan,
-.portal .flow-guide-pulse.concept-insight-pillar,
-.portal .flow-guide-pulse.key-idea-item,
-.portal .flow-guide-pulse.section-activity-shell,
-.portal .flow-guide-pulse.m5-nested-visual-shell,
-.portal .flow-guide-pulse.m5-screen-visual-card {
-  position: relative !important;
-}
-
-html[data-guided-flow="true"] .b2-screens:has(.flow-guide-pulse.m5-nested-visual-shell),
-.portal .b2-screens:has(.flow-guide-pulse.m5-nested-visual-shell),
-html[data-guided-flow="true"] .concept-panel:has(.flow-guide-pulse.m5-nested-visual-shell),
-.portal .concept-panel:has(.flow-guide-pulse.m5-nested-visual-shell) {
-  overflow: visible !important;
-}
-
-.portal .section:has(.flow-guide-pulse.block-intro-card),
-.portal .section-body:has(.flow-guide-pulse.block-intro-card),
-.section:has(.flow-guide-pulse.block-intro-card),
-.section-body:has(.flow-guide-pulse.block-intro-card) {
-  overflow: visible;
-}
-
-.flow-guide-pulse.concept-points-box.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.concept-points-box.flow-guide-pulse--expand,
-.flow-guide-pulse.key-idea-item.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.key-idea-item.flow-guide-pulse--expand,
-.flow-guide-pulse.concept-square.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.concept-square.flow-guide-pulse--expand,
-.flow-guide-pulse.concept-insight-pillar.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.concept-insight-pillar.flow-guide-pulse--expand,
-.flow-guide-pulse.outcome.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.outcome.flow-guide-pulse--expand,
-.flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand,
-.portal .flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand,
-.flow-guide-pulse.section-visual-shell.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.section-visual-shell.flow-guide-pulse--expand,
-.flow-guide-pulse.concept-image.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.concept-image.flow-guide-pulse--expand,
-.flow-guide-pulse.concept-section-card.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.concept-section-card.flow-guide-pulse--expand {
-  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
-  overflow: visible !important;
-}
-
-.flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice,
-.portal .flow-guide-pulse.key-ideas-action.flow-guide-pulse--inpractice {
-  position: relative !important;
-  overflow: visible !important;
-  z-index: 6;
-  isolation: isolate;
-  animation: none !important;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-.flow-guide-in-practice-ring,
-.portal .flow-guide-in-practice-ring {
-  position: absolute;
-  inset: -4px;
-  border-radius: 22px;
-  pointer-events: none;
-  z-index: 60;
-  animation: flowGuideInPracticeRing 2.4s ease-in-out infinite;
-}
-
-html[data-guided-flow="true"] .concept-panel:has(.flow-guide-pulse--inpractice),
-.portal .concept-panel:has(.flow-guide-pulse--inpractice),
-html[data-guided-flow="true"] .concept-points-box:has(.flow-guide-pulse--inpractice),
-.portal .concept-points-box:has(.flow-guide-pulse--inpractice) {
-  overflow: visible !important;
-}
-
-.portal .concept-points-box:has(.flow-guide-pulse--inpractice),
-.concept-points-box:has(.flow-guide-pulse--inpractice) {
-  overflow: visible !important;
-}
-
-.portal .concept-points-box .key-ideas-action.flow-guide-pulse--inpractice,
-.portal .concept-points-box .key-ideas-action.flow-guide-pulse--inpractice:hover,
-.portal .concept-points-box .key-ideas-action.flow-guide-pulse--inpractice:focus-visible {
-  overflow: visible !important;
-  transform: none !important;
-  box-shadow: none !important;
-  border-color: rgba(42, 157, 106, 0.28) !important;
-}
-
-.flow-guide-pulse--inpractice,
-.portal .flow-guide-pulse--inpractice {
-  overflow: visible !important;
-  border-radius: 14px;
-}
-
-.portal .key-ideas-action.flow-guide-pulse--inpractice::before {
-  background: linear-gradient(180deg, #6ec49a 0%, #3da87a 55%, #2a8f66 100%);
-  width: 4px;
-  z-index: 61;
-}
-
-@keyframes flowGuideInPracticeRing {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 2px rgba(42, 157, 106, .52),
-      0 0 0 0 rgba(42, 157, 106, .18),
-      0 0 8px rgba(42, 157, 106, .08);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 2px rgba(42, 157, 106, .72),
-      0 0 0 4px rgba(42, 157, 106, .16),
-      0 0 14px rgba(42, 157, 106, .14);
-  }
-}
-
-.flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand,
-.portal .flow-guide-pulse[data-expandable-visual].flow-guide-pulse--expand {
-  border-radius: 12px;
-  margin-top: 2px;
-}
-
-.flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-section-head,
-.portal .flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-section-head,
-.flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-visual-hint,
-.portal .flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-visual-hint,
-.flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-visual-guide,
-.portal .flow-guide-pulse.concept-section-card.section-visual-shell.flow-guide-pulse--expand > .concept-visual-guide {
-  position: relative;
-  z-index: 2;
-}
-
-.flow-guide-pulse--expand,
-.portal .flow-guide-pulse--expand {
-  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
-}
-
-.flow-guide-pulse.img-expand-btn.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.img-expand-btn.flow-guide-pulse--expand {
-  border-radius: 50%;
-  z-index: 8;
-  overflow: visible !important;
+.flow-guide-pulse.journey-wrap.module-roadmap-wrap{
+  border-radius: 16px;
 }
 
 .flow-guide-pulse.concept-finish,
-.portal .flow-guide-pulse.concept-finish,
 .flow-guide-pulse[data-finish-concept],
-.portal .flow-guide-pulse[data-finish-concept] {
+.flow-guide-pulse.btn-primary,
+.flow-guide-pulse.overall-check,
+.flow-guide-pulse .btn{
   border-radius: 999px;
+}
+
+@keyframes flowGuidePulse{
+  0%, 100%{
+    box-shadow:
+      inset 0 0 0 2px rgba(var(--_pulse-rgb), var(--flow-pulse-inset)),
+      0 0 0 0 rgba(var(--_pulse-rgb), var(--flow-pulse-halo)),
+      0 0 14px rgba(var(--_pulse-rgb), .12);
+  }
+  50%{
+    box-shadow:
+      inset 0 0 0 2.5px rgba(var(--_pulse-rgb), 1),
+      0 0 0 7px rgba(var(--_pulse-rgb), calc(var(--flow-pulse-halo) + .08)),
+      0 0 26px rgba(var(--_pulse-rgb), var(--flow-pulse-glow));
+  }
+}
+
+/* Soft outer ring for hosts that clip box-shadow badly */
+.flow-guide-ring{
+  position: absolute;
+  inset: -5px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 40;
+  animation: flowGuideRing 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+.flow-guide-block-intro-ring,
+.flow-guide-in-practice-ring,
+.flow-guide-reflection-ring,
+.flow-guide-block-check-ring,
+.flow-guide-m5-nav-ring{
+  position: absolute;
+  inset: -5px;
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 50;
+  animation: flowGuideRing 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+.flow-guide-in-practice-ring{
+  inset: -7px;
+  border-radius: 999px;
+  animation-duration: 2.1s;
+  --_pulse-rgb: var(--flow-tone-practice-rgb);
+}
+.flow-guide-block-intro-ring{
+  --_pulse-rgb: var(--flow-tone-explore-rgb);
+}
+.flow-guide-reflection-ring,
+.flow-guide-block-check-ring{
+  --_pulse-rgb: var(--flow-tone-reflect-rgb);
+  border-radius: 16px;
+}
+.flow-guide-m5-nav-ring{
+  --_pulse-rgb: var(--flow-m5-accent-rgb, var(--flow-tone-explore-rgb));
+  border-radius: 16px;
+}
+
+@keyframes flowGuideRing{
+  0%, 100%{
+    box-shadow:
+      inset 0 0 0 2.5px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .88),
+      0 0 0 0 rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .4),
+      0 0 16px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .18);
+  }
+  50%{
+    box-shadow:
+      inset 0 0 0 3px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), 1),
+      0 0 0 8px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .34),
+      0 0 26px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .36);
+  }
+}
+
+/* Intro / reflection hosts: ring child, no competing animation on host */
+.flow-guide-pulse.block-intro-card,
+.flow-guide-pulse.reflection-gate,
+.flow-guide-pulse.check-item.flow-guide-pulse--ring-host{
+  animation: none !important;
+  overflow: visible !important;
   position: relative !important;
+  isolation: isolate;
+  z-index: 6;
 }
 
-.flow-guide-pulse.concept-finish.flow-guide-pulse--expand,
-.portal .flow-guide-pulse.concept-finish.flow-guide-pulse--expand,
-.flow-guide-pulse[data-finish-concept].flow-guide-pulse--expand,
-.portal .flow-guide-pulse[data-finish-concept].flow-guide-pulse--expand {
-  animation: flowGuidePulseExpand 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
+html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card),
+html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card) .section-body,
+html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-intro-card),
+html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.reflection-gate){
+  overflow: visible !important;
 }
 
-.flow-guide-pulse--activity,
-.portal .flow-guide-pulse--activity,
-.flow-guide-pulse.flow-guide-pulse--activity[data-m5-b2-nested-key],
-.portal .flow-guide-pulse.flow-guide-pulse--activity[data-m5-b2-nested-key],
-.flow-guide-pulse.flow-guide-pulse--activity[data-m5-b2-choice-mount],
-.portal .flow-guide-pulse.flow-guide-pulse--activity[data-m5-b2-choice-mount] {
-  animation: flowGuidePulseActivity 1.15s cubic-bezier(.45, 0, .2, 1) infinite;
-  position: relative !important;
-}
-
-/* Primary guide ù blue ring with outer halo (matches expand intensity) */
-@keyframes flowGuidePulsePrimary {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 2px rgba(18, 120, 178, .82),
-      0 0 0 0 rgba(18, 120, 178, .42),
-      0 0 12px rgba(18, 120, 178, .12);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 3px rgba(18, 120, 178, 1),
-      0 0 0 7px rgba(18, 120, 178, .34),
-      0 0 24px rgba(18, 120, 178, .38);
-  }
-}
-
-@keyframes flowGuidePulseExpand {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 2px rgba(214, 120, 28, .78),
-      0 0 0 0 rgba(214, 120, 28, .42),
-      0 0 12px rgba(214, 120, 28, .14);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 3px rgba(214, 120, 28, 1),
-      0 0 0 7px rgba(214, 120, 28, .36),
-      0 0 22px rgba(214, 120, 28, .4);
-  }
-}
-
-@keyframes flowGuidePulseActivity {
-  0%, 100% {
-    box-shadow:
-      inset 0 0 0 2px rgba(88, 72, 200, .72),
-      0 0 0 0 rgba(88, 72, 200, .38),
-      0 0 12px rgba(88, 72, 200, .12);
-  }
-  50% {
-    box-shadow:
-      inset 0 0 0 3px rgba(88, 72, 200, 1),
-      0 0 0 7px rgba(88, 72, 200, .32),
-      0 0 22px rgba(88, 72, 200, .34);
-  }
-}
-
-.portal .flow-guide-rail,
-.flow-guide-rail {
+/* ===== Bottom rail ===== */
+.flow-guide-rail{
   position: fixed;
   left: 50%;
   bottom: 18px;
   transform: translateX(-50%);
-  z-index: 9000;
+  z-index: 1200;
   display: flex;
   align-items: center;
-  gap: 10px;
-  max-width: min(580px, calc(100vw - 32px));
-  padding: 11px 16px 11px 13px;
+  gap: 12px;
+  max-width: min(560px, calc(100vw - 28px));
+  padding: 12px 16px 12px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(18, 120, 178, .34);
-  background: rgba(255, 255, 255, .98);
+  background: rgba(255, 255, 255, .92);
+  border: 1px solid rgba(var(--flow-accent-rgb), .18);
   box-shadow:
-    0 14px 36px rgba(18, 50, 71, .2),
-    0 0 0 1px rgba(255, 255, 255, .88) inset;
-  font-size: .84rem;
-  line-height: 1.35;
+    0 10px 30px rgba(15, 23, 42, .12),
+    0 0 0 1px rgba(255,255,255,.6) inset;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: #163247;
+  font-family: Montserrat, system-ui, sans-serif;
   pointer-events: none;
 }
-
-.portal .flow-guide-rail[hidden],
-.flow-guide-rail[hidden] {
-  display: none !important;
-}
-
-.portal .flow-guide-rail__dot,
-.flow-guide-rail__dot {
-  flex: 0 0 9px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #1278b2;
-  animation: flowGuideDot 1.2s ease-in-out infinite;
-}
-
-@keyframes flowGuideDot {
-  0%, 100% { opacity: .35; transform: scale(.82); }
-  50% { opacity: 1; transform: scale(1.35); }
-}
-
-.portal .flow-guide-rail__text,
-.flow-guide-rail__text {
-  flex: 1 1 auto;
+.flow-guide-rail[hidden]{ display: none !important; }
+.flow-guide-rail__copy{
   min-width: 0;
+  flex: 1;
+}
+.flow-guide-rail__dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: rgb(var(--flow-accent-rgb));
+  box-shadow: 0 0 0 4px rgba(var(--flow-accent-rgb), .18);
+  animation: flowGuideRailDot 1.8s ease-in-out infinite;
+}
+.flow-guide-rail__eyebrow{
+  display: block;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(var(--flow-accent-rgb), .95);
+  margin-bottom: 2px;
+}
+.flow-guide-rail__text{
+  font-size: .86rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #314555;
+}
+.flow-guide-rail__text strong{
+  color: #163247;
+  font-weight: 800;
 }
 
-.portal .flow-guide-rail__text strong,
-.flow-guide-rail__text strong {
-  color: #1278b2;
-  font-weight: 700;
+@keyframes flowGuideRailDot{
+  0%, 100%{ transform: scale(1); opacity: 1; }
+  50%{ transform: scale(1.15); opacity: .85; }
 }
 
-.portal .module-card.flow-guide-next-module,
-.module-card.flow-guide-next-module {
-  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
+/* Hub next-module card */
+.module-card.flow-guide-next-module{
+  position: relative;
+  box-shadow:
+    0 0 0 2px rgba(var(--flow-accent-rgb), .55),
+    0 16px 36px rgba(var(--flow-accent-rgb), .18) !important;
+  animation: flowGuidePulse 1.8s cubic-bezier(.45, 0, .2, 1) infinite;
 }
 
-[data-guided-flow="true"] .hero-actions .btn-primary.flow-guide-pulse {
-  animation: flowGuidePulsePrimary 1.2s cubic-bezier(.45, 0, .2, 1) infinite;
+@media (max-width: 720px){
+  .flow-guide-rail{
+    bottom: 12px;
+    border-radius: 18px;
+    padding: 11px 14px;
+    max-width: calc(100vw - 20px);
+  }
+  .flow-guide-rail__text{ font-size: .8rem; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce){
   .flow-guide-pulse,
-  .flow-guide-pulse--expand,
-  .flow-guide-pulse--activity,
-  .flow-guide-pulse--inpractice,
+  .flow-guide-ring,
   .flow-guide-block-intro-ring,
   .flow-guide-in-practice-ring,
-  .module-card.flow-guide-next-module {
-    animation: none;
-    box-shadow:
-      inset 0 0 0 3px rgba(18, 120, 178, .95),
-      0 0 0 4px rgba(18, 120, 178, .35);
+  .flow-guide-reflection-ring,
+  .flow-guide-block-check-ring,
+  .flow-guide-m5-nav-ring,
+  .flow-guide-rail__dot,
+  .module-card.flow-guide-next-module{
+    animation: none !important;
   }
-  .flow-guide-block-intro-ring {
-    animation: none;
+  .flow-guide-pulse{
     box-shadow:
-      inset 0 0 0 3px rgba(214, 120, 28, .95),
-      0 0 0 4px rgba(214, 120, 28, .35);
-  }
-  .flow-guide-in-practice-ring {
-    animation: none;
-    box-shadow:
-      inset 0 0 0 2px rgba(42, 157, 106, .62),
-      0 0 0 3px rgba(42, 157, 106, .18);
-  }
-  .flow-guide-rail__dot {
-    animation: none;
-    opacity: 1;
+      inset 0 0 0 2px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .85),
+      0 0 0 4px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .18) !important;
   }
 }

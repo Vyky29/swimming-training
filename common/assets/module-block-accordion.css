@@ -1,4 +1,4 @@
-/* Module block accordion ó guided one-open-at-a-time shells (training modules) */
+/* Module block accordion ù guided one-open-at-a-time shells (training modules) */
 .section.block-part{
   margin:22px 0 18px;
   padding:16px 16px 14px;
@@ -137,10 +137,31 @@
   background:rgba(219,234,254,.85);
   border-color:rgba(37,99,235,.2);
 }
+/* Ready inherits each block's accent (foundations / core / pathway / progress) */
 .block-part-status[data-state="ready"]{
+  color:#1d4ed8;
+  background:rgba(219,234,254,.92);
+  border-color:rgba(37,99,235,.28);
+}
+.block-part--foundations .block-part-status[data-state="ready"]{
+  color:#1d4ed8;
+  background:rgba(219,234,254,.92);
+  border-color:rgba(45,132,179,.32);
+}
+.block-part--core .block-part-status[data-state="ready"]{
   color:#7b2fa1;
   background:rgba(243,232,255,.92);
   border-color:rgba(168,85,247,.28);
+}
+.block-part--pathway .block-part-status[data-state="ready"]{
+  color:#1a5c38;
+  background:rgba(220,247,232,.92);
+  border-color:rgba(26,92,56,.28);
+}
+.block-part--progress .block-part-status[data-state="ready"]{
+  color:#9a6b12;
+  background:rgba(255,244,220,.95);
+  border-color:rgba(201,120,22,.32);
 }
 .block-part-status[data-state="complete"]{
   color:#047857;
@@ -154,11 +175,45 @@
   height:7px;
   border-radius:99px;
   background:currentColor;
-  box-shadow:0 0 0 3px rgba(16,185,129,.18);
+  box-shadow:0 0 0 3px color-mix(in srgb, currentColor 22%, transparent);
 }
 .block-part-status[data-state="ready"]::before{
-  background:#a855f7;
-  box-shadow:0 0 0 3px rgba(168,85,247,.2);
+  background:currentColor;
+}
+.block-part--foundations .block-part-status[data-state="in_progress"]{
+  color:#1d4ed8;
+  background:rgba(219,234,254,.85);
+  border-color:rgba(45,132,179,.22);
+}
+.block-part--core .block-part-status[data-state="in_progress"]{
+  color:#7b2fa1;
+  background:rgba(243,232,255,.88);
+  border-color:rgba(168,85,247,.22);
+}
+.block-part--pathway .block-part-status[data-state="in_progress"]{
+  color:#1a5c38;
+  background:rgba(220,247,232,.88);
+  border-color:rgba(26,92,56,.22);
+}
+.block-part--progress .block-part-status[data-state="in_progress"]{
+  color:#9a6b12;
+  background:rgba(255,244,220,.9);
+  border-color:rgba(201,120,22,.24);
+}
+.section.block-part.is-ready:not(.is-complete){
+  box-shadow:0 12px 32px rgba(18,50,71,.08), 0 0 0 1px color-mix(in srgb, currentColor 8%, transparent);
+}
+.block-part--foundations.is-ready:not(.is-complete){
+  box-shadow:0 12px 28px rgba(45,132,179,.12);
+}
+.block-part--core.is-ready:not(.is-complete){
+  box-shadow:0 12px 28px rgba(123,47,161,.12);
+}
+.block-part--pathway.is-ready:not(.is-complete){
+  box-shadow:0 12px 28px rgba(26,92,56,.12);
+}
+.block-part--progress.is-ready:not(.is-complete){
+  box-shadow:0 12px 28px rgba(201,120,22,.12);
 }
 .block-part-chevron{
   width:28px;
@@ -232,9 +287,11 @@
   margin-top:4px;
 }
 
-/* Guided flow can pulse the accordion head when a block should be opened */
+/* Guided pulse on accordion head follows block accent */
 html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
-  box-shadow:0 0 0 3px rgba(45,132,179,.28);
+  box-shadow:
+    inset 0 0 0 2px rgba(var(--flow-accent-rgb, 45, 132, 179), .55),
+    0 0 0 4px rgba(var(--flow-accent-rgb, 45, 132, 179), .16);
 }
 
 @media (max-width:720px){
