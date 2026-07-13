@@ -240,12 +240,32 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
 .flow-guide-pulse.block-intro-card,
 .flow-guide-pulse.reflection-gate,
 .flow-guide-pulse.check-item.flow-guide-pulse--ring-host,
-.flow-guide-pulse.flow-guide-pulse--expand.flow-guide-pulse--ring-host{
+.flow-guide-pulse.flow-guide-pulse--expand.flow-guide-pulse--ring-host:not(.img-expand-btn){
   animation: none !important;
   overflow: visible !important;
   position: relative !important;
   isolation: isolate;
   z-index: 6;
+}
+
+/* Expand button keeps top-right even while its own pulse ring is active */
+.portal .img-expand-btn.flow-guide-pulse,
+.portal .img-expand-btn.flow-guide-pulse.flow-guide-pulse--expand,
+.portal .img-expand-btn.flow-guide-pulse.flow-guide-pulse--ring-host,
+.img-expand-btn.flow-guide-pulse,
+.img-expand-btn.flow-guide-pulse.flow-guide-pulse--expand,
+.img-expand-btn.flow-guide-pulse.flow-guide-pulse--ring-host{
+  --_pulse-rgb: var(--flow-tone-explore-rgb);
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  left: auto !important;
+  bottom: auto !important;
+  border-radius: 999px !important;
+  overflow: visible !important;
+  z-index: 8 !important;
+  isolation: isolate;
+  animation: none !important;
 }
 
 /* Module pages force box-shadow:none !important on visual frames ? keep pulse ring visible */

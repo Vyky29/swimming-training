@@ -1972,8 +1972,27 @@
       el.hasAttribute('data-expandable-visual');
   }
 
+  function pinExpandButton(el){
+    if(!el || !el.classList || !el.classList.contains('img-expand-btn')) return;
+    el.style.setProperty('position', 'absolute', 'important');
+    el.style.setProperty('top', '10px', 'important');
+    el.style.setProperty('right', '10px', 'important');
+    el.style.setProperty('left', 'auto', 'important');
+    el.style.setProperty('bottom', 'auto', 'important');
+  }
+
+  function unpinExpandButton(el){
+    if(!el || !el.classList || !el.classList.contains('img-expand-btn') || !el.style) return;
+    el.style.removeProperty('position');
+    el.style.removeProperty('top');
+    el.style.removeProperty('right');
+    el.style.removeProperty('left');
+    el.style.removeProperty('bottom');
+  }
+
   function ensureExpandRing(el){
     if(!el) return;
+    pinExpandButton(el);
     var ring = el.querySelector('.' + EXPAND_RING_CLASS);
     if(!ring){
       ring = document.createElement('span');
@@ -2128,6 +2147,7 @@
   function clearPulse(){
     var els = activePulseEls.length ? activePulseEls.slice() : (activePulseEl ? [activePulseEl] : []);
     for(var i = 0; i < els.length; i++){
+      unpinExpandButton(els[i]);
       els[i].classList.remove(PULSE_CLASS);
       els[i].classList.remove(PULSE_EXPAND);
       els[i].classList.remove(PULSE_ACTIVITY);
@@ -2193,7 +2213,11 @@
       el.classList.add(PULSE_EXPAND);
       if(usesExpandPulse(step) && isVisualExpandPulseHost(el)){
         el.classList.add('flow-guide-pulse--ring-host');
+        pinExpandButton(el);
         ensureExpandRing(el);
+        if(el.querySelectorAll){
+          el.querySelectorAll('.img-expand-btn').forEach(pinExpandButton);
+        }
       }
     }
     if(step.kind === 'block-intro' || el.classList.contains('block-intro-card')){
