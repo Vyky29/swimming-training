@@ -1069,13 +1069,27 @@
 
   function isMatchingActivityIncomplete(panel){
     if(!panel.querySelector('[data-matching-activity], [data-match-grid], [data-match-board], .matching-wrap, .match-game')) return false;
+
+    // Slot / chip placement games (e.g. Module 4 b1c3): complete only with correct feedback
+    var slots = panel.querySelectorAll('.match-game .match-slot, .concept-activity-interactive .match-slot');
+    if(slots.length){
+      var filled = 0;
+      for(var s = 0; s < slots.length; s++){
+        if(slots[s].querySelector('.slot-drop .match-chip, .match-chip')) filled++;
+      }
+      if(filled < slots.length) return true;
+      return !panel.querySelector(
+        '.concept-activity-interactive .feedback.show.good, ' +
+        '.match-game ~ .feedback.show.good, ' +
+        '[data-activity-feedback].show.good'
+      );
+    }
+
+    // Pair-click matching that syncs dataset.matchedCount
     var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
     var requiredMatches = countRequiredMatches(panel);
     if(requiredMatches) return matchedCount < requiredMatches;
-    var unfilledSlots = panel.querySelectorAll('.match-game .match-slot, .concept-activity-interactive .match-slot');
-    for(var s = 0; s < unfilledSlots.length; s++){
-      if(!unfilledSlots[s].querySelector('.slot-drop .match-chip')) return true;
-    }
+
     var actBlock = panel.querySelector('.concept-activity-interactive .match-game');
     if(actBlock){
       var act = actBlock.closest('.concept-activity-interactive');
@@ -1203,18 +1217,26 @@
     var root = findActivityRoot(panel);
     if(!root) return null;
 
-    var label = panel.dataset.flowActivityStarted === 'true'
-      ? 'Complete the activity'
-      : 'Complete the activity below';
+    var hasWrong = !!panel.querySelector(
+      '.concept-activity-interactive .feedback.show.warn, ' +
+      '[data-activity-feedback].show.warn, ' +
+      '.feedback.show.warn'
+    );
+    var label = hasWrong
+      ? 'Try again - fix the matches'
+      : (panel.dataset.flowActivityStarted === 'true'
+        ? 'Complete the activity'
+        : 'Complete the activity below');
 
     return sectionScrollStep(
-      panel.dataset.flowActivityStarted === 'true' ? 'activity-progress' : 'activity-intro',
+      panel.dataset.flowActivityStarted === 'true' || hasWrong ? 'activity-progress' : 'activity-intro',
       root,
       label,
       {
         tone: 'activity',
         scrollBlock: 'center',
-        forceScroll: true
+        forceScroll: true,
+        keyToken: (panel.dataset.currentTarget || '') + (hasWrong ? ':activity-retry' : ':activity')
       }
     );
   }
@@ -1914,13 +1936,14 @@
     if(isActivityIncomplete(panel)){
       var root = findActivityRoot(panel);
       if(root){
-        return sectionScrollStep('activity-hold', root, 'Complete the activity', {
+        var wrong = !!panel.querySelector('.feedback.show.warn, [data-activity-feedback].show.warn');
+        return sectionScrollStep('activity-hold', root, wrong ? 'Try again - fix the matches' : 'Complete the activity', {
           scrollEl: root,
           scrollBlock: 'center',
           forceScroll: true,
           tone: 'activity',
           pulseEls: [root],
-          keyToken: target + ':activity-hold'
+          keyToken: target + (wrong ? ':activity-retry-hold' : ':activity-hold')
         });
       }
     }

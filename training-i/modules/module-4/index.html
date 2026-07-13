@@ -10775,14 +10775,41 @@
         if(!feedbackEl) return;
         var allFilled = true;
         var allCorrect = true;
+        var filledCount = 0;
         slots.forEach(function(slot){
           var chip = slot.querySelector('.slot-drop .match-chip');
           if(!chip) allFilled = false;
-          else if(chip.dataset.value !== slot.dataset.correct) allCorrect = false;
+          else {
+            filledCount++;
+            if(chip.dataset.value !== slot.dataset.correct) allCorrect = false;
+          }
         });
-        if(!allFilled) return;
+        var panel = container.closest('.concept-panel');
+        if(panel){
+          panel.dataset.matchedCount = String(filledCount);
+          panel.dataset.matchingPairsCount = String(slots.length);
+          if(allFilled && allCorrect){
+            panel.dataset.activityComplete = 'true';
+          } else if(panel.dataset.activityComplete === 'true'){
+            delete panel.dataset.activityComplete;
+          }
+        }
+        if(!allFilled){
+          feedbackEl.textContent = '';
+          feedbackEl.className = 'feedback';
+          if(window.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+            TrainingFlowGuide.bumpFlowAdvance(160);
+          }
+          return;
+        }
         feedbackEl.textContent = allCorrect ? correctMsg : incorrectMsg;
         feedbackEl.className = 'feedback show ' + (allCorrect ? 'good' : 'warn');
+        if(typeof syncConceptFinishBtn === 'function' && panel){
+          syncConceptFinishBtn(panel, panel.dataset.currentBlock, panel.dataset.currentTarget, { respectDwell: true });
+        }
+        if(window.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function'){
+          TrainingFlowGuide.bumpFlowAdvance(allCorrect ? 220 : 160);
+        }
       }
       function updateFilled(){
         slots.forEach(function(s){
@@ -11873,7 +11900,7 @@
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713pulse14"></script>
+  <script src="/shared/training-flow-guide.js?v=20260713pulse15"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
