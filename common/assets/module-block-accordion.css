@@ -391,7 +391,7 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
 }
 
 /* ----- Generic block chrome (not specialty widgets) ----- */
-.portal .section.block-part .concept-stage h4{
+.portal .section.block-part .concept-stage > h4{
   color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3))) !important;
 }
 .portal .section.block-part .concept-stage > p strong,
