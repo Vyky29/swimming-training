@@ -3362,10 +3362,19 @@
   function detectBlockVariant(blockId){
     if(!blockId) return null;
     var section = document.getElementById(blockId);
-    if(!section) return null;
-    var classes = section.className || '';
-    var m = classes.match(/block-part--([a-z]+)/);
-    if(m) return m[1];
+    if(section){
+      var classes = section.className || '';
+      var m = classes.match(/block-part--([a-z]+)/);
+      if(m) return m[1];
+      var attr = section.getAttribute('data-block-variant');
+      if(attr && VARIANT_RGB[attr]) return attr;
+    }
+    // Fallback by block number when accordion class has not been applied yet
+    var n = parseInt(String(blockId).replace(/\D/g, ''), 10);
+    if(n === 1) return 'foundations';
+    if(n === 2) return 'core';
+    if(n === 3) return 'pathway';
+    if(n === 4) return 'progress';
     var order = (activeModuleConfig && activeModuleConfig.blocks) || [];
     var idx = order.indexOf(blockId);
     return ['foundations', 'core', 'pathway', 'progress'][idx >= 0 ? idx % 4 : 0];
@@ -3418,30 +3427,30 @@
       } else {
         root.removeAttribute('data-guided-stage-theme');
       }
-      // Core Concept / Key Ideas always pulse in brand blue
-      if(step && (step.kind === 'pillar' || step.kind === 'keyidea')){
-        accentRgb = VARIANT_RGB.module || '45, 132, 179';
+      /*
+       * Pulse colour priority:
+       * 1) Module 5 folder/tile accent (only special case)
+       * 2) Stage theme (Module 4 journey stages)
+       * 3) Block variant (foundations orange / core purple / pathway green / progress gold)
+       * Key Ideas / Core Concept chrome stays brand blue in CSS; pulse follows place colour.
+       */
+      var m5Accent = panel.dataset && panel.dataset.flowM5AccentRgb;
+      var navTile = step && step.el && (
+        step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return'
+      ) ? step.el : null;
+      var tileAccent = navTile ? getM5NavAccent(navTile) : '';
+      if(tileAccent){
+        accentRgb = tileAccent;
+        root.style.setProperty('--flow-m5-accent-rgb', tileAccent);
+        root.setAttribute('data-guided-m5-folder', (panel.dataset && panel.dataset.flowM5Root) || 'tile');
+      } else if(m5Accent){
+        accentRgb = m5Accent;
+        root.style.setProperty('--flow-m5-accent-rgb', m5Accent);
+        root.setAttribute('data-guided-m5-folder', panel.dataset.flowM5Root || '1');
+      } else {
         root.removeAttribute('data-guided-m5-folder');
         root.style.removeProperty('--flow-m5-accent-rgb');
-      } else {
-        // Folder tiles / leaves: pulse follows folder colour (not block purple)
-        var m5Accent = panel.dataset && panel.dataset.flowM5AccentRgb;
-        var navTile = step && step.el && (
-          step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return'
-        ) ? step.el : null;
-        var tileAccent = navTile ? getM5NavAccent(navTile) : '';
-        if(tileAccent){
-          accentRgb = tileAccent;
-          root.style.setProperty('--flow-m5-accent-rgb', tileAccent);
-          root.setAttribute('data-guided-m5-folder', (panel.dataset && panel.dataset.flowM5Root) || 'tile');
-        } else if(m5Accent){
-          accentRgb = m5Accent;
-          root.style.setProperty('--flow-m5-accent-rgb', m5Accent);
-          root.setAttribute('data-guided-m5-folder', panel.dataset.flowM5Root || '1');
-        } else {
-          root.removeAttribute('data-guided-m5-folder');
-          root.style.removeProperty('--flow-m5-accent-rgb');
-        }
+        // Keep block/stage accent already resolved above (do not force brand blue)
       }
     } else {
       root.removeAttribute('data-guided-stage-theme');
