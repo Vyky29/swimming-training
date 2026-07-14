@@ -37,6 +37,36 @@
   box-shadow: 0 4px 10px rgba(45, 132, 179, .22);
 }
 
+/* Filled brand badges: glyph must stay white (never inherit title blue) */
+.portal .concept-section-head .icon.icon--key-ideas,
+.portal .concept-section-head .icon.icon--core-concept,
+.portal .concept-points-box .concept-section-head .icon.icon--key-ideas,
+.portal .concept-points-box .concept-section-head .icon.icon--core-concept,
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--key-ideas,
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--core-concept,
+.portal .concept-panel .concept-points-box .concept-section-head .icon.icon--key-ideas,
+.portal .concept-panel .concept-points-box .concept-section-head .icon.icon--core-concept {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.portal .concept-section-head .icon.icon--key-ideas svg,
+.portal .concept-section-head .icon.icon--core-concept svg,
+.portal .concept-points-box .concept-section-head .icon.icon--key-ideas svg,
+.portal .concept-points-box .concept-section-head .icon.icon--core-concept svg,
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--key-ideas svg,
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--core-concept svg,
+.portal .concept-panel .concept-points-box .concept-section-head .icon.icon--key-ideas svg,
+.portal .concept-panel .concept-points-box .concept-section-head .icon.icon--core-concept svg,
+.portal .concept-section-head .icon.icon--key-ideas svg *,
+.portal .concept-section-head .icon.icon--core-concept svg *,
+.portal .concept-points-box .concept-section-head .icon.icon--key-ideas svg *,
+.portal .concept-points-box .concept-section-head .icon.icon--core-concept svg * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  stroke: #fff !important;
+  fill: none !important;
+}
+
 .portal .concept-section-head .icon--activity {
   background: linear-gradient(145deg, rgba(45, 132, 179, .16) 0%, rgba(45, 132, 179, .08) 100%);
   color: #1f6f97;

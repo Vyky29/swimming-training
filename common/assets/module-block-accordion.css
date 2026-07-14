@@ -451,11 +451,25 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
 .portal .section.block-part--pathway .concept-stage .concept-points-box > h4,
 .portal .section.block-part--progress .concept-stage .concept-points-box > h4,
 .portal .section.block-part .concept-points-box > h4 .concept-section-head,
-.portal .section.block-part .concept-points-box > h4 .concept-section-head span,
+.portal .section.block-part .concept-points-box > h4 .concept-section-head span:not(.icon),
 .portal .section.block-part .concept-points-box .concept-section-head,
-.portal .section.block-part .concept-points-box .concept-section-head span{
+.portal .section.block-part .concept-points-box .concept-section-head span:not(.icon){
   color: #2d84b3 !important;
   -webkit-text-fill-color: #2d84b3 !important;
+}
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--key-ideas,
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--core-concept{
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--key-ideas svg,
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--core-concept svg,
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--key-ideas svg *,
+.portal .section.block-part .concept-points-box .concept-section-head .icon.icon--core-concept svg *{
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  stroke: #fff !important;
+  fill: none !important;
 }
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]){
   --concept-title-accent: var(--block-accent-ink, var(--block-accent, #2d84b3));

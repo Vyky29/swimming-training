@@ -14,7 +14,7 @@
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260714core1');
   @import url('/assets/training-flow-guide.css?v=20260714freenav1');
-  @import url('/assets/module-block-accordion.css?v=20260714blueki3');
+  @import url('/assets/module-block-accordion.css?v=20260714whiteicon1');
   :root{
       --blue:#2d84b3;
       --blueSoft:#89b5c1;
@@ -2854,20 +2854,28 @@
     .portal .section.block-part .concept-panel .concept-points-box > h4,
     .portal .section.block-part .concept-panel .concept-points-box > h4.concept-section-head,
     .portal .section.block-part .concept-panel .concept-points-box > h4 .concept-section-head,
-    .portal .section.block-part .concept-panel .concept-points-box > h4 span:last-child,
-    .portal .section.block-part .concept-panel .concept-points-box > h4.concept-section-head .icon,
+    .portal .section.block-part .concept-panel .concept-points-box > h4 span:last-child:not(.icon),
     .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4,
     .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4.concept-section-head,
     .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4 .concept-section-head,
-    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4 span:last-child,
-    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4.concept-section-head .icon{
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4 span:last-child:not(.icon){
       color:#2d84b3 !important;
     }
     .portal .section.block-part .concept-panel .concept-points-box .concept-section-head .icon--key-ideas,
     .portal .concept-panel.m5-nested-active .folder-page .concept-points-box .concept-section-head .icon--key-ideas{
       background:linear-gradient(145deg,#3a8fbb 0%,#2d84b3 100%) !important;
       color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
       box-shadow:0 4px 10px rgba(45,132,179,.22) !important;
+    }
+    .portal .section.block-part .concept-panel .concept-points-box .concept-section-head .icon--key-ideas svg,
+    .portal .section.block-part .concept-panel .concept-points-box .concept-section-head .icon--key-ideas svg *,
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box .concept-section-head .icon--key-ideas svg,
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box .concept-section-head .icon--key-ideas svg *{
+      color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
+      stroke:#fff !important;
+      fill:none !important;
     }
     .portal .section.block-part .concept-panel .concept-points-box .key-idea-index,
     .portal .concept-panel.m5-nested-active .folder-page .concept-points-box .key-idea-index{
@@ -3904,7 +3912,7 @@
     }
   </style>
   <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260714core1" />
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714blueki3" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714whiteicon1" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />

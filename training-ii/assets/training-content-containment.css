@@ -11,7 +11,7 @@
 @import url('/assets/clickable-card-hint.css?v=20260622');
 @import url('/assets/review-cards-visual-system.css?v=20260622');
 @import url('/assets/in-practice-system.css?v=20260713practice9');
-@import url('/assets/concept-section-icons.css?v=20260714core1');
+@import url('/assets/concept-section-icons.css?v=20260714whiteicon1');
 @import url('/assets/block-intro-cards.css?v=20260714introdone1');
 
 /* ----- Global box model ----- */
@@ -1029,7 +1029,7 @@ body {
 .portal .section.block-part--pathway .concept-stage .concept-points-box > h4,
 .portal .section.block-part--progress .concept-stage .concept-points-box > h4,
 .portal .concept-points-box .concept-section-head,
-.portal .concept-points-box .concept-section-head span{
+.portal .concept-points-box .concept-section-head span:not(.icon){
   color: #2d84b3 !important;
   -webkit-text-fill-color: #2d84b3 !important;
 }
@@ -1038,6 +1038,15 @@ body {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
   box-shadow: 0 4px 10px rgba(45, 132, 179, .22) !important;
+}
+.portal .concept-points-box .concept-section-head .icon--key-ideas svg,
+.portal .concept-points-box .concept-section-head .icon--key-ideas svg *,
+.portal .concept-points-box .concept-section-head .icon--core-concept svg,
+.portal .concept-points-box .concept-section-head .icon--core-concept svg *{
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  stroke: #fff !important;
+  fill: none !important;
 }
 .portal .concept-points-box .key-idea-index,
 .portal .section.block-part .concept-points-box .key-idea-index{
@@ -1067,7 +1076,7 @@ body {
 .portal .concept-panel[data-stage-theme] .concept-points-box > h4,
 .portal .concept-panel[data-stage-theme] .concept-points-box h4,
 .portal .concept-panel[data-stage-theme] .concept-points-box .concept-section-head,
-.portal .concept-panel[data-stage-theme] .concept-points-box .concept-section-head span,
+.portal .concept-panel[data-stage-theme] .concept-points-box .concept-section-head span:not(.icon),
 .portal .concept-panel[data-stage-theme][data-level] .concept-points-box > h4,
 .portal .concept-panel[data-stage-theme][data-level] .concept-points-box h4,
 .portal .concept-panel[data-level] .concept-points-box h4{
