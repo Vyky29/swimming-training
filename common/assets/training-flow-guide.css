@@ -3,6 +3,27 @@
  * Accent follows open block variant via --flow-accent-rgb
  */
 
+/* Content-prep / free navigation: hide all guided chrome */
+html[data-flow-guide-off="true"] .flow-guide-rail,
+html[data-flow-guide-off="true"] .flow-guide-rail-ring,
+html[data-flow-guide-off="true"] .flow-guide-block-intro-ring,
+html[data-flow-guide-off="true"] .flow-guide-in-practice-ring,
+html[data-flow-guide-off="true"] .flow-guide-expand-ring,
+html[data-flow-guide-off="true"] .flow-guide-finish-ring,
+html[data-flow-guide-off="true"] .flow-guide-reflection-ring,
+html[data-flow-guide-off="true"] .flow-guide-block-check-ring,
+html[data-flow-guide-off="true"] .flow-guide-m5-nav-ring{
+  display: none !important;
+}
+html[data-flow-guide-off="true"] .flow-guide-pulse,
+html[data-flow-guide-off="true"] .flow-guide-pulse--expand,
+html[data-flow-guide-off="true"] .flow-guide-pulse--activity,
+html[data-flow-guide-off="true"] .flow-guide-pulse--inpractice,
+html[data-flow-guide-off="true"] .flow-guide-next-module{
+  animation: none !important;
+  box-shadow: none !important;
+}
+
 html[data-guided-flow="true"],
 html[data-guided-flow="hub"]{
   --flow-accent-rgb: 45, 132, 179;

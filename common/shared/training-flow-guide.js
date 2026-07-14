@@ -1,6 +1,13 @@
 (function(global){
   'use strict';
 
+  /**
+   * Content-prep kill switch: guided pulse + rail stay off so you can browse freely.
+   * Flip to true when content is final for learners.
+   * Override anytime with ?flowGuide=1 (on) or ?flowGuide=0 (off).
+   */
+  var FLOW_GUIDE_ACTIVE_DEFAULT = false;
+
   var PULSE_CLASS = 'flow-guide-pulse';
   var PULSE_EXPAND = 'flow-guide-pulse--expand';
   var PULSE_ACTIVITY = 'flow-guide-pulse--activity';
@@ -23,9 +30,60 @@
   var userScrollUntil = 0;
   var wiredPanels = new WeakSet();
   var activeModuleConfig = null;
+  var flowGuideSuppressed = false;
 
   function $(sel, root){ return (root || document).querySelector(sel); }
   function $$(sel, root){ return Array.from((root || document).querySelectorAll(sel)); }
+
+  function isFlowGuideActive(){
+    try {
+      var params = new URLSearchParams(global.location && global.location.search || '');
+      var q = params.get('flowGuide') || params.get('guide');
+      if(q === '1' || q === 'on' || q === 'true') return true;
+      if(q === '0' || q === 'off' || q === 'false' || params.get('noguide') === '1') return false;
+    } catch(err){}
+    if(typeof global.TRAINING_FLOW_GUIDE_ACTIVE === 'boolean') return global.TRAINING_FLOW_GUIDE_ACTIVE;
+    // Review / content-check mode: navigate freely without pulse
+    if(document.documentElement.getAttribute('data-review-mode') === 'true') return false;
+    return FLOW_GUIDE_ACTIVE_DEFAULT;
+  }
+
+  function suppressFlowGuideChrome(){
+    flowGuideSuppressed = true;
+    document.documentElement.setAttribute('data-flow-guide-off', 'true');
+    document.documentElement.removeAttribute('data-guided-flow');
+    try { clearPulse(); } catch(err){}
+    var rail = document.getElementById(RAIL_ID);
+    if(rail){
+      rail.hidden = true;
+      rail.setAttribute('hidden', '');
+      rail.style.display = 'none';
+    }
+    $$(
+      '.' + PULSE_CLASS + ', .' + BLOCK_INTRO_RING_CLASS + ', .' + IN_PRACTICE_RING_CLASS +
+      ', .' + EXPAND_RING_CLASS + ', .' + RAIL_RING_CLASS + ', .' + REFLECTION_RING_CLASS +
+      ', .' + BLOCK_CHECK_RING_CLASS + ', .' + M5_NAV_RING_CLASS +
+      ', .flow-guide-finish-ring, .flow-guide-next-module'
+    ).forEach(function(el){
+      el.classList.remove(
+        PULSE_CLASS, PULSE_EXPAND, PULSE_ACTIVITY, PULSE_IN_PRACTICE,
+        'flow-guide-pulse--ring-host', 'flow-guide-next-module'
+      );
+      if(
+        el.classList.contains(BLOCK_INTRO_RING_CLASS) ||
+        el.classList.contains(IN_PRACTICE_RING_CLASS) ||
+        el.classList.contains(EXPAND_RING_CLASS) ||
+        el.classList.contains(RAIL_RING_CLASS) ||
+        el.classList.contains(REFLECTION_RING_CLASS) ||
+        el.classList.contains(BLOCK_CHECK_RING_CLASS) ||
+        el.classList.contains(M5_NAV_RING_CLASS) ||
+        el.classList.contains('flow-guide-finish-ring')
+      ){
+        if(el.parentNode) el.parentNode.removeChild(el);
+      }
+    });
+    activeModuleConfig = null;
+  }
 
   function isChecked(input){
     return !!(input && input.checked);
@@ -3710,6 +3768,10 @@
   }
 
   function refresh(moduleConfig){
+    if(!isFlowGuideActive()){
+      suppressFlowGuideChrome();
+      return;
+    }
     if(!moduleConfig) return;
     syncBlockIntroVisualState();
     var openPanel = getActiveOpenPanel();
@@ -4103,11 +4165,15 @@
     var moduleConfig = TrainingFlowConfig.getModuleConfig(ctx.pathway, ctx.moduleId);
     if(!moduleConfig) return;
 
-    activeModuleConfig = moduleConfig;
-    document.documentElement.setAttribute('data-guided-flow', 'true');
-    if(ctx.pathway) document.documentElement.setAttribute('data-guided-pathway', ctx.pathway.id);
-
     function start(){
+      if(!isFlowGuideActive()){
+        suppressFlowGuideChrome();
+        return;
+      }
+      activeModuleConfig = moduleConfig;
+      document.documentElement.setAttribute('data-guided-flow', 'true');
+      document.documentElement.removeAttribute('data-flow-guide-off');
+      if(ctx.pathway) document.documentElement.setAttribute('data-guided-pathway', ctx.pathway.id);
       scrollToPageTop();
       resetBlockIntroForGuidedFlow();
       neutralizeModuleBlockIntroHandlers();
@@ -4149,6 +4215,10 @@
     if(!global.TrainingFlowConfig) return;
     var ctx = TrainingFlowConfig.detectContext();
     if(!ctx || !ctx.hub) return;
+    if(!isFlowGuideActive()){
+      suppressFlowGuideChrome();
+      return;
+    }
 
     var pathway = ctx.pathway;
     var state = loadGuidedHubState(pathway);
@@ -4163,6 +4233,7 @@
     }
 
     document.documentElement.setAttribute('data-guided-flow', 'hub');
+    document.documentElement.removeAttribute('data-flow-guide-off');
 
     modules.forEach(function(mod){
       var card = document.querySelector('.module-card[data-module-number="' + mod.number + '"]');
@@ -4254,9 +4325,22 @@
     init: function(){
       var ctx = global.TrainingFlowConfig && TrainingFlowConfig.detectContext();
       if(!ctx) return;
+      if(!isFlowGuideActive()){
+        suppressFlowGuideChrome();
+        // Catch REVIEW_MODE applying data-review-mode after first paint
+        setTimeout(function(){
+          if(!isFlowGuideActive()) suppressFlowGuideChrome();
+        }, 800);
+        // Still schedule module bootstrap so ?flowGuide=1 mid-session isn't required ?
+        // inactive start() path only suppresses again.
+        if(!ctx.hub) initModulePage();
+        return;
+      }
       if(ctx.hub) initHubPage();
       else initModulePage();
     },
+    isActive: isFlowGuideActive,
+    suppress: suppressFlowGuideChrome,
     refresh: refresh,
     scheduleRefresh: scheduleRefresh,
     requestRefresh: function(delay){
