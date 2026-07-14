@@ -28,41 +28,25 @@
 .portal .concept-panel [data-expandable-visual] figure > img,
 .portal .section-visual-shell .concept-activity-box > img,
 .portal .section-visual-shell [data-expandable-visual] > img,
-.portal .b3c2-concept-hero {
-  position: relative;
+.portal .b3c2-concept-hero > img {
   width: 100%;
-  max-width: min(720px, 100%);
-  margin: 0 auto;
-  max-height: min(240px, 32vh);
-  overflow: hidden;
-  border-radius: 14px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  object-position: center top;
+  aspect-ratio: unset;
 }
 
-/* Module 5 nested PixtoLearn frames manage their own height — don't clamp to 240px */
+/* Module 5 nested PixtoLearn frames manage their own height */
 .portal .concept-panel [data-b2-screens] .concept-activity-box > img,
 .portal .concept-panel [data-b2-screens] [data-expandable-visual] > img,
 .portal .concept-panel [data-b2-screens] .m5-nested-visual-frame > img,
 .portal .concept-panel [data-b2-screens] .b2c2-direct-image > img,
 .portal .concept-panel [data-b2-screens] .b2c3-direct-image > img {
   max-height: none;
-  overflow: visible;
-}
-.portal .b3c2-concept-hero > img {
-  width: 100%;
-  max-width: 100%;
-  height: min(240px, 32vh);
-  max-height: min(240px, 32vh);
-  display: block;
+  height: auto;
   object-fit: contain;
-  object-position: center top;
-  aspect-ratio: unset;
-}
-@media (max-width: 640px) {
-  .portal .b3c2-concept-hero,
-  .portal .b3c2-concept-hero > img {
-    height: min(180px, 28vh);
-    max-height: min(180px, 28vh);
-  }
 }
 
 .portal .concept-panel .concept-image,
