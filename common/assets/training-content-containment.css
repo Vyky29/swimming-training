@@ -974,20 +974,13 @@ body {
  * overrides, forced-colors, or partial background shorthand resets) and
  * the index disappears on pale cards.
  */
-.portal .concept-panel[data-stage-theme="confidence"] {
-  --key-idea-badge: #1a5c38;
-}
-.portal .concept-panel[data-stage-theme="basic"] {
-  --key-idea-badge: #c97816;
-}
-.portal .concept-panel[data-stage-theme="structured"] {
-  --key-idea-badge: #4a86b4;
-}
-.portal .concept-panel[data-stage-theme="core"] {
-  --key-idea-badge: #8a3fb0;
-}
+/* Key Ideas badges stay brand blue in every stage / level (never green/orange/purple) */
+.portal .concept-panel[data-stage-theme="confidence"],
+.portal .concept-panel[data-stage-theme="basic"],
+.portal .concept-panel[data-stage-theme="structured"],
+.portal .concept-panel[data-stage-theme="core"],
 .portal .concept-panel[data-stage-theme][data-level] {
-  --key-idea-badge: var(--block2-level-accent, var(--blue, #2d84b3));
+  --key-idea-badge: #2d84b3;
 }
 
 /* Idle number badge: brand-blue soft circle (same across every block) */
@@ -1006,37 +999,13 @@ body {
   box-sizing: border-box !important;
   background: rgba(45, 132, 179, 0.16) !important;
   background-color: rgba(45, 132, 179, 0.16) !important;
-  color: var(--key-idea-badge, var(--blue, #2d84b3)) !important;
-  -webkit-text-fill-color: var(--key-idea-badge, var(--blue, #2d84b3)) !important;
-}
-.portal .concept-panel[data-stage-theme="core"] .key-idea-index {
-  background: rgba(138, 63, 176, 0.18) !important;
-  background-color: rgba(138, 63, 176, 0.18) !important;
-  color: #8a3fb0 !important;
-  -webkit-text-fill-color: #8a3fb0 !important;
-}
-.portal .concept-panel[data-stage-theme="confidence"] .key-idea-index {
-  background: rgba(26, 92, 56, 0.18) !important;
-  background-color: rgba(26, 92, 56, 0.18) !important;
-  color: #1a5c38 !important;
-  -webkit-text-fill-color: #1a5c38 !important;
-}
-.portal .concept-panel[data-stage-theme="basic"] .key-idea-index {
-  background: rgba(201, 120, 22, 0.18) !important;
-  background-color: rgba(201, 120, 22, 0.18) !important;
-  color: #c97816 !important;
-  -webkit-text-fill-color: #c97816 !important;
-}
-.portal .concept-panel[data-stage-theme="structured"] .key-idea-index {
-  background: rgba(74, 134, 180, 0.18) !important;
-  background-color: rgba(74, 134, 180, 0.18) !important;
-  color: #4a86b4 !important;
-  -webkit-text-fill-color: #4a86b4 !important;
+  color: #2d84b3 !important;
+  -webkit-text-fill-color: #2d84b3 !important;
 }
 
 .portal .concept-points-box .key-idea-item.clicked .key-idea-index,
 .portal .outcome.clicked .outcome-index {
-  background-color: var(--key-idea-badge, var(--blue, #2d84b3)) !important;
+  background-color: #2d84b3 !important;
   background-image: none !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
@@ -1087,6 +1056,71 @@ body {
   background-color: #2d84b3 !important;
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
+}
+
+/* Final lock: stage/level modules (esp. Module 4) cannot recolour Key Ideas */
+.portal .concept-panel[data-stage-theme] .concept-points-box,
+.portal .concept-panel[data-stage-theme][data-level] .concept-points-box,
+.portal .concept-panel[data-level] .concept-points-box{
+  --key-idea-badge: #2d84b3 !important;
+}
+.portal .concept-panel[data-stage-theme] .concept-points-box > h4,
+.portal .concept-panel[data-stage-theme] .concept-points-box h4,
+.portal .concept-panel[data-stage-theme] .concept-points-box .concept-section-head,
+.portal .concept-panel[data-stage-theme] .concept-points-box .concept-section-head span,
+.portal .concept-panel[data-stage-theme][data-level] .concept-points-box > h4,
+.portal .concept-panel[data-stage-theme][data-level] .concept-points-box h4,
+.portal .concept-panel[data-level] .concept-points-box h4{
+  color: #2d84b3 !important;
+  -webkit-text-fill-color: #2d84b3 !important;
+}
+.portal .concept-panel[data-stage-theme] .key-idea-index,
+.portal .concept-panel[data-stage-theme][data-level] .key-idea-index,
+.portal .concept-panel[data-level] .key-idea-index{
+  background: rgba(45, 132, 179, 0.16) !important;
+  background-color: rgba(45, 132, 179, 0.16) !important;
+  color: #2d84b3 !important;
+  -webkit-text-fill-color: #2d84b3 !important;
+}
+.portal .concept-panel[data-stage-theme] .key-idea-item.clicked,
+.portal .concept-panel[data-stage-theme][data-level] .key-idea-item.clicked,
+.portal .concept-panel[data-level] .key-idea-item.clicked{
+  border-color: #2d84b3 !important;
+  background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
+  box-shadow: 0 4px 12px rgba(45, 132, 179, .2) !important;
+}
+.portal .concept-panel[data-stage-theme] .key-idea-item.clicked .key-idea-index,
+.portal .concept-panel[data-stage-theme][data-level] .key-idea-item.clicked .key-idea-index,
+.portal .concept-panel[data-level] .key-idea-item.clicked .key-idea-index{
+  background: #2d84b3 !important;
+  background-color: #2d84b3 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.portal .concept-panel[data-stage-theme] .key-idea-item.clicked::after,
+.portal .concept-panel[data-level] .key-idea-item.clicked::after{
+  color: #2d84b3 !important;
+  -webkit-text-fill-color: #2d84b3 !important;
+}
+
+/* Core Concept pillars: brand blue everywhere */
+.portal .concept-insight-pillar__icon{
+  background: linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%) !important;
+  color: #fff !important;
+}
+.portal .concept-insight-pillar.clicked{
+  border-color: #2d84b3 !important;
+  background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
+  box-shadow: 0 4px 12px rgba(45, 132, 179, .2) !important;
+}
+.portal .concept-insight-pillar.clicked .concept-insight-pillar__icon{
+  background: linear-gradient(145deg, #2d84b3 0%, #1e6a94 100%) !important;
+}
+.portal .concept-insight-pillar.clicked .concept-insight-pillar__title{
+  color: #2d84b3 !important;
+}
+.portal .concept-insight-pillar.clicked::after{
+  background: #2d84b3 !important;
 }
 
 /* Tick stays brand blue across every block / stage theme */
