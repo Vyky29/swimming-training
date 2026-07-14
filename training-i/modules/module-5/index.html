@@ -1817,9 +1817,13 @@
     }
 
     .concept-image img{
-      width:100%;
+      width:auto;
+      max-width:100%;
       height:auto;
       display:block;
+      margin-left:auto;
+      margin-right:auto;
+      object-fit:contain;
     }
 
     .subconcept-grid{
@@ -2586,17 +2590,18 @@
       flex-direction:column;
       align-items:center;
     }
+    /* width:auto + max-width:100% so max-height never flattens aspect ratio */
     .portal .b2-screens .m5-nested-visual-frame > img,
     .portal .b2-screens .b2c2-direct-image > img,
     .portal .b2-screens .b2c3-direct-image > img,
     .portal .b2-screens .m5-folder-overview-card .concept-activity-box > img,
     .portal .b2-screens .m5-screen-visual-card .concept-activity-box > img{
-      width:100%;
-      max-width:100%;
-      height:auto;
+      width:auto !important;
+      max-width:100% !important;
+      height:auto !important;
       display:block;
       margin:0 auto;
-      object-fit:contain;
+      object-fit:contain !important;
       object-position:center center;
     }
     /* Nested + hub home visuals (not only m5-nested-active leaves) */
@@ -2607,20 +2612,36 @@
     .portal .b2-screens .folder-page > .concept-activity-box > img,
     .portal .b2-screens .folder-page .concept-section-card > .concept-activity-box > img{
       max-height:min(400px,48vh);
+      width:auto !important;
+      max-width:100% !important;
+      height:auto !important;
+      object-fit:contain !important;
       border-radius:12px;
     }
     .portal .b2-screens .m5-folder-overview-card .m5-nested-visual-frame > img,
     .portal .b2-screens .m5-folder-overview-card > .concept-activity-box > img{
       max-height:min(320px,40vh);
+      width:auto !important;
+      max-width:100% !important;
+      height:auto !important;
+      object-fit:contain !important;
       border-radius:12px;
     }
     .portal .b2-screens .m5-nested-visual-grid .m5-nested-visual-frame > img,
     .portal .b2-screens .m5-nested-visual-grid .b2c2-direct-image > img{
       max-height:min(240px,32vh);
+      width:auto !important;
+      max-width:100% !important;
+      height:auto !important;
+      object-fit:contain !important;
       border-radius:10px;
     }
     .portal .b2-screens .entry-exit-fan-item img{
       max-height:min(200px,30vh);
+      width:auto !important;
+      max-width:100% !important;
+      height:auto !important;
+      object-fit:contain !important;
       border-radius:10px;
     }
     /* Flat Block 1–3 concept photos: readable but not full-viewport */
@@ -2628,10 +2649,13 @@
     .portal .concept-panel:not(.m5-nested-active) > .concept-image [data-expandable-visual] > img,
     .portal .concept-panel:not(.m5-nested-active) .section-visual-shell .concept-activity-box > img{
       max-height:min(300px,40vh) !important;
-      width:100%;
+      width:auto !important;
+      max-width:100% !important;
       height:auto !important;
       object-fit:contain !important;
       object-position:center top;
+      margin-left:auto;
+      margin-right:auto;
     }
     .portal .b2-screens .m5-nested-visual-grid-wrap{
       padding:14px;
@@ -3798,7 +3822,8 @@
     }
     .entry-exit-fan-item img{
       display:block;
-      width:100%;
+      width:auto;
+      max-width:100%;
       height:auto;
       margin:0 auto;
       object-fit:contain;
@@ -3883,7 +3908,7 @@
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
-  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260714unsquash1" />
+  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260714unsquash2" />
   <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714subhead1" />
 </head>
 <body>

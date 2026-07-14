@@ -38,15 +38,19 @@
   aspect-ratio: unset;
 }
 
-/* Module 5 nested PixtoLearn frames manage their own height */
+/* Module 5 nested PixtoLearn: never force full-bleed width under a height cap */
 .portal .concept-panel [data-b2-screens] .concept-activity-box > img,
 .portal .concept-panel [data-b2-screens] [data-expandable-visual] > img,
 .portal .concept-panel [data-b2-screens] .m5-nested-visual-frame > img,
 .portal .concept-panel [data-b2-screens] .b2c2-direct-image > img,
 .portal .concept-panel [data-b2-screens] .b2c3-direct-image > img {
+  width: auto;
+  max-width: 100%;
   max-height: none;
   height: auto;
   object-fit: contain;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .portal .concept-panel .concept-image,
