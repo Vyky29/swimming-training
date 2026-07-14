@@ -330,13 +330,37 @@
     return true;
   }
 
-  function hasUnclickedKeyIdeasInScope(panel){
-    var root = getM5InteractiveRoot(panel);
-    var items = root.querySelectorAll('.key-idea-item:not(.clicked)');
-    for(var i = 0; i < items.length; i++){
-      if(isKeyIdeaGuideable(items[i])) return true;
+  function collectGuideableKeyIdeas(panel){
+    if(!panel) return [];
+    var roots = [getM5InteractiveRoot(panel)];
+    // Nested hubs keep Key Ideas on the panel shell while home is active
+    if(panelHasM5NestedNav(panel) && getM5ScreenId(panel) === 'home'){
+      roots.push(panel);
     }
-    return false;
+    var seen = [];
+    var out = [];
+    for(var r = 0; r < roots.length; r++){
+      if(!roots[r]) continue;
+      var items = roots[r].querySelectorAll('.key-idea-item:not(.clicked)');
+      for(var i = 0; i < items.length; i++){
+        var item = items[i];
+        if(seen.indexOf(item) >= 0) continue;
+        if(!isKeyIdeaGuideable(item)) continue;
+        // Skip panel-shell Key Ideas while they are CSS-hidden inside a nested leaf/folder
+        var shellBox = item.closest('.concept-panel > .concept-points-box');
+        if(shellBox && panel.classList.contains('m5-nested-active')){
+          var shellStyle = window.getComputedStyle(shellBox);
+          if(shellStyle && shellStyle.display === 'none') continue;
+        }
+        seen.push(item);
+        out.push(item);
+      }
+    }
+    return out;
+  }
+
+  function hasUnclickedKeyIdeasInScope(panel){
+    return collectGuideableKeyIdeas(panel).length > 0;
   }
 
   function scopeNeedsInPracticeMount(panel){
@@ -613,6 +637,23 @@
     });
   }
 
+  /** Shared gate before any hub leaf / folder / level / schedule entry.
+   *  Order: Core Concept ? Visual ? (stage cards) ? Key Ideas ? In Practice ? leaves
+   */
+  function hubContentBeforeLeaves(panel){
+    if(!panel) return true;
+    if(getVisibleInsightPillars(panel).length) return false;
+    if(!preKeyIdeasVisualsComplete(panel)) return false;
+    if(panel.dataset.stageCardsRequired === 'true' && panel.dataset.stageCardsDone !== 'true') return false;
+    if(hasUnclickedKeyIdeasInScope(panel)) return false;
+    if(!inPracticeFlowComplete(panel)) return false;
+    return true;
+  }
+
+  function m5HubContentReady(panel){
+    return hubContentBeforeLeaves(panel);
+  }
+
   function resolveM5NestedNav(panel){
     if(!panelHasM5NestedNav(panel)) return null;
     var wrapper = getM5NestedWrapper(panel);
@@ -622,9 +663,10 @@
     var screenId = getM5ScreenId(panel);
     if(isM5LeafScreen(active)) return null;
 
+    // Never pulse folders / flashcards / schedules before Visual ? Key Ideas ? In Practice
+    if(!hubContentBeforeLeaves(panel)) return null;
+
     if(isM5FolderOverview(active)){
-      if(getVisibleInsightPillars(panel).length) return null;
-      if(!preKeyIdeasVisualsComplete(panel)) return null;
       var folderId = screenId;
       var cats = active.querySelectorAll('.b2pl-lvl-btn[data-b2-go]');
       for(var c = 0; c < cats.length; c++){
@@ -649,14 +691,18 @@
     }
 
     if(screenId === 'home'){
-      if(getVisibleInsightPillars(panel).length) return null;
-      if(!preKeyIdeasVisualsComplete(panel)) return null;
-      var tiles = active.querySelectorAll('.b2c2-folder-tile[data-b2-go], .b2c3-flash-tile[data-b2-go]');
+      // Folders, flashcards, and Visual Schedules (b3c1 uses .b2pl-lvl-btn)
+      var tiles = active.querySelectorAll(
+        '.b2c2-folder-tile[data-b2-go], .b2c3-flash-tile[data-b2-go], .b2pl-cat-grid .b2pl-lvl-btn[data-b2-go], .b2pl-folder-grid .b2pl-lvl-btn[data-b2-go]'
+      );
       for(var t = 0; t < tiles.length; t++){
         var tileId = tiles[t].getAttribute('data-b2-go');
         if(!isM5FolderComplete(panel, wrapper, tileId)){
-          var tileLabel = tiles[t].querySelector('.b2c2-folder-label, .b2c3-mini-label');
-          return buildM5NavStep(tiles[t], 'Open ' + ((tileLabel && tileLabel.textContent.trim()) || 'this section'));
+          var tileLabel = tiles[t].querySelector('.b2c2-folder-label, .b2c3-mini-label, .b2pl-lvl-lbl');
+          var tileText = (tileLabel && tileLabel.textContent.trim()) ||
+            (tiles[t].textContent || '').replace(/\s+/g, ' ').trim() ||
+            'this section';
+          return buildM5NavStep(tiles[t], 'Open ' + tileText);
         }
       }
       return null;
@@ -697,7 +743,7 @@
 
   function getSubconceptNavButtons(nav){
     if(!nav) return [];
-    return $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget], .overview-subconcept-btn', nav);
+    return $$('.concept-square[data-target], .b3c3-overview-step[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget], .overview-subconcept-btn', nav);
   }
 
   function isOnParentHubWithSubconcepts(panel){
@@ -750,7 +796,10 @@
   function b3c2FactorExploreComplete(panel){
     if(!panelHasB3c2FactorExplore(panel)) return true;
     if(panel.dataset.factorExploreDone === 'true') return true;
-    var boxes = panel.querySelectorAll('.b3c2-factor-explore .b3c2-factor-box[data-factor-key]');
+    var wraps = Array.prototype.slice.call(panel.querySelectorAll('.b3c2-factor-explore')).filter(isVisibleEl);
+    var wrap = wraps.length ? wraps[wraps.length - 1] : null;
+    if(!wrap) return true;
+    var boxes = wrap.querySelectorAll('.b3c2-factor-box[data-factor-key]');
     if(!boxes.length) return true;
     for(var i = 0; i < boxes.length; i++){
       if(!boxes[i].classList.contains('is-complete')) return false;
@@ -761,8 +810,14 @@
   function resolveB3c2FactorExplore(panel){
     if(!panel || !panelHasB3c2FactorExplore(panel)) return null;
     if(b3c2FactorExploreComplete(panel)) return null;
-    var wrap = panel.querySelector('.b3c2-factor-explore');
-    if(!wrap || !isVisibleEl(wrap)) return null;
+    // Always after Visual ? Key Ideas ? In Practice (Physical / Motor / Cognitive)
+    if(getVisibleInsightPillars(panel).length) return null;
+    if(!preKeyIdeasVisualsComplete(panel)) return null;
+    if(hasUnclickedKeyIdeasInScope(panel)) return null;
+    if(!inPracticeFlowComplete(panel)) return null;
+    var wraps = Array.prototype.slice.call(panel.querySelectorAll('.b3c2-factor-explore')).filter(isVisibleEl);
+    var wrap = wraps.length ? wraps[wraps.length - 1] : null;
+    if(!wrap) return null;
     var target = panel.dataset.currentTarget || '';
 
     // Active factor: open each info card (affects / see / todo)
@@ -940,10 +995,25 @@
     return box;
   }
 
+  function imgHasRealSrc(img){
+    if(!img) return false;
+    var src = (img.getAttribute('src') || '').trim();
+    return !!src;
+  }
+
   function panelHasExpandableVisual(panel){
     if(!panel) return false;
     var scope = getM5FlowScope(panel);
-    return !!scope.querySelector('.img-expand-btn, [data-expandable-visual] img[src], .concept-section-card.section-visual-shell img[src], .concept-image img[src], .m5-nested-visual-shell img[src], .m5-nested-visual-frame img[src]');
+    if(scope.querySelector('.img-expand-btn')) return true;
+    var imgs = scope.querySelectorAll(
+      '[data-expandable-visual] img, .concept-section-card.section-visual-shell img, ' +
+      '.concept-image img, [data-concept-intro-media] img, [data-concept-primary-image] img, ' +
+      '.b3c2-concept-hero img, .m5-nested-visual-shell img, .m5-nested-visual-frame img'
+    );
+    for(var i = 0; i < imgs.length; i++){
+      if(imgHasRealSrc(imgs[i]) && isVisibleEl(imgs[i])) return true;
+    }
+    return false;
   }
 
   function isNodeBefore(anchor, beforeNode){
@@ -1011,21 +1081,71 @@
     return !resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
   }
 
+  function findAnyInPracticeAction(panel){
+    if(!panel) return null;
+    var scoped = findScopedInPracticeAction(panel);
+    if(scoped) return scoped;
+    var all = panel.querySelectorAll('.key-ideas-action');
+    for(var i = 0; i < all.length; i++){
+      if(all[i].hasAttribute('hidden')) continue;
+      if(isVisibleEl(all[i])) return all[i];
+    }
+    return null;
+  }
+
+  function inPracticePartsActuallyComplete(inPractice){
+    if(!inPractice) return true;
+    if(global.InPracticeSystem){
+      if(typeof InPracticeSystem.nextUnreviewedPart === 'function'){
+        try {
+          if(InPracticeSystem.nextUnreviewedPart(inPractice)) return false;
+        } catch(errNext){}
+      }
+      if(typeof InPracticeSystem.partsComplete === 'function'){
+        try { return !!InPracticeSystem.partsComplete(inPractice); } catch(errParts){}
+      }
+    }
+    var parts = inPractice.querySelectorAll('[data-inprac-part]');
+    if(!parts.length) return inPractice.classList.contains('is-completed');
+    for(var i = 0; i < parts.length; i++){
+      var part = parts[i];
+      if(part.hasAttribute('hidden') || part.closest('[hidden]')) continue;
+      if(!part.classList.contains('is-reviewed')) return false;
+    }
+    return true;
+  }
+
   function inPracticeFlowComplete(panel){
     if(!panel) return true;
     ensureScopedInPracticeMounted(panel);
     syncPanelInPracticeDone(panel);
     var nestedAction = findScopedInPracticeAction(panel);
-    if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return true;
-    if(!nestedAction){
+    var inPractice = nestedAction || findAnyInPracticeAction(panel);
+    if(panel.dataset.inPracticeRequired === 'false' && !inPractice) return true;
+    if(!inPractice){
       // Wait for static In Practice to mount on nested leaves that have Key Ideas
       if(scopeNeedsInPracticeMount(panel)) return false;
       // Nested screens without their own In Practice are complete for this leaf
       if(panelHasM5NestedNav(panel) && getM5ScreenId(panel) !== 'home') return true;
+      // Required on this hub but not found yet ? do not skip to subconcepts
+      if(panel.dataset.inPracticeRequired === 'true') return false;
+      return true;
     }
-    var inPractice = nestedAction;
-    if(!inPractice || inPractice.hasAttribute('hidden')) return true;
+    if(inPractice.hasAttribute('hidden')) return true;
     var current = getInPracticeScopeKey(panel);
+
+    // Real cue state wins over stale __inPracticeDoneMap / data-inPracticeDone flags
+    // (e.g. Overview of Emotional States showing 0/3 while flags still say done).
+    if(!inPracticePartsActuallyComplete(inPractice)){
+      inPractice.classList.remove('is-completed');
+      if(panel.dataset.inPracticeDoneFor === current){
+        panel.dataset.inPracticeDone = 'false';
+        delete panel.dataset.inPracticeDoneFor;
+      }
+      if(panel.__inPracticeDoneMap && current) delete panel.__inPracticeDoneMap[current];
+      return false;
+    }
+
     if(panel.__inPracticeDoneMap && current && panel.__inPracticeDoneMap[current]) return true;
     if(inPractice.classList.contains('is-completed')){
       var doneFor = inPractice.dataset.inPracticeTarget || '';
@@ -1045,8 +1165,10 @@
   }
 
   function ensurePanelVisualWired(panel){
-    if(!panel || wiredPanels.has(panel)) return;
+    if(!panel) return;
     if(!global.ConceptVisualExpand || typeof ConceptVisualExpand.wire !== 'function') return;
+    // Re-wire when media is injected after the first empty pass (e.g. b3c2 hero)
+    if(wiredPanels.has(panel) && panel.querySelector('.img-expand-btn')) return;
     wiredPanels.add(panel);
     try {
       ConceptVisualExpand.wire(panel, { panel: panel, syncRoot: panel });
@@ -1064,6 +1186,7 @@
       btn.closest('.m5-nested-visual-shell') ||
       btn.closest('.m5-screen-visual-card') ||
       btn.closest('.m5-folder-overview-card') ||
+      btn.closest('.b3c2-concept-hero') ||
       btn.closest('.concept-image') ||
       btn.closest('[data-concept-primary-image]') ||
       btn.closest('[data-concept-intro-media]') ||
@@ -1248,20 +1371,14 @@
   function resolveKeyIdeaItems(panel){
     if(!preKeyIdeasVisualsComplete(panel)) return null;
 
-    var root = getM5InteractiveRoot(panel);
-    var box = root.querySelector('.concept-points-box');
-    var ideas = box ? box.querySelectorAll('.key-idea-item:not(.clicked)') : root.querySelectorAll('.key-idea-item:not(.clicked)');
-
-    for(var i = 0; i < ideas.length; i++){
-      if(!isKeyIdeaGuideable(ideas[i])) continue;
-      var idx = ideas[i].querySelector('.key-idea-index');
-      return sectionScrollStep('keyidea', ideas[i], 'Review key idea ' + ((idx && idx.textContent.trim()) || (i + 1)), {
-        scrollEl: ideas[i],
-        scrollBlock: 'center',
-        forceScroll: true
-      });
-    }
-    return null;
+    var ideas = collectGuideableKeyIdeas(panel);
+    if(!ideas.length) return null;
+    var idx = ideas[0].querySelector('.key-idea-index');
+    return sectionScrollStep('keyidea', ideas[0], 'Review key idea ' + ((idx && idx.textContent.trim()) || '1'), {
+      scrollEl: ideas[0],
+      scrollBlock: 'center',
+      forceScroll: true
+    });
   }
 
   function resolveInPractice(panel){
@@ -1612,10 +1729,15 @@
   function getSubconceptNav(panel){
     if(!panel) return null;
     var nav = panel.querySelector('[data-parent-subconcept-nav]:not([hidden])');
-    if(nav && nav.querySelector('.concept-square[data-target], .overview-subconcept-btn')) return nav;
+    if(nav && nav.querySelector('.concept-square[data-target], .overview-subconcept-btn, .b3c3-overview-step[data-target]')) return nav;
     var shell = panel.querySelector('.overview-subconcept-shell:not([hidden])');
     if(shell) return shell.querySelector('.overview-subconcept-grid') || shell;
-    return panel.querySelector('.overview-subconcept-grid');
+    var overviewGrid = panel.querySelector('.overview-subconcept-grid');
+    if(overviewGrid) return overviewGrid;
+    // Term Review steps (and similar) may sit in the primary image slot
+    var b3c3 = panel.querySelector('.b3c3-overview-list, .b3c3-overview-wrap');
+    if(b3c3 && b3c3.querySelector('.concept-square[data-target], .b3c3-overview-step[data-target]')) return b3c3;
+    return null;
   }
 
   function getNavTarget(btn){
@@ -1657,6 +1779,8 @@
   function resolveStageLevelPick(panel){
     if(!panel || panel.dataset.stageCardsRequired !== 'true') return null;
     if(panel.dataset.stageCardsDone !== 'true') return null;
+    // Never pulse Swim Confidence / levels while Key Ideas or In Practice are still open
+    if(!hubContentBeforeLeaves(panel)) return null;
     var levels = panel.querySelector('.levels-section');
     if(!levels || !isVisibleEl(levels) || levels.classList.contains('is-locked')) return null;
     var buttons = levels.querySelectorAll('.concept-square[data-target]');
@@ -1682,7 +1806,7 @@
     var nav = getSubconceptNav(panel);
     if(!nav) return null;
 
-    var navButtons = $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn', nav);
+    var navButtons = getSubconceptNavButtons(nav);
     if(!navButtons.length) return null;
 
     var current = panel.dataset.currentTarget || '';
@@ -1715,11 +1839,7 @@
   }
 
   function parentHubContentReady(panel){
-    if(!panel) return true;
-    if(getVisibleInsightPillars(panel).length) return false;
-    if(!preKeyIdeasVisualsComplete(panel)) return false;
-    if(hasUnclickedKeyIdeasInScope(panel)) return false;
-    if(!inPracticeFlowComplete(panel)) return false;
+    if(!hubContentBeforeLeaves(panel)) return false;
     if(isActivityIncomplete(panel)) return false;
     return true;
   }
@@ -1729,7 +1849,7 @@
     if(!panel) return false;
     var nav = getSubconceptNav(panel);
     if(!nav || !isVisibleEl(nav)) return false;
-    var buttons = $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn', nav);
+    var buttons = getSubconceptNavButtons(nav);
     if(!buttons.length) return false;
     var current = panel.dataset.currentTarget || '';
     var onLeaf = buttons.some(function(btn){ return getNavTarget(btn) === current; });
@@ -1742,12 +1862,15 @@
       return false;
     }
     if(panel.dataset.flowHubTour === '1') return true;
-    return buttons.some(function(btn){
-      return isConceptDone(btn) || btn.classList.contains('is-next');
-    });
+    // Only mid-tour after at least one leaf is done.
+    // Do NOT treat a pre-marked is-next (e.g. Modelling) as tour-in-progress ?
+    // that jumps the pulse past Core Concept cards on first entry.
+    return buttons.some(function(btn){ return isConceptDone(btn); });
   }
 
   function resolveHubSubconceptStep(panel, moduleConfig){
+    // Hard gate: never pulse Calm / Alert / Factors / etc. until hub content is ready
+    if(!parentHubContentReady(panel)) return null;
     var parentSubconceptStep = resolveParentSubconceptResume(panel, moduleConfig);
     if(parentSubconceptStep) return withM5Tone(panel, parentSubconceptStep);
     var subconceptStep = resolveSubconceptNav(panel);
@@ -1769,11 +1892,14 @@
     var nav = getSubconceptNav(panel);
     if(!nav) return null;
 
-    var navButtons = $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn', nav);
+    var navButtons = getSubconceptNavButtons(nav);
     if(!navButtons.length) return null;
 
+    // Only resume mid-tour after a leaf is actually done.
+    // Pre-marked is-next (e.g. Physical Factors on first open) must NOT skip
+    // Core Concept ? Visual ? Key Ideas ? In Practice on the parent hub.
     var hasPartialProgress = navButtons.some(function(btn){
-      return isConceptDone(btn) || btn.classList.contains('is-next');
+      return isConceptDone(btn);
     });
     if(!hasPartialProgress) return null;
 
@@ -1865,8 +1991,9 @@
     var panelBlock = panel.getAttribute('data-panel-for');
     if(panelBlock && blockConceptsComplete(panelBlock)) return null;
 
-    // Returning from a leaf (Calm ? Alert, Water ? Env, etc.): pulse next tile, not overview photo
-    if(hubSubconceptTourInProgress(panel)){
+    // Returning from a leaf (Calm ? Alert, Water ? Env, etc.): pulse next tile, not overview photo.
+    // Never skip Core Concept / visual / Key Ideas ? wait until hub content is ready.
+    if(hubSubconceptTourInProgress(panel) && parentHubContentReady(panel)){
       var hubTourStep = resolveHubSubconceptStep(panel, activeModuleConfig);
       if(hubTourStep) return hubTourStep;
     }
@@ -1884,14 +2011,8 @@
     var preVisualStep = resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
     if(preVisualStep) return withM5Tone(panel, preVisualStep);
 
-    var m5NavStep = resolveM5NestedNav(panel);
-    if(m5NavStep) return m5NavStep;
-
     var stageCardStep = resolveStageIntroCards(panel);
     if(stageCardStep) return stageCardStep;
-
-    var stageLevelStep = resolveStageLevelPick(panel);
-    if(stageLevelStep) return stageLevelStep;
 
     var keyIdeaStep = resolveKeyIdeaItems(panel);
     if(keyIdeaStep) return withM5Tone(panel, keyIdeaStep);
@@ -1901,6 +2022,14 @@
 
     var inPracticeStep = resolveInPractice(panel);
     if(inPracticeStep) return withM5Tone(panel, inPracticeStep);
+
+    // Pathway levels only after Key Ideas + In Practice (same rule as Calm / Factors)
+    var stageLevelStep = resolveStageLevelPick(panel);
+    if(stageLevelStep) return stageLevelStep;
+
+    // Nested folders / flashcards / schedules ? only after Key Ideas + In Practice
+    var m5NavStep = resolveM5NestedNav(panel);
+    if(m5NavStep) return m5NavStep;
 
     // Factor groups: after the poster expand, before the activity
     var factorExploreStep = resolveB3c2FactorExplore(panel);
@@ -2502,11 +2631,20 @@
       }
     }
 
-    // Pathway stage shells use a permanent container Done ? never park the pulse there
-    if(/^b2c[123]$/.test(target) || panel.dataset.stageCardsRequired === 'true'){
+    // Module 4 pathway stage shells only (not Module 5 flat/nested b2c1?b2c3)
+    if(panel.dataset.stageCardsRequired === 'true' ||
+      (panel.hasAttribute('data-stage-theme') && /^b2c[123]$/.test(target))){
       var levelPick = resolveStageLevelPick(panel);
       if(levelPick) return levelPick;
       return null;
+    }
+
+    // Module 5 nested hubs: keep hold on the open nest instead of falling through to the grid
+    if(panelHasM5NestedNav(panel)){
+      var m5Hold = resolveM5NestedNav(panel);
+      if(m5Hold) return m5Hold;
+      var m5LeafHold = resolveM5LeafReturn(panel);
+      if(m5LeafHold) return m5LeafHold;
     }
 
     var finish = panel.querySelector('[data-finish-concept]');
@@ -3184,7 +3322,7 @@
     progress: '212, 168, 35'      /* Block 4 ? yellow */
   };
 
-  /* Shared blue for Start Module → Journey → Outcomes → Inside This Module (all modules). */
+  /* Shared blue for Start Module ? Journey ? Outcomes ? Inside This Module (all modules). */
   var PREAMBLE_ACCENT_RGB = '36, 118, 168';
   var PREAMBLE_KINDS = {
     'start-module': true,
@@ -3233,7 +3371,7 @@
   function syncGuidedAccent(step){
     var root = document.documentElement;
 
-    // Keep module-front pulses the same blue everywhere — never inherit an open block colour.
+    // Keep module-front pulses the same blue everywhere ? never inherit an open block colour.
     if(isPreambleStep(step)){
       root.setAttribute('data-guided-block-variant', 'module');
       root.setAttribute('data-guided-phase', 'preamble');
@@ -3589,8 +3727,43 @@
     return false;
   }
 
+  /** Drop premature is-next on Calm / Factors / overview tiles until hub content is ready. */
+  function syncPrematureHubNextMarkers(panel){
+    if(!panel) return;
+    if(hubContentBeforeLeaves(panel)) return;
+    var nav = getSubconceptNav(panel);
+    if(nav){
+      getSubconceptNavButtons(nav).forEach(function(btn){
+        btn.classList.remove('is-next');
+      });
+    }
+    // Module 1 / Training II overview subtargets
+    panel.querySelectorAll('.overview-subconcept-btn.is-next, [data-overview-subtarget].is-next').forEach(function(btn){
+      btn.classList.remove('is-next');
+    });
+    // Module 4 pathway level squares / Term Review steps
+    panel.querySelectorAll('.levels-section .concept-square.is-next, .b3c3-overview-step.is-next').forEach(function(btn){
+      btn.classList.remove('is-next');
+    });
+  }
+
+  function isHubLeafEntryControl(el){
+    if(!el || !el.closest) return false;
+    if(el.closest('.b2-nav')) return false;
+    if(el.tagName === 'A' && el.getAttribute('href') && !el.getAttribute('data-target')) return false;
+    return !!(
+      el.closest('[data-parent-subconcept-nav] .concept-square[data-target]') ||
+      el.closest('.b3c3-overview-step[data-target]') ||
+      el.closest('.overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget]') ||
+      el.closest('.b2c2-folder-tile[data-b2-go], .b2c3-flash-tile[data-b2-go]') ||
+      el.closest('.b2pl-cat-grid .b2pl-lvl-btn[data-b2-go], .b2pl-folder-grid .b2pl-lvl-btn[data-b2-go]') ||
+      el.closest('.levels-section .concept-square[data-target]')
+    );
+  }
+
   function syncParentHubFinishGate(panel){
     if(!panel) return;
+    syncPrematureHubNextMarkers(panel);
     var finish = panel.querySelector('[data-finish-concept]');
     if(!finish) return;
     if(parentHubHasIncompleteLeaves(panel)){
@@ -3638,6 +3811,29 @@
       }
     }, true);
 
+    // Hard stop: do not open Calm / Factors / Steps / folders / levels before
+    // Core Concept ? Visual ? Key Ideas ? In Practice
+    document.addEventListener('click', function(e){
+      var leafEntry = e.target && e.target.closest ? e.target.closest(
+        '[data-parent-subconcept-nav] .concept-square[data-target], ' +
+        '[data-parent-subconcept-nav] .b3c3-overview-step[data-target], ' +
+        '.b3c3-overview-step.concept-square[data-target], ' +
+        '.overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget], ' +
+        '.b2c2-folder-tile[data-b2-go], .b2c3-flash-tile[data-b2-go], ' +
+        '.b2pl-cat-grid .b2pl-lvl-btn[data-b2-go], .b2pl-folder-grid .b2pl-lvl-btn[data-b2-go], ' +
+        '.levels-section .concept-square[data-target]'
+      ) : null;
+      if(!leafEntry || !isHubLeafEntryControl(leafEntry)) return;
+      var leafPanel = leafEntry.closest('.concept-panel.show');
+      if(!leafPanel) return;
+      if(hubContentBeforeLeaves(leafPanel)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+      syncPrematureHubNextMarkers(leafPanel);
+      bumpFlowAdvance(moduleConfig, 60);
+    }, true);
+
     document.addEventListener('click', function(e){
       var navBtn = e.target.closest && e.target.closest('[data-b2-go]');
       if(navBtn){
@@ -3648,8 +3844,11 @@
           var active = getM5ActiveScreen(navPanel);
           if(active && navBtn.closest('.b2-nav')){
             if(isM5LeafScreen(active)){
-              markM5ItemDone(navPanel, 'flowM5CatsDone', fromScreen);
-              markM5ItemDone(navPanel, 'flowM5LeafReturned', fromScreen);
+              // Only mark leaf complete when Visual ? Key Ideas ? In Practice ? activity are done
+              if(isM5LeafFlowComplete(navPanel)){
+                markM5ItemDone(navPanel, 'flowM5CatsDone', fromScreen);
+                markM5ItemDone(navPanel, 'flowM5LeafReturned', fromScreen);
+              }
             } else if(isM5FolderOverview(active) && goTarget === 'home'){
               markM5ItemDone(navPanel, 'flowM5FoldersDone', fromScreen);
               markM5ItemDone(navPanel, 'flowM5FolderReturned', fromScreen);
@@ -4049,7 +4248,10 @@
     returnToConceptGrid: returnToConceptGrid,
     clearM5FlowTracking: clearM5FlowTracking,
     syncPanelInPracticeDone: syncPanelInPracticeDone,
-    markPanelInPracticeDone: markPanelInPracticeDone
+    markPanelInPracticeDone: markPanelInPracticeDone,
+    parentHubContentReady: parentHubContentReady,
+    hubContentBeforeLeaves: hubContentBeforeLeaves,
+    inPracticeFlowComplete: inPracticeFlowComplete
   };
 
   if(document.readyState === 'loading'){

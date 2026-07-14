@@ -3453,11 +3453,11 @@
     min-width:0;
   }
 </style>
-<link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714core1" />
+<link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714key2" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
-  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260713pulse2" />
+  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260714media1" />
   <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714subhead1" />
 
 <div class="portal">
@@ -3643,19 +3643,19 @@
           <div class="outcomes" data-outcomes-group="outcomes" data-tts-source="outcomes">
             <div class="outcome clickable-progress" data-outcome-item="1">
               <span class="outcome-index">•</span>
-              <div>How water influences movement and balance</div>
+              <div>How water influences movement and balance.</div>
             </div>
             <div class="outcome clickable-progress" data-outcome-item="2">
               <span class="outcome-index">•</span>
-              <div>How water supports and challenges swimmers</div>
+              <div>How water supports and challenges swimmers.</div>
             </div>
             <div class="outcome clickable-progress" data-outcome-item="3">
               <span class="outcome-index">•</span>
-              <div>How risk and safety shape aquatic practice</div>
+              <div>How risk and safety shape aquatic practice.</div>
             </div>
             <div class="outcome clickable-progress" data-outcome-item="4">
               <span class="outcome-index">•</span>
-              <div>How sensory experiences influence swimmer responses</div>
+              <div>How sensory experiences influence swimmer responses.</div>
             </div>
           </div>
 
@@ -3732,11 +3732,11 @@
               <div class="card-icon">≡</div>
               <h4>What This Block Covers</h4>
               <ul>
-                <li>How water affects the body</li>
-                <li>The forces acting on swimmers</li>
-                <li>How water supports movement</li>
-                <li>How water creates challenge</li>
-                <li>Why this matters in practice</li>
+                <li>How water affects the body.</li>
+                <li>The forces acting on swimmers.</li>
+                <li>How water supports movement.</li>
+                <li>How water creates challenge.</li>
+                <li>Why this matters in practice.</li>
               </ul>
             </div>
           </div>
@@ -3855,11 +3855,11 @@
               <div class="card-icon">≡</div>
               <h4>What This Block Covers</h4>
               <ul>
-                <li>The reality of drowning risk</li>
-                <li>Who may be more vulnerable in water</li>
-                <li>Key risk factors in neurodiverse swimmers</li>
-                <li>How prevention is applied in practice</li>
-                <li>The role of the instructor in maintaining safety</li>
+                <li>The reality of drowning risk.</li>
+                <li>Who may be more vulnerable in water.</li>
+                <li>Key risk factors in neurodiverse swimmers.</li>
+                <li>How prevention is applied in practice.</li>
+                <li>The role of the instructor in maintaining safety.</li>
               </ul>
             </div>
           </div>
@@ -3977,11 +3977,11 @@
               <div class="card-icon">≡</div>
               <h4>What This Block Covers</h4>
               <ul>
-                <li>What changes when entering water</li>
-                <li>How the body processes sensory input in water</li>
-                <li>Differences between land and water perception</li>
-                <li>How sensory responses affect behaviour</li>
-                <li>Why this matters for teaching and support</li>
+                <li>What changes when entering water.</li>
+                <li>How the body processes sensory input in water.</li>
+                <li>Differences between land and water perception.</li>
+                <li>How sensory responses affect behaviour.</li>
+                <li>Why this matters for teaching and support.</li>
               </ul>
             </div>
           </div>
@@ -6079,7 +6079,6 @@
         if(prevInPracticeTarget && (panel.dataset.inPracticeDone === 'true' || actionEl.classList.contains('is-completed'))){
           panel.__inPracticeDoneMap[prevInPracticeTarget] = true;
         }
-        var conceptInPracticeDone = !!(conceptCompletion[block] && conceptCompletion[block].has(target));
         var sameInPracticeTarget = prevInPracticeTarget === target;
         var sessionInPracticeDone = !!panel.__inPracticeDoneMap[target];
         if(!sameInPracticeTarget){
@@ -6088,13 +6087,16 @@
             part.classList.remove('is-reviewed');
             part.setAttribute('aria-pressed', 'false');
           });
+          sessionInPracticeDone = false;
         }
-        panel.dataset.inPracticeDone = (conceptInPracticeDone || sessionInPracticeDone) ? 'true' : 'false';
+        // Never treat conceptCompletion alone as In Practice done without reviewed cues
+        panel.dataset.inPracticeDone = sessionInPracticeDone ? 'true' : 'false';
         if(panel.dataset.inPracticeDone === 'true'){
           panel.dataset.inPracticeDoneFor = target;
           panel.__inPracticeDoneMap[target] = true;
         } else {
           delete panel.dataset.inPracticeDoneFor;
+          if(panel.__inPracticeDoneMap) delete panel.__inPracticeDoneMap[target];
         }
         actionText.textContent = (window.InPracticeCopy && InPracticeCopy.resolve(target, inPracticeLine)) || inPracticeLine;
         actionEl.dataset.inPracticeTarget = target;
@@ -6102,6 +6104,12 @@
         actionEl.classList.toggle('is-completed', panel.dataset.inPracticeDone === 'true');
         if(window.InPracticeSystem && typeof InPracticeSystem.paint === 'function'){
           InPracticeSystem.paint(actionEl);
+          if(typeof InPracticeSystem.partsComplete === 'function' && !InPracticeSystem.partsComplete(actionEl)){
+            panel.dataset.inPracticeDone = 'false';
+            delete panel.dataset.inPracticeDoneFor;
+            if(panel.__inPracticeDoneMap) delete panel.__inPracticeDoneMap[target];
+            actionEl.classList.remove('is-completed');
+          }
         } else {
           var iconEl = actionEl.querySelector('.icon');
           if(iconEl) iconEl.innerHTML = inPracticeActionIconHtml(panel.dataset.inPracticeDone === 'true');
@@ -6401,9 +6409,8 @@
       panel.dataset.flowVisualScrollPreActivity = 'true';
       panel.dataset.flowVisualScrollPostActivity = 'true';
       panel.dataset.keyIdeasDone = 'true';
-      panel.dataset.inPracticeDone = 'true';
-      panel.dataset.inPracticeDoneFor = target;
-      panel.dataset.inPracticeRequired = 'false';
+      // Do NOT fake In Practice done — cue review / Got it must still win
+      panel.querySelectorAll('.key-idea-item').forEach(function(item){ item.classList.add('clicked'); });
     }
     if(typeof ParentSubconceptLayout !== 'undefined'){
       ParentSubconceptLayout.lockStandardConceptOrder(panel);
@@ -6413,12 +6420,22 @@
       var subButtons = panel.querySelectorAll('[data-overview-subtarget]');
       var supportiveDone = conceptCompletion.block1.has('b1c3');
       var dynamicDone = conceptCompletion.block1.has('b1c4');
+      var hubReady = (window.TrainingFlowGuide && typeof TrainingFlowGuide.hubContentBeforeLeaves === 'function')
+        ? TrainingFlowGuide.hubContentBeforeLeaves(panel)
+        : (panel.dataset.keyIdeasDone === 'true' && isInPracticeCompleteForPanel(panel));
+      if(hubReady){
+        var actionCue = panel.querySelector('.key-ideas-action:not([hidden])');
+        if(actionCue && window.InPracticeSystem && typeof InPracticeSystem.partsComplete === 'function' &&
+          !InPracticeSystem.partsComplete(actionCue)){
+          hubReady = false;
+        }
+      }
       subButtons.forEach(function(btn){
         var subTarget = btn.getAttribute('data-overview-subtarget');
         var isDynamic = subTarget === 'b1c4';
         var isCompleted = conceptCompletion.block1.has(subTarget);
         var isLocked = !REVIEW_MODE && isDynamic && !supportiveDone;
-        var isNext = !REVIEW_MODE && !isCompleted && (
+        var isNext = hubReady && !REVIEW_MODE && !isCompleted && (
           (subTarget === 'b1c3' && !supportiveDone) ||
           (subTarget === 'b1c4' && supportiveDone && !dynamicDone)
         );
@@ -6844,6 +6861,7 @@
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
 <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
 <script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
+<script src="/shared/premium-option-grid.js?v=20260714opt2"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260714core1"></script>
 <script src="/shared/parent-subconcept-layout.js?v=20260714subhead1"></script>
@@ -6859,7 +6877,7 @@
 <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
 <script src="/shared/training-flow-config.js?v=20260716"></script>
-<script src="/shared/training-flow-guide.js?v=20260714m5flow1"></script>
+<script src="/shared/training-flow-guide.js?v=20260714huborder1"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>

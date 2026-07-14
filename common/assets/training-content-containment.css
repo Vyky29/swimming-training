@@ -423,6 +423,164 @@ body {
   font-weight: 700;
 }
 
+/* Legacy radio option-grid → same premium chrome as activity-option */
+.portal .option-grid.activity-option-grid,
+.portal .concept-activity-interactive .option-grid,
+.portal .concept-activity-section .option-grid,
+.portal .section-activity-shell .option-grid,
+.portal .reflection-gate .option-grid,
+.portal .quick-check .option-grid {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+}
+
+.portal .option-grid label.option,
+.portal .option-grid label.activity-option,
+.portal .concept-activity-interactive .option-grid label.option,
+.portal .reflection-gate .option-grid label.option,
+.portal .quick-check .option-grid label.option {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border-radius: 14px;
+  border: 2px solid rgba(69, 123, 157, 0.22);
+  background: #fff;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  color: var(--ink, #163247);
+  font-weight: 700;
+  line-height: 1.45;
+  min-height: 58px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.portal .option-grid label.option:hover,
+.portal .option-grid label.activity-option:hover {
+  transform: translateY(-1px);
+  border-color: rgba(69, 123, 157, 0.55);
+  box-shadow: 0 10px 22px rgba(29, 53, 87, 0.1);
+  background: #d4eaf4;
+}
+
+.portal .option-grid label.option.is-selected,
+.portal .option-grid label.activity-option.is-selected,
+.portal .option-grid label.option:has(input:checked),
+.portal .option-grid label.activity-option:has(input:checked) {
+  border-color: #457b9d;
+  box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.18);
+  background: #eef7fb;
+}
+
+.portal .option-grid label.option.is-correct,
+.portal .option-grid label.activity-option.is-correct {
+  border-color: rgba(32, 124, 82, 0.45);
+  background: #f1fbf6;
+}
+
+.portal .option-grid label.option.is-incorrect,
+.portal .option-grid label.activity-option.is-incorrect {
+  border-color: rgba(205, 88, 88, 0.4);
+  background: #fff4f4;
+}
+
+.portal .option-grid .premium-option-input,
+.portal .option-grid label.option > input[type="radio"],
+.portal .option-grid label.option > input[type="checkbox"],
+.portal .option-grid label.activity-option > input[type="radio"],
+.portal .option-grid label.activity-option > input[type="checkbox"],
+.portal [data-concept-activity-flow] .option-grid label.option > input,
+.portal [data-concept-activity-flow] .option-grid label.activity-option > input,
+.portal .concept-activity-interactive .option-grid label.option > input,
+.portal .activity-container--concept .option-grid label.option > input {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+.portal .option-grid.option-grid--tf label.activity-option--tf,
+.portal .option-grid.activity-option-grid--two-up label.activity-option--tf {
+  justify-content: center;
+  align-items: center;
+  min-height: 54px;
+  text-align: center;
+}
+
+.portal .option-grid.option-grid--tf label.activity-option--tf .opt-text {
+  flex: 0 1 auto;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.portal .option-grid .opt-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: #457b9d;
+  background: rgba(69, 123, 157, 0.12);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.portal .option-grid label.is-correct .opt-badge {
+  color: #1d3557;
+  background: rgba(32, 124, 82, 0.14);
+}
+
+.portal .option-grid label.is-incorrect .opt-badge {
+  color: #1d3557;
+  background: rgba(205, 88, 88, 0.14);
+}
+
+.portal .option-grid .opt-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-align: left;
+  white-space: normal;
+  line-height: 1.42;
+}
+
+.portal .option-grid.activity-option-grid--two-up,
+.portal .option-grid.option-grid--two {
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+  max-width: min(420px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 560px) {
+  .portal .option-grid.activity-option-grid--two-up,
+  .portal .option-grid.option-grid--two {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+}
+
 .quiz-layout .opt-list label,
 #quiz .opt-list label,
 #quiz .quiz-inline .opt-list label {
@@ -830,6 +988,50 @@ body {
 }
 .portal .concept-panel[data-stage-theme][data-level] {
   --key-idea-badge: var(--block2-level-accent, var(--blue, #2d84b3));
+}
+
+/* Idle number badge: always a soft circle (never plain black digits) */
+.portal .concept-points-box .key-idea-index,
+.portal .outcome .outcome-index {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  border-radius: 50% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  background: rgba(45, 132, 179, 0.16) !important;
+  background-color: rgba(45, 132, 179, 0.16) !important;
+  color: var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3))) !important;
+  -webkit-text-fill-color: var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3))) !important;
+}
+.portal .concept-panel[data-stage-theme="core"] .key-idea-index {
+  background: rgba(138, 63, 176, 0.18) !important;
+  background-color: rgba(138, 63, 176, 0.18) !important;
+  color: #8a3fb0 !important;
+  -webkit-text-fill-color: #8a3fb0 !important;
+}
+.portal .concept-panel[data-stage-theme="confidence"] .key-idea-index {
+  background: rgba(26, 92, 56, 0.18) !important;
+  background-color: rgba(26, 92, 56, 0.18) !important;
+  color: #1a5c38 !important;
+  -webkit-text-fill-color: #1a5c38 !important;
+}
+.portal .concept-panel[data-stage-theme="basic"] .key-idea-index {
+  background: rgba(201, 120, 22, 0.18) !important;
+  background-color: rgba(201, 120, 22, 0.18) !important;
+  color: #c97816 !important;
+  -webkit-text-fill-color: #c97816 !important;
+}
+.portal .concept-panel[data-stage-theme="structured"] .key-idea-index {
+  background: rgba(74, 134, 180, 0.18) !important;
+  background-color: rgba(74, 134, 180, 0.18) !important;
+  color: #4a86b4 !important;
+  -webkit-text-fill-color: #4a86b4 !important;
 }
 
 .portal .concept-points-box .key-idea-item.clicked .key-idea-index,

@@ -2075,9 +2075,9 @@
       color:#fff !important;
     }
     .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc31{ color:#CD436B !important; }
-    .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc33{ color:#F0E65C !important; }
-    .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc35{ color:#000000 !important; }
-    .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc36{ color:#4CAF50 !important; }
+    .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc33{ color:#C97816 !important; }
+    .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc35{ color:#4B5563 !important; }
+    .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc36{ color:#2E7D32 !important; }
     .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc34 .b2pl-title-left{ color:#A66DD4 !important; }
     .b2-screens[data-b2-screens="b2c3"] .b2pl-title-fc34 .b2pl-title-right{ color:#89B5C1 !important; }
     .b2-screens[data-b2-screens="b2c3"] .b2-screen[data-b2-screen="home"],
@@ -2598,26 +2598,38 @@
       object-fit:contain;
       object-position:center center;
     }
-    .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .m5-nested-visual-frame > img,
-    .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .b2c2-direct-image > img,
-    .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .b2c3-direct-image > img,
-    .portal .concept-panel.m5-nested-active .b2-screens .b2c3-visual-card .b2c3-direct-image > img{
-      max-height:min(440px,52vh);
+    /* Nested + hub home visuals (not only m5-nested-active leaves) */
+    .portal .b2-screens .m5-nested-visual-shell .m5-nested-visual-frame > img,
+    .portal .b2-screens .m5-nested-visual-shell .b2c2-direct-image > img,
+    .portal .b2-screens .m5-nested-visual-shell .b2c3-direct-image > img,
+    .portal .b2-screens .b2c3-visual-card .b2c3-direct-image > img,
+    .portal .b2-screens .folder-page > .concept-activity-box > img,
+    .portal .b2-screens .folder-page .concept-section-card > .concept-activity-box > img{
+      max-height:min(400px,48vh);
       border-radius:12px;
     }
-    .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card .m5-nested-visual-frame > img,
-    .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card > .concept-activity-box > img{
-      max-height:min(340px,42vh);
+    .portal .b2-screens .m5-folder-overview-card .m5-nested-visual-frame > img,
+    .portal .b2-screens .m5-folder-overview-card > .concept-activity-box > img{
+      max-height:min(320px,40vh);
       border-radius:12px;
     }
-    .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-grid .m5-nested-visual-frame > img,
-    .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-grid .b2c2-direct-image > img{
-      max-height:min(260px,34vh);
+    .portal .b2-screens .m5-nested-visual-grid .m5-nested-visual-frame > img,
+    .portal .b2-screens .m5-nested-visual-grid .b2c2-direct-image > img{
+      max-height:min(240px,32vh);
       border-radius:10px;
     }
-    .portal .concept-panel.m5-nested-active .b2-screens .entry-exit-fan-item img{
-      max-height:min(210px,32vh);
+    .portal .b2-screens .entry-exit-fan-item img{
+      max-height:min(200px,30vh);
       border-radius:10px;
+    }
+    /* Flat Block 1–3 concept photos: readable but not full-viewport */
+    .portal .concept-panel:not(.m5-nested-active) > .concept-image .concept-activity-box > img,
+    .portal .concept-panel:not(.m5-nested-active) > .concept-image [data-expandable-visual] > img,
+    .portal .concept-panel:not(.m5-nested-active) .section-visual-shell .concept-activity-box > img{
+      max-height:min(300px,40vh) !important;
+      width:100%;
+      object-fit:contain;
+      object-position:center top;
     }
     .portal .b2-screens .m5-nested-visual-grid-wrap{
       padding:14px;
@@ -2639,19 +2651,24 @@
       .portal .concept-panel.m5-nested-active{
         --m5-nested-rail:100%;
       }
-      .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .m5-nested-visual-frame > img,
-      .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .b2c2-direct-image > img,
-      .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell .b2c3-direct-image > img,
-      .portal .concept-panel.m5-nested-active .b2-screens .b2c3-visual-card .b2c3-direct-image > img{
-        max-height:min(320px,46vh);
+      .portal .b2-screens .m5-nested-visual-shell .m5-nested-visual-frame > img,
+      .portal .b2-screens .m5-nested-visual-shell .b2c2-direct-image > img,
+      .portal .b2-screens .m5-nested-visual-shell .b2c3-direct-image > img,
+      .portal .b2-screens .b2c3-visual-card .b2c3-direct-image > img,
+      .portal .b2-screens .folder-page > .concept-activity-box > img{
+        max-height:min(300px,44vh);
       }
-      .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-grid .m5-nested-visual-frame > img,
-      .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-grid .b2c2-direct-image > img{
-        max-height:min(200px,30vh);
+      .portal .b2-screens .m5-nested-visual-grid .m5-nested-visual-frame > img,
+      .portal .b2-screens .m5-nested-visual-grid .b2c2-direct-image > img{
+        max-height:min(180px,28vh);
       }
-      .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card .m5-nested-visual-frame > img,
-      .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card > .concept-activity-box > img{
-        max-height:min(260px,38vh);
+      .portal .b2-screens .m5-folder-overview-card .m5-nested-visual-frame > img,
+      .portal .b2-screens .m5-folder-overview-card > .concept-activity-box > img{
+        max-height:min(240px,36vh);
+      }
+      .portal .concept-panel:not(.m5-nested-active) > .concept-image .concept-activity-box > img,
+      .portal .concept-panel:not(.m5-nested-active) .section-visual-shell .concept-activity-box > img{
+        max-height:min(240px,36vh) !important;
       }
     }
     /* Nested visual hosts stay flat on hover — same as concept imagery training-wide */
@@ -2717,7 +2734,7 @@
     .b2pl-folder-h--f1{ color:#D4607A; }
     .b2pl-folder-h--f2{ color:#4A8C8C; }
     .b2pl-folder-h--f3{ color:#B8732A; }
-    .b2pl-folder-h--f4{ color:#F0E65C !important; }
+    .b2pl-folder-h--f4{ color:#9A7B0A !important; }
     .b2pl-folder-h--f5{ color:#111; }
 
     /* Coloured folder icon (SVG currentColor) on folder overview pages only */
@@ -2736,13 +2753,19 @@
       min-width:0;
     }
 
-    /* Category / sub-subconcept titles: text only, colour per .b2pl-cathead--f* */
+    /* Category / subconcept titles — leaf only; keep smaller than panel h4 */
     .b2pl-cathead{
-      margin:0 0 12px;
-      font-size:1rem;
+      margin:4px 0 14px;
+      padding:0 2px;
+      font-size:clamp(1.05rem, 2.2vw, 1.22rem);
       font-weight:800;
-      line-height:1.35;
+      line-height:1.3;
+      letter-spacing:-0.01em;
       color:var(--ink);
+    }
+    .b2pl-folder-h{
+      margin:4px 0 16px;
+      font-size:clamp(1.08rem, 2.3vw, 1.28rem);
     }
     .b2pl-cathead--f1-1{ color:#B03060; }
     .b2pl-cathead--f1-2{ color:#D4607A; }
@@ -2753,8 +2776,19 @@
     .b2pl-cathead--f3-1{ color:#B8732A; }
     .b2pl-cathead--f3-2{ color:#6B1A2A; }
     .b2pl-cathead--f4-1{ color:#7B6B9E !important; }
-    .b2pl-cathead--f4-2{ color:#F0E65C; }
+    .b2pl-cathead--f4-2{ color:#9A7B0A; }
     .b2pl-cathead--f4-3{ color:#8BAF6A; }
+    /* Flashcard leaves — own accents (not reused f* category colours) */
+    .b2pl-cathead--fc31{ color:#B8732A; }
+    .b2pl-cathead--fc32{ color:#9A7B0A; }
+    .b2pl-cathead--fc33{ color:#C97816; }
+    .b2pl-cathead--fc34{ color:#4A8C8C; }
+    .b2pl-cathead--fc35{ color:#6B7280; }
+    .b2pl-cathead--fc36{ color:#2A5C5C; }
+    /* Visual schedule leaves */
+    .b2pl-cathead--vs1{ color:#1a5c38; }
+    .b2pl-cathead--vs2{ color:#2d84b3; }
+    .b2pl-cathead--vs3{ color:#7b2fa1; }
 
     /* Folder theme tokens on nested screens (titles / rails follow folder, not block purple) */
     .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f1"],
@@ -2783,15 +2817,66 @@
     .portal .concept-panel.m5-nested-active[data-flow-m5-root] .b2pl-lvl-btn{
       border-color:color-mix(in srgb, var(--b2c2-accent, var(--m5-folder-accent, #2d84b3)) 35%, rgba(45,132,179,.16));
     }
-    /* Key Ideas stay brand blue inside folders (never folder pink / block purple) */
-    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4,
-    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4.concept-section-head,
-    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4 .concept-section-head,
-    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4 span:last-child{
+    /*
+     * Key Ideas for Instructors — Module 5 lock
+     * Flat hubs: brand blue (not block orange/purple from containment).
+     * Nested leaves: folder/flash accent when available, else brand blue.
+     */
+    .portal .section.block-part .concept-panel .concept-points-box{
+      --key-idea-badge:#2d84b3;
+    }
+    .portal .section.block-part .concept-panel .concept-points-box > h4,
+    .portal .section.block-part .concept-panel .concept-points-box > h4.concept-section-head,
+    .portal .section.block-part .concept-panel .concept-points-box > h4 .concept-section-head,
+    .portal .section.block-part .concept-panel .concept-points-box > h4 span:last-child,
+    .portal .section.block-part .concept-panel .concept-points-box > h4.concept-section-head .icon{
+      color:#2d84b3 !important;
+    }
+    .portal .section.block-part .concept-panel .concept-points-box .key-idea-index{
+      background:rgba(45,132,179,.16) !important;
+      background-color:rgba(45,132,179,.16) !important;
+      color:#2d84b3 !important;
+      -webkit-text-fill-color:#2d84b3 !important;
+    }
+    .portal .section.block-part .concept-panel .concept-points-box .key-idea-item.clicked{
+      border-color:#2d84b3 !important;
+    }
+    .portal .section.block-part .concept-panel .concept-points-box .key-idea-item.clicked .key-idea-index{
+      background:#2d84b3 !important;
+      background-color:#2d84b3 !important;
+      color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
+    }
+    .portal .section.block-part .concept-panel .concept-points-box .key-idea-item.clicked::after{
       color:#2d84b3 !important;
     }
     .portal .concept-panel.m5-nested-active .folder-page .concept-points-box{
-      --key-idea-badge:#2d84b3;
+      --key-idea-badge:var(--m5-folder-accent, var(--b2c2-accent, var(--b2c3-accent, #2d84b3)));
+    }
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4,
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4.concept-section-head,
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4 .concept-section-head,
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4 span:last-child,
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4.concept-section-head .icon{
+      color:var(--m5-folder-accent, var(--b2c2-accent, var(--b2c3-accent, #2d84b3))) !important;
+    }
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box .key-idea-index{
+      background:color-mix(in srgb, var(--m5-folder-accent, #2d84b3) 18%, #fff) !important;
+      background-color:color-mix(in srgb, var(--m5-folder-accent, #2d84b3) 18%, #fff) !important;
+      color:var(--m5-folder-accent, var(--b2c2-accent, #2d84b3)) !important;
+      -webkit-text-fill-color:var(--m5-folder-accent, var(--b2c2-accent, #2d84b3)) !important;
+    }
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box .key-idea-item.clicked{
+      border-color:var(--m5-folder-accent, var(--b2c2-accent, #2d84b3)) !important;
+    }
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box .key-idea-item.clicked .key-idea-index{
+      background:var(--m5-folder-accent, var(--b2c2-accent, #2d84b3)) !important;
+      background-color:var(--m5-folder-accent, var(--b2c2-accent, #2d84b3)) !important;
+      color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
+    }
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box .key-idea-item.clicked::after{
+      color:var(--m5-folder-accent, var(--b2c2-accent, #2d84b3)) !important;
     }
 
     .b2-screens .folder-page p,
@@ -2801,8 +2886,20 @@
     }
 
     .folder-page{
-      padding:14px 4px 6px 0;
+      padding:10px 2px 8px;
       min-width:0;
+    }
+    .folder-page > .concept-section-card,
+    .folder-page > .concept-activity-box,
+    .folder-page > .concept-points-box{
+      margin-left:0;
+      margin-right:0;
+    }
+    .folder-page > .concept-section-card + .concept-section-card,
+    .folder-page > .concept-section-card + .concept-activity-box,
+    .folder-page > .concept-activity-box + .concept-points-box,
+    .folder-page > .concept-section-card + .concept-points-box{
+      margin-top:14px;
     }
 
     .folder-page h5:not(.b2pl-folder-h):not(.b2pl-cathead):not(.concept-section-head){
@@ -3778,11 +3875,11 @@
     }
   </style>
   <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260714core1" />
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714core1" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714key3" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
-  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260713pulse2" />
+  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260714media2" />
   <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714subhead1" />
 </head>
 <body>
@@ -4070,10 +4167,10 @@
                 <div class="card-icon">≡</div>
                 <h4>What This Block Covers</h4>
                 <ul>
-                  <li>Why visual learning supports swimmers</li>
-                  <li>How visuals reduce cognitive load</li>
-                  <li>How visuals increase engagement</li>
-                  <li>The role of structure and predictability</li>
+                  <li>Why visual learning supports swimmers.</li>
+                  <li>How visuals reduce cognitive load.</li>
+                  <li>How visuals increase engagement.</li>
+                  <li>The role of structure and predictability.</li>
                 </ul>
               </div>
             </div>
@@ -4183,10 +4280,10 @@
                 <div class="card-icon">≡</div>
                 <h4>What This Block Covers</h4>
                 <ul>
-                  <li>PixtoLearn as a visual system</li>
-                  <li>Folders and categories as structured learning pathways</li>
-                  <li>Flashcards as practical teaching and communication tools</li>
-                  <li>How visual systems support clarity, engagement and progression</li>
+                  <li>PixtoLearn as a visual system.</li>
+                  <li>Folders and categories as structured learning pathways.</li>
+                  <li>Flashcards as practical teaching and communication tools.</li>
+                  <li>How visual systems support clarity, engagement and progression.</li>
                 </ul>
               </div>
             </div>
@@ -4296,11 +4393,11 @@
                 <div class="card-icon">≡</div>
                 <h4>What This Block Covers</h4>
                 <ul>
-                  <li>Visual schedules</li>
-                  <li>First Then, First Next Then, and longer schedules</li>
-                  <li>PixtoLearn Swimming sequences</li>
-                  <li>Session planning with PixtoLearn</li>
-                  <li>How to connect visuals, outcomes and progression</li>
+                  <li>Visual schedules.</li>
+                  <li>First Then, First Next Then, and longer schedules.</li>
+                  <li>PixtoLearn Swimming sequences.</li>
+                  <li>Session planning with PixtoLearn.</li>
+                  <li>How to connect visuals, outcomes and progression.</li>
                 </ul>
               </div>
             </div>
@@ -5019,7 +5116,7 @@
   <div class="b2-screen" data-b2-screen="f3-s1"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f3-1">Swimming Strokes</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Swimming strokes combine movement, breathing, coordination and body position to create efficient propulsion.</p><p>Strokes should be developed progressively, ensuring that swimmers do not simply copy movements but understand how each part connects.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Swimming Strokes visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Strokes depend on strong foundations.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Coordination and timing are essential.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Breathing must be integrated gradually.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Efficiency comes from control, not speed.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f3">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f3-s2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f3-2">Diving, Starts &amp; Turns</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Diving develops confidence and control when entering the water dynamically. It requires readiness, body control, confidence with submersion and a clear understanding of safety expectations.</p><p>Starts and turns help swimmers transition efficiently during structured swimming. They require timing, body control, spatial awareness and confidence with movement changes in the water.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Diving, starts and turns visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Diving, starts and turns must be introduced safely and progressively.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Readiness, body control and submersion confidence are essential.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Starts and turns improve efficiency during structured swimming.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Visual sequencing can support timing and control.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f3">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f4-s1"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f4-1">Games</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Games provide a motivating way to practise skills while maintaining engagement.</p><p>They should be purposeful and linked to learning, rather than used only as a reward or distraction.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Games visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Games increase motivation and participation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Play can support meaningful learning.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Games should link to a skill or objective.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Activities should remain structured.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f4">← Back</button></div></div></div>
-  <div class="b2-screen" data-b2-screen="f4-s2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f4-2">Toys &amp; Equipment</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Toys and equipment support learning by increasing engagement, providing structure and helping swimmers practise skills in accessible ways.</p><p>They should support the learning goal without replacing the swimmer&rsquo;s own control or participation.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Toys and Equipment visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Equipment can increase motivation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Toys can support engagement and choice.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Equipment should support learning, not replace it.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Instructors should avoid over reliance on equipment.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f4">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="f4-s2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc32">Toys &amp; Equipment</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Toys and equipment support learning by increasing engagement, providing structure and helping swimmers practise skills in accessible ways.</p><p>They should support the learning goal without replacing the swimmer&rsquo;s own control or participation.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Toys and Equipment visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Equipment can increase motivation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Toys can support engagement and choice.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Equipment should support learning, not replace it.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Instructors should avoid over reliance on equipment.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f4">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="f4-s3"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f4-3">Extras</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Extras include visual tools that support routines, communication and session organisation.</p><p>These resources help swimmers understand expectations, communicate needs, manage transitions and engage more independently.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Extras visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Extras support communication and routine.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">They reduce frustration by making needs visible.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">They support predictability and transition.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">They encourage independence and choice.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="f4">← Back</button></div></div>
 </div>`
       },
@@ -5083,17 +5180,17 @@
     </div>
   </div>
 
-  <div class="b2-screen" data-b2-screen="fc31"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f3-1">Main Side and Break It Down Side</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>PixtoLearn Swimming flashcards include a main visual side and a structured teaching side.</p><p>The main side shows the swimmer what the skill or action looks like. The Break It Down side supports the instructor by providing step by step teaching guidance.</p><p>This helps instructors move from showing the visual to modelling, prompting and teaching the skill progressively.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Main side and break it down side flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">The main side supports swimmer understanding.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">The Break It Down side supports instructor teaching.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Step by step teaching reduces overload.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">The card should be used actively within the session.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="fc31"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc31">Main Side and Break It Down Side</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>PixtoLearn Swimming flashcards include a main visual side and a structured teaching side.</p><p>The main side shows the swimmer what the skill or action looks like. The Break It Down side supports the instructor by providing step by step teaching guidance.</p><p>This helps instructors move from showing the visual to modelling, prompting and teaching the skill progressively.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Main side and break it down side flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">The main side supports swimmer understanding.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">The Break It Down side supports instructor teaching.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Step by step teaching reduces overload.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">The card should be used actively within the session.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
   <div class="b2-screen" data-b2-screen="fc32"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f4-2">Toys &amp; Equipment</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Toys and equipment flashcards help swimmers understand what equipment will be used and how it connects to the activity.</p><p>They can also be used to offer controlled choice, increase motivation and prepare swimmers for what is coming next.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Toys and equipment flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Equipment visuals prepare swimmers for activities.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">They support motivation and choice.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">They help connect equipment to skill development.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">They reduce uncertainty around transitions.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
-  <div class="b2-screen" data-b2-screen="fc33"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f4-2">Break Time / Choosing</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Break Time and Choosing flashcards support regulation, autonomy and communication.</p><p>The Break Time card helps swimmers understand that a break is available in a structured way. The Choosing card allows swimmers to make controlled choices within the session.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Break time and choosing flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Breaks can support regulation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Choice increases autonomy.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Visual choices reduce verbal demand.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Breaks and choices should remain structured.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="fc33"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc33">Break Time / Choosing</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Break Time and Choosing flashcards support regulation, autonomy and communication.</p><p>The Break Time card helps swimmers understand that a break is available in a structured way. The Choosing card allows swimmers to make controlled choices within the session.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Break time and choosing flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Breaks can support regulation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Choice increases autonomy.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Visual choices reduce verbal demand.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Breaks and choices should remain structured.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
-  <div class="b2-screen" data-b2-screen="fc34"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f2-3">How Do You Feel? / Where?</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>These flashcards support communication by helping swimmers express feelings, needs and location related information.</p><p>They are especially useful for swimmers who may find verbal communication difficult, delayed or unreliable during sessions.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="How do you feel and where flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Communication reduces frustration.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Feelings visuals support emotional regulation.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Where visuals support understanding and orientation.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">These cards should be accessible when needed.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="fc34"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc34">How Do You Feel? / Where?</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>These flashcards support communication by helping swimmers express feelings, needs and location related information.</p><p>They are especially useful for swimmers who may find verbal communication difficult, delayed or unreliable during sessions.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="How do you feel and where flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Communication reduces frustration.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Feelings visuals support emotional regulation.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Where visuals support understanding and orientation.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">These cards should be accessible when needed.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
-  <div class="b2-screen" data-b2-screen="fc35"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f1-3">White Cards</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>White flashcards allow instructors to personalise the visual system.</p><p>They can be used to create temporary visuals, individualised instructions, custom activities or additional supports when a swimmer needs something specific that is not already represented.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="White flashcards visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">White flashcards support personalisation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">They allow flexibility within the system.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">They can be used for custom instructions.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">They help adapt sessions to individual needs.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="fc35"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc35">White Cards</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>White flashcards allow instructors to personalise the visual system.</p><p>They can be used to create temporary visuals, individualised instructions, custom activities or additional supports when a swimmer needs something specific that is not already represented.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="White flashcards visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">White flashcards support personalisation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">They allow flexibility within the system.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">They can be used for custom instructions.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">They help adapt sessions to individual needs.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
-  <div class="b2-screen" data-b2-screen="fc36"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f2-2">Finished Card</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The Finished card signals that an activity, sequence or session has ended.</p><p>It helps swimmers understand completion, supports transitions and reduces uncertainty about what is happening next.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Finished card visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">The Finished card creates a clear ending.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">It supports transitions between activities.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">It reduces uncertainty and repeated questioning.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">It helps swimmers understand when something is complete.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div>
+  <div class="b2-screen" data-b2-screen="fc36"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc36">Finished Card</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The Finished card signals that an activity, sequence or session has ended.</p><p>It helps swimmers understand completion, supports transitions and reduces uncertainty about what is happening next.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Finished card visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">The Finished card creates a clear ending.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">It supports transitions between activities.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">It reduces uncertainty and repeated questioning.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">It helps swimmers understand when something is complete.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div>
 </div>`
       },
       b3c1: {
@@ -5102,9 +5199,9 @@
         points: [],
         imageHTML: `<div class="b2-screens" data-b2-screens="b3c1">
   <div class="b2-screen active" data-b2-screen="home"><div class="folder-page"><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-25.jpeg" alt="Visual schedules overview"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-f2-1" type="button" data-b2-go="vs1">First &amp; Then (2 Activities)</button><button class="b2pl-lvl-btn b2pl-cat-f2-2" type="button" data-b2-go="vs2">First, Next &amp; Then (3 Activities)</button><button class="b2pl-lvl-btn b2pl-cat-f2-3" type="button" data-b2-go="vs3">Four or More Activities</button></div></div></div>
-  <div class="b2-screen" data-b2-screen="vs1"><div class="folder-page"><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The First &amp; Then schedule is the simplest visual structure, using two activities.</p><p>It clearly shows what comes first and what happens next.</p><p>This format is especially effective for swimmers who benefit from reduced cognitive load, immediate structure or motivation to complete less preferred activities.</p><p>It can also be used to break larger schedules into smaller, more manageable routines.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-26.jpeg" alt="First and Then schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">First shows the activity that needs to be attempted or completed.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Then shows the next activity, which is often motivating or preferred.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">The Then activity should follow immediately after the First activity.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">This structure can reduce resistance to less preferred tasks.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Always show and point to the visuals, rather than relying only on verbal explanation.</div></li></ul></div><div class="concept-section-card section-activity"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">✅</span>Activity</h5><p><strong>Reflection scenario</strong></p><div class="concept-activity-box"><p>A swimmer avoids a non-preferred activity during the session.</p><p>How could a First &amp; Then schedule support engagement? What would you place in <em>First</em> and what motivating activity would you place in <em>Then</em>?</p></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
-  <div class="b2-screen" data-b2-screen="vs2"><div class="folder-page"><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The First, Next &amp; Then schedule expands the structure to three activities.</p><p>It helps swimmers understand a slightly longer sequence while still keeping the session manageable and predictable.</p><p>This structure is useful when introducing progression, preparing a swimmer for a new skill or organising a short part of a longer session.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-27.jpeg" alt="First Next Then schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">First is the starting activity.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Next introduces the second activity, progression or new skill.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Then is the final activity in the sequence.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Then can be used as a motivating or regulating activity.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Use short, consistent language while pointing to each visual.</div></li></ul></div><div class="concept-section-card section-activity"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">✅</span>Activity</h5><p><strong>Planning Task</strong></p><div class="concept-activity-box"><p>Create a First, Next &amp; Then schedule for a beginner swimmer.</p><p>Which activity would be First? Which activity would be Next? What would you place in Then?</p></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
-  <div class="b2-screen" data-b2-screen="vs3"><div class="folder-page"><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>A visual schedule with four or more activities provides a fuller overview of the session.</p><p>It allows swimmers to see the structure, duration and flow of the session from the beginning.</p><p>For swimmers who find longer sequences difficult, the schedule can be broken down into smaller parts using First &amp; Then or First, Next &amp; Then.</p><p>This makes the schedule flexible while still providing clear structure.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-28.jpeg" alt="Four or more activities schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Present the schedule at the start of the session.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Refer back to it regularly during the session.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Break it down into smaller steps when needed.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Include breaks, choices or motivating activities when appropriate.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Use a Finished card to clearly show the end of a task or session.</div></li></ul></div><div class="concept-section-card section-activity"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">✅</span>Activity</h5><p><strong>Practical Application</strong></p><div class="concept-activity-box"><p>You are preparing a 30 minute swimming session.</p><p>How would you organise a four step visual schedule? When would you break it down into a smaller First &amp; Then sequence?</p></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div>
+  <div class="b2-screen" data-b2-screen="vs1"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--vs1">First &amp; Then</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The First &amp; Then schedule is the simplest visual structure, using two activities.</p><p>It clearly shows what comes first and what happens next.</p><p>This format is especially effective for swimmers who benefit from reduced cognitive load, immediate structure or motivation to complete less preferred activities.</p><p>It can also be used to break larger schedules into smaller, more manageable routines.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-26.jpeg" alt="First and Then schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">First shows the activity that needs to be attempted or completed.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Then shows the next activity, which is often motivating or preferred.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">The Then activity should follow immediately after the First activity.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">This structure can reduce resistance to less preferred tasks.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Always show and point to the visuals, rather than relying only on verbal explanation.</div></li></ul></div><div class="concept-section-card section-activity"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">✅</span>Activity</h5><p><strong>Reflection scenario</strong></p><div class="concept-activity-box"><p>A swimmer avoids a non-preferred activity during the session.</p><p>How could a First &amp; Then schedule support engagement? What would you place in <em>First</em> and what motivating activity would you place in <em>Then</em>?</p></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="vs2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--vs2">First, Next &amp; Then</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The First, Next &amp; Then schedule expands the structure to three activities.</p><p>It helps swimmers understand a slightly longer sequence while still keeping the session manageable and predictable.</p><p>This structure is useful when introducing progression, preparing a swimmer for a new skill or organising a short part of a longer session.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-27.jpeg" alt="First Next Then schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">First is the starting activity.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Next introduces the second activity, progression or new skill.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Then is the final activity in the sequence.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Then can be used as a motivating or regulating activity.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Use short, consistent language while pointing to each visual.</div></li></ul></div><div class="concept-section-card section-activity"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">✅</span>Activity</h5><p><strong>Planning Task</strong></p><div class="concept-activity-box"><p>Create a First, Next &amp; Then schedule for a beginner swimmer.</p><p>Which activity would be First? Which activity would be Next? What would you place in Then?</p></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="vs3"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--vs3">Four or More Activities</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>A visual schedule with four or more activities provides a fuller overview of the session.</p><p>It allows swimmers to see the structure, duration and flow of the session from the beginning.</p><p>For swimmers who find longer sequences difficult, the schedule can be broken down into smaller parts using First &amp; Then or First, Next &amp; Then.</p><p>This makes the schedule flexible while still providing clear structure.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-28.jpeg" alt="Four or more activities schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Present the schedule at the start of the session.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Refer back to it regularly during the session.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Break it down into smaller steps when needed.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Include breaks, choices or motivating activities when appropriate.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Use a Finished card to clearly show the end of a task or session.</div></li></ul></div><div class="concept-section-card section-activity"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">✅</span>Activity</h5><p><strong>Practical Application</strong></p><div class="concept-activity-box"><p>You are preparing a 30 minute swimming session.</p><p>How would you organise a four step visual schedule? When would you break it down into a smaller First &amp; Then sequence?</p></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div>
 </div>`
       },
       b3c2: {
@@ -7519,7 +7616,6 @@
         if(prevInPracticeTarget && (panel.dataset.inPracticeDone === 'true' || actionEl.classList.contains('is-completed'))){
           panel.__inPracticeDoneMap[prevInPracticeTarget] = true;
         }
-        var conceptInPracticeDone = !!(conceptCompletion[block] && conceptCompletion[block].has(target));
         var sameInPracticeTarget = prevInPracticeTarget === target;
         var sessionInPracticeDone = !!panel.__inPracticeDoneMap[target];
         if(!sameInPracticeTarget){
@@ -7528,13 +7624,16 @@
             part.classList.remove('is-reviewed');
             part.setAttribute('aria-pressed', 'false');
           });
+          sessionInPracticeDone = false;
         }
-        panel.dataset.inPracticeDone = (conceptInPracticeDone || sessionInPracticeDone) ? 'true' : 'false';
+        // Never treat conceptCompletion alone as In Practice done without reviewed cues
+        panel.dataset.inPracticeDone = sessionInPracticeDone ? 'true' : 'false';
         if(panel.dataset.inPracticeDone === 'true'){
           panel.dataset.inPracticeDoneFor = target;
           panel.__inPracticeDoneMap[target] = true;
         } else {
           delete panel.dataset.inPracticeDoneFor;
+          if(panel.__inPracticeDoneMap) delete panel.__inPracticeDoneMap[target];
         }
 
           actionTextEl.textContent = (window.InPracticeCopy && InPracticeCopy.resolve(target, inPracticeLine)) || inPracticeLine;
@@ -7543,6 +7642,12 @@
           actionEl.classList.toggle('is-completed', panel.dataset.inPracticeDone === 'true');
           if(window.InPracticeSystem && typeof InPracticeSystem.paint === 'function'){
             InPracticeSystem.paint(actionEl);
+            if(typeof InPracticeSystem.partsComplete === 'function' && !InPracticeSystem.partsComplete(actionEl)){
+              panel.dataset.inPracticeDone = 'false';
+              delete panel.dataset.inPracticeDoneFor;
+              if(panel.__inPracticeDoneMap) delete panel.__inPracticeDoneMap[target];
+              actionEl.classList.remove('is-completed');
+            }
           } else {
             var iconEl = actionEl.querySelector('.icon');
             if(iconEl) iconEl.innerHTML = inPracticeActionIconHtml(panel.dataset.inPracticeDone === 'true');
@@ -8064,6 +8169,7 @@
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
 <script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
+<script src="/shared/premium-option-grid.js?v=20260714opt2"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260714core1"></script>
   <script src="/shared/parent-subconcept-layout.js?v=20260714subhead1"></script>
@@ -8075,7 +8181,7 @@
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
   <script src="/shared/guided-concept-layout.js?v=20260821"></script>
-  <script src="/shared/training-flow-guide.js?v=20260714m5flow1"></script>
+  <script src="/shared/training-flow-guide.js?v=20260714huborder1"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
