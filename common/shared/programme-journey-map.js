@@ -1,6 +1,6 @@
 /**
  * Programme Journey Map - Stage Worlds (Module 4 Block 3)
- * Three worlds x two animals; hover/focus syncs stage + level cards.
+ * Three worlds x two animals; cards stay visually fixed (no hover dim).
  * Guided tour: tap levels 1->6 in order before opening a stage.
  */
 (function (global) {
@@ -150,22 +150,16 @@
   }
 
   function setActiveLevel(root, level) {
+    /* Keep every stage/level fully visible - active is click-only, never dims others */
+    qsa(root, '.pjm-ocean-node, .pjm-level-card').forEach(function (el) {
+      var n = Number(el.getAttribute('data-level'));
+      el.classList.toggle('is-active', n === level);
+      el.classList.remove('is-dimmed');
+    });
     var stage = STAGE_BY_LEVEL[level];
-    qsa(root, '.pjm-ocean-node').forEach(function (node) {
-      var n = Number(node.getAttribute('data-level'));
-      node.classList.toggle('is-active', n === level);
-      // Visited / completed levels stay solid — never fade them out
-      node.classList.toggle('is-dimmed', n !== level && !shouldKeepSolid(node, n, level));
-    });
     qsa(root, '.pjm-stage').forEach(function (el) {
-      var s = el.getAttribute('data-stage');
-      el.classList.toggle('is-highlighted', s === stage);
-      el.classList.toggle('is-dimmed', s !== stage);
-    });
-    qsa(root, '.pjm-level-card').forEach(function (card) {
-      var n = Number(card.getAttribute('data-level'));
-      card.classList.toggle('is-active', n === level);
-      card.classList.toggle('is-dimmed', n !== level && !shouldKeepSolid(card, n, level));
+      el.classList.toggle('is-highlighted', el.getAttribute('data-stage') === stage);
+      el.classList.remove('is-dimmed');
     });
   }
 
@@ -189,36 +183,15 @@
     root.setAttribute('data-pjm-wired', '1');
 
     qsa(root, '.pjm-ocean-node, .pjm-level-card').forEach(function (el) {
-      el.addEventListener('mouseenter', function () {
-        setActiveLevel(root, Number(el.getAttribute('data-level')));
-      });
-      el.addEventListener('focus', function () {
-        setActiveLevel(root, Number(el.getAttribute('data-level')));
-      });
       el.addEventListener('click', function () {
         var level = Number(el.getAttribute('data-level'));
         markTourLevel(root, level);
         setActiveLevel(root, level);
       });
-    });
-    root.addEventListener('mouseleave', function () {
-      clearActive(root);
-    });
-    qsa(root, '.pjm-stage').forEach(function (stage) {
-      stage.addEventListener('mouseenter', function (e) {
-        if (e.target && e.target.closest && e.target.closest('.pjm-ocean-node, .pjm-level-card')) {
-          return;
-        }
-        var stageName = stage.getAttribute('data-stage');
-        qsa(root, '.pjm-stage').forEach(function (el) {
-          el.classList.toggle('is-highlighted', el.getAttribute('data-stage') === stageName);
-          el.classList.toggle('is-dimmed', el.getAttribute('data-stage') !== stageName);
-        });
-        qsa(root, '.pjm-ocean-node, .pjm-level-card').forEach(function (el) {
-          var lvlStage = STAGE_BY_LEVEL[Number(el.getAttribute('data-level'))];
-          el.classList.toggle('is-dimmed', lvlStage !== stageName);
-          el.classList.remove('is-active');
-        });
+      el.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        el.click();
       });
     });
   }

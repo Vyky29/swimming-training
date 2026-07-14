@@ -1,4 +1,4 @@
-/* The clubSENsational Swimming Journey — Module 4 Block 3
+/* The clubSENsational Swimming Journey  Module 4 Block 3
    Three stage worlds + six adaptive levels (integrated pathway map) */
 
 .swimming-journey-section{
@@ -104,19 +104,20 @@
   border:1px solid var(--pjm-line);
   background:#fff;
   box-shadow:0 8px 22px rgba(18,50,71,.05);
-  transition:box-shadow .28s ease, transform .28s ease, opacity .28s ease, border-color .28s ease;
+  transition:none;
+  opacity:1 !important;
 }
 .pjm-stage.is-highlighted{
-  box-shadow:0 18px 40px rgba(18,50,71,.14);
-  transform:translateY(-3px);
-  border-color:rgba(45,132,179,.28);
+  box-shadow:0 8px 22px rgba(18,50,71,.05);
+  transform:none;
+  border-color:var(--pjm-line);
 }
-.pjm-stage.is-dimmed{ opacity:.52; }
+.pjm-stage.is-dimmed{ opacity:1 !important; }
 .pjm-stage--discover.is-highlighted{ border-color:rgba(31,122,77,.35); }
 .pjm-stage--explore.is-highlighted{ border-color:rgba(196,127,18,.4); }
 .pjm-stage--master.is-highlighted{ border-color:rgba(45,132,179,.4); }
 
-/* World hero — photo + animals */
+/* World hero  photo + animals */
 .pjm-stage-world{
   position:relative;
   min-height:210px;
@@ -136,7 +137,8 @@
 }
 .pjm-stage.is-highlighted .pjm-stage-world-img,
 .pjm-stage:hover .pjm-stage-world-img{
-  transform:scale(1.05);
+  transform:scale(1.02); /* fixed  no hover zoom */
+  transition:none;
 }
 .pjm-stage-world-shade{
   position:absolute;
@@ -239,7 +241,10 @@
   cursor:pointer;
   font:inherit;
   color:inherit;
-  transition:transform .22s ease, opacity .22s ease, filter .22s ease;
+  transition:none;
+  transform:none !important;
+  opacity:1 !important;
+  filter:none !important;
 }
 .pjm-ocean-node:focus-visible{
   outline:2px solid #fff;
@@ -247,12 +252,11 @@
   border-radius:12px;
 }
 .pjm-ocean-node:hover,
-.pjm-ocean-node.is-active{
-  transform:translateY(-6px) scale(1.04);
-}
+.pjm-ocean-node.is-active,
 .pjm-ocean-node.is-dimmed{
-  opacity:.38;
-  filter:saturate(.55);
+  transform:none !important;
+  opacity:1 !important;
+  filter:none !important;
 }
 .pjm-ocean-node-icon{
   position:relative;
@@ -263,22 +267,21 @@
   align-items:flex-end;
   justify-content:center;
   border-radius:18px;
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.4);
   box-shadow:
     0 10px 24px rgba(0,0,0,.22),
     inset 0 1px 0 rgba(255,255,255,.45);
   backdrop-filter:blur(8px);
-  transition:background .22s ease, box-shadow .22s ease, border-color .22s ease;
+  transition:none;
 }
 .pjm-ocean-node:hover .pjm-ocean-node-icon,
 .pjm-ocean-node.is-active .pjm-ocean-node-icon{
-  background:rgba(255,255,255,.34);
-  border-color:rgba(255,255,255,.65);
+  background:rgba(255,255,255,.22);
+  border-color:rgba(255,255,255,.4);
   box-shadow:
-    0 14px 30px rgba(0,0,0,.28),
-    0 0 0 3px rgba(255,255,255,.35),
-    inset 0 1px 0 rgba(255,255,255,.55);
+    0 10px 24px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.45);
 }
 .pjm-ocean-node-icon img{
   position:relative;
@@ -289,11 +292,12 @@
   object-fit:contain;
   display:block;
   filter:drop-shadow(0 6px 12px rgba(0,0,0,.28));
-  transition:transform .22s ease;
+  transition:none;
+  transform:none !important;
 }
 .pjm-ocean-node:hover .pjm-ocean-node-icon img,
 .pjm-ocean-node.is-active .pjm-ocean-node-icon img{
-  transform:scale(1.06);
+  transform:none !important;
 }
 .pjm-ocean-node.is-complete .pjm-ocean-node-icon{
   box-shadow:
@@ -353,7 +357,10 @@
   text-align:left;
   font:inherit;
   color:inherit;
-  transition:box-shadow .22s ease, transform .22s ease, border-color .22s ease, background .22s ease;
+  transition:none;
+  opacity:1 !important;
+  filter:none !important;
+  transform:none !important;
 }
 .pjm-level-card[data-level="1"]{
   background:rgba(22,138,74,0.08);
@@ -387,24 +394,27 @@
 }
 .pjm-level-card:hover,
 .pjm-level-card.is-active{
-  transform:translateY(-2px);
-  box-shadow:0 10px 24px rgba(18,50,71,.09);
+  transform:none !important;
+  box-shadow:0 2px 10px rgba(18,50,71,.04);
 }
 .pjm-level-card:focus-visible{
   outline:2px solid var(--pjm-master);
   outline-offset:2px;
 }
-.pjm-level-card.is-dimmed{ opacity:.5; }
+.pjm-level-card.is-dimmed{ opacity:1 !important; filter:none !important; }
 .pjm-level-card.is-complete{
   border-color:rgba(204,149,43,.28);
-  box-shadow:0 8px 22px rgba(204,149,43,.10);
+  box-shadow:0 2px 10px rgba(18,50,71,.04);
 }
 .pjm-level-card.is-active[data-level="1"],
-.pjm-level-card.is-active[data-level="2"]{ background:rgba(22,138,74,0.20); }
+.pjm-level-card.is-active[data-level="2"]{ background:rgba(22,138,74,0.08); }
 .pjm-level-card.is-active[data-level="3"],
-.pjm-level-card.is-active[data-level="4"]{ background:rgba(196,127,18,0.22); }
+.pjm-level-card.is-active[data-level="4"]{ background:rgba(196,127,18,0.10); }
 .pjm-level-card.is-active[data-level="5"],
-.pjm-level-card.is-active[data-level="6"]{ background:rgba(45,132,179,0.20); }
+.pjm-level-card.is-active[data-level="6"]{ background:rgba(45,132,179,0.08); }
+.pjm-level-card.is-active[data-level="2"]{ background:rgba(22,138,74,0.16); }
+.pjm-level-card.is-active[data-level="4"]{ background:rgba(196,127,18,0.18); }
+.pjm-level-card.is-active[data-level="6"]{ background:rgba(45,132,179,0.16); }
 
 .pjm-level-head{
   display:flex;
@@ -462,22 +472,22 @@
 }
 .pjm-level-animal{
   margin:0;
-  font-size:.68rem;
+  font-size:.74rem;
   font-weight:800;
-  letter-spacing:.1em;
+  letter-spacing:.08em;
   text-transform:uppercase;
-  color:var(--pjm-muted);
+  color:var(--pjm-ink);
 }
 .pjm-level-card[data-level="2"] .pjm-level-animal,
 .pjm-level-card[data-level="4"] .pjm-level-animal,
 .pjm-level-card[data-level="6"] .pjm-level-animal{
-  color:rgba(49,69,85,0.88);
+  color:var(--pjm-ink);
 }
 
 .pjm-mascot-mark{
   flex:0 0 auto;
-  width:52px;
-  height:44px;
+  width:56px;
+  height:48px;
   display:flex;
   align-items:flex-end;
   justify-content:center;
@@ -485,25 +495,27 @@
 }
 .pjm-mascot-mark img{
   width:auto;
-  height:44px;
-  max-width:52px;
+  height:48px;
+  max-width:56px;
   object-fit:contain;
   display:block;
-  filter:drop-shadow(0 4px 8px rgba(18,50,71,.10));
-  transition:transform .22s ease;
+  filter:none;
+  transition:none;
+  transform:none !important;
 }
 .pjm-level-card:hover .pjm-mascot-mark img,
 .pjm-level-card.is-active .pjm-mascot-mark img{
-  transform:translateY(-1px);
+  transform:none !important;
+  filter:none;
 }
-.pjm-level-card.is-complete .pjm-level-animal{ color:#9a7200; }
+.pjm-level-card.is-complete .pjm-level-animal{ color:var(--pjm-ink); }
 .pjm-level-card.is-complete .pjm-mascot-mark img{
-  filter:drop-shadow(0 4px 10px rgba(204,149,43,.22));
+  filter:none;
 }
 
 .pjm-chips{
   display:grid;
-  gap:5px;
+  gap:6px;
   margin:0;
   padding:0;
   list-style:none;
@@ -512,22 +524,23 @@
 }
 .pjm-chip{
   position:relative;
-  padding:0 0 0 12px;
-  font-size:.71rem;
-  font-weight:600;
-  line-height:1.32;
-  color:var(--pjm-text);
+  padding:0 0 0 14px;
+  font-size:.78rem;
+  font-weight:700;
+  line-height:1.4;
+  color:var(--pjm-ink);
+  overflow-wrap:anywhere;
 }
 .pjm-chip::before{
   content:"";
   position:absolute;
   left:0;
-  top:.55em;
-  width:5px;
-  height:5px;
+  top:.6em;
+  width:6px;
+  height:6px;
   border-radius:999px;
   background:var(--pjm-master);
-  opacity:.55;
+  opacity:.85;
 }
 .pjm-level-card[data-level="1"] .pjm-chip::before,
 .pjm-level-card[data-level="2"] .pjm-chip::before{ background:var(--pjm-green); }
@@ -553,7 +566,7 @@
   .pjm-stage-world-img{ transition:none; }
 }
 
-/* Guided tour — tap levels 1→6 before opening stage tiles */
+/* Guided tour  tap levels 1?6 before opening stage tiles */
 .pjm-level-card.is-tour-visited,
 .pjm-ocean-node.is-tour-visited{
   outline:2px solid rgba(204,149,43,.55);
@@ -566,23 +579,26 @@
   opacity:1 !important;
   filter:none !important;
 }
+/* Keep every level fully visible  no fade/lock washout */
 .pjm-level-card.is-tour-locked,
-.pjm-ocean-node.is-tour-locked{
-  opacity:.42;
-  filter:grayscale(.35);
-}
+.pjm-ocean-node.is-tour-locked,
 .pjm-level-card.is-tour-next,
-.pjm-ocean-node.is-tour-next{
-  opacity:1;
-  filter:none;
-}
-/* Visited/complete always beat hover-dimming */
-.pjm-level-card.is-tour-visited.is-dimmed,
-.pjm-ocean-node.is-tour-visited.is-dimmed,
-.pjm-level-card.is-complete.is-dimmed,
-.pjm-ocean-node.is-complete.is-dimmed{
+.pjm-ocean-node.is-tour-next,
+.pjm-level-card.is-dimmed,
+.pjm-ocean-node.is-dimmed,
+.pjm-stage.is-dimmed{
   opacity:1 !important;
   filter:none !important;
+}
+.pjm-ocean-node{
+  opacity:1 !important;
+  filter:none !important;
+}
+.pjm-ocean-node.is-dimmed,
+.pjm-ocean-node:hover,
+.pjm-ocean-node.is-active{
+  opacity:1 !important;
+  transform:none !important;
 }
 
 /* Guided pulse on the map uses each level's own accent (not pathway-block green) */
