@@ -1045,17 +1045,48 @@ body {
   -webkit-print-color-adjust: exact;
 }
 
-/* Key Ideas title + lightbulb: always brand blue (never block orange/purple) */
+/* Key Ideas title + lightbulb + numbers: always brand blue (beats block-variant title rules) */
+.portal .concept-points-box,
+.portal .section.block-part .concept-points-box,
+.portal .concept-stage .concept-points-box{
+  --key-idea-badge: #2d84b3 !important;
+}
 .portal .concept-points-box > h4,
 .portal .concept-points-box > h4.concept-section-head,
+.portal .concept-stage .concept-points-box > h4,
+.portal .section.block-part .concept-stage .concept-points-box > h4,
+.portal .section.block-part--foundations .concept-stage .concept-points-box > h4,
+.portal .section.block-part--core .concept-stage .concept-points-box > h4,
+.portal .section.block-part--pathway .concept-stage .concept-points-box > h4,
+.portal .section.block-part--progress .concept-stage .concept-points-box > h4,
 .portal .concept-points-box .concept-section-head,
 .portal .concept-points-box .concept-section-head span{
   color: #2d84b3 !important;
+  -webkit-text-fill-color: #2d84b3 !important;
 }
 .portal .concept-points-box .concept-section-head .icon--key-ideas{
   background: linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%) !important;
   color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
   box-shadow: 0 4px 10px rgba(45, 132, 179, .22) !important;
+}
+.portal .concept-points-box .key-idea-index,
+.portal .section.block-part .concept-points-box .key-idea-index{
+  background: rgba(45, 132, 179, 0.16) !important;
+  background-color: rgba(45, 132, 179, 0.16) !important;
+  color: #2d84b3 !important;
+  -webkit-text-fill-color: #2d84b3 !important;
+}
+.portal .concept-points-box .key-idea-item.clicked,
+.portal .section.block-part .concept-points-box .key-idea-item.clicked{
+  border-color: #2d84b3 !important;
+}
+.portal .concept-points-box .key-idea-item.clicked .key-idea-index,
+.portal .section.block-part .concept-points-box .key-idea-item.clicked .key-idea-index{
+  background: #2d84b3 !important;
+  background-color: #2d84b3 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
 }
 
 /* Tick stays brand blue across every block / stage theme */
