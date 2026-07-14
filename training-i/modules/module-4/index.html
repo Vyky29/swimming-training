@@ -1644,16 +1644,20 @@
     }
     .portal .b3c2-factor-explore .b3c2-factor-box-icon img,
     .portal .b3c2-factor-explore .b3c2-factor-detail-head img{
-      width:80px !important;
-      height:80px !important;
-      max-width:80px !important;
-      max-height:80px !important;
+      width:72px !important;
+      height:72px !important;
+      max-width:72px !important;
+      max-height:72px !important;
       border-radius:0 !important;
       object-fit:contain !important;
       object-position:center !important;
       background:transparent !important;
       box-shadow:none !important;
       display:block;
+      overflow:visible !important;
+    }
+    .portal .b3c2-factor-explore .b3c2-factor-box{
+      overflow:visible !important;
     }
     .portal .b3c2-factor-explore .b3c2-factor-detail-head img{
       width:64px !important;
@@ -1793,34 +1797,32 @@
       margin-top:4px;
     }
 
-    /* Block 4 factor heroes — keep compact so Explore Factors stays in view */
-    .b3c2-concept-hero{
+    /* Factor concept heroes — full infographic, never crop top/bottom */
+    .portal .b3c2-concept-hero{
       position:relative;
       margin:0 auto 16px;
       width:100%;
-      max-width:min(720px,100%);
-      max-height:min(240px,32vh);
+      max-width:min(920px,100%);
+      max-height:none !important;
+      height:auto !important;
       border-radius:14px;
-      overflow:hidden;
+      overflow:visible !important;
       border:1px solid rgba(22,50,71,.08);
       box-shadow:0 10px 22px rgba(18,50,71,.06);
       box-sizing:border-box;
+      background:#fff;
+      padding:10px;
     }
-    .b3c2-concept-hero img{
+    .portal .b3c2-concept-hero img,
+    .portal .concept-panel .b3c2-concept-hero > img{
       display:block;
-      width:100%;
-      height:min(240px,32vh);
-      max-height:min(240px,32vh);
-      object-fit:contain;
-      object-position:center top;
-      vertical-align:middle;
-    }
-    @media (max-width:640px){
-      .b3c2-concept-hero,
-      .b3c2-concept-hero img{
-        height:min(180px,28vh);
-        max-height:min(180px,28vh);
-      }
+      width:100% !important;
+      max-width:100% !important;
+      height:auto !important;
+      max-height:none !important;
+      object-fit:contain !important;
+      object-position:center top !important;
+      margin:0 auto;
     }
 
     /* Physical — deep pool teal */
@@ -3674,27 +3676,28 @@
     .stage-intro-hero-world{
       position:relative;
       width:100%;
-      max-height:min(200px, 28vh);
-      overflow:hidden;
-      background:rgba(18,50,71,.06);
+      max-height:none;
+      overflow:visible;
+      background:rgba(18,50,71,.04);
       border-radius:0 0 17px 17px;
+      text-align:center;
     }
     .stage-intro-hero-world img{
-      width:100%;
-      height:min(200px, 28vh);
-      max-height:min(200px, 28vh);
+      width:auto !important;
+      max-width:100% !important;
+      height:auto !important;
+      max-height:min(280px,36vh) !important;
       display:block;
-      object-fit:cover;
-      object-position:center 42%;
+      margin:0 auto;
+      object-fit:contain !important;
+      object-position:center center;
     }
     .concept-panel[data-stage-theme="structured"] .stage-intro-hero-world img{
-      object-position:center 55%;
+      object-position:center center;
     }
     @media (max-width:640px){
-      .stage-intro-hero-world,
       .stage-intro-hero-world img{
-        height:min(150px, 24vh);
-        max-height:min(150px, 24vh);
+        max-height:min(220px,32vh) !important;
       }
     }
     .stage-intro-hero-mascots{
@@ -5191,9 +5194,13 @@
     .concept-panel[data-stage-theme="core"] .concept-image{ background:rgba(138,63,176,.06); border-color:rgba(138,63,176,.12); }
 
     .concept-image img{
-      width:100%;
+      width:auto;
+      max-width:100%;
       height:auto;
       display:block;
+      margin-left:auto;
+      margin-right:auto;
+      object-fit:contain;
     }
 
     .concept-media-actions{
@@ -6069,7 +6076,7 @@
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
-  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260714unsquash2" />
+  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260714unsquash4" />
   <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714subhead1" />
 </head>
 <body>
@@ -8296,10 +8303,10 @@
             <h4 class="b3c2-explore-heading">Explore the Factors</h4>
             <p class="b3c2-explore-instruction">Tap a factor. Read all three points, then tap each one to confirm.</p>
             <div class="b3c2-factor-grid" role="group" aria-label="Physical factors">
-              <button type="button" class="b3c2-factor-box" data-factor-key="ptone" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-ptone.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Muscle Tone</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="pmobil" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pmobil.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Mobility</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="pstren" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pstren.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Strength</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="pctrl" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pctrl.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Body Control</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="ptone" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-ptone.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Muscle Tone</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="pmobil" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pmobil.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Mobility</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="pstren" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pstren.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Strength</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="pctrl" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pctrl.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Body Control</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
             </div>
             <div class="b3c2-factor-detail-sources" aria-hidden="true">
               <div data-factor-detail="ptone">
@@ -8389,10 +8396,10 @@
             <h4 class="b3c2-explore-heading">Explore the Factors</h4>
             <p class="b3c2-explore-instruction">Tap a factor. Read all three points, then tap each one to confirm.</p>
             <div class="b3c2-factor-grid" role="group" aria-label="Motor planning factors">
-              <button type="button" class="b3c2-factor-box" data-factor-key="mplan" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mplan.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Planning</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="mseq" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mseq.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Sequencing</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="mtime" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mtime.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Coordination</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="mstart" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mstart.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Adaptation</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="mplan" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mplan.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Planning</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="mseq" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mseq.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Sequencing</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="mtime" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mtime.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Coordination</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="mstart" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mstart.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Adaptation</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
             </div>
             <div class="b3c2-factor-detail-sources" aria-hidden="true">
               <div data-factor-detail="mplan">
@@ -8479,10 +8486,10 @@
             <h4 class="b3c2-explore-heading">Explore the Factors</h4>
             <p class="b3c2-explore-instruction">Tap a factor. Read all three points, then tap each one to confirm.</p>
             <div class="b3c2-factor-grid" role="group" aria-label="Cognitive factors">
-              <button type="button" class="b3c2-factor-box" data-factor-key="cund" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-cund.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Understanding</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="catt" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-catt.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Attention</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="cproc" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-cproc.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Processing</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="crout" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-crout.png?v=20260714flat1" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Predictability</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="cund" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-cund.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Understanding</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="catt" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-catt.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Attention</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="cproc" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-cproc.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Processing</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="crout" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-crout.png?v=20260714full3" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Predictability</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
             </div>
             <div class="b3c2-factor-detail-sources" aria-hidden="true">
               <div data-factor-detail="cund">

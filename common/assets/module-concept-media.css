@@ -1,6 +1,7 @@
 /**
  * Unified primary imagery across Training I / II modules.
- * Infographics and concept visuals show in full (contain) — no 16:9 crop or inner scroll.
+ * Natural aspect always: never force width+height together.
+ * Soft max-height only; width shrinks with the image.
  */
 @import url('/assets/concept-visual-expand.css?v=20260713img1');
 
@@ -28,39 +29,61 @@
 .portal .concept-panel [data-expandable-visual] figure > img,
 .portal .section-visual-shell .concept-activity-box > img,
 .portal .section-visual-shell [data-expandable-visual] > img,
-.portal .b3c2-concept-hero > img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-  object-position: center top;
-  aspect-ratio: unset;
-}
-
-/* Module 5 nested PixtoLearn: never force full-bleed width under a height cap */
-.portal .concept-panel [data-b2-screens] .concept-activity-box > img,
-.portal .concept-panel [data-b2-screens] [data-expandable-visual] > img,
-.portal .concept-panel [data-b2-screens] .m5-nested-visual-frame > img,
-.portal .concept-panel [data-b2-screens] .b2c2-direct-image > img,
-.portal .concept-panel [data-b2-screens] .b2c3-direct-image > img {
-  width: auto;
-  max-width: 100%;
-  max-height: none;
-  height: auto;
-  object-fit: contain;
+.portal .carousel-inline-slide img,
+.portal .carousel-slide img,
+.portal .carousel-slides-container .carousel-slide img {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: min(560px, 70vh) !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  aspect-ratio: unset !important;
   margin-left: auto;
   margin-right: auto;
 }
 
+/* Module 4 factor infographics: always show the full poster (no soft height crop) */
+.portal .b3c2-concept-hero > img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  display: block !important;
+  object-fit: contain !important;
+  object-position: center top !important;
+  aspect-ratio: unset !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Hosts must not invent a short crop box */
 .portal .concept-panel .concept-image,
 .portal .concept-panel [data-concept-primary-image],
 .portal .concept-panel [data-concept-intro-media],
 .portal .section-visual-shell,
 .portal .section-visual-shell .concept-activity-box,
-.portal .section-visual-shell [data-expandable-visual] {
-  overflow: visible;
-  max-height: none;
+.portal .section-visual-shell [data-expandable-visual],
+.portal .b3c2-concept-hero {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+/* Module 5 nested PixtoLearn: soft taller caps stay proportional */
+.portal .concept-panel [data-b2-screens] .concept-activity-box > img,
+.portal .concept-panel [data-b2-screens] [data-expandable-visual] > img,
+.portal .concept-panel [data-b2-screens] .m5-nested-visual-frame > img,
+.portal .concept-panel [data-b2-screens] .b2c2-direct-image > img,
+.portal .concept-panel [data-b2-screens] .b2c3-direct-image > img {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: min(420px, 52vh) !important;
+  object-fit: contain !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .portal .concept-panel .concept-activity-box {
@@ -125,21 +148,14 @@
   filter: none;
 }
 
-/* Wide photo strips (opt-in only) */
+/* Wide photo strips (opt-in only) — still keep cover intentional */
 .portal .concept-media-photo > img,
 .portal .concept-media-photo img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center;
-}
-
-.portal .carousel-slide img,
-.portal .carousel-inline-slide img,
-.portal .carousel-slides-container .carousel-slide img {
-  width: 100%;
-  height: auto;
-  max-height: none;
-  object-fit: contain;
-  object-position: center top;
-  display: block;
+  max-height: none !important;
 }

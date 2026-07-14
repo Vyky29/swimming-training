@@ -1295,9 +1295,13 @@
     }
   
     .concept-image img{
-      width:100%;
+      width:auto;
+      max-width:100%;
       height:auto;
       display:block;
+      margin-left:auto;
+      margin-right:auto;
+      object-fit:contain;
     }
   
     .concept-why-matters{
@@ -2748,13 +2752,14 @@
       display:block;
     }
     .carousel-inline-slide img{
-      width:100%;
-      height:auto;
-      max-height:320px;
-      object-fit:contain;
-      display:block;
-      margin:0 auto;
-    }
+    width:auto !important;
+    max-width:100% !important;
+    height:auto !important;
+    max-height:min(560px,70vh) !important;
+    object-fit:contain !important;
+    display:block;
+    margin:0 auto;
+  }
     .carousel-inline-controls{
       display:flex;
       align-items:center;
@@ -3301,7 +3306,7 @@
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
-  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260714unsquash2" />
+  <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260714unsquash4" />
   <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714subhead1" />
 </head>
 <body class="training-template-body">
