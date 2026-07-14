@@ -4,8 +4,8 @@
 @import url('/assets/review-cards-visual-system.css?v=20260622');
 @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
 @import url('/assets/in-practice-system.css?v=20260713practice9');
-@import url('/assets/concept-section-icons.css?v=20260707');
-@import url('/assets/block-intro-cards.css?v=20260713intro3');
+@import url('/assets/concept-section-icons.css?v=20260714core1');
+@import url('/assets/block-intro-cards.css?v=20260714introdone1');
 *,
 *::before,
 *::after{
@@ -68,11 +68,102 @@ code{
 }
 .portal .concept-points-box .key-idea-item.clicked .key-idea-index,
 .portal .outcome.clicked .outcome-index{
-  background-color:var(--key-idea-badge, var(--blue, #2d84b3)) !important;
+  background-color:var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3))) !important;
   background-image:none !important;
   color:#ffffff !important;
   -webkit-text-fill-color:#ffffff !important;
   forced-color-adjust:none;
   print-color-adjust:exact;
   -webkit-print-color-adjust:exact;
+}
+.portal .concept-points-box .key-idea-item.clicked::after,
+.portal .outcome.clicked::after{
+  content:'\2713' !important;
+  font-weight:700 !important;
+  color:var(--blue, #2d84b3) !important;
+  -webkit-text-fill-color:var(--blue, #2d84b3) !important;
+  margin-left:auto;
+  flex-shrink:0;
+  align-self:center;
+  line-height:1;
+}
+
+
+/* Completion checks — consistent inner margins */
+.portal .check-item,
+.training-page .check-item,
+.training-portal .check-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  box-sizing:border-box;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  margin-top:20px;
+  padding:18px 20px;
+}
+.portal .check-item > span,
+.portal .check-item .check-text{
+  flex:1 1 auto;
+  min-width:0;
+  line-height:1.45;
+  overflow-wrap:normal;
+  word-break:normal;
+}
+.portal .check-item > input,
+.portal .check-item input[type="checkbox"]{
+  flex:0 0 auto;
+  width:18px;
+  height:18px;
+  margin:0;
+}
+
+/* Match / sort labels — equal column, no mid-word cuts (parity with Training I) */
+.portal :where(.slot-label),
+.training-page :where(.slot-label),
+.training-portal :where(.slot-label),
+#quiz :where(.slot-label){
+  overflow-wrap:normal;
+  word-wrap:normal;
+  word-break:normal;
+  hyphens:none;
+}
+.portal .match-slots .match-slot,
+#quiz .match-slots .match-slot,
+.portal .concept-activity-interactive .match-slots .match-slot{
+  display:grid !important;
+  grid-template-columns:13rem minmax(0,1fr);
+  align-items:center;
+  gap:12px;
+  max-width:100%;
+  min-width:0;
+  box-sizing:border-box;
+}
+.portal .slot-label,
+#quiz .slot-label,
+.portal .concept-activity-interactive .slot-label{
+  display:block;
+  width:100%;
+  max-width:none !important;
+  overflow-wrap:normal !important;
+  word-break:normal !important;
+  hyphens:none !important;
+  line-height:1.3;
+}
+.portal .activity-container--concept .concept-activity-interactive .match-slots .match-slot,
+.portal .activity-container--concept .match-slots .match-slot{
+  grid-template-columns:minmax(0,1fr) !important;
+}
+@media (max-width:560px){
+  .portal .match-slots .match-slot,
+  #quiz .match-slots .match-slot,
+  .portal .concept-activity-interactive .match-slots .match-slot{
+    grid-template-columns:minmax(11rem,46%) minmax(0,1fr);
+    gap:10px;
+  }
+  .portal .activity-container--concept .concept-activity-interactive .match-slots .match-slot,
+  .portal .activity-container--concept .match-slots .match-slot{
+    grid-template-columns:minmax(0,1fr) !important;
+  }
 }

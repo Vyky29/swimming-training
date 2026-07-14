@@ -146,8 +146,12 @@
     refreshIcon(actionEl, done);
   }
 
+  var FALLBACK_LOOK = 'Read the body and the moment before you push the plan.';
+  var FALLBACK_AVOID = 'If calm, safety, or connection drops, simplify before you continue.';
+
   function getVisibleParts(actionEl) {
     if (!actionEl || !actionEl.querySelectorAll) return [];
+    ensureCoachPartsVisible(actionEl);
     return Array.from(actionEl.querySelectorAll('[data-inprac-part]')).filter(function (part) {
       if (part.hasAttribute('hidden')) return false;
       if (part.closest('[hidden]')) return false;
@@ -155,13 +159,46 @@
     });
   }
 
+  function ensureCoachPartsVisible(actionEl) {
+    if (!actionEl || !actionEl.querySelector('[data-inprac-part="do"]')) return;
+    var lead = actionEl.querySelector('[data-inprac-lead]');
+    var move = lead ? (lead.textContent || '').trim() : '';
+    if (!move) return;
+    var lookWrap = actionEl.querySelector('[data-inprac-look-wrap]');
+    var look = actionEl.querySelector('[data-inprac-look]');
+    var avoidWrap = actionEl.querySelector('[data-inprac-avoid-wrap]');
+    var avoid = actionEl.querySelector('[data-inprac-avoid]');
+    if (lookWrap && lookWrap.hasAttribute('hidden')) {
+      setBeat(lookWrap, look, (look && look.textContent) || '', FALLBACK_LOOK);
+    }
+    if (avoidWrap && avoidWrap.hasAttribute('hidden')) {
+      setBeat(avoidWrap, avoid, (avoid && avoid.textContent) || '', FALLBACK_AVOID);
+    }
+  }
+
   function partsComplete(actionEl) {
     var parts = getVisibleParts(actionEl);
     if (!parts.length) return true;
+    // Coach shell must review Do + Look for + Avoid before Got it
+    if (actionEl.querySelector('[data-inprac-part="do"]')) {
+      var required = ['do', 'look', 'avoid'];
+      for (var r = 0; r < required.length; r++) {
+        var part = actionEl.querySelector('[data-inprac-part="' + required[r] + '"]');
+        if (!part || part.hasAttribute('hidden')) continue;
+        if (!part.classList.contains('is-reviewed')) return false;
+      }
+    }
     return parts.every(function (part) { return part.classList.contains('is-reviewed'); });
   }
 
   function nextUnreviewedPart(actionEl) {
+    ensureCoachPartsVisible(actionEl);
+    var order = ['do', 'look', 'avoid'];
+    for (var o = 0; o < order.length; o++) {
+      var ordered = actionEl.querySelector('[data-inprac-part="' + order[o] + '"]');
+      if (!ordered || ordered.hasAttribute('hidden')) continue;
+      if (!ordered.classList.contains('is-reviewed')) return ordered;
+    }
     var parts = getVisibleParts(actionEl);
     for (var i = 0; i < parts.length; i++) {
       if (!parts[i].classList.contains('is-reviewed')) return parts[i];
@@ -173,17 +210,32 @@
     if (!part || part.classList.contains('is-reviewed')) return false;
     part.classList.add('is-reviewed');
     part.setAttribute('aria-pressed', 'true');
+    var actionEl = part.closest && part.closest('.key-ideas-action');
+    if (actionEl) ensureCoachPartsVisible(actionEl);
     return true;
+  }
+
+  function resolveDoneScopeKey(actionEl, panel) {
+    if (!actionEl) return (panel && panel.dataset.currentTarget) || '';
+    if (actionEl.dataset.inPracticeTarget) return actionEl.dataset.inPracticeTarget;
+    if (panel && panel.querySelector('[data-b2-screens]')) {
+      var active = panel.querySelector('[data-b2-screens] .b2-screen.active, [data-b2-screens] .b2-screen');
+      var screenId = active && active.getAttribute('data-b2-screen');
+      if (screenId && screenId !== 'home') return screenId;
+    }
+    return (panel && panel.dataset.currentTarget) || '';
   }
 
   function completeAction(actionEl) {
     if (!actionEl || actionEl.classList.contains('is-completed')) return false;
+    ensureCoachPartsVisible(actionEl);
     if (!partsComplete(actionEl)) return false;
     actionEl.classList.add('is-completed');
     var panel = actionEl.closest && actionEl.closest('.concept-panel');
     if (panel) {
       panel.dataset.inPracticeDone = 'true';
-      var doneFor = actionEl.dataset.inPracticeTarget || panel.dataset.currentTarget || '';
+      var doneFor = resolveDoneScopeKey(actionEl, panel);
+      if (doneFor) actionEl.dataset.inPracticeTarget = doneFor;
       panel.dataset.inPracticeDoneFor = doneFor;
       if (doneFor) {
         if (!panel.__inPracticeDoneMap) panel.__inPracticeDoneMap = {};
@@ -257,9 +309,6 @@
     wrap.removeAttribute('hidden');
     wrap.setAttribute('aria-pressed', wrap.classList.contains('is-reviewed') ? 'true' : 'false');
   }
-
-  var FALLBACK_LOOK = 'Read the body and the moment before you push the plan.';
-  var FALLBACK_AVOID = 'If calm, safety, or connection drops, simplify before you continue.';
 
   function renderCardSlots(actionEl, card) {
     if (!actionEl || !card) return;

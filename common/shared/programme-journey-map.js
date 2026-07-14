@@ -97,6 +97,10 @@
       el.classList.toggle('is-tour-visited', !!visited[level]);
       el.classList.toggle('is-tour-next', !complete && next === level);
       el.classList.toggle('is-tour-locked', !complete && next !== null && level > next);
+      // Completed / tour-tapped levels must stay fully opaque
+      if (visited[level] || el.classList.contains('is-complete')) {
+        el.classList.remove('is-dimmed');
+      }
     });
     syncStageGridLock(root, complete);
   }
@@ -138,12 +142,20 @@
     };
   }
 
+  function shouldKeepSolid(el, level, activeLevel) {
+    if (Number(el.getAttribute('data-level')) === activeLevel) return true;
+    if (el.classList.contains('is-tour-visited')) return true;
+    if (el.classList.contains('is-complete')) return true;
+    return false;
+  }
+
   function setActiveLevel(root, level) {
     var stage = STAGE_BY_LEVEL[level];
     qsa(root, '.pjm-ocean-node').forEach(function (node) {
       var n = Number(node.getAttribute('data-level'));
       node.classList.toggle('is-active', n === level);
-      node.classList.toggle('is-dimmed', n !== level);
+      // Visited / completed levels stay solid — never fade them out
+      node.classList.toggle('is-dimmed', n !== level && !shouldKeepSolid(node, n, level));
     });
     qsa(root, '.pjm-stage').forEach(function (el) {
       var s = el.getAttribute('data-stage');
@@ -153,7 +165,7 @@
     qsa(root, '.pjm-level-card').forEach(function (card) {
       var n = Number(card.getAttribute('data-level'));
       card.classList.toggle('is-active', n === level);
-      card.classList.toggle('is-dimmed', n !== level);
+      card.classList.toggle('is-dimmed', n !== level && !shouldKeepSolid(card, n, level));
     });
   }
 
@@ -185,8 +197,8 @@
       });
       el.addEventListener('click', function () {
         var level = Number(el.getAttribute('data-level'));
-        setActiveLevel(root, level);
         markTourLevel(root, level);
+        setActiveLevel(root, level);
       });
     });
     root.addEventListener('mouseleave', function () {

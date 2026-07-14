@@ -12,10 +12,10 @@
   @import url('/assets/module-roadmap.css?v=20260713roadmap2');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
-  @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260714pjmtour1');
-  @import url('/assets/module-block-accordion.css?v=20260713flowaudit1');
-  @import url('/assets/programme-journey-map.css?v=20260714pjmtour1');
+  @import url('/assets/concept-insight-intro.css?v=20260714core1');
+  @import url('/assets/training-flow-guide.css?v=20260714m5flow1');
+  @import url('/assets/module-block-accordion.css?v=20260714m5flow1');
+  @import url('/assets/programme-journey-map.css?v=20260714pjmpulse2');
 
   :root{
       --blue:#2d84b3;
@@ -1537,21 +1537,22 @@
       grid-template-columns:repeat(3,minmax(0,1fr));
       gap:14px;
     }
-    /* b3c2 subconcepts — Explore the Factors (2×2 interactive grid + detail panel) */
+    /* b3c2 — Explore the Factors (icon tiles + info cards, separate from activity) */
     .b3c2-factor-explore{
-      margin-bottom:16px;
-      padding:18px 20px 20px;
-      border:1px solid rgba(45,132,179,.18);
-      border-radius:14px;
+      margin:0 0 18px;
+      padding:20px 20px 22px;
+      border:1px solid rgba(45,132,179,.16);
+      border-radius:18px;
       background:#fff;
-      box-shadow:0 10px 22px rgba(18,50,71,.06);
+      box-shadow:0 12px 28px rgba(18,50,71,.06);
       box-sizing:border-box;
     }
     .concept-panel[data-concept-flow="flat"] .b3c2-factor-explore{ width:100%; max-width:100%; }
     .b3c2-explore-heading{
-      margin:0 0 8px;
-      font-size:1rem;
-      font-weight:700;
+      margin:0 0 6px;
+      font-size:1.05rem;
+      font-weight:800;
+      letter-spacing:.01em;
       color:var(--blue);
     }
     .b3c2-explore-instruction{
@@ -1563,29 +1564,33 @@
     .b3c2-factor-grid{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:12px;
+      gap:14px;
+    }
+    @media (max-width:640px){
+      .b3c2-factor-grid{ grid-template-columns:1fr; }
     }
     .b3c2-factor-box{
+      position:relative;
       display:flex;
       flex-direction:column;
-      align-items:flex-start;
-      gap:6px;
-      text-align:left;
-      padding:14px 16px;
+      align-items:center;
+      gap:10px;
+      text-align:center;
+      padding:18px 14px 16px;
       border:1px solid var(--line);
-      border-radius:12px;
+      border-radius:16px;
       background:#fbfdff;
       font:inherit;
       cursor:pointer;
-      transition:background .18s ease,border-color .18s ease,box-shadow .18s ease;
+      transition:transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
       box-sizing:border-box;
       width:100%;
       min-width:0;
-      max-width:100%;
     }
     .b3c2-factor-box:hover{
+      transform:translateY(-2px);
       border-color:rgba(45,132,179,.35);
-      background:#fff;
+      box-shadow:0 10px 22px rgba(18,50,71,.08);
     }
     .b3c2-factor-box:focus-visible{
       outline:2px solid var(--blue);
@@ -1593,102 +1598,167 @@
     }
     .b3c2-factor-box.is-active{
       border-color:var(--blue);
-      background:linear-gradient(180deg,#e8f4fb 0%,#f5fbff 100%);
-      box-shadow:0 4px 12px rgba(45,132,179,.12);
+      background:linear-gradient(180deg,#e8f4fb 0%,#f8fcff 100%);
+      box-shadow:0 10px 24px rgba(45,132,179,.14);
+    }
+    .b3c2-factor-box.is-complete{
+      box-shadow:0 0 0 2px rgba(34,140,90,.28), 0 8px 18px rgba(18,50,71,.06);
+    }
+    .b3c2-factor-box.is-complete::after{
+      content:"✓";
+      position:absolute;
+      top:10px;
+      right:12px;
+      width:22px;
+      height:22px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      font-size:.72rem;
+      font-weight:800;
+      color:#fff;
+      background:#228c5a;
+    }
+    .b3c2-factor-box-icon{
+      width:72px;
+      height:72px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      background:rgba(255,255,255,.72);
+      box-shadow:inset 0 0 0 1px rgba(15,40,60,.06);
+      flex:0 0 auto;
+    }
+    .b3c2-factor-box-icon img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
     .b3c2-factor-box-title{
       display:block;
       font-weight:800;
-      font-size:.88rem;
+      font-size:.95rem;
+      letter-spacing:.02em;
+      text-transform:uppercase;
       color:var(--blue);
-      max-width:100%;
-      overflow-wrap:break-word;
+      line-height:1.25;
     }
-    .b3c2-factor-box-line{
+    .b3c2-factor-box-hint{
       display:block;
-      font-size:.84rem;
-      color:var(--text);
-      line-height:1.45;
-      max-width:100%;
-      overflow-wrap:break-word;
+      font-size:.78rem;
+      color:var(--muted);
+      font-weight:600;
     }
+    .b3c2-factor-box.is-active .b3c2-factor-box-hint,
+    .b3c2-factor-box.is-complete .b3c2-factor-box-hint{ opacity:.0; height:0; margin:0; overflow:hidden; }
     .b3c2-factor-detail-panel{
-      margin-top:14px;
-      padding:14px 16px;
-      border-radius:12px;
-      border:1px solid rgba(45,132,179,.22);
-      background:linear-gradient(180deg,#f8fbfd 0%,#fff 100%);
+      margin-top:16px;
+      padding:16px;
+      border-radius:16px;
+      border:1px solid rgba(45,132,179,.2);
+      background:linear-gradient(180deg,#f7fbfe 0%,#fff 100%);
     }
     .b3c2-factor-detail-panel[hidden]{ display:none !important; }
+    .b3c2-factor-detail-head{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin:0 0 12px;
+    }
+    .b3c2-factor-detail-head img{
+      width:44px;
+      height:44px;
+      border-radius:999px;
+      object-fit:cover;
+      background:#fff;
+      box-shadow:0 4px 12px rgba(18,50,71,.08);
+    }
     .b3c2-factor-panel-title{
-      margin:0 0 10px;
-      font-size:.95rem;
+      margin:0;
+      font-size:1rem;
       font-weight:800;
       color:var(--blue);
     }
-    .b3c2-factor-panel-inner p{ margin:0; font-size:.9rem; line-height:1.6; color:var(--text); max-width:100%; overflow-wrap:break-word; }
-    .b3c2-factor-panel-inner p + p{ margin-top:8px; }
-    .b3c2-factor-panel-inner ul{ margin:8px 0 0; padding-left:18px; }
-    .b3c2-factor-panel-inner li{ margin:0 0 4px; font-size:.88rem; line-height:1.5; color:var(--text); }
-    .b3c2-factor-acc{ display:grid; gap:8px; }
-    .b3c2-factor-acc-item{
-      border:1px solid rgba(45,132,179,.18);
-      border-radius:10px;
-      background:#fff;
-      overflow:hidden;
+    .b3c2-factor-info-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
     }
-    .b3c2-factor-acc-trigger{
-      width:100%;
+    @media (max-width:760px){
+      .b3c2-factor-info-grid{ grid-template-columns:1fr; }
+    }
+    .b3c2-factor-info-card{
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      gap:0;
+      text-align:left;
+      border:1px solid rgba(45,132,179,.16);
+      border-radius:14px;
+      background:#fff;
+      padding:0;
+      overflow:hidden;
+      cursor:pointer;
+      font:inherit;
+      color:inherit;
+      transition:border-color .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+    .b3c2-factor-info-card:hover{ border-color:rgba(45,132,179,.34); }
+    .b3c2-factor-info-card:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
+    .b3c2-factor-info-card.is-open,
+    .b3c2-factor-info-card.is-done{
+      border-color:rgba(45,132,179,.4);
+      box-shadow:0 8px 18px rgba(18,50,71,.06);
+    }
+    .b3c2-factor-info-card.is-done{ background:linear-gradient(180deg,#f3faf6 0%,#fff 70%); }
+    .b3c2-factor-info-trigger{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:10px;
-      border:0;
-      background:transparent;
-      color:var(--text);
-      padding:10px 12px;
-      text-align:left;
-      cursor:pointer;
-      font:inherit;
-      font-weight:700;
-      font-size:.88rem;
+      gap:8px;
+      padding:12px 12px 10px;
+      font-weight:800;
+      font-size:.84rem;
+      color:var(--ink);
     }
-    .b3c2-factor-acc-trigger:focus-visible{
-      outline:2px solid var(--blue);
-      outline-offset:-2px;
-    }
-    .b3c2-factor-acc-label{
+    .b3c2-factor-info-kicker{
       display:inline-flex;
       align-items:center;
-      gap:8px;
-      min-width:0;
+      gap:7px;
     }
-    .b3c2-factor-acc-icon{ color:var(--blue); font-size:.92rem; line-height:1; }
-    .b3c2-factor-acc-chevron{
+    .b3c2-factor-info-dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:var(--blue);
+      flex:0 0 auto;
+    }
+    .b3c2-factor-info-chevron{
       color:var(--muted);
-      font-size:.8rem;
+      font-size:.78rem;
       transition:transform .16s ease;
-      line-height:1;
     }
-    .b3c2-factor-acc-item.is-open .b3c2-factor-acc-chevron{ transform:rotate(180deg); }
-    .b3c2-factor-acc-panel{
-      max-height:0;
-      opacity:0;
-      overflow:hidden;
-      transition:max-height .18s ease, opacity .16s ease;
-    }
-    .b3c2-factor-acc-item.is-open .b3c2-factor-acc-panel{ opacity:1; }
-    .b3c2-factor-acc-content{
-      padding:0 12px 10px 34px;
-      font-size:.88rem;
+    .b3c2-factor-info-card.is-open .b3c2-factor-info-chevron{ transform:rotate(180deg); }
+    .b3c2-factor-info-body{
+      padding:0 12px 12px;
+      font-size:.86rem;
       line-height:1.5;
       color:var(--text);
+      display:none;
     }
-    .b3c2-factor-acc-content ul{ margin:0; padding-left:16px; }
-    .b3c2-factor-acc-content li{ margin:0 0 4px; }
+    .b3c2-factor-info-card.is-open .b3c2-factor-info-body{ display:block; }
+    .b3c2-factor-info-body p{ margin:0; }
+    .b3c2-factor-info-body ul{ margin:0; padding-left:18px; }
+    .b3c2-factor-info-body li{ margin:0 0 4px; }
     .b3c2-factor-detail-sources{ display:none !important; }
+    .b3c2-factor-explore + [data-concept-activity-flow],
+    .b3c2-factor-explore + .concept-activity-section{
+      margin-top:4px;
+    }
 
-    /* Block 3 — programme infographic heroes (subconcepts + parent) */
+    /* Block 4 factor heroes */
     .b3c2-concept-hero{
       position:relative;
       margin:0 0 16px;
@@ -1705,95 +1775,77 @@
       vertical-align:middle;
     }
 
-    /* Factor explore — physical (teal / pale cyan) */
+    /* Physical — deep pool teal */
     .b3c2-factor-explore--physical{
-      border-color:rgba(15,107,120,.22);
-      background:linear-gradient(180deg,#f5fcfd 0%,#fff 100%);
+      border-color:rgba(15,107,120,.2);
+      background:linear-gradient(165deg,#f3fbfd 0%,#fff 55%);
     }
     .b3c2-factor-explore--physical .b3c2-explore-heading{ color:#0f6b78; }
     .b3c2-factor-explore--physical .b3c2-factor-box{
-      border-color:rgba(15,107,120,.22);
-      background:#eef9fb;
+      border-color:rgba(15,107,120,.18);
+      background:linear-gradient(180deg,#eef9fb 0%,#fff 100%);
     }
-    .b3c2-factor-explore--physical .b3c2-factor-box:hover{
-      border-color:rgba(15,107,120,.4);
-      background:#e4f6f9;
-    }
-    .b3c2-factor-explore--physical .b3c2-factor-box:focus-visible{ outline-color:#0f6b78; }
+    .b3c2-factor-explore--physical .b3c2-factor-box:hover,
     .b3c2-factor-explore--physical .b3c2-factor-box.is-active{
       border-color:#0f6b78;
-      background:linear-gradient(180deg,#d8eef3 0%,#f0fbfd 100%);
-      box-shadow:0 4px 14px rgba(15,107,120,.14);
+      background:linear-gradient(180deg,#d9f0f5 0%,#f4fbfd 100%);
     }
-    .b3c2-factor-explore--physical .b3c2-factor-box-title{ color:#0d5c68; }
+    .b3c2-factor-explore--physical .b3c2-factor-box-title,
+    .b3c2-factor-explore--physical .b3c2-factor-panel-title{ color:#0d5c68; }
+    .b3c2-factor-explore--physical .b3c2-factor-info-dot{ background:#0f6b78; }
     .b3c2-factor-explore--physical .b3c2-factor-detail-panel{
-      border-color:rgba(15,107,120,.25);
+      border-color:rgba(15,107,120,.22);
       background:linear-gradient(180deg,#eef8fb 0%,#fff 100%);
     }
-    .b3c2-factor-explore--physical .b3c2-factor-panel-title{ color:#0f6b78; }
-    .b3c2-factor-explore--physical .b3c2-factor-acc-item{ border-color:rgba(15,107,120,.2); }
-    .b3c2-factor-explore--physical .b3c2-factor-acc-trigger:focus-visible{ outline-color:#0f6b78; }
-    .b3c2-factor-explore--physical .b3c2-factor-acc-icon{ color:#0f6b78; }
+    .b3c2-factor-explore--physical .b3c2-factor-info-card.is-open{ border-color:rgba(15,107,120,.4); }
 
-    /* Factor explore — motor planning (orange / pale cream) */
+    /* Motor — amber / orange */
     .b3c2-factor-explore--motor{
       border-color:rgba(217,140,35,.22);
-      background:linear-gradient(180deg,#fffdf8 0%,#fff 100%);
+      background:linear-gradient(165deg,#fffaf2 0%,#fff 55%);
     }
     .b3c2-factor-explore--motor .b3c2-explore-heading{ color:#c2410c; }
     .b3c2-factor-explore--motor .b3c2-factor-box{
-      border-color:rgba(217,119,6,.22);
-      background:#fff9f0;
+      border-color:rgba(217,119,6,.2);
+      background:linear-gradient(180deg,#fff7eb 0%,#fff 100%);
     }
-    .b3c2-factor-explore--motor .b3c2-factor-box:hover{
-      border-color:rgba(217,119,6,.4);
-      background:#fff3e4;
-    }
-    .b3c2-factor-explore--motor .b3c2-factor-box:focus-visible{ outline-color:#ea580c; }
+    .b3c2-factor-explore--motor .b3c2-factor-box:hover,
     .b3c2-factor-explore--motor .b3c2-factor-box.is-active{
       border-color:#d97706;
-      background:linear-gradient(180deg,#ffefd6 0%,#fffaf4 100%);
-      box-shadow:0 4px 14px rgba(217,119,6,.16);
+      background:linear-gradient(180deg,#ffefd4 0%,#fffaf3 100%);
     }
-    .b3c2-factor-explore--motor .b3c2-factor-box-title{ color:#b45309; }
+    .b3c2-factor-explore--motor .b3c2-factor-box-title,
+    .b3c2-factor-explore--motor .b3c2-factor-panel-title{ color:#b45309; }
+    .b3c2-factor-explore--motor .b3c2-factor-info-dot{ background:#d97706; }
     .b3c2-factor-explore--motor .b3c2-factor-detail-panel{
-      border-color:rgba(217,119,6,.28);
+      border-color:rgba(217,119,6,.24);
       background:linear-gradient(180deg,#fff8ec 0%,#fff 100%);
     }
-    .b3c2-factor-explore--motor .b3c2-factor-panel-title{ color:#c2410c; }
-    .b3c2-factor-explore--motor .b3c2-factor-acc-item{ border-color:rgba(217,119,6,.22); }
-    .b3c2-factor-explore--motor .b3c2-factor-acc-trigger:focus-visible{ outline-color:#ea580c; }
-    .b3c2-factor-explore--motor .b3c2-factor-acc-icon{ color:#d97706; }
+    .b3c2-factor-explore--motor .b3c2-factor-info-card.is-open{ border-color:rgba(217,119,6,.45); }
 
-    /* Factor explore — cognitive (purple / pale lavender) */
+    /* Cognitive — violet */
     .b3c2-factor-explore--cognitive{
       border-color:rgba(109,90,205,.22);
-      background:linear-gradient(180deg,#faf8ff 0%,#fff 100%);
+      background:linear-gradient(165deg,#f8f6ff 0%,#fff 55%);
     }
-    .b3c2-factor-explore--cognitive .b3c2-explore-heading{ color:#6d5acd; }
+    .b3c2-factor-explore--cognitive .b3c2-explore-heading{ color:#5b4bb3; }
     .b3c2-factor-explore--cognitive .b3c2-factor-box{
-      border-color:rgba(109,90,205,.22);
-      background:#f3f0ff;
-    }
-    .b3c2-factor-explore--cognitive .b3c2-factor-box:hover{
-      border-color:rgba(109,90,205,.4);
-      background:#ebe6ff;
-    }
-    .b3c2-factor-explore--cognitive .b3c2-factor-box:focus-visible{ outline-color:#6d5acd; }
-    .b3c2-factor-explore--cognitive .b3c2-factor-box.is-active{
-      border-color:#6d5acd;
-      background:linear-gradient(180deg,#e8e4ff 0%,#faf8ff 100%);
-      box-shadow:0 4px 14px rgba(109,90,205,.14);
-    }
-    .b3c2-factor-explore--cognitive .b3c2-factor-box-title{ color:#5b4bb3; }
-    .b3c2-factor-explore--cognitive .b3c2-factor-detail-panel{
-      border-color:rgba(109,90,205,.28);
+      border-color:rgba(109,90,205,.2);
       background:linear-gradient(180deg,#f3f0ff 0%,#fff 100%);
     }
-    .b3c2-factor-explore--cognitive .b3c2-factor-panel-title{ color:#6d5acd; }
-    .b3c2-factor-explore--cognitive .b3c2-factor-acc-item{ border-color:rgba(109,90,205,.2); }
-    .b3c2-factor-explore--cognitive .b3c2-factor-acc-trigger:focus-visible{ outline-color:#6d5acd; }
-    .b3c2-factor-explore--cognitive .b3c2-factor-acc-icon{ color:#6d5acd; }
+    .b3c2-factor-explore--cognitive .b3c2-factor-box:hover,
+    .b3c2-factor-explore--cognitive .b3c2-factor-box.is-active{
+      border-color:#6d5acd;
+      background:linear-gradient(180deg,#ebe6ff 0%,#faf8ff 100%);
+    }
+    .b3c2-factor-explore--cognitive .b3c2-factor-box-title,
+    .b3c2-factor-explore--cognitive .b3c2-factor-panel-title{ color:#5b4bb3; }
+    .b3c2-factor-explore--cognitive .b3c2-factor-info-dot{ background:#6d5acd; }
+    .b3c2-factor-explore--cognitive .b3c2-factor-detail-panel{
+      border-color:rgba(109,90,205,.24);
+      background:linear-gradient(180deg,#f3f0ff 0%,#fff 100%);
+    }
+    .b3c2-factor-explore--cognitive .b3c2-factor-info-card.is-open{ border-color:rgba(109,90,205,.45); }
 
     /* Level programme shell (L1–L6): unified with the header frame */
     .b2l1-intro-box{
@@ -4539,19 +4591,18 @@
       box-shadow:0 4px 12px rgba(45,132,179,.2);
     }
     .concept-points-box .key-idea-item.clicked .key-idea-index{
-      background-color:var(--blue, #2d84b3);
-    background-image:none;
-    color:#fff;
-    -webkit-text-fill-color:#fff;
+      background-color:var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3)));
+      background-image:none;
+      color:#fff;
+      -webkit-text-fill-color:#fff;
     }
     .concept-points-box .key-idea-item.clicked::after{
-      content:' ✓';
+      content:'\2713';
       font-weight:700;
-      color:var(--blue);
+      color:var(--blue, #2d84b3);
       margin-left:auto;
       flex-shrink:0;
     }
-    .concept-panel[data-stage-theme] .key-idea-item.clicked::after{ color:inherit !important; }
     .concept-points-box .key-idea-index{
       width:30px;
       height:30px;
@@ -4559,11 +4610,15 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      background:rgba(45,132,179,.16);
-      color:var(--blue);
+      background:var(--block-accent-soft, rgba(45,132,179,.16));
+      color:var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3)));
       font-weight:800;
       font-size:0.9rem;
       flex:0 0 auto;
+    }
+    .concept-panel[data-stage-theme="core"] .key-idea-index{
+      background:rgba(138,63,176,.18);
+      color:#8a3fb0;
     }
     .concept-panel[data-stage-theme="confidence"] .key-idea-item.clicked{ border-color:#1a5c38; background:linear-gradient(180deg,rgba(26,92,56,.12) 0%,rgba(26,92,56,.06) 100%); box-shadow:0 4px 12px rgba(26,92,56,.2); }
     .concept-panel[data-stage-theme="confidence"] .key-idea-item.clicked .key-idea-index{ background:#1a5c38; color:#fff; }
@@ -5675,7 +5730,7 @@
       .sidebar-card{padding:12px;}
       .journey-wrap{padding:14px 12px;}
       .recap-card:not(.recap-takeaway-card) h4,.recap-card:not(.recap-takeaway-card) p{min-width:0;}
-      .check-item{padding-right:4px;}
+      .check-item{padding:18px 20px;}
       .section-top{flex-direction:column;align-items:flex-start;gap:10px;}
       .section-pill{white-space:nowrap;}
       .block-header{flex-direction:column;align-items:flex-start;gap:10px;}
@@ -5715,10 +5770,10 @@
     #quiz .quiz-inline .feedback.correct{background:#e8f7ef;color:#1b7c52;display:flex;align-items:center;gap:10px;}
     #quiz .quiz-inline .feedback.incorrect{background:#fde8e8;color:#c53030;display:flex;align-items:center;gap:10px;}
     #quiz .quiz-inline .match-game{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
-    #quiz .quiz-inline .match-slots .match-slot{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
+    #quiz .quiz-inline .match-slots .match-slot{display:grid;grid-template-columns:13rem minmax(0,1fr);align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
     #quiz .quiz-inline .match-slots .match-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
     #quiz .quiz-inline .match-slots .match-slot.filled{border-style:solid;border-color:#c5e0ed;}
-    #quiz .quiz-inline .slot-label{font-weight:700;color:var(--ink);min-width:100px;flex-shrink:0;}
+    #quiz .quiz-inline .slot-label{font-weight:700;color:var(--ink);min-width:0;max-width:none;word-break:normal;overflow-wrap:normal;hyphens:none;}
     #quiz .quiz-inline .slot-drop{flex:1;min-height:24px;}
     #quiz .quiz-inline .slot-drop .match-chip{margin:0;}
     #quiz .quiz-inline .match-pool{display:flex;flex-direction:column;gap:12px;padding:12px;border-radius:14px;min-height:120px;}
@@ -5743,10 +5798,11 @@
     /* Block 1 concept activities: sort + match (drag) */
     .concept-activity-interactive .match-game,.concept-activity-interactive .sort-game{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;margin-top:14px;min-width:0;}
     .concept-activity-interactive .match-slots,.concept-activity-interactive .sort-slots,.concept-activity-interactive .match-pool,.concept-activity-interactive .sort-pool{min-width:0;}
-    .concept-activity-interactive .match-slots .match-slot,.concept-activity-interactive .sort-slots .sort-slot{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:12px 14px;background:#fff;border:2px dashed #d0dde8;border-radius:14px;min-height:62px;transition:var(--transition);min-width:0;box-sizing:border-box;}
+    .concept-activity-interactive .match-slots .match-slot{display:grid;grid-template-columns:13rem minmax(0,1fr);align-items:center;gap:12px;margin-bottom:12px;padding:12px 14px;background:#fff;border:2px dashed #d0dde8;border-radius:14px;min-height:62px;transition:var(--transition);min-width:0;box-sizing:border-box;}
+    .concept-activity-interactive .sort-slots .sort-slot{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:12px 14px;background:#fff;border:2px dashed #d0dde8;border-radius:14px;min-height:62px;transition:var(--transition);min-width:0;box-sizing:border-box;}
     .concept-activity-interactive .match-slots .match-slot.drag-over,.concept-activity-interactive .sort-slots .sort-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
     .concept-activity-interactive .match-slots .match-slot.filled,.concept-activity-interactive .sort-slots .sort-slot.filled{border-style:solid;border-color:#c5e0ed;}
-    .concept-activity-interactive .slot-label{font-weight:700;color:var(--ink);min-width:80px;flex-shrink:0;font-size:.9rem;}
+    .concept-activity-interactive .slot-label{font-weight:700;color:var(--ink);min-width:0;max-width:none;word-break:normal;overflow-wrap:normal;hyphens:none;font-size:.9rem;}
     .concept-activity-interactive .sort-slot{
       flex-direction:column;
       align-items:stretch;
@@ -5790,7 +5846,12 @@
       grid-template-columns:1fr;
       gap:18px;
     }
-    .activity-container--concept .concept-activity-interactive .match-slots .match-slot,
+    .activity-container--concept .concept-activity-interactive .match-slots .match-slot{
+      grid-template-columns:minmax(0,1fr);
+      align-items:stretch;
+      padding:14px 18px;
+      min-height:auto;
+    }
     .activity-container--concept .concept-activity-interactive .sort-slots .sort-slot{
       flex-direction:column;
       align-items:stretch;
@@ -5800,6 +5861,10 @@
     .activity-container--concept .concept-activity-interactive .match-slots .slot-label,
     .activity-container--concept .concept-activity-interactive .sort-slots .slot-label{
       min-width:0;
+      max-width:none;
+      word-break:normal;
+      overflow-wrap:normal;
+      hyphens:none;
       font-size:0.95rem;
       line-height:1.45;
       font-weight:700;
@@ -5840,7 +5905,7 @@
     .concept-activity-interactive .feedback{overflow-wrap:break-word;word-wrap:break-word;}
     @media (max-width:640px){
       .concept-activity-interactive .match-game,.concept-activity-interactive .sort-game{grid-template-columns:1fr;}
-      .concept-activity-interactive .slot-label{min-width:0;max-width:42%;font-size:.84rem;}
+      .concept-activity-interactive .slot-label{min-width:0;max-width:none;font-size:.84rem;word-break:keep-all;overflow-wrap:normal;hyphens:none;}
       .concept-activity-interactive .match-slots .match-slot,.concept-activity-interactive .sort-slots .sort-slot{padding:10px 12px;}
     }
     /* Exactly four concept squares: one row only (never 3+1 or 2×2) */
@@ -5851,12 +5916,12 @@
       min-width:0;
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260713blockchrome3" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714core1" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
   <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260713pulse2" />
-  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714statecols2" />
+  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714subhead1" />
 </head>
 <body>
   <div class="portal">
@@ -7009,7 +7074,7 @@
     </div>
   </div>
 
-  <script src="/shared/parent-subconcept-layout.js?v=20260713parent1"></script>
+  <script src="/shared/parent-subconcept-layout.js?v=20260714subhead1"></script>
   <script src="/shared/module-block-accordion.js?v=20260713flowaudit1"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function(){
@@ -8099,27 +8164,29 @@
         ],
         imageHTML: '',
         introMediaHTML: '<div class="b3c2-concept-hero"><img src="https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_48_32-PM.png" alt="Infographic: why some swimmers access skills differently" loading="lazy" /></div>',
+        parentSubconceptTitle: 'Explore each factor group',
+        parentSubconceptLead: 'Tap one to open it.',
         parentSubconceptNavHTML: '<div class="b3c2-subconcepts-wrap">' +
           '<div class="concept-grid b3c2-subconcept-buttons">' +
           '<button class="concept-square b3c2-path-btn b3c2-path-btn--physical" type="button" data-target="b3c2_physical"><span>Physical Factors</span></button>' +
           '<button class="concept-square b3c2-path-btn b3c2-path-btn--motor" type="button" data-target="b3c2_motor"><span>Motor Planning Factors</span></button>' +
           '<button class="concept-square b3c2-path-btn b3c2-path-btn--cognitive" type="button" data-target="b3c2_cognitive"><span>Cognitive Factors</span></button>' +
-          '</div>'
+          '</div></div>'
       },
       b3c2_physical: {
         title: 'Physical Factors',
         text: '<p>Physical factors influence how a swimmer controls and sustains movement in water.</p><p>They affect stability, efficiency, and consistency during tasks.</p><p>As an instructor, recognising these helps you adjust expectations and support.</p>',
         points: [],
         imageHTML: `
-          <div class="b3c2-concept-hero"><img src="https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_49_15-PM.png" alt="Physical factors infographic" loading="lazy" /></div>
-          <div class="b3c2-factor-explore b3c2-factor-explore--physical">
+          <div class="b3c2-concept-hero"><img src="/assets/images/module-4/factors/physical.png" alt="Physical factors infographic" loading="lazy" decoding="async" /></div>
+          <div class="b3c2-factor-explore b3c2-factor-explore--physical" data-b3c2-factor-explore>
             <h4 class="b3c2-explore-heading">Explore the Factors</h4>
-            <p class="b3c2-explore-instruction">Explore each factor to understand what may affect how a swimmer controls and sustains movement.</p>
+            <p class="b3c2-explore-instruction">Open each factor, then review What this affects, What you might see, and What to do.</p>
             <div class="b3c2-factor-grid" role="group" aria-label="Physical factors">
-              <button type="button" class="b3c2-factor-box" data-factor-key="ptone" aria-pressed="false"><span class="b3c2-factor-box-title">Muscle Tone</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="pmobil" aria-pressed="false"><span class="b3c2-factor-box-title">Mobility</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="pstren" aria-pressed="false"><span class="b3c2-factor-box-title">Strength</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="pctrl" aria-pressed="false"><span class="b3c2-factor-box-title">Body Control</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="ptone" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-ptone.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Muscle Tone</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="pmobil" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pmobil.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Mobility</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="pstren" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pstren.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Strength</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="pctrl" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pctrl.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Body Control</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
             </div>
             <div class="b3c2-factor-detail-sources" aria-hidden="true">
               <div data-factor-detail="ptone">
@@ -8163,9 +8230,15 @@
                 <p><strong>What to do</strong><br>Stabilise one part of the body before adding more movement.</p>
               </div>
             </div>
-            <div class="b3c2-factor-detail-panel" hidden><div class="b3c2-factor-panel-inner"></div>
+            <div class="b3c2-factor-detail-panel" hidden>
+              <div class="b3c2-factor-detail-head">
+                <img alt="" />
+                <h5 class="b3c2-factor-panel-title"></h5>
+              </div>
+              <div class="b3c2-factor-panel-inner"></div>
+            </div>
           </div>
-          <div class="concept-activity-section concept-activity-interactive" data-activity="b3c2_physical" data-shell-instruction="Classification: drag each card into the correct column, or tap a card then tap a column.">
+<div class="concept-activity-section concept-activity-interactive" data-activity="b3c2_physical" data-shell-instruction="Classification: drag each card into the correct column, or tap a card then tap a column.">
             <div class="categorize-activity" data-categorize-activity>
               <div class="categorize-zones">
                 <div class="categorize-zone categorize-zone-hyper" data-zone="hyper">
@@ -8198,15 +8271,15 @@
         text: '<p>Motor planning affects how a swimmer organises and executes movement.</p><p>Even when the swimmer understands the task, the body may not respond as expected.</p><p>As an instructor, this requires simplifying movement.</p>',
         points: [],
         imageHTML: `
-          <div class="b3c2-concept-hero"><img src="https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_50_41-PM.png" alt="Motor planning factors infographic" loading="lazy" /></div>
-          <div class="b3c2-factor-explore b3c2-factor-explore--motor">
+          <div class="b3c2-concept-hero"><img src="/assets/images/module-4/factors/motor.png" alt="Motor planning factors infographic" loading="lazy" decoding="async" /></div>
+          <div class="b3c2-factor-explore b3c2-factor-explore--motor" data-b3c2-factor-explore>
             <h4 class="b3c2-explore-heading">Explore the Factors</h4>
-            <p class="b3c2-explore-instruction">Explore each factor to understand what may affect how a swimmer organises movement.</p>
+            <p class="b3c2-explore-instruction">Open each factor, then review What this affects, What you might see, and What to do.</p>
             <div class="b3c2-factor-grid" role="group" aria-label="Motor planning factors">
-              <button type="button" class="b3c2-factor-box" data-factor-key="mplan" aria-pressed="false"><span class="b3c2-factor-box-title">Planning</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="mseq" aria-pressed="false"><span class="b3c2-factor-box-title">Sequence</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="mtime" aria-pressed="false"><span class="b3c2-factor-box-title">Timing</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="mstart" aria-pressed="false"><span class="b3c2-factor-box-title">Starting Movement</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="mplan" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mplan.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Planning</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="mseq" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mseq.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Sequencing</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="mtime" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mtime.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Coordination</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="mstart" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mstart.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Adaptation</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
             </div>
             <div class="b3c2-factor-detail-sources" aria-hidden="true">
               <div data-factor-detail="mplan">
@@ -8230,7 +8303,7 @@
                 <p><strong>What to do</strong><br>Break the skill into smaller steps and teach one part at a time.</p>
               </div>
               <div data-factor-detail="mtime">
-                <p><strong>What this affects</strong><br>Coordination of when movements happen.</p>
+                <p><strong>What this affects</strong><br>Coordination of body parts moving together at the right time.</p>
                 <p><strong>What you might see</strong></p>
                 <ul>
                   <li>movements are out of sync</li>
@@ -8240,19 +8313,25 @@
                 <p><strong>What to do</strong><br>Slow the task down and practise the pattern with fewer demands.</p>
               </div>
               <div data-factor-detail="mstart">
-                <p><strong>What this affects</strong><br>Ability to begin movement independently.</p>
+                <p><strong>What this affects</strong><br>Ability to adapt a movement to a new situation or instruction.</p>
                 <p><strong>What you might see</strong></p>
                 <ul>
-                  <li>delayed response after instruction</li>
-                  <li>needs repeated prompting</li>
-                  <li>knows the task but does not initiate</li>
+                  <li>needs more time when the task changes</li>
+                  <li>repeats an old pattern when conditions change</li>
+                  <li>can do the skill in one context but not another</li>
                 </ul>
-                <p><strong>What to do</strong><br>Use clear cues and allow more time before repeating the prompt.</p>
+                <p><strong>What to do</strong><br>Change one variable at a time and give practice in the new context.</p>
               </div>
             </div>
-            <div class="b3c2-factor-detail-panel" hidden><div class="b3c2-factor-panel-inner"></div>
+            <div class="b3c2-factor-detail-panel" hidden>
+              <div class="b3c2-factor-detail-head">
+                <img alt="" />
+                <h5 class="b3c2-factor-panel-title"></h5>
+              </div>
+              <div class="b3c2-factor-panel-inner"></div>
+            </div>
           </div>
-          <div class="concept-activity-section concept-activity-interactive" data-activity="b3c2_motor" data-shell-instruction="Scenario-based: choose the best instructor response for each situation.">
+<div class="concept-activity-section concept-activity-interactive" data-activity="b3c2_motor" data-shell-instruction="Scenario-based: choose the best instructor response for each situation.">
             <div class="scenario-stack" style="display:grid;gap:18px;">
               <div class="scenario-card" style="padding:16px;border-radius:16px;border:1px solid var(--line);background:#fff;">
                 <p class="activity-question" style="margin:0 0 12px;">Scenario 1: A swimmer says they understand coordinating arms and legs for backstroke, but when they try, the legs kick before the arms start and the pattern falls apart.</p>
@@ -8282,15 +8361,15 @@
         text: '<p>Cognitive factors influence how a swimmer understands and responds to instructions.</p><p>They affect processing, attention, and learning pace.</p><p>As an instructor, adapting communication is essential.</p>',
         points: [],
         imageHTML: `
-          <div class="b3c2-concept-hero"><img src="https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_53_41-PM.png" alt="Cognitive factors infographic" loading="lazy" /></div>
-          <div class="b3c2-factor-explore b3c2-factor-explore--cognitive">
+          <div class="b3c2-concept-hero"><img src="/assets/images/module-4/factors/cognitive.png" alt="Cognitive factors infographic" loading="lazy" decoding="async" /></div>
+          <div class="b3c2-factor-explore b3c2-factor-explore--cognitive" data-b3c2-factor-explore>
             <h4 class="b3c2-explore-heading">Explore the Factors</h4>
-            <p class="b3c2-explore-instruction">Explore each factor to understand what may affect how a swimmer processes and responds to information.</p>
+            <p class="b3c2-explore-instruction">Open each factor, then review What this affects, What you might see, and What to do.</p>
             <div class="b3c2-factor-grid" role="group" aria-label="Cognitive factors">
-              <button type="button" class="b3c2-factor-box" data-factor-key="cund" aria-pressed="false"><span class="b3c2-factor-box-title">Understanding</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="catt" aria-pressed="false"><span class="b3c2-factor-box-title">Attention</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="cproc" aria-pressed="false"><span class="b3c2-factor-box-title">Processing</span></button>
-              <button type="button" class="b3c2-factor-box" data-factor-key="crout" aria-pressed="false"><span class="b3c2-factor-box-title">Predictability</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="cund" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-cund.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Understanding</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="catt" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-catt.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Attention</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="cproc" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-cproc.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Processing</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
+              <button type="button" class="b3c2-factor-box" data-factor-key="crout" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-crout.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Predictability</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
             </div>
             <div class="b3c2-factor-detail-sources" aria-hidden="true">
               <div data-factor-detail="cund">
@@ -8334,9 +8413,15 @@
                 <p><strong>What to do</strong><br>Keep the structure clear and prepare the swimmer before changes.</p>
               </div>
             </div>
-            <div class="b3c2-factor-detail-panel" hidden><div class="b3c2-factor-panel-inner"></div>
+            <div class="b3c2-factor-detail-panel" hidden>
+              <div class="b3c2-factor-detail-head">
+                <img alt="" />
+                <h5 class="b3c2-factor-panel-title"></h5>
+              </div>
+              <div class="b3c2-factor-panel-inner"></div>
+            </div>
           </div>
-          <div class="concept-activity-section concept-activity-interactive" data-activity="b3c2_cognitive" data-shell-instruction="Multiple choice: select the best response.">
+<div class="concept-activity-section concept-activity-interactive" data-activity="b3c2_cognitive" data-shell-instruction="Multiple choice: select the best response.">
             <p class="activity-question">A swimmer often misunderstands long, multi-step verbal instructions and looks overwhelmed before they start. What is the best first response?</p>
             <div class="option-grid">
               <label class="option"><input type="radio" name="b3c2_cog_act" value="A"><span>A. Repeat the same long explanation more loudly</span></label>
@@ -8424,9 +8509,9 @@
     const conceptGroups = {
       block1: { total: 3, visited: new Set(), order: ['b1c1','b1c2','b1c3'] },
       block2: { total: 3, visited: new Set(), order: ['b2core1','b2core2','b2core3'] },
-      // Block 3 pathway: completion in order (30 “ordered” steps for progress; full order includes stages/levels for navigation)
+      // Block 3 pathway: 29 ordered focus/activity keys (accordion Done fills a whole level group at once)
       block3: {
-        total: 30,
+        total: 29,
         visited: new Set(),
         order: [
           'b2c1', 'b2l1','b2l1_f1','b2l1_f2','b2l1_f3','b2l1_f4','b2l1_activities',
@@ -8505,9 +8590,8 @@
       });
       var journeyMapEl = document.querySelector('[data-programme-journey-map]');
       if(journeyMapEl && window.ProgrammeJourneyMap){
-        var tourAlreadyDone = block2StageIds.some(function(id){
-          return isStageFullyCompleted(id) || conceptCompletion.block3.has(id);
-        });
+        // Tour completion is persisted on the map — do not infer it from stage tiles alone
+        var tourAlreadyDone = journeyMapEl.getAttribute('data-pjm-tour-complete') === 'true';
         if(!journeyMapEl.dataset.pjmInit){
           ProgrammeJourneyMap.init(journeyMapEl, {
             isLevelComplete: isLevelFullyCompleted,
@@ -9050,6 +9134,40 @@
       if(block === 'block3') updateStageCompletedStates();
     }
 
+    /** Accordion level Done fills the nested pathway keys that progress still counts. */
+    function markPathwayAccordionLevelComplete(levelId){
+      if(!block2LevelIds.includes(levelId)){
+        markConceptComplete('block3', levelId);
+        return;
+      }
+      markConceptComplete('block3', levelId);
+      var idx = block2LevelIds.indexOf(levelId);
+      var group = block2LevelGroups[idx] || [];
+      group.forEach(function(key){ conceptCompletion.block3.add(key); });
+      // Focus hubs counted in navigation order — mark when the level shell is done
+      var focusHub = levelId + '_focus';
+      if(conceptGroups.block3.order.indexOf(focusHub) !== -1){
+        conceptCompletion.block3.add(focusHub);
+      }
+      updateConceptProgress('block3');
+      updateStageCompletedStates();
+      var stageId = null;
+      Object.keys(block2StageLevels).forEach(function(sid){
+        if(block2StageLevels[sid].indexOf(levelId) !== -1) stageId = sid;
+      });
+      if(stageId && isStageFullyCompleted(stageId)){
+        markConceptComplete('block3', stageId);
+      }
+    }
+
+    function getStageIdForLevel(levelId){
+      var found = null;
+      Object.keys(block2StageLevels).forEach(function(sid){
+        if(block2StageLevels[sid].indexOf(levelId) !== -1) found = sid;
+      });
+      return found;
+    }
+
     function releaseActiveConceptControl(){
       var activeEl = document.activeElement;
       if(!activeEl || activeEl === document.body || typeof activeEl.blur !== 'function') return;
@@ -9275,6 +9393,31 @@
     }
 
     function finishConcept(block, target){
+      // Accordion pathway levels write the nested keys the progress counter expects
+      if(block === 'block3' && /^b2l[1-6]$/.test(target)){
+        markPathwayAccordionLevelComplete(target);
+        var stageForLevel = getStageIdForLevel(target);
+        var stageLevels = stageForLevel ? block2StageLevels[stageForLevel] : null;
+        var stageDone = !!(stageLevels && stageLevels.every(function(lid){ return isLevelFullyCompleted(lid); }));
+        conceptHistory.block3 = [];
+        if(stageDone && stageForLevel && !conceptCompletion.block3.has(stageForLevel)){
+          markConceptComplete('block3', stageForLevel);
+        }
+        if(stageDone || !stageForLevel){
+          if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.returnToConceptGrid){
+            TrainingFlowGuide.returnToConceptGrid('block3');
+            if(TrainingFlowGuide.requestRefresh) TrainingFlowGuide.requestRefresh([120, 400, 800]);
+          }
+          return;
+        }
+        // Reopen the stage so the next level keeps pulsing (keep intro cards)
+        renderConcept('block3', stageForLevel, false, { skipPanelScroll: true, preserveStageCards: true });
+        if(typeof TrainingFlowGuide !== 'undefined' && TrainingFlowGuide.requestRefresh){
+          TrainingFlowGuide.requestRefresh([120, 400, 800]);
+        }
+        return;
+      }
+
       markConceptComplete(block, target);
 
       if(block === 'block4'){
@@ -9285,7 +9428,9 @@
       }
 
       const nextTarget = getNextConceptTarget(block, target);
-      var completedSecondLevelOfStage = block === 'block3' && ['b2l2_activities','b2l4_activities','b2l6_activities'].indexOf(target) !== -1;
+      var completedSecondLevelOfStage = block === 'block3' && (
+        ['b2l2_activities','b2l4_activities','b2l6_activities','b2l2','b2l4','b2l6'].indexOf(target) !== -1
+      );
 
       if(block === 'block2' && ['b2core1','b2core2','b2core3'].indexOf(target) !== -1){
         conceptHistory.block2 = [];
@@ -9650,14 +9795,27 @@
           '<span class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span><span>Key Ideas for Instructors</span></span>';
       }
     }
-    // Move activity blocks out of the image container so order is always:
-    // Intro -> optional intro media -> primary slot -> Key Ideas -> Activity.
+    // Move Explore Factors + Activity out of the image slot so order is:
+    // Intro → image → Explore Factors → Activity (never nested together).
     var imageInner = image && image.matches && image.matches('.concept-image')
       ? image
       : (image ? (image.querySelector('.concept-image') || image) : null);
+    var factorExplore = imageInner
+      ? imageInner.querySelector(':scope > .b3c2-factor-explore, .b3c2-factor-explore')
+      : panel.querySelector('.b3c2-factor-explore');
+    if(factorExplore && image && factorExplore.parentElement !== panel){
+      if(ideas && ideas.parentNode){
+        ideas.insertAdjacentElement('afterend', factorExplore);
+      } else {
+        image.insertAdjacentElement('afterend', factorExplore);
+      }
+    }
     var embeddedActivities = imageInner
-      ? Array.from(imageInner.querySelectorAll(':scope > .concept-activity-section, :scope > .concept-activity-interactive, :scope > [data-activity]'))
+      ? Array.from(imageInner.querySelectorAll('.concept-activity-section, .concept-activity-interactive, [data-activity]'))
       : [];
+    if(!embeddedActivities.length && factorExplore){
+      embeddedActivities = Array.from(factorExplore.querySelectorAll('.concept-activity-section, .concept-activity-interactive, [data-activity]'));
+    }
     var activityHost = panel.querySelector('[data-concept-activity-flow]');
     if(embeddedActivities.length){
       if(!activityHost){
@@ -9673,10 +9831,11 @@
       guideEl.className = 'activity-mini-guide';
       guideEl.textContent = getActivityMiniGuideText(embeddedActivities[0]);
       activityHost.appendChild(guideEl);
-      if(ideas && ideas.parentNode){
-        ideas.insertAdjacentElement('afterend', activityHost);
-      } else if(image && image.parentNode){
-        image.insertAdjacentElement('afterend', activityHost);
+      var insertAfter = factorExplore && factorExplore.parentNode
+        ? factorExplore
+        : (ideas && ideas.parentNode ? ideas : image);
+      if(insertAfter && insertAfter.parentNode){
+        insertAfter.insertAdjacentElement('afterend', activityHost);
       }
       embeddedActivities.forEach(function(node){
         node.classList.remove('concept-section-card','section-activity');
@@ -9730,6 +9889,18 @@
       return true;
     }
 
+    function isB2LevelAccordionsCompleteM4(panel){
+      if(!panel) return true;
+      var buttons = panel.querySelectorAll(
+        '[data-b2l1-focus-list] .b2l1-item-btn, [data-b2l1-activities-list] .b2l1-item-btn'
+      );
+      if(!buttons.length) return true;
+      for(var i = 0; i < buttons.length; i++){
+        if(!buttons[i].classList.contains('is-complete')) return false;
+      }
+      return true;
+    }
+
 
     function isInPracticeCompleteForPanel(panel){
       if(!panel) return true;
@@ -9773,7 +9944,9 @@
       var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
       var inPracticeOk = isInPracticeCompleteForPanel(panel);
       var activityOk = isConceptActivityCompleteM4(panel);
-      var ready = insightPillarsOk && keyIdeasOk && inPracticeOk && activityOk;
+      var levelAccordionsOk = isB2LevelAccordionsCompleteM4(panel);
+      var factorExploreOk = isB3c2FactorExploreComplete(panel);
+      var ready = insightPillarsOk && keyIdeasOk && inPracticeOk && activityOk && levelAccordionsOk && factorExploreOk;
       var labelNow = getNextActionLabel(block, target);
       var dwellLeft = finishBtn.textContent && finishBtn.textContent.indexOf('Continue in ') === 0;
       if(opts.respectDwell && dwellLeft) return;
@@ -9781,7 +9954,12 @@
         finishBtn.disabled = !ready;
         finishBtn.style.opacity = ready ? '1' : '.55';
         finishBtn.style.cursor = ready ? 'pointer' : 'not-allowed';
-        finishBtn.textContent = !insightPillarsOk ? 'Review all intro cards to continue' : (!keyIdeasOk ? 'Review all Key Ideas to continue' : (!inPracticeOk ? 'Click In Practice to continue' : (!activityOk ? 'Complete the activity first' : labelNow)));
+        finishBtn.textContent = !insightPillarsOk ? 'Review all intro cards to continue'
+          : (!keyIdeasOk ? 'Review all Key Ideas to continue'
+          : (!factorExploreOk ? 'Explore all factors first'
+          : (!inPracticeOk ? 'Click In Practice to continue'
+          : (!activityOk ? 'Complete the activity first'
+          : (!levelAccordionsOk ? 'Open all sections first' : labelNow)))));
       }
     }
 
@@ -9818,6 +9996,8 @@
         : '<div class="key-ideas-action-head"><span class="icon" aria-hidden="true">' + inPracticeActionIconHtml(!!done) + '</span><span class="label">In Practice</span></div><div class="text"></div>';
     }
 
+    var stageIntroCardsComplete = window.__m4StageIntroCardsComplete || (window.__m4StageIntroCardsComplete = {});
+
     function setupStageIntroCards(panel, target, alreadyCompleted){
       if(!panel || !/^b2c[123]$/.test(target || '')) return;
       var cards = panel.querySelectorAll('.stage-intro-card[data-stage-card]');
@@ -9826,11 +10006,16 @@
       if(!cards.length) return;
       if(hint) hint.style.display = '';
       panel.dataset.stageCardsRequired = 'true';
+      var levelIds = block2StageLevels[target] || [];
+      var stageHasProgress = alreadyCompleted ||
+        levelIds.some(function(lid){ return conceptCompletion.block3.has(lid) || isLevelFullyCompleted(lid); }) ||
+        stageIntroCardsComplete[target] === true;
       function syncStageCards(){
         var done = panel.querySelectorAll('.stage-intro-card[data-stage-card].is-complete').length;
         var total = cards.length;
         var allDone = total > 0 && done === total;
         panel.dataset.stageCardsDone = allDone ? 'true' : 'false';
+        if(allDone) stageIntroCardsComplete[target] = true;
         if(levels){
           levels.classList.toggle('is-locked', !allDone);
           levels.querySelectorAll('.concept-square').forEach(function(btn){
@@ -9850,7 +10035,7 @@
         }
       }
       cards.forEach(function(card){
-        if(alreadyCompleted){
+        if(stageHasProgress){
           card.classList.add('is-complete');
           card.setAttribute('aria-pressed', 'true');
         } else {
@@ -9908,7 +10093,7 @@
         button.classList.toggle('active', button.dataset.target === target);
       });
 
-      var alreadyCompleted = (conceptCompletion[block] && conceptCompletion[block].has(target)) || !!opts.resumeHub;
+      var alreadyCompleted = (conceptCompletion[block] && conceptCompletion[block].has(target)) || !!opts.resumeHub || !!opts.preserveStageCards;
       panel.dataset.conceptDwellEnd = alreadyCompleted ? '0' : String(Date.now() + MIN_CONCEPT_DWELL_MS);
       panel.classList.add('show');
       panel.dataset.currentTarget = target;
@@ -10359,7 +10544,7 @@
           const btTarget = button.dataset.target;
           button.classList.toggle('active', btTarget === target);
           button.classList.toggle('visited', conceptCompletion[block].has(btTarget));
-          button.classList.toggle('is-next', !REVIEW_MODE && !!nextNeeded && btTarget === nextNeeded);
+          button.classList.toggle('is-next', !!nextNeeded && btTarget === nextNeeded);
           button.onclick = () => {
             const nextTarget = button.dataset.target;
             if(!nextTarget || !conceptContent[nextTarget]) return;
@@ -10369,7 +10554,9 @@
         });
       }
 
-      if(opts.resumeHub){
+      function markResumeHubComplete(){
+        if(!opts.resumeHub) return;
+        panel.dataset.flowHubTour = '1';
         panel.querySelectorAll('.img-expand-btn').forEach(function(btn){
           btn.setAttribute('data-visual-expanded', 'true');
         });
@@ -10382,7 +10569,9 @@
         panel.dataset.inPracticeRequired = 'false';
         panel.querySelectorAll('.concept-insight-pillar').forEach(function(p){ p.classList.add('clicked'); });
         panel.dataset.insightPillarsDone = 'true';
+        panel.querySelectorAll('.key-idea-item').forEach(function(item){ item.classList.add('clicked'); });
       }
+      markResumeHubComplete();
 
       const backBtn = panel.querySelector('[data-concept-back]');
       if(backBtn){
@@ -10450,10 +10639,7 @@
           }
           var finishLabel = getNextActionLabel(block, target);
           if(alreadyCompleted){
-            finishBtn.disabled = !(keyIdeasOk && insightPillarsOk && inPracticeOk);
-            finishBtn.style.opacity = (keyIdeasOk && insightPillarsOk && inPracticeOk) ? '1' : '.55';
-            finishBtn.style.cursor = (keyIdeasOk && insightPillarsOk && inPracticeOk) ? 'pointer' : 'not-allowed';
-            finishBtn.textContent = !insightPillarsOk ? 'Review all intro cards to continue' : (!keyIdeasOk ? 'Review all Key Ideas to continue' : (inPracticeOk ? finishLabel : 'Click In Practice to continue'));
+            syncConceptFinishBtn(panel, block, target, { force: true });
           } else {
             finishBtn.disabled = true;
             finishBtn.style.opacity = '.55';
@@ -10464,14 +10650,10 @@
               if(left <= 0){
                 clearInterval(conceptDwellTimer);
                 if(!data.requiresFullCarousel){
-                  var inPracticeDoneNow = isInPracticeCompleteForPanel(panel);
-                  var keyIdeasDoneNow = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
-                  var insightPillarsDoneNow = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
-                  finishBtn.disabled = !(inPracticeDoneNow && keyIdeasDoneNow && insightPillarsDoneNow);
-                  finishBtn.style.opacity = (inPracticeDoneNow && keyIdeasDoneNow && insightPillarsDoneNow) ? '1' : '.55';
-                  finishBtn.style.cursor = (inPracticeDoneNow && keyIdeasDoneNow && insightPillarsDoneNow) ? 'pointer' : 'not-allowed';
+                  syncConceptFinishBtn(panel, block, target, { force: true });
+                } else {
+                  finishBtn.textContent = finishLabel;
                 }
-                finishBtn.textContent = (panel.dataset.insightPillarsRequired === 'true' && panel.dataset.insightPillarsDone !== 'true') ? 'Review all intro cards to continue' : ((panel.dataset.keyIdeasRequired === 'true' && panel.dataset.keyIdeasDone !== 'true') ? 'Review all Key Ideas to continue' : ((!isInPracticeCompleteForPanel(panel)) ? 'Click In Practice to continue' : finishLabel));
                 return;
               }
               finishBtn.textContent = 'Continue in ' + left + 's';
@@ -10490,6 +10672,7 @@
       }
 
       setupConceptPanelImageExpandButtons(panel);
+      markResumeHubComplete();
       if(typeof ParentSubconceptLayout !== 'undefined'){
         ParentSubconceptLayout.lockStandardConceptOrder(panel);
       }
@@ -11099,17 +11282,51 @@
       }
     }
 
+    function isB3c2FactorExploreComplete(panel){
+      if(!panel) return true;
+      var wrap = panel.querySelector('[data-b3c2-factor-explore], .b3c2-factor-explore');
+      if(!wrap) return true;
+      var boxes = wrap.querySelectorAll('.b3c2-factor-box[data-factor-key]');
+      if(!boxes.length) return true;
+      for(var i = 0; i < boxes.length; i++){
+        if(!boxes[i].classList.contains('is-complete')) return false;
+      }
+      return true;
+    }
+
     function setupB3c2FactorExplore(panel){
       if(!panel) return;
       var wrap = panel.querySelector('.b3c2-factor-explore');
       if(!wrap || wrap.getAttribute('data-b3c2-explore-bound') === '1') return;
       wrap.setAttribute('data-b3c2-explore-bound','1');
+      panel.dataset.factorExploreRequired = 'true';
+      panel.dataset.factorExploreDone = 'false';
       var boxes = wrap.querySelectorAll('.b3c2-factor-box[data-factor-key]');
       var panelEl = wrap.querySelector('.b3c2-factor-detail-panel');
       var inner = wrap.querySelector('.b3c2-factor-panel-inner');
       var sources = wrap.querySelector('.b3c2-factor-detail-sources');
+      var headIcon = panelEl ? panelEl.querySelector('.b3c2-factor-detail-head img') : null;
+      var headTitle = panelEl ? panelEl.querySelector('.b3c2-factor-panel-title') : null;
       if(!panelEl || !inner || !sources || !boxes.length) return;
       panelEl.setAttribute('aria-live','polite');
+      var reviewed = {};
+
+      function syncExploreDone(){
+        var done = true;
+        boxes.forEach(function(btn){
+          var key = btn.getAttribute('data-factor-key');
+          var sections = reviewed[key] || {};
+          var complete = !!(sections.affects && sections.see && sections.todo);
+          btn.classList.toggle('is-complete', complete);
+          if(!complete) done = false;
+        });
+        panel.dataset.factorExploreDone = done ? 'true' : 'false';
+        syncConceptFinishBtn(panel, panel.dataset.currentBlock, panel.dataset.currentTarget, { force: true });
+        if(window.TrainingFlowGuide && typeof TrainingFlowGuide.refresh === 'function'){
+          try{ window.TrainingFlowGuide.refresh(); }catch(err){}
+        }
+      }
+
       function getSectionText(node, heading){
         if(!node) return '';
         var txt = (node.textContent || '').trim();
@@ -11117,7 +11334,8 @@
         var prefix = new RegExp('^' + heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*', 'i');
         return txt.replace(prefix, '').trim();
       }
-      function buildAccordionHTML(src, factorTitle){
+
+      function buildInfoCardsHTML(src){
         var clone = document.createElement('div');
         clone.innerHTML = src ? (src.innerHTML || '') : '';
         var pNodes = Array.from(clone.querySelectorAll('p'));
@@ -11130,61 +11348,49 @@
         var doText = getSectionText(doP, 'What to do');
         var seeHtml = seeList ? seeList.innerHTML : '';
         var sections = [
-          { key:'affects', icon:'🎯', label:'What this affects', body: affectsText ? ('<p>' + affectsText + '</p>') : '<p>No details provided.</p>' },
-          { key:'see', icon:'👁', label:'What you might see', body: seeHtml ? ('<ul>' + seeHtml + '</ul>') : '<p>No details provided.</p>' },
-          { key:'todo', icon:'⚙', label:'What to do', body: doText ? ('<p>' + doText + '</p>') : '<p>No details provided.</p>' }
+          { key:'affects', label:'What this affects', body: affectsText ? ('<p>' + affectsText + '</p>') : '<p>No details provided.</p>' },
+          { key:'see', label:'What you might see', body: seeHtml ? ('<ul>' + seeHtml + '</ul>') : '<p>No details provided.</p>' },
+          { key:'todo', label:'What to do', body: doText ? ('<p>' + doText + '</p>') : '<p>No details provided.</p>' }
         ];
-        return (factorTitle ? ('<h5 class="b3c2-factor-panel-title">' + factorTitle + '</h5>') : '') +
-          '<div class="b3c2-factor-acc">' +
-          sections.map(function(s){
-            return '<div class="b3c2-factor-acc-item" data-acc-item>' +
-              '<button type="button" class="b3c2-factor-acc-trigger" data-acc-trigger="' + s.key + '" aria-expanded="false">' +
-                '<span class="b3c2-factor-acc-label"><span class="b3c2-factor-acc-icon" aria-hidden="true">' + s.icon + '</span><span>' + s.label + '</span></span>' +
-                '<span class="b3c2-factor-acc-chevron" aria-hidden="true">▾</span>' +
-              '</button>' +
-              '<div class="b3c2-factor-acc-panel" hidden><div class="b3c2-factor-acc-content">' + s.body + '</div>' +
-            '</div>';
-          }).join('') +
-          '</div>';
+        return '<div class="b3c2-factor-info-grid">' + sections.map(function(s){
+          return '<button type="button" class="b3c2-factor-info-card" data-info-key="' + s.key + '" aria-expanded="false">' +
+            '<span class="b3c2-factor-info-trigger">' +
+              '<span class="b3c2-factor-info-kicker"><span class="b3c2-factor-info-dot" aria-hidden="true"></span><span>' + s.label + '</span></span>' +
+              '<span class="b3c2-factor-info-chevron" aria-hidden="true">▾</span>' +
+            '</span>' +
+            '<span class="b3c2-factor-info-body">' + s.body + '</span>' +
+          '</button>';
+        }).join('') + '</div>';
       }
-      function bindAccordion(root){
-        var items = root.querySelectorAll('[data-acc-item]');
-        if(!items.length) return;
-        function closeItem(item){
-          var trigger = item.querySelector('[data-acc-trigger]');
-          var panelNode = item.querySelector('.b3c2-factor-acc-panel');
-          item.classList.remove('is-open');
-          if(trigger) trigger.setAttribute('aria-expanded', 'false');
-          if(panelNode){
-            panelNode.style.maxHeight = '0px';
-            panelNode.hidden = true;
-          }
-        }
-        function openItem(item){
-          var trigger = item.querySelector('[data-acc-trigger]');
-          var panelNode = item.querySelector('.b3c2-factor-acc-panel');
-          item.classList.add('is-open');
-          if(trigger) trigger.setAttribute('aria-expanded', 'true');
-          if(panelNode){
-            panelNode.hidden = false;
-            panelNode.style.maxHeight = panelNode.scrollHeight + 'px';
-          }
-        }
-        items.forEach(function(item){
-          closeItem(item);
-          var trigger = item.querySelector('[data-acc-trigger]');
-          if(!trigger) return;
-          trigger.addEventListener('click', function(){
-            var isOpen = item.classList.contains('is-open');
-            items.forEach(function(other){ closeItem(other); });
-            if(!isOpen) openItem(item);
+
+      function bindInfoCards(factorKey){
+        var cards = inner.querySelectorAll('.b3c2-factor-info-card[data-info-key]');
+        if(!reviewed[factorKey]) reviewed[factorKey] = {};
+        cards.forEach(function(card){
+          var key = card.getAttribute('data-info-key');
+          if(reviewed[factorKey][key]) card.classList.add('is-done');
+          card.addEventListener('click', function(){
+            var wasOpen = card.classList.contains('is-open');
+            cards.forEach(function(other){
+              other.classList.remove('is-open');
+              other.setAttribute('aria-expanded', 'false');
+            });
+            if(!wasOpen){
+              card.classList.add('is-open');
+              card.setAttribute('aria-expanded', 'true');
+            }
+            reviewed[factorKey][key] = true;
+            card.classList.add('is-done');
+            syncExploreDone();
           });
         });
       }
+
       boxes.forEach(function(btn){
         btn.addEventListener('click', function(){
           var key = btn.getAttribute('data-factor-key');
           var titleEl = btn.querySelector('.b3c2-factor-box-title');
+          var iconEl = btn.querySelector('.b3c2-factor-box-icon img');
           var factorTitle = titleEl ? titleEl.textContent.trim() : '';
           boxes.forEach(function(b){
             var on = b === btn;
@@ -11193,15 +11399,22 @@
           });
           var src = key ? sources.querySelector('[data-factor-detail="' + key + '"]') : null;
           if(src && (src.innerHTML || '').trim()){
-            inner.innerHTML = buildAccordionHTML(src, factorTitle);
-            bindAccordion(inner);
+            if(headTitle) headTitle.textContent = factorTitle;
+            if(headIcon){
+              headIcon.src = iconEl ? iconEl.getAttribute('src') : '';
+              headIcon.alt = '';
+            }
+            inner.innerHTML = buildInfoCardsHTML(src);
+            bindInfoCards(key);
             panelEl.hidden = false;
           } else {
             inner.innerHTML = '';
             panelEl.hidden = true;
           }
+          syncExploreDone();
         });
       });
+      syncExploreDone();
     }
 
     function setupBlock3ConceptActivities(panel){
@@ -11596,6 +11809,7 @@
                   btn.classList.add('is-complete');
                   focusData[key].completed = true;
                   focusOpen[key] = true;
+                  syncConceptFinishBtn(panel, block, target, { force: true });
                 }
               });
             });
@@ -11637,11 +11851,13 @@
             detail.innerHTML = '<p class="b2l1-detail-section">' + data.text + '</p>';
             detail.hidden = false;
             data.completed = true;
+            syncConceptFinishBtn(panel, block, target, { force: true });
           };
         });
       }
       bindFocus();
       bindActivities();
+      syncConceptFinishBtn(panel, block, target, { force: true });
     }
 
     function setupReflection(block, questionName){
@@ -12031,16 +12247,16 @@
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260713practice13"></script>
+<script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260707"></script>
-  <script src="/shared/concept-insight-intro.js?v=20260622"></script>
+<script src="/shared/concept-section-icons.js?v=20260714core1"></script>
+  <script src="/shared/concept-insight-intro.js?v=20260714core1"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260714pjmtour1"></script>
+  <script src="/shared/training-flow-guide.js?v=20260714m5flow1"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -12397,7 +12613,7 @@
     })();
   </script>
   
-  <script src="/shared/programme-journey-map.js?v=20260714pjmtour1"></script>
+  <script src="/shared/programme-journey-map.js?v=20260714pjmpulse2"></script>
   <script src="/shared/concept-visual-expand-system.js?v=20260710stagecards"></script>
 </body>
 </html>

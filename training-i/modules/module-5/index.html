@@ -12,10 +12,9 @@
   @import url('/assets/module-roadmap.css?v=20260713roadmap2');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
-  @import url('/assets/concept-insight-intro.css?v=20260611a');
-  @import url('/assets/training-flow-guide.css?v=20260713dualring1');
-  @import url('/assets/module-block-accordion.css?v=20260713flowaudit1');
-
+  @import url('/assets/concept-insight-intro.css?v=20260714core1');
+  @import url('/assets/training-flow-guide.css?v=20260714m5flow1');
+  @import url('/assets/module-block-accordion.css?v=20260714m5flow1');
   :root{
       --blue:#2d84b3;
       --blueSoft:#89b5c1;
@@ -1751,9 +1750,9 @@
     -webkit-text-fill-color:#fff;
     }
     .concept-points-box .key-idea-item.clicked::after{
-      content:' ✓';
+      content:'\2713';
       font-weight:700;
-      color:var(--blue);
+      color:var(--blue, #2d84b3);
       margin-left:auto;
       flex-shrink:0;
     }
@@ -2553,16 +2552,23 @@
       overflow:hidden;
       text-align:center;
     }
+    /* Nested leaf visuals: keep the same framed padding as overview cards (no edge-bleed) */
     .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-frame,
     .portal .concept-panel.m5-nested-active .b2-screens .b2c2-direct-image,
     .portal .concept-panel.m5-nested-active .b2-screens .b2c3-direct-image,
     .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card > .m5-nested-visual-frame,
     .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card > .concept-activity-box:not(:has(.b2pl-cat-grid)){
-      padding:0;
-      background:transparent;
-      border:none;
-      box-shadow:none;
-      margin-bottom:12px;
+      padding:10px;
+      margin-bottom:14px;
+      background:linear-gradient(180deg,#f8fbfd 0%,#fff 100%);
+      border:1px solid color-mix(in srgb, var(--b2c2-accent, var(--b2c3-accent, #2d84b3)) 16%, rgba(45,132,179,.1));
+      border-radius:12px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
+    }
+    .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-shell,
+    .portal .concept-panel.m5-nested-active .b2-screens .m5-screen-visual-card:not(:has(.b2pl-cat-grid)),
+    .portal .concept-panel.m5-nested-active .b2-screens .m5-folder-overview-card{
+      border-color:color-mix(in srgb, var(--b2c2-accent, var(--b2c3-accent, #2d84b3)) 22%, rgba(45,132,179,.12));
     }
     .portal .concept-panel.m5-nested-active .b2-screens .entry-exit-fan-grid{
       max-width:min(480px,100%);
@@ -2749,6 +2755,44 @@
     .b2pl-cathead--f4-1{ color:#7B6B9E !important; }
     .b2pl-cathead--f4-2{ color:#F0E65C; }
     .b2pl-cathead--f4-3{ color:#8BAF6A; }
+
+    /* Folder theme tokens on nested screens (titles / rails follow folder, not block purple) */
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f1"],
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f1-"]{ --b2c2-accent:#D4607A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f2"],
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f2-"]{ --b2c2-accent:#4A8C8C; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f3"],
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f3-"]{ --b2c2-accent:#B8732A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f4"],
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f4-"]{ --b2c2-accent:#C9A227; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f5"],
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f5-"]{ --b2c2-accent:#333333; }
+
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-title-text,
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-title-main,
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-panel-title,
+    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root] .concept-title-text,
+    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root] .concept-panel-title{
+      color:var(--m5-folder-accent, var(--b2c2-accent, var(--b2c3-accent, #2d84b3))) !important;
+    }
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-title-icon{
+      color:var(--m5-folder-accent, var(--b2c2-accent, #2d84b3)) !important;
+      background:linear-gradient(180deg, rgba(255,255,255,.94) 0%, color-mix(in srgb, var(--m5-folder-accent, #2d84b3) 12%, #fff) 100%) !important;
+      box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--m5-folder-accent, #2d84b3) 22%, transparent), 0 8px 18px rgba(18,50,71,.08) !important;
+    }
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .b2pl-lvl-btn{
+      border-color:color-mix(in srgb, var(--b2c2-accent, var(--m5-folder-accent, #2d84b3)) 35%, rgba(45,132,179,.16));
+    }
+    /* Key Ideas stay brand blue inside folders (never folder pink / block purple) */
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4,
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4.concept-section-head,
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4 .concept-section-head,
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box > h4 span:last-child{
+      color:#2d84b3 !important;
+    }
+    .portal .concept-panel.m5-nested-active .folder-page .concept-points-box{
+      --key-idea-badge:#2d84b3;
+    }
 
     .b2-screens .folder-page p,
     .b2-screens .folder-page .concept-activity-box p{
@@ -3464,10 +3508,10 @@
     #quiz .quiz-inline .feedback.correct{background:#e8f7ef;color:#1b7c52;display:flex;align-items:center;gap:10px;}
     #quiz .quiz-inline .feedback.incorrect{background:#fde8e8;color:#c53030;display:flex;align-items:center;gap:10px;}
     #quiz .quiz-inline .match-game{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
-    #quiz .quiz-inline .match-slots .match-slot{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
+    #quiz .quiz-inline .match-slots .match-slot{display:grid;grid-template-columns:13rem minmax(0,1fr);align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
     #quiz .quiz-inline .match-slots .match-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
     #quiz .quiz-inline .match-slots .match-slot.filled{border-style:solid;border-color:#c5e0ed;}
-    #quiz .quiz-inline .slot-label{font-weight:700;color:var(--ink);min-width:100px;flex-shrink:0;}
+    #quiz .quiz-inline .slot-label{font-weight:700;color:var(--ink);min-width:0;max-width:none;word-break:normal;overflow-wrap:normal;hyphens:none;}
     #quiz .quiz-inline .slot-drop{flex:1;min-height:24px;}
     #quiz .quiz-inline .slot-drop .match-chip{margin:0;}
     #quiz .quiz-inline .match-pool{display:flex;flex-direction:column;gap:12px;padding:12px;border-radius:14px;min-height:120px;}
@@ -3733,13 +3777,13 @@
       text-align:left !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260611a" />
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260713blockchrome3" />
+  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260714core1" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714core1" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
   <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260713pulse2" />
-  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714statecols2" />
+  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714subhead1" />
 </head>
 <body>
   <div class="portal">
@@ -8019,19 +8063,19 @@
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260713practice13"></script>
+<script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260707"></script>
-  <script src="/shared/parent-subconcept-layout.js?v=20260713parent1"></script>
+<script src="/shared/concept-section-icons.js?v=20260714core1"></script>
+  <script src="/shared/parent-subconcept-layout.js?v=20260714subhead1"></script>
   <script src="/shared/concept-insight-nested-m5.js?v=20260610"></script>
-  <script src="/shared/concept-insight-intro.js?v=20260610"></script>
+  <script src="/shared/concept-insight-intro.js?v=20260714core1"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
   <script src="/shared/guided-concept-layout.js?v=20260821"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713startquiz1"></script>
+  <script src="/shared/training-flow-guide.js?v=20260714m5flow1"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

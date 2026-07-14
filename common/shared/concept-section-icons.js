@@ -5,7 +5,8 @@
     keyIdeas: 'Key Ideas for Instructors',
     activity: 'Activity \u2014 Apply your understanding',
     visual: 'Visual Image',
-    intro: 'Introduction'
+    intro: 'Introduction',
+    coreConcept: 'Core Concept'
   };
 
   /* Lightbulb ? insight / key ideas */
@@ -39,6 +40,15 @@
       '<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>' +
     '</svg>';
 
+  /* Faceted diamond ? core concept intro */
+  var CORE_CONCEPT_SVG =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M12 3 20 8v8l-8 5-8-5V8l8-5z"/>' +
+      '<path d="M12 12 20 8"/>' +
+      '<path d="M12 12v9"/>' +
+      '<path d="M12 12 4 8"/>' +
+    '</svg>';
+
   var MATCH_LEFT_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<path d="M8 6h13"/>' +
@@ -69,6 +79,7 @@
     if (type === 'activity') return ACTIVITY_SVG;
     if (type === 'visual') return VISUAL_SVG;
     if (type === 'intro') return INTRO_SVG;
+    if (type === 'coreConcept') return CORE_CONCEPT_SVG;
     return '';
   }
 
@@ -77,6 +88,7 @@
     if (type === 'activity') return 'icon--activity';
     if (type === 'visual') return 'icon--visual';
     if (type === 'intro') return 'icon--intro';
+    if (type === 'coreConcept') return 'icon--core-concept';
     return '';
   }
 
@@ -84,6 +96,7 @@
     if (type === 'activity') return ' concept-section-head--activity';
     if (type === 'visual') return ' concept-section-head--visual';
     if (type === 'keyIdeas') return ' concept-section-head--key-ideas';
+    if (type === 'coreConcept') return ' concept-section-head--core-concept';
     return '';
   }
 
@@ -93,11 +106,13 @@
     if (iconEl.classList.contains('icon--activity')) return 'activity';
     if (iconEl.classList.contains('icon--visual')) return 'visual';
     if (iconEl.classList.contains('icon--intro')) return 'intro';
+    if (iconEl.classList.contains('icon--core-concept')) return 'coreConcept';
 
     var text = (iconEl.textContent || '').trim();
     if (EMOJI_TYPES[text]) return EMOJI_TYPES[text];
 
     var headText = ((headEl && headEl.textContent) || '').toLowerCase();
+    if (/core concept/.test(headText)) return 'coreConcept';
     if (/key ideas/.test(headText)) return 'keyIdeas';
     if (/activity|check your understanding|apply your understanding/.test(headText)) return 'activity';
     if (/visual|concept image/.test(headText)) return 'visual';
@@ -148,7 +163,8 @@
     (root || document).querySelectorAll('.concept-section-head, .concept-intro-kicker').forEach(function (head) {
       var text = (head.textContent || '').toLowerCase().replace(/\s+/g, ' ').trim();
       var type = '';
-      if (/key ideas for instructors/.test(text)) type = 'keyIdeas';
+      if (/^core concept$/.test(text.replace(/[^\w\s]/g, '').trim())) type = 'coreConcept';
+      else if (/key ideas for instructors/.test(text)) type = 'keyIdeas';
       else if (/^visual image|^visual$|concept image/.test(text)) type = 'visual';
       else if (/activity|apply your understanding/.test(text)) type = 'activity';
       else if (/^introduction$|^intro$/.test(text.replace(/[^\w\s\u2014-]/g, '').trim())) type = 'intro';

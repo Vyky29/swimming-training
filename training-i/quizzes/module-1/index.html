@@ -92,13 +92,13 @@
     .match-game{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
     .match-column{margin-bottom:0;}
     .match-slots .match-slot{
-      display:flex;align-items:center;gap:12px;margin-bottom:14px;
+      display:grid;grid-template-columns:13rem minmax(0,1fr);align-items:center;gap:12px;margin-bottom:14px;
       padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;
       min-height:56px;transition:var(--transition);
     }
     .match-slots .match-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
     .match-slots .match-slot.filled{border-style:solid;border-color:#c5e0ed;}
-    .slot-label{font-weight:700;color:var(--ink);min-width:100px;flex-shrink:0;}
+    .slot-label{font-weight:700;color:var(--ink);min-width:0;max-width:none;word-break:normal;overflow-wrap:normal;hyphens:none;}
     .slot-drop{flex:1;min-height:24px;}
     .slot-drop .match-chip{margin:0;}
     .match-pool{display:flex;flex-direction:column;gap:12px;padding:12px;border-radius:14px;min-height:120px;transition:var(--transition);}
@@ -138,7 +138,7 @@
       .match-game{grid-template-columns:1fr;}
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260622" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714keyidea3" />
 </head>
 <body>
   <div class="quiz-layout">

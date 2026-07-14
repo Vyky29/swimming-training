@@ -19,6 +19,20 @@ html[data-guided-block-variant="core"]{ --flow-accent-rgb: 123, 47, 161; }
 html[data-guided-block-variant="pathway"]{ --flow-accent-rgb: 26, 92, 56; }
 html[data-guided-block-variant="progress"]{ --flow-accent-rgb: 212, 168, 35; }
 
+/* Inside a coloured M5 folder/leaf: pulse follows folder accent (not block purple) */
+html[data-guided-m5-folder]{
+  --flow-accent-rgb: var(--flow-m5-accent-rgb, var(--flow-accent-rgb));
+}
+
+/* Start Module / Journey / Outcomes / Inside This Module — shared blue + crisp white edge */
+html[data-guided-phase="preamble"]{
+  --flow-accent-rgb: 36, 118, 168;
+  --flow-pulse-ring-rgb: 255, 255, 255;
+  --flow-pulse-inset: 1;
+  --flow-pulse-halo: .36;
+  --flow-pulse-glow: .3;
+}
+
 /* Place = color. Role tones all inherit the active place accent (block/stage/M5). */
 html[data-guided-flow="true"]{
   --flow-tone-read-rgb: var(--flow-accent-rgb);
@@ -83,7 +97,11 @@ html[data-guided-flow="true"]{
 .flow-guide-pulse.recap-takeaway-card,
 .flow-guide-pulse.recap-card,
 .flow-guide-pulse.pjm-level-card,
-.flow-guide-pulse.pjm-ocean-node{
+.flow-guide-pulse.pjm-ocean-node,
+.flow-guide-pulse.b2l1-item-btn,
+.flow-guide-pulse.b2l1-point-btn,
+.flow-guide-pulse.b3c2-factor-box,
+.flow-guide-pulse.b3c2-factor-info-card{
   border-radius: 12px;
 }
 
@@ -123,6 +141,29 @@ html[data-guided-flow="true"]{
       inset 0 0 0 4.5px rgba(var(--_pulse-rgb), .62),
       0 0 0 7px rgba(var(--_pulse-rgb), calc(var(--flow-pulse-halo) + .08)),
       0 0 26px rgba(var(--_pulse-rgb), var(--flow-pulse-glow));
+  }
+}
+
+/* White outer line so preamble blue stands out on blue section chrome / Start buttons */
+html[data-guided-phase="preamble"] .flow-guide-pulse{
+  animation-name: flowGuidePulsePreamble;
+}
+@keyframes flowGuidePulsePreamble{
+  0%, 100%{
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, .92),
+      inset 0 0 0 2px rgba(255, 255, 255, .88),
+      inset 0 0 0 4px rgba(var(--_pulse-rgb), .48),
+      0 0 0 5px rgba(var(--_pulse-rgb), .22),
+      0 0 18px rgba(var(--_pulse-rgb), .16);
+  }
+  50%{
+    box-shadow:
+      0 0 0 2.5px rgba(255, 255, 255, 1),
+      inset 0 0 0 2.5px rgba(255, 255, 255, 1),
+      inset 0 0 0 5px rgba(var(--_pulse-rgb), .72),
+      0 0 0 9px rgba(var(--_pulse-rgb), .34),
+      0 0 28px rgba(var(--_pulse-rgb), .34);
   }
 }
 
@@ -180,6 +221,10 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
   z-index: 50;
   animation: flowGuideRing 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
 }
+.flow-guide-block-check-ring{
+  inset: -8px;
+  border-radius: 20px;
+}
 .flow-guide-in-practice-ring{
   inset: -6px;
   border-radius: 22px;
@@ -229,10 +274,22 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
 .flow-guide-block-intro-ring{
   --_pulse-rgb: var(--flow-accent-rgb);
 }
-.flow-guide-reflection-ring,
-.flow-guide-block-check-ring{
+.flow-guide-reflection-ring{
   --_pulse-rgb: var(--flow-accent-rgb);
   border-radius: 16px;
+}
+.flow-guide-block-check-ring{
+  --_pulse-rgb: var(--flow-accent-rgb);
+  border-radius: 20px;
+}
+
+/* Completion checks: keep label clear of the dual pulse ring */
+.portal .check-item.flow-guide-pulse,
+.portal .check-item.flow-guide-pulse--ring-host,
+.flow-guide-pulse.check-item.flow-guide-pulse--ring-host{
+  padding: 20px 22px !important;
+  margin-top: 22px;
+  margin-bottom: 8px;
 }
 .flow-guide-m5-nav-ring{
   --_pulse-rgb: var(--flow-accent-rgb);
@@ -459,5 +516,12 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
       inset 0 0 0 2px rgba(var(--flow-pulse-ring-rgb, 255, 255, 255), .95),
       inset 0 0 0 3.5px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .5),
       0 0 0 4px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .18) !important;
+  }
+  html[data-guided-phase="preamble"] .flow-guide-pulse{
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, .95),
+      inset 0 0 0 2px rgba(255, 255, 255, .9),
+      inset 0 0 0 4px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .55),
+      0 0 0 6px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .22) !important;
   }
 }

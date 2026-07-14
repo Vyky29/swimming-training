@@ -167,6 +167,34 @@
   border:0;
   background:transparent;
 }
+
+/* Core Concept: same section chrome as Key Ideas / Visual / Activity */
+.portal .concept-section-card.section-core-concept,
+.concept-intro-slot .concept-section-card.section-core-concept{
+  margin:0 0 14px;
+  padding:14px 16px 16px;
+  border:1px solid #d5e3ec;
+  border-radius:18px;
+  background:linear-gradient(180deg,#f8fbfd 0%,#ffffff 100%);
+  box-shadow:none;
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+}
+.portal .section-core-concept > .concept-section-head,
+.concept-intro-slot .section-core-concept > .concept-section-head{
+  margin:0 0 12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-align:left;
+}
+.portal .section-core-concept .concept-insight-intro,
+.concept-intro-slot .section-core-concept .concept-insight-intro{
+  margin:0 auto;
+  padding:0;
+  max-width:54rem;
+}
 .portal .folder-page > .concept-intro-slot.concept-insight-intro-shell{
   margin:0 0 16px;
   padding:0;

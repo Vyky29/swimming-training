@@ -1,4 +1,4 @@
-/* The clubSENsational Swimming Journey — Module 4 Block 3
+/* The clubSENsational Swimming Journey â€” Module 4 Block 3
    Three stage worlds + six adaptive levels (integrated pathway map) */
 
 .swimming-journey-section{
@@ -116,7 +116,7 @@
 .pjm-stage--explore.is-highlighted{ border-color:rgba(196,127,18,.4); }
 .pjm-stage--master.is-highlighted{ border-color:rgba(45,132,179,.4); }
 
-/* World hero — photo + animals */
+/* World hero â€” photo + animals */
 .pjm-stage-world{
   position:relative;
   min-height:210px;
@@ -553,11 +553,18 @@
   .pjm-stage-world-img{ transition:none; }
 }
 
-/* Guided tour — tap levels 1?6 before opening stage tiles */
+/* Guided tour â€” tap levels 1â†’6 before opening stage tiles */
 .pjm-level-card.is-tour-visited,
 .pjm-ocean-node.is-tour-visited{
   outline:2px solid rgba(204,149,43,.55);
   outline-offset:2px;
+  opacity:1 !important;
+  filter:none !important;
+}
+.pjm-level-card.is-complete,
+.pjm-ocean-node.is-complete{
+  opacity:1 !important;
+  filter:none !important;
 }
 .pjm-level-card.is-tour-locked,
 .pjm-ocean-node.is-tour-locked{
@@ -568,6 +575,34 @@
 .pjm-ocean-node.is-tour-next{
   opacity:1;
   filter:none;
+}
+/* Visited/complete always beat hover-dimming */
+.pjm-level-card.is-tour-visited.is-dimmed,
+.pjm-ocean-node.is-tour-visited.is-dimmed,
+.pjm-level-card.is-complete.is-dimmed,
+.pjm-ocean-node.is-complete.is-dimmed{
+  opacity:1 !important;
+  filter:none !important;
+}
+
+/* Guided pulse on the map uses each level's own accent (not pathway-block green) */
+.programme-journey-map .pjm-level-card[data-level="1"].flow-guide-pulse,
+.programme-journey-map .pjm-ocean-node[data-level="1"].flow-guide-pulse,
+.programme-journey-map .pjm-level-card[data-level="2"].flow-guide-pulse,
+.programme-journey-map .pjm-ocean-node[data-level="2"].flow-guide-pulse{
+  --_pulse-rgb: 22, 138, 74;
+}
+.programme-journey-map .pjm-level-card[data-level="3"].flow-guide-pulse,
+.programme-journey-map .pjm-ocean-node[data-level="3"].flow-guide-pulse,
+.programme-journey-map .pjm-level-card[data-level="4"].flow-guide-pulse,
+.programme-journey-map .pjm-ocean-node[data-level="4"].flow-guide-pulse{
+  --_pulse-rgb: 196, 127, 18;
+}
+.programme-journey-map .pjm-level-card[data-level="5"].flow-guide-pulse,
+.programme-journey-map .pjm-ocean-node[data-level="5"].flow-guide-pulse,
+.programme-journey-map .pjm-level-card[data-level="6"].flow-guide-pulse,
+.programme-journey-map .pjm-ocean-node[data-level="6"].flow-guide-pulse{
+  --_pulse-rgb: 45, 132, 179;
 }
 .concept-grid.is-pjm-tour-locked .concept-square{
   opacity:.55;

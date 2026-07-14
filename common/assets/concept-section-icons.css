@@ -6,6 +6,7 @@
 .portal .concept-section-head .icon.icon--key-ideas,
 .portal .concept-section-head .icon.icon--activity,
 .portal .concept-section-head .icon.icon--visual,
+.portal .concept-section-head .icon.icon--core-concept,
 .portal .concept-intro-kicker .icon.icon--intro {
   width: 28px !important;
   height: 28px !important;
@@ -23,6 +24,7 @@
 .portal .concept-section-head .icon.icon--key-ideas svg,
 .portal .concept-section-head .icon.icon--activity svg,
 .portal .concept-section-head .icon.icon--visual svg,
+.portal .concept-section-head .icon.icon--core-concept svg,
 .portal .concept-intro-kicker .icon.icon--intro svg {
   width: 16px !important;
   height: 16px !important;
@@ -49,6 +51,12 @@
   box-shadow: none;
 }
 
+.portal .concept-section-head .icon--core-concept {
+  background: linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(45, 132, 179, .22);
+}
+
 .portal .concept-intro-kicker .icon--intro {
   background: linear-gradient(145deg, rgba(45, 132, 179, .16) 0%, rgba(45, 132, 179, .08) 100%);
   color: #1f6f97;
@@ -71,6 +79,12 @@
 }
 
 .portal .concept-section-head--key-ideas {
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.portal .concept-section-head--core-concept {
   letter-spacing: 0.06em;
   font-size: 0.78rem;
   font-weight: 800;

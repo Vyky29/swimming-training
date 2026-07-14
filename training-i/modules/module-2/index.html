@@ -12,10 +12,9 @@
   @import url('/assets/module-roadmap.css?v=20260713roadmap2');
   @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
-  @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260713dualring1');
-  @import url('/assets/module-block-accordion.css?v=20260713flowaudit1');
-
+  @import url('/assets/concept-insight-intro.css?v=20260714core1');
+  @import url('/assets/training-flow-guide.css?v=20260714m5flow1');
+  @import url('/assets/module-block-accordion.css?v=20260714m5flow1');
   :root{
     --blue:#2d84b3;
     --blueSoft:#89b5c1;
@@ -1509,9 +1508,9 @@
     -webkit-text-fill-color:#fff;
   }
   .concept-points-box .key-idea-item.clicked::after{
-    content:' ✓';
+    content:'¹3';
     font-weight:700;
-    color:var(--blue);
+    color:var(--blue, #2d84b3);
     margin-left:auto;
     flex-shrink:0;
   }
@@ -3676,11 +3675,11 @@
   #quiz .quiz-inline .feedback.correct{background:#edf6fb;color:#457B9D;display:flex;align-items:center;gap:10px;}
   #quiz .quiz-inline .feedback.incorrect{background:#fde8e8;color:#c53030;display:flex;align-items:center;gap:10px;}
   #quiz .quiz-inline .match-game{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
-  #quiz .quiz-inline .match-slots .match-slot{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;min-width:0;max-width:100%;box-sizing:border-box;transition:var(--transition);}
+  #quiz .quiz-inline .match-slots .match-slot{display:grid;grid-template-columns:13rem minmax(0,1fr);align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;min-width:0;max-width:100%;box-sizing:border-box;transition:var(--transition);}
   #quiz .quiz-inline .match-slots .match-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
   #quiz .quiz-inline .match-slots .match-slot.filled{border-style:solid;border-color:#c5e0ed;}
-  #quiz .quiz-inline .slot-label{font-weight:700;color:var(--ink);min-width:0;max-width:42%;flex:0 1 auto;word-wrap:break-word;overflow-wrap:break-word;}
-  #quiz .quiz-inline .slot-drop{flex:1 1 0;min-width:0;min-height:24px;}
+  #quiz .quiz-inline .slot-label{font-weight:700;color:var(--ink);min-width:0;max-width:none;word-break:normal;overflow-wrap:normal;hyphens:none;}
+  #quiz .quiz-inline .slot-drop{min-width:0;min-height:24px;}
   #quiz .quiz-inline .match-pool{display:flex;flex-direction:column;gap:12px;padding:12px;border-radius:14px;min-height:120px;}
   #quiz .quiz-inline .match-pool.drag-over{background:#edf6fb;}
   #quiz .quiz-inline .match-chip{padding:14px 18px;background:#fff;border:2px solid var(--blue);border-radius:12px;color:var(--blue);font-weight:600;cursor:pointer;user-select:none;max-width:100%;box-sizing:border-box;white-space:normal;word-wrap:break-word;overflow-wrap:break-word;}
@@ -3708,12 +3707,12 @@
     min-width:0;
   }
 </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260713blockchrome3" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714core1" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
   <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260713pulse2" />
-  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714statecols2" />
+  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714subhead1" />
 </head>
 <body>
   <div class="portal">
@@ -4491,7 +4490,7 @@
     </div>
   </div>
 
-  <script src="/shared/parent-subconcept-layout.js?v=20260713parent1"></script>
+  <script src="/shared/parent-subconcept-layout.js?v=20260714subhead1"></script>
     <script src="/shared/module-block-accordion.js?v=20260713flowaudit1"></script>
 <script>
     function escapeHtml(str){
@@ -4853,11 +4852,13 @@
           'In practice: Identify the swimmer\'s state before adapting your approach.'
         ],
         imageHTML: '<img src="/assets/images/training-i/m2/m2-b2c2-overview-emotional-states.png" alt="Infographic: overview of emotional state — calm, alert, overloaded" />',
+        parentSubconceptTitle: 'Explore each emotional state',
+        parentSubconceptLead: 'Tap one to open it.',
         parentSubconceptNavHTML: '<div class="concept-image"><div class="concept-grid concept-grid--factors" data-concept-grid="block2">' +
           '<button type="button" class="concept-square concept-square--state-calm" data-target="b2c2_calm">Calm</button>' +
           '<button type="button" class="concept-square concept-square--state-alert" data-target="b2c2_alert">Alert</button>' +
           '<button type="button" class="concept-square concept-square--state-overloaded" data-target="b2c2_overloaded">Overloaded</button>' +
-          '</div>'
+          '</div></div>'
       },
       b2c2_calm: {
         title: 'Calm',
@@ -4921,11 +4922,13 @@
           '<p>These influences do not act in isolation, and small changes in one area can affect how the swimmer feels and responds.</p>' +
           '<p>Understanding these categories helps instructors move from reacting to behaviour to understanding it.</p>',
         imageHTML: '<img src="/assets/images/training-i/m2/m2-b3c2-factors-that-shape-emotional-state.png" alt="Infographic: three factors overview — water, environment, internal" />',
+        parentSubconceptTitle: 'Explore each factor',
+        parentSubconceptLead: 'Tap one to open it.',
         parentSubconceptNavHTML: '<div class="concept-image"><div class="concept-grid concept-grid--factors" data-concept-grid="block3">' +
           '<button type="button" class="concept-square concept-square--factor-water" data-target="b3c2_water">Water-Based</button>' +
           '<button type="button" class="concept-square concept-square--factor-env" data-target="b3c2_env">Environmental</button>' +
           '<button type="button" class="concept-square concept-square--factor-internal" data-target="b3c2_internal">Internal</button>' +
-          '</div>'
+          '</div></div>'
       },
       b3c2_env: {
         title: 'Environmental',
@@ -6453,7 +6456,7 @@
           var t = btn.getAttribute('data-target');
           var done = viewed.has(t);
           btn.classList.toggle('visited', done);
-          btn.classList.toggle('is-next', !REVIEW_MODE && !!nextNeeded && t === nextNeeded);
+          btn.classList.toggle('is-next', !!nextNeeded && t === nextNeeded);
           btn.classList.remove('is-locked');
           btn.addEventListener('click', function(e){
             e.preventDefault();
@@ -6464,7 +6467,9 @@
         });
       }
 
-      if(opts.resumeHub){
+      function markResumeHubComplete(){
+        if(!opts.resumeHub) return;
+        panel.dataset.flowHubTour = '1';
         panel.querySelectorAll('.img-expand-btn').forEach(function(btn){
           btn.setAttribute('data-visual-expanded', 'true');
         });
@@ -6477,7 +6482,9 @@
         panel.dataset.inPracticeRequired = 'false';
         panel.querySelectorAll('.concept-insight-pillar').forEach(function(p){ p.classList.add('clicked'); });
         panel.dataset.insightPillarsDone = 'true';
+        panel.querySelectorAll('.key-idea-item').forEach(function(item){ item.classList.add('clicked'); });
       }
+      markResumeHubComplete();
 
       const ttsBtn = panel.querySelector('[data-concept-tts]');
       const ttsStopBtn = panel.querySelector('[data-concept-tts-stop]');
@@ -6596,6 +6603,8 @@
       if(window.ConceptVisualExpand){
         ConceptVisualExpand.wire(panel, { panel: panel });
       }
+      // Wire recreates expand buttons — re-apply resume flags so guide pulses next state/factor
+      markResumeHubComplete();
       if(typeof ParentSubconceptLayout !== 'undefined'){
         ParentSubconceptLayout.lockStandardConceptOrder(panel);
       }
@@ -7017,16 +7026,16 @@
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260713practice13"></script>
+<script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260707"></script>
-  <script src="/shared/concept-insight-intro.js?v=20260622"></script>
+<script src="/shared/concept-section-icons.js?v=20260714core1"></script>
+  <script src="/shared/concept-insight-intro.js?v=20260714core1"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713startquiz1"></script>
+  <script src="/shared/training-flow-guide.js?v=20260714m5flow1"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

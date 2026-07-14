@@ -12,10 +12,9 @@
   @import url('/assets/module-roadmap.css?v=20260713roadmap2');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
-  @import url('/assets/concept-insight-intro.css?v=20260617');
-  @import url('/assets/training-flow-guide.css?v=20260713dualring1');
-  @import url('/assets/module-block-accordion.css?v=20260713flowaudit1');
-
+  @import url('/assets/concept-insight-intro.css?v=20260714core1');
+  @import url('/assets/training-flow-guide.css?v=20260714m5flow1');
+  @import url('/assets/module-block-accordion.css?v=20260714m5flow1');
   :root{
       --blue:#2d84b3;
       --blueSoft:#89b5c1;
@@ -1494,9 +1493,9 @@
     -webkit-text-fill-color:#fff;
     }
     .concept-points-box .key-idea-item.clicked::after{
-      content:' ✓';
+      content:'\2713';
       font-weight:700;
-      color:var(--blue);
+      color:var(--blue, #2d84b3);
       margin-left:auto;
       flex-shrink:0;
     }
@@ -2903,10 +2902,10 @@
     #quiz .quiz-inline .feedback.correct{background:#e8f7ef;color:#1b7c52;display:flex;align-items:center;gap:10px;}
     #quiz .quiz-inline .feedback.incorrect{background:#fde8e8;color:#c53030;display:flex;align-items:center;gap:10px;}
     #quiz .quiz-inline .match-game{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
-    #quiz .quiz-inline .match-slots .match-slot{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
+    #quiz .quiz-inline .match-slots .match-slot{display:grid;grid-template-columns:13rem minmax(0,1fr);align-items:center;gap:12px;margin-bottom:14px;padding:12px 16px;background:#f8fbfd;border:2px dashed #d0dde8;border-radius:14px;min-height:56px;transition:var(--transition);}
     #quiz .quiz-inline .match-slots .match-slot.drag-over{border-color:var(--blue);background:#edf6fb;}
     #quiz .quiz-inline .match-slots .match-slot.filled{border-style:solid;border-color:#c5e0ed;}
-    #quiz .quiz-inline .slot-label{font-weight:700;color:var(--ink);min-width:100px;flex-shrink:0;}
+    #quiz .quiz-inline .slot-label{font-weight:700;color:var(--ink);min-width:0;max-width:none;word-break:normal;overflow-wrap:normal;hyphens:none;}
     #quiz .quiz-inline .slot-drop{flex:1;min-height:24px;}
     #quiz .quiz-inline .slot-drop .match-chip{margin:0;}
     #quiz .quiz-inline .match-pool{display:flex;flex-direction:column;gap:12px;padding:12px;border-radius:14px;min-height:120px;}
@@ -2936,12 +2935,12 @@
       min-width:0;
     }
   </style>
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260713blockchrome3" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714core1" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
   <link rel="stylesheet" href="/assets/module-concept-media.css?v=20260713pulse2" />
-  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714statecols2" />
+  <link rel="stylesheet" href="/assets/concept-stage-system.css?v=20260714subhead1" />
 </head>
 <body>
   <div class="portal">
@@ -3726,7 +3725,7 @@
     </div>
   </div>
 
-  <script src="/shared/parent-subconcept-layout.js?v=20260713parent1"></script>
+  <script src="/shared/parent-subconcept-layout.js?v=20260714subhead1"></script>
     <script src="/shared/module-block-accordion.js?v=20260713flowaudit1"></script>
 <script>
     function escapeHtml(str){
@@ -4174,6 +4173,8 @@
           'In practice: Observe the swimmer and choose the approach that best supports connection in that moment.'
         ],
         imageHTML: '<img src="https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-8-2026-11_09_07-PM.png" alt="Infographic: using engagement approaches" />',
+        parentSubconceptTitle: 'Explore each approach',
+        parentSubconceptLead: 'Tap one to open it.',
         parentSubconceptNavHTML: '<div class="concept-image">' +
           '<div class="concept-grid concept-grid--approaches">' +
           '<button type="button" class="concept-square concept-square--sub concept-square--approach-mod" data-target="b3c3_mod">Modelling</button>' +
@@ -4181,7 +4182,7 @@
           '<button type="button" class="concept-square concept-square--sub concept-square--approach-guide" data-target="b3c3_guide">Guided Discovery</button>' +
           '<button type="button" class="concept-square concept-square--sub concept-square--approach-intensive" data-target="b3c3_intensive">Intensive Interaction</button>' +
           '<button type="button" class="concept-square concept-square--sub concept-square--approach-play" data-target="b3c3_play">Play-Based Interaction</button>' +
-          '</div>'
+          '</div></div>'
       },
       b3c3_mod: {
         title: 'Modelling',
@@ -5573,7 +5574,7 @@
           var t = btn.getAttribute('data-target');
           var done = block3ApproachesViewed.has(t);
           btn.classList.toggle('visited', done);
-          btn.classList.toggle('is-next', !REVIEW_MODE && !!nextNeeded && t === nextNeeded);
+          btn.classList.toggle('is-next', !!nextNeeded && t === nextNeeded);
           btn.addEventListener('click', function(e){
             e.preventDefault();
             e.stopPropagation();
@@ -5583,7 +5584,9 @@
         });
       }
 
-      if(opts.resumeHub){
+      function markResumeHubComplete(){
+        if(!opts.resumeHub) return;
+        panel.dataset.flowHubTour = '1';
         panel.querySelectorAll('.img-expand-btn').forEach(function(btn){
           btn.setAttribute('data-visual-expanded', 'true');
         });
@@ -5596,7 +5599,9 @@
         panel.dataset.inPracticeRequired = 'false';
         panel.querySelectorAll('.concept-insight-pillar').forEach(function(p){ p.classList.add('clicked'); });
         panel.dataset.insightPillarsDone = 'true';
+        panel.querySelectorAll('.key-idea-item').forEach(function(item){ item.classList.add('clicked'); });
       }
+      markResumeHubComplete();
 
       const ttsBtn = panel.querySelector('[data-concept-tts]');
       const ttsStopBtn = panel.querySelector('[data-concept-tts-stop]');
@@ -5692,6 +5697,7 @@
           }
         });
       }
+      markResumeHubComplete();
       if(typeof ParentSubconceptLayout !== 'undefined'){
         ParentSubconceptLayout.lockStandardConceptOrder(panel);
       }
@@ -6110,16 +6116,16 @@
   <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
   <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260713practice13"></script>
+<script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
-<script src="/shared/concept-section-icons.js?v=20260707"></script>
-  <script src="/shared/concept-insight-intro.js?v=20260622"></script>
+<script src="/shared/concept-section-icons.js?v=20260714core1"></script>
+  <script src="/shared/concept-insight-intro.js?v=20260714core1"></script>
   <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
   <script src="/shared/module-completion-flow.js"></script>
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
-  <script src="/shared/training-flow-guide.js?v=20260713startquiz1"></script>
+  <script src="/shared/training-flow-guide.js?v=20260714m5flow1"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

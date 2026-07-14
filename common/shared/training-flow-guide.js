@@ -273,6 +273,12 @@
     var scope = (panel.dataset.currentTarget || '') + (m5Scope ? ':' + m5Scope : '');
     if(panel.__flowGuideScope === scope) return;
     panel.__flowGuideScope = scope;
+    // Mid hub tour (return from Modelling ? pulse Turn Taking): keep resume marks
+    // so the overview photo does not re-steal the guided pulse.
+    if(panel.dataset.flowHubTour === '1'){
+      delete panel.dataset.flowActivityStarted;
+      return;
+    }
     delete panel.dataset.flowKeyideasFramed;
     delete panel.dataset.flowActivityStarted;
     delete panel.dataset.flowVisualScrollPreKeyideas;
@@ -315,18 +321,63 @@
     });
   }
 
+  function isKeyIdeaGuideable(el){
+    if(!el || el.closest('[hidden]')) return false;
+    // Inactive nested screens stay out of getM5InteractiveRoot; don't require
+    // offsetParent (lightbox / overflow can falsely hide in-flow ideas).
+    var style = typeof window.getComputedStyle === 'function' ? window.getComputedStyle(el) : null;
+    if(style && (style.display === 'none' || style.visibility === 'hidden')) return false;
+    return true;
+  }
+
   function hasUnclickedKeyIdeasInScope(panel){
     var root = getM5InteractiveRoot(panel);
     var items = root.querySelectorAll('.key-idea-item:not(.clicked)');
     for(var i = 0; i < items.length; i++){
-      if(isVisibleEl(items[i])) return true;
+      if(isKeyIdeaGuideable(items[i])) return true;
     }
     return false;
   }
 
+  function scopeNeedsInPracticeMount(panel){
+    if(!panel || !panelHasM5NestedNav(panel)) return false;
+    var root = getM5InteractiveRoot(panel);
+    if(!root) return false;
+    var boxes = root.querySelectorAll('.concept-points-box');
+    for(var i = 0; i < boxes.length; i++){
+      if(!boxes[i].querySelector('.key-idea-item')) continue;
+      if(!boxes[i].querySelector('.key-ideas-action')) return true;
+    }
+    return false;
+  }
+
+  function ensureScopedInPracticeMounted(panel){
+    if(!panel || !scopeNeedsInPracticeMount(panel)) return;
+    if(global.InPracticeSystem && typeof global.InPracticeSystem.ensureStaticPointsBoxes === 'function'){
+      try { global.InPracticeSystem.ensureStaticPointsBoxes(getM5InteractiveRoot(panel)); } catch(err){}
+    }
+  }
+
+  function getInPracticeScopeKey(panel){
+    if(!panel) return '';
+    if(panelHasM5NestedNav(panel)){
+      var screenId = getM5ScreenId(panel);
+      if(screenId && screenId !== 'home') return screenId;
+    }
+    return panel.dataset.currentTarget || '';
+  }
+
   function findScopedInPracticeAction(panel){
+    if(!panel) return null;
     var root = getM5InteractiveRoot(panel);
     var action = root.querySelector('.key-ideas-action:not([hidden])');
+    if(action && isVisibleEl(action)) return action;
+    // Nested leaf/folder screens must not inherit the parent concept's completed In Practice
+    if(panelHasM5NestedNav(panel)){
+      var screenId = getM5ScreenId(panel);
+      if(screenId && screenId !== 'home') return null;
+    }
+    action = panel.querySelector('.key-ideas-action:not([hidden])');
     return action && isVisibleEl(action) ? action : null;
   }
 
@@ -465,10 +516,24 @@
     return isM5CategoryComplete(panel, folderId);
   }
 
+  function rgbToCssHex(rgb){
+    if(!rgb) return '';
+    var parts = String(rgb).split(',').map(function(p){ return parseInt(p.trim(), 10); });
+    if(parts.length < 3 || parts.some(function(n){ return isNaN(n); })) return '';
+    return '#' + parts.slice(0, 3).map(function(n){
+      var h = Math.max(0, Math.min(255, n)).toString(16);
+      return h.length === 1 ? '0' + h : h;
+    }).join('');
+  }
+
   function syncM5AccentContext(panel){
     if(!panelHasM5NestedNav(panel)){
       panel.removeAttribute('data-flow-m5-accent-rgb');
       panel.removeAttribute('data-flow-m5-root');
+      panel.style.removeProperty('--m5-folder-accent');
+      panel.style.removeProperty('--m5-folder-accent-rgb');
+      panel.style.removeProperty('--b2c2-accent');
+      panel.style.removeProperty('--b2c3-accent');
       return;
     }
     var screenId = getM5ScreenId(panel);
@@ -476,6 +541,10 @@
     if(!rootId || screenId === 'home'){
       panel.removeAttribute('data-flow-m5-accent-rgb');
       panel.removeAttribute('data-flow-m5-root');
+      panel.style.removeProperty('--m5-folder-accent');
+      panel.style.removeProperty('--m5-folder-accent-rgb');
+      panel.style.removeProperty('--b2c2-accent');
+      panel.style.removeProperty('--b2c3-accent');
       return;
     }
     panel.dataset.flowM5Root = rootId;
@@ -485,7 +554,19 @@
       var folderScreen = wrapper.querySelector('.b2-screen[data-b2-screen="' + rootId + '"]');
       accentEl = folderScreen && (folderScreen.querySelector('.b2pl-folder-h--' + rootId) || folderScreen.querySelector('.b2pl-folder-h, .b2pl-cathead'));
     }
-    panel.dataset.flowM5AccentRgb = getM5NavAccent(accentEl);
+    var rgb = getM5NavAccent(accentEl);
+    panel.dataset.flowM5AccentRgb = rgb;
+    var hex = rgbToCssHex(rgb);
+    if(hex){
+      panel.style.setProperty('--m5-folder-accent', hex);
+      panel.style.setProperty('--m5-folder-accent-rgb', rgb);
+      if(/^f\d+$/.test(rootId) || /^f\d+-s\d+$/.test(screenId)){
+        panel.style.setProperty('--b2c2-accent', hex);
+      }
+      if(/^fc\d+$/.test(rootId) || /^vs\d+$/.test(rootId)){
+        panel.style.setProperty('--b2c3-accent', hex);
+      }
+    }
   }
 
   function isM5ThemedPanel(panel){
@@ -597,6 +678,23 @@
     return true;
   }
 
+  function resolveM5LeafReturn(panel){
+    if(!isM5LeafFlowComplete(panel)) return null;
+    var active = getM5ActiveScreen(panel);
+    var screenId = getM5ScreenId(panel);
+    if(!active || !screenId || isM5ItemDone(panel, 'flowM5LeafReturned', screenId)) return null;
+    var back = active.querySelector('.b2-nav [data-b2-go]');
+    if(!back || !isVisibleEl(back)) return null;
+    return sectionScrollStep('m5-nested-nav', back, 'Return to continue', {
+      scrollEl: back,
+      scrollBlock: 'center',
+      forceScroll: true,
+      tone: 'm5-nav',
+      pulseEls: [back],
+      keyToken: (panel.dataset.currentTarget || '') + ':m5-leaf-return:' + screenId
+    });
+  }
+
   function getSubconceptNavButtons(nav){
     if(!nav) return [];
     return $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget], .overview-subconcept-btn', nav);
@@ -620,6 +718,140 @@
     });
   }
 
+  function panelHasB2LevelAccordions(panel){
+    return !!(panel && panel.querySelector(
+      '[data-b2l1-focus-list] .b2l1-item-btn, [data-b2l1-activities-list] .b2l1-item-btn'
+    ));
+  }
+
+  function b2LevelAccordionsComplete(panel){
+    if(!panelHasB2LevelAccordions(panel)) return true;
+    var buttons = panel.querySelectorAll(
+      '[data-b2l1-focus-list] .b2l1-item-btn, [data-b2l1-activities-list] .b2l1-item-btn'
+    );
+    if(!buttons.length) return true;
+    for(var i = 0; i < buttons.length; i++){
+      if(!buttons[i].classList.contains('is-complete')) return false;
+    }
+    return true;
+  }
+
+  function b2LevelItemLabel(btn, fallback){
+    if(!btn) return fallback || 'next item';
+    var labelEl = btn.querySelector('.b2l1-item-label');
+    var text = ((labelEl && labelEl.textContent) || btn.textContent || '').replace(/\s+/g, ' ').trim();
+    return text || fallback || 'next item';
+  }
+
+  function panelHasB3c2FactorExplore(panel){
+    return !!(panel && panel.querySelector('[data-b3c2-factor-explore], .b3c2-factor-explore .b3c2-factor-box'));
+  }
+
+  function b3c2FactorExploreComplete(panel){
+    if(!panelHasB3c2FactorExplore(panel)) return true;
+    if(panel.dataset.factorExploreDone === 'true') return true;
+    var boxes = panel.querySelectorAll('.b3c2-factor-explore .b3c2-factor-box[data-factor-key]');
+    if(!boxes.length) return true;
+    for(var i = 0; i < boxes.length; i++){
+      if(!boxes[i].classList.contains('is-complete')) return false;
+    }
+    return true;
+  }
+
+  function resolveB3c2FactorExplore(panel){
+    if(!panel || !panelHasB3c2FactorExplore(panel)) return null;
+    if(b3c2FactorExploreComplete(panel)) return null;
+    var wrap = panel.querySelector('.b3c2-factor-explore');
+    if(!wrap || !isVisibleEl(wrap)) return null;
+    var target = panel.dataset.currentTarget || '';
+
+    // Active factor: open each info card (affects / see / todo)
+    var active = wrap.querySelector('.b3c2-factor-box.is-active:not(.is-complete)');
+    if(active){
+      var openInfo = wrap.querySelector('.b3c2-factor-info-card:not(.is-done)');
+      if(openInfo && isVisibleEl(openInfo)){
+        var infoLabel = (openInfo.querySelector('.b3c2-factor-info-kicker') || openInfo).textContent || 'Review this section';
+        infoLabel = infoLabel.replace(/\s+/g, ' ').trim();
+        return sectionScrollStep('b3c2-factor-info', openInfo, infoLabel, {
+          scrollEl: openInfo,
+          scrollBlock: 'center',
+          forceScroll: true,
+          tone: 'expand',
+          keyToken: target + ':b3c2-info:' + (active.getAttribute('data-factor-key') || '') + ':' + (openInfo.getAttribute('data-info-key') || '')
+        });
+      }
+    }
+
+    var boxes = wrap.querySelectorAll('.b3c2-factor-box[data-factor-key]');
+    for(var i = 0; i < boxes.length; i++){
+      if(boxes[i].classList.contains('is-complete')) continue;
+      if(!isVisibleEl(boxes[i])) continue;
+      var label = (boxes[i].querySelector('.b3c2-factor-box-title') || boxes[i]).textContent || 'factor';
+      label = label.replace(/\s+/g, ' ').trim();
+      return sectionScrollStep('b3c2-factor', boxes[i], 'Explore: ' + label, {
+        scrollEl: boxes[i],
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand',
+        keyToken: target + ':b3c2-factor:' + (boxes[i].getAttribute('data-factor-key') || i)
+      });
+    }
+    return null;
+  }
+
+  function resolveB2LevelAccordions(panel){
+    if(!panel || !panelHasB2LevelAccordions(panel)) return null;
+    if(b2LevelAccordionsComplete(panel)) return null;
+    var target = panel.dataset.currentTarget || '';
+
+    // Open Learning Outcomes accordion ? review each numbered outcome, then next accordion
+    var openFocus = panel.querySelector('[data-b2l1-focus-list] .b2l1-item-btn.is-active:not(.is-complete)');
+    if(openFocus){
+      var focusDetail = openFocus.nextElementSibling;
+      if(focusDetail && focusDetail.classList.contains('b2l1-focus-detail') && !focusDetail.hidden){
+        var points = focusDetail.querySelectorAll('.b2l1-point-btn');
+        for(var p = 0; p < points.length; p++){
+          if(points[p].classList.contains('is-done')) continue;
+          return sectionScrollStep('b2l-point', points[p], 'Review outcome ' + (p + 1), {
+            scrollEl: points[p],
+            scrollBlock: 'center',
+            forceScroll: true,
+            tone: 'expand',
+            keyToken: target + ':b2l-point:' + (points[p].getAttribute('data-b2l1-point') || p)
+          });
+        }
+      }
+    }
+
+    var focusBtns = panel.querySelectorAll('[data-b2l1-focus-list] .b2l1-item-btn');
+    for(var i = 0; i < focusBtns.length; i++){
+      if(focusBtns[i].classList.contains('is-complete')) continue;
+      if(!isVisibleEl(focusBtns[i])) continue;
+      return sectionScrollStep('b2l-focus', focusBtns[i], 'Open: ' + b2LevelItemLabel(focusBtns[i], 'learning outcome'), {
+        scrollEl: focusBtns[i],
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand',
+        keyToken: target + ':b2l-focus:' + (focusBtns[i].getAttribute('data-b2l1-item') || i)
+      });
+    }
+
+    var actBtns = panel.querySelectorAll('[data-b2l1-activities-list] .b2l1-item-btn');
+    for(var j = 0; j < actBtns.length; j++){
+      if(actBtns[j].classList.contains('is-complete')) continue;
+      if(!isVisibleEl(actBtns[j])) continue;
+      return sectionScrollStep('b2l-activity', actBtns[j], 'Open: ' + b2LevelItemLabel(actBtns[j], 'activity'), {
+        scrollEl: actBtns[j],
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand',
+        keyToken: target + ':b2l-activity:' + (actBtns[j].getAttribute('data-b2l1-item') || j)
+      });
+    }
+
+    return null;
+  }
+
   function conceptReadyForFinishCue(panel){
     if(!panel) return false;
     syncPanelInPracticeDone(panel);
@@ -630,6 +862,10 @@
     if(isActivityIncomplete(panel)) return false;
     // Parent hubs must finish leaves before Done
     if(parentHubHasIncompleteLeaves(panel)) return false;
+    // Level shells: open every Learning Outcomes + Activities accordion first
+    if(!b2LevelAccordionsComplete(panel)) return false;
+    // Factor leaves: explore every factor (and its info cards) before Done
+    if(!b3c2FactorExploreComplete(panel)) return false;
     return true;
   }
 
@@ -719,6 +955,32 @@
   function getPanelExpandButtons(panel){
     if(!panel) return [];
     var scope = getM5FlowScope(panel);
+    // Nested M5: one primary visual cue ? don't require every fan thumb
+    if(panelHasM5NestedNav(panel)){
+      var screenId = getM5ScreenId(panel);
+      if(isM5ItemDone(panel, 'flowM5VisualDone', screenId)) return [];
+      var primary = scope.querySelector(
+        '.m5-nested-visual-shell > .img-expand-btn, ' +
+        '.m5-nested-visual-frame > .img-expand-btn, ' +
+        '.m5-screen-visual-card .img-expand-btn, ' +
+        '.concept-section-card.section-visual-shell .img-expand-btn, ' +
+        '.b2c2-direct-image > .img-expand-btn, ' +
+        '.b2c3-direct-image > .img-expand-btn'
+      );
+      if(primary && isVisibleEl(primary) && primary.getAttribute('data-visual-expanded') !== 'true'){
+        return [primary];
+      }
+      var fan = scope.querySelector('.entry-exit-fan');
+      if(fan){
+        var fanBtn = fan.querySelector('.img-expand-btn:not([data-visual-expanded="true"])');
+        if(fanBtn && isVisibleEl(fanBtn)) return [fanBtn];
+        return [];
+      }
+      var leftover = Array.from(scope.querySelectorAll('.img-expand-btn')).filter(function(btn){
+        return isVisibleEl(btn) && btn.getAttribute('data-visual-expanded') !== 'true';
+      });
+      return leftover.slice(0, 1);
+    }
     return Array.from(scope.querySelectorAll('.img-expand-btn')).filter(isVisibleEl);
   }
 
@@ -751,16 +1013,32 @@
 
   function inPracticeFlowComplete(panel){
     if(!panel) return true;
+    ensureScopedInPracticeMounted(panel);
     syncPanelInPracticeDone(panel);
     var nestedAction = findScopedInPracticeAction(panel);
     if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return true;
-    var inPractice = nestedAction || panel.querySelector('.key-ideas-action');
+    if(!nestedAction){
+      // Wait for static In Practice to mount on nested leaves that have Key Ideas
+      if(scopeNeedsInPracticeMount(panel)) return false;
+      // Nested screens without their own In Practice are complete for this leaf
+      if(panelHasM5NestedNav(panel) && getM5ScreenId(panel) !== 'home') return true;
+    }
+    var inPractice = nestedAction;
     if(!inPractice || inPractice.hasAttribute('hidden')) return true;
-    var current = panel.dataset.currentTarget || '';
+    var current = getInPracticeScopeKey(panel);
     if(panel.__inPracticeDoneMap && current && panel.__inPracticeDoneMap[current]) return true;
     if(inPractice.classList.contains('is-completed')){
-      markPanelInPracticeDone(panel, inPractice);
-      return true;
+      var doneFor = inPractice.dataset.inPracticeTarget || '';
+      if(!doneFor || doneFor === current){
+        markPanelInPracticeDone(panel, inPractice);
+        return true;
+      }
+      // Stale parent completion left on a reused shell ? reset for this scope
+      inPractice.classList.remove('is-completed');
+      inPractice.querySelectorAll('[data-inprac-part].is-reviewed').forEach(function(part){
+        part.classList.remove('is-reviewed');
+        part.setAttribute('aria-pressed', 'false');
+      });
     }
     if(panel.dataset.inPracticeDone === 'true' && panel.dataset.inPracticeDoneFor === current) return true;
     return false;
@@ -882,6 +1160,8 @@
     options = options || {};
     if(!panel) return null;
     if(getVisibleInsightPillars(panel).length) return null;
+    // Never re-pulse the overview photo while choosing the next subconcept tile
+    if(hubSubconceptTourInProgress(panel)) return null;
 
     syncPanelVisualWiring(panel);
 
@@ -973,7 +1253,7 @@
     var ideas = box ? box.querySelectorAll('.key-idea-item:not(.clicked)') : root.querySelectorAll('.key-idea-item:not(.clicked)');
 
     for(var i = 0; i < ideas.length; i++){
-      if(!isVisibleEl(ideas[i])) continue;
+      if(!isKeyIdeaGuideable(ideas[i])) continue;
       var idx = ideas[i].querySelector('.key-idea-index');
       return sectionScrollStep('keyidea', ideas[i], 'Review key idea ' + ((idx && idx.textContent.trim()) || (i + 1)), {
         scrollEl: ideas[i],
@@ -986,6 +1266,7 @@
 
   function resolveInPractice(panel){
     if(!panel) return null;
+    ensureScopedInPracticeMounted(panel);
     syncPanelInPracticeDone(panel);
     var nestedAction = findScopedInPracticeAction(panel);
     if(panel.dataset.inPracticeRequired === 'false' && !nestedAction) return null;
@@ -1007,7 +1288,7 @@
       nextPart = parts[0] || null;
     }
 
-    var scopeKey = (panel.dataset.currentTarget || '') + ':' + (inPractice.dataset.inPracticeTarget || '');
+    var scopeKey = getInPracticeScopeKey(panel) + ':' + (inPractice.dataset.inPracticeTarget || '');
     if(nextPart){
       var partKey = nextPart.getAttribute('data-inprac-part') || '';
       var partLabel = partKey === 'do' ? 'Do'
@@ -1243,6 +1524,11 @@
 
     // Match / apply activities: green success feedback means the activity gate is done
     var activityRoot = findActivityRoot(panel);
+    // Nested M5: only judge the active screen's activity (other leaves stay in the DOM)
+    var gateRoot = activityRoot || panel;
+    if(panelHasM5NestedNav(panel)){
+      gateRoot = activityRoot || getM5FlowScope(panel) || panel;
+    }
     if(activityRoot && activityRoot.querySelector('.match-game, [data-matching-activity], .matching-wrap') &&
       matchingSuccessFeedback(activityRoot)){
       return false;
@@ -1256,32 +1542,32 @@
     if(isM5ChoiceShellIncomplete(panel)) return true;
     if(isVisibleActivityShellComplete(panel)) return false;
 
-    if(panel.querySelector('[data-carousel], [data-carousel-activity]') && panel.dataset.carouselComplete !== 'true') return true;
-    if(panel.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true'){
-      if(!panel.querySelector('[data-concept-activity-title][data-choice-shell-complete="true"]') &&
-        !panel.querySelector('[data-activity-feedback].is-correct, .feedback.show.good')) return true;
+    if(gateRoot.querySelector('[data-carousel], [data-carousel-activity]') && panel.dataset.carouselComplete !== 'true') return true;
+    if(gateRoot.querySelector('[data-choice-activity]') && panel.dataset.choiceComplete !== 'true'){
+      if(!gateRoot.querySelector('[data-concept-activity-title][data-choice-shell-complete="true"], [data-m5-b2-nested-key][data-choice-shell-complete="true"]') &&
+        !gateRoot.querySelector('[data-activity-feedback].is-correct, .feedback.show.good')) return true;
     }
     if(isMatchingActivityIncomplete(panel)) return true;
-    if(panel.querySelector('[data-categorize-activity]')){
+    if(gateRoot.querySelector('[data-categorize-activity]')){
       var catDone = panel.dataset.categorizeComplete === 'true' ||
-        !!panel.querySelector(
+        !!gateRoot.querySelector(
           '.feedback.show.good, [data-activity-feedback].is-correct, [data-categorize-feedback].is-correct'
         );
       if(!catDone) return true;
     }
-    if(panel.querySelector('[data-sequence-activity], [data-sequence-list]') && panel.dataset.sequenceComplete !== 'true') return true;
-    if(panel.querySelector('[data-reflect-continue]') && panel.dataset.reflectAckComplete !== 'true') return true;
-    if(panel.querySelector('[data-sense-card]:not(.flipped)')) return true;
+    if(gateRoot.querySelector('[data-sequence-activity], [data-sequence-list]') && panel.dataset.sequenceComplete !== 'true') return true;
+    if(gateRoot.querySelector('[data-reflect-continue]') && panel.dataset.reflectAckComplete !== 'true') return true;
+    if(gateRoot.querySelector('[data-sense-card]:not(.flipped)')) return true;
 
-    var interactives = panel.querySelectorAll('.concept-activity-interactive[data-activity]');
+    var interactives = gateRoot.querySelectorAll('.concept-activity-interactive[data-activity]');
     for(var i = 0; i < interactives.length; i++){
       if(!isInteractiveBlockComplete(interactives[i])) return true;
     }
 
-    var root = findActivityRoot(panel);
+    var root = activityRoot;
     if(root && root.querySelector('.option-grid input[type="radio"], .option-grid input[type="checkbox"]')){
       var shellFeedback = root.querySelector('.feedback.show.good, [data-activity-feedback].show.good, [data-activity-feedback].is-correct');
-      if(!shellFeedback && !panel.querySelector('.concept-activity-interactive[data-activity] .feedback.show.good')) return true;
+      if(!shellFeedback && !gateRoot.querySelector('.concept-activity-interactive[data-activity] .feedback.show.good')) return true;
     }
 
     return false;
@@ -1289,6 +1575,8 @@
 
   function resolvePanelActivity(panel){
     if(!panel || !isActivityIncomplete(panel)) return null;
+    // Keep the activity quiet until Explore the Factors is finished
+    if(!b3c2FactorExploreComplete(panel)) return null;
 
     var root = findActivityRoot(panel);
     if(!root) return null;
@@ -1298,20 +1586,24 @@
       '[data-activity-feedback].show.warn, ' +
       '.feedback.show.warn'
     );
+    var started = panel.dataset.flowActivityStarted === 'true';
     var label = hasWrong
       ? 'Try again - fix the matches'
-      : (panel.dataset.flowActivityStarted === 'true'
+      : (started
         ? 'Complete the activity'
         : 'Complete the activity below');
 
+    // Mid-activity clicks (match pairs, sort chips, etc.) must not force-scroll
+    // the shell to center ? feedback growth + bumpFlowAdvance made it jump every tap.
     return sectionScrollStep(
-      panel.dataset.flowActivityStarted === 'true' || hasWrong ? 'activity-progress' : 'activity-intro',
+      started || hasWrong ? 'activity-progress' : 'activity-intro',
       root,
       label,
       {
         tone: 'activity',
-        scrollBlock: 'center',
-        forceScroll: true,
+        scrollBlock: started ? 'nearest' : 'center',
+        forceScroll: !started,
+        noScroll: started,
         keyToken: (panel.dataset.currentTarget || '') + (hasWrong ? ':activity-retry' : ':activity')
       }
     );
@@ -1432,6 +1724,44 @@
     return true;
   }
 
+  /** Mid parent-hub tour (e.g. Calm done ? pulse Alert): skip re-opening overview expand. */
+  function hubSubconceptTourInProgress(panel){
+    if(!panel) return false;
+    var nav = getSubconceptNav(panel);
+    if(!nav || !isVisibleEl(nav)) return false;
+    var buttons = $$('.concept-square[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn', nav);
+    if(!buttons.length) return false;
+    var current = panel.dataset.currentTarget || '';
+    var onLeaf = buttons.some(function(btn){ return getNavTarget(btn) === current; });
+    if(onLeaf) return false;
+    var hasUnfinished = buttons.some(function(btn){
+      return !isConceptDone(btn) && !isConceptLocked(btn, activeModuleConfig);
+    });
+    if(!hasUnfinished){
+      delete panel.dataset.flowHubTour;
+      return false;
+    }
+    if(panel.dataset.flowHubTour === '1') return true;
+    return buttons.some(function(btn){
+      return isConceptDone(btn) || btn.classList.contains('is-next');
+    });
+  }
+
+  function resolveHubSubconceptStep(panel, moduleConfig){
+    var parentSubconceptStep = resolveParentSubconceptResume(panel, moduleConfig);
+    if(parentSubconceptStep) return withM5Tone(panel, parentSubconceptStep);
+    var subconceptStep = resolveSubconceptNav(panel);
+    if(!subconceptStep) return null;
+    var btn = subconceptStep.el;
+    var label = btn && btn.textContent ? btn.textContent.replace(/\s+/g, ' ').trim() : subconceptStep.label;
+    return sectionScrollStep('subconcept', btn, label || subconceptStep.label, {
+      scrollEl: btn.closest('.overview-subconcept-grid') || btn.closest('[data-parent-subconcept-nav]') || btn,
+      scrollBlock: 'center',
+      forceScroll: true,
+      tone: 'expand'
+    });
+  }
+
   function resolveParentSubconceptResume(panel, moduleConfig){
     var panelBlock = panel && panel.getAttribute('data-panel-for');
     if(panelBlock && blockConceptsComplete(panelBlock)) return null;
@@ -1535,6 +1865,12 @@
     var panelBlock = panel.getAttribute('data-panel-for');
     if(panelBlock && blockConceptsComplete(panelBlock)) return null;
 
+    // Returning from a leaf (Calm ? Alert, Water ? Env, etc.): pulse next tile, not overview photo
+    if(hubSubconceptTourInProgress(panel)){
+      var hubTourStep = resolveHubSubconceptStep(panel, activeModuleConfig);
+      if(hubTourStep) return hubTourStep;
+    }
+
     var pillars = getVisibleInsightPillars(panel);
     if(pillars.length){
       var title = pillars[0].querySelector('.concept-insight-pillar__title');
@@ -1560,8 +1896,15 @@
     var keyIdeaStep = resolveKeyIdeaItems(panel);
     if(keyIdeaStep) return withM5Tone(panel, keyIdeaStep);
 
+    var b2LevelStep = resolveB2LevelAccordions(panel);
+    if(b2LevelStep) return withM5Tone(panel, b2LevelStep);
+
     var inPracticeStep = resolveInPractice(panel);
     if(inPracticeStep) return withM5Tone(panel, inPracticeStep);
+
+    // Factor groups: after the poster expand, before the activity
+    var factorExploreStep = resolveB3c2FactorExplore(panel);
+    if(factorExploreStep) return withM5Tone(panel, factorExploreStep);
 
     var preActivityVisualStep = resolveNextVisualExpand(panel, { phase: 'preActivity' });
     if(preActivityVisualStep) return withM5Tone(panel, preActivityVisualStep);
@@ -1572,22 +1915,14 @@
     var postActivityVisualStep = resolveNextVisualExpand(panel, { phase: 'postActivity' });
     if(postActivityVisualStep) return withM5Tone(panel, postActivityVisualStep);
 
+    // Leaf finished ? pulse Back into the folder/home so nested flow continues
+    var leafReturnStep = resolveM5LeafReturn(panel);
+    if(leafReturnStep) return leafReturnStep;
+
     // Subconcepts only after parent hub content is ready (do not skip intro/activity)
     if(parentHubContentReady(panel)){
-      var parentSubconceptStep = resolveParentSubconceptResume(panel, activeModuleConfig);
-      if(parentSubconceptStep) return withM5Tone(panel, parentSubconceptStep);
-
-      var subconceptStep = resolveSubconceptNav(panel);
-      if(subconceptStep){
-        var btn = subconceptStep.el;
-        var label = btn && btn.textContent ? btn.textContent.replace(/\s+/g, ' ').trim() : subconceptStep.label;
-        return sectionScrollStep('subconcept', btn, label || subconceptStep.label, {
-          scrollEl: btn.closest('.overview-subconcept-grid') || btn.closest('[data-parent-subconcept-nav]') || btn,
-          scrollBlock: 'center',
-          forceScroll: true,
-          tone: 'expand'
-        });
-      }
+      var hubReadyStep = resolveHubSubconceptStep(panel, activeModuleConfig);
+      if(hubReadyStep) return hubReadyStep;
     }
 
     var finishStep = resolveM5FinishStep(panel);
@@ -1810,9 +2145,11 @@
       var done = card.getAttribute('data-flow-block-intro-done') === 'true';
       if(done){
         card.classList.add('clicked');
+        card.setAttribute('aria-pressed', 'true');
       } else {
         card.classList.remove('clicked');
         card.classList.add('clickable-progress');
+        card.setAttribute('aria-pressed', 'false');
       }
     });
   }
@@ -1833,9 +2170,12 @@
     if(!panel) return;
     if(action) action.classList.add('is-completed');
     panel.dataset.inPracticeDone = 'true';
-    var doneFor = (action && action.dataset.inPracticeTarget) || panel.dataset.currentTarget || '';
+    var doneFor = getInPracticeScopeKey(panel) ||
+      (action && action.dataset.inPracticeTarget) ||
+      panel.dataset.currentTarget || '';
     if(doneFor){
       panel.dataset.inPracticeDoneFor = doneFor;
+      if(action) action.dataset.inPracticeTarget = doneFor;
       if(!panel.__inPracticeDoneMap) panel.__inPracticeDoneMap = {};
       panel.__inPracticeDoneMap[doneFor] = true;
     }
@@ -1846,8 +2186,36 @@
 
   function syncPanelInPracticeDone(panel){
     if(!panel) return false;
+    var current = getInPracticeScopeKey(panel);
+    if(panelHasM5NestedNav(panel) && current && current !== (panel.dataset.currentTarget || '')){
+      // Nested leaf scope is independent of parent concept In Practice flags
+      if(panel.__inPracticeDoneMap && panel.__inPracticeDoneMap[current]){
+        panel.dataset.inPracticeDone = 'true';
+        panel.dataset.inPracticeDoneFor = current;
+        return true;
+      }
+      var nestedOnly = findScopedInPracticeAction(panel);
+      if(!nestedOnly){
+        // Pending mount ? complete; leave panel flags cleared for this scope
+        if(scopeNeedsInPracticeMount(panel)){
+          panel.dataset.inPracticeDone = 'false';
+          delete panel.dataset.inPracticeDoneFor;
+          return false;
+        }
+        return true;
+      }
+      if(nestedOnly.classList.contains('is-completed') &&
+        (nestedOnly.dataset.inPracticeTarget || '') === current){
+        markPanelInPracticeDone(panel, nestedOnly);
+        return true;
+      }
+      if(panel.dataset.inPracticeDoneFor !== current){
+        panel.dataset.inPracticeDone = 'false';
+        delete panel.dataset.inPracticeDoneFor;
+      }
+      return false;
+    }
     if(panel.dataset.inPracticeRequired !== 'true') return true;
-    var current = panel.dataset.currentTarget || '';
     if(panel.__inPracticeDoneMap && current && panel.__inPracticeDoneMap[current]){
       panel.dataset.inPracticeDone = 'true';
       panel.dataset.inPracticeDoneFor = current;
@@ -1858,9 +2226,7 @@
       panel.dataset.inPracticeDone = 'false';
       delete panel.dataset.inPracticeDoneFor;
     }
-    var root = getM5InteractiveRoot(panel);
-    var action = (root && root.querySelector('.key-ideas-action:not([hidden])')) ||
-      panel.querySelector('.key-ideas-action:not([hidden])');
+    var action = findScopedInPracticeAction(panel);
     if(action && action.classList.contains('is-completed')){
       var actionTarget = action.dataset.inPracticeTarget || '';
       if(!actionTarget || actionTarget === current){
@@ -1913,6 +2279,7 @@
       e.stopPropagation();
       card.setAttribute('data-flow-block-intro-done', 'true');
       card.classList.add('clicked');
+      card.setAttribute('aria-pressed', 'true');
       syncBlockIntroVisualState();
       bumpFlowAdvance(moduleConfig, 120);
     }, true);
@@ -1926,6 +2293,7 @@
       e.stopPropagation();
       card.setAttribute('data-flow-block-intro-done', 'true');
       card.classList.add('clicked');
+      card.setAttribute('aria-pressed', 'true');
       syncBlockIntroVisualState();
       bumpFlowAdvance(moduleConfig, 120);
     }, true);
@@ -1942,6 +2310,7 @@
       card.classList.remove('clicked');
       card.classList.add('clickable-progress');
       card.removeAttribute('data-flow-block-intro-done');
+      card.setAttribute('aria-pressed', 'false');
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
     });
@@ -2110,14 +2479,22 @@
       }
     }
 
-    if(isActivityIncomplete(panel)){
+    var b2LevelHold = resolveB2LevelAccordions(panel);
+    if(b2LevelHold) return b2LevelHold;
+
+    var factorHold = resolveB3c2FactorExplore(panel);
+    if(factorHold) return factorHold;
+
+    if(isActivityIncomplete(panel) && b3c2FactorExploreComplete(panel)){
       var root = findActivityRoot(panel);
       if(root){
         var wrong = !!panel.querySelector('.feedback.show.warn, [data-activity-feedback].show.warn');
+        var activityStarted = panel.dataset.flowActivityStarted === 'true';
         return sectionScrollStep('activity-hold', root, wrong ? 'Try again - fix the matches' : 'Complete the activity', {
           scrollEl: root,
-          scrollBlock: 'center',
-          forceScroll: true,
+          scrollBlock: activityStarted ? 'nearest' : 'center',
+          forceScroll: !activityStarted,
+          noScroll: activityStarted,
           tone: 'activity',
           pulseEls: [root],
           keyToken: target + (wrong ? ':activity-retry-hold' : ':activity-hold')
@@ -2125,14 +2502,21 @@
       }
     }
 
+    // Pathway stage shells use a permanent container Done ? never park the pulse there
+    if(/^b2c[123]$/.test(target) || panel.dataset.stageCardsRequired === 'true'){
+      var levelPick = resolveStageLevelPick(panel);
+      if(levelPick) return levelPick;
+      return null;
+    }
+
     var finish = panel.querySelector('[data-finish-concept]');
-    if(finish){
+    if(finish && conceptReadyForFinishCue(panel)){
       var finishVisible = isVisibleEl(finish) && finish.style.display !== 'none';
       var host = finishVisible ? finish : (panel.querySelector('.concept-media-actions') || panel);
       return sectionScrollStep('finish-hold', host, finish.disabled ? 'Done unlocks next ? keep going' : 'Tap Done to finish this concept', {
         scrollEl: host,
-        scrollBlock: 'center',
-        forceScroll: true,
+        scrollBlock: 'nearest',
+        forceScroll: false,
         tone: 'expand',
         pulseEls: [finishVisible ? finish : host],
         keyToken: target + ':finish-hold'
@@ -2160,17 +2544,7 @@
       document.querySelector('[data-programme-journey-map]');
     if(!map || !isVisibleEl(map)) return null;
 
-    // Returning learners who already opened a stage skip the overview tour
-    var stageButtons = getConceptButtons(block);
-    if(stageButtons.some(isConceptDone)){
-      if(global.ProgrammeJourneyMap && typeof global.ProgrammeJourneyMap.markTourComplete === 'function'){
-        global.ProgrammeJourneyMap.markTourComplete(map);
-      } else {
-        map.setAttribute('data-pjm-tour-complete', 'true');
-      }
-      return null;
-    }
-
+    // Only skip the overview tour when it was actually finished (not merely because a stage tile looks visited)
     if(map.getAttribute('data-pjm-tour-complete') === 'true') return null;
     if(!global.ProgrammeJourneyMap || typeof global.ProgrammeJourneyMap.getNextTourTarget !== 'function') return null;
 
@@ -2622,6 +2996,11 @@
       'stage-card': true,
       'stage-level': true,
       'pjm-level': true,
+      'b2l-focus': true,
+      'b2l-point': true,
+      'b2l-activity': true,
+      'b3c2-factor': true,
+      'b3c2-factor-info': true,
       'block-progress': true,
       'finish': true
     };
@@ -2805,12 +3184,39 @@
     progress: '212, 168, 35'      /* Block 4 ? yellow */
   };
 
+  /* Shared blue for Start Module → Journey → Outcomes → Inside This Module (all modules). */
+  var PREAMBLE_ACCENT_RGB = '36, 118, 168';
+  var PREAMBLE_KINDS = {
+    'start-module': true,
+    'journey-read': true,
+    'journey-wait': true,
+    'journey-check': true,
+    'outcome': true,
+    'outcomes-wait': true,
+    'outcomes-check': true,
+    'inside-module': true
+  };
+
   var STAGE_THEME_RGB = {
     confidence: '26, 92, 56',
     basic: '201, 120, 22',
     structured: '53, 105, 149',
     core: '138, 63, 176'
   };
+
+  /* Swim Structure journey map ? pulse matches each level accent */
+  var PJM_LEVEL_RGB = {
+    1: '22, 138, 74',
+    2: '22, 138, 74',
+    3: '196, 127, 18',
+    4: '196, 127, 18',
+    5: '45, 132, 179',
+    6: '45, 132, 179'
+  };
+
+  function isPreambleStep(step){
+    return !!(step && step.kind && PREAMBLE_KINDS[step.kind]);
+  }
 
   function detectBlockVariant(blockId){
     if(!blockId) return null;
@@ -2826,8 +3232,25 @@
 
   function syncGuidedAccent(step){
     var root = document.documentElement;
+
+    // Keep module-front pulses the same blue everywhere — never inherit an open block colour.
+    if(isPreambleStep(step)){
+      root.setAttribute('data-guided-block-variant', 'module');
+      root.setAttribute('data-guided-phase', 'preamble');
+      root.removeAttribute('data-guided-stage-theme');
+      root.style.setProperty('--flow-accent-rgb', PREAMBLE_ACCENT_RGB);
+      return;
+    }
+    root.removeAttribute('data-guided-phase');
+    if(!step){
+      root.setAttribute('data-guided-block-variant', 'module');
+      root.removeAttribute('data-guided-stage-theme');
+      root.style.setProperty('--flow-accent-rgb', VARIANT_RGB.module);
+      return;
+    }
+
     var blockId = null;
-    if(step && step.scrollBlockId) blockId = step.scrollBlockId;
+    if(step.scrollBlockId) blockId = step.scrollBlockId;
     if(!blockId && step && step.el && step.el.closest){
       var part = step.el.closest('[data-block-part], section[id^="block"]');
       if(part) blockId = part.getAttribute('data-block-part') || part.id;
@@ -2854,15 +3277,33 @@
       } else {
         root.removeAttribute('data-guided-stage-theme');
       }
-      if(step && step.kind && (step.kind.indexOf('m5-') === 0 || step.tone === 'm5-nav')){
-        var custom = panel.dataset && panel.dataset.flowM5AccentRgb;
-        if(custom){
-          accentRgb = custom;
-          root.style.setProperty('--flow-m5-accent-rgb', custom);
-        }
+      // Inside a coloured folder/leaf ? pulse + chrome follow that folder colour (not block purple)
+      var m5Accent = panel.dataset && panel.dataset.flowM5AccentRgb;
+      if(m5Accent){
+        accentRgb = m5Accent;
+        root.style.setProperty('--flow-m5-accent-rgb', m5Accent);
+        root.setAttribute('data-guided-m5-folder', panel.dataset.flowM5Root || '1');
+      } else {
+        root.removeAttribute('data-guided-m5-folder');
       }
     } else {
       root.removeAttribute('data-guided-stage-theme');
+      root.removeAttribute('data-guided-m5-folder');
+    }
+
+    var pjmEl = step && step.el && (
+      (step.el.classList && (step.el.classList.contains('pjm-level-card') || step.el.classList.contains('pjm-ocean-node')))
+        ? step.el
+        : (step.el.closest && step.el.closest('.pjm-level-card[data-level], .pjm-ocean-node[data-level]'))
+    );
+    if(step && (step.kind === 'pjm-level' || pjmEl)){
+      var pjmLevel = Number((pjmEl || step.el).getAttribute('data-level'));
+      if(PJM_LEVEL_RGB[pjmLevel]){
+        accentRgb = PJM_LEVEL_RGB[pjmLevel];
+        root.setAttribute('data-guided-pjm-level', String(pjmLevel));
+      }
+    } else {
+      root.removeAttribute('data-guided-pjm-level');
     }
 
     root.style.setProperty('--flow-accent-rgb', accentRgb);
@@ -3121,6 +3562,9 @@
         target.classList.contains('is-reviewed') ||
         target.classList.contains('clicked') ||
         target.classList.contains('is-completed') ||
+        target.classList.contains('is-complete') ||
+        target.classList.contains('is-done') ||
+        target.classList.contains('is-active') ||
         target.classList.contains('is-selected') ||
         target.classList.contains('is-correct')
       )) return false;
@@ -3128,7 +3572,9 @@
       if(target.classList && target.classList.contains(PULSE_CLASS)){
         var meaningful = target.classList.contains('is-reviewed') ||
           target.classList.contains('clicked') ||
-          target.classList.contains('is-completed');
+          target.classList.contains('is-completed') ||
+          target.classList.contains('is-complete') ||
+          target.classList.contains('is-done');
         if(!meaningful) return true;
       }
     }
@@ -3158,6 +3604,22 @@
     } else if(finish.getAttribute('data-flow-parent-leaf-gate') === '1'){
       finish.removeAttribute('data-flow-parent-leaf-gate');
     }
+
+    if(panelHasB2LevelAccordions(panel) && !b2LevelAccordionsComplete(panel)){
+      finish.disabled = true;
+      finish.setAttribute('data-flow-b2l-gate', '1');
+      finish.textContent = 'Open all sections first';
+      finish.style.opacity = '.55';
+      finish.style.cursor = 'not-allowed';
+    } else if(finish.getAttribute('data-flow-b2l-gate') === '1'){
+      finish.removeAttribute('data-flow-b2l-gate');
+      if(!finish.getAttribute('data-flow-parent-leaf-gate')){
+        finish.disabled = false;
+        finish.textContent = 'Done';
+        finish.style.opacity = '';
+        finish.style.cursor = '';
+      }
+    }
   }
 
   function bindConceptFlowInteractions(moduleConfig){
@@ -3165,7 +3627,7 @@
       var finishGate = e.target && e.target.closest ? e.target.closest('[data-finish-concept]') : null;
       if(finishGate){
         var gatePanel = finishGate.closest('.concept-panel.show');
-        if(gatePanel && parentHubHasIncompleteLeaves(gatePanel)){
+        if(gatePanel && (parentHubHasIncompleteLeaves(gatePanel) || !b2LevelAccordionsComplete(gatePanel))){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
@@ -3229,15 +3691,32 @@
         }, 0);
       }
 
+      var b2lHit = e.target.closest && e.target.closest('.b2l1-item-btn, .b2l1-point-btn');
+      if(b2lHit && panel.contains(b2lHit) && panelHasB2LevelAccordions(panel)){
+        setTimeout(function(){
+          syncParentHubFinishGate(panel);
+          bumpFlowAdvance(moduleConfig, 140);
+        }, 0);
+      }
+
+      var factorHit = e.target.closest && e.target.closest('.b3c2-factor-box, .b3c2-factor-info-card');
+      if(factorHit && panel.contains(factorHit) && panelHasB3c2FactorExplore(panel)){
+        setTimeout(function(){
+          bumpFlowAdvance(moduleConfig, 140);
+        }, 0);
+      }
+
       var keyIdea = e.target.closest && e.target.closest('.key-idea-item');
       if(keyIdea && panel.contains(keyIdea)){
         bumpFlowAdvance(moduleConfig, 120);
       }
 
-      var visualHost = e.target.closest && e.target.closest('.entry-exit-fan, .m5-nested-visual-shell, .m5-nested-visual-frame, .m5-screen-visual-card, .img-expand-btn');
-      if(visualHost && panelHasM5NestedNav(panel)){
+      var expandHit = e.target.closest && e.target.closest(
+        '.img-expand-btn, .m5-nested-visual-frame.flow-guide-pulse, .entry-exit-fan.flow-guide-pulse, .entry-exit-fan-item.flow-guide-pulse'
+      );
+      if(expandHit && panelHasM5NestedNav(panel) && panel.contains(expandHit)){
         markM5VisualReviewed(panel);
-        bumpFlowAdvance(moduleConfig, 120);
+        bumpFlowAdvance(moduleConfig, 160);
       }
 
       var activityRoot = findActivityRoot(panel);
@@ -3248,7 +3727,10 @@
         // Defer past target/bubble handlers (e.g. match place + checkMatch) so
         // success state is set before the guide re-resolves.
         setTimeout(function(){
-          bumpFlowAdvance(moduleConfig, 120);
+          // Mid-activity: soft refresh only (no scroll wipe). Final success bumps
+          // so the guide can advance to Done without jumping on every pair.
+          if(isActivityIncomplete(panel)) scheduleRefresh(moduleConfig, 120);
+          else bumpFlowAdvance(moduleConfig, 120);
         }, 0);
       }
     }, true);
@@ -3271,7 +3753,8 @@
         if(panel.dataset.flowActivityStarted !== 'true' && isActivityIncomplete(panel)){
           panel.dataset.flowActivityStarted = 'true';
         }
-        bumpFlowAdvance(moduleConfig, 120);
+        if(isActivityIncomplete(panel)) scheduleRefresh(moduleConfig, 120);
+        else bumpFlowAdvance(moduleConfig, 120);
       }
     }, true);
 
@@ -3280,7 +3763,8 @@
       if(!panel) return;
       var activityRoot = findActivityRoot(panel);
       if(activityRoot && activityRoot.contains(e.target)){
-        bumpFlowAdvance(moduleConfig, 120);
+        if(isActivityIncomplete(panel)) scheduleRefresh(moduleConfig, 120);
+        else bumpFlowAdvance(moduleConfig, 120);
       }
     }, true);
   }
@@ -3324,13 +3808,18 @@
         for(var i = 0; i < mutations.length; i++){
           var mutation = mutations[i];
           if(mutation.type === 'attributes'){
+            if(mutation.attributeName === 'data-matched-count'){
+              // Pair-match counters change on every correct tap ? refresh the
+              // rail/pulse without wiping scroll locks (avoids mid-activity jumps).
+              scheduleRefresh(moduleConfig, 180);
+              return;
+            }
             if(mutation.attributeName === 'data-choice-shell-complete' ||
               mutation.attributeName === 'data-choice-complete' ||
               mutation.attributeName === 'data-activity-complete' ||
               mutation.attributeName === 'data-carousel-complete' ||
               mutation.attributeName === 'data-categorize-complete' ||
               mutation.attributeName === 'data-sequence-complete' ||
-              mutation.attributeName === 'data-matched-count' ||
               mutation.attributeName === 'data-in-practice-done'){
               bumpFlowAdvance(moduleConfig, 220);
               return;
@@ -3505,6 +3994,7 @@
         delete panel.__flowGuideScope;
         delete panel.dataset.flowKeyideasFramed;
         delete panel.dataset.flowActivityStarted;
+        delete panel.dataset.flowHubTour;
         clearM5FlowTracking(panel);
       }
       document.querySelectorAll('[data-concept-grid="' + block + '"] .concept-square[data-target]').forEach(function(btn){

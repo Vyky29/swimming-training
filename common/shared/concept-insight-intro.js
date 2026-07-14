@@ -508,6 +508,25 @@
     return panel.dataset.insightPillarsDone === 'true';
   }
 
+  function buildCoreConceptSectionHeadHtml(){
+    if(global.ConceptSectionIcons && typeof global.ConceptSectionIcons.headHtml === 'function'){
+      return global.ConceptSectionIcons.headHtml('coreConcept', 'Core Concept', 'h5');
+    }
+    return [
+      '<h5 class="concept-section-head concept-section-head--core-concept">',
+        '<span class="icon icon--core-concept" aria-hidden="true">',
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">',
+            '<path d="M12 3 20 8v8l-8 5-8-5V8l8-5z"/>',
+            '<path d="M12 12 20 8"/>',
+            '<path d="M12 12v9"/>',
+            '<path d="M12 12 4 8"/>',
+          '</svg>',
+        '</span>',
+        '<span>Core Concept</span>',
+      '</h5>'
+    ].join('');
+  }
+
   function buildConceptInsightIntroHTML(insight){
     if(!insight) return '';
     var pillarList = insight.pillars || [];
@@ -526,12 +545,15 @@
       ? '<p class="concept-insight-intro__statement">' + cleanInsightText(insight.statement) + '</p>'
       : '';
     return [
-      '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
-        '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + cleanInsightText(insight.title) + '</h5>',
-        statementHtml,
-        '<p class="cards-review-hint">Read each point below, then click to confirm you\'ve read it.</p>',
-        '<div class="concept-insight-intro__cards" data-pillar-count="' + pillarList.length + '">' + pillars + '</div>',
-      '</div>'
+      '<section class="concept-section-card section-core-concept" aria-label="Core Concept">',
+        buildCoreConceptSectionHeadHtml(),
+        '<div class="concept-insight-intro" role="region" aria-labelledby="concept-insight-intro-title">',
+          '<h5 class="concept-insight-intro__title" id="concept-insight-intro-title">' + cleanInsightText(insight.title) + '</h5>',
+          statementHtml,
+          '<p class="cards-review-hint">Read each point below, then click to confirm you\'ve read it.</p>',
+          '<div class="concept-insight-intro__cards" data-pillar-count="' + pillarList.length + '">' + pillars + '</div>',
+        '</div>',
+      '</section>'
     ].join('');
   }
 

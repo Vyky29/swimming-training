@@ -140,11 +140,31 @@
     lockStandardConceptOrder(panel);
   }
 
+  function escapeHtml(str){
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   function getParentSubconceptNavMarkupFromData(data){
     if(!data) return null;
-    if(data.parentSubconceptNavHTML) return String(data.parentSubconceptNavHTML);
-    if(data.b2c2StateButtonsHTML) return String(data.b2c2StateButtonsHTML);
-    return null;
+    var html = data.parentSubconceptNavHTML || data.b2c2StateButtonsHTML || null;
+    if(!html) return null;
+    html = String(html);
+    var title = data.parentSubconceptTitle ? String(data.parentSubconceptTitle).trim() : '';
+    if(!title || /parent-subconcept-heading|overview-subconcept-shell/.test(html)) return html;
+
+    var lead = data.parentSubconceptLead ? String(data.parentSubconceptLead).trim() : '';
+    var leadHtml = lead
+      ? '<p class="parent-subconcept-lead">' + escapeHtml(lead) + '</p>'
+      : '';
+    return '<div class="parent-subconcept-shell">' +
+      '<h5 class="parent-subconcept-heading">' + escapeHtml(title) + '</h5>' +
+      leadHtml +
+      html +
+      '</div>';
   }
 
   function isParentConceptData(data){
