@@ -3,7 +3,7 @@
     'training-i-module-1': {
       trainingId: 'training-i',
       moduleNumber: 1,
-      moduleTitle: 'Understanding Water',
+      moduleTitle: 'Understanding the Aquatic Environment',
       trainingLabel: 'Swimming Training I',
       nextModuleLabel: 'Module 2',
       isFinalModule: false

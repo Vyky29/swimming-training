@@ -14,7 +14,7 @@
         id: 'module-1',
         number: 1,
         path: '/training-i/modules/module-1/',
-        title: 'Understanding Water',
+        title: 'Understanding the Aquatic Environment',
         sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
         blocks: ['block1', 'block2', 'block3'],
         conceptLocks: { b1c4: ['b1c3'] }
