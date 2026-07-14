@@ -180,9 +180,11 @@
       body.parentNode.insertBefore(wrap, body);
       wrap.appendChild(body);
 
-      var head = document.createElement('button');
-      head.type = 'button';
+      /* div (not button): Listen/Stop must sit in the head without nesting buttons */
+      var head = document.createElement('div');
       head.className = 'block-part-head';
+      head.setAttribute('role', 'button');
+      head.tabIndex = 0;
       head.setAttribute('aria-expanded', 'false');
       head.setAttribute('aria-controls', wrap.id);
       head.innerHTML =
@@ -192,11 +194,37 @@
           (meta.text ? '<p class="block-part-text">' + escapeHtml(meta.text) + '</p>' : '') +
         '</div>' +
         '<div class="block-part-head-meta">' +
+          '<div class="block-part-head-tts" data-block-part-tts></div>' +
           '<span class="block-part-status" data-block-part-status data-state="not_started">Not started</span>' +
           '<span class="block-part-chevron" aria-hidden="true"></span>' +
         '</div>';
       section.insertBefore(head, wrap);
+
+      var ttsHost = head.querySelector('[data-block-part-tts]');
+      var actions = body.querySelector('.block-header .section-top-actions, .block-header .block-tools-inline');
+      if(ttsHost && actions){
+        while(actions.firstChild) ttsHost.appendChild(actions.firstChild);
+        var header = actions.closest('.block-header');
+        if(header) header.setAttribute('data-block-header-tts-moved', '1');
+      }
     });
+  }
+
+  function isHeadTtsTarget(target){
+    return !!(target && target.closest && target.closest(
+      '.block-part-head-tts, .btn-tts, .btn-tts-inline, .btn-tts-stop-inline, [data-tts-button], [data-tts-stop], [data-concept-tts], [data-concept-tts-stop]'
+    ));
+  }
+
+  function togglePartFromHead(part){
+    var key = part && part.getAttribute('data-block-part');
+    if(!key) return;
+    if(openBlockPart === key){
+      closeAll({ scroll: false });
+    } else {
+      setOpen(key, { scroll: true });
+    }
+    refresh({ skipAutoAdvance: true });
   }
 
   function setOpen(key, opts){
@@ -262,8 +290,8 @@
       }
     });
 
-    // Guided flow keeps accordions closed after Done â€” learner taps the next block head.
-    // Outside guided flow, auto-open the next completeâ†’ready block once.
+    // Guided flow keeps accordions closed after Done — learner taps the next block head.
+    // Outside guided flow, auto-open the next complete?ready block once.
     if(!options.skipAutoAdvance && !isGuidedFlow()){
       var current = openBlockPart;
       var idx = current ? BLOCK_PART_ORDER.indexOf(current) : -1;
@@ -299,16 +327,15 @@
     $$('.section.block-part[data-block-part]').forEach(function(part){
       var btn = part.querySelector('.block-part-head');
       if(!btn) return;
-      btn.addEventListener('click', function(){
-        var key = part.getAttribute('data-block-part');
-        if(!key) return;
-        // Toggle: click open head to close; otherwise open that part
-        if(openBlockPart === key){
-          closeAll({ scroll: false });
-        } else {
-          setOpen(key, { scroll: true });
-        }
-        refresh({ skipAutoAdvance: true });
+      btn.addEventListener('click', function(e){
+        if(isHeadTtsTarget(e.target)) return;
+        togglePartFromHead(part);
+      });
+      btn.addEventListener('keydown', function(e){
+        if(isHeadTtsTarget(e.target)) return;
+        if(e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        togglePartFromHead(part);
       });
     });
 
@@ -324,7 +351,7 @@
       }, 0);
     });
 
-    // Start fully collapsed â€” learner opens a block intentionally
+    // Start fully collapsed — learner opens a block intentionally
     openBlockPart = null;
     refresh({ skipAutoAdvance: true });
   }
