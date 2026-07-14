@@ -1564,7 +1564,8 @@
     .b3c2-factor-grid{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:14px;
+      gap:12px;
+      align-items:start;
     }
     @media (max-width:640px){
       .b3c2-factor-grid{ grid-template-columns:1fr; }
@@ -1574,23 +1575,22 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:10px;
+      gap:8px;
       text-align:center;
-      padding:18px 14px 16px;
+      padding:14px 12px 12px;
       border:1px solid var(--line);
-      border-radius:16px;
-      background:#fbfdff;
+      border-radius:14px;
+      background:#fff;
       font:inherit;
       cursor:pointer;
-      transition:transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+      transition:background .18s ease, border-color .18s ease, box-shadow .18s ease;
       box-sizing:border-box;
       width:100%;
       min-width:0;
     }
     .b3c2-factor-box:hover{
-      transform:translateY(-2px);
       border-color:rgba(45,132,179,.35);
-      box-shadow:0 10px 22px rgba(18,50,71,.08);
+      box-shadow:0 8px 18px rgba(18,50,71,.07);
     }
     .b3c2-factor-box:focus-visible{
       outline:2px solid var(--blue);
@@ -1599,55 +1599,58 @@
     .b3c2-factor-box.is-active{
       border-color:var(--blue);
       background:linear-gradient(180deg,#e8f4fb 0%,#f8fcff 100%);
-      box-shadow:0 10px 24px rgba(45,132,179,.14);
+      box-shadow:0 8px 20px rgba(45,132,179,.12);
     }
     .b3c2-factor-box.is-complete{
-      box-shadow:0 0 0 2px rgba(34,140,90,.28), 0 8px 18px rgba(18,50,71,.06);
+      box-shadow:0 0 0 2px rgba(34,140,90,.28), 0 6px 14px rgba(18,50,71,.05);
     }
     .b3c2-factor-box.is-complete::after{
       content:"✓";
       position:absolute;
-      top:10px;
-      right:12px;
-      width:22px;
-      height:22px;
+      top:8px;
+      right:10px;
+      width:20px;
+      height:20px;
       border-radius:999px;
       display:grid;
       place-items:center;
-      font-size:.72rem;
+      font-size:.7rem;
       font-weight:800;
       color:#fff;
       background:#228c5a;
     }
+    /* Icon art: no circle — large, transparent, contain */
     .b3c2-factor-box-icon{
-      width:78px;
-      height:78px;
-      border-radius:999px;
+      width:72px;
+      height:72px;
+      border-radius:0;
       display:grid;
       place-items:center;
-      overflow:hidden;
-      background:#e7f3f8;
-      box-shadow:inset 0 0 0 1px rgba(15,40,60,.06);
+      overflow:visible;
+      background:transparent;
+      box-shadow:none;
       flex:0 0 auto;
       box-sizing:border-box;
-      padding:8px;
+      padding:0;
     }
     .b3c2-factor-box-icon img{
       width:100%;
       height:100%;
-      max-width:100%;
-      max-height:100%;
+      max-width:72px;
+      max-height:72px;
       object-fit:contain;
       object-position:center;
       display:block;
     }
-    .b3c2-factor-explore--physical .b3c2-factor-box-icon{ background:#e4f5f8; }
-    .b3c2-factor-explore--motor .b3c2-factor-box-icon{ background:#fff6e8; }
-    .b3c2-factor-explore--cognitive .b3c2-factor-box-icon{ background:#f3eef8; }
+    .b3c2-factor-explore--physical .b3c2-factor-box-icon,
+    .b3c2-factor-explore--motor .b3c2-factor-box-icon,
+    .b3c2-factor-explore--cognitive .b3c2-factor-box-icon{
+      background:transparent;
+    }
     .b3c2-factor-box-title{
       display:block;
       font-weight:800;
-      font-size:.95rem;
+      font-size:.92rem;
       letter-spacing:.02em;
       text-transform:uppercase;
       color:var(--blue);
@@ -1660,13 +1663,23 @@
       font-weight:600;
     }
     .b3c2-factor-box.is-active .b3c2-factor-box-hint,
-    .b3c2-factor-box.is-complete .b3c2-factor-box-hint{ opacity:.0; height:0; margin:0; overflow:hidden; }
+    .b3c2-factor-box.is-complete .b3c2-factor-box-hint{
+      opacity:0;
+      height:0;
+      margin:0;
+      overflow:hidden;
+    }
+    /* Row-spill: detail sits inside the grid as a full-width row */
+    .b3c2-factor-grid > .b3c2-factor-detail-panel{
+      grid-column:1 / -1;
+      margin:2px 0 4px;
+    }
     .b3c2-factor-detail-panel{
-      margin-top:16px;
-      padding:16px;
-      border-radius:16px;
+      padding:14px 16px 16px;
+      border-radius:14px;
       border:1px solid rgba(45,132,179,.2);
       background:linear-gradient(180deg,#f7fbfe 0%,#fff 100%);
+      box-sizing:border-box;
     }
     .b3c2-factor-detail-panel[hidden]{ display:none !important; }
     .b3c2-factor-detail-head{
@@ -1676,29 +1689,27 @@
       margin:0 0 12px;
     }
     .b3c2-factor-detail-head img{
-      width:48px;
-      height:48px;
-      border-radius:999px;
+      width:56px;
+      height:56px;
+      border-radius:0;
       object-fit:contain;
       object-position:center;
-      padding:6px;
+      padding:0;
       box-sizing:border-box;
-      background:#e7f3f8;
-      box-shadow:0 4px 12px rgba(18,50,71,.08);
+      background:transparent;
+      box-shadow:none;
     }
     .b3c2-factor-panel-title{
       margin:0;
-      font-size:1rem;
+      font-size:1.05rem;
       font-weight:800;
       color:var(--blue);
     }
+    /* Always-open reading stack (confirm by tap; never collapse) */
     .b3c2-factor-info-grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
+      display:flex;
+      flex-direction:column;
       gap:10px;
-    }
-    @media (max-width:760px){
-      .b3c2-factor-info-grid{ grid-template-columns:1fr; }
     }
     .b3c2-factor-info-card{
       display:flex;
@@ -1706,8 +1717,8 @@
       align-items:stretch;
       gap:0;
       text-align:left;
-      border:1px solid rgba(45,132,179,.16);
-      border-radius:14px;
+      border:1px solid rgba(45,132,179,.14);
+      border-radius:12px;
       background:#fff;
       padding:0;
       overflow:hidden;
@@ -1716,20 +1727,19 @@
       color:inherit;
       transition:border-color .16s ease, box-shadow .16s ease, background .16s ease;
     }
-    .b3c2-factor-info-card:hover{ border-color:rgba(45,132,179,.34); }
+    .b3c2-factor-info-card:hover{ border-color:rgba(45,132,179,.32); }
     .b3c2-factor-info-card:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
-    .b3c2-factor-info-card.is-open,
     .b3c2-factor-info-card.is-done{
-      border-color:rgba(45,132,179,.4);
-      box-shadow:0 8px 18px rgba(18,50,71,.06);
+      border-color:rgba(34,140,90,.42);
+      background:linear-gradient(180deg,#f3faf6 0%,#fff 72%);
+      box-shadow:0 4px 12px rgba(18,50,71,.05);
     }
-    .b3c2-factor-info-card.is-done{ background:linear-gradient(180deg,#f3faf6 0%,#fff 70%); }
     .b3c2-factor-info-trigger{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:8px;
-      padding:12px 12px 10px;
+      padding:11px 12px 6px;
       font-weight:800;
       font-size:.84rem;
       color:var(--ink);
@@ -1746,22 +1756,23 @@
       background:var(--blue);
       flex:0 0 auto;
     }
-    .b3c2-factor-info-chevron{
+    .b3c2-factor-info-confirm{
+      font-size:.72rem;
+      font-weight:700;
       color:var(--muted);
-      font-size:.78rem;
-      transition:transform .16s ease;
+      letter-spacing:.02em;
     }
-    .b3c2-factor-info-card.is-open .b3c2-factor-info-chevron{ transform:rotate(180deg); }
+    .b3c2-factor-info-card.is-done .b3c2-factor-info-confirm{
+      color:#1f7a4d;
+    }
+    .b3c2-factor-info-card.is-done .b3c2-factor-info-confirm::before{
+      content:"✓ ";
+    }
     .b3c2-factor-info-body{
       padding:0 12px 12px;
-      font-size:.86rem;
-      line-height:1.5;
+      font-size:.9rem;
+      line-height:1.55;
       color:var(--text);
-      display:none;
-    }
-    /* Keep reviewed cue text visible after completing (do not collapse away) */
-    .b3c2-factor-info-card.is-open .b3c2-factor-info-body,
-    .b3c2-factor-info-card.is-done .b3c2-factor-info-body{
       display:block;
     }
     .b3c2-factor-info-body p{ margin:0; }
@@ -1825,7 +1836,7 @@
       border-color:rgba(15,107,120,.22);
       background:linear-gradient(180deg,#eef8fb 0%,#fff 100%);
     }
-    .b3c2-factor-explore--physical .b3c2-factor-info-card.is-open{ border-color:rgba(15,107,120,.4); }
+    .b3c2-factor-explore--physical .b3c2-factor-info-card.is-done{ border-color:rgba(15,107,120,.45); }
 
     /* Motor — amber / orange */
     .b3c2-factor-explore--motor{
@@ -1849,7 +1860,7 @@
       border-color:rgba(217,119,6,.24);
       background:linear-gradient(180deg,#fff8ec 0%,#fff 100%);
     }
-    .b3c2-factor-explore--motor .b3c2-factor-info-card.is-open{ border-color:rgba(217,119,6,.45); }
+    .b3c2-factor-explore--motor .b3c2-factor-info-card.is-done{ border-color:rgba(217,119,6,.5); }
 
     /* Cognitive — violet */
     .b3c2-factor-explore--cognitive{
@@ -1873,7 +1884,7 @@
       border-color:rgba(109,90,205,.24);
       background:linear-gradient(180deg,#f3f0ff 0%,#fff 100%);
     }
-    .b3c2-factor-explore--cognitive .b3c2-factor-info-card.is-open{ border-color:rgba(109,90,205,.45); }
+    .b3c2-factor-explore--cognitive .b3c2-factor-info-card.is-done{ border-color:rgba(109,90,205,.5); }
 
     /* Level programme shell (L1–L6): unified with the header frame */
     .b2l1-intro-box{
@@ -8274,7 +8285,7 @@
           <div class="b3c2-concept-hero"><img src="/assets/images/module-4/factors/physical.png" alt="Physical factors infographic" loading="lazy" decoding="async" /></div>
           <div class="b3c2-factor-explore b3c2-factor-explore--physical" data-b3c2-factor-explore>
             <h4 class="b3c2-explore-heading">Explore the Factors</h4>
-            <p class="b3c2-explore-instruction">Open each factor, then review What this affects, What you might see, and What to do.</p>
+            <p class="b3c2-explore-instruction">Tap a factor. Read all three points, then tap each one to confirm.</p>
             <div class="b3c2-factor-grid" role="group" aria-label="Physical factors">
               <button type="button" class="b3c2-factor-box" data-factor-key="ptone" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-ptone.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Muscle Tone</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
               <button type="button" class="b3c2-factor-box" data-factor-key="pmobil" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/physical-pmobil.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Mobility</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
@@ -8367,7 +8378,7 @@
           <div class="b3c2-concept-hero"><img src="/assets/images/module-4/factors/motor.png" alt="Motor planning factors infographic" loading="lazy" decoding="async" /></div>
           <div class="b3c2-factor-explore b3c2-factor-explore--motor" data-b3c2-factor-explore>
             <h4 class="b3c2-explore-heading">Explore the Factors</h4>
-            <p class="b3c2-explore-instruction">Open each factor, then review What this affects, What you might see, and What to do.</p>
+            <p class="b3c2-explore-instruction">Tap a factor. Read all three points, then tap each one to confirm.</p>
             <div class="b3c2-factor-grid" role="group" aria-label="Motor planning factors">
               <button type="button" class="b3c2-factor-box" data-factor-key="mplan" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mplan.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Planning</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
               <button type="button" class="b3c2-factor-box" data-factor-key="mseq" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/motor-mseq.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Sequencing</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
@@ -8457,7 +8468,7 @@
           <div class="b3c2-concept-hero"><img src="/assets/images/module-4/factors/cognitive.png" alt="Cognitive factors infographic" loading="lazy" decoding="async" /></div>
           <div class="b3c2-factor-explore b3c2-factor-explore--cognitive" data-b3c2-factor-explore>
             <h4 class="b3c2-explore-heading">Explore the Factors</h4>
-            <p class="b3c2-explore-instruction">Open each factor, then review What this affects, What you might see, and What to do.</p>
+            <p class="b3c2-explore-instruction">Tap a factor. Read all three points, then tap each one to confirm.</p>
             <div class="b3c2-factor-grid" role="group" aria-label="Cognitive factors">
               <button type="button" class="b3c2-factor-box" data-factor-key="cund" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-cund.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Understanding</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
               <button type="button" class="b3c2-factor-box" data-factor-key="catt" aria-pressed="false"><span class="b3c2-factor-box-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/cognitive-catt.png" alt="" loading="lazy" decoding="async" /></span><span class="b3c2-factor-box-title">Attention</span><span class="b3c2-factor-box-hint">Tap to explore</span></button>
@@ -11452,13 +11463,16 @@
       wrap.setAttribute('data-b3c2-explore-bound','1');
       panel.dataset.factorExploreRequired = 'true';
       panel.dataset.factorExploreDone = 'false';
-      var boxes = wrap.querySelectorAll('.b3c2-factor-box[data-factor-key]');
+      var grid = wrap.querySelector('.b3c2-factor-grid');
+      var boxes = Array.prototype.slice.call(wrap.querySelectorAll('.b3c2-factor-box[data-factor-key]'));
       var panelEl = wrap.querySelector('.b3c2-factor-detail-panel');
       var inner = wrap.querySelector('.b3c2-factor-panel-inner');
       var sources = wrap.querySelector('.b3c2-factor-detail-sources');
       var headIcon = panelEl ? panelEl.querySelector('.b3c2-factor-detail-head img') : null;
       var headTitle = panelEl ? panelEl.querySelector('.b3c2-factor-panel-title') : null;
-      if(!panelEl || !inner || !sources || !boxes.length) return;
+      if(!grid || !panelEl || !inner || !sources || !boxes.length) return;
+      /* Detail lives in the factor grid so it can spill under the active row */
+      if(panelEl.parentNode !== grid) grid.appendChild(panelEl);
       panelEl.setAttribute('aria-live','polite');
       var reviewed = {};
 
@@ -11504,14 +11518,33 @@
           { key:'todo', label:'What to do', body: doText ? ('<p>' + doText + '</p>') : '<p>No details provided.</p>' }
         ];
         return '<div class="b3c2-factor-info-grid">' + sections.map(function(s){
-          return '<button type="button" class="b3c2-factor-info-card" data-info-key="' + s.key + '" aria-expanded="false">' +
+          return '<button type="button" class="b3c2-factor-info-card" data-info-key="' + s.key + '" aria-pressed="false">' +
             '<span class="b3c2-factor-info-trigger">' +
               '<span class="b3c2-factor-info-kicker"><span class="b3c2-factor-info-dot" aria-hidden="true"></span><span>' + s.label + '</span></span>' +
-              '<span class="b3c2-factor-info-chevron" aria-hidden="true">▾</span>' +
+              '<span class="b3c2-factor-info-confirm">Tap to confirm</span>' +
             '</span>' +
             '<span class="b3c2-factor-info-body">' + s.body + '</span>' +
           '</button>';
         }).join('') + '</div>';
+      }
+
+      function placeDetailAfterTile(btn){
+        var idx = boxes.indexOf(btn);
+        if(idx < 0) return;
+        var narrow = window.matchMedia && window.matchMedia('(max-width:640px)').matches;
+        var anchor;
+        if(narrow){
+          anchor = btn;
+        } else {
+          var rowEnd = (Math.floor(idx / 2) * 2) + 1;
+          if(rowEnd >= boxes.length) rowEnd = boxes.length - 1;
+          anchor = boxes[rowEnd];
+        }
+        if(anchor && anchor.parentNode === grid){
+          if(anchor.nextSibling !== panelEl){
+            grid.insertBefore(panelEl, anchor.nextSibling);
+          }
+        }
       }
 
       function bindInfoCards(factorKey){
@@ -11521,25 +11554,16 @@
           var key = card.getAttribute('data-info-key');
           if(reviewed[factorKey][key]){
             card.classList.add('is-done');
-            card.classList.add('is-open');
-            card.setAttribute('aria-expanded', 'true');
+            card.setAttribute('aria-pressed', 'true');
+            var conf = card.querySelector('.b3c2-factor-info-confirm');
+            if(conf) conf.textContent = 'Confirmed';
           }
           card.addEventListener('click', function(){
-            // Mark reviewed; keep text open. Only highlight the latest as active.
-            cards.forEach(function(other){
-              if(other === card) return;
-              if(other.classList.contains('is-done')){
-                other.setAttribute('aria-expanded', 'true');
-                other.classList.add('is-open');
-              } else {
-                other.classList.remove('is-open');
-                other.setAttribute('aria-expanded', 'false');
-              }
-            });
-            card.classList.add('is-open');
-            card.setAttribute('aria-expanded', 'true');
             reviewed[factorKey][key] = true;
             card.classList.add('is-done');
+            card.setAttribute('aria-pressed', 'true');
+            var conf = card.querySelector('.b3c2-factor-info-confirm');
+            if(conf) conf.textContent = 'Confirmed';
             syncExploreDone();
           });
         });
@@ -11565,7 +11589,11 @@
             }
             inner.innerHTML = buildInfoCardsHTML(src);
             bindInfoCards(key);
+            placeDetailAfterTile(btn);
             panelEl.hidden = false;
+            try{
+              panelEl.scrollIntoView({ behavior:'smooth', block:'nearest' });
+            }catch(err){}
           } else {
             inner.innerHTML = '';
             panelEl.hidden = true;
