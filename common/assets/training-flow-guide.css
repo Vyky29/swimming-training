@@ -292,8 +292,22 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
   margin-bottom: 8px;
 }
 .flow-guide-m5-nav-ring{
-  --_pulse-rgb: var(--flow-accent-rgb);
+  --_pulse-rgb: var(--flow-m5-accent-rgb, var(--flow-accent-rgb));
   border-radius: 16px;
+}
+
+/* Folder / flash / schedule tiles: one pulse via ring (not host + ring) */
+.flow-guide-pulse.flow-guide-pulse--ring-host.b2c2-folder-tile,
+.flow-guide-pulse.flow-guide-pulse--ring-host.b2c3-flash-tile,
+.flow-guide-pulse.flow-guide-pulse--ring-host.b2pl-lvl-btn,
+.flow-guide-pulse.b2c2-folder-tile:has(> .flow-guide-m5-nav-ring),
+.flow-guide-pulse.b2c3-flash-tile:has(> .flow-guide-m5-nav-ring),
+.flow-guide-pulse.b2pl-lvl-btn:has(> .flow-guide-m5-nav-ring){
+  animation: none !important;
+  overflow: visible !important;
+  position: relative !important;
+  isolation: isolate;
+  z-index: 6;
 }
 
 @keyframes flowGuideRing{

@@ -990,7 +990,7 @@ body {
   --key-idea-badge: var(--block2-level-accent, var(--blue, #2d84b3));
 }
 
-/* Idle number badge: always a soft circle (never plain black digits) */
+/* Idle number badge: soft circle tinted with the concept/block badge colour */
 .portal .concept-points-box .key-idea-index,
 .portal .outcome .outcome-index {
   width: 30px !important;
@@ -1004,8 +1004,8 @@ body {
   font-weight: 800 !important;
   line-height: 1 !important;
   box-sizing: border-box !important;
-  background: rgba(45, 132, 179, 0.16) !important;
-  background-color: rgba(45, 132, 179, 0.16) !important;
+  background: color-mix(in srgb, var(--key-idea-badge, var(--block-accent-ink, #2d84b3)) 18%, #fff) !important;
+  background-color: color-mix(in srgb, var(--key-idea-badge, var(--block-accent-ink, #2d84b3)) 18%, #fff) !important;
   color: var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3))) !important;
   -webkit-text-fill-color: var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3))) !important;
 }

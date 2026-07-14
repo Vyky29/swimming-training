@@ -443,11 +443,11 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
 .portal .section.block-part .concept-mini-fill{
   background: linear-gradient(90deg, var(--block-accent, #2d84b3), color-mix(in srgb, var(--block-accent, #2d84b3) 55%, #fff));
 }
-/* Key Ideas heading stays brand blue across all blocks (never orange/purple block ink) */
+/* Key Ideas heading follows block accent (foundations orange / core purple / etc.) */
 .portal .section.block-part .concept-points-box > h4,
 .portal .section.block-part .concept-points-box > h4 .concept-section-head,
 .portal .section.block-part .concept-points-box > h4 .concept-section-head span:last-child{
-  color: #2d84b3 !important;
+  color: var(--key-idea-badge, var(--block-accent-ink, var(--block-accent, #2d84b3))) !important;
 }
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]){
   --concept-title-accent: var(--block-accent-ink, var(--block-accent, #2d84b3));
@@ -455,7 +455,7 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
   --concept-title-accent-border: var(--block-accent-border, rgba(45, 132, 179, 0.18));
   --concept-title-surface: var(--block-title-surface, linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%));
   --concept-title-line: var(--block-title-line, linear-gradient(90deg, #cc952b 0%, #2d84b3 100%));
-  --key-idea-badge: #2d84b3;
+  --key-idea-badge: var(--block-accent-ink, var(--block-accent, #2d84b3));
 }
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
 .portal .section.block-part .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,

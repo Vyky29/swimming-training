@@ -623,8 +623,11 @@
       ring.setAttribute('aria-hidden', 'true');
       el.appendChild(ring);
     }
-    var rgb = (panel && panel.dataset.flowM5AccentRgb) || getM5NavAccent(el);
+    // Prefer the tile/folder colour (home grid), then in-folder panel accent
+    var rgb = getM5NavAccent(el) || (panel && panel.dataset.flowM5AccentRgb) || '214, 120, 28';
     ring.style.setProperty('--flow-m5-accent-rgb', rgb);
+    ring.style.setProperty('--_pulse-rgb', rgb);
+    el.style.setProperty('--flow-m5-accent-rgb', rgb);
   }
 
   function buildM5NavStep(el, label){
@@ -3417,12 +3420,22 @@
       }
       // Inside a coloured folder/leaf ? pulse + chrome follow that folder colour (not block purple)
       var m5Accent = panel.dataset && panel.dataset.flowM5AccentRgb;
-      if(m5Accent){
+      // On hub home, folders still pulse in their own tile colour before a folder is open
+      var navTile = step && step.el && (
+        step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return'
+      ) ? step.el : null;
+      var tileAccent = navTile ? getM5NavAccent(navTile) : '';
+      if(tileAccent){
+        accentRgb = tileAccent;
+        root.style.setProperty('--flow-m5-accent-rgb', tileAccent);
+        root.setAttribute('data-guided-m5-folder', (panel.dataset && panel.dataset.flowM5Root) || 'tile');
+      } else if(m5Accent){
         accentRgb = m5Accent;
         root.style.setProperty('--flow-m5-accent-rgb', m5Accent);
         root.setAttribute('data-guided-m5-folder', panel.dataset.flowM5Root || '1');
       } else {
         root.removeAttribute('data-guided-m5-folder');
+        root.style.removeProperty('--flow-m5-accent-rgb');
       }
     } else {
       root.removeAttribute('data-guided-stage-theme');
@@ -3517,6 +3530,8 @@
     if(activityStep){
       el.classList.add(PULSE_ACTIVITY);
     } else if(usesM5Tone){
+      // Ring only ? avoid host animation + ring stacking ("double pulse")
+      el.classList.add('flow-guide-pulse--ring-host');
       ensureM5NavRing(el, panel);
     } else if(tone === 'practice'){
       el.classList.add(PULSE_IN_PRACTICE);

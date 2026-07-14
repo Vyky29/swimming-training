@@ -13,8 +13,8 @@
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
   @import url('/assets/concept-insight-intro.css?v=20260714core1');
-  @import url('/assets/training-flow-guide.css?v=20260714m5flow1');
-  @import url('/assets/module-block-accordion.css?v=20260714m5flow1');
+  @import url('/assets/training-flow-guide.css?v=20260714m5nav1');
+  @import url('/assets/module-block-accordion.css?v=20260714m5accent1');
   :root{
       --blue:#2d84b3;
       --blueSoft:#89b5c1;
@@ -1977,11 +1977,11 @@
       border-color:transparent !important;
     }
     /* Folder (main category) — PIX TO LEARN system colours */
-    .b2-screens .b2pl-f--1{ background:#D4607A; border-color:#D4607A; }
-    .b2-screens .b2pl-f--2{ background:#4A8C8C; border-color:#4A8C8C; }
-    .b2-screens .b2pl-f--3{ background:#B8732A; border-color:#B8732A; }
-    .b2-screens .b2pl-f--4{ background:#F0E65C !important; border-color:transparent !important; }
-    .b2-screens .b2pl-f--5{ background:#111; border-color:transparent; }
+    .b2-screens .b2pl-f--1{ --b2c2-accent:#D4607A; background:#D4607A; border-color:#D4607A; }
+    .b2-screens .b2pl-f--2{ --b2c2-accent:#4A8C8C; background:#4A8C8C; border-color:#4A8C8C; }
+    .b2-screens .b2pl-f--3{ --b2c2-accent:#B8732A; background:#B8732A; border-color:#B8732A; }
+    .b2-screens .b2pl-f--4{ --b2c2-accent:#C9A227; background:#F0E65C !important; border-color:transparent !important; }
+    .b2-screens .b2pl-f--5{ --b2c2-accent:#333333; background:#111; border-color:transparent; }
     /* FOLDER 1 sub-subconcept headers */
     .b2-screens .b2pl-cat-f1-1{ background:#B03060; border-color:#B03060; }
     .b2-screens .b2pl-cat-f1-2{ background:#D4607A; border-color:#D4607A; }
@@ -2111,6 +2111,7 @@
     .b2-screens[data-b2-screens="b2c2"] .b2c2-folder-tile{
       appearance:none;
       -webkit-appearance:none;
+      position:relative;
       width:100%;
       min-height:248px;
       margin:0;
@@ -2818,37 +2819,52 @@
       border-color:color-mix(in srgb, var(--b2c2-accent, var(--m5-folder-accent, #2d84b3)) 35%, rgba(45,132,179,.16));
     }
     /*
-     * Key Ideas for Instructors — Module 5 lock
-     * Flat hubs: brand blue (not block orange/purple from containment).
-     * Nested leaves: folder/flash accent when available, else brand blue.
+     * Key Ideas — Module 5
+     * Flat hubs: block accent (foundations orange / core purple / pathway green).
+     * Nested leaves: folder/flash accent when available.
      */
-    .portal .section.block-part .concept-panel .concept-points-box{
-      --key-idea-badge:#2d84b3;
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box{
+      --key-idea-badge:var(--block-accent-ink, var(--block-accent, #2d84b3));
     }
-    .portal .section.block-part .concept-panel .concept-points-box > h4,
-    .portal .section.block-part .concept-panel .concept-points-box > h4.concept-section-head,
-    .portal .section.block-part .concept-panel .concept-points-box > h4 .concept-section-head,
-    .portal .section.block-part .concept-panel .concept-points-box > h4 span:last-child,
-    .portal .section.block-part .concept-panel .concept-points-box > h4.concept-section-head .icon{
-      color:#2d84b3 !important;
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box > h4,
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box > h4.concept-section-head,
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box > h4 .concept-section-head,
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box > h4 span:last-child,
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box > h4.concept-section-head .icon{
+      color:var(--key-idea-badge, var(--block-accent-ink, #2d84b3)) !important;
     }
-    .portal .section.block-part .concept-panel .concept-points-box .key-idea-index{
-      background:rgba(45,132,179,.16) !important;
-      background-color:rgba(45,132,179,.16) !important;
-      color:#2d84b3 !important;
-      -webkit-text-fill-color:#2d84b3 !important;
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box .key-idea-index{
+      background:color-mix(in srgb, var(--key-idea-badge, #2d84b3) 18%, #fff) !important;
+      background-color:color-mix(in srgb, var(--key-idea-badge, #2d84b3) 18%, #fff) !important;
+      color:var(--key-idea-badge, #2d84b3) !important;
+      -webkit-text-fill-color:var(--key-idea-badge, #2d84b3) !important;
     }
-    .portal .section.block-part .concept-panel .concept-points-box .key-idea-item.clicked{
-      border-color:#2d84b3 !important;
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box .key-idea-item.clicked{
+      border-color:var(--key-idea-badge, #2d84b3) !important;
     }
-    .portal .section.block-part .concept-panel .concept-points-box .key-idea-item.clicked .key-idea-index{
-      background:#2d84b3 !important;
-      background-color:#2d84b3 !important;
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box .key-idea-item.clicked .key-idea-index{
+      background:var(--key-idea-badge, #2d84b3) !important;
+      background-color:var(--key-idea-badge, #2d84b3) !important;
       color:#fff !important;
       -webkit-text-fill-color:#fff !important;
     }
-    .portal .section.block-part .concept-panel .concept-points-box .key-idea-item.clicked::after{
-      color:#2d84b3 !important;
+    .portal .section.block-part .concept-panel:not(.m5-nested-active) .concept-points-box .key-idea-item.clicked::after{
+      color:var(--key-idea-badge, #2d84b3) !important;
+    }
+    .portal .section.block-part--foundations .concept-panel:not(.m5-nested-active) .concept-section-head .icon--key-ideas{
+      background:linear-gradient(145deg, #ea8f22 0%, #c2410c 100%);
+      color:#fff;
+      box-shadow:0 4px 10px rgba(194, 65, 12, .22);
+    }
+    .portal .section.block-part--core .concept-panel:not(.m5-nested-active) .concept-section-head .icon--key-ideas{
+      background:linear-gradient(145deg, #a855f7 0%, #7b2fa1 100%);
+      color:#fff;
+      box-shadow:0 4px 10px rgba(123, 47, 161, .22);
+    }
+    .portal .section.block-part--pathway .concept-panel:not(.m5-nested-active) .concept-section-head .icon--key-ideas{
+      background:linear-gradient(145deg, #6da372 0%, #1a5c38 100%);
+      color:#fff;
+      box-shadow:0 4px 10px rgba(26, 92, 56, .22);
     }
     .portal .concept-panel.m5-nested-active .folder-page .concept-points-box{
       --key-idea-badge:var(--m5-folder-accent, var(--b2c2-accent, var(--b2c3-accent, #2d84b3)));
@@ -3843,7 +3859,7 @@
       min-width:34px !important;
       min-height:34px !important;
       border-radius:8px !important;
-      background:linear-gradient(145deg,#3a8fbb 0%,#2d84b3 100%) !important;
+      background:linear-gradient(145deg, color-mix(in srgb, var(--m5-pillar-accent, var(--block-accent, #2d84b3)) 78%, #fff) 0%, var(--m5-pillar-accent, var(--block-accent-ink, var(--block-accent, #2d84b3))) 100%) !important;
       color:#fff !important;
       align-items:center !important;
       justify-content:center !important;
@@ -3856,6 +3872,24 @@
       display:block !important;
       visibility:visible !important;
       opacity:1 !important;
+    }
+    /* Nested M5: Core Concept pillars follow folder accent when inside a folder, else block accent */
+    .portal .concept-panel.m5-nested-active{
+      --m5-pillar-accent:var(--m5-folder-accent, var(--block-accent-ink, var(--block-accent, #2d84b3)));
+    }
+    .portal .concept-panel.m5-nested-active .concept-insight-pillar.clicked{
+      border-color:var(--m5-pillar-accent, #2d84b3) !important;
+      background:linear-gradient(180deg, color-mix(in srgb, var(--m5-pillar-accent, #2d84b3) 16%, #fff) 0%, color-mix(in srgb, var(--m5-pillar-accent, #2d84b3) 8%, #fff) 100%) !important;
+      box-shadow:0 4px 12px color-mix(in srgb, var(--m5-pillar-accent, #2d84b3) 22%, transparent) !important;
+    }
+    .portal .concept-panel.m5-nested-active .concept-insight-pillar.clicked .concept-insight-pillar__icon{
+      background:linear-gradient(145deg, color-mix(in srgb, var(--m5-pillar-accent, #2d84b3) 78%, #fff) 0%, var(--m5-pillar-accent, #2d84b3) 100%) !important;
+    }
+    .portal .concept-panel.m5-nested-active .concept-insight-pillar.clicked .concept-insight-pillar__title{
+      color:var(--m5-pillar-accent, #2d84b3) !important;
+    }
+    .portal .concept-panel.m5-nested-active .concept-insight-pillar.clicked::after{
+      background:var(--m5-pillar-accent, #2d84b3) !important;
     }
     .portal .concept-panel .m5-screen-visual-card > .concept-section-head,
     .portal .concept-panel .b2-screens .section-visual-shell > .concept-section-head,
@@ -3875,7 +3909,7 @@
     }
   </style>
   <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260714core1" />
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714key3" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714accent1" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
@@ -8181,7 +8215,7 @@
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
   <script src="/shared/guided-concept-layout.js?v=20260821"></script>
-  <script src="/shared/training-flow-guide.js?v=20260714huborder1"></script>
+  <script src="/shared/training-flow-guide.js?v=20260714m5nav1"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
