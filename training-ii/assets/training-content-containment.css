@@ -990,7 +990,7 @@ body {
   --key-idea-badge: var(--block2-level-accent, var(--blue, #2d84b3));
 }
 
-/* Idle number badge: soft circle tinted with the concept/block badge colour */
+/* Idle number badge: brand-blue soft circle (same across every block) */
 .portal .concept-points-box .key-idea-index,
 .portal .outcome .outcome-index {
   width: 30px !important;
@@ -1004,10 +1004,10 @@ body {
   font-weight: 800 !important;
   line-height: 1 !important;
   box-sizing: border-box !important;
-  background: color-mix(in srgb, var(--key-idea-badge, var(--block-accent-ink, #2d84b3)) 18%, #fff) !important;
-  background-color: color-mix(in srgb, var(--key-idea-badge, var(--block-accent-ink, #2d84b3)) 18%, #fff) !important;
-  color: var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3))) !important;
-  -webkit-text-fill-color: var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3))) !important;
+  background: rgba(45, 132, 179, 0.16) !important;
+  background-color: rgba(45, 132, 179, 0.16) !important;
+  color: var(--key-idea-badge, var(--blue, #2d84b3)) !important;
+  -webkit-text-fill-color: var(--key-idea-badge, var(--blue, #2d84b3)) !important;
 }
 .portal .concept-panel[data-stage-theme="core"] .key-idea-index {
   background: rgba(138, 63, 176, 0.18) !important;
@@ -1036,13 +1036,26 @@ body {
 
 .portal .concept-points-box .key-idea-item.clicked .key-idea-index,
 .portal .outcome.clicked .outcome-index {
-  background-color: var(--key-idea-badge, var(--block-accent-ink, var(--blue, #2d84b3))) !important;
+  background-color: var(--key-idea-badge, var(--blue, #2d84b3)) !important;
   background-image: none !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
   forced-color-adjust: none;
   print-color-adjust: exact;
   -webkit-print-color-adjust: exact;
+}
+
+/* Key Ideas title + lightbulb: always brand blue (never block orange/purple) */
+.portal .concept-points-box > h4,
+.portal .concept-points-box > h4.concept-section-head,
+.portal .concept-points-box .concept-section-head,
+.portal .concept-points-box .concept-section-head span{
+  color: #2d84b3 !important;
+}
+.portal .concept-points-box .concept-section-head .icon--key-ideas{
+  background: linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 10px rgba(45, 132, 179, .22) !important;
 }
 
 /* Tick stays brand blue across every block / stage theme */
@@ -1093,6 +1106,7 @@ body {
   --concept-title-accent-border: rgba(45, 132, 179, 0.18);
   --concept-title-surface: linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%);
   --concept-title-line: linear-gradient(90deg, #cc952b 0%, #2d84b3 100%);
+  --key-idea-badge: #2d84b3;
 }
 
 .portal .section.block-part--foundations .concept-panel:not([data-stage-theme]):not([data-level]){
@@ -1101,7 +1115,7 @@ body {
   --concept-title-accent-border: rgba(234, 143, 34, 0.28);
   --concept-title-surface: linear-gradient(135deg, #fffaf3 0%, #fff4e6 100%);
   --concept-title-line: linear-gradient(90deg, #f0a84a 0%, #ea8f22 100%);
-  --key-idea-badge: #c2410c;
+  --key-idea-badge: #2d84b3;
 }
 .portal .section.block-part--core .concept-panel:not([data-stage-theme]):not([data-level]){
   --concept-title-accent: #7b2fa1;
@@ -1109,7 +1123,7 @@ body {
   --concept-title-accent-border: rgba(123, 47, 161, 0.28);
   --concept-title-surface: linear-gradient(135deg, #fbf7fe 0%, #f5ecfc 100%);
   --concept-title-line: linear-gradient(90deg, #a855f7 0%, #7b2fa1 100%);
-  --key-idea-badge: #7b2fa1;
+  --key-idea-badge: #2d84b3;
 }
 .portal .section.block-part--pathway .concept-panel:not([data-stage-theme]):not([data-level]){
   --concept-title-accent: #1a5c38;
@@ -1117,7 +1131,7 @@ body {
   --concept-title-accent-border: rgba(26, 92, 56, 0.28);
   --concept-title-surface: linear-gradient(135deg, #f4fbf6 0%, #e8f5ee 100%);
   --concept-title-line: linear-gradient(90deg, #6da372 0%, #1a5c38 100%);
-  --key-idea-badge: #1a5c38;
+  --key-idea-badge: #2d84b3;
 }
 .portal .section.block-part--progress .concept-panel:not([data-stage-theme]):not([data-level]){
   --concept-title-accent: #a16207;
@@ -1125,7 +1139,7 @@ body {
   --concept-title-accent-border: rgba(212, 168, 35, 0.3);
   --concept-title-surface: linear-gradient(135deg, #fffdf5 0%, #fef6d8 100%);
   --concept-title-line: linear-gradient(90deg, #e8c84a 0%, #d4a823 100%);
-  --key-idea-badge: #a16207;
+  --key-idea-badge: #2d84b3;
 }
 
 

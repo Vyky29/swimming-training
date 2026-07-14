@@ -3418,24 +3418,30 @@
       } else {
         root.removeAttribute('data-guided-stage-theme');
       }
-      // Inside a coloured folder/leaf ? pulse + chrome follow that folder colour (not block purple)
-      var m5Accent = panel.dataset && panel.dataset.flowM5AccentRgb;
-      // On hub home, folders still pulse in their own tile colour before a folder is open
-      var navTile = step && step.el && (
-        step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return'
-      ) ? step.el : null;
-      var tileAccent = navTile ? getM5NavAccent(navTile) : '';
-      if(tileAccent){
-        accentRgb = tileAccent;
-        root.style.setProperty('--flow-m5-accent-rgb', tileAccent);
-        root.setAttribute('data-guided-m5-folder', (panel.dataset && panel.dataset.flowM5Root) || 'tile');
-      } else if(m5Accent){
-        accentRgb = m5Accent;
-        root.style.setProperty('--flow-m5-accent-rgb', m5Accent);
-        root.setAttribute('data-guided-m5-folder', panel.dataset.flowM5Root || '1');
-      } else {
+      // Core Concept / Key Ideas always pulse in brand blue
+      if(step && (step.kind === 'pillar' || step.kind === 'keyidea')){
+        accentRgb = VARIANT_RGB.module || '45, 132, 179';
         root.removeAttribute('data-guided-m5-folder');
         root.style.removeProperty('--flow-m5-accent-rgb');
+      } else {
+        // Folder tiles / leaves: pulse follows folder colour (not block purple)
+        var m5Accent = panel.dataset && panel.dataset.flowM5AccentRgb;
+        var navTile = step && step.el && (
+          step.kind === 'm5-nested-nav' || step.tone === 'm5-nav' || step.kind === 'm5-nested-return'
+        ) ? step.el : null;
+        var tileAccent = navTile ? getM5NavAccent(navTile) : '';
+        if(tileAccent){
+          accentRgb = tileAccent;
+          root.style.setProperty('--flow-m5-accent-rgb', tileAccent);
+          root.setAttribute('data-guided-m5-folder', (panel.dataset && panel.dataset.flowM5Root) || 'tile');
+        } else if(m5Accent){
+          accentRgb = m5Accent;
+          root.style.setProperty('--flow-m5-accent-rgb', m5Accent);
+          root.setAttribute('data-guided-m5-folder', panel.dataset.flowM5Root || '1');
+        } else {
+          root.removeAttribute('data-guided-m5-folder');
+          root.style.removeProperty('--flow-m5-accent-rgb');
+        }
       }
     } else {
       root.removeAttribute('data-guided-stage-theme');
