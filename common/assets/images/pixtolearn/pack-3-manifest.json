@@ -1,0 +1,425 @@
+{
+  "source": "PixtoLearn swimming flashcard pack 3 uploads (Swimming Strokes / Diving, Starts & Turns focus)",
+  "path": "common/assets/images/pixtolearn/pack-3/",
+  "count": 80,
+  "cardCount": 79,
+  "idRange": {
+    "min": 2,
+    "max": 80
+  },
+  "missingIds": [],
+  "overview": "overview.png",
+  "duplicatesResolved": [
+    {
+      "id": 17,
+      "kept": "pack_3_17-b0d174cf-82f2-4f09-9460-c34787945953.png",
+      "skipped": [
+        "pack_3_17-de71045d-e476-4750-9ff4-a75c3e046e89.png"
+      ]
+    },
+    {
+      "id": 33,
+      "kept": "pack_3_33-1b6ee184-7aee-4bbf-8957-6fda38140cc1.png",
+      "skipped": [
+        "pack_3_33-60f82b5c-07dd-4d2e-9cfc-2a4480922add.png"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "id": 2,
+      "file": "2.png",
+      "bytes": 138760
+    },
+    {
+      "id": 3,
+      "file": "3.png",
+      "bytes": 173647
+    },
+    {
+      "id": 4,
+      "file": "4.png",
+      "bytes": 159128
+    },
+    {
+      "id": 5,
+      "file": "5.png",
+      "bytes": 37383
+    },
+    {
+      "id": 6,
+      "file": "6.png",
+      "bytes": 56974
+    },
+    {
+      "id": 7,
+      "file": "7.png",
+      "bytes": 35605
+    },
+    {
+      "id": 8,
+      "file": "8.png",
+      "bytes": 58506
+    },
+    {
+      "id": 9,
+      "file": "9.png",
+      "bytes": 37034
+    },
+    {
+      "id": 10,
+      "file": "10.png",
+      "bytes": 49092
+    },
+    {
+      "id": 11,
+      "file": "11.png",
+      "bytes": 42438
+    },
+    {
+      "id": 12,
+      "file": "12.png",
+      "bytes": 64219
+    },
+    {
+      "id": 13,
+      "file": "13.png",
+      "bytes": 46501
+    },
+    {
+      "id": 14,
+      "file": "14.png",
+      "bytes": 75605
+    },
+    {
+      "id": 15,
+      "file": "15.png",
+      "bytes": 46854
+    },
+    {
+      "id": 16,
+      "file": "16.png",
+      "bytes": 92312
+    },
+    {
+      "id": 17,
+      "file": "17.png",
+      "bytes": 41497
+    },
+    {
+      "id": 18,
+      "file": "18.png",
+      "bytes": 69368
+    },
+    {
+      "id": 19,
+      "file": "19.png",
+      "bytes": 36767
+    },
+    {
+      "id": 20,
+      "file": "20.png",
+      "bytes": 54502
+    },
+    {
+      "id": 21,
+      "file": "21.png",
+      "bytes": 40559
+    },
+    {
+      "id": 22,
+      "file": "22.png",
+      "bytes": 57183
+    },
+    {
+      "id": 23,
+      "file": "23.png",
+      "bytes": 48548
+    },
+    {
+      "id": 24,
+      "file": "24.png",
+      "bytes": 91242
+    },
+    {
+      "id": 25,
+      "file": "25.png",
+      "bytes": 44355
+    },
+    {
+      "id": 26,
+      "file": "26.png",
+      "bytes": 96153
+    },
+    {
+      "id": 27,
+      "file": "27.png",
+      "bytes": 49664
+    },
+    {
+      "id": 28,
+      "file": "28.png",
+      "bytes": 76390
+    },
+    {
+      "id": 29,
+      "file": "29.png",
+      "bytes": 45069
+    },
+    {
+      "id": 30,
+      "file": "30.png",
+      "bytes": 70568
+    },
+    {
+      "id": 31,
+      "file": "31.png",
+      "bytes": 35088
+    },
+    {
+      "id": 32,
+      "file": "32.png",
+      "bytes": 55459
+    },
+    {
+      "id": 33,
+      "file": "33.png",
+      "bytes": 57820
+    },
+    {
+      "id": 34,
+      "file": "34.png",
+      "bytes": 70645
+    },
+    {
+      "id": 35,
+      "file": "35.png",
+      "bytes": 47790
+    },
+    {
+      "id": 36,
+      "file": "36.png",
+      "bytes": 64521
+    },
+    {
+      "id": 37,
+      "file": "37.png",
+      "bytes": 53149
+    },
+    {
+      "id": 38,
+      "file": "38.png",
+      "bytes": 62693
+    },
+    {
+      "id": 39,
+      "file": "39.png",
+      "bytes": 57798
+    },
+    {
+      "id": 40,
+      "file": "40.png",
+      "bytes": 65362
+    },
+    {
+      "id": 41,
+      "file": "41.png",
+      "bytes": 37006
+    },
+    {
+      "id": 42,
+      "file": "42.png",
+      "bytes": 58811
+    },
+    {
+      "id": 43,
+      "file": "43.png",
+      "bytes": 33906
+    },
+    {
+      "id": 44,
+      "file": "44.png",
+      "bytes": 61445
+    },
+    {
+      "id": 45,
+      "file": "45.png",
+      "bytes": 50421
+    },
+    {
+      "id": 46,
+      "file": "46.png",
+      "bytes": 63598
+    },
+    {
+      "id": 47,
+      "file": "47.png",
+      "bytes": 55727
+    },
+    {
+      "id": 48,
+      "file": "48.png",
+      "bytes": 65065
+    },
+    {
+      "id": 49,
+      "file": "49.png",
+      "bytes": 49028
+    },
+    {
+      "id": 50,
+      "file": "50.png",
+      "bytes": 75514
+    },
+    {
+      "id": 51,
+      "file": "51.png",
+      "bytes": 52029
+    },
+    {
+      "id": 52,
+      "file": "52.png",
+      "bytes": 75215
+    },
+    {
+      "id": 53,
+      "file": "53.png",
+      "bytes": 37218
+    },
+    {
+      "id": 54,
+      "file": "54.png",
+      "bytes": 62998
+    },
+    {
+      "id": 55,
+      "file": "55.png",
+      "bytes": 45426
+    },
+    {
+      "id": 56,
+      "file": "56.png",
+      "bytes": 63415
+    },
+    {
+      "id": 57,
+      "file": "57.png",
+      "bytes": 37934
+    },
+    {
+      "id": 58,
+      "file": "58.png",
+      "bytes": 78721
+    },
+    {
+      "id": 59,
+      "file": "59.png",
+      "bytes": 33934
+    },
+    {
+      "id": 60,
+      "file": "60.png",
+      "bytes": 83164
+    },
+    {
+      "id": 61,
+      "file": "61.png",
+      "bytes": 36995
+    },
+    {
+      "id": 62,
+      "file": "62.png",
+      "bytes": 73689
+    },
+    {
+      "id": 63,
+      "file": "63.png",
+      "bytes": 48582
+    },
+    {
+      "id": 64,
+      "file": "64.png",
+      "bytes": 63746
+    },
+    {
+      "id": 65,
+      "file": "65.png",
+      "bytes": 51791
+    },
+    {
+      "id": 66,
+      "file": "66.png",
+      "bytes": 63675
+    },
+    {
+      "id": 67,
+      "file": "67.png",
+      "bytes": 43768
+    },
+    {
+      "id": 68,
+      "file": "68.png",
+      "bytes": 66304
+    },
+    {
+      "id": 69,
+      "file": "69.png",
+      "bytes": 51761
+    },
+    {
+      "id": 70,
+      "file": "70.png",
+      "bytes": 72121
+    },
+    {
+      "id": 71,
+      "file": "71.png",
+      "bytes": 52351
+    },
+    {
+      "id": 72,
+      "file": "72.png",
+      "bytes": 85561
+    },
+    {
+      "id": 73,
+      "file": "73.png",
+      "bytes": 46560
+    },
+    {
+      "id": 74,
+      "file": "74.png",
+      "bytes": 73063
+    },
+    {
+      "id": 75,
+      "file": "75.png",
+      "bytes": 52198
+    },
+    {
+      "id": 76,
+      "file": "76.png",
+      "bytes": 77812
+    },
+    {
+      "id": 77,
+      "file": "77.png",
+      "bytes": 53059
+    },
+    {
+      "id": 78,
+      "file": "78.png",
+      "bytes": 75719
+    },
+    {
+      "id": 79,
+      "file": "79.png",
+      "bytes": 56119
+    },
+    {
+      "id": 80,
+      "file": "80.png",
+      "bytes": 64120
+    }
+  ]
+}

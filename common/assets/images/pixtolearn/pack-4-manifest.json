@@ -1,0 +1,541 @@
+{
+  "source": "PixtoLearn swimming flashcard pack uploads for Folder 4 (Games, Toys & Equipment, Extras) \u2014 upload filenames used pack_5_* prefix",
+  "folder": 4,
+  "path": "common/assets/images/pixtolearn/pack-4/",
+  "count": 84,
+  "cardCount": 83,
+  "idRange": {
+    "min": 2,
+    "max": 84
+  },
+  "missingIds": [],
+  "overview": "overview.png",
+  "extraOverviews": [],
+  "duplicatesResolved": [
+    {
+      "id": 34,
+      "kept": "pack_5_34-20d731d7-cb79-4810-b551-b9495078e5b0.png",
+      "skipped": [
+        "pack_5_34-26081c94-d069-4053-bc4d-01d3a7dcb93c.png",
+        "pack_5_34-64d73257-5295-476b-b990-3fba093d7407.png"
+      ]
+    },
+    {
+      "id": 36,
+      "kept": "pack_5_36-1e358442-1679-465a-b970-21b316dbe07d.png",
+      "skipped": [
+        "pack_5_36-cf097832-146e-496d-965f-d71e29388c65.png"
+      ]
+    },
+    {
+      "id": 40,
+      "kept": "pack_5_40-0d21831f-c6d1-4e8c-ad00-a048466c24d6.png",
+      "skipped": [
+        "pack_5_40-5a17c90a-01d3-4294-97c2-55b976fdbb50.png"
+      ]
+    },
+    {
+      "id": 42,
+      "kept": "pack_5_42-0f5fa463-c019-4ed1-b307-150b54628ea0.png",
+      "skipped": [
+        "pack_5_42-e17adbc1-6fa3-478d-a318-d5e31c0d2816.png"
+      ]
+    },
+    {
+      "id": 50,
+      "kept": "pack_5_50-577c6428-b426-4e9c-9639-d904bdb34dfc.png",
+      "skipped": [
+        "pack_5_50-fbaf9782-b533-4145-ad63-eccd7b0e0bf2.png"
+      ]
+    },
+    {
+      "id": 55,
+      "kept": "pack_5_55-afc647d7-e288-4b88-b158-7d298ce23ac4.png",
+      "skipped": [
+        "pack_5_55-f10bc45f-44d4-48e7-bd57-c0a82089795f.png"
+      ]
+    },
+    {
+      "id": 56,
+      "kept": "pack_5_56-7e097010-07ae-4594-960f-8c39b39a1bca.png",
+      "skipped": [
+        "pack_5_56-f068ac97-1897-442f-8b16-7c28c84fa0fd.png",
+        "pack_5_56-fca97a8c-a60f-4390-bad9-018c4f69bd8d.png"
+      ]
+    },
+    {
+      "id": 61,
+      "kept": "pack_5_61-6dfef477-8d0e-4309-9fd9-62d48e1d80e9.png",
+      "skipped": [
+        "pack_5_61-bd865e50-93d1-4cb1-9ff6-f8298f963dcd.png"
+      ]
+    },
+    {
+      "id": 73,
+      "kept": "pack_5_73-808f4bb9-152f-4b84-8473-7c04ec114694.png",
+      "skipped": [
+        "pack_5_73-9081e3b1-caf8-447d-b1ce-48408cac4ce0.png"
+      ]
+    },
+    {
+      "id": 77,
+      "kept": "pack_5_77-4e68a4bd-fde6-433b-9d6c-3eae498dea81.png",
+      "skipped": [
+        "pack_5_77-cad3adbd-3a70-49ae-a5e7-c6681c40c3a5.png"
+      ]
+    },
+    {
+      "id": 78,
+      "kept": "pack_5_78-db60ffbe-f5d1-43b4-aa4f-096cb874e1b4.png",
+      "skipped": [
+        "pack_5_78-f3eed5ee-a02d-4e04-ab94-7ee0c683fa0b.png"
+      ]
+    },
+    {
+      "id": 79,
+      "kept": "pack_5_79-49b8306a-acf3-46c3-a7b2-ef4af2b24fb1.png",
+      "skipped": [
+        "pack_5_79-550ac166-f579-4eeb-9c5f-dc20b45fd0e0.png"
+      ]
+    },
+    {
+      "id": 80,
+      "kept": "pack_5_80-9c208079-8eae-44f1-ab51-cb3196b0e480.png",
+      "skipped": [
+        "pack_5_80-f7643b22-4262-42b0-b52b-a031fc89ee8b.png"
+      ]
+    },
+    {
+      "id": 81,
+      "kept": "pack_5_81-be624a92-9b20-4f93-bcf2-c5ad0e0e29c1.png",
+      "skipped": [
+        "pack_5_81-d95a7d08-26ed-464a-b6d5-116b636966e7.png"
+      ]
+    },
+    {
+      "id": 82,
+      "kept": "pack_5_82-0a527be2-8121-4336-ae0f-a77c7ef8c3aa.png",
+      "skipped": [
+        "pack_5_82-2c5744dd-2ae5-4224-882e-f0d390b8cd65.png"
+      ]
+    }
+  ],
+  "unmatchedSourceFiles": [],
+  "files": [
+    {
+      "id": 2,
+      "file": "2.png",
+      "bytes": 149890
+    },
+    {
+      "id": 3,
+      "file": "3.png",
+      "bytes": 173822
+    },
+    {
+      "id": 4,
+      "file": "4.png",
+      "bytes": 158864
+    },
+    {
+      "id": 5,
+      "file": "5.png",
+      "bytes": 35237
+    },
+    {
+      "id": 6,
+      "file": "6.png",
+      "bytes": 79703
+    },
+    {
+      "id": 7,
+      "file": "7.png",
+      "bytes": 57945
+    },
+    {
+      "id": 8,
+      "file": "8.png",
+      "bytes": 81203
+    },
+    {
+      "id": 9,
+      "file": "9.png",
+      "bytes": 49441
+    },
+    {
+      "id": 10,
+      "file": "10.png",
+      "bytes": 61882
+    },
+    {
+      "id": 11,
+      "file": "11.png",
+      "bytes": 56718
+    },
+    {
+      "id": 12,
+      "file": "12.png",
+      "bytes": 69440
+    },
+    {
+      "id": 13,
+      "file": "13.png",
+      "bytes": 57755
+    },
+    {
+      "id": 14,
+      "file": "14.png",
+      "bytes": 74677
+    },
+    {
+      "id": 15,
+      "file": "15.png",
+      "bytes": 44850
+    },
+    {
+      "id": 16,
+      "file": "16.png",
+      "bytes": 56770
+    },
+    {
+      "id": 17,
+      "file": "17.png",
+      "bytes": 55833
+    },
+    {
+      "id": 18,
+      "file": "18.png",
+      "bytes": 65115
+    },
+    {
+      "id": 19,
+      "file": "19.png",
+      "bytes": 52890
+    },
+    {
+      "id": 20,
+      "file": "20.png",
+      "bytes": 73192
+    },
+    {
+      "id": 21,
+      "file": "21.png",
+      "bytes": 49394
+    },
+    {
+      "id": 22,
+      "file": "22.png",
+      "bytes": 52770
+    },
+    {
+      "id": 23,
+      "file": "23.png",
+      "bytes": 46787
+    },
+    {
+      "id": 24,
+      "file": "24.png",
+      "bytes": 70977
+    },
+    {
+      "id": 25,
+      "file": "25.png",
+      "bytes": 60882
+    },
+    {
+      "id": 26,
+      "file": "26.png",
+      "bytes": 65632
+    },
+    {
+      "id": 27,
+      "file": "27.png",
+      "bytes": 55184
+    },
+    {
+      "id": 28,
+      "file": "28.png",
+      "bytes": 63806
+    },
+    {
+      "id": 29,
+      "file": "29.png",
+      "bytes": 62906
+    },
+    {
+      "id": 30,
+      "file": "30.png",
+      "bytes": 69722
+    },
+    {
+      "id": 31,
+      "file": "31.png",
+      "bytes": 31806
+    },
+    {
+      "id": 32,
+      "file": "32.png",
+      "bytes": 81267
+    },
+    {
+      "id": 33,
+      "file": "33.png",
+      "bytes": 39035
+    },
+    {
+      "id": 34,
+      "file": "34.png",
+      "bytes": 49054
+    },
+    {
+      "id": 35,
+      "file": "35.png",
+      "bytes": 39031
+    },
+    {
+      "id": 36,
+      "file": "36.png",
+      "bytes": 41911
+    },
+    {
+      "id": 37,
+      "file": "37.png",
+      "bytes": 39021
+    },
+    {
+      "id": 38,
+      "file": "38.png",
+      "bytes": 41592
+    },
+    {
+      "id": 39,
+      "file": "39.png",
+      "bytes": 39014
+    },
+    {
+      "id": 40,
+      "file": "40.png",
+      "bytes": 31036
+    },
+    {
+      "id": 41,
+      "file": "41.png",
+      "bytes": 39031
+    },
+    {
+      "id": 42,
+      "file": "42.png",
+      "bytes": 40669
+    },
+    {
+      "id": 43,
+      "file": "43.png",
+      "bytes": 39052
+    },
+    {
+      "id": 44,
+      "file": "44.png",
+      "bytes": 51643
+    },
+    {
+      "id": 45,
+      "file": "45.png",
+      "bytes": 39026
+    },
+    {
+      "id": 46,
+      "file": "46.png",
+      "bytes": 36871
+    },
+    {
+      "id": 47,
+      "file": "47.png",
+      "bytes": 39033
+    },
+    {
+      "id": 48,
+      "file": "48.png",
+      "bytes": 61208
+    },
+    {
+      "id": 49,
+      "file": "49.png",
+      "bytes": 39036
+    },
+    {
+      "id": 50,
+      "file": "50.png",
+      "bytes": 30502
+    },
+    {
+      "id": 51,
+      "file": "51.png",
+      "bytes": 39002
+    },
+    {
+      "id": 52,
+      "file": "52.png",
+      "bytes": 26442
+    },
+    {
+      "id": 53,
+      "file": "53.png",
+      "bytes": 39041
+    },
+    {
+      "id": 54,
+      "file": "54.png",
+      "bytes": 40725
+    },
+    {
+      "id": 55,
+      "file": "55.png",
+      "bytes": 55496
+    },
+    {
+      "id": 56,
+      "file": "56.png",
+      "bytes": 87800
+    },
+    {
+      "id": 57,
+      "file": "57.png",
+      "bytes": 35002
+    },
+    {
+      "id": 58,
+      "file": "58.png",
+      "bytes": 100561
+    },
+    {
+      "id": 59,
+      "file": "59.png",
+      "bytes": 70112
+    },
+    {
+      "id": 60,
+      "file": "60.png",
+      "bytes": 57947
+    },
+    {
+      "id": 61,
+      "file": "61.png",
+      "bytes": 70003
+    },
+    {
+      "id": 62,
+      "file": "62.png",
+      "bytes": 58980
+    },
+    {
+      "id": 63,
+      "file": "63.png",
+      "bytes": 66685
+    },
+    {
+      "id": 64,
+      "file": "64.png",
+      "bytes": 65788
+    },
+    {
+      "id": 65,
+      "file": "65.png",
+      "bytes": 66305
+    },
+    {
+      "id": 66,
+      "file": "66.png",
+      "bytes": 67660
+    },
+    {
+      "id": 67,
+      "file": "67.png",
+      "bytes": 50520
+    },
+    {
+      "id": 68,
+      "file": "68.png",
+      "bytes": 58356
+    },
+    {
+      "id": 69,
+      "file": "69.png",
+      "bytes": 52406
+    },
+    {
+      "id": 70,
+      "file": "70.png",
+      "bytes": 67682
+    },
+    {
+      "id": 71,
+      "file": "71.png",
+      "bytes": 75867
+    },
+    {
+      "id": 72,
+      "file": "72.png",
+      "bytes": 83689
+    },
+    {
+      "id": 73,
+      "file": "73.png",
+      "bytes": 47207
+    },
+    {
+      "id": 74,
+      "file": "74.png",
+      "bytes": 58351
+    },
+    {
+      "id": 75,
+      "file": "75.png",
+      "bytes": 47616
+    },
+    {
+      "id": 76,
+      "file": "76.png",
+      "bytes": 64704
+    },
+    {
+      "id": 77,
+      "file": "77.png",
+      "bytes": 61215
+    },
+    {
+      "id": 78,
+      "file": "78.png",
+      "bytes": 52322
+    },
+    {
+      "id": 79,
+      "file": "79.png",
+      "bytes": 81760
+    },
+    {
+      "id": 80,
+      "file": "80.png",
+      "bytes": 74488
+    },
+    {
+      "id": 81,
+      "file": "81.png",
+      "bytes": 16782
+    },
+    {
+      "id": 82,
+      "file": "82.png",
+      "bytes": 18445
+    },
+    {
+      "id": 83,
+      "file": "83.png",
+      "bytes": 16764
+    },
+    {
+      "id": 84,
+      "file": "84.png",
+      "bytes": 22844
+    }
+  ]
+}

@@ -1,0 +1,403 @@
+{
+  "source": "PixtoLearn swimming flashcard pack 2 uploads (Floating & Streamlining / Water Safety focus)",
+  "path": "common/assets/images/pixtolearn/pack-2/",
+  "count": 76,
+  "cardCount": 75,
+  "overview": "overview.png",
+  "duplicatesResolved": [
+    {
+      "id": 7,
+      "kept": "pack_2_7-47adc438-6484-4f31-a74f-af001b97600f.png",
+      "skipped": [
+        "pack_2_7-d99a2020-1a36-4a06-9e15-abdbb651b557.png",
+        "pack_2_7-e1e6f951-9863-40e0-bd3d-d297c7cf225b.png",
+        "pack_2_7-e58ef4c0-738a-4685-829e-c3d0364fa5b8.png"
+      ]
+    },
+    {
+      "id": 8,
+      "kept": "pack_2_8-09a0a28e-7be0-43dd-84da-dc5c9e21ef93.png",
+      "skipped": [
+        "pack_2_8-975a6b68-04cb-4720-b07a-5722090e9e9d.png",
+        "pack_2_8-cec8f7e0-53d3-4e08-b7a1-f2ad9ae6185e.png"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "id": 2,
+      "file": "2.png",
+      "bytes": 168268
+    },
+    {
+      "id": 3,
+      "file": "3.png",
+      "bytes": 173647
+    },
+    {
+      "id": 4,
+      "file": "4.png",
+      "bytes": 159070
+    },
+    {
+      "id": 5,
+      "file": "5.png",
+      "bytes": 36388
+    },
+    {
+      "id": 6,
+      "file": "6.png",
+      "bytes": 72598
+    },
+    {
+      "id": 7,
+      "file": "7.png",
+      "bytes": 46393
+    },
+    {
+      "id": 8,
+      "file": "8.png",
+      "bytes": 54012
+    },
+    {
+      "id": 9,
+      "file": "9.png",
+      "bytes": 45164
+    },
+    {
+      "id": 10,
+      "file": "10.png",
+      "bytes": 61665
+    },
+    {
+      "id": 11,
+      "file": "11.png",
+      "bytes": 46979
+    },
+    {
+      "id": 12,
+      "file": "12.png",
+      "bytes": 64648
+    },
+    {
+      "id": 13,
+      "file": "13.png",
+      "bytes": 45848
+    },
+    {
+      "id": 14,
+      "file": "14.png",
+      "bytes": 63635
+    },
+    {
+      "id": 15,
+      "file": "15.png",
+      "bytes": 56236
+    },
+    {
+      "id": 16,
+      "file": "16.png",
+      "bytes": 54661
+    },
+    {
+      "id": 17,
+      "file": "17.png",
+      "bytes": 57528
+    },
+    {
+      "id": 18,
+      "file": "18.png",
+      "bytes": 51793
+    },
+    {
+      "id": 19,
+      "file": "19.png",
+      "bytes": 40595
+    },
+    {
+      "id": 20,
+      "file": "20.png",
+      "bytes": 62634
+    },
+    {
+      "id": 21,
+      "file": "21.png",
+      "bytes": 51013
+    },
+    {
+      "id": 22,
+      "file": "22.png",
+      "bytes": 71249
+    },
+    {
+      "id": 23,
+      "file": "23.png",
+      "bytes": 58412
+    },
+    {
+      "id": 24,
+      "file": "24.png",
+      "bytes": 71275
+    },
+    {
+      "id": 25,
+      "file": "25.png",
+      "bytes": 35225
+    },
+    {
+      "id": 26,
+      "file": "26.png",
+      "bytes": 120872
+    },
+    {
+      "id": 27,
+      "file": "27.png",
+      "bytes": 57536
+    },
+    {
+      "id": 28,
+      "file": "28.png",
+      "bytes": 68714
+    },
+    {
+      "id": 29,
+      "file": "29.png",
+      "bytes": 58850
+    },
+    {
+      "id": 30,
+      "file": "30.png",
+      "bytes": 68039
+    },
+    {
+      "id": 31,
+      "file": "31.png",
+      "bytes": 56938
+    },
+    {
+      "id": 32,
+      "file": "32.png",
+      "bytes": 59387
+    },
+    {
+      "id": 33,
+      "file": "33.png",
+      "bytes": 58505
+    },
+    {
+      "id": 34,
+      "file": "34.png",
+      "bytes": 60440
+    },
+    {
+      "id": 35,
+      "file": "35.png",
+      "bytes": 54088
+    },
+    {
+      "id": 36,
+      "file": "36.png",
+      "bytes": 69177
+    },
+    {
+      "id": 37,
+      "file": "37.png",
+      "bytes": 50209
+    },
+    {
+      "id": 38,
+      "file": "38.png",
+      "bytes": 57031
+    },
+    {
+      "id": 39,
+      "file": "39.png",
+      "bytes": 67293
+    },
+    {
+      "id": 40,
+      "file": "40.png",
+      "bytes": 69195
+    },
+    {
+      "id": 41,
+      "file": "41.png",
+      "bytes": 50114
+    },
+    {
+      "id": 42,
+      "file": "42.png",
+      "bytes": 53025
+    },
+    {
+      "id": 43,
+      "file": "43.png",
+      "bytes": 50420
+    },
+    {
+      "id": 44,
+      "file": "44.png",
+      "bytes": 69874
+    },
+    {
+      "id": 45,
+      "file": "45.png",
+      "bytes": 52694
+    },
+    {
+      "id": 46,
+      "file": "46.png",
+      "bytes": 68062
+    },
+    {
+      "id": 47,
+      "file": "47.png",
+      "bytes": 54732
+    },
+    {
+      "id": 48,
+      "file": "48.png",
+      "bytes": 60022
+    },
+    {
+      "id": 49,
+      "file": "49.png",
+      "bytes": 56995
+    },
+    {
+      "id": 50,
+      "file": "50.png",
+      "bytes": 60396
+    },
+    {
+      "id": 51,
+      "file": "51.png",
+      "bytes": 53797
+    },
+    {
+      "id": 52,
+      "file": "52.png",
+      "bytes": 61391
+    },
+    {
+      "id": 53,
+      "file": "53.png",
+      "bytes": 50667
+    },
+    {
+      "id": 54,
+      "file": "54.png",
+      "bytes": 64824
+    },
+    {
+      "id": 55,
+      "file": "55.png",
+      "bytes": 52932
+    },
+    {
+      "id": 56,
+      "file": "56.png",
+      "bytes": 76002
+    },
+    {
+      "id": 57,
+      "file": "57.png",
+      "bytes": 51434
+    },
+    {
+      "id": 58,
+      "file": "58.png",
+      "bytes": 75323
+    },
+    {
+      "id": 59,
+      "file": "59.png",
+      "bytes": 54594
+    },
+    {
+      "id": 60,
+      "file": "60.png",
+      "bytes": 84245
+    },
+    {
+      "id": 61,
+      "file": "61.png",
+      "bytes": 47456
+    },
+    {
+      "id": 62,
+      "file": "62.png",
+      "bytes": 65298
+    },
+    {
+      "id": 63,
+      "file": "63.png",
+      "bytes": 35252
+    },
+    {
+      "id": 64,
+      "file": "64.png",
+      "bytes": 61315
+    },
+    {
+      "id": 65,
+      "file": "65.png",
+      "bytes": 63997
+    },
+    {
+      "id": 66,
+      "file": "66.png",
+      "bytes": 59889
+    },
+    {
+      "id": 67,
+      "file": "67.png",
+      "bytes": 48120
+    },
+    {
+      "id": 68,
+      "file": "68.png",
+      "bytes": 59432
+    },
+    {
+      "id": 69,
+      "file": "69.png",
+      "bytes": 70287
+    },
+    {
+      "id": 70,
+      "file": "70.png",
+      "bytes": 67630
+    },
+    {
+      "id": 71,
+      "file": "71.png",
+      "bytes": 51337
+    },
+    {
+      "id": 72,
+      "file": "72.png",
+      "bytes": 57408
+    },
+    {
+      "id": 73,
+      "file": "73.png",
+      "bytes": 57518
+    },
+    {
+      "id": 74,
+      "file": "74.png",
+      "bytes": 73065
+    },
+    {
+      "id": 75,
+      "file": "75.png",
+      "bytes": 51440
+    },
+    {
+      "id": 76,
+      "file": "76.png",
+      "bytes": 84226
+    }
+  ]
+}

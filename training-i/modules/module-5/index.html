@@ -1420,110 +1420,131 @@
       .m5-ft-arrow{ transform:rotate(90deg); justify-self:center; }
       .m5-ft-pool{ grid-template-columns:1fr; }
     }
-    /* First & Then PixtoLearn stand + flasks */
+    /* First & Then PixtoLearn stand + flasks (3 boards at once) */
     .m5-ftx{
       display:flex;
       flex-direction:column;
       gap:14px;
     }
-    .m5-ftx__meta{
+    .m5-ftx__boards{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    .m5-ftx__scenario{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      padding:12px;
+      border-radius:16px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(26,92,56,.12);
+    }
+    .m5-ftx__scenario.is-correct{
+      border-color:rgba(26,92,56,.35);
+      background:rgba(232,245,238,.55);
+    }
+    .m5-ftx__sc-head{
       display:flex;
       flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
+      align-items:baseline;
+      gap:8px 12px;
     }
-    .m5-ftx__step{
-      font-size:.72rem;
+    .m5-ftx__sc-num{
+      font-size:.7rem;
       font-weight:800;
       letter-spacing:.06em;
       text-transform:uppercase;
       color:#1a5c38;
-      background:rgba(26,92,56,.1);
-      border:1px solid rgba(26,92,56,.2);
-      border-radius:999px;
-      padding:6px 10px;
     }
-    .m5-ftx__caption{
+    .m5-ftx__sc-title{
       margin:0;
-      font-size:.95rem;
-      font-weight:650;
-      line-height:1.45;
+      font-size:.92rem;
+      font-weight:750;
       color:#163247;
+      line-height:1.4;
+    }
+    .m5-ftx__sc-caption{
+      margin:0;
+      font-size:.86rem;
+      font-weight:550;
+      color:#4a5560;
+      line-height:1.45;
     }
     .m5-ftx__stand{
       display:grid;
       grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-      gap:14px;
-      align-items:end;
-      padding:16px 14px 12px;
-      border-radius:18px;
-      background:linear-gradient(180deg, #e8ecef 0%, #d7dcdf 48%, #cfd4d8 100%);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 14px 28px rgba(18,50,71,.1);
+      gap:10px;
+      align-items:stretch;
     }
     .m5-ftx__pocket{
+      position:relative;
+      min-width:0;
+      min-height:188px;
+      border-radius:14px;
+      border:1.5px solid rgba(70,80,90,.16);
       display:flex;
       flex-direction:column;
-      align-items:center;
-      gap:8px;
-      min-width:0;
-    }
-    .m5-ftx__frame{
-      width:100%;
-      max-width:220px;
-      margin:0 auto;
-      border-radius:10px;
-      background:#f4f6f7;
-      border:2px solid #9aa3ab;
-      box-shadow:0 8px 16px rgba(40,55,70,.12), inset 0 0 0 1px rgba(255,255,255,.7);
       overflow:hidden;
       transition:box-shadow .15s ease, border-color .15s ease, transform .15s ease;
+      box-shadow:0 6px 14px rgba(18,50,71,.06);
     }
-    .m5-ftx__pocket.is-active .m5-ftx__frame,
-    .m5-ftx__pocket.drag-over .m5-ftx__frame{
+    .m5-ftx__pocket--first{
+      background:linear-gradient(180deg, #cfd6ee 0%, #e4e8f6 55%, #f4f5fb 100%);
+    }
+    .m5-ftx__pocket--then{
+      background:linear-gradient(180deg, #cfe0b8 0%, #e4efd4 55%, #f4f8ee 100%);
+    }
+    .m5-ftx__pocket.is-active,
+    .m5-ftx__pocket.drag-over{
       border-color:#2d84b3;
-      box-shadow:0 0 0 3px rgba(45,132,179,.2), 0 10px 20px rgba(40,55,70,.14);
-      transform:translateY(-2px);
+      box-shadow:0 0 0 3px rgba(45,132,179,.18);
+      transform:translateY(-1px);
     }
-    .m5-ftx__pocket.is-filled .m5-ftx__frame{
-      border-color:#6f7a84;
-      background:#fff;
-    }
-    .m5-ftx__rail{
-      height:14px;
-      width:100%;
-      border-bottom:1px solid rgba(0,0,0,.08);
-    }
-    .m5-ftx__pocket--first .m5-ftx__rail{
-      background:linear-gradient(180deg, #c9c6e8 0%, #b3afd9 100%);
-    }
-    .m5-ftx__pocket--then .m5-ftx__rail{
-      background:linear-gradient(180deg, #d7e3a8 0%, #c4d489 100%);
+    .m5-ftx__pocket.is-filled{
+      border-color:rgba(70,80,90,.28);
     }
     .m5-ftx__slot-drop{
-      min-height:168px;
+      flex:1;
+      min-height:148px;
       display:flex;
       align-items:stretch;
       justify-content:center;
-      padding:8px;
-      background:linear-gradient(180deg, #eceff1 0%, #f7f8f9 100%);
+      padding:10px 10px 6px;
     }
     .m5-ftx__slot-ph{
       margin:auto;
-      font-size:.78rem;
-      font-weight:700;
-      color:#7a8691;
+      font-size:.72rem;
+      font-weight:650;
+      color:rgba(90,100,110,.55);
       text-align:center;
-      padding:10px;
-      line-height:1.35;
+      line-height:1.3;
+    }
+    .m5-ftx__pocket-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      padding:6px 12px 10px;
+      background:rgba(255,255,255,.55);
+      border-top:1px solid rgba(70,80,90,.08);
     }
     .m5-ftx__stand-label{
-      font-size:.78rem;
-      font-weight:650;
-      letter-spacing:.02em;
-      color:#4a5560;
+      display:block;
+      font-size:.88rem;
+      font-weight:700;
+      letter-spacing:.01em;
+      color:#2a323a;
       text-transform:lowercase;
     }
+    .m5-ftx__add{
+      font-size:.62rem;
+      font-weight:650;
+      color:rgba(90,100,110,.5);
+      pointer-events:none;
+      white-space:nowrap;
+    }
+    .m5-ftx__pocket.is-filled .m5-ftx__add{ visibility:hidden; }
     .m5-ftx__pool-label{
       margin:2px 0 0;
       font-size:.8rem;
@@ -1562,14 +1583,7 @@
       border-color:#1a5c38;
       box-shadow:0 0 0 3px rgba(26,92,56,.18);
     }
-    .m5-ftx__flask.dragging,
-    .m5-ftx__flask.is-placed{
-      opacity:.38;
-    }
-    .m5-ftx__flask.is-placed{
-      pointer-events:none;
-      cursor:default;
-    }
+    .m5-ftx__flask.dragging{ opacity:.4; }
     .m5-ftx__flask-img{
       display:block;
       width:100%;
@@ -1577,45 +1591,29 @@
       object-fit:contain;
       background:#f7faf8;
     }
-    .m5-ftx__flask-lbl{
-      display:block;
-      padding:8px 8px 10px;
-      font-size:.72rem;
-      font-weight:750;
-      line-height:1.3;
-      color:#163247;
-      text-align:center;
-    }
-    /* Mounted card inside the stand pocket — flush like a real flashcard */
     .m5-ftx__slot-drop .m5-ftx__flask{
       width:100%;
       max-width:none;
       height:100%;
-      min-height:152px;
+      min-height:128px;
       border:0;
-      border-radius:6px;
-      box-shadow:0 2px 6px rgba(18,50,71,.12);
+      border-radius:8px;
+      box-shadow:0 2px 6px rgba(18,50,71,.1);
       cursor:pointer;
       opacity:1;
       pointer-events:auto;
-      display:flex;
-      flex-direction:column;
+      display:block;
+      background:#fff;
     }
     .m5-ftx__slot-drop .m5-ftx__flask:hover,
     .m5-ftx__slot-drop .m5-ftx__flask:focus-visible{
       transform:none;
-      box-shadow:0 2px 8px rgba(18,50,71,.18);
     }
     .m5-ftx__slot-drop .m5-ftx__flask-img{
-      flex:1 1 auto;
+      height:100%;
       aspect-ratio:auto;
-      min-height:110px;
+      min-height:92px;
       object-fit:contain;
-      background:#fff;
-    }
-    .m5-ftx__slot-drop .m5-ftx__flask-lbl{
-      padding:6px 6px 8px;
-      font-size:.68rem;
       background:#fff;
     }
     .m5-ftx__nav{
@@ -1624,10 +1622,9 @@
       gap:8px;
       align-items:center;
     }
-    @media (max-width:640px){
-      .m5-ftx__stand{ grid-template-columns:1fr 1fr; gap:10px; padding:12px 10px 10px; }
-      .m5-ftx__frame{ max-width:none; }
-      .m5-ftx__slot-drop{ min-height:148px; }
+    @media (max-width:720px){
+      .m5-ftx__stand{ gap:8px; }
+      .m5-ftx__pocket{ min-height:168px; }
       .m5-ftx__pool{ grid-template-columns:repeat(2, minmax(0,1fr)); }
     }
     .concept-panel[data-panel-for="block1"] .section-activity-shell > .concept-section-head,
@@ -6285,33 +6282,16 @@
       if(f === 'ft_flask_scenarios'){
         var tipF =
           '<p class="b2-inline-hint" style="font-size:.88rem; margin:0 0 4px;">' +
-          'Drag each PixtoLearn flashcard onto the <strong>First &amp; Then stand</strong> (or tap a card, then tap a pocket). The card mounts in the stand like in session.' +
+          'Mount flashcards on all three PixtoLearn <strong>First &amp; Then</strong> stands. Drag or tap. Used cards leave the pool.' +
           '</p>';
         var shellF =
           '<div class="m5-ftx" data-m5-ftx>' +
-            '<div class="m5-ftx__meta"><span class="m5-ftx__step" data-m5-ftx-step>Example 1</span></div>' +
-            '<p class="m5-ftx__caption" data-m5-ftx-caption></p>' +
-            '<div class="m5-ftx__stand" data-m5-ftx-stand aria-label="First and Then stand">' +
-              '<div class="m5-ftx__pocket m5-ftx__pocket--first" data-m5-ftx-slot="first">' +
-                '<div class="m5-ftx__frame">' +
-                  '<div class="m5-ftx__rail" aria-hidden="true"></div>' +
-                  '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="first"><span class="m5-ftx__slot-ph">Mount First flashcard</span></div>' +
-                '</div>' +
-                '<span class="m5-ftx__stand-label">first</span>' +
-              '</div>' +
-              '<div class="m5-ftx__pocket m5-ftx__pocket--then" data-m5-ftx-slot="then">' +
-                '<div class="m5-ftx__frame">' +
-                  '<div class="m5-ftx__rail" aria-hidden="true"></div>' +
-                  '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="then"><span class="m5-ftx__slot-ph">Mount Then flashcard</span></div>' +
-                '</div>' +
-                '<span class="m5-ftx__stand-label">then</span>' +
-              '</div>' +
-            '</div>' +
+            '<div class="m5-ftx__boards" data-m5-ftx-boards></div>' +
             '<p class="m5-ftx__pool-label">Flashcards</p>' +
             '<div class="m5-ftx__pool" data-m5-ftx-pool></div>' +
             '<div class="m5-ftx__nav">' +
-              '<button type="button" class="btn" data-m5-ftx-check="1" style="font-size:.9rem;">Check this board</button>' +
-              '<button type="button" class="btn" data-m5-ftx-clear="1" style="font-size:.9rem;">Clear stand</button>' +
+              '<button type="button" class="btn" data-m5-ftx-check="1" style="font-size:.9rem;">Check all three boards</button>' +
+              '<button type="button" class="btn" data-m5-ftx-clear="1" style="font-size:.9rem;">Clear all</button>' +
             '</div>' +
           '</div>';
         return buildActivityContainerShellM5({ variant: 'scenario', contentHtml: (qHtml || '') + tipF + shellF });
@@ -6684,44 +6664,66 @@
           var flaskBase = cfg.flaskBase || '/assets/images/module-5/first-then-flasks/';
           var flaskMap = {};
           flasks.forEach(function(fl){ flaskMap[fl.id] = fl; });
-          var idx = 0;
-          var placements = { first: '', then: '' };
-          var selectedId = '';
-          var dragId = '';
-          var stepEl = root.querySelector('[data-m5-ftx-step]');
-          var captionEl = root.querySelector('[data-m5-ftx-caption]');
+          var boardsEl = root.querySelector('[data-m5-ftx-boards]');
           var poolEl = root.querySelector('[data-m5-ftx-pool]');
-          var slotEls = root.querySelectorAll('[data-m5-ftx-slot]');
           var checkBtn = root.querySelector('[data-m5-ftx-check]');
           var clearBtn = root.querySelector('[data-m5-ftx-clear]');
+          var selectedId = '';
+          var dragId = '';
+          var placements = {};
+          scenarios.forEach(function(sc){
+            placements[sc.id] = { first: '', then: '' };
+          });
 
-          function flaskCardHtml(fl, opts){
-            opts = opts || {};
+          function flaskCardHtml(fl){
             return (
-              '<button type="button" class="m5-ftx__flask" draggable="true" data-m5-ftx-flask="' + b2Esc(fl.id) + '"' +
-              (opts.inSlot ? ' data-m5-ftx-in-slot="1"' : '') + '>' +
+              '<button type="button" class="m5-ftx__flask" draggable="true" data-m5-ftx-flask="' + b2Esc(fl.id) + '" aria-label="' + b2Esc(fl.label) + '" title="' + b2Esc(fl.label) + '">' +
               '<img class="m5-ftx__flask-img" src="' + b2Esc(flaskBase + fl.file) + '" alt="' + b2Esc(fl.label) + '" draggable="false" />' +
-              '<span class="m5-ftx__flask-lbl">' + b2Esc(fl.label) + '</span>' +
               '</button>'
             );
           }
 
-          function paintPlacements(){
-            renderDrop('first');
-            renderDrop('then');
-            poolEl.querySelectorAll('[data-m5-ftx-flask]').forEach(function(btn){
-              var id = btn.getAttribute('data-m5-ftx-flask');
-              var used = placements.first === id || placements.then === id;
-              btn.classList.toggle('is-placed', used);
-              btn.classList.toggle('is-selected', selectedId === id && !used);
+          function usedIds(){
+            var used = {};
+            Object.keys(placements).forEach(function(sid){
+              var pl = placements[sid];
+              if(pl.first) used[pl.first] = true;
+              if(pl.then) used[pl.then] = true;
             });
+            return used;
           }
 
-          function bindPoolCards(){
+          function renderDrop(scId, slotKey){
+            var drop = root.querySelector('[data-m5-ftx-drop="' + slotKey + '"][data-m5-ftx-sc="' + scId + '"]');
+            var pocket = root.querySelector('[data-m5-ftx-slot="' + slotKey + '"][data-m5-ftx-sc="' + scId + '"]');
+            if(!drop || !pocket) return;
+            var id = placements[scId][slotKey];
+            pocket.classList.toggle('is-filled', !!id);
+            pocket.classList.toggle('is-active', !!selectedId && !id);
+            if(!id){
+              drop.innerHTML = '<span class="m5-ftx__slot-ph">Mount flashcard</span>';
+              return;
+            }
+            drop.innerHTML = flaskCardHtml(flaskMap[id]);
+            var placed = drop.querySelector('[data-m5-ftx-flask]');
+            if(placed){
+              placed.removeAttribute('draggable');
+              placed.addEventListener('click', function(e){
+                e.stopPropagation();
+                placements[scId][slotKey] = '';
+                paintAll();
+              });
+            }
+          }
+
+          function paintPool(){
+            var used = usedIds();
+            var available = flasks.filter(function(fl){ return !used[fl.id]; });
+            poolEl.innerHTML = available.map(function(fl){ return flaskCardHtml(fl); }).join('');
             poolEl.querySelectorAll('[data-m5-ftx-flask]').forEach(function(btn){
               var id = btn.getAttribute('data-m5-ftx-flask');
+              btn.classList.toggle('is-selected', selectedId === id);
               btn.addEventListener('dragstart', function(e){
-                if(placements.first === id || placements.then === id){ e.preventDefault(); return; }
                 dragId = id;
                 btn.classList.add('dragging');
                 try{ e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; }catch(err){}
@@ -6729,123 +6731,124 @@
               btn.addEventListener('dragend', function(){
                 dragId = '';
                 btn.classList.remove('dragging');
-                slotEls.forEach(function(s){ s.classList.remove('drag-over'); });
+                root.querySelectorAll('[data-m5-ftx-slot]').forEach(function(s){ s.classList.remove('drag-over'); });
               });
               btn.addEventListener('click', function(){
-                if(placements.first === id || placements.then === id) return;
                 selectedId = (selectedId === id) ? '' : id;
-                paintPlacements();
+                paintAll();
               });
             });
-            paintPlacements();
           }
 
-          function paintScenario(){
-            var sc = scenarios[idx];
-            if(!sc) return;
-            if(stepEl) stepEl.textContent = 'Example ' + (idx + 1) + ' of ' + scenarios.length;
-            if(captionEl) captionEl.textContent = sc.caption || sc.title || '';
+          function paintAll(){
+            scenarios.forEach(function(sc){
+              renderDrop(sc.id, 'first');
+              renderDrop(sc.id, 'then');
+              var card = root.querySelector('article.m5-ftx__scenario[data-m5-ftx-sc="' + sc.id + '"]');
+              if(card){
+                var ok = placements[sc.id].first === sc.correctFirst && placements[sc.id].then === sc.correctThen;
+                card.classList.toggle('is-correct', ok);
+              }
+            });
+            paintPool();
+          }
+
+          function placeInto(scId, slotKey, flaskId){
+            if(!flaskId || !flaskMap[flaskId] || !placements[scId]) return;
+            Object.keys(placements).forEach(function(sid){
+              if(placements[sid].first === flaskId) placements[sid].first = '';
+              if(placements[sid].then === flaskId) placements[sid].then = '';
+            });
+            placements[scId][slotKey] = flaskId;
+            selectedId = '';
+            paintAll();
+          }
+
+          function bindSlots(){
+            root.querySelectorAll('[data-m5-ftx-slot]').forEach(function(slot){
+              var key = slot.getAttribute('data-m5-ftx-slot');
+              var scId = slot.getAttribute('data-m5-ftx-sc');
+              slot.addEventListener('dragover', function(e){
+                e.preventDefault();
+                slot.classList.add('drag-over');
+              });
+              slot.addEventListener('dragleave', function(){ slot.classList.remove('drag-over'); });
+              slot.addEventListener('drop', function(e){
+                e.preventDefault();
+                slot.classList.remove('drag-over');
+                var id = dragId;
+                try{ id = e.dataTransfer.getData('text/plain') || dragId; }catch(err2){}
+                if(id) placeInto(scId, key, id);
+              });
+              slot.addEventListener('click', function(e){
+                if(e.target.closest('[data-m5-ftx-flask]')) return;
+                if(selectedId) placeInto(scId, key, selectedId);
+              });
+            });
+          }
+
+          function renderBoards(){
+            boardsEl.innerHTML = scenarios.map(function(sc, i){
+              return (
+                '<article class="m5-ftx__scenario" data-m5-ftx-sc="' + b2Esc(sc.id) + '">' +
+                  '<div class="m5-ftx__sc-head">' +
+                    '<span class="m5-ftx__sc-num">Scenario ' + (i + 1) + '</span>' +
+                    '<h5 class="m5-ftx__sc-title">' + b2Esc(sc.title || '') + '</h5>' +
+                  '</div>' +
+                  '<p class="m5-ftx__sc-caption">' + b2Esc(sc.caption || '') + '</p>' +
+                  '<div class="m5-ftx__stand" aria-label="First and Then stand">' +
+                    '<div class="m5-ftx__pocket m5-ftx__pocket--first" data-m5-ftx-slot="first" data-m5-ftx-sc="' + b2Esc(sc.id) + '">' +
+                      '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="first" data-m5-ftx-sc="' + b2Esc(sc.id) + '"></div>' +
+                      '<div class="m5-ftx__pocket-bar">' +
+                        '<span class="m5-ftx__stand-label">first</span>' +
+                        '<span class="m5-ftx__add" aria-hidden="true">+ add</span>' +
+                      '</div>' +
+                    '</div>' +
+                    '<div class="m5-ftx__pocket m5-ftx__pocket--then" data-m5-ftx-slot="then" data-m5-ftx-sc="' + b2Esc(sc.id) + '">' +
+                      '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="then" data-m5-ftx-sc="' + b2Esc(sc.id) + '"></div>' +
+                      '<div class="m5-ftx__pocket-bar">' +
+                        '<span class="m5-ftx__stand-label">then</span>' +
+                        '<span class="m5-ftx__add" aria-hidden="true">+ add</span>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>' +
+                '</article>'
+              );
+            }).join('');
+            bindSlots();
+            paintAll();
+          }
+
+          if(clearBtn) clearBtn.addEventListener('click', function(){
+            scenarios.forEach(function(sc){
+              placements[sc.id] = { first: '', then: '' };
+            });
+            selectedId = '';
             if(feedback){
               feedback.textContent = '';
               feedback.classList.add('hidden');
               feedback.classList.remove('is-correct', 'is-incorrect');
             }
-            var poolOrder = b2Shuffle(flasks.slice());
-            poolEl.innerHTML = poolOrder.map(function(fl){ return flaskCardHtml(fl); }).join('');
-            bindPoolCards();
-          }
-
-          function placeInto(slotKey, flaskId){
-            if(!flaskId || !flaskMap[flaskId]) return;
-            if(placements.first === flaskId) placements.first = '';
-            if(placements.then === flaskId) placements.then = '';
-            placements[slotKey] = flaskId;
-            selectedId = '';
-            paintPlacements();
-          }
-
-          function clearSlot(slotKey){
-            placements[slotKey] = '';
-            paintPlacements();
-          }
-
-          function renderDrop(slotKey){
-            var drop = root.querySelector('[data-m5-ftx-drop="' + slotKey + '"]');
-            var slot = root.querySelector('[data-m5-ftx-slot="' + slotKey + '"]');
-            if(!drop || !slot) return;
-            var id = placements[slotKey];
-            slot.classList.toggle('is-filled', !!id);
-            slot.classList.toggle('is-active', !!selectedId && !id);
-            if(!id){
-              drop.innerHTML = '<span class="m5-ftx__slot-ph">Mount ' + (slotKey === 'first' ? 'First' : 'Then') + ' flashcard</span>';
-              return;
-            }
-            drop.innerHTML = flaskCardHtml(flaskMap[id], { inSlot: true });
-            var placed = drop.querySelector('[data-m5-ftx-flask]');
-            if(placed){
-              placed.addEventListener('click', function(e){
-                e.stopPropagation();
-                clearSlot(slotKey);
-              });
-            }
-          }
-
-          slotEls.forEach(function(slot){
-            var key = slot.getAttribute('data-m5-ftx-slot');
-            slot.addEventListener('dragover', function(e){
-              e.preventDefault();
-              slot.classList.add('drag-over');
-            });
-            slot.addEventListener('dragleave', function(){ slot.classList.remove('drag-over'); });
-            slot.addEventListener('drop', function(e){
-              e.preventDefault();
-              slot.classList.remove('drag-over');
-              var id = dragId;
-              try{ id = e.dataTransfer.getData('text/plain') || dragId; }catch(err2){}
-              if(id) placeInto(key, id);
-            });
-            slot.addEventListener('click', function(e){
-              if(e.target.closest('[data-m5-ftx-flask]')) return;
-              if(selectedId) placeInto(key, selectedId);
-            });
-          });
-
-          if(clearBtn) clearBtn.addEventListener('click', function(){
-            placements.first = '';
-            placements.then = '';
-            selectedId = '';
-            paintPlacements();
+            paintAll();
           });
 
           if(checkBtn) checkBtn.addEventListener('click', function(){
-            var sc = scenarios[idx];
-            if(!sc) return;
-            var okSc = placements.first === sc.correctFirst && placements.then === sc.correctThen;
-            if(!okSc){
+            var allOk = scenarios.every(function(sc){
+              return placements[sc.id].first === sc.correctFirst && placements[sc.id].then === sc.correctThen;
+            });
+            paintAll();
+            if(!allOk){
               if(feedback){
-                feedback.textContent = cfg.bad || 'Not quite. First should be the skill to attempt; Then the motivating next step.';
+                feedback.textContent = cfg.bad || 'Not quite. Check each stand: First = planned work, Then = the motivating preference.';
                 feedback.classList.remove('hidden', 'is-correct');
                 feedback.classList.add('is-incorrect');
               }
               return;
             }
-            if(idx < scenarios.length - 1){
-              if(feedback){
-                feedback.textContent = 'Nice board. Move on to the next First & Then example.';
-                feedback.classList.remove('hidden', 'is-incorrect');
-                feedback.classList.add('is-correct');
-              }
-              idx += 1;
-              placements.first = '';
-              placements.then = '';
-              selectedId = '';
-              window.setTimeout(function(){ paintScenario(); }, 450);
-              return;
-            }
-            b2MarkShell(shell, panel, block, target, feedback, cfg.ok || 'Great — these First & Then boards match the swimmer motivation examples.', true);
+            b2MarkShell(shell, panel, block, target, feedback, cfg.ok || 'Strong boards — planned work in First, motivating preference in Then.', true);
           });
 
-          paintScenario();
+          renderBoards();
         }
       }
       runWire();
@@ -7345,7 +7348,7 @@
         vs1: {
           format: 'ft_flask_scenarios',
           activityType: 'Examples of First & Then',
-          guideText: 'Mount PixtoLearn flashcards on the First & Then stand — drag or tap. No typing.',
+          guideText: 'Complete all three First & Then stands at once. Drag or tap cards; used cards leave the shared pool.',
           q: 'Examples of First & Then',
           flaskBase: '/assets/images/module-5/first-then-flasks/',
           flasks: [
@@ -7360,35 +7363,28 @@
           scenarios: [
             {
               id: 's1',
-              title: 'Water pistol motivator',
-              caption: 'Example of a beginner swimmer who loves to play and splash with a water pistol.',
+              title: 'Breathing & submersion',
+              caption: 'Your planned work is breathing and submersion: blowing bubbles. The child loves playing with the water pistol — put that preferred activity in Then.',
               correctFirst: 'bubbles',
               correctThen: 'water-pistol'
             },
             {
               id: 's2',
-              title: 'Choice board motivator',
-              caption: 'Example of a confident swimmer who needs to be engaged by choosing different toys.',
-              correctFirst: 'kick-with-noodle',
+              title: 'Floating & balance',
+              caption: 'Your plan is to work floating and balance: floating on back. The swimmer needs motivation — Then is choosing different toys.',
+              correctFirst: 'float-on-back',
               correctThen: 'choosing'
             },
             {
               id: 's3',
-              title: 'Preferred play after float',
-              caption: 'Example in which preferred play acts as a motivator after a float skill.',
-              correctFirst: 'float-on-back',
-              correctThen: 'water-pistol'
-            },
-            {
-              id: 's4',
-              title: 'Preferred recovery after crawl',
-              caption: 'Example of a swimmer who prefers floating after front crawl work.',
-              correctFirst: 'front-crawl',
-              correctThen: 'float-on-back'
+              title: 'Stroke preference',
+              caption: 'The swimmer prefers front crawl to breaststroke. Put breaststroke (planned work) in First and front crawl (preferred) in Then.',
+              correctFirst: 'breaststroke-kick',
+              correctThen: 'front-crawl'
             }
           ],
-          ok: 'Well built. First holds the skill to attempt; Then shows the motivating next activity — just like the First & Then examples.',
-          bad: 'Not quite. Match the caption: put the skill / non-preferred step in First and the motivating flashcard in Then.'
+          ok: 'All three boards are correct — planned work in First, motivating preference in Then. Used cards leave the shared pool.',
+          bad: 'Not quite. Check each stand: First = planned work / less preferred; Then = the motivating preference.'
         },
         vs2: {
           format: 'reorder',
