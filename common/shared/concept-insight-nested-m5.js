@@ -197,11 +197,11 @@
     fc32: {
       panelTitle: 'Toys & Equipment',
       insight: {
-        title: 'Toys & Equipment Flashcards',
+        title: 'Yellow Cards for Toys & Equipment',
         pillars: [
-          { icon: 'movement', title: 'Prepare for Equipment', text: 'Toys and equipment flashcards help swimmers understand what equipment will be used and how it connects to the activity.' },
-          { icon: 'connect', title: 'Controlled Choice', text: 'They can also be used to offer controlled choice, increase motivation and prepare swimmers for what is coming next.' },
-          { icon: 'focus', title: 'Link to the Activity', text: 'Show the equipment card before the activity so expectations are visible and predictable.' }
+          { icon: 'movement', title: 'Show What Is Coming', text: 'Yellow Toys & Equipment flashcards help swimmers see which toy or equipment will be used and how it links to the activity.' },
+          { icon: 'connect', title: 'Single Exchange', text: 'They can also teach recognition through single exchange: the swimmer gives the yellow symbol card to receive the real object.' },
+          { icon: 'focus', title: 'Build Progressively', text: 'Start with one symbol, reinforce the exchange, then move toward new symbols and discrimination between two cards.' }
         ]
       }
     },

@@ -326,7 +326,8 @@
 .portal .concept-panel .concept-grid--factors > .concept-square.concept-square--state-overloaded{
   background: linear-gradient(180deg, #ffcdd2 0%, #ef9a9a 100%) !important;
   border-color: #e53935 !important;
-  color: #4a148c !important;
+  color: #b71c1c !important;
+  font-weight: 800 !important;
 }
 .portal .concept-panel [data-parent-subconcept-nav] .concept-square.concept-square--factor-water,
 .portal .concept-panel .concept-grid--factors > .concept-square.concept-square--factor-water{
@@ -399,6 +400,7 @@
 .portal .concept-panel .concept-grid--factors > .concept-square.concept-square--state-overloaded.visited{
   background: linear-gradient(180deg, #ef9a9a 0%, #e57373 100%) !important;
   border-color: #c62828 !important;
+  color: #b71c1c !important;
 }
 .portal .concept-panel [data-parent-subconcept-nav] .concept-square.concept-square--factor-water.visited,
 .portal .concept-panel .concept-grid--factors > .concept-square.concept-square--factor-water.visited{

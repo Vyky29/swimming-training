@@ -3646,6 +3646,70 @@
     /* Flashcard leaves — own accents (not reused f* category colours) */
     .b2pl-cathead--fc31{ color:#B8732A; }
     .b2pl-cathead--fc32{ color:#9A7B0A; }
+    .m5-yellow-use-cards{
+      padding:16px 18px 18px;
+      background:linear-gradient(180deg, #fffdf5 0%, #fff 55%);
+      border:1px solid rgba(201,162,39,.28);
+      box-shadow:0 10px 22px rgba(18,50,71,.05);
+    }
+    .m5-yellow-use-heading{
+      color:#9A7B0A !important;
+    }
+    .m5-yellow-use-lead{
+      margin:0 0 14px;
+      font-size:.86rem;
+      line-height:1.5;
+      color:#4a5560;
+      max-width:62ch;
+    }
+    .m5-yellow-use-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:12px;
+    }
+    @media (min-width:900px){
+      .m5-yellow-use-grid{ grid-template-columns:repeat(4, minmax(0, 1fr)); }
+    }
+    @media (max-width:620px){
+      .m5-yellow-use-grid{ grid-template-columns:1fr; }
+    }
+    .m5-yellow-use-card{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-height:100%;
+      padding:12px 12px 14px;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid rgba(201,162,39,.24);
+      box-shadow:0 8px 16px rgba(154,123,10,.06);
+    }
+    .m5-yellow-use-card__num{
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.02em;
+      color:#fff;
+      background:linear-gradient(135deg, #c9a227 0%, #9a7b0a 100%);
+    }
+    .m5-yellow-use-card__title{
+      margin:0;
+      font-size:.86rem;
+      font-weight:800;
+      line-height:1.3;
+      color:#7a6210;
+    }
+    .m5-yellow-use-card__text{
+      margin:0;
+      font-size:.78rem;
+      line-height:1.45;
+      color:#4a5560;
+    }
     .b2pl-cathead--fc33{ color:#C97816; }
     .b2pl-cathead--fc34{ color:#4A8C8C; }
     .b2pl-cathead--fc35{ color:#6B7280; }
@@ -6233,7 +6297,7 @@
 
   <div class="b2-screen" data-b2-screen="fc31"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc31">Main Side and Break It Down Side</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>PixtoLearn Swimming flashcards include a main visual side and a structured teaching side.</p><p>The main side shows the swimmer what the skill or action looks like. The Break It Down side supports the instructor by providing step by step teaching guidance.</p><p>This helps instructors move from showing the visual to modelling, prompting and teaching the skill progressively.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Main side and break it down side flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">The main side supports swimmer understanding.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">The Break It Down side supports instructor teaching.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Step by step teaching reduces overload.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">The card should be used actively within the session.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
-  <div class="b2-screen" data-b2-screen="fc32"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f4-2">Toys &amp; Equipment</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Toys and equipment flashcards help swimmers understand what equipment will be used and how it connects to the activity.</p><p>They can also be used to offer controlled choice, increase motivation and prepare swimmers for what is coming next.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Toys and equipment flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Equipment visuals prepare swimmers for activities.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">They support motivation and choice.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">They help connect equipment to skill development.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">They reduce uncertainty around transitions.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="fc32"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f4-2">Toys &amp; Equipment</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Yellow Toys &amp; Equipment flashcards help swimmers understand what equipment will be used and how it connects to the activity.</p><p>They can also be used for controlled choice, motivation, and single exchange — showing a symbol to request or recognise an object.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Toys and equipment flashcard visual placeholder"></div></div><div class="concept-section-card m5-yellow-use-cards" data-m5-yellow-use="1" data-b2-no-expand="true"><h5 class="concept-section-head m5-yellow-use-heading"><span class="icon" aria-hidden="true">🟨</span><span>How to use the yellow cards — single exchange</span></h5><p class="m5-yellow-use-lead">Steps for helping swimmers recognise objects and equipment through symbols using single exchange:</p><div class="m5-yellow-use-grid"><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">01</span><h6 class="m5-yellow-use-card__title">Introduce One Symbol</h6><p class="m5-yellow-use-card__text">Present one yellow card that represents an object or piece of equipment (for example a ball or noodle).</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">02</span><h6 class="m5-yellow-use-card__title">Pair Symbol with Object</h6><p class="m5-yellow-use-card__text">Show the real object or equipment while pointing to the yellow card, so symbol and object are linked.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">03</span><h6 class="m5-yellow-use-card__title">Encourage Interaction</h6><p class="m5-yellow-use-card__text">Prompt the swimmer to exchange the yellow card for the object or equipment.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">04</span><h6 class="m5-yellow-use-card__title">Wait for Response</h6><p class="m5-yellow-use-card__text">Give enough time to process and respond — avoid rushing or stacking verbal instructions.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">05</span><h6 class="m5-yellow-use-card__title">Reinforce the Exchange</h6><p class="m5-yellow-use-card__text">As soon as the card is given, provide the object or equipment immediately.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">06</span><h6 class="m5-yellow-use-card__title">Repeat for Consistency</h6><p class="m5-yellow-use-card__text">Keep using the same yellow card until recognition and exchange are consistent.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">07</span><h6 class="m5-yellow-use-card__title">Gradually Introduce New Symbols</h6><p class="m5-yellow-use-card__text">Only add the next yellow card once the first symbol is recognised reliably.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">08</span><h6 class="m5-yellow-use-card__title">Discrimination</h6><p class="m5-yellow-use-card__text">Present two yellow cards and prompt the swimmer to choose the correct one for the object or equipment.</p></article></div></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Yellow cards link a clear symbol to real toys and equipment.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Single exchange builds recognition: symbol given → object received.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Start with one symbol, reinforce immediately, then build discrimination.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Keep the exchange calm and predictable — waiting time matters.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
   <div class="b2-screen" data-b2-screen="fc33"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc33">Break Time / Choosing</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Break Time and Choosing flashcards support regulation, autonomy and communication.</p><p>The Break Time card helps swimmers understand that a break is available in a structured way. The Choosing card allows swimmers to make controlled choices within the session.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Break time and choosing flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Breaks can support regulation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Choice increases autonomy.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Visual choices reduce verbal demand.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Breaks and choices should remain structured.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
