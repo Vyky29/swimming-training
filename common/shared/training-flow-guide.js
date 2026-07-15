@@ -172,6 +172,9 @@
 
   function isVisibleEl(el){
     if(!el || el.closest('[hidden]')) return false;
+    // Nested screens that are not active are display:none ? never treat their
+    // Key Ideas / In Practice as in-scope (getComputedStyle on the child lies).
+    if(el.closest('.b2-screen:not(.active)')) return false;
     if(el.offsetParent !== null) return true;
     var style = window.getComputedStyle(el);
     return style.display !== 'none' && style.visibility !== 'hidden';
@@ -381,6 +384,7 @@
 
   function isKeyIdeaGuideable(el){
     if(!el || el.closest('[hidden]')) return false;
+    if(el.closest('.b2-screen:not(.active)')) return false;
     // Inactive nested screens stay out of getM5InteractiveRoot; don't require
     // offsetParent (lightbox / overflow can falsely hide in-flow ideas).
     var style = typeof window.getComputedStyle === 'function' ? window.getComputedStyle(el) : null;
@@ -3956,8 +3960,9 @@
     }, true);
 
     // Hard stop: do not open Calm / Factors / Steps / folders / levels before
-    // Core Concept ? Visual ? Key Ideas ? In Practice
+    // Core Concept ? Visual ? Key Ideas ? In Practice (guided flow only)
     document.addEventListener('click', function(e){
+      if(!isFlowGuideActive()) return;
       var leafEntry = e.target && e.target.closest ? e.target.closest(
         '[data-parent-subconcept-nav] .concept-square[data-target], ' +
         '[data-parent-subconcept-nav] .b3c3-overview-step[data-target], ' +
