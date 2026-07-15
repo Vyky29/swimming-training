@@ -390,10 +390,13 @@
       section.classList.contains('b2c2-direct-image') ||
       section.classList.contains('b2c3-direct-image') ||
       section.classList.contains('b2c2-direct-image-group') ||
-      section.classList.contains('entry-exit-fan-item')
+      section.classList.contains('entry-exit-fan-item') ||
+      section.classList.contains('m5-explore-categories-card')
     ) {
       return true;
     }
+    if (section.getAttribute('data-m5-explore-categories') === '1') return true;
+    if (section.querySelector(':scope > .b2pl-cat-grid, :scope > .b2pl-folder-grid')) return true;
     if (section.classList.contains('section-activity-shell') || section.classList.contains('section-ideas')) {
       return true;
     }
@@ -405,7 +408,7 @@
     );
     if (head) {
       var text = (head.textContent || '').toLowerCase();
-      if (/activity|key ideas|introduction|intro|in practice/.test(text)) return true;
+      if (/activity|key ideas|introduction|intro|in practice|explore the/.test(text)) return true;
     }
     return false;
   }

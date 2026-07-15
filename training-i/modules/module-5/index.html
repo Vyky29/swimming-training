@@ -2583,6 +2583,8 @@
       }
     }
     .b2-screens .b2pl-lvl-btn{
+      appearance:none;
+      -webkit-appearance:none;
       min-height:110px;
       width:100%;
       min-width:0;
@@ -2652,16 +2654,18 @@
     .b2-screens .b2pl-cat-f4-1{ background:#7B6B9E !important; border-color:#7B6B9E !important; }
     .b2-screens .b2pl-cat-f4-2{ background:#F0E65C; border-color:transparent; }
     .b2-screens .b2pl-cat-f4-3{ background:#8BAF6A; border-color:#8BAF6A; }
-    /* Visual Schedules tiles: match Block 3 pathway green (not brand blue) */
-    .b2-screens[data-b2-screens="b3c1"] .b2pl-cat-grid .b2pl-lvl-btn{
-      background:var(--concept-block-grad, linear-gradient(135deg, #1a5c38 0%, #6da372 100%)) !important;
-      border-color:rgba(26,92,56,.28) !important;
-      color:#fff !important;
-      box-shadow:0 12px 26px rgba(26,92,56,.18);
+    /* Visual Schedules tiles — own colours (match cathead accents) */
+    .b2-screens .b2pl-cat-vs1{ background:#1a5c38 !important; border-color:#1a5c38 !important; color:#fff !important; }
+    .b2-screens .b2pl-cat-vs2{ background:#2d84b3 !important; border-color:#2d84b3 !important; color:#fff !important; }
+    .b2-screens .b2pl-cat-vs3{ background:#7b2fa1 !important; border-color:#7b2fa1 !important; color:#fff !important; }
+    .b2-screens .m5-explore-categories-card .b2pl-lvl-btn{
+      appearance:none;
+      -webkit-appearance:none;
     }
     .b2-screens[data-b2-screens="b3c1"] .b2pl-cat-grid .b2pl-lvl-btn:hover,
     .b2-screens[data-b2-screens="b3c1"] .b2pl-cat-grid .b2pl-lvl-btn:focus-visible{
-      box-shadow:0 16px 28px rgba(26,92,56,.22);
+      filter:brightness(1.05);
+      box-shadow:0 16px 28px rgba(18,50,71,.14);
     }
     /* Visual Schedules: cue ends at Do / Look for / Avoid (no Got it footer) */
     .concept-panel[data-panel-for="block3"] [data-b2-screens="b3c1"] .key-ideas-action .inprac__footer{
@@ -3111,21 +3115,25 @@
       display:none !important;
     }
 
-    /* M5 nested PixtoLearn — single content rail (insight + visuals + key ideas) */
+    /* M5 nested PixtoLearn — full panel width (all sections align) */
     .portal .concept-panel.m5-nested-active{
-      --m5-nested-rail:min(920px,100%);
+      --m5-nested-rail:100%;
     }
     .portal .concept-panel.m5-nested-active > .concept-intro-slot{
-      max-width:var(--m5-nested-rail);
+      max-width:100%;
+      width:100%;
     }
     .portal .concept-panel.m5-nested-active > .concept-image{
-      max-width:var(--m5-nested-rail) !important;
+      max-width:100% !important;
+      width:100% !important;
     }
     .portal .concept-panel.m5-nested-active .b2-screens{
-      max-width:var(--m5-nested-rail);
+      max-width:100%;
+      width:100%;
     }
     .portal .concept-panel.m5-nested-active .b2-screens .folder-page{
-      max-width:var(--m5-nested-rail);
+      max-width:100%;
+      width:100%;
     }
 
     /* M5 nested folders/categories — align with training-wide section card width */
@@ -3157,18 +3165,22 @@
     .portal .b2-screens .folder-page .concept-section-card,
     .portal .b2-screens .folder-page > .concept-section-card,
     .portal .b2-screens .m5-nested-visual-shell,
-    .portal .b2-screens .m5-screen-visual-card:not(:has(.b2pl-cat-grid)),
+    .portal .b2-screens .m5-screen-visual-card,
     .portal .b2-screens .m5-folder-overview-card,
     .portal .b2-screens .m5-explore-categories-card,
     .portal .b2-screens .folder-page > .concept-points-box,
     .portal .b2-screens .folder-page > .section-activity-shell,
     .portal .b2-screens .folder-page .section-activity-shell,
     .portal .b2-screens .folder-page > .concept-section-card.section-activity,
-    .portal .b2-screens .folder-page .concept-section-card.section-activity-shell{
-      width:100%;
-      max-width:100%;
-      margin-left:auto;
-      margin-right:auto;
+    .portal .b2-screens .folder-page .concept-section-card.section-activity-shell,
+    .portal .b2-screens .m5-nested-visual-frame,
+    .portal .b2-screens .b2c2-direct-image,
+    .portal .b2-screens .b2c3-direct-image{
+      width:100% !important;
+      max-width:100% !important;
+      margin-left:0;
+      margin-right:0;
+      align-self:stretch;
       box-sizing:border-box;
       text-align:left;
     }
@@ -3207,10 +3219,12 @@
     .portal .b2-screens .m5-nested-visual-frame,
     .portal .b2-screens .b2c2-direct-image,
     .portal .b2-screens .b2c3-direct-image,
-    .portal .b2-screens .m5-folder-overview-card > .concept-activity-box{
-      width:100%;
-      max-width:100%;
-      margin:0 auto 16px;
+    .portal .b2-screens .m5-folder-overview-card > .concept-activity-box,
+    .portal .b2-screens .m5-screen-visual-card > .concept-activity-box,
+    .portal .b2-screens .m5-nested-visual-shell > .concept-activity-box{
+      width:100% !important;
+      max-width:100% !important;
+      margin:0 0 16px;
       padding:12px;
       background:linear-gradient(180deg,#f8fbfd 0%,#fff 100%);
       border:1px solid rgba(45,132,179,.1);
@@ -3218,6 +3232,7 @@
       box-shadow:inset 0 1px 0 rgba(255,255,255,.85);
       overflow:hidden;
       text-align:center;
+      box-sizing:border-box;
     }
     /* Nested leaf visuals: keep the same framed padding as overview cards (no edge-bleed) */
     .portal .concept-panel.m5-nested-active .b2-screens .m5-nested-visual-frame,
@@ -3241,8 +3256,8 @@
       max-width:min(480px,100%);
     }
     .portal .b2-screens .m5-explore-categories-card{
-      width:100%;
-      max-width:100%;
+      width:100% !important;
+      max-width:100% !important;
       margin:0 0 18px;
       padding:16px 18px 18px;
       background:#fff;
@@ -3250,8 +3265,10 @@
       border-radius:16px;
       box-shadow:0 12px 28px rgba(18,50,71,.07);
       box-sizing:border-box;
+      display:block;
     }
-    .portal .b2-screens .m5-explore-categories-heading{
+    .portal .b2-screens .m5-explore-categories-heading,
+    .portal .b2-screens .m5-explore-categories-card > .concept-section-head{
       margin:0 0 14px;
       display:flex;
       align-items:center;
@@ -3278,7 +3295,13 @@
     .portal .b2-screens > .b2-screen[data-b2-screen="home"].active{
       display:flex;
       flex-direction:column;
-      align-items:center;
+      align-items:stretch;
+    }
+    .portal .b2-screens > .b2-screen[data-b2-screen="home"].active > .folder-page{
+      width:100%;
+      max-width:100%;
+      align-self:stretch;
+      box-sizing:border-box;
     }
     /* width:auto + max-width:100% so max-height never flattens aspect ratio */
     .portal .b2-screens .m5-nested-visual-frame > img,
@@ -5528,7 +5551,20 @@
 
       var grids = Array.prototype.slice.call(page.querySelectorAll('.b2pl-cat-grid, .b2pl-folder-grid'));
       grids.forEach(function(grid){
-        if(grid.closest('.m5-explore-categories-card')) return;
+        var existingExplore = grid.closest('.m5-explore-categories-card');
+        // Already in a dedicated explore card (no image chrome) — leave as-is
+        if(existingExplore && !existingExplore.querySelector('.concept-activity-box > img, .entry-exit-fan, .b2c2-direct-image, .b2c3-direct-image')){
+          if(!existingExplore.querySelector('.m5-explore-categories-heading, :scope > .concept-section-head')){
+            var missingHead = document.createElement('h5');
+            missingHead.className = 'concept-section-head m5-explore-categories-heading';
+            var title = existingExplore.querySelector('[data-b2-go^="vs"]')
+              ? 'Explore the schedules'
+              : (grid.classList.contains('b2pl-folder-grid') ? 'Explore the folders' : 'Explore the categories');
+            missingHead.innerHTML = '<span class="icon" aria-hidden="true">🗂️</span><span>' + title + '</span>';
+            existingExplore.insertBefore(missingHead, existingExplore.firstChild);
+          }
+          return;
+        }
 
         var hostCard = grid.closest('.concept-section-card');
         var exploreTitle = 'Explore the categories';
@@ -5552,8 +5588,10 @@
           explore.appendChild(grid);
           if(nav) explore.insertAdjacentElement('afterend', nav);
 
-          hostCard.classList.remove('m5-folder-overview-card');
+          // Visual card must no longer own categories / nav
+          hostCard.classList.remove('m5-folder-overview-card', 'm5-explore-categories-card');
           hostCard.classList.add('m5-nested-visual-shell', 'm5-screen-visual-card');
+          hostCard.removeAttribute('data-m5-explore-categories');
           stripVisualImageLabel(hostCard);
           var box = hostCard.querySelector(':scope > .concept-activity-box, :scope > .entry-exit-fan');
           if(box && !box.classList.contains('entry-exit-fan')) box.classList.add('m5-nested-visual-frame');
@@ -5581,23 +5619,30 @@
       if(!scope) return;
       scope.querySelectorAll('.b2-screen').forEach(function(screen){
         var page = screen.querySelector('.folder-page') || screen;
+        // Always split categories before classifying cards
+        consolidateNestedOverviewLayout(page);
         page.querySelectorAll('.concept-section-card').forEach(function(card){
           if(card.classList.contains('section-intro')) return;
-          if(card.classList.contains('m5-explore-categories-card') || card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')){
+          var hasGrid = !!card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid');
+          var hasVisual = !!card.querySelector('.concept-activity-box > img, .b2c2-direct-image, .b2c3-direct-image, .entry-exit-fan');
+          if(card.classList.contains('m5-explore-categories-card') || (hasGrid && !hasVisual)){
             card.classList.add('m5-explore-categories-card');
-            card.classList.remove('m5-folder-overview-card', 'm5-nested-visual-shell');
+            card.classList.remove('m5-folder-overview-card', 'm5-nested-visual-shell', 'm5-screen-visual-card', 'section-visual-shell', 'visual-direct');
+            card.removeAttribute('data-visual-section-ready');
             return;
           }
-          if(card.querySelector('.concept-activity-box > img, .b2c2-direct-image, .b2c3-direct-image, .entry-exit-fan')){
-            card.classList.add('m5-nested-visual-shell');
+          if(hasVisual){
+            card.classList.add('m5-nested-visual-shell', 'm5-screen-visual-card');
+            card.classList.remove('m5-explore-categories-card');
           }
         });
-        page.querySelectorAll('.m5-screen-visual-card:not(.m5-nested-visual-shell):not(.m5-folder-overview-card)').forEach(function(card){
+        page.querySelectorAll('.m5-screen-visual-card:not(.m5-nested-visual-shell):not(.m5-folder-overview-card):not(.m5-explore-categories-card)').forEach(function(card){
           if(card.querySelector('.concept-activity-box > img, .b2c2-direct-image, .b2c3-direct-image')){
             card.classList.add('m5-nested-visual-shell');
           }
         });
         page.querySelectorAll('.b2c2-direct-image, .b2c3-direct-image, .concept-activity-box:has(> img)').forEach(function(box){
+          if(box.closest('.m5-explore-categories-card')) return;
           if(!box.classList.contains('entry-exit-fan')) box.classList.add('m5-nested-visual-frame');
         });
         page.querySelectorAll('.entry-exit-fan-item').forEach(function(item){
@@ -5608,22 +5653,15 @@
 
     function normalizeNestedFolderOverviewPages(wrapper){
       if(!wrapper || wrapper.dataset.nestedLayoutReady === 'true') return;
-      wrapper.dataset.nestedLayoutReady = 'true';
       stripNestedFolderSectionIntros(wrapper);
       wrapper.querySelectorAll('.b2-screen').forEach(function(screen){
         var page = screen.querySelector('.folder-page') || screen;
         splitNestedLeafVisualSections(page);
         wrapLooseNestedVisualBox(page);
         consolidateNestedOverviewLayout(page);
-        page.querySelectorAll('.concept-section-card').forEach(function(card){
-          if(card.classList.contains('section-intro')) return;
-          if(card.classList.contains('m5-explore-categories-card')) return;
-          if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid, .concept-points-box, .b2-nav, .section-activity, .entry-exit-fan, .concept-activity-box > img, .b2c2-direct-image, .b2c3-direct-image')){
-            stripVisualImageLabel(card);
-          }
-        });
       });
       applyNestedVisualClasses(wrapper);
+      wrapper.dataset.nestedLayoutReady = 'true';
     }
 
     function stripNestedFolderSectionIntros(scope){
@@ -6021,7 +6059,7 @@
         text: '',
         points: [],
         imageHTML: `<div class="b2-screens" data-b2-screens="b3c1">
-  <div class="b2-screen active" data-b2-screen="home"><div class="folder-page"><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-25.jpeg" alt="Visual schedules overview"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-f2-1" type="button" data-b2-go="vs1">First &amp; Then (2 Activities)</button><button class="b2pl-lvl-btn b2pl-cat-f2-2" type="button" data-b2-go="vs2">First, Next &amp; Then (3 Activities)</button><button class="b2pl-lvl-btn b2pl-cat-f2-3" type="button" data-b2-go="vs3">Four or More Activities</button></div></div></div>
+  <div class="b2-screen active" data-b2-screen="home"><div class="folder-page"><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-25.jpeg" alt="Visual schedules overview"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-vs1" type="button" data-b2-go="vs1">First &amp; Then (2 Activities)</button><button class="b2pl-lvl-btn b2pl-cat-vs2" type="button" data-b2-go="vs2">First, Next &amp; Then (3 Activities)</button><button class="b2pl-lvl-btn b2pl-cat-vs3" type="button" data-b2-go="vs3">Four or More Activities</button></div></div></div>
   <div class="b2-screen" data-b2-screen="vs1"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--vs1">First &amp; Then</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The First &amp; Then schedule is the simplest visual structure, using two activities.</p><p>It clearly shows what comes first and what happens next.</p><p>This format is especially effective for swimmers who benefit from reduced cognitive load, immediate structure or motivation to complete less preferred activities.</p><p>It can also be used to break larger schedules into smaller, more manageable routines.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-26.jpeg" alt="First and Then schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">First shows the activity that needs to be attempted or completed.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Then shows the next activity, which is often motivating or preferred.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">The Then activity should follow immediately after the First activity.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">This structure can reduce resistance to less preferred tasks.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Always show and point to the visuals, rather than relying only on verbal explanation.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="vs2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--vs2">First, Next &amp; Then</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The First, Next &amp; Then schedule expands the structure to three activities.</p><p>It helps swimmers understand a slightly longer sequence while still keeping the session manageable and predictable.</p><p>This structure is useful when introducing progression, preparing a swimmer for a new skill or organising a short part of a longer session.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-27.jpeg" alt="First Next Then schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">First is the starting activity.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Next introduces the second activity, progression or new skill.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Then is the final activity in the sequence.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Then can be used as a motivating or regulating activity.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Use short, consistent language while pointing to each visual.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="vs3"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--vs3">Four or More Activities</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>A visual schedule with four or more activities provides a fuller overview of the session.</p><p>It allows swimmers to see the structure, duration and flow of the session from the beginning.</p><p>For swimmers who find longer sequences difficult, the schedule can be broken down into smaller parts using First &amp; Then or First, Next &amp; Then.</p><p>This makes the schedule flexible while still providing clear structure.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-28.jpeg" alt="Four or more activities schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Present the schedule at the start of the session.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Refer back to it regularly during the session.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Break it down into smaller steps when needed.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Include breaks, choices or motivating activities when appropriate.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Use a Finished card to clearly show the end of a task or session.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
@@ -10206,7 +10244,7 @@
     })();
   </script>
   
-  <script src="/shared/concept-visual-expand-system.js?v=20260715ftx"></script>
+  <script src="/shared/concept-visual-expand-system.js?v=20260715explore1"></script>
 </body>
 </html>
 
