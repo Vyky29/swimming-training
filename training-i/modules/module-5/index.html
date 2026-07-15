@@ -54,7 +54,7 @@
       outline-offset:2px;
     }
 
-    .portal button:active{
+    .portal button:active:not(.b2pl-lvl-btn):not(.concept-square):not(.b2c2-folder-tile):not(.b2c3-flash-tile):not(.btn):not([data-b2-go]){
       background:#d8e2ea;
       color:var(--ink);
       border-color:#b8c9d6;
@@ -1766,56 +1766,112 @@
     @media (max-width:720px){
       .m5-ftx__flask{ width:88px; }
     }
-    /* Level session plan match — warm / main / cool */
+    /* Level session plan match — PixtoLearn board (photo reference) */
     .m5-spm{
       display:flex;
       flex-direction:column;
-      gap:14px;
+      gap:16px;
       width:100%;
     }
     .m5-spm__brief{
-      padding:14px 16px;
-      border-radius:14px;
-      border:1px solid rgba(234,143,34,.28);
-      background:linear-gradient(180deg, rgba(255,247,237,.95) 0%, #fff 70%);
+      display:flex;
+      align-items:flex-start;
+      gap:16px;
+      padding:16px 18px 18px;
+      border-radius:16px;
+      border:1px solid rgba(212,168,100,.28);
+      background:linear-gradient(180deg, #fbf6ee 0%, #fff8ef 48%, #ffffff 100%);
+      box-shadow:0 10px 24px rgba(18,50,71,.05);
+    }
+    .m5-spm__brief-mascot{
+      flex:0 0 auto;
+      width:72px;
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:18px;
+      background:linear-gradient(180deg, #fff 0%, #f3f9fc 100%);
+      border:1px solid rgba(45,132,179,.16);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 8px 16px rgba(18,50,71,.06);
+    }
+    .m5-spm__brief-mascot img{
+      width:56px;
+      height:56px;
+      object-fit:contain;
+      display:block;
+      filter:drop-shadow(0 4px 8px rgba(18,50,71,.12));
+    }
+    .m5-spm__brief-copy{
+      flex:1 1 auto;
+      min-width:0;
     }
     .m5-spm__brief-kicker{
       margin:0 0 6px;
       font-size:.68rem;
       font-weight:800;
-      letter-spacing:.06em;
+      letter-spacing:.08em;
       text-transform:uppercase;
-      color:#c2791c;
+      color:#8a97a3;
+    }
+    .m5-spm__brief-title-row{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:10px;
+      margin:0 0 8px;
     }
     .m5-spm__brief-title{
-      margin:0 0 8px;
-      font-size:1rem;
-      font-weight:750;
+      margin:0;
+      font-size:clamp(1.05rem, 2vw, 1.28rem);
+      font-weight:800;
+      letter-spacing:-0.02em;
       color:#163247;
+      line-height:1.2;
+    }
+    .m5-spm__level-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px 4px 6px;
+      border-radius:999px;
+      background:rgba(45,132,179,.10);
+      border:1px solid rgba(45,132,179,.18);
+      color:#1f6f9a;
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.02em;
+    }
+    .m5-spm__level-chip img{
+      width:22px;
+      height:22px;
+      object-fit:contain;
+      display:block;
     }
     .m5-spm__brief-meta{
       margin:0;
-      font-size:.82rem;
-      line-height:1.5;
+      font-size:.84rem;
+      line-height:1.55;
       color:#4a5560;
     }
     .m5-spm__brief-meta strong{ color:#163247; }
+    .m5-spm__brief-meta + .m5-spm__brief-meta{ margin-top:6px; }
     .m5-spm__phases{
       display:grid;
       grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:12px;
+      gap:14px;
       width:100%;
     }
     .m5-spm__phase{
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
       min-width:0;
-      padding:12px;
-      border-radius:14px;
+      padding:14px;
+      border-radius:16px;
       border:1px solid rgba(22,50,71,.10);
       background:#fff;
-      box-shadow:0 8px 18px rgba(18,50,71,.04);
+      box-shadow:0 10px 22px rgba(18,50,71,.05);
     }
     .m5-spm__phase.is-correct{
       border-color:rgba(26,92,56,.32);
@@ -1827,38 +1883,39 @@
       gap:4px;
     }
     .m5-spm__phase-num{
-      font-size:.62rem;
+      font-size:.66rem;
       font-weight:800;
-      letter-spacing:.08em;
+      letter-spacing:.1em;
       text-transform:uppercase;
       color:#2d84b3;
     }
     .m5-spm__phase-title{
       margin:0;
-      font-size:.88rem;
-      font-weight:750;
+      font-size:.95rem;
+      font-weight:800;
       color:#163247;
+      letter-spacing:-0.01em;
     }
     .m5-spm__phase-focus{
       margin:0;
-      font-size:.68rem;
-      font-weight:700;
-      color:#c2791c;
+      font-size:.78rem;
+      font-weight:650;
+      color:#6b7785;
     }
     .m5-spm__phase-outcome{
       margin:0;
-      font-size:.74rem;
-      line-height:1.45;
-      color:#4a5560;
+      font-size:.78rem;
+      line-height:1.5;
+      color:#5a6874;
       font-style:italic;
       flex:1 1 auto;
     }
     .m5-spm__drop{
-      min-height:132px;
-      border:1.5px dashed rgba(110,130,150,.28);
-      border-radius:12px;
-      background:rgba(247,250,248,.8);
-      padding:8px;
+      min-height:148px;
+      border:1.5px dashed rgba(110,130,150,.34);
+      border-radius:14px;
+      background:rgba(247,250,252,.92);
+      padding:10px;
       display:flex;
       flex-wrap:wrap;
       gap:8px;
@@ -1875,58 +1932,65 @@
     }
     .m5-spm__drop-ph{
       margin:auto;
-      font-size:.68rem;
+      font-size:.72rem;
       font-weight:600;
       color:rgba(70,100,115,.42);
       text-align:center;
       pointer-events:none;
     }
     .m5-spm__tray{
-      padding:12px 14px 14px;
-      border-radius:14px;
+      padding:14px 16px 16px;
+      border-radius:16px;
       background:#fff;
       border:1px solid rgba(22,50,71,.10);
       box-shadow:0 10px 22px rgba(18,50,71,.05);
     }
     .m5-spm__pool-label{
-      margin:0 0 8px;
+      margin:0 0 12px;
       font-size:.68rem;
-      font-weight:750;
-      letter-spacing:.04em;
+      font-weight:800;
+      letter-spacing:.08em;
       text-transform:uppercase;
-      color:#1a5c38;
+      color:#8a97a3;
     }
     .m5-spm__pool{
       display:flex;
       flex-wrap:wrap;
-      gap:10px;
-      justify-content:center;
+      gap:12px;
+      justify-content:flex-start;
     }
     .m5-spm__flask{
+      --m5-spm-accent:#4A8C8C;
       position:relative;
       margin:0;
-      padding:0;
-      width:92px;
+      padding:0 0 6px;
+      width:96px;
       flex:0 0 auto;
-      border:1.5px solid rgba(26,92,56,.14);
-      border-radius:8px;
+      border:1.5px solid color-mix(in srgb, var(--m5-spm-accent) 55%, #fff);
+      border-radius:10px;
       background:#fff;
       cursor:grab;
       overflow:hidden;
-      box-shadow:0 4px 10px rgba(18,50,71,.05);
+      box-shadow:0 5px 12px rgba(18,50,71,.06);
       transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease, opacity .15s ease;
       -webkit-user-drag:element;
       user-select:none;
+      text-align:center;
     }
+    .m5-spm__flask[data-accent="0"]{ --m5-spm-accent:#4A8C8C; }
+    .m5-spm__flask[data-accent="1"]{ --m5-spm-accent:#D4607A; }
+    .m5-spm__flask[data-accent="2"]{ --m5-spm-accent:#C9A227; }
+    .m5-spm__flask[data-accent="3"]{ --m5-spm-accent:#E07A3D; }
+    .m5-spm__flask[data-accent="4"]{ --m5-spm-accent:#2d84b3; }
     .m5-spm__flask:hover,
     .m5-spm__flask:focus-visible{
-      border-color:#1a5c38;
+      border-color:var(--m5-spm-accent);
       outline:none;
       transform:translateY(-2px);
     }
     .m5-spm__flask.is-selected{
-      border-color:#1a5c38;
-      box-shadow:0 0 0 2px rgba(26,92,56,.18);
+      border-color:var(--m5-spm-accent);
+      box-shadow:0 0 0 2px color-mix(in srgb, var(--m5-spm-accent) 28%, transparent);
     }
     .m5-spm__flask.dragging{ opacity:.4; }
     .m5-spm__flask-img{
@@ -1934,25 +1998,41 @@
       width:100%;
       aspect-ratio:4 / 5;
       object-fit:contain;
-      background:#f7faf8;
+      background:linear-gradient(180deg, #f7fafc 0%, #fff 100%);
+      pointer-events:none;
+      border-bottom:1px solid color-mix(in srgb, var(--m5-spm-accent) 22%, transparent);
+    }
+    .m5-spm__flask-label{
+      display:block;
+      padding:5px 4px 2px;
+      font-size:.58rem;
+      font-weight:750;
+      line-height:1.25;
+      color:#314555;
+      text-transform:lowercase;
+      letter-spacing:.01em;
       pointer-events:none;
     }
     .m5-spm__drop .m5-spm__flask{
-      width:78px;
+      width:82px;
       cursor:pointer;
     }
     .m5-spm__nav{
       display:flex;
       flex-wrap:wrap;
-      gap:8px;
+      gap:10px;
       align-items:center;
     }
     .m5-spm__nav .btn{
       font-size:.84rem !important;
-      padding:.45rem .85rem;
+      padding:.5rem 1rem;
+      border-radius:999px !important;
     }
     @media (max-width:900px){
       .m5-spm__phases{ grid-template-columns:1fr; }
+      .m5-spm__brief{ flex-direction:column; align-items:center; text-align:center; }
+      .m5-spm__brief-title-row{ justify-content:center; }
+      .m5-spm__pool{ justify-content:center; }
     }
 
     .concept-panel[data-panel-for="block1"] .section-activity-shell > .concept-section-head,
@@ -2654,18 +2734,98 @@
     .b2-screens .b2pl-cat-f4-1{ background:#7B6B9E !important; border-color:#7B6B9E !important; }
     .b2-screens .b2pl-cat-f4-2{ background:#F0E65C; border-color:transparent; }
     .b2-screens .b2pl-cat-f4-3{ background:#8BAF6A; border-color:#8BAF6A; }
-    /* Visual Schedules tiles — own colours (match cathead accents) */
-    .b2-screens .b2pl-cat-vs1{ background:#1a5c38 !important; border-color:#1a5c38 !important; color:#fff !important; }
-    .b2-screens .b2pl-cat-vs2{ background:#2d84b3 !important; border-color:#2d84b3 !important; color:#fff !important; }
-    .b2-screens .b2pl-cat-vs3{ background:#7b2fa1 !important; border-color:#7b2fa1 !important; color:#fff !important; }
-    .b2-screens .m5-explore-categories-card .b2pl-lvl-btn{
-      appearance:none;
-      -webkit-appearance:none;
+    /* Keep schedule tiles green even with concept-square class (hover must stay green) */
+    .m5-explore-categories-card .concept-square.b2pl-lvl-btn,
+    .m5-explore-categories-card .concept-square[data-b2-go^="vs"],
+    [data-b2-screens="b3c1"] .concept-square.b2pl-lvl-btn,
+    .concept-square.b2pl-lvl-btn[data-b2-go^="vs"]{
+      background:var(--concept-block-grad, linear-gradient(135deg, #1a5c38 0%, #6da372 100%)) !important;
+      border-color:rgba(26,92,56,.28) !important;
+      color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
     }
-    .b2-screens[data-b2-screens="b3c1"] .b2pl-cat-grid .b2pl-lvl-btn:hover,
-    .b2-screens[data-b2-screens="b3c1"] .b2pl-cat-grid .b2pl-lvl-btn:focus-visible{
-      filter:brightness(1.05);
-      box-shadow:0 16px 28px rgba(18,50,71,.14);
+    .m5-explore-categories-card .concept-square.b2pl-lvl-btn:hover,
+    .m5-explore-categories-card .concept-square.b2pl-lvl-btn:focus-visible,
+    .m5-explore-categories-card .concept-square[data-b2-go^="vs"]:hover,
+    .m5-explore-categories-card .concept-square[data-b2-go^="vs"]:focus-visible,
+    [data-b2-screens="b3c1"] .concept-square.b2pl-lvl-btn:hover,
+    [data-b2-screens="b3c1"] .concept-square.b2pl-lvl-btn:focus-visible,
+    .concept-square.b2pl-lvl-btn[data-b2-go^="vs"]:hover,
+    .concept-square.b2pl-lvl-btn[data-b2-go^="vs"]:focus-visible{
+      background:var(--concept-block-grad, linear-gradient(135deg, #1a5c38 0%, #6da372 100%)) !important;
+      color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
+      border-color:rgba(26,92,56,.4) !important;
+      filter:brightness(1.06);
+    }
+    .m5-explore-categories-card > .b2pl-cat-grid,
+    [data-b2-screens="b3c1"] .b2pl-cat-grid,
+    .b2pl-cat-grid:has(> [data-b2-go^="vs"]){
+      display:grid !important;
+      grid-template-columns:repeat(3, minmax(0, 1fr)) !important;
+      gap:16px !important;
+      width:100% !important;
+      margin:0 !important;
+    }
+    .m5-explore-categories-card .b2pl-lvl-btn,
+    .m5-explore-categories-card button[data-b2-go^="vs"],
+    [data-b2-screens="b3c1"] .b2pl-lvl-btn,
+    button.b2pl-lvl-btn.b2pl-cat-vs1,
+    button.b2pl-lvl-btn.b2pl-cat-vs2,
+    button.b2pl-lvl-btn.b2pl-cat-vs3,
+    button.b2pl-lvl-btn[data-b2-go^="vs"]{
+      appearance:none !important;
+      -webkit-appearance:none !important;
+      background:var(--concept-block-grad, linear-gradient(135deg, #1a5c38 0%, #6da372 100%)) !important;
+      background-color:#1a5c38 !important;
+      border:2px solid rgba(26,92,56,.28) !important;
+      border-radius:20px !important;
+      color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
+      box-shadow:0 12px 26px rgba(26,92,56,.18) !important;
+      min-height:110px !important;
+      width:100% !important;
+      padding:16px 18px !important;
+      font-size:.86rem !important;
+      font-weight:800 !important;
+      line-height:1.35 !important;
+      text-shadow:0 1px 0 rgba(0,0,0,.12) !important;
+      display:flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+      text-align:center !important;
+      cursor:pointer !important;
+      font-family:inherit !important;
+    }
+    .m5-explore-categories-card .b2pl-lvl-btn:hover,
+    .m5-explore-categories-card .b2pl-lvl-btn:focus-visible,
+    .m5-explore-categories-card button[data-b2-go^="vs"]:hover,
+    .m5-explore-categories-card button[data-b2-go^="vs"]:focus-visible,
+    [data-b2-screens="b3c1"] .b2pl-lvl-btn:hover,
+    [data-b2-screens="b3c1"] .b2pl-lvl-btn:focus-visible,
+    button.b2pl-lvl-btn[data-b2-go^="vs"]:hover,
+    button.b2pl-lvl-btn[data-b2-go^="vs"]:focus-visible{
+      filter:brightness(1.06);
+      transform:translateY(-2px);
+      background:var(--concept-block-grad, linear-gradient(135deg, #1a5c38 0%, #6da372 100%)) !important;
+      color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
+      box-shadow:0 16px 28px rgba(26,92,56,.24) !important;
+      outline:none;
+    }
+    .m5-explore-categories-card .b2pl-lvl-btn:active,
+    .m5-explore-categories-card button[data-b2-go^="vs"]:active,
+    button.b2pl-lvl-btn[data-b2-go^="vs"]:active{
+      background:linear-gradient(135deg, #154e2f 0%, #5b9163 100%) !important;
+      color:#fff !important;
+      -webkit-text-fill-color:#fff !important;
+    }
+    @media (max-width:720px){
+      .m5-explore-categories-card > .b2pl-cat-grid,
+      [data-b2-screens="b3c1"] .b2pl-cat-grid,
+      .b2pl-cat-grid:has(> [data-b2-go^="vs"]){
+        grid-template-columns:1fr !important;
+      }
     }
     /* Visual Schedules: cue ends at Do / Look for / Avoid (no Got it footer) */
     .concept-panel[data-panel-for="block3"] [data-b2-screens="b3c1"] .key-ideas-action .inprac__footer{
@@ -5535,6 +5695,40 @@
       });
     }
 
+    function paintVisualScheduleTiles(scope){
+      if(!scope) return;
+      var buttons = scope.querySelectorAll('.b2pl-lvl-btn[data-b2-go^="vs"], button.b2pl-cat-vs1, button.b2pl-cat-vs2, button.b2pl-cat-vs3');
+      if(!buttons.length) return;
+      var green = 'linear-gradient(135deg, #1a5c38 0%, #6da372 100%)';
+      buttons.forEach(function(btn){
+        btn.classList.add('concept-square');
+        btn.style.setProperty('appearance', 'none', 'important');
+        btn.style.setProperty('-webkit-appearance', 'none', 'important');
+        btn.style.setProperty('background', green, 'important');
+        btn.style.setProperty('background-color', '#1a5c38', 'important');
+        btn.style.setProperty('border', '2px solid rgba(26,92,56,.28)', 'important');
+        btn.style.setProperty('border-radius', '20px', 'important');
+        btn.style.setProperty('color', '#fff', 'important');
+        btn.style.setProperty('-webkit-text-fill-color', '#fff', 'important');
+        btn.style.setProperty('box-shadow', '0 12px 26px rgba(26,92,56,.18)', 'important');
+        btn.style.setProperty('min-height', '110px', 'important');
+        btn.style.setProperty('width', '100%', 'important');
+        btn.style.setProperty('padding', '16px 18px', 'important');
+        btn.style.setProperty('font-weight', '800', 'important');
+        btn.style.setProperty('display', 'flex', 'important');
+        btn.style.setProperty('align-items', 'center', 'important');
+        btn.style.setProperty('justify-content', 'center', 'important');
+        btn.style.setProperty('text-align', 'center', 'important');
+        btn.style.setProperty('cursor', 'pointer', 'important');
+      });
+      scope.querySelectorAll('.b2pl-cat-grid:has(> [data-b2-go^="vs"]), .m5-explore-categories-card > .b2pl-cat-grid').forEach(function(grid){
+        grid.style.setProperty('display', 'grid', 'important');
+        grid.style.setProperty('gap', '16px', 'important');
+        grid.style.setProperty('width', '100%', 'important');
+        grid.style.setProperty('grid-template-columns', 'repeat(3, minmax(0, 1fr))', 'important');
+      });
+    }
+
     function consolidateNestedOverviewLayout(page){
       if(!page) return;
 
@@ -5600,6 +5794,7 @@
           explore.appendChild(grid);
         }
       });
+      paintVisualScheduleTiles(page);
     }
 
     function wrapLooseNestedVisualBox(page){
@@ -6059,7 +6254,7 @@
         text: '',
         points: [],
         imageHTML: `<div class="b2-screens" data-b2-screens="b3c1">
-  <div class="b2-screen active" data-b2-screen="home"><div class="folder-page"><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-25.jpeg" alt="Visual schedules overview"></div><div class="b2pl-cat-grid"><button class="b2pl-lvl-btn b2pl-cat-vs1" type="button" data-b2-go="vs1">First &amp; Then (2 Activities)</button><button class="b2pl-lvl-btn b2pl-cat-vs2" type="button" data-b2-go="vs2">First, Next &amp; Then (3 Activities)</button><button class="b2pl-lvl-btn b2pl-cat-vs3" type="button" data-b2-go="vs3">Four or More Activities</button></div></div></div>
+  <div class="b2-screen active" data-b2-screen="home"><div class="folder-page"><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-25.jpeg" alt="Visual schedules overview"></div><div class="b2pl-cat-grid"><button class="concept-square b2pl-lvl-btn b2pl-cat-vs1" type="button" data-b2-go="vs1">First &amp; Then (2 Activities)</button><button class="concept-square b2pl-lvl-btn b2pl-cat-vs2" type="button" data-b2-go="vs2">First, Next &amp; Then (3 Activities)</button><button class="concept-square b2pl-lvl-btn b2pl-cat-vs3" type="button" data-b2-go="vs3">Four or More Activities</button></div></div></div>
   <div class="b2-screen" data-b2-screen="vs1"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--vs1">First &amp; Then</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The First &amp; Then schedule is the simplest visual structure, using two activities.</p><p>It clearly shows what comes first and what happens next.</p><p>This format is especially effective for swimmers who benefit from reduced cognitive load, immediate structure or motivation to complete less preferred activities.</p><p>It can also be used to break larger schedules into smaller, more manageable routines.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-26.jpeg" alt="First and Then schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">First shows the activity that needs to be attempted or completed.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Then shows the next activity, which is often motivating or preferred.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">The Then activity should follow immediately after the First activity.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">This structure can reduce resistance to less preferred tasks.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Always show and point to the visuals, rather than relying only on verbal explanation.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="vs2"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--vs2">First, Next &amp; Then</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>The First, Next &amp; Then schedule expands the structure to three activities.</p><p>It helps swimmers understand a slightly longer sequence while still keeping the session manageable and predictable.</p><p>This structure is useful when introducing progression, preparing a swimmer for a new skill or organising a short part of a longer session.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-27.jpeg" alt="First Next Then schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">First is the starting activity.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Next introduces the second activity, progression or new skill.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Then is the final activity in the sequence.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Then can be used as a motivating or regulating activity.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Use short, consistent language while pointing to each visual.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
   <div class="b2-screen" data-b2-screen="vs3"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--vs3">Four or More Activities</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>A visual schedule with four or more activities provides a fuller overview of the session.</p><p>It allows swimmers to see the structure, duration and flow of the session from the beginning.</p><p>For swimmers who find longer sequences difficult, the schedule can be broken down into smaller parts using First &amp; Then or First, Next &amp; Then.</p><p>This makes the schedule flexible while still providing clear structure.</p></div><div class="concept-activity-box"><img src="https://www.clubsensational.org/wp-content/uploads/2026/04/LIBRO-Pixtolearn-V8-28.jpeg" alt="Four or more activities schedule"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Present the schedule at the start of the session.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Refer back to it regularly during the session.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Break it down into smaller steps when needed.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Include breaks, choices or motivating activities when appropriate.</div></li><li class="key-idea-item"><span class="key-idea-index">5</span><div class="key-idea-text">Use a Finished card to clearly show the end of a task or session.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
@@ -7465,13 +7660,31 @@
             return setsEqual(placementsSp[ph.key] || [], phaseCorrectIds(ph));
           }
 
+          function flaskAccentIndex(id){
+            var idx = flasksSp.findIndex(function(fl){ return fl.id === id; });
+            return idx < 0 ? 0 : (idx % 5);
+          }
+
           function flaskBtnHtml(fl){
             return (
-              '<button type="button" class="m5-spm__flask" draggable="true" data-m5-spm-flask="' + b2Esc(fl.id) + '" aria-label="' + b2Esc(fl.label) + '" title="' + b2Esc(fl.label) + '">' +
+              '<button type="button" class="m5-spm__flask" draggable="true" data-accent="' + flaskAccentIndex(fl.id) + '" data-m5-spm-flask="' + b2Esc(fl.id) + '" aria-label="' + b2Esc(fl.label) + '" title="' + b2Esc(fl.label) + '">' +
               '<img class="m5-spm__flask-img" src="' + b2Esc(flaskBaseSp + fl.file) + '" alt="' + b2Esc(fl.label) + '" draggable="false" />' +
+              '<span class="m5-spm__flask-label">' + b2Esc(fl.label) + '</span>' +
               '</button>'
             );
           }
+
+          var M5_LEVEL_MASCOTS = {
+            1: { src: '/assets/images/module-4/mascots/level-1-turtle.png', animal: 'Turtle' },
+            2: { src: '/assets/images/module-4/mascots/level-2-starfish.png', animal: 'Starfish' },
+            3: { src: '/assets/images/module-4/mascots/level-3-jellyfish.png', animal: 'Jellyfish' },
+            4: { src: '/assets/images/module-4/mascots/level-4-ray.png', animal: 'Ray' },
+            5: { src: '/assets/images/module-4/mascots/level-5-dolphin.png', animal: 'Dolphin' },
+            6: { src: '/assets/images/module-4/mascots/level-6-whale.png', animal: 'Whale' }
+          };
+          var levelMeta = M5_LEVEL_MASCOTS[String(cfg.level)] || M5_LEVEL_MASCOTS[3];
+          var levelAnimal = cfg.levelName || levelMeta.animal;
+          var mascotSrc = cfg.mascotSrc || levelMeta.src;
 
           function usedSp(){
             var used = {};
@@ -7548,10 +7761,16 @@
 
           if(briefEl){
             briefEl.innerHTML =
-              '<p class="m5-spm__brief-kicker">PixtoLearn session plan</p>' +
-              '<h5 class="m5-spm__brief-title">' + b2Esc(cfg.briefTitle || ('Level ' + (cfg.level || '') + ' — ' + (cfg.levelName || ''))) + '</h5>' +
-              '<p class="m5-spm__brief-meta"><strong>Main outcome:</strong> ' + b2Esc(cfg.mainOutcome || '') + '</p>' +
-              (cfg.briefNote ? ('<p class="m5-spm__brief-meta" style="margin-top:6px;">' + b2Esc(cfg.briefNote) + '</p>') : '');
+              '<div class="m5-spm__brief-mascot" aria-hidden="true"><img src="' + b2Esc(mascotSrc) + '" alt="" loading="lazy" decoding="async" /></div>' +
+              '<div class="m5-spm__brief-copy">' +
+                '<p class="m5-spm__brief-kicker">PixtoLearn session plan</p>' +
+                '<div class="m5-spm__brief-title-row">' +
+                  '<h5 class="m5-spm__brief-title">' + b2Esc(cfg.briefTitle || ('Level ' + (cfg.level || '') + ' — ' + levelAnimal + ' session')) + '</h5>' +
+                  '<span class="m5-spm__level-chip"><img src="' + b2Esc(mascotSrc) + '" alt="" />Level ' + b2Esc(String(cfg.level || 3)) + ' · ' + b2Esc(levelAnimal) + '</span>' +
+                '</div>' +
+                '<p class="m5-spm__brief-meta"><strong>Main outcome:</strong> ' + b2Esc(cfg.mainOutcome || '') + '</p>' +
+                (cfg.briefNote ? ('<p class="m5-spm__brief-meta">' + b2Esc(cfg.briefNote) + '</p>') : '') +
+              '</div>';
           }
 
           phasesEl.innerHTML = phases.map(function(ph, i){
@@ -8318,6 +8537,7 @@
         guideHint: 'Slide flashcards into Entry & Warm Up, Main Activity, and Cool Down & Exit. Used cards leave the tray.',
         q: 'Match flashcards to each phase of this Level 3 session plan.',
         flaskBase: '/assets/images/module-5/first-then-flasks/',
+        mascotSrc: '/assets/images/module-4/mascots/level-3-jellyfish.png',
         level: 3,
         levelName: 'Jellyfish',
         briefTitle: 'Level 3 — Jellyfish session',
@@ -8987,6 +9207,7 @@
           wrapLooseNestedVisualBox(page);
           consolidateNestedOverviewLayout(page);
           applyNestedVisualClasses(activeScreen);
+          paintVisualScheduleTiles(activeScreen);
           if(window.GuidedConceptLayout){
             GuidedConceptLayout.ensurePageLayout(page);
             GuidedConceptLayout.wireScopedKeyIdeas(panel, panel.dataset.currentBlock || block, target);
