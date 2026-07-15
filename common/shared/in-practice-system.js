@@ -265,6 +265,10 @@
           try {
             actionEl.dispatchEvent(new CustomEvent('in-practice-progress', { bubbles: true, detail: { part: part } }));
           } catch (err) {}
+          /* End at the three cue boxes — no separate Got it tap needed */
+          if (partsComplete(actionEl)) {
+            completeAction(actionEl);
+          }
         }
         return;
       }
@@ -606,6 +610,7 @@
     getVisibleParts: getVisibleParts,
     partsComplete: partsComplete,
     nextUnreviewedPart: nextUnreviewedPart,
+    completeAction: completeAction,
     paint: function (actionEl) { enhanceAction(actionEl, true); }
   };
 

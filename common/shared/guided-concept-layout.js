@@ -189,6 +189,28 @@
     return true;
   }
 
+  /** Parent screen for nested folders/leaves (leaf→folder→home). */
+  function getNestedBackTarget(panel) {
+    var ctx = getNestedScreenContext(panel);
+    if (!ctx || !ctx.wrapper || ctx.mode === 'flat' || ctx.mode === 'hub') return null;
+    var navBack = ctx.active && ctx.active.querySelector('.b2-nav [data-b2-go]');
+    if (navBack) {
+      var go = navBack.getAttribute('data-b2-go');
+      if (go) return go;
+    }
+    var id = ctx.screenId || '';
+    if (/^f\d+-s\d+$/.test(id)) return id.replace(/-s\d+$/, '');
+    if (/^vs\d+$/.test(id) || /^fc\d+$/.test(id)) return 'home';
+    if (ctx.mode === 'folder' && id && id !== 'home') return 'home';
+    return null;
+  }
+
+  function navigateNestedBack(panel) {
+    var target = getNestedBackTarget(panel);
+    if (!target) return false;
+    return navigateNestedScreen(panel, target);
+  }
+
   function advanceAfterLeafDone(panel, block, target, leafId) {
     markItemDone(panel, 'flowM5CatsDone', leafId);
     var next = findNextLeafTarget(panel, leafId);
@@ -222,6 +244,8 @@
     wireScopedInPractice: wireScopedInPractice,
     advanceAfterLeafDone: advanceAfterLeafDone,
     navigateNestedScreen: navigateNestedScreen,
+    getNestedBackTarget: getNestedBackTarget,
+    navigateNestedBack: navigateNestedBack,
     findNextLeafTarget: findNextLeafTarget,
     markItemDone: markItemDone,
     isItemDone: isItemDone
