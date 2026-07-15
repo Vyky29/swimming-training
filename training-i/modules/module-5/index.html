@@ -5728,7 +5728,9 @@
           return;
         }
 
-        var hostCard = grid.closest('.concept-section-card');
+        /* Never use .concept-image as host — it is also .concept-section-card;
+         * inserting after it orphans Explore tiles outside nested screens (leak into Sequence). */
+        var hostCard = grid.closest('.concept-section-card:not(.concept-image)');
         var exploreTitle = 'Explore the categories';
         if(grid.classList.contains('b2pl-folder-grid')){
           exploreTitle = 'Explore the folders';
@@ -5744,7 +5746,7 @@
         head.innerHTML = '<span class="icon" aria-hidden="true">🗂️</span><span>' + exploreTitle + '</span>';
         explore.appendChild(head);
 
-        if(hostCard){
+        if(hostCard && hostCard.closest('[data-b2-screens], .b2-screens')){
           var nav = hostCard.querySelector(':scope > .b2-nav');
           hostCard.insertAdjacentElement('afterend', explore);
           explore.appendChild(grid);
@@ -5757,7 +5759,7 @@
           stripVisualImageLabel(hostCard);
           var box = hostCard.querySelector(':scope > .concept-activity-box, :scope > .entry-exit-fan');
           if(box && !box.classList.contains('entry-exit-fan')) box.classList.add('m5-nested-visual-frame');
-        } else {
+        } else if(grid.parentNode){
           grid.parentNode.insertBefore(explore, grid);
           explore.appendChild(grid);
         }
@@ -6013,10 +6015,32 @@
       return parseInt(h.slice(0, 2), 16) + ', ' + parseInt(h.slice(2, 4), 16) + ', ' + parseInt(h.slice(4, 6), 16);
     }
 
+    function purgeOrphanScheduleExplore(panel){
+      if(!panel) return;
+      /* Schedule explore cards wrongly promoted next to .concept-image — remove when not on Visual Schedules */
+      panel.querySelectorAll(':scope > .m5-explore-categories-card, :scope > .b2pl-cat-grid').forEach(function(node){
+        if(node.querySelector('[data-b2-go^="vs"]') || /explore the schedules/i.test(node.textContent || '')){
+          node.remove();
+        }
+      });
+      panel.querySelectorAll('[data-b2-screens="b3c1"]').forEach(function(wrap){
+        if(!wrap.closest('.concept-image')) wrap.remove();
+      });
+      var imageEl = panel.querySelector(':scope > .concept-image');
+      if(imageEl){
+        imageEl.classList.remove('m5-nested-visual-shell', 'm5-screen-visual-card', 'm5-folder-overview-card', 'section-visual-shell', 'visual-direct');
+        imageEl.removeAttribute('data-m5-explore-categories');
+        imageEl.removeAttribute('data-visual-section-ready');
+      }
+    }
+
     function clearNestedPanelChrome(panel){
       if(!panel) return;
       panel.classList.remove('m5-nested-active');
       applyNestedTitleAccent(panel, 'home');
+      purgeOrphanScheduleExplore(panel);
+      var pointsBox = panel.querySelector(':scope > .concept-points-box');
+      if(pointsBox) pointsBox.style.display = '';
     }
 
     function applyNestedTitleAccent(panel, screenId){
@@ -9500,6 +9524,9 @@
         if(prevTarget === 'b2c2' || prevTarget === 'b2c3' || prevTarget === 'b3c1'){
           clearNestedScreenState(panel, prevTarget);
         }
+      } else if(target === 'b3c1'){
+        /* Always scrub orphans before rebuilding Visual Schedules */
+        purgeOrphanScheduleExplore(panel);
       }
       setConceptTitle(panel.querySelector('h4'), data.title, target, block);
       var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
@@ -9651,7 +9678,12 @@
           clearNestedScreenState(panel, target);
         }
       }
-      imageContainer.classList.add('concept-section-card');
+      /* Nested hubs must not make .concept-image a section-card host (orphans Explore tiles) */
+      if(imageContainer.querySelector('[data-b2-screens], .b2-screens')){
+        imageContainer.classList.remove('concept-section-card', 'm5-nested-visual-shell', 'm5-screen-visual-card');
+      } else {
+        imageContainer.classList.add('concept-section-card');
+      }
       const descAfterEl = panel.querySelector('.concept-panel-desc');
       if(descAfterEl && imageContainer && descAfterEl.nextElementSibling !== imageContainer){
         descAfterEl.insertAdjacentElement('afterend', imageContainer);
