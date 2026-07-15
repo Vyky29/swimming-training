@@ -12,7 +12,7 @@
   @import url('/assets/module-roadmap.css?v=20260713roadmap2');
 @import url('/assets/module-hero-system.css');
   @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
-  @import url('/assets/concept-insight-intro.css?v=20260714core1');
+  @import url('/assets/concept-insight-intro.css?v=20260715corew');
   @import url('/assets/training-flow-guide.css?v=20260714freenav1');
   @import url('/assets/module-block-accordion.css?v=20260714ttsheader1');
   :root{
@@ -1460,16 +1460,81 @@
       max-width:560px;
       gap:8px;
     }
+    .m5-ftx[data-m5-ftx-slots="6"] .m5-ftx__stand,
+    .m5-ftx__stand--grouped{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:flex-end;
+      gap:14px 18px;
+      max-width:720px;
+      width:100%;
+    }
+    .m5-ftx__stand--grouped .m5-ftx__pocket{
+      max-width:100px;
+    }
+    .m5-ftx__stand--grouped .m5-ftx__slot-drop{
+      height:112px;
+      margin-bottom:-12px;
+    }
     .m5-ftx[data-m5-ftx-slots="3"] .m5-ftx__pocket,
-    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__pocket{
+    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__pocket,
+    .m5-ftx[data-m5-ftx-slots="6"] .m5-ftx__pocket{
       max-width:108px;
     }
-    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__slot-drop{
+    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__slot-drop,
+    .m5-ftx[data-m5-ftx-slots="6"] .m5-ftx__slot-drop{
       height:118px;
     }
     .m5-ftx[data-m5-ftx-slots="3"] .m5-ftx__sc-caption,
-    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__sc-caption{
+    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__sc-caption,
+    .m5-ftx[data-m5-ftx-slots="6"] .m5-ftx__sc-caption{
       min-height:3.6em;
+    }
+    .m5-ftx__group{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      min-width:0;
+    }
+    .m5-ftx__group-pockets{
+      display:flex;
+      align-items:flex-end;
+      gap:8px;
+    }
+    .m5-ftx__group-label{
+      font-size:.68rem;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:lowercase;
+      color:#b08a4a;
+    }
+    .m5-ftx__sc-note{
+      margin:0;
+      padding:10px 12px;
+      border-radius:10px;
+      background:rgba(176,138,74,.10);
+      border:1px solid rgba(176,138,74,.22);
+      font-size:.72rem;
+      font-weight:550;
+      color:#5a4a32;
+      line-height:1.45;
+      font-style:normal;
+    }
+    .m5-ftx[data-m5-ftx-layout="schedule-breakdown"] .m5-ftx__boards{
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      max-width:none;
+    }
+    .m5-ftx[data-m5-ftx-layout="schedule-breakdown"] .m5-ftx__scenario--overview{
+      grid-column:1 / -1;
+    }
+    .m5-ftx[data-m5-ftx-layout="schedule-breakdown"] .m5-ftx__scenario--overview .m5-ftx__stand{
+      max-width:760px;
+    }
+    .m5-ftx[data-m5-ftx-layout="schedule-breakdown"] .m5-ftx__scenario--overview .m5-ftx__sc-caption{
+      min-height:0;
+      max-width:72ch;
     }
     .m5-ftx__scenario{
       display:flex;
@@ -1701,6 +1766,195 @@
     @media (max-width:720px){
       .m5-ftx__flask{ width:88px; }
     }
+    /* Level session plan match — warm / main / cool */
+    .m5-spm{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      width:100%;
+    }
+    .m5-spm__brief{
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid rgba(234,143,34,.28);
+      background:linear-gradient(180deg, rgba(255,247,237,.95) 0%, #fff 70%);
+    }
+    .m5-spm__brief-kicker{
+      margin:0 0 6px;
+      font-size:.68rem;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:#c2791c;
+    }
+    .m5-spm__brief-title{
+      margin:0 0 8px;
+      font-size:1rem;
+      font-weight:750;
+      color:#163247;
+    }
+    .m5-spm__brief-meta{
+      margin:0;
+      font-size:.82rem;
+      line-height:1.5;
+      color:#4a5560;
+    }
+    .m5-spm__brief-meta strong{ color:#163247; }
+    .m5-spm__phases{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:12px;
+      width:100%;
+    }
+    .m5-spm__phase{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-width:0;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(22,50,71,.10);
+      background:#fff;
+      box-shadow:0 8px 18px rgba(18,50,71,.04);
+    }
+    .m5-spm__phase.is-correct{
+      border-color:rgba(26,92,56,.32);
+      background:linear-gradient(180deg, rgba(232,245,238,.55) 0%, #fff 55%);
+    }
+    .m5-spm__phase-head{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .m5-spm__phase-num{
+      font-size:.62rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#2d84b3;
+    }
+    .m5-spm__phase-title{
+      margin:0;
+      font-size:.88rem;
+      font-weight:750;
+      color:#163247;
+    }
+    .m5-spm__phase-focus{
+      margin:0;
+      font-size:.68rem;
+      font-weight:700;
+      color:#c2791c;
+    }
+    .m5-spm__phase-outcome{
+      margin:0;
+      font-size:.74rem;
+      line-height:1.45;
+      color:#4a5560;
+      font-style:italic;
+      flex:1 1 auto;
+    }
+    .m5-spm__drop{
+      min-height:132px;
+      border:1.5px dashed rgba(110,130,150,.28);
+      border-radius:12px;
+      background:rgba(247,250,248,.8);
+      padding:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-content:flex-start;
+      justify-content:center;
+      cursor:pointer;
+      transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    .m5-spm__drop.is-active,
+    .m5-spm__drop.drag-over{
+      border-color:#2d84b3;
+      background:#edf6fb;
+      box-shadow:inset 0 0 0 1px rgba(45,132,179,.18);
+    }
+    .m5-spm__drop-ph{
+      margin:auto;
+      font-size:.68rem;
+      font-weight:600;
+      color:rgba(70,100,115,.42);
+      text-align:center;
+      pointer-events:none;
+    }
+    .m5-spm__tray{
+      padding:12px 14px 14px;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid rgba(22,50,71,.10);
+      box-shadow:0 10px 22px rgba(18,50,71,.05);
+    }
+    .m5-spm__pool-label{
+      margin:0 0 8px;
+      font-size:.68rem;
+      font-weight:750;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color:#1a5c38;
+    }
+    .m5-spm__pool{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+    }
+    .m5-spm__flask{
+      position:relative;
+      margin:0;
+      padding:0;
+      width:92px;
+      flex:0 0 auto;
+      border:1.5px solid rgba(26,92,56,.14);
+      border-radius:8px;
+      background:#fff;
+      cursor:grab;
+      overflow:hidden;
+      box-shadow:0 4px 10px rgba(18,50,71,.05);
+      transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease, opacity .15s ease;
+      -webkit-user-drag:element;
+      user-select:none;
+    }
+    .m5-spm__flask:hover,
+    .m5-spm__flask:focus-visible{
+      border-color:#1a5c38;
+      outline:none;
+      transform:translateY(-2px);
+    }
+    .m5-spm__flask.is-selected{
+      border-color:#1a5c38;
+      box-shadow:0 0 0 2px rgba(26,92,56,.18);
+    }
+    .m5-spm__flask.dragging{ opacity:.4; }
+    .m5-spm__flask-img{
+      display:block;
+      width:100%;
+      aspect-ratio:4 / 5;
+      object-fit:contain;
+      background:#f7faf8;
+      pointer-events:none;
+    }
+    .m5-spm__drop .m5-spm__flask{
+      width:78px;
+      cursor:pointer;
+    }
+    .m5-spm__nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+    .m5-spm__nav .btn{
+      font-size:.84rem !important;
+      padding:.45rem .85rem;
+    }
+    @media (max-width:900px){
+      .m5-spm__phases{ grid-template-columns:1fr; }
+    }
+
     .concept-panel[data-panel-for="block1"] .section-activity-shell > .concept-section-head,
     .concept-panel[data-panel-for="block2"] .section-activity-shell > .concept-section-head,
     .concept-panel[data-panel-for="block3"] .section-activity-shell > .concept-section-head{ margin-bottom:10px; }
@@ -2905,6 +3159,7 @@
     .portal .b2-screens .m5-nested-visual-shell,
     .portal .b2-screens .m5-screen-visual-card:not(:has(.b2pl-cat-grid)),
     .portal .b2-screens .m5-folder-overview-card,
+    .portal .b2-screens .m5-explore-categories-card,
     .portal .b2-screens .folder-page > .concept-points-box,
     .portal .b2-screens .folder-page > .section-activity-shell,
     .portal .b2-screens .folder-page .section-activity-shell,
@@ -2985,11 +3240,39 @@
     .portal .concept-panel.m5-nested-active .b2-screens .entry-exit-fan-grid{
       max-width:min(480px,100%);
     }
-    .portal .b2-screens .m5-folder-overview-card > .b2pl-cat-grid{
-      margin-top:4px;
+    .portal .b2-screens .m5-explore-categories-card{
+      width:100%;
+      max-width:100%;
+      margin:0 0 18px;
+      padding:16px 18px 18px;
+      background:#fff;
+      border:1px solid rgba(45,132,179,.12);
+      border-radius:16px;
+      box-shadow:0 12px 28px rgba(18,50,71,.07);
+      box-sizing:border-box;
     }
-    .portal .b2-screens .m5-folder-overview-card > .b2pl-folder-grid{
-      margin-top:4px;
+    .portal .b2-screens .m5-explore-categories-heading{
+      margin:0 0 14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:1.05rem;
+      font-weight:800;
+      letter-spacing:.01em;
+      color:var(--blue, #2d84b3);
+    }
+    .portal .b2-screens .m5-explore-categories-heading .icon{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:1.35em;
+      height:1.35em;
+      flex:0 0 auto;
+      line-height:1;
+    }
+    .portal .b2-screens .m5-explore-categories-card > .b2pl-cat-grid,
+    .portal .b2-screens .m5-explore-categories-card > .b2pl-folder-grid{
+      margin:0;
       width:100%;
     }
     .portal .b2-screens > .b2-screen[data-b2-screen="home"].active{
@@ -3223,29 +3506,46 @@
     .b2pl-cathead--vs2{ color:#2d84b3; }
     .b2pl-cathead--vs3{ color:#7b2fa1; }
 
-    /* Folder theme tokens on nested screens (titles / rails follow folder, not block purple) */
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f1"],
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f1-"]{ --b2c2-accent:#D4607A; }
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f2"],
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f2-"]{ --b2c2-accent:#4A8C8C; }
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f3"],
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f3-"]{ --b2c2-accent:#B8732A; }
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f4"],
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f4-"]{ --b2c2-accent:#C9A227; }
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f5"],
-    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen^="f5-"]{ --b2c2-accent:#333333; }
+    /* Folder overview tokens (folder chrome). Category leaf titles use --m5-folder-accent from the category colour. */
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f1"]{ --b2c2-accent:#D4607A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f1-s1"]{ --b2c2-accent:#B03060; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f1-s2"]{ --b2c2-accent:#D4607A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f1-s3"]{ --b2c2-accent:#E8909A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f2"]{ --b2c2-accent:#4A8C8C; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f2-s1"]{ --b2c2-accent:#2A5C5C; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f2-s2"]{ --b2c2-accent:#4A8C8C; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f2-s3"]{ --b2c2-accent:#5AA5A5; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f3"]{ --b2c2-accent:#B8732A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f3-s1"]{ --b2c2-accent:#B8732A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f3-s2"]{ --b2c2-accent:#6B1A2A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f4"]{ --b2c2-accent:#C9A227; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f4-s1"]{ --b2c2-accent:#7B6B9E; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f4-s2"]{ --b2c2-accent:#9A7B0A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f4-s3"]{ --b2c2-accent:#8BAF6A; }
+    .b2-screens[data-b2-screens="b2c2"] .b2-screen[data-b2-screen="f5"]{ --b2c2-accent:#333333; }
 
     .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-title-text,
     .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-title-main,
     .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-panel-title,
-    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root] .concept-title-text,
-    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root] .concept-panel-title{
-      color:var(--m5-folder-accent, var(--b2c2-accent, var(--b2c3-accent, #2d84b3))) !important;
+    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root]:not([data-stage-theme]):not([data-level]) .concept-title-text,
+    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root]:not([data-stage-theme]):not([data-level]) .concept-title-main,
+    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root]:not([data-stage-theme]):not([data-level]) .concept-panel-title,
+    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root]:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
+    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root]:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4{
+      color:var(--m5-folder-accent, var(--concept-title-accent, var(--b2c2-accent, #2d84b3))) !important;
     }
-    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-title-icon{
-      color:var(--m5-folder-accent, var(--b2c2-accent, #2d84b3)) !important;
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-title-icon,
+    .portal .section.block-part--core .concept-panel.m5-nested-active[data-flow-m5-root]:not([data-stage-theme]):not([data-level]) .concept-title-icon{
+      color:var(--m5-folder-accent, var(--concept-title-accent, #2d84b3)) !important;
       background:linear-gradient(180deg, rgba(255,255,255,.94) 0%, color-mix(in srgb, var(--m5-folder-accent, #2d84b3) 12%, #fff) 100%) !important;
       box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--m5-folder-accent, #2d84b3) 22%, transparent), 0 8px 18px rgba(18,50,71,.08) !important;
+    }
+    /* Core Concept insight subtitle + underline → category colour (not block purple/blue) */
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-insight-intro__title{
+      color:var(--m5-folder-accent, var(--concept-title-accent, var(--blue, #2d84b3))) !important;
+    }
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-insight-intro__title::after{
+      background:var(--m5-folder-accent, var(--concept-title-accent, #2d84b3)) !important;
     }
     .portal .concept-panel.m5-nested-active[data-flow-m5-root] .b2pl-lvl-btn{
       border-color:color-mix(in srgb, var(--b2c2-accent, var(--m5-folder-accent, #2d84b3)) 35%, rgba(45,132,179,.16));
@@ -4324,8 +4624,8 @@
       text-align:left !important;
     }
   </style>
-  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260714core1" />
-  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260714whiteicon1" />
+  <link rel="stylesheet" href="/assets/concept-insight-intro.css?v=20260715corew" />
+  <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260715corew" />
   <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
   <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
@@ -5179,7 +5479,7 @@
 
     function insertNestedVisualCard(page, visualEl){
       if(!page || !visualEl) return;
-      var before = page.querySelector('.concept-points-box, .b2pl-cat-grid, .b2-nav, .section-activity, .section-activity-shell');
+      var before = page.querySelector('.concept-points-box, .m5-explore-categories-card, .b2pl-cat-grid, .b2-nav, .section-activity, .section-activity-shell');
       if(before){
         before.insertAdjacentElement('beforebegin', visualEl);
       } else {
@@ -5191,6 +5491,7 @@
       if(!page) return;
       page.querySelectorAll('.concept-section-card').forEach(function(card){
         if(card.classList.contains('section-intro')) return;
+        if(card.classList.contains('m5-explore-categories-card')) return;
         if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')) return;
         var pointsBox = card.querySelector(':scope > .concept-points-box');
         if(!pointsBox) return;
@@ -5213,30 +5514,54 @@
 
     function consolidateNestedOverviewLayout(page){
       if(!page) return;
-      var grid = page.querySelector(':scope > .b2pl-cat-grid, :scope > .b2pl-folder-grid');
-      if(!grid) return;
 
-      var visualCard = page.querySelector(':scope > .concept-section-card:has(.concept-activity-box > img[src], .entry-exit-fan)');
+      // Wrap loose overview images as visual-only cards (never swallow category grids).
       var imgBox = page.querySelector(':scope > .concept-activity-box:has(> img[src])');
-
-      if(visualCard && !visualCard.contains(grid)){
-        visualCard.appendChild(grid);
-        visualCard.classList.add('m5-folder-overview-card');
-        visualCard.classList.remove('m5-nested-visual-shell');
-        var box = visualCard.querySelector(':scope > .concept-activity-box, :scope > .entry-exit-fan');
-        if(box && !box.classList.contains('entry-exit-fan')) box.classList.add('m5-nested-visual-frame');
-        stripVisualImageLabel(visualCard);
-        return;
-      }
-
       if(imgBox && !imgBox.closest('.concept-section-card')){
-        var card = document.createElement('div');
-        card.className = 'concept-section-card m5-folder-overview-card m5-screen-visual-card';
-        page.insertBefore(card, imgBox);
-        card.appendChild(imgBox);
+        var visualWrap = document.createElement('div');
+        visualWrap.className = 'concept-section-card m5-screen-visual-card m5-nested-visual-shell';
+        page.insertBefore(visualWrap, imgBox);
+        visualWrap.appendChild(imgBox);
         imgBox.classList.add('m5-nested-visual-frame');
-        card.appendChild(grid);
+        stripVisualImageLabel(visualWrap);
       }
+
+      var grids = Array.prototype.slice.call(page.querySelectorAll('.b2pl-cat-grid, .b2pl-folder-grid'));
+      grids.forEach(function(grid){
+        if(grid.closest('.m5-explore-categories-card')) return;
+
+        var hostCard = grid.closest('.concept-section-card');
+        var exploreTitle = 'Explore the categories';
+        if(grid.classList.contains('b2pl-folder-grid')){
+          exploreTitle = 'Explore the folders';
+        } else if(grid.querySelector('[data-b2-go^="vs"]')){
+          exploreTitle = 'Explore the schedules';
+        }
+
+        var explore = document.createElement('div');
+        explore.className = 'concept-section-card m5-explore-categories-card';
+        explore.setAttribute('data-m5-explore-categories', '1');
+        var head = document.createElement('h5');
+        head.className = 'concept-section-head m5-explore-categories-heading';
+        head.innerHTML = '<span class="icon" aria-hidden="true">🗂️</span><span>' + exploreTitle + '</span>';
+        explore.appendChild(head);
+
+        if(hostCard){
+          var nav = hostCard.querySelector(':scope > .b2-nav');
+          hostCard.insertAdjacentElement('afterend', explore);
+          explore.appendChild(grid);
+          if(nav) explore.insertAdjacentElement('afterend', nav);
+
+          hostCard.classList.remove('m5-folder-overview-card');
+          hostCard.classList.add('m5-nested-visual-shell', 'm5-screen-visual-card');
+          stripVisualImageLabel(hostCard);
+          var box = hostCard.querySelector(':scope > .concept-activity-box, :scope > .entry-exit-fan');
+          if(box && !box.classList.contains('entry-exit-fan')) box.classList.add('m5-nested-visual-frame');
+        } else {
+          grid.parentNode.insertBefore(explore, grid);
+          explore.appendChild(grid);
+        }
+      });
     }
 
     function wrapLooseNestedVisualBox(page){
@@ -5258,10 +5583,9 @@
         var page = screen.querySelector('.folder-page') || screen;
         page.querySelectorAll('.concept-section-card').forEach(function(card){
           if(card.classList.contains('section-intro')) return;
-          if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')){
-            card.classList.add('m5-folder-overview-card');
-            var overviewBox = card.querySelector(':scope > .concept-activity-box, :scope > .entry-exit-fan');
-            if(overviewBox) overviewBox.classList.add('m5-nested-visual-frame');
+          if(card.classList.contains('m5-explore-categories-card') || card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')){
+            card.classList.add('m5-explore-categories-card');
+            card.classList.remove('m5-folder-overview-card', 'm5-nested-visual-shell');
             return;
           }
           if(card.querySelector('.concept-activity-box > img, .b2c2-direct-image, .b2c3-direct-image, .entry-exit-fan')){
@@ -5293,6 +5617,7 @@
         consolidateNestedOverviewLayout(page);
         page.querySelectorAll('.concept-section-card').forEach(function(card){
           if(card.classList.contains('section-intro')) return;
+          if(card.classList.contains('m5-explore-categories-card')) return;
           if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid, .concept-points-box, .b2-nav, .section-activity, .entry-exit-fan, .concept-activity-box > img, .b2c2-direct-image, .b2c3-direct-image')){
             stripVisualImageLabel(card);
           }
@@ -5466,6 +5791,54 @@
       if(nestedEntry && nestedEntry.panelTitle){
         setConceptTitle(mainTitle, nestedEntry.panelTitle, screenId, target);
       }
+    }
+
+    /* Category / folder title colours (match .b2pl-cathead / folder buttons — not block purple) */
+    var M5_NESTED_TITLE_ACCENTS = {
+      f1: '#D4607A', 'f1-s1': '#B03060', 'f1-s2': '#D4607A', 'f1-s3': '#E8909A',
+      f2: '#4A8C8C', 'f2-s1': '#2A5C5C', 'f2-s2': '#4A8C8C', 'f2-s3': '#5AA5A5',
+      f3: '#B8732A', 'f3-s1': '#B8732A', 'f3-s2': '#6B1A2A',
+      f4: '#C9A227', 'f4-s1': '#7B6B9E', 'f4-s2': '#9A7B0A', 'f4-s3': '#8BAF6A',
+      f5: '#333333',
+      fc31: '#B8732A', fc32: '#9A7B0A', fc33: '#C97816', fc34: '#4A8C8C', fc35: '#6B7280', fc36: '#2A5C5C',
+      vs1: '#1a5c38', vs2: '#2d84b3', vs3: '#7b2fa1'
+    };
+
+    function hexToRgbCss(hex){
+      if(!hex) return '';
+      var h = String(hex).replace('#', '');
+      if(h.length === 3) h = h.split('').map(function(c){ return c + c; }).join('');
+      if(h.length !== 6) return '';
+      return parseInt(h.slice(0, 2), 16) + ', ' + parseInt(h.slice(2, 4), 16) + ', ' + parseInt(h.slice(4, 6), 16);
+    }
+
+    function applyNestedTitleAccent(panel, screenId){
+      if(!panel) return;
+      if(!screenId || screenId === 'home'){
+        panel.removeAttribute('data-flow-m5-root');
+        panel.style.removeProperty('--m5-folder-accent');
+        panel.style.removeProperty('--m5-folder-accent-rgb');
+        panel.style.removeProperty('--concept-title-accent');
+        panel.style.removeProperty('--concept-title-accent-soft');
+        panel.style.removeProperty('--concept-title-accent-border');
+        panel.style.removeProperty('--b2c2-accent');
+        panel.style.removeProperty('--b2c3-accent');
+        return;
+      }
+      var rootId = String(screenId).replace(/-s\d+$/, '');
+      var hex = M5_NESTED_TITLE_ACCENTS[screenId] || M5_NESTED_TITLE_ACCENTS[rootId];
+      if(!hex) return;
+      var rgb = hexToRgbCss(hex);
+      panel.dataset.flowM5Root = rootId;
+      panel.style.setProperty('--m5-folder-accent', hex);
+      if(rgb) panel.style.setProperty('--m5-folder-accent-rgb', rgb);
+      panel.style.setProperty('--concept-title-accent', hex);
+      if(rgb){
+        panel.style.setProperty('--concept-title-accent-soft', 'rgba(' + rgb + ', 0.12)');
+        panel.style.setProperty('--concept-title-accent-border', 'rgba(' + rgb + ', 0.28)');
+      }
+      if(/^f\d/.test(screenId)) panel.style.setProperty('--b2c2-accent', hex);
+      if(/^(fc|vs)\d/.test(screenId)) panel.style.setProperty('--b2c3-accent', hex);
     }
 
     const conceptContent = {
@@ -6363,8 +6736,9 @@
           '<p class="b2-inline-hint" style="font-size:.82rem; margin:0 0 8px; color:#4a5560;">' +
           b2Esc(cfg.guideHint || 'Build each board from the shared tray. Slide flashcards into the PixtoLearn stands — used cards leave the tray.') +
           '</p>';
+        var layoutAttr = cfg.layout ? (' data-m5-ftx-layout="' + b2Esc(cfg.layout) + '"') : '';
         var shellF =
-          '<div class="m5-ftx" data-m5-ftx data-m5-ftx-no-expand="true" data-no-expand="true" data-m5-ftx-slots="' + slotDefsShell.length + '" data-m5-ftx-cols="' + boardCols + '">' +
+          '<div class="m5-ftx" data-m5-ftx data-m5-ftx-no-expand="true" data-no-expand="true" data-m5-ftx-slots="' + slotDefsShell.length + '" data-m5-ftx-cols="' + boardCols + '"' + layoutAttr + '>' +
             '<div class="m5-ftx__boards" data-m5-ftx-boards></div>' +
             '<div class="m5-ftx__tray">' +
               '<p class="m5-ftx__pool-label">Flashcard tray</p>' +
@@ -6376,6 +6750,26 @@
             '</div>' +
           '</div>';
         return buildActivityContainerShellM5({ variant: 'scenario', contentHtml: (qHtml || '') + tipF + shellF });
+      }
+      if(f === 'session_plan_match'){
+        var tipSp =
+          '<p class="b2-inline-hint" style="font-size:.82rem; margin:0 0 8px; color:#4a5560;">' +
+          b2Esc(cfg.guideHint || 'Slide each flashcard into Entry & Warm Up, Main Activity, or Cool Down & Exit. Used cards leave the tray.') +
+          '</p>';
+        var shellSp =
+          '<div class="m5-spm" data-m5-spm data-no-expand="true">' +
+            '<div class="m5-spm__brief" data-m5-spm-brief></div>' +
+            '<div class="m5-spm__phases" data-m5-spm-phases></div>' +
+            '<div class="m5-spm__tray">' +
+              '<p class="m5-spm__pool-label">Flashcard tray</p>' +
+              '<div class="m5-spm__pool" data-m5-spm-pool></div>' +
+            '</div>' +
+            '<div class="m5-spm__nav">' +
+              '<button type="button" class="btn" data-m5-spm-check="1">Check session plan</button>' +
+              '<button type="button" class="btn" data-m5-spm-clear="1">Clear</button>' +
+            '</div>' +
+          '</div>';
+        return buildActivityContainerShellM5({ variant: 'scenario', contentHtml: (qHtml || '') + tipSp + shellSp });
       }
       return '';
     }
@@ -6743,11 +7137,10 @@
           var scenarios = cfg.scenarios || [];
           var flasks = cfg.flasks || [];
           var flaskBase = cfg.flaskBase || '/assets/images/module-5/first-then-flasks/';
-          var slotDefs = cfg.slots || [
+          var defaultSlotDefs = cfg.slots || [
             { key: 'first', stand: 'stand-base-first.png', aria: 'First stand' },
             { key: 'then', stand: 'stand-base-then.png', aria: 'Then stand' }
           ];
-          var slotKeys = slotDefs.map(function(s){ return s.key; });
           var flaskMap = {};
           flasks.forEach(function(fl){ flaskMap[fl.id] = fl; });
           var boardsEl = root.querySelector('[data-m5-ftx-boards]');
@@ -6758,9 +7151,17 @@
           var dragId = '';
           var placements = {};
 
-          function emptyPlacement(){
+          function slotsFor(sc){
+            return (sc && sc.slots && sc.slots.length) ? sc.slots : defaultSlotDefs;
+          }
+
+          function slotKeysFor(sc){
+            return slotsFor(sc).map(function(s){ return s.key; });
+          }
+
+          function emptyPlacement(sc){
             var pl = {};
-            slotKeys.forEach(function(k){ pl[k] = ''; });
+            slotKeysFor(sc).forEach(function(k){ pl[k] = ''; });
             return pl;
           }
 
@@ -6776,11 +7177,11 @@
           function scenarioOk(sc){
             var want = scenarioCorrect(sc);
             var have = placements[sc.id] || {};
-            return slotKeys.every(function(k){ return have[k] === want[k]; });
+            return slotKeysFor(sc).every(function(k){ return have[k] === want[k]; });
           }
 
           scenarios.forEach(function(sc){
-            placements[sc.id] = emptyPlacement();
+            placements[sc.id] = emptyPlacement(sc);
           });
 
           function flaskCardHtml(fl){
@@ -6793,9 +7194,9 @@
 
           function usedIds(){
             var used = {};
-            Object.keys(placements).forEach(function(sid){
-              var pl = placements[sid];
-              slotKeys.forEach(function(k){ if(pl[k]) used[pl[k]] = true; });
+            scenarios.forEach(function(sc){
+              var pl = placements[sc.id] || {};
+              slotKeysFor(sc).forEach(function(k){ if(pl[k]) used[pl[k]] = true; });
             });
             return used;
           }
@@ -6857,7 +7258,7 @@
 
           function paintAll(){
             scenarios.forEach(function(sc){
-              slotKeys.forEach(function(k){ renderDrop(sc.id, k); });
+              slotKeysFor(sc).forEach(function(k){ renderDrop(sc.id, k); });
               var card = root.querySelector('article.m5-ftx__scenario[data-m5-ftx-sc="' + sc.id + '"]');
               if(card) card.classList.toggle('is-correct', scenarioOk(sc));
             });
@@ -6867,9 +7268,9 @@
 
           function placeInto(scId, slotKey, flaskId){
             if(!flaskId || !flaskMap[flaskId] || !placements[scId]) return;
-            Object.keys(placements).forEach(function(sid){
-              slotKeys.forEach(function(k){
-                if(placements[sid][k] === flaskId) placements[sid][k] = '';
+            scenarios.forEach(function(sc){
+              slotKeysFor(sc).forEach(function(k){
+                if(placements[sc.id][k] === flaskId) placements[sc.id][k] = '';
               });
             });
             placements[scId][slotKey] = flaskId;
@@ -6900,23 +7301,61 @@
             });
           }
 
-          function renderBoards(){
-            boardsEl.innerHTML = scenarios.map(function(sc, i){
-              var pockets = slotDefs.map(function(slot){
+          function pocketHtml(sc, slot){
+            return (
+              '<div class="m5-ftx__pocket m5-ftx__pocket--' + b2Esc(slot.key) + '" data-m5-ftx-slot="' + b2Esc(slot.key) + '" data-m5-ftx-sc="' + b2Esc(sc.id) + '" role="button" tabindex="0" aria-label="' + b2Esc(slot.aria || (slot.key + ' stand')) + '">' +
+                '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="' + b2Esc(slot.key) + '" data-m5-ftx-sc="' + b2Esc(sc.id) + '"></div>' +
+                '<img class="m5-ftx__stand-base" src="' + b2Esc(flaskBase + slot.stand) + '" alt="" aria-hidden="true" draggable="false" />' +
+              '</div>'
+            );
+          }
+
+          function standHtml(sc){
+            var slots = slotsFor(sc);
+            var hasGroups = slots.some(function(slot){ return !!slot.group; });
+            if(!hasGroups){
+              return '<div class="m5-ftx__stand" aria-label="PixtoLearn schedule stands">' + slots.map(function(slot){ return pocketHtml(sc, slot); }).join('') + '</div>';
+            }
+            var groups = [];
+            slots.forEach(function(slot){
+              var gid = slot.group || slot.key;
+              var last = groups.length ? groups[groups.length - 1] : null;
+              if(!last || last.id !== gid){
+                groups.push({
+                  id: gid,
+                  label: slot.groupLabel || gid,
+                  slots: [slot]
+                });
+              } else {
+                last.slots.push(slot);
+              }
+            });
+            return (
+              '<div class="m5-ftx__stand m5-ftx__stand--grouped" aria-label="PixtoLearn schedule stands">' +
+              groups.map(function(gr){
                 return (
-                  '<div class="m5-ftx__pocket m5-ftx__pocket--' + b2Esc(slot.key) + '" data-m5-ftx-slot="' + b2Esc(slot.key) + '" data-m5-ftx-sc="' + b2Esc(sc.id) + '" role="button" tabindex="0" aria-label="' + b2Esc(slot.aria || (slot.key + ' stand')) + '">' +
-                    '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="' + b2Esc(slot.key) + '" data-m5-ftx-sc="' + b2Esc(sc.id) + '"></div>' +
-                    '<img class="m5-ftx__stand-base" src="' + b2Esc(flaskBase + slot.stand) + '" alt="" aria-hidden="true" draggable="false" />' +
+                  '<div class="m5-ftx__group" data-m5-ftx-group="' + b2Esc(gr.id) + '">' +
+                    '<div class="m5-ftx__group-pockets">' + gr.slots.map(function(slot){ return pocketHtml(sc, slot); }).join('') + '</div>' +
+                    '<span class="m5-ftx__group-label">' + b2Esc(gr.label) + '</span>' +
                   '</div>'
                 );
-              }).join('');
+              }).join('') +
+              '</div>'
+            );
+          }
+
+          function renderBoards(){
+            boardsEl.innerHTML = scenarios.map(function(sc, i){
+              var roleClass = sc.role ? (' m5-ftx__scenario--' + b2Esc(sc.role)) : '';
+              var note = sc.note ? ('<p class="m5-ftx__sc-note">' + b2Esc(sc.note) + '</p>') : '';
               return (
-                '<article class="m5-ftx__scenario" data-m5-ftx-sc="' + b2Esc(sc.id) + '">' +
+                '<article class="m5-ftx__scenario' + roleClass + '" data-m5-ftx-sc="' + b2Esc(sc.id) + '" data-m5-ftx-slots="' + slotsFor(sc).length + '">' +
                   '<div class="m5-ftx__sc-head">' +
                     '<span class="m5-ftx__sc-num">' + String(i + 1).padStart(2, '0') + '</span>' +
                   '</div>' +
                   '<p class="m5-ftx__sc-caption">' + b2Esc(sc.caption || '') + '</p>' +
-                  '<div class="m5-ftx__stand" aria-label="PixtoLearn schedule stands">' + pockets + '</div>' +
+                  standHtml(sc) +
+                  note +
                 '</article>'
               );
             }).join('');
@@ -6926,7 +7365,7 @@
 
           if(clearBtn) clearBtn.addEventListener('click', function(){
             scenarios.forEach(function(sc){
-              placements[sc.id] = emptyPlacement();
+              placements[sc.id] = emptyPlacement(sc);
             });
             selectedId = '';
             if(feedback){
@@ -6952,6 +7391,191 @@
           });
 
           renderBoards();
+        }
+        if(f === 'session_plan_match'){
+          var rootSp = inner.querySelector('[data-m5-spm]');
+          if(!rootSp) return;
+          var phases = cfg.phases || [];
+          var flasksSp = cfg.flasks || [];
+          var flaskBaseSp = cfg.flaskBase || '/assets/images/module-5/first-then-flasks/';
+          var flaskMapSp = {};
+          flasksSp.forEach(function(fl){ flaskMapSp[fl.id] = fl; });
+          var briefEl = rootSp.querySelector('[data-m5-spm-brief]');
+          var phasesEl = rootSp.querySelector('[data-m5-spm-phases]');
+          var poolElSp = rootSp.querySelector('[data-m5-spm-pool]');
+          var checkSp = rootSp.querySelector('[data-m5-spm-check]');
+          var clearSp = rootSp.querySelector('[data-m5-spm-clear]');
+          var selectedSp = '';
+          var dragSp = '';
+          var placementsSp = {};
+          phases.forEach(function(ph){ placementsSp[ph.key] = []; });
+
+          function phaseCorrectIds(ph){
+            if(Array.isArray(ph.correct)) return ph.correct.slice();
+            if(ph.correct) return [ph.correct];
+            return [];
+          }
+
+          function setsEqual(a, b){
+            if(a.length !== b.length) return false;
+            var left = a.slice().sort();
+            var right = b.slice().sort();
+            return left.every(function(id, i){ return id === right[i]; });
+          }
+
+          function phaseOk(ph){
+            return setsEqual(placementsSp[ph.key] || [], phaseCorrectIds(ph));
+          }
+
+          function flaskBtnHtml(fl){
+            return (
+              '<button type="button" class="m5-spm__flask" draggable="true" data-m5-spm-flask="' + b2Esc(fl.id) + '" aria-label="' + b2Esc(fl.label) + '" title="' + b2Esc(fl.label) + '">' +
+              '<img class="m5-spm__flask-img" src="' + b2Esc(flaskBaseSp + fl.file) + '" alt="' + b2Esc(fl.label) + '" draggable="false" />' +
+              '</button>'
+            );
+          }
+
+          function usedSp(){
+            var used = {};
+            Object.keys(placementsSp).forEach(function(key){
+              (placementsSp[key] || []).forEach(function(id){ used[id] = true; });
+            });
+            return used;
+          }
+
+          function paintPhase(ph){
+            var drop = rootSp.querySelector('[data-m5-spm-drop="' + ph.key + '"]');
+            var card = rootSp.querySelector('[data-m5-spm-phase="' + ph.key + '"]');
+            if(!drop) return;
+            var ids = placementsSp[ph.key] || [];
+            drop.classList.toggle('is-active', !!selectedSp && ids.indexOf(selectedSp) === -1);
+            if(card) card.classList.toggle('is-correct', phaseOk(ph));
+            if(!ids.length){
+              drop.innerHTML = '<span class="m5-spm__drop-ph">Slide flashcards here</span>';
+              return;
+            }
+            drop.innerHTML = ids.map(function(id){
+              return flaskMapSp[id] ? flaskBtnHtml(flaskMapSp[id]) : '';
+            }).join('');
+            drop.querySelectorAll('[data-m5-spm-flask]').forEach(function(btn){
+              var id = btn.getAttribute('data-m5-spm-flask');
+              btn.removeAttribute('draggable');
+              btn.addEventListener('click', function(e){
+                e.stopPropagation();
+                placementsSp[ph.key] = (placementsSp[ph.key] || []).filter(function(x){ return x !== id; });
+                paintAllSp();
+              });
+            });
+          }
+
+          function paintPoolSp(){
+            var used = usedSp();
+            var available = flasksSp.filter(function(fl){ return !used[fl.id]; });
+            poolElSp.innerHTML = available.map(flaskBtnHtml).join('');
+            poolElSp.querySelectorAll('[data-m5-spm-flask]').forEach(function(btn){
+              var id = btn.getAttribute('data-m5-spm-flask');
+              btn.classList.toggle('is-selected', selectedSp === id);
+              btn.addEventListener('dragstart', function(e){
+                dragSp = id;
+                btn.classList.add('dragging');
+                try{ e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; }catch(err){}
+              });
+              btn.addEventListener('dragend', function(){
+                dragSp = '';
+                btn.classList.remove('dragging');
+                rootSp.querySelectorAll('[data-m5-spm-drop]').forEach(function(d){ d.classList.remove('drag-over'); });
+              });
+              btn.addEventListener('click', function(){
+                selectedSp = (selectedSp === id) ? '' : id;
+                paintAllSp();
+              });
+            });
+          }
+
+          function paintAllSp(){
+            phases.forEach(paintPhase);
+            paintPoolSp();
+            rootSp.querySelectorAll('.img-expand-btn').forEach(function(btn){ btn.remove(); });
+          }
+
+          function placeIntoPhase(phaseKey, flaskId){
+            if(!flaskId || !flaskMapSp[flaskId] || !placementsSp[phaseKey]) return;
+            Object.keys(placementsSp).forEach(function(key){
+              placementsSp[key] = (placementsSp[key] || []).filter(function(id){ return id !== flaskId; });
+            });
+            if(placementsSp[phaseKey].indexOf(flaskId) === -1) placementsSp[phaseKey].push(flaskId);
+            selectedSp = '';
+            paintAllSp();
+          }
+
+          if(briefEl){
+            briefEl.innerHTML =
+              '<p class="m5-spm__brief-kicker">PixtoLearn session plan</p>' +
+              '<h5 class="m5-spm__brief-title">' + b2Esc(cfg.briefTitle || ('Level ' + (cfg.level || '') + ' — ' + (cfg.levelName || ''))) + '</h5>' +
+              '<p class="m5-spm__brief-meta"><strong>Main outcome:</strong> ' + b2Esc(cfg.mainOutcome || '') + '</p>' +
+              (cfg.briefNote ? ('<p class="m5-spm__brief-meta" style="margin-top:6px;">' + b2Esc(cfg.briefNote) + '</p>') : '');
+          }
+
+          phasesEl.innerHTML = phases.map(function(ph, i){
+            return (
+              '<article class="m5-spm__phase" data-m5-spm-phase="' + b2Esc(ph.key) + '">' +
+                '<div class="m5-spm__phase-head">' +
+                  '<span class="m5-spm__phase-num">Phase ' + String(i + 1) + '</span>' +
+                  '<h5 class="m5-spm__phase-title">' + b2Esc(ph.title || ph.key) + '</h5>' +
+                  (ph.focusArea ? ('<p class="m5-spm__phase-focus">' + b2Esc(ph.focusArea) + '</p>') : '') +
+                '</div>' +
+                '<p class="m5-spm__phase-outcome">' + b2Esc(ph.outcome || '') + '</p>' +
+                '<div class="m5-spm__drop" data-m5-spm-drop="' + b2Esc(ph.key) + '" role="button" tabindex="0" aria-label="' + b2Esc((ph.title || ph.key) + ' flashcards') + '"></div>' +
+              '</article>'
+            );
+          }).join('');
+
+          rootSp.querySelectorAll('[data-m5-spm-drop]').forEach(function(drop){
+            var key = drop.getAttribute('data-m5-spm-drop');
+            drop.addEventListener('dragover', function(e){
+              e.preventDefault();
+              drop.classList.add('drag-over');
+            });
+            drop.addEventListener('dragleave', function(){ drop.classList.remove('drag-over'); });
+            drop.addEventListener('drop', function(e){
+              e.preventDefault();
+              drop.classList.remove('drag-over');
+              var id = dragSp;
+              try{ id = e.dataTransfer.getData('text/plain') || dragSp; }catch(errSp){}
+              if(id) placeIntoPhase(key, id);
+            });
+            drop.addEventListener('click', function(e){
+              if(e.target.closest('[data-m5-spm-flask]')) return;
+              if(selectedSp) placeIntoPhase(key, selectedSp);
+            });
+          });
+
+          if(clearSp) clearSp.addEventListener('click', function(){
+            phases.forEach(function(ph){ placementsSp[ph.key] = []; });
+            selectedSp = '';
+            if(feedback){
+              feedback.textContent = '';
+              feedback.classList.add('hidden');
+              feedback.classList.remove('is-correct', 'is-incorrect');
+            }
+            paintAllSp();
+          });
+
+          if(checkSp) checkSp.addEventListener('click', function(){
+            var allOk = phases.every(phaseOk);
+            paintAllSp();
+            if(!allOk){
+              if(feedback){
+                feedback.textContent = cfg.bad || 'Not quite. Match each flashcard to the phase that supports its learning outcome.';
+                feedback.classList.remove('hidden', 'is-correct');
+                feedback.classList.add('is-incorrect');
+              }
+              return;
+            }
+            b2MarkShell(shell, panel, block, target, feedback, cfg.ok || 'Session plan matched.', true);
+          });
+
+          paintAllSp();
         }
       }
       runWire();
@@ -7192,7 +7816,7 @@
       shell.appendChild(guide);
       shell.appendChild(slot);
       var ideasCard = pageEl.querySelector('.m5-nested-ideas-card, .section-ideas, .concept-points-box');
-      var visualCard = pageEl.querySelector('.m5-nested-visual-shell, .m5-screen-visual-card:not(.m5-folder-overview-card)');
+      var visualCard = pageEl.querySelector('.m5-nested-visual-shell, .m5-screen-visual-card:not(.m5-folder-overview-card):not(.m5-explore-categories-card)');
       var nav = pageEl.querySelector('.b2-nav');
       if(ideasCard) ideasCard.insertAdjacentElement('afterend', shell);
       else if(visualCard) visualCard.insertAdjacentElement('afterend', shell);
@@ -7306,7 +7930,47 @@
       }
 
       var cfg = conceptActivityBankBlock3[target];
-      if(!cfg || !cfg.body) return;
+      if(!cfg) return;
+
+      if(cfg.format){
+        if(data){
+          data.requiresChoiceActivity = true;
+          delete data.nestedChoiceKeys;
+        }
+        var pointsBoxFmt = panel.querySelector(':scope > .concept-points-box');
+        if(!pointsBoxFmt) return;
+        var shellFmt = document.createElement('div');
+        shellFmt.className = 'concept-section-card section-activity-shell';
+        shellFmt.setAttribute('data-m5-b3-reflection-mount', target);
+        shellFmt.setAttribute('data-concept-activity-title', '');
+        shellFmt.innerHTML = (window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
+          '<div class="concept-section-head concept-section-head--activity"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity — Apply your understanding</span></div>';
+        if(cfg.activityType){
+          var typeFmt = document.createElement('p');
+          typeFmt.className = 'activity-type-label';
+          typeFmt.setAttribute('data-activity-type-line', '');
+          var strongFmt = document.createElement('strong');
+          strongFmt.textContent = String(cfg.activityType);
+          typeFmt.appendChild(strongFmt);
+          shellFmt.appendChild(typeFmt);
+        }
+        var guideFmt = document.createElement('p');
+        guideFmt.className = 'activity-mini-guide';
+        guideFmt.setAttribute('data-concept-activity-guide', '');
+        guideFmt.textContent = cfg.guideText || 'Review the prompt and complete the activity.';
+        var slotFmt = document.createElement('div');
+        slotFmt.className = 'concept-activity-slot';
+        slotFmt.setAttribute('data-concept-activity', '');
+        slotFmt.innerHTML = buildBlock2ActivityInnerHTML(cfg);
+        shellFmt.appendChild(guideFmt);
+        shellFmt.appendChild(slotFmt);
+        pointsBoxFmt.insertAdjacentElement('afterend', shellFmt);
+        if(window.ConceptSectionIcons) ConceptSectionIcons.scan(shellFmt);
+        setupBlock2ActivityInShell(shellFmt, panel, block, target, cfg, { markCompleteInitially: !!alreadyCompleted });
+        return;
+      }
+
+      if(!cfg.body) return;
       if(data){
         delete data.requiresChoiceActivity;
         delete data.nestedChoiceKeys;
@@ -7503,26 +8167,26 @@
             { key: 'then', stand: 'stand-base-then.png', aria: 'Then stand' }
           ],
           flasks: [
-            { id: 'sitting-safety-entry', label: 'sitting safety entry', file: 'sitting-safety-entry.png' },
-            { id: 'bubbles', label: 'face in the water & blow bubbles', file: 'bubbles.png' },
-            { id: 'choosing', label: 'choosing', file: 'choosing.png' },
-            { id: 'float-on-back', label: 'float on back', file: 'float-on-back.png' },
-            { id: 'front-crawl', label: 'front crawl', file: 'front-crawl.png' },
-            { id: 'water-pistol', label: 'water pistol', file: 'water-pistol.png' },
-            { id: 'kick-with-noodle', label: 'kick with noodle', file: 'kick-with-noodle.png' },
-            { id: 'splash', label: 'splash', file: 'splash.png' },
-            { id: 'jump-in', label: 'jump in', file: 'jump-in.png' }
+            { id: 'move-in-the-water', label: 'move in the water', file: 'move-in-the-water.png' },
+            { id: 'monkey-walk', label: 'monkey walk', file: 'monkey-walk.png' },
+            { id: 'seahorse', label: 'seahorse', file: 'seahorse.png' },
+            { id: 'airplane-on-back', label: 'airplane on back', file: 'airplane-on-back.png' },
+            { id: 'airplane-on-front', label: 'airplane on front', file: 'airplane-on-front.png' },
+            { id: 'sinkers', label: 'sinkers', file: 'sinkers.png' },
+            { id: 'jumping', label: 'jumping', file: 'jumping.png' },
+            { id: 'front-paddle', label: 'front paddle', file: 'front-paddle.png' },
+            { id: 'pop-tube', label: 'pop tube', file: 'pop-tube.png' }
           ],
           scenarios: [
             {
               id: 's1',
-              caption: 'Example of a beginner building a short confidence progression who loves choosing different toys.',
-              correct: { first: 'sitting-safety-entry', next: 'bubbles', then: 'choosing' }
+              caption: 'Example of a beginner gaining confidence moving around the pool who loves riding on a noodle afterwards.',
+              correct: { first: 'move-in-the-water', next: 'monkey-walk', then: 'seahorse' }
             },
             {
               id: 's2',
-              caption: 'Example of a swimmer practising floating and front crawl who loves water-pistol play.',
-              correct: { first: 'float-on-back', next: 'front-crawl', then: 'water-pistol' }
+              caption: 'Example of a swimmer working from back balance into front propulsion who loves retrieving sinkers.',
+              correct: { first: 'airplane-on-back', next: 'airplane-on-front', then: 'sinkers' }
             }
           ],
           ok: 'Both boards are correct — First starts, Next carries the teaching focus, Then closes with motivation.',
@@ -7530,44 +8194,79 @@
         },
         vs3: {
           format: 'ft_flask_scenarios',
-          activityType: 'Build a four-step session schedule',
-          guideText: 'Slide cards into Entry → Practice → Motivate → Exit. Present a clear overview first; smaller First & Then boards can still break it down later.',
-          guideHint: 'Build one four-step session board. Slide flashcards into Entry, Practice, Motivate and Exit — used cards leave the tray.',
+          activityType: 'Four or more — session overview & First–Then breakdowns',
+          guideText: 'Build the long overview schedule (pairs under first / next / then). Then build the three First–Then examples that show how to simplify, add a break, or end with finished.',
+          guideHint: 'Build the 6-card overview plus the three First–Then examples. Slide cards into the stands — used cards leave the tray.',
           q: 'Four or More Activities',
           flaskBase: '/assets/images/module-5/first-then-flasks/',
-          boardCols: 1,
+          layout: 'schedule-breakdown',
+          boardCols: 3,
           slots: [
-            { key: 'entry', stand: 'stand-base-entry.png', aria: 'Entry stand' },
-            { key: 'practice', stand: 'stand-base-practice.png', aria: 'Practice stand' },
-            { key: 'motivate', stand: 'stand-base-motivate.png', aria: 'Motivate stand' },
-            { key: 'exit', stand: 'stand-base-exit.png', aria: 'Exit stand' }
+            { key: 'first', stand: 'stand-base-first.png', aria: 'First stand' },
+            { key: 'then', stand: 'stand-base-then.png', aria: 'Then stand' }
           ],
           flasks: [
-            { id: 'sitting-safety-entry', label: 'sitting safety entry', file: 'sitting-safety-entry.png' },
-            { id: 'bubbles', label: 'face in the water & blow bubbles', file: 'bubbles.png' },
-            { id: 'water-pistol', label: 'water pistol', file: 'water-pistol.png' },
-            { id: 'climb-out', label: 'climb out', file: 'climb-out.png' },
-            { id: 'jump-in', label: 'jump in', file: 'jump-in.png' },
-            { id: 'splash', label: 'splash', file: 'splash.png' },
-            { id: 'choosing', label: 'choosing', file: 'choosing.png' },
-            { id: 'float-on-back', label: 'float on back', file: 'float-on-back.png' },
-            { id: 'ladder-entry', label: 'entry in the water using the ladder', file: 'ladder-entry.png' },
-            { id: 'ladder-exit', label: 'exit the water using the ladder', file: 'ladder-exit.png' }
+            { id: 'jumping', label: 'jumping', file: 'jumping.png' },
+            { id: 'seahorse', label: 'seahorse', file: 'seahorse.png' },
+            { id: 'kick-on-back-with-float', label: 'kick on back with float', file: 'kick-on-back-with-float.png' },
+            { id: 'front-paddle', label: 'front paddle', file: 'front-paddle.png' },
+            { id: 'hoop', label: 'hoop', file: 'hoop.png' },
+            { id: 'waves', label: 'waves', file: 'waves.png' },
+            { id: 'monkey-walk', label: 'monkey walk', file: 'monkey-walk.png' },
+            { id: 'move-in-the-water', label: 'move in the water', file: 'move-in-the-water.png' },
+            { id: 'airplane-on-back', label: 'airplane on back', file: 'airplane-on-back.png' },
+            { id: 'break-time', label: 'break time', file: 'break-time.png' },
+            { id: 'sinkers', label: 'sinkers', file: 'sinkers.png' },
+            { id: 'finished', label: 'finished', file: 'finished.png' },
+            { id: 'pop-tube', label: 'pop tube', file: 'pop-tube.png' },
+            { id: 'big-float', label: 'big float', file: 'big-float.png' }
           ],
           scenarios: [
             {
-              id: 's1',
-              caption: 'Example of a beginner confidence session. The swimmer loves water-pistol play and needs a calm entry plus a clear, safe exit.',
+              id: 'overview',
+              role: 'overview',
+              caption: 'Example of a visual schedule with four or more activities. Pair cards under first / next / then so the swimmer sees the full session flow.',
+              slots: [
+                { key: 'first1', stand: 'stand-base-first.png', aria: 'First stand 1', group: 'first', groupLabel: 'first' },
+                { key: 'first2', stand: 'stand-base-first.png', aria: 'First stand 2', group: 'first', groupLabel: 'first' },
+                { key: 'next1', stand: 'stand-base-next.png', aria: 'Next stand 1', group: 'next', groupLabel: 'next' },
+                { key: 'next2', stand: 'stand-base-next.png', aria: 'Next stand 2', group: 'next', groupLabel: 'next' },
+                { key: 'then1', stand: 'stand-base-then.png', aria: 'Then stand 1', group: 'then', groupLabel: 'then' },
+                { key: 'then2', stand: 'stand-base-then.png', aria: 'Then stand 2', group: 'then', groupLabel: 'then' }
+              ],
               correct: {
-                entry: 'sitting-safety-entry',
-                practice: 'bubbles',
-                motivate: 'water-pistol',
-                exit: 'climb-out'
+                first1: 'jumping',
+                first2: 'seahorse',
+                next1: 'kick-on-back-with-float',
+                next2: 'front-paddle',
+                then1: 'hoop',
+                then2: 'waves'
               }
+            },
+            {
+              id: 'ex1',
+              role: 'example',
+              caption: 'Example 1: break a chunk of the session into fewer steps.',
+              note: 'Use a ‘first – then’ schedule to break down the main schedule into fewer steps.',
+              correct: { first: 'move-in-the-water', then: 'monkey-walk' }
+            },
+            {
+              id: 'ex2',
+              role: 'example',
+              caption: 'Example 2: insert a clear break when the swimmer needs recovery time.',
+              note: 'Use a ‘first – then’ schedule if you need to add breaks for the swimmers during the sessions.',
+              correct: { first: 'airplane-on-back', then: 'break-time' }
+            },
+            {
+              id: 'ex3',
+              role: 'example',
+              caption: 'Example 3: close the session with a clear finished cue.',
+              note: 'To end your session, simply include the ‘finished’ flashcard.',
+              correct: { first: 'sinkers', then: 'finished' }
             }
           ],
-          ok: 'Strong four-step overview — entry, practice focus, motivator, then a clear exit.',
-          bad: 'Not quite. Aim for Entry → Practice → Motivate → Exit for this beginner confidence session.'
+          ok: 'Strong overview plus clear First–Then breakdowns — simplify steps, add breaks, and end with finished.',
+          bad: 'Not quite. Fill the 6-card overview in first/next/then pairs, then complete the three First–Then examples.'
         }
       },
       b3c2: {
@@ -7575,8 +8274,53 @@
         body: '<p>You want a swimmer to move from floating to standing independently.</p><p>Which individual skills are required? How would you sequence them using flashcards? At what point would you link them into one continuous action?</p>'
       },
       b3c3: {
-        activityType: 'Planning Task',
-        body: '<p>You are planning a session for a swimmer who is developing water confidence.</p><p>What would your main outcome be? What two or three learning outcomes would support this goal? Which flashcards would you select? How would you structure the session into entry, main activity and exit?</p>'
+        format: 'session_plan_match',
+        activityType: 'Level 3 Session Plan',
+        guideText: 'Build a Level 3 (Jellyfish) session plan. Learning outcomes are already set for each phase — match the flashcards that support them.',
+        guideHint: 'Slide flashcards into Entry & Warm Up, Main Activity, and Cool Down & Exit. Used cards leave the tray.',
+        q: 'Match flashcards to each phase of this Level 3 session plan.',
+        flaskBase: '/assets/images/module-5/first-then-flasks/',
+        level: 3,
+        levelName: 'Jellyfish',
+        briefTitle: 'Level 3 — Jellyfish session',
+        mainOutcome: 'Floating, balance and first propulsion, with clear recovery and a safe exit.',
+        briefNote: 'Use Level 3 learning outcomes from Floating & Balance I, Propulsion I and Water Safety III.',
+        phases: [
+          {
+            key: 'warm',
+            title: 'Entry & Warm Up',
+            focusArea: 'Floating & Balance I',
+            outcome: 'Settle into a calm back float using a wide shape (for example a star shape).',
+            correct: ['float-on-back']
+          },
+          {
+            key: 'main',
+            title: 'Main Activity',
+            focusArea: 'Propulsion I',
+            outcome: 'Create first propulsion: kick on the front, then use paddling arms.',
+            correct: ['airplane-on-front', 'front-paddle']
+          },
+          {
+            key: 'cool',
+            title: 'Cool Down & Exit',
+            focusArea: 'Water Safety III',
+            outcome: 'Finish with a retrieval game, then leave the water with a clear exit.',
+            correct: ['sinkers', 'climb-out']
+          }
+        ],
+        flasks: [
+          { id: 'float-on-back', label: 'float on back', file: 'float-on-back.png' },
+          { id: 'airplane-on-front', label: 'airplane on front', file: 'airplane-on-front.png' },
+          { id: 'front-paddle', label: 'front paddle', file: 'front-paddle.png' },
+          { id: 'sinkers', label: 'sinkers', file: 'sinkers.png' },
+          { id: 'climb-out', label: 'climb out', file: 'climb-out.png' },
+          { id: 'jumping', label: 'jumping', file: 'jumping.png' },
+          { id: 'seahorse', label: 'seahorse', file: 'seahorse.png' },
+          { id: 'water-pistol', label: 'water pistol', file: 'water-pistol.png' },
+          { id: 'front-crawl', label: 'front crawl', file: 'front-crawl.png' }
+        ],
+        ok: 'Strong Level 3 plan — float to settle, propulsion skills in the main set, then a game and a clear exit.',
+        bad: 'Not quite. Warm Up needs the back float; Main needs front kick + paddling; Cool Down needs the game plus climb out.'
       }
     };
 
@@ -8212,6 +8956,7 @@
           }
         }
         updateNestedPanelTitle(panel, target, id);
+        applyNestedTitleAccent(panel, id);
         panel.classList.toggle('m5-nested-active', id !== 'home');
         renderNestedScreenIntro(panel, panel.dataset.currentBlock || 'block2', target, id);
         if(target === 'b2c3' || target === 'b2c2' || target === 'b3c1'){
@@ -8328,6 +9073,7 @@
         const page = screen.querySelector('.folder-page') || screen;
 
         page.querySelectorAll('.concept-section-card').forEach(function(card){
+          if(card.classList.contains('m5-explore-categories-card')) return;
           if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')) return;
           stripNestedVisualImageCard(card);
         });
@@ -8392,6 +9138,7 @@
         }
 
         page.querySelectorAll('.concept-section-card').forEach(function(card){
+          if(card.classList.contains('m5-explore-categories-card')) return;
           if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')) return;
           stripNestedVisualImageCard(card);
         });
@@ -9167,7 +9914,7 @@
   <script src="/shared/module-nav-blocks.js"></script>
   <script src="/shared/training-flow-config.js?v=20260716"></script>
   <script src="/shared/guided-concept-layout.js?v=20260714nestedback1"></script>
-  <script src="/shared/training-flow-guide.js?v=20260714freenav1"></script>
+  <script src="/shared/training-flow-guide.js?v=20260715catcolor"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>

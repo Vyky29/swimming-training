@@ -484,6 +484,22 @@
     return !!(panel && panel.querySelector('[data-b2-screens]'));
   }
 
+  function rgbStringFromCssColor(value){
+    if(!value || value === 'transparent' || value === 'rgba(0, 0, 0, 0)') return '';
+    if(value.indexOf('rgb') === 0){
+      var nums = value.match(/\d+/g);
+      if(nums && nums.length >= 3){
+        // Ignore near-black / near-white body text colours
+        var r = parseInt(nums[0], 10);
+        var g = parseInt(nums[1], 10);
+        var b = parseInt(nums[2], 10);
+        if(r + g + b < 40 || r + g + b > 720) return '';
+        return r + ', ' + g + ', ' + b;
+      }
+    }
+    return '';
+  }
+
   function getM5NavAccent(el){
     if(!el || typeof window.getComputedStyle !== 'function') return '214, 120, 28';
     var style = window.getComputedStyle(el);
@@ -499,12 +515,32 @@
         if(!isNaN(r) && !isNaN(g) && !isNaN(b)) return r + ', ' + g + ', ' + b;
       }
     }
-    var bg = style.backgroundColor;
-    if(bg && bg.indexOf('rgb') === 0){
-      var nums = bg.match(/\d+/g);
-      if(nums && nums.length >= 3) return nums[0] + ', ' + nums[1] + ', ' + nums[2];
-    }
+    var bgRgb = rgbStringFromCssColor(style.backgroundColor);
+    if(bgRgb) return bgRgb;
+    // Category / subconcept titles use text colour, not fill
+    var colorRgb = rgbStringFromCssColor(style.color);
+    if(colorRgb) return colorRgb;
     return '214, 120, 28';
+  }
+
+  function getM5CategoryAccentEl(wrapper, screenId){
+    if(!wrapper || !screenId) return null;
+    var screen = wrapper.querySelector('.b2-screen[data-b2-screen="' + screenId + '"]');
+    if(screen){
+      var cathead = screen.querySelector('.b2pl-cathead');
+      if(cathead) return cathead;
+    }
+    var catKey = '';
+    var leaf = String(screenId).match(/^(f\d+)-s(\d+)$/);
+    if(leaf) catKey = leaf[1] + '-' + leaf[2];
+    else if(/^(vs|fc)\d+$/.test(screenId)) catKey = screenId;
+    if(!catKey) return null;
+    return wrapper.querySelector(
+      '.b2pl-cat-' + catKey +
+      ', .b2pl-lvl-btn.b2pl-cat-' + catKey +
+      ', .b2pl-cathead--' + catKey +
+      ', .b2pl-cathead--' + screenId
+    );
   }
 
   function removeM5NavRings(){
@@ -616,6 +652,9 @@
       panel.style.removeProperty('--m5-folder-accent-rgb');
       panel.style.removeProperty('--b2c2-accent');
       panel.style.removeProperty('--b2c3-accent');
+      panel.style.removeProperty('--concept-title-accent');
+      panel.style.removeProperty('--concept-title-accent-soft');
+      panel.style.removeProperty('--concept-title-accent-border');
       return;
     }
     var screenId = getM5ScreenId(panel);
@@ -627,11 +666,21 @@
       panel.style.removeProperty('--m5-folder-accent-rgb');
       panel.style.removeProperty('--b2c2-accent');
       panel.style.removeProperty('--b2c3-accent');
+      panel.style.removeProperty('--concept-title-accent');
+      panel.style.removeProperty('--concept-title-accent-soft');
+      panel.style.removeProperty('--concept-title-accent-border');
       return;
     }
     panel.dataset.flowM5Root = rootId;
     var wrapper = getM5NestedWrapper(panel);
-    var accentEl = wrapper && wrapper.querySelector('.b2c2-folder-tile[data-b2-go="' + rootId + '"], .b2c3-flash-tile[data-b2-go="' + rootId + '"]');
+    var accentEl = null;
+    // Category leaves: title accents follow the category colour, not the block / folder tone
+    if(/^f\d+-s\d+$/.test(screenId) || /^vs\d+$/.test(screenId) || /^fc\d+$/.test(screenId)){
+      accentEl = getM5CategoryAccentEl(wrapper, screenId);
+    }
+    if(!accentEl && wrapper){
+      accentEl = wrapper.querySelector('.b2c2-folder-tile[data-b2-go="' + rootId + '"], .b2c3-flash-tile[data-b2-go="' + rootId + '"]');
+    }
     if(!accentEl && wrapper){
       var folderScreen = wrapper.querySelector('.b2-screen[data-b2-screen="' + rootId + '"]');
       accentEl = folderScreen && (folderScreen.querySelector('.b2pl-folder-h--' + rootId) || folderScreen.querySelector('.b2pl-folder-h, .b2pl-cathead'));
@@ -642,6 +691,9 @@
     if(hex){
       panel.style.setProperty('--m5-folder-accent', hex);
       panel.style.setProperty('--m5-folder-accent-rgb', rgb);
+      panel.style.setProperty('--concept-title-accent', hex);
+      panel.style.setProperty('--concept-title-accent-soft', 'rgba(' + rgb + ', 0.12)');
+      panel.style.setProperty('--concept-title-accent-border', 'rgba(' + rgb + ', 0.28)');
       if(/^f\d+$/.test(rootId) || /^f\d+-s\d+$/.test(screenId)){
         panel.style.setProperty('--b2c2-accent', hex);
       }

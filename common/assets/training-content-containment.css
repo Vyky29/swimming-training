@@ -1112,6 +1112,34 @@ body {
   -webkit-text-fill-color: #2d84b3 !important;
 }
 
+/* Core Concept / Visual / Ideas section cards: fill panel width consistently */
+.portal .concept-section-card.section-core-concept,
+.portal .concept-section-card.section-visual-shell,
+.portal .concept-section-card.section-ideas,
+.portal .concept-section-card.section-intro,
+.portal .concept-section-card.section-activity-shell,
+.portal .concept-intro-slot,
+.portal .concept-intro-slot .section-core-concept,
+.portal .concept-insight-intro,
+.portal .concept-insight-intro__cards {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.portal .concept-insight-intro__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  justify-content: stretch;
+}
+
+.portal .concept-insight-pillar {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
 /* Core Concept pillars: brand blue everywhere */
 .portal .concept-insight-pillar__icon{
   background: linear-gradient(145deg, #3a8fbb 0%, #2d84b3 100%) !important;
