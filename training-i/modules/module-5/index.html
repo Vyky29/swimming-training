@@ -1420,6 +1420,216 @@
       .m5-ft-arrow{ transform:rotate(90deg); justify-self:center; }
       .m5-ft-pool{ grid-template-columns:1fr; }
     }
+    /* First & Then PixtoLearn stand + flasks */
+    .m5-ftx{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .m5-ftx__meta{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
+    .m5-ftx__step{
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:#1a5c38;
+      background:rgba(26,92,56,.1);
+      border:1px solid rgba(26,92,56,.2);
+      border-radius:999px;
+      padding:6px 10px;
+    }
+    .m5-ftx__caption{
+      margin:0;
+      font-size:.95rem;
+      font-weight:650;
+      line-height:1.45;
+      color:#163247;
+    }
+    .m5-ftx__stand{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+      gap:14px;
+      align-items:end;
+      padding:16px 14px 12px;
+      border-radius:18px;
+      background:linear-gradient(180deg, #e8ecef 0%, #d7dcdf 48%, #cfd4d8 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.65), 0 14px 28px rgba(18,50,71,.1);
+    }
+    .m5-ftx__pocket{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+    }
+    .m5-ftx__frame{
+      width:100%;
+      max-width:220px;
+      margin:0 auto;
+      border-radius:10px;
+      background:#f4f6f7;
+      border:2px solid #9aa3ab;
+      box-shadow:0 8px 16px rgba(40,55,70,.12), inset 0 0 0 1px rgba(255,255,255,.7);
+      overflow:hidden;
+      transition:box-shadow .15s ease, border-color .15s ease, transform .15s ease;
+    }
+    .m5-ftx__pocket.is-active .m5-ftx__frame,
+    .m5-ftx__pocket.drag-over .m5-ftx__frame{
+      border-color:#2d84b3;
+      box-shadow:0 0 0 3px rgba(45,132,179,.2), 0 10px 20px rgba(40,55,70,.14);
+      transform:translateY(-2px);
+    }
+    .m5-ftx__pocket.is-filled .m5-ftx__frame{
+      border-color:#6f7a84;
+      background:#fff;
+    }
+    .m5-ftx__rail{
+      height:14px;
+      width:100%;
+      border-bottom:1px solid rgba(0,0,0,.08);
+    }
+    .m5-ftx__pocket--first .m5-ftx__rail{
+      background:linear-gradient(180deg, #c9c6e8 0%, #b3afd9 100%);
+    }
+    .m5-ftx__pocket--then .m5-ftx__rail{
+      background:linear-gradient(180deg, #d7e3a8 0%, #c4d489 100%);
+    }
+    .m5-ftx__slot-drop{
+      min-height:168px;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      padding:8px;
+      background:linear-gradient(180deg, #eceff1 0%, #f7f8f9 100%);
+    }
+    .m5-ftx__slot-ph{
+      margin:auto;
+      font-size:.78rem;
+      font-weight:700;
+      color:#7a8691;
+      text-align:center;
+      padding:10px;
+      line-height:1.35;
+    }
+    .m5-ftx__stand-label{
+      font-size:.78rem;
+      font-weight:650;
+      letter-spacing:.02em;
+      color:#4a5560;
+      text-transform:lowercase;
+    }
+    .m5-ftx__pool-label{
+      margin:2px 0 0;
+      font-size:.8rem;
+      font-weight:750;
+      color:#1a5c38;
+    }
+    .m5-ftx__pool{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(118px, 1fr));
+      gap:10px;
+    }
+    .m5-ftx__flask{
+      margin:0;
+      padding:0;
+      border:2px solid rgba(26,92,56,.18);
+      border-radius:12px;
+      background:#fff;
+      cursor:grab;
+      overflow:hidden;
+      text-align:left;
+      font:inherit;
+      color:inherit;
+      box-shadow:0 8px 16px rgba(18,50,71,.06);
+      transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease, opacity .15s ease;
+      -webkit-user-drag:element;
+      user-select:none;
+    }
+    .m5-ftx__flask:hover,
+    .m5-ftx__flask:focus-visible{
+      border-color:#1a5c38;
+      outline:none;
+      transform:translateY(-2px);
+      box-shadow:0 12px 22px rgba(26,92,56,.14);
+    }
+    .m5-ftx__flask.is-selected{
+      border-color:#1a5c38;
+      box-shadow:0 0 0 3px rgba(26,92,56,.18);
+    }
+    .m5-ftx__flask.dragging,
+    .m5-ftx__flask.is-placed{
+      opacity:.38;
+    }
+    .m5-ftx__flask.is-placed{
+      pointer-events:none;
+      cursor:default;
+    }
+    .m5-ftx__flask-img{
+      display:block;
+      width:100%;
+      aspect-ratio:4 / 5;
+      object-fit:contain;
+      background:#f7faf8;
+    }
+    .m5-ftx__flask-lbl{
+      display:block;
+      padding:8px 8px 10px;
+      font-size:.72rem;
+      font-weight:750;
+      line-height:1.3;
+      color:#163247;
+      text-align:center;
+    }
+    /* Mounted card inside the stand pocket — flush like a real flashcard */
+    .m5-ftx__slot-drop .m5-ftx__flask{
+      width:100%;
+      max-width:none;
+      height:100%;
+      min-height:152px;
+      border:0;
+      border-radius:6px;
+      box-shadow:0 2px 6px rgba(18,50,71,.12);
+      cursor:pointer;
+      opacity:1;
+      pointer-events:auto;
+      display:flex;
+      flex-direction:column;
+    }
+    .m5-ftx__slot-drop .m5-ftx__flask:hover,
+    .m5-ftx__slot-drop .m5-ftx__flask:focus-visible{
+      transform:none;
+      box-shadow:0 2px 8px rgba(18,50,71,.18);
+    }
+    .m5-ftx__slot-drop .m5-ftx__flask-img{
+      flex:1 1 auto;
+      aspect-ratio:auto;
+      min-height:110px;
+      object-fit:contain;
+      background:#fff;
+    }
+    .m5-ftx__slot-drop .m5-ftx__flask-lbl{
+      padding:6px 6px 8px;
+      font-size:.68rem;
+      background:#fff;
+    }
+    .m5-ftx__nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+    @media (max-width:640px){
+      .m5-ftx__stand{ grid-template-columns:1fr 1fr; gap:10px; padding:12px 10px 10px; }
+      .m5-ftx__frame{ max-width:none; }
+      .m5-ftx__slot-drop{ min-height:148px; }
+      .m5-ftx__pool{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    }
     .concept-panel[data-panel-for="block1"] .section-activity-shell > .concept-section-head,
     .concept-panel[data-panel-for="block2"] .section-activity-shell > .concept-section-head,
     .concept-panel[data-panel-for="block3"] .section-activity-shell > .concept-section-head{ margin-bottom:10px; }
@@ -6072,6 +6282,40 @@
         var check = '<p class="b2-mark-row"><button type="button" class="btn" data-m5-ft-check="1" style="font-size:.9rem;">Check my First &amp; Then</button></p>';
         return buildActivityContainerShellM5({ variant: 'scenario', contentHtml: scene + (qHtml || '') + tip + board + pool + check });
       }
+      if(f === 'ft_flask_scenarios'){
+        var tipF =
+          '<p class="b2-inline-hint" style="font-size:.88rem; margin:0 0 4px;">' +
+          'Drag each PixtoLearn flashcard onto the <strong>First &amp; Then stand</strong> (or tap a card, then tap a pocket). The card mounts in the stand like in session.' +
+          '</p>';
+        var shellF =
+          '<div class="m5-ftx" data-m5-ftx>' +
+            '<div class="m5-ftx__meta"><span class="m5-ftx__step" data-m5-ftx-step>Example 1</span></div>' +
+            '<p class="m5-ftx__caption" data-m5-ftx-caption></p>' +
+            '<div class="m5-ftx__stand" data-m5-ftx-stand aria-label="First and Then stand">' +
+              '<div class="m5-ftx__pocket m5-ftx__pocket--first" data-m5-ftx-slot="first">' +
+                '<div class="m5-ftx__frame">' +
+                  '<div class="m5-ftx__rail" aria-hidden="true"></div>' +
+                  '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="first"><span class="m5-ftx__slot-ph">Mount First flashcard</span></div>' +
+                '</div>' +
+                '<span class="m5-ftx__stand-label">first</span>' +
+              '</div>' +
+              '<div class="m5-ftx__pocket m5-ftx__pocket--then" data-m5-ftx-slot="then">' +
+                '<div class="m5-ftx__frame">' +
+                  '<div class="m5-ftx__rail" aria-hidden="true"></div>' +
+                  '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="then"><span class="m5-ftx__slot-ph">Mount Then flashcard</span></div>' +
+                '</div>' +
+                '<span class="m5-ftx__stand-label">then</span>' +
+              '</div>' +
+            '</div>' +
+            '<p class="m5-ftx__pool-label">Flashcards</p>' +
+            '<div class="m5-ftx__pool" data-m5-ftx-pool></div>' +
+            '<div class="m5-ftx__nav">' +
+              '<button type="button" class="btn" data-m5-ftx-check="1" style="font-size:.9rem;">Check this board</button>' +
+              '<button type="button" class="btn" data-m5-ftx-clear="1" style="font-size:.9rem;">Clear stand</button>' +
+            '</div>' +
+          '</div>';
+        return buildActivityContainerShellM5({ variant: 'scenario', contentHtml: (qHtml || '') + tipF + shellF });
+      }
       return '';
     }
 
@@ -6430,6 +6674,178 @@
             b2MarkShell(shell, panel, block, target, feedback, okFt ? cfg.ok : cfg.bad, okFt);
           });
           paintBoard();
+          return;
+        }
+        if(f === 'ft_flask_scenarios'){
+          var root = inner.querySelector('[data-m5-ftx]');
+          if(!root) return;
+          var scenarios = cfg.scenarios || [];
+          var flasks = cfg.flasks || [];
+          var flaskBase = cfg.flaskBase || '/assets/images/module-5/first-then-flasks/';
+          var flaskMap = {};
+          flasks.forEach(function(fl){ flaskMap[fl.id] = fl; });
+          var idx = 0;
+          var placements = { first: '', then: '' };
+          var selectedId = '';
+          var dragId = '';
+          var stepEl = root.querySelector('[data-m5-ftx-step]');
+          var captionEl = root.querySelector('[data-m5-ftx-caption]');
+          var poolEl = root.querySelector('[data-m5-ftx-pool]');
+          var slotEls = root.querySelectorAll('[data-m5-ftx-slot]');
+          var checkBtn = root.querySelector('[data-m5-ftx-check]');
+          var clearBtn = root.querySelector('[data-m5-ftx-clear]');
+
+          function flaskCardHtml(fl, opts){
+            opts = opts || {};
+            return (
+              '<button type="button" class="m5-ftx__flask" draggable="true" data-m5-ftx-flask="' + b2Esc(fl.id) + '"' +
+              (opts.inSlot ? ' data-m5-ftx-in-slot="1"' : '') + '>' +
+              '<img class="m5-ftx__flask-img" src="' + b2Esc(flaskBase + fl.file) + '" alt="' + b2Esc(fl.label) + '" draggable="false" />' +
+              '<span class="m5-ftx__flask-lbl">' + b2Esc(fl.label) + '</span>' +
+              '</button>'
+            );
+          }
+
+          function paintPlacements(){
+            renderDrop('first');
+            renderDrop('then');
+            poolEl.querySelectorAll('[data-m5-ftx-flask]').forEach(function(btn){
+              var id = btn.getAttribute('data-m5-ftx-flask');
+              var used = placements.first === id || placements.then === id;
+              btn.classList.toggle('is-placed', used);
+              btn.classList.toggle('is-selected', selectedId === id && !used);
+            });
+          }
+
+          function bindPoolCards(){
+            poolEl.querySelectorAll('[data-m5-ftx-flask]').forEach(function(btn){
+              var id = btn.getAttribute('data-m5-ftx-flask');
+              btn.addEventListener('dragstart', function(e){
+                if(placements.first === id || placements.then === id){ e.preventDefault(); return; }
+                dragId = id;
+                btn.classList.add('dragging');
+                try{ e.dataTransfer.setData('text/plain', id); e.dataTransfer.effectAllowed = 'move'; }catch(err){}
+              });
+              btn.addEventListener('dragend', function(){
+                dragId = '';
+                btn.classList.remove('dragging');
+                slotEls.forEach(function(s){ s.classList.remove('drag-over'); });
+              });
+              btn.addEventListener('click', function(){
+                if(placements.first === id || placements.then === id) return;
+                selectedId = (selectedId === id) ? '' : id;
+                paintPlacements();
+              });
+            });
+            paintPlacements();
+          }
+
+          function paintScenario(){
+            var sc = scenarios[idx];
+            if(!sc) return;
+            if(stepEl) stepEl.textContent = 'Example ' + (idx + 1) + ' of ' + scenarios.length;
+            if(captionEl) captionEl.textContent = sc.caption || sc.title || '';
+            if(feedback){
+              feedback.textContent = '';
+              feedback.classList.add('hidden');
+              feedback.classList.remove('is-correct', 'is-incorrect');
+            }
+            var poolOrder = b2Shuffle(flasks.slice());
+            poolEl.innerHTML = poolOrder.map(function(fl){ return flaskCardHtml(fl); }).join('');
+            bindPoolCards();
+          }
+
+          function placeInto(slotKey, flaskId){
+            if(!flaskId || !flaskMap[flaskId]) return;
+            if(placements.first === flaskId) placements.first = '';
+            if(placements.then === flaskId) placements.then = '';
+            placements[slotKey] = flaskId;
+            selectedId = '';
+            paintPlacements();
+          }
+
+          function clearSlot(slotKey){
+            placements[slotKey] = '';
+            paintPlacements();
+          }
+
+          function renderDrop(slotKey){
+            var drop = root.querySelector('[data-m5-ftx-drop="' + slotKey + '"]');
+            var slot = root.querySelector('[data-m5-ftx-slot="' + slotKey + '"]');
+            if(!drop || !slot) return;
+            var id = placements[slotKey];
+            slot.classList.toggle('is-filled', !!id);
+            slot.classList.toggle('is-active', !!selectedId && !id);
+            if(!id){
+              drop.innerHTML = '<span class="m5-ftx__slot-ph">Mount ' + (slotKey === 'first' ? 'First' : 'Then') + ' flashcard</span>';
+              return;
+            }
+            drop.innerHTML = flaskCardHtml(flaskMap[id], { inSlot: true });
+            var placed = drop.querySelector('[data-m5-ftx-flask]');
+            if(placed){
+              placed.addEventListener('click', function(e){
+                e.stopPropagation();
+                clearSlot(slotKey);
+              });
+            }
+          }
+
+          slotEls.forEach(function(slot){
+            var key = slot.getAttribute('data-m5-ftx-slot');
+            slot.addEventListener('dragover', function(e){
+              e.preventDefault();
+              slot.classList.add('drag-over');
+            });
+            slot.addEventListener('dragleave', function(){ slot.classList.remove('drag-over'); });
+            slot.addEventListener('drop', function(e){
+              e.preventDefault();
+              slot.classList.remove('drag-over');
+              var id = dragId;
+              try{ id = e.dataTransfer.getData('text/plain') || dragId; }catch(err2){}
+              if(id) placeInto(key, id);
+            });
+            slot.addEventListener('click', function(e){
+              if(e.target.closest('[data-m5-ftx-flask]')) return;
+              if(selectedId) placeInto(key, selectedId);
+            });
+          });
+
+          if(clearBtn) clearBtn.addEventListener('click', function(){
+            placements.first = '';
+            placements.then = '';
+            selectedId = '';
+            paintPlacements();
+          });
+
+          if(checkBtn) checkBtn.addEventListener('click', function(){
+            var sc = scenarios[idx];
+            if(!sc) return;
+            var okSc = placements.first === sc.correctFirst && placements.then === sc.correctThen;
+            if(!okSc){
+              if(feedback){
+                feedback.textContent = cfg.bad || 'Not quite. First should be the skill to attempt; Then the motivating next step.';
+                feedback.classList.remove('hidden', 'is-correct');
+                feedback.classList.add('is-incorrect');
+              }
+              return;
+            }
+            if(idx < scenarios.length - 1){
+              if(feedback){
+                feedback.textContent = 'Nice board. Move on to the next First & Then example.';
+                feedback.classList.remove('hidden', 'is-incorrect');
+                feedback.classList.add('is-correct');
+              }
+              idx += 1;
+              placements.first = '';
+              placements.then = '';
+              selectedId = '';
+              window.setTimeout(function(){ paintScenario(); }, 450);
+              return;
+            }
+            b2MarkShell(shell, panel, block, target, feedback, cfg.ok || 'Great — these First & Then boards match the swimmer motivation examples.', true);
+          });
+
+          paintScenario();
         }
       }
       runWire();
@@ -6927,21 +7343,52 @@
     const conceptActivityBankBlock3 = {
       b3c1: {
         vs1: {
-          format: 'first_then_board',
-          activityType: 'Build the First & Then board',
-          guideText: 'A swimmer avoids a non-preferred activity. Build a First & Then schedule by placing the cards — no typing.',
-          scenario: 'A swimmer avoids a non-preferred activity during the session.',
-          q: 'Which cards belong in First and Then?',
-          chips: [
-            { id: 'skill', text: 'Practise blowing bubbles (non-preferred)' },
-            { id: 'toy', text: 'Play with favourite float toy (motivating)' },
-            { id: 'skip', text: 'Skip the hard activity and only play' },
-            { id: 'talk', text: 'Long verbal explanation with no visual' }
+          format: 'ft_flask_scenarios',
+          activityType: 'Examples of First & Then',
+          guideText: 'Mount PixtoLearn flashcards on the First & Then stand — drag or tap. No typing.',
+          q: 'Examples of First & Then',
+          flaskBase: '/assets/images/module-5/first-then-flasks/',
+          flasks: [
+            { id: 'bubbles', label: 'face in the water & blow bubbles', file: 'bubbles.png' },
+            { id: 'water-pistol', label: 'water pistol', file: 'water-pistol.png' },
+            { id: 'choosing', label: 'choosing', file: 'choosing.png' },
+            { id: 'float-on-back', label: 'float on back', file: 'float-on-back.png' },
+            { id: 'kick-with-noodle', label: 'kick with noodle', file: 'kick-with-noodle.png' },
+            { id: 'front-crawl', label: 'front crawl', file: 'front-crawl.png' },
+            { id: 'breaststroke-kick', label: 'breaststroke kick on front', file: 'breaststroke-kick.png' }
           ],
-          correctFirst: 'skill',
-          correctThen: 'toy',
-          ok: 'Yes. First holds the non-preferred activity to attempt; Then shows a motivating preferred activity that follows immediately.',
-          bad: 'Not quite. Place the non-preferred skill in First and a clear motivating activity in Then — not skip or talk-only options.'
+          scenarios: [
+            {
+              id: 's1',
+              title: 'Water pistol motivator',
+              caption: 'Example of a beginner swimmer who loves to play and splash with a water pistol.',
+              correctFirst: 'bubbles',
+              correctThen: 'water-pistol'
+            },
+            {
+              id: 's2',
+              title: 'Choice board motivator',
+              caption: 'Example of a confident swimmer who needs to be engaged by choosing different toys.',
+              correctFirst: 'kick-with-noodle',
+              correctThen: 'choosing'
+            },
+            {
+              id: 's3',
+              title: 'Preferred play after float',
+              caption: 'Example in which preferred play acts as a motivator after a float skill.',
+              correctFirst: 'float-on-back',
+              correctThen: 'water-pistol'
+            },
+            {
+              id: 's4',
+              title: 'Preferred recovery after crawl',
+              caption: 'Example of a swimmer who prefers floating after front crawl work.',
+              correctFirst: 'front-crawl',
+              correctThen: 'float-on-back'
+            }
+          ],
+          ok: 'Well built. First holds the skill to attempt; Then shows the motivating next activity — just like the First & Then examples.',
+          bad: 'Not quite. Match the caption: put the skill / non-preferred step in First and the motivating flashcard in Then.'
         },
         vs2: {
           format: 'reorder',
