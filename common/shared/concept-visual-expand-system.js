@@ -167,7 +167,7 @@
       img.closest(
         '.b2-level-thumb, .concept-square--level, .b2l-level-mascot, .b2l-focus-mascot-bar, ' +
         '.breadcrumb-mascot, .level-badge-mascot, .concept-title-icon--mascot, ' +
-        '.pjm-mascot-mark, .pjm-ocean-node-icon, .stage-intro-hero, .stage-intro-hero-mascot, .stage-intro-hero-world, [data-no-expand="true"]'
+        '.pjm-mascot-mark, .pjm-ocean-node-icon, .stage-intro-hero, .stage-intro-hero-mascot, .stage-intro-hero-world, [data-no-expand="true"], .m5-ftx, [data-m5-ftx], [data-m5-ftx-no-expand="true"]'
       )
     ) {
       return true;

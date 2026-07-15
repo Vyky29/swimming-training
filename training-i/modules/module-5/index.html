@@ -1429,65 +1429,77 @@
     .m5-ftx__boards{
       display:grid;
       grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:12px 14px;
-      align-items:start;
+      gap:14px;
+      align-items:stretch;
     }
     .m5-ftx__scenario{
       display:flex;
       flex-direction:column;
-      gap:8px;
-      padding:0;
-      border:0;
-      border-radius:0;
-      background:transparent;
+      gap:12px;
+      height:100%;
       min-width:0;
+      padding:14px 14px 16px;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid rgba(22,50,71,.10);
+      box-shadow:0 10px 22px rgba(18,50,71,.05);
+    }
+    .m5-ftx__scenario.is-correct{
+      border-color:rgba(26,92,56,.32);
+      box-shadow:0 10px 22px rgba(26,92,56,.08);
+      background:linear-gradient(180deg, rgba(232,245,238,.55) 0%, #fff 48%);
     }
     .m5-ftx__scenario.is-correct .m5-ftx__sc-num{
       color:#117a45;
-    }
-    .m5-ftx__scenario.is-correct .m5-ftx__stand{
-      outline:1.5px solid rgba(26,92,56,.28);
-      outline-offset:6px;
-      border-radius:10px;
+      background:rgba(26,92,56,.10);
     }
     .m5-ftx__sc-head{
       display:flex;
-      align-items:baseline;
-      gap:6px;
+      align-items:center;
+      gap:8px;
     }
     .m5-ftx__sc-num{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:34px;
+      height:22px;
+      padding:0 8px;
+      border-radius:999px;
       font-size:.62rem;
       font-weight:800;
       letter-spacing:.08em;
       text-transform:uppercase;
       color:#1a5c38;
+      background:rgba(26,92,56,.08);
       flex:none;
     }
     .m5-ftx__sc-title{ display:none; }
     .m5-ftx__sc-caption{
       margin:0;
-      font-size:.74rem;
+      font-size:.76rem;
       font-weight:500;
       color:#4a5560;
-      line-height:1.4;
+      line-height:1.45;
       font-style:italic;
-      min-height:2.8em;
+      min-height:4.4em;
+      flex:1 1 auto;
     }
     .m5-ftx__stand{
       display:grid;
       grid-template-columns:minmax(0,1fr) minmax(0,1fr);
       gap:10px;
       align-items:end;
-      max-width:280px;
-      margin:0 auto;
       width:100%;
+      max-width:268px;
+      margin:auto auto 0;
     }
     /* Base stand: flashcard sits in the top slot of a short acrylic foot */
     .m5-ftx__pocket{
       position:relative;
       min-width:0;
       width:100%;
-      max-width:128px;
+      max-width:118px;
       margin:0 auto;
       display:flex;
       flex-direction:column;
@@ -1508,7 +1520,7 @@
       position:relative;
       z-index:2;
       width:86%;
-      height:148px;
+      height:138px;
       margin-bottom:-14px;
       display:flex;
       align-items:flex-end;
@@ -1542,14 +1554,19 @@
       user-select:none;
       -webkit-user-drag:none;
     }
+    .m5-ftx .img-expand-btn,
+    .m5-ftx [data-expandable-visual] > .img-expand-btn{
+      display:none !important;
+    }
     .m5-ftx__tray{
       display:flex;
       flex-direction:column;
       gap:8px;
-      padding:10px 12px 12px;
+      padding:12px 14px 14px;
       border-radius:14px;
-      background:rgba(247,250,248,.9);
-      border:1px solid rgba(26,92,56,.1);
+      background:#fff;
+      border:1px solid rgba(22,50,71,.10);
+      box-shadow:0 10px 22px rgba(18,50,71,.05);
     }
     .m5-ftx__pool-label{
       margin:0;
@@ -1566,6 +1583,7 @@
       align-items:flex-start;
     }
     .m5-ftx__flask{
+      position:relative;
       margin:0;
       padding:0;
       width:76px;
@@ -1601,6 +1619,7 @@
       aspect-ratio:4 / 5;
       object-fit:contain;
       background:#f7faf8;
+      pointer-events:none;
     }
     .m5-ftx__slot-drop .m5-ftx__flask{
       width:100%;
@@ -1640,12 +1659,13 @@
     @media (max-width:900px){
       .m5-ftx__boards{
         grid-template-columns:1fr;
-        gap:16px;
+        gap:14px;
       }
       .m5-ftx__stand{ max-width:300px; }
       .m5-ftx__pocket{ max-width:140px; }
-      .m5-ftx__slot-drop{ height:160px; }
-      .m5-ftx__sc-caption{ min-height:0; }
+      .m5-ftx__slot-drop{ height:156px; }
+      .m5-ftx__sc-caption{ min-height:0; flex:0 0 auto; }
+      .m5-ftx__stand{ margin-top:4px; }
     }
     @media (max-width:720px){
       .m5-ftx__flask{ width:68px; }
@@ -6308,7 +6328,7 @@
           'Build all three First &amp; Then boards. Slide a flashcard into each PixtoLearn stand — used cards leave the tray.' +
           '</p>';
         var shellF =
-          '<div class="m5-ftx" data-m5-ftx>' +
+          '<div class="m5-ftx" data-m5-ftx data-m5-ftx-no-expand="true" data-no-expand="true">' +
             '<div class="m5-ftx__boards" data-m5-ftx-boards></div>' +
             '<div class="m5-ftx__tray">' +
               '<p class="m5-ftx__pool-label">Flashcard tray</p>' +
@@ -6765,6 +6785,14 @@
             });
           }
 
+          function stripExpandChrome(){
+            root.querySelectorAll('.img-expand-btn').forEach(function(btn){ btn.remove(); });
+            root.querySelectorAll('[data-expandable-visual]').forEach(function(host){
+              host.removeAttribute('data-expandable-visual');
+              if(host.style.position === 'relative') host.style.position = '';
+            });
+          }
+
           function paintAll(){
             scenarios.forEach(function(sc){
               renderDrop(sc.id, 'first');
@@ -6776,6 +6804,7 @@
               }
             });
             paintPool();
+            stripExpandChrome();
           }
 
           function placeInto(scId, slotKey, flaskId){
@@ -7994,11 +8023,12 @@
 
     function clearB2HomeExpandButtons(scope){
       if(!scope) return;
-      scope.querySelectorAll('.b2c2-home-grid [data-expandable-visual], .b2c3-home-grid [data-expandable-visual], .m5-insight-mini-peek [data-expandable-visual]').forEach(function(host){
+      scope.querySelectorAll('.b2c2-home-grid [data-expandable-visual], .b2c3-home-grid [data-expandable-visual], .m5-insight-mini-peek [data-expandable-visual], .m5-ftx [data-expandable-visual], [data-m5-ftx-no-expand="true"] [data-expandable-visual]').forEach(function(host){
         host.removeAttribute('data-expandable-visual');
         host.querySelectorAll('.img-expand-btn').forEach(function(btn){ btn.remove(); });
         if(host.style.position === 'relative') host.style.position = '';
       });
+      scope.querySelectorAll('.m5-ftx .img-expand-btn, [data-m5-ftx-no-expand="true"] .img-expand-btn').forEach(function(btn){ btn.remove(); });
     }
 
     function rewireConceptVisualExpand(panel){
@@ -8013,7 +8043,7 @@
         panel: panel,
         clearRoot: scope,
         syncRoot: scope,
-        exclude: ['.b2c2-home-grid', '.b2c3-home-grid', '.m5-insight-mini-peek', '[data-b2c2-no-expand="true"]', '[data-b2c3-no-expand="true"]', '[data-b2-no-expand="true"]']
+        exclude: ['.b2c2-home-grid', '.b2c3-home-grid', '.m5-insight-mini-peek', '.m5-ftx', '[data-m5-ftx]', '[data-m5-ftx-no-expand="true"]', '[data-b2c2-no-expand="true"]', '[data-b2c3-no-expand="true"]', '[data-b2-no-expand="true"]']
       });
       clearB2HomeExpandButtons(scope);
     }
@@ -9337,7 +9367,7 @@
     })();
   </script>
   
-  <script src="/shared/concept-visual-expand-system.js?v=20260725"></script>
+  <script src="/shared/concept-visual-expand-system.js?v=20260715ftx"></script>
 </body>
 </html>
 
