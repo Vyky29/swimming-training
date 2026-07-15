@@ -1522,6 +1522,74 @@
       line-height:1.45;
       font-style:normal;
     }
+    .m5-ftx__prompt{
+      margin:0 0 14px;
+      padding:16px 18px;
+      border-radius:16px;
+      background:linear-gradient(180deg, #f4fbf6 0%, #fff 70%);
+      border:1px solid rgba(26,92,56,.18);
+      box-shadow:0 10px 22px rgba(18,50,71,.05);
+    }
+    .m5-ftx__prompt-kicker{
+      margin:0 0 4px;
+      font-size:.68rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#1a5c38;
+    }
+    .m5-ftx__prompt-title{
+      margin:0 0 10px;
+      font-size:1.02rem;
+      font-weight:800;
+      color:#163247;
+      line-height:1.3;
+    }
+    .m5-ftx__prompt-meta{
+      margin:0;
+      font-size:.84rem;
+      line-height:1.5;
+      color:#314555;
+    }
+    .m5-ftx__prompt-meta + .m5-ftx__prompt-meta{ margin-top:6px; }
+    .m5-ftx__prompt-meta strong{ color:#163247; }
+    .m5-ftx__prompt-steps{
+      margin:12px 0 0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .m5-ftx__prompt-steps li{
+      position:relative;
+      margin:0;
+      padding:8px 12px 8px 36px;
+      border-radius:10px;
+      background:rgba(255,255,255,.78);
+      border:1px solid rgba(26,92,56,.12);
+      font-size:.8rem;
+      line-height:1.45;
+      color:#314555;
+    }
+    .m5-ftx__prompt-steps li::before{
+      content:attr(data-step);
+      position:absolute;
+      left:10px;
+      top:8px;
+      width:18px;
+      height:18px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:.68rem;
+      font-weight:800;
+      color:#fff;
+      background:#1a5c38;
+      line-height:18px;
+      text-align:center;
+    }
     .m5-ftx[data-m5-ftx-layout="schedule-breakdown"] .m5-ftx__boards{
       grid-template-columns:repeat(3, minmax(0, 1fr));
       max-width:none;
@@ -6965,8 +7033,12 @@
           b2Esc(cfg.guideHint || 'Build each board from the shared tray. Slide flashcards into the PixtoLearn stands — used cards leave the tray.') +
           '</p>';
         var layoutAttr = cfg.layout ? (' data-m5-ftx-layout="' + b2Esc(cfg.layout) + '"') : '';
+        var promptSlot = cfg.sessionPrompt
+          ? '<div class="m5-ftx__prompt" data-m5-ftx-prompt></div>'
+          : '';
         var shellF =
           '<div class="m5-ftx" data-m5-ftx data-m5-ftx-no-expand="true" data-no-expand="true" data-m5-ftx-slots="' + slotDefsShell.length + '" data-m5-ftx-cols="' + boardCols + '"' + layoutAttr + '>' +
+            promptSlot +
             '<div class="m5-ftx__boards" data-m5-ftx-boards></div>' +
             '<div class="m5-ftx__tray">' +
               '<p class="m5-ftx__pool-label">Flashcard tray</p>' +
@@ -7375,9 +7447,28 @@
           var poolEl = root.querySelector('[data-m5-ftx-pool]');
           var checkBtn = root.querySelector('[data-m5-ftx-check]');
           var clearBtn = root.querySelector('[data-m5-ftx-clear]');
+          var promptEl = root.querySelector('[data-m5-ftx-prompt]');
           var selectedId = '';
           var dragId = '';
           var placements = {};
+          /* Schedule breakdown: overview cards must stay reusable on First–Then boards */
+          var allowFlaskReuse = cfg.layout === 'schedule-breakdown' || cfg.allowFlaskReuse === true;
+
+          if(promptEl && cfg.sessionPrompt){
+            var sp = cfg.sessionPrompt;
+            var stepsHtml = Array.isArray(sp.steps) && sp.steps.length
+              ? ('<ol class="m5-ftx__prompt-steps">' + sp.steps.map(function(step, idx){
+                  return '<li data-step="' + String(idx + 1) + '">' + b2Esc(step) + '</li>';
+                }).join('') + '</ol>')
+              : '';
+            promptEl.innerHTML =
+              '<p class="m5-ftx__prompt-kicker">' + b2Esc(sp.kicker || 'Teacher session prompt') + '</p>' +
+              '<h5 class="m5-ftx__prompt-title">' + b2Esc(sp.title || 'Build this session on visual schedules') + '</h5>' +
+              (sp.learner ? ('<p class="m5-ftx__prompt-meta"><strong>Learner:</strong> ' + b2Esc(sp.learner) + '</p>') : '') +
+              (sp.goal ? ('<p class="m5-ftx__prompt-meta"><strong>Session goal:</strong> ' + b2Esc(sp.goal) + '</p>') : '') +
+              (sp.mount ? ('<p class="m5-ftx__prompt-meta"><strong>What to mount:</strong> ' + b2Esc(sp.mount) + '</p>') : '') +
+              stepsHtml;
+          }
 
           function slotsFor(sc){
             return (sc && sc.slots && sc.slots.length) ? sc.slots : defaultSlotDefs;
@@ -7461,8 +7552,14 @@
           }
 
           function paintPool(){
-            var used = usedIds();
-            var available = flasks.filter(function(fl){ return !used[fl.id]; });
+            var available;
+            if(allowFlaskReuse){
+              /* Keep full tray — duplicates are how you break the long schedule into First–Then chunks */
+              available = flasks.slice();
+            } else {
+              var used = usedIds();
+              available = flasks.filter(function(fl){ return !used[fl.id]; });
+            }
             poolEl.innerHTML = available.map(function(fl){ return flaskCardHtml(fl); }).join('');
             poolEl.querySelectorAll('[data-m5-ftx-flask]').forEach(function(btn){
               var id = btn.getAttribute('data-m5-ftx-flask');
@@ -7496,11 +7593,18 @@
 
           function placeInto(scId, slotKey, flaskId){
             if(!flaskId || !flaskMap[flaskId] || !placements[scId]) return;
-            scenarios.forEach(function(sc){
-              slotKeysFor(sc).forEach(function(k){
-                if(placements[sc.id][k] === flaskId) placements[sc.id][k] = '';
+            if(allowFlaskReuse){
+              /* Same board only: one copy per board; other boards keep their own copy */
+              Object.keys(placements[scId]).forEach(function(k){
+                if(placements[scId][k] === flaskId) placements[scId][k] = '';
               });
-            });
+            } else {
+              scenarios.forEach(function(sc){
+                slotKeysFor(sc).forEach(function(k){
+                  if(placements[sc.id][k] === flaskId) placements[sc.id][k] = '';
+                });
+              });
+            }
             placements[scId][slotKey] = flaskId;
             selectedId = '';
             paintAll();
@@ -8446,29 +8550,43 @@
         vs3: {
           format: 'ft_flask_scenarios',
           activityType: 'Four or more — session overview & First–Then breakdowns',
-          guideText: 'Build the long overview schedule (pairs under first / next / then). Then build the three First–Then examples that show how to simplify, add a break, or end with finished.',
-          guideHint: 'Build the 6-card overview plus the three First–Then examples. Slide cards into the stands — used cards leave the tray.',
+          guideText: 'Read the teacher session prompt, mount the full overview schedule, then reuse cards on the three First–Then boards.',
+          guideHint: 'Use the session prompt above the boards. Fill the 6-card overview first, then reuse those cards on the First–Then boards to break the schedule down.',
           q: 'Four or More Activities',
           flaskBase: '/assets/images/module-5/first-then-flasks/',
           layout: 'schedule-breakdown',
+          allowFlaskReuse: true,
           boardCols: 3,
+          sessionPrompt: {
+            kicker: 'Teacher session prompt',
+            title: 'Mount this pool session with visual schedules',
+            learner: 'A confident beginner who can follow a longer schedule, but may need it broken into smaller First–Then boards when load rises or energy drops.',
+            goal: 'Keep the whole session visible (first / next / then pairs), and stay ready to simplify, insert a recovery break, or end clearly with finished.',
+            mount: 'Build one 6-card overview board for the full session flow. Then show three ways you would adapt that same session on First–Then boards.',
+            steps: [
+              'Overview — mount the full session: jumping + airplane on back (first), seahorse + monkey walk (next), move in the water + kick on back with float (then).',
+              'Example 1 — pull a chunk out: reuse jumping → seahorse as a shorter First–Then board.',
+              'Example 2 — protect recovery: reuse monkey walk → break time when the swimmer needs a clearer pause.',
+              'Example 3 — close cleanly: reuse kick on back with float → finished so the ending is visible.'
+            ]
+          },
           slots: [
             { key: 'first', stand: 'stand-base-first.png', aria: 'First stand' },
             { key: 'then', stand: 'stand-base-then.png', aria: 'Then stand' }
           ],
           flasks: [
             { id: 'jumping', label: 'jumping', file: 'jumping.png' },
+            { id: 'airplane-on-back', label: 'airplane on back', file: 'airplane-on-back.png' },
             { id: 'seahorse', label: 'seahorse', file: 'seahorse.png' },
+            { id: 'monkey-walk', label: 'monkey walk', file: 'monkey-walk.png' },
+            { id: 'move-in-the-water', label: 'move in the water', file: 'move-in-the-water.png' },
             { id: 'kick-on-back-with-float', label: 'kick on back with float', file: 'kick-on-back-with-float.png' },
+            { id: 'break-time', label: 'break time', file: 'break-time.png' },
+            { id: 'finished', label: 'finished', file: 'finished.png' },
             { id: 'front-paddle', label: 'front paddle', file: 'front-paddle.png' },
             { id: 'hoop', label: 'hoop', file: 'hoop.png' },
             { id: 'waves', label: 'waves', file: 'waves.png' },
-            { id: 'monkey-walk', label: 'monkey walk', file: 'monkey-walk.png' },
-            { id: 'move-in-the-water', label: 'move in the water', file: 'move-in-the-water.png' },
-            { id: 'airplane-on-back', label: 'airplane on back', file: 'airplane-on-back.png' },
-            { id: 'break-time', label: 'break time', file: 'break-time.png' },
             { id: 'sinkers', label: 'sinkers', file: 'sinkers.png' },
-            { id: 'finished', label: 'finished', file: 'finished.png' },
             { id: 'pop-tube', label: 'pop tube', file: 'pop-tube.png' },
             { id: 'big-float', label: 'big float', file: 'big-float.png' }
           ],
@@ -8476,7 +8594,7 @@
             {
               id: 'overview',
               role: 'overview',
-              caption: 'Example of a visual schedule with four or more activities. Pair cards under first / next / then so the swimmer sees the full session flow.',
+              caption: 'Full-session overview: pair cards under first / next / then so the swimmer sees the whole flow.',
               slots: [
                 { key: 'first1', stand: 'stand-base-first.png', aria: 'First stand 1', group: 'first', groupLabel: 'first' },
                 { key: 'first2', stand: 'stand-base-first.png', aria: 'First stand 2', group: 'first', groupLabel: 'first' },
@@ -8487,37 +8605,37 @@
               ],
               correct: {
                 first1: 'jumping',
-                first2: 'seahorse',
-                next1: 'kick-on-back-with-float',
-                next2: 'front-paddle',
-                then1: 'hoop',
-                then2: 'waves'
+                first2: 'airplane-on-back',
+                next1: 'seahorse',
+                next2: 'monkey-walk',
+                then1: 'move-in-the-water',
+                then2: 'kick-on-back-with-float'
               }
             },
             {
               id: 'ex1',
               role: 'example',
               caption: 'Example 1: break a chunk of the session into fewer steps.',
-              note: 'Use a ‘first – then’ schedule to break down the main schedule into fewer steps.',
-              correct: { first: 'move-in-the-water', then: 'monkey-walk' }
+              note: 'Reuse jumping → seahorse from the overview to pull a shorter First–Then chunk out of the long schedule.',
+              correct: { first: 'jumping', then: 'seahorse' }
             },
             {
               id: 'ex2',
               role: 'example',
               caption: 'Example 2: insert a clear break when the swimmer needs recovery time.',
-              note: 'Use a ‘first – then’ schedule if you need to add breaks for the swimmers during the sessions.',
-              correct: { first: 'airplane-on-back', then: 'break-time' }
+              note: 'Reuse monkey walk from the overview, then add break time so recovery is visible.',
+              correct: { first: 'monkey-walk', then: 'break-time' }
             },
             {
               id: 'ex3',
               role: 'example',
               caption: 'Example 3: close the session with a clear finished cue.',
-              note: 'To end your session, simply include the ‘finished’ flashcard.',
-              correct: { first: 'sinkers', then: 'finished' }
+              note: 'Reuse kick on back with float from the overview and add finished to end clearly.',
+              correct: { first: 'kick-on-back-with-float', then: 'finished' }
             }
           ],
-          ok: 'Strong overview plus clear First–Then breakdowns — simplify steps, add breaks, and end with finished.',
-          bad: 'Not quite. Fill the 6-card overview in first/next/then pairs, then complete the three First–Then examples.'
+          ok: 'Strong overview plus clear First–Then adaptations — simplify, recover, and finish.',
+          bad: 'Not quite. Follow the session prompt: fill the overview pairs first, then reuse those cards on the three First–Then boards.'
         }
       },
       b3c2: {
@@ -9244,11 +9362,13 @@
           clearB2HomeExpandButtons(activeScreen || wrapper);
         }
         if(id !== 'home'){
-          var scrollTarget = panel.querySelector('.concept-insight-pillar:not(.clicked)') ||
+          /* Land on the leaf title / Core Concept heading — not the first pillar or visual */
+          var scrollTarget =
+            panel.querySelector('.concept-panel-title-row, .concept-heading-row') ||
+            panel.querySelector('h4.concept-panel-title, .concept-title-main, .concept-title-text, h4') ||
+            panel.querySelector('.concept-insight-intro__title') ||
             panel.querySelector('.concept-intro-slot') ||
-            panel.querySelector('[data-guided-section="visual"]') ||
-            panel.querySelector('.m5-folder-overview-card') ||
-            panel.querySelector('.concept-image');
+            panel;
           if(scrollTarget && scrollTarget.scrollIntoView){
             scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
