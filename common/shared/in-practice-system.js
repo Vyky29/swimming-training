@@ -265,7 +265,7 @@
           try {
             actionEl.dispatchEvent(new CustomEvent('in-practice-progress', { bubbles: true, detail: { part: part } }));
           } catch (err) {}
-          /* End at the three cue boxes — no separate Got it tap needed */
+          /* End at the three cue boxes - no separate Got it tap needed */
           if (partsComplete(actionEl)) {
             completeAction(actionEl);
           }
@@ -331,7 +331,7 @@
     setBeat(lookWrap, look, card.notice || '', move ? FALLBACK_LOOK : '');
     setBeat(avoidWrap, avoid, card.watch || '', move ? FALLBACK_AVOID : '');
     if (thenEl) {
-      // Keep "Then" off the primary coach surface — Do / Look / Avoid is enough poolside
+      // Keep "Then" off the primary coach surface - Do / Look / Avoid is enough poolside
       thenEl.textContent = '';
       thenEl.setAttribute('hidden', '');
     }

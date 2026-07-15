@@ -40,25 +40,26 @@
   background:linear-gradient(180deg,#d97706,#ea8f22);
 }
 .section.block-part.block-part--core{
-  --block-accent: #7b2fa1;
-  --block-accent-rgb: 123, 47, 161;
-  --block-accent-ink: #7b2fa1;
-  --block-accent-soft: rgba(123, 47, 161, 0.12);
-  --block-accent-border: rgba(123, 47, 161, 0.28);
-  --block-title-surface: linear-gradient(135deg, #fbf7fe 0%, #f5ecfc 100%);
-  --block-title-line: linear-gradient(90deg, #a855f7 0%, #7b2fa1 100%);
-  --concept-block-grad: linear-gradient(135deg, #7b2fa1 0%, #a855f7 100%);
-  --concept-block-border: rgba(123, 47, 161, .28);
-  --concept-block-shadow: rgba(123, 47, 161, .22);
-  --concept-block-ink: #7b2fa1;
-  --concept-block-soft: #faf5ff;
-  --concept-block-soft-border: rgba(168, 85, 247, .38);
-  --concept-block-hover: #f5ecfc;
-  border-color:rgba(138,63,176,.2);
-  background:linear-gradient(165deg, rgba(244,236,250,.96) 0%, rgba(255,255,255,.98) 40%, #fff 100%);
+  /* Brand blue - same training chrome as Modules 1-3/5 (no purple outlier) */
+  --block-accent: #2d84b3;
+  --block-accent-rgb: 45, 132, 179;
+  --block-accent-ink: #2d84b3;
+  --block-accent-soft: rgba(45, 132, 179, 0.12);
+  --block-accent-border: rgba(45, 132, 179, 0.28);
+  --block-title-surface: linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%);
+  --block-title-line: linear-gradient(90deg, #89b5c1 0%, #2d84b3 100%);
+  --concept-block-grad: linear-gradient(135deg, #2d84b3 0%, #89b5c1 100%);
+  --concept-block-border: rgba(45, 132, 179, .28);
+  --concept-block-shadow: rgba(45, 132, 179, .18);
+  --concept-block-ink: #2d84b3;
+  --concept-block-soft: #edf6fb;
+  --concept-block-soft-border: rgba(45, 132, 179, .32);
+  --concept-block-hover: #eef6fc;
+  border-color:rgba(45,132,179,.2);
+  background:linear-gradient(165deg, rgba(233,243,247,.96) 0%, rgba(255,255,255,.98) 40%, #fff 100%);
 }
 .section.block-part.block-part--core::before{
-  background:linear-gradient(180deg,#7b2fa1,#a855f7);
+  background:linear-gradient(180deg,#2d6b8f,#2d84b3);
 }
 .section.block-part.block-part--pathway{
   --block-accent: #1a5c38;
@@ -164,7 +165,7 @@
   text-transform:uppercase;
 }
 .block-part--foundations .block-part-kicker{ color:var(--block-accent-ink, #c2410c); }
-.block-part--core .block-part-kicker{ color:var(--block-accent-ink, #7b2fa1); }
+.block-part--core .block-part-kicker{ color:var(--block-accent-ink, #2d84b3); }
 .block-part--pathway .block-part-kicker{ color:var(--block-accent-ink, #1a5c38); }
 .block-part--progress .block-part-kicker{ color:var(--block-accent-ink, #a16207); }
 .block-part-title{
@@ -175,7 +176,7 @@
   letter-spacing:.01em;
 }
 .block-part--foundations .block-part-title{ color:#c2410c !important; }
-.block-part--core .block-part-title{ color:#7b2fa1 !important; }
+.block-part--core .block-part-title{ color:#2d84b3 !important; }
 .block-part--pathway .block-part-title{ color:#1a5c38 !important; }
 .block-part--progress .block-part-title{ color:#a16207 !important; }
 .block-part-text{
@@ -231,9 +232,9 @@
   border-color:rgba(234,143,34,.36);
 }
 .block-part--core .block-part-status[data-state="ready"]{
-  color:#7b2fa1;
-  background:rgba(243,232,255,.92);
-  border-color:rgba(168,85,247,.28);
+  color:#2d84b3;
+  background:rgba(219,234,254,.92);
+  border-color:rgba(45,132,179,.28);
 }
 .block-part--pathway .block-part-status[data-state="ready"]{
   color:#1a5c38;
@@ -268,9 +269,9 @@
   border-color:rgba(234,143,34,.26);
 }
 .block-part--core .block-part-status[data-state="in_progress"]{
-  color:#7b2fa1;
-  background:rgba(243,232,255,.88);
-  border-color:rgba(168,85,247,.22);
+  color:#2d84b3;
+  background:rgba(219,234,254,.88);
+  border-color:rgba(45,132,179,.22);
 }
 .block-part--pathway .block-part-status[data-state="in_progress"]{
   color:#1a5c38;
@@ -383,7 +384,7 @@
   content:none !important;
   display:none !important;
 }
-/* TTS relocated into accordion head ó hide the empty body header chrome */
+/* TTS relocated into accordion head ÔøΩ hide the empty body header chrome */
 .section.block-part .block-header[data-block-header-tts-moved="1"],
 .section.block-part .block-header:not(:has(.section-top-actions:not(:empty))):not(:has(.block-tools-inline:not(:empty))){
   display:none !important;
@@ -418,11 +419,23 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
 
 /* ----- Generic block chrome (not specialty widgets) ----- */
 .portal .section.block-part .concept-stage > h4{
+  color: #2d84b3 !important;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.portal .section.block-part .concept-stage > p strong{
   color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3))) !important;
 }
-.portal .section.block-part .concept-stage > p strong,
-.portal .section.block-part .overview-subconcept-shell h5{
-  color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3))) !important;
+/* Explore / subconcept chooser headings: always brand blue + uppercase */
+.portal .section.block-part .overview-subconcept-shell h5,
+.portal .section.block-part [data-parent-subconcept-nav] h5,
+.portal .section.block-part .concept-parent-subconcepts h5,
+.portal .section.block-part .parent-subconcept-heading,
+.portal .section.block-part .b3c2-explore-heading,
+.portal .section.block-part .m5-explore-categories-heading{
+  color: #2d84b3 !important;
+  text-transform: uppercase;
+  letter-spacing: .06em;
 }
 .portal .section.block-part .block-header .block-title-wrap h3,
 .portal .section.block-part .block-title-wrap h3{
@@ -524,14 +537,28 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
 }
 .portal .section.block-part .overview-subconcept-shell h5,
 .portal .section.block-part [data-parent-subconcept-nav] h5,
-.portal .section.block-part .concept-parent-subconcepts h5{
-  color: var(--block-accent-ink, var(--block-accent, #2d84b3)) !important;
+.portal .section.block-part .concept-parent-subconcepts h5,
+.portal .section.block-part .parent-subconcept-heading,
+.portal .section.block-part .b3c2-explore-heading,
+.portal .section.block-part .m5-explore-categories-heading{
+  color: #2d84b3 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .06em !important;
+}
+
+/* Explore the key concepts: never recolored by block variant accents */
+.portal .section.block-part--foundations .concept-stage > h4,
+.portal .section.block-part--core .concept-stage > h4,
+.portal .section.block-part--pathway .concept-stage > h4,
+.portal .section.block-part--progress .concept-stage > h4{
+  color: #2d84b3 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .06em !important;
 }
 
 /* Hard per-variant colors so titles never fall back to module blue/ink.
-   Exclude .concept-points-box ù Key Ideas chrome stays brand blue. */
+   Exclude .concept-points-box ‚Äî Key Ideas chrome stays brand blue. */
 .portal .section.block-part--foundations .block-part-title,
-.portal .section.block-part--foundations .concept-stage > h4,
 .portal .section.block-part--foundations .block-intro-card h4,
 .portal .section.block-part--foundations .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
 .portal .section.block-part--foundations .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
@@ -539,15 +566,13 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
   color: #c2410c !important;
 }
 .portal .section.block-part--core .block-part-title,
-.portal .section.block-part--core .concept-stage > h4,
 .portal .section.block-part--core .block-intro-card h4,
 .portal .section.block-part--core .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
 .portal .section.block-part--core .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
 .portal .section.block-part--core .concept-panel:not([data-stage-theme]):not([data-level]) .concept-title-text{
-  color: #7b2fa1 !important;
+  color: #2d84b3 !important;
 }
 .portal .section.block-part--pathway .block-part-title,
-.portal .section.block-part--pathway .concept-stage > h4,
 .portal .section.block-part--pathway .block-intro-card h4,
 .portal .section.block-part--pathway .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
 .portal .section.block-part--pathway .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
@@ -555,7 +580,6 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
   color: #1a5c38 !important;
 }
 .portal .section.block-part--progress .block-part-title,
-.portal .section.block-part--progress .concept-stage > h4,
 .portal .section.block-part--progress .block-intro-card h4,
 .portal .section.block-part--progress .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-heading-row h4,
 .portal .section.block-part--progress .concept-panel:not([data-stage-theme]):not([data-level]) > .concept-panel-title-row .concept-panel-title,
@@ -563,7 +587,7 @@ html[data-guided-flow="true"] .block-part-head.flow-guide-pulse{
   color: #a16207 !important;
 }
 
-/* Block Focus / Covers ù accent per block; incomplete vs complete must clearly differ */
+/* Block Focus / Covers ÔøΩ accent per block; incomplete vs complete must clearly differ */
 html:not([data-guided-flow="true"]) .section.block-part--foundations .block-intro-card{
   background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%) !important;
   border: 2px solid #ea8f22 !important;
@@ -593,30 +617,30 @@ html[data-guided-flow="true"] .section.block-part--foundations .block-intro-card
 }
 
 html:not([data-guided-flow="true"]) .section.block-part--core .block-intro-card{
-  background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%) !important;
-  border: 2px solid #7b2fa1 !important;
-  box-shadow: 0 6px 20px rgba(123, 47, 161, .22) !important;
+  background: linear-gradient(180deg, #edf6fb 0%, #ffffff 100%) !important;
+  border: 2px solid #2d84b3 !important;
+  box-shadow: 0 6px 20px rgba(45, 132, 179, .22) !important;
 }
 html[data-guided-flow="true"] .section.block-part--core .block-intro-card:not(.clicked){
-  background: linear-gradient(180deg, #ffffff 0%, #fbf8ff 100%) !important;
-  border: 2px dashed rgba(123, 47, 161, .5) !important;
-  box-shadow: 0 4px 12px rgba(123, 47, 161, .08) !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f5fafc 100%) !important;
+  border: 2px dashed rgba(45, 132, 179, .5) !important;
+  box-shadow: 0 4px 12px rgba(45, 132, 179, .08) !important;
 }
 html[data-guided-flow="true"] .section.block-part--core .block-intro-card:not(.clicked):hover{
   border-style: solid !important;
-  border-color: #7b2fa1 !important;
-  box-shadow: 0 10px 24px rgba(123, 47, 161, .2) !important;
+  border-color: #2d84b3 !important;
+  box-shadow: 0 10px 24px rgba(45, 132, 179, .2) !important;
   transform: translateY(-2px);
 }
 html[data-guided-flow="true"] .section.block-part--core .block-intro-card.clicked{
-  background: linear-gradient(180deg, #efd9fa 0%, #f6ecfc 100%) !important;
-  border: 2px solid #7b2fa1 !important;
-  box-shadow: 0 8px 22px rgba(123, 47, 161, .3) !important;
+  background: linear-gradient(180deg, #d6ebf7 0%, #e8f4fb 100%) !important;
+  border: 2px solid #2d84b3 !important;
+  box-shadow: 0 8px 22px rgba(45, 132, 179, .3) !important;
 }
 html[data-guided-flow="true"] .section.block-part--core .block-intro-card .card-icon,
 html:not([data-guided-flow="true"]) .section.block-part--core .block-intro-card .card-icon,
 html[data-guided-flow="true"] .section.block-part--core .block-intro-card.clicked::after{
-  background: #7b2fa1 !important;
+  background: #2d84b3 !important;
   color: #fff !important;
 }
 

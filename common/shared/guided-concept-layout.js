@@ -1,7 +1,7 @@
 (function (global) {
   'use strict';
 
-  var SECTION_ORDER = ['visual', 'keyideas', 'inpractice', 'activity', 'done'];
+  var SECTION_ORDER = ['visual', 'yellowuse', 'keyideas', 'inpractice', 'activity', 'done'];
 
   function isLeafPage(page) {
     if (!page) return false;
@@ -10,12 +10,18 @@
 
   function findVisualSection(page) {
     return page.querySelector(
-      '.m5-nested-visual-shell, .m5-screen-visual-card:not(.m5-folder-overview-card), .section-visual-shell'
+      '.m5-nested-visual-shell, .m5-screen-visual-card:not(.m5-folder-overview-card):not(.m5-yellow-use-cards), .section-visual-shell'
     );
   }
 
+  function findYellowUseSection(page) {
+    return page.querySelector('.m5-yellow-use-cards, [data-m5-yellow-use="1"]');
+  }
+
   function findKeyIdeasSection(page) {
-    return page.querySelector('.m5-nested-ideas-card, .section-ideas, .concept-section-card.section-ideas');
+    return page.querySelector(
+      '.m5-nested-ideas-card, .section-ideas, .concept-section-card.section-ideas, :scope > .concept-points-box'
+    );
   }
 
   function findActivitySection(page) {
@@ -35,13 +41,18 @@
     if (!page || !isLeafPage(page)) return;
 
     var visual = findVisualSection(page);
+    var yellowUse = findYellowUseSection(page);
     var ideas = findKeyIdeasSection(page);
     var activity = findActivitySection(page);
     var nav = page.querySelector('.b2-nav');
 
-    if (!visual) return;
+    if (!visual && !yellowUse && !ideas) return;
 
-    var anchor = visual;
+    var anchor = visual || yellowUse || ideas;
+    if (visual && yellowUse && yellowUse.parentNode === page) {
+      insertAfter(visual, yellowUse);
+      anchor = yellowUse;
+    }
     if (ideas && ideas.parentNode === page) {
       insertAfter(anchor, ideas);
       anchor = ideas;
@@ -54,7 +65,8 @@
       page.appendChild(nav);
     }
 
-    markSection(visual, 'visual');
+    if (visual) markSection(visual, 'visual');
+    if (yellowUse) markSection(yellowUse, 'yellowuse');
     if (ideas) markSection(ideas, 'keyideas');
     if (activity) markSection(activity, 'activity');
     var inPractice = page.querySelector('.key-ideas-action:not([hidden])');
@@ -103,6 +115,33 @@
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           li.click();
+        }
+      });
+    });
+  }
+
+  function wireYellowUseCards(panel, block, target) {
+    if (!panel) return;
+    var root = panel.querySelector('[data-b2-screens]') || panel;
+    root.querySelectorAll('.m5-yellow-use-card').forEach(function (card) {
+      if (card.dataset.guidedYellowBound === '1') return;
+      card.dataset.guidedYellowBound = '1';
+      card.setAttribute('role', 'button');
+      if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
+      card.addEventListener('click', function () {
+        card.classList.add('clicked');
+        card.setAttribute('aria-pressed', 'true');
+        if (typeof global.updateConceptFinishStateM5 === 'function') {
+          global.updateConceptFinishStateM5(panel, block, target);
+        }
+        if (global.TrainingFlowGuide && typeof TrainingFlowGuide.bumpFlowAdvance === 'function') {
+          TrainingFlowGuide.bumpFlowAdvance(80);
+        }
+      });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
         }
       });
     });
@@ -241,6 +280,7 @@
     getNestedScreenContext: getNestedScreenContext,
     scopedFlowRoot: scopedFlowRoot,
     wireScopedKeyIdeas: wireScopedKeyIdeas,
+    wireYellowUseCards: wireYellowUseCards,
     wireScopedInPractice: wireScopedInPractice,
     advanceAfterLeafDone: advanceAfterLeafDone,
     navigateNestedScreen: navigateNestedScreen,

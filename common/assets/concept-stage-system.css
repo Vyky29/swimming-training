@@ -280,7 +280,8 @@
 }
 
 
-/* ===== Parent hub subconcept chooser title ===== */
+/* ===== Parent hub / subconcept chooser titles =====
+   Always training blue + uppercase (never block orange/green/purple). */
 .portal .concept-panel [data-parent-subconcept-nav] .parent-subconcept-shell,
 .portal .concept-panel .concept-parent-subconcepts .parent-subconcept-shell{
   margin: 0;
@@ -288,13 +289,20 @@
 }
 .portal .concept-panel [data-parent-subconcept-nav] .parent-subconcept-heading,
 .portal .concept-panel [data-parent-subconcept-nav] h5.parent-subconcept-heading,
-.portal .concept-panel .overview-subconcept-shell h5{
+.portal .concept-panel [data-parent-subconcept-nav] h5,
+.portal .concept-panel .concept-parent-subconcepts h5,
+.portal .concept-panel .overview-subconcept-shell h5,
+.portal .overview-subconcept-shell h5,
+.portal .b3c2-explore-heading,
+.portal .m5-explore-categories-heading,
+.portal .m5-explore-categories-card > .concept-section-head.m5-explore-categories-heading{
   margin: 0 0 8px;
   font-size: 1.02rem;
   font-weight: 800;
-  letter-spacing: -0.01em;
+  letter-spacing: .06em;
   line-height: 1.3;
-  color: var(--block-accent-ink, var(--block-accent, var(--blue, #2d84b3)));
+  text-transform: uppercase;
+  color: #2d84b3 !important;
 }
 .portal .concept-panel [data-parent-subconcept-nav] .parent-subconcept-lead{
   margin: 0 0 14px;

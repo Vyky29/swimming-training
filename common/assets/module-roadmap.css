@@ -81,7 +81,7 @@
   flex-shrink:0;
 }
 
-/* Block accents: 1 orange · 2 purple · 3 green · 4 yellow (module chrome stays blue) */
+/* Block accents: 1 orange · 2 brand blue · 3 green · 4 yellow (module chrome stays blue) */
 #inside-module a.module-roadmap__item:nth-child(1) .journey-circle{
   background:linear-gradient(155deg, #f0a84a 0%, #ea8f22 42%, #c2410c 100%);
   box-shadow:
@@ -89,10 +89,10 @@
     0 8px 20px rgba(234,143,34,.3);
 }
 #inside-module a.module-roadmap__item:nth-child(2) .journey-circle{
-  background:linear-gradient(155deg, #c084fc 0%, #a855f7 42%, #7b2fa1 100%);
+  background:linear-gradient(155deg, #89b5c1 0%, #2d84b3 42%, #1e5f86 100%);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.35),
-    0 8px 20px rgba(123,47,161,.3);
+    0 8px 20px rgba(45,132,179,.3);
 }
 #inside-module a.module-roadmap__item:nth-child(3) .journey-circle{
   background:linear-gradient(155deg, #6da372 0%, #3d8f5c 42%, #1a5c38 100%);
@@ -110,7 +110,7 @@
   color:#c2410c;
 }
 #inside-module a.module-roadmap__item:nth-child(2) .journey-node > .module-roadmap__node-kicker{
-  color:#7b2fa1;
+  color:#2d84b3;
 }
 #inside-module a.module-roadmap__item:nth-child(3) .journey-node > .module-roadmap__node-kicker{
   color:#1a5c38;
