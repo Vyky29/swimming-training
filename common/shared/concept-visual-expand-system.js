@@ -392,12 +392,14 @@
       section.classList.contains('b2c2-direct-image-group') ||
       section.classList.contains('entry-exit-fan-item') ||
       section.classList.contains('m5-explore-categories-card') ||
-      section.classList.contains('m5-yellow-use-cards')
+      section.classList.contains('m5-yellow-use-cards') ||
+      section.classList.contains('m5-yellow-exchange-visual-card')
     ) {
       return true;
     }
     if (section.getAttribute('data-m5-explore-categories') === '1') return true;
     if (section.getAttribute('data-m5-yellow-use') === '1') return true;
+    if (section.getAttribute('data-m5-yellow-exchange') === '1') return true;
     if (section.querySelector(':scope > .b2pl-cat-grid, :scope > .b2pl-folder-grid')) return true;
     if (section.classList.contains('section-activity-shell') || section.classList.contains('section-ideas')) {
       return true;

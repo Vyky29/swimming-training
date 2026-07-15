@@ -2123,9 +2123,89 @@
       .b2-seq-pool .btn{ flex:1 1 calc(50% - 8px); }
     }
     .b2-compare-row, .b2-qmatch-row, .b2-binc-row, .b2-sata-row, .b2-mrow, .b2-srow{ margin:12px 0; }
-    .b2-compare-opts, .b2-qmatch-opts{ display:flex; gap:8px; flex-wrap:wrap; }
+    .b2-compare-row,
+    .b2-qmatch-row{
+      padding:12px 12px 14px;
+      border-radius:14px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(45,132,179,.12);
+    }
+    .b2-compare-row.is-correct-row{
+      border-color:rgba(32,124,82,.35);
+      background:rgba(32,124,82,.06);
+    }
+    .b2-compare-row.is-incorrect-row,
+    .b2-compare-row.is-incomplete-row{
+      border-color:rgba(205,88,88,.32);
+      background:rgba(205,88,88,.05);
+    }
+    .b2-compare-row__label,
+    .b2-qmatch-row__label{
+      display:block;
+      margin:0 0 8px;
+      font-size:.84rem;
+      font-weight:700;
+      letter-spacing:.01em;
+      color:rgba(29,53,87,.72);
+    }
+    .b2-compare-opts, .b2-qmatch-opts{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:10px;
+    }
+    @media (max-width:520px){
+      .b2-compare-opts, .b2-qmatch-opts{ grid-template-columns:1fr; }
+    }
+    .b2-compare-opts .activity-option,
+    .b2-qmatch-opts .activity-option{
+      justify-content:center !important;
+      text-align:center !important;
+      min-height:52px;
+      border-radius:12px;
+    }
+    .b2-compare-opts .activity-option .opt-text,
+    .b2-qmatch-opts .activity-option .opt-text{
+      text-align:center !important;
+      font-weight:800;
+    }
     .b2-binc-row select, .b2-mrow select, .b2-srow select{ min-width:160px; padding:6px 8px; border-radius:8px; border:1px solid rgba(0,0,0,.2); }
-    .b2-mark-row{ text-align:center; margin-top:12px; }
+    .b2-mark-row{
+      text-align:center;
+      margin:18px 0 4px;
+      padding-top:16px;
+      border-top:1px solid rgba(45,132,179,.14);
+    }
+    .section-activity-shell .b2-mark-row .btn,
+    .activity-container .b2-mark-row .btn{
+      background:var(--blue, #2d84b3);
+      color:#fff;
+      border:1px solid var(--blue, #2d84b3);
+      min-width:min(220px, 100%);
+      padding:13px 22px;
+      font-size:.95rem;
+      font-weight:800;
+      letter-spacing:.01em;
+      border-radius:14px;
+      box-shadow:0 10px 22px rgba(45,132,179,.22);
+    }
+    .section-activity-shell .b2-mark-row .btn:hover,
+    .activity-container .b2-mark-row .btn:hover{
+      background:#fff;
+      color:var(--blue, #2d84b3);
+      transform:translateY(-1px);
+    }
+    .section-activity-shell .b2-mark-row .btn:focus-visible,
+    .activity-container .b2-mark-row .btn:focus-visible{
+      outline:3px solid rgba(45,132,179,.28);
+      outline-offset:2px;
+    }
+    .section-activity-shell .b2-mark-row .btn:disabled,
+    .activity-container .b2-mark-row .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+      box-shadow:none;
+    }
     .b2-is-hidden, .b2-reveal[hidden], .b2-reveal[aria-hidden="true"]{ display:none !important; }
     .concept-panel[data-panel-for="block2"] .activity-container{
       margin-top:20px;
@@ -3710,6 +3790,202 @@
       line-height:1.45;
       color:#4a5560;
     }
+
+    .m5-yellow-exchange-visual-card{
+      padding:16px 18px 18px;
+      background:linear-gradient(180deg, #fffdf5 0%, #fff 58%);
+      border:1px solid rgba(201,162,39,.28) !important;
+    }
+    .m5-yellow-exchange-lead{
+      margin:0 0 14px;
+      font-size:.86rem;
+      line-height:1.5;
+      color:#4a5560;
+      max-width:68ch;
+    }
+    .m5-yellow-exchange-visual{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:12px;
+      width:100%;
+    }
+    @media (max-width:980px){
+      .m5-yellow-exchange-visual{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width:560px){
+      .m5-yellow-exchange-visual{ grid-template-columns:1fr; }
+    }
+    .m5-yellow-exchange-panel{
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-height:100%;
+      padding:10px 10px 12px;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid rgba(201,162,39,.22);
+      box-shadow:0 8px 16px rgba(154,123,10,.06);
+    }
+    .m5-yellow-exchange-panel__top{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .m5-yellow-exchange-panel__num{
+      width:26px;
+      height:26px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:.68rem;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg, #c9a227 0%, #9a7b0a 100%);
+      flex:0 0 auto;
+    }
+    .m5-yellow-exchange-panel__title{
+      margin:0;
+      font-size:.78rem;
+      font-weight:800;
+      line-height:1.25;
+      color:#7a6210;
+    }
+    .m5-yellow-exchange-panel__scene{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      min-height:112px;
+      padding:10px 8px;
+      border-radius:12px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,248,220,.95), transparent 48%),
+        linear-gradient(180deg, #f7fbfe 0%, #eef6fb 100%);
+      border:1px solid rgba(45,132,179,.1);
+      overflow:hidden;
+    }
+    .m5-yellow-exchange-card{
+      width:46px;
+      flex:0 0 auto;
+      border-radius:8px;
+      overflow:hidden;
+      border:2px solid #f0e08a;
+      box-shadow:0 6px 12px rgba(154,123,10,.18);
+      background:#f7ec9a;
+    }
+    .m5-yellow-exchange-card img{
+      display:block;
+      width:100%;
+      height:auto;
+      aspect-ratio:3/4;
+      object-fit:cover;
+      background:#fffef4;
+    }
+    .m5-yellow-exchange-card--ghost{
+      opacity:.38;
+      filter:grayscale(.15);
+      border-style:dashed;
+    }
+    .m5-yellow-exchange-card--active{
+      outline:2px solid #2d84b3;
+      outline-offset:2px;
+    }
+    .m5-yellow-exchange-obj{
+      width:42px;
+      height:42px;
+      flex:0 0 auto;
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg, #fff 0%, #e8f4fb 100%);
+      border:1.5px solid rgba(45,132,179,.22);
+      box-shadow:0 6px 12px rgba(18,50,71,.08);
+      line-height:1;
+    }
+    .m5-yellow-exchange-obj svg{
+      width:24px;
+      height:24px;
+      display:block;
+    }
+    .m5-yellow-exchange-obj--hand svg{
+      width:22px;
+      height:22px;
+    }
+    .m5-yellow-exchange-arrow{
+      flex:0 0 auto;
+      font-size:1rem;
+      font-weight:800;
+      color:#9a7b0a;
+      line-height:1;
+    }
+    .m5-yellow-exchange-pause{
+      min-width:34px;
+      height:28px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:3px;
+      background:rgba(154,123,10,.1);
+      border:1px dashed rgba(154,123,10,.35);
+      color:#9a7b0a;
+      font-size:1.05rem;
+      font-weight:800;
+      letter-spacing:.08em;
+    }
+    .m5-yellow-exchange-loop{
+      position:absolute;
+      right:8px;
+      bottom:6px;
+      font-size:.72rem;
+      font-weight:800;
+      color:#2d84b3;
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(45,132,179,.18);
+      border-radius:999px;
+      padding:2px 7px;
+    }
+    .m5-yellow-exchange-choice{
+      position:absolute;
+      right:8px;
+      top:8px;
+      width:22px;
+      height:22px;
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:.72rem;
+      font-weight:800;
+      color:#fff;
+      background:#1a5c38;
+      box-shadow:0 4px 10px rgba(26,92,56,.2);
+    }
+    .m5-yellow-exchange-panel__caption{
+      margin:0;
+      font-size:.72rem;
+      line-height:1.4;
+      color:#4a5560;
+    }
+    .m5-yellow-use-card__scene{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      min-height:72px;
+      margin:2px 0 4px;
+      padding:8px 6px;
+      border-radius:10px;
+      background:linear-gradient(180deg, #fbf8ea 0%, #f5fafd 100%);
+      border:1px solid rgba(201,162,39,.16);
+    }
+    .m5-yellow-use-card__scene .m5-yellow-exchange-card{ width:34px; }
+    .m5-yellow-use-card__scene .m5-yellow-exchange-obj{ width:32px; height:32px; }
+    .m5-yellow-use-card__scene .m5-yellow-exchange-obj svg{ width:18px; height:18px; }
     .b2pl-cathead--fc33{ color:#C97816; }
     .b2pl-cathead--fc34{ color:#4A8C8C; }
     .b2pl-cathead--fc35{ color:#6B7280; }
@@ -5694,7 +5970,10 @@
 
     function insertNestedVisualCard(page, visualEl){
       if(!page || !visualEl) return;
-      var before = page.querySelector('.concept-points-box, .m5-explore-categories-card, .b2pl-cat-grid, .b2-nav, .section-activity, .section-activity-shell');
+      /* Keep Visual Image above teaching content (yellow-use steps, Key Ideas, explore grids). */
+      var before = page.querySelector(
+        '.m5-yellow-use-cards, .concept-points-box, .m5-explore-categories-card, .b2pl-cat-grid, .b2-nav, .section-activity, .section-activity-shell'
+      );
       if(before){
         before.insertAdjacentElement('beforebegin', visualEl);
       } else {
@@ -6297,7 +6576,7 @@
 
   <div class="b2-screen" data-b2-screen="fc31"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc31">Main Side and Break It Down Side</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>PixtoLearn Swimming flashcards include a main visual side and a structured teaching side.</p><p>The main side shows the swimmer what the skill or action looks like. The Break It Down side supports the instructor by providing step by step teaching guidance.</p><p>This helps instructors move from showing the visual to modelling, prompting and teaching the skill progressively.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Main side and break it down side flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">The main side supports swimmer understanding.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">The Break It Down side supports instructor teaching.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Step by step teaching reduces overload.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">The card should be used actively within the session.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
-  <div class="b2-screen" data-b2-screen="fc32"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f4-2">Toys &amp; Equipment</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Yellow Toys &amp; Equipment flashcards help swimmers understand what equipment will be used and how it connects to the activity.</p><p>They can also be used for controlled choice, motivation, and single exchange — showing a symbol to request or recognise an object.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Toys and equipment flashcard visual placeholder"></div></div><div class="concept-section-card m5-yellow-use-cards" data-m5-yellow-use="1" data-b2-no-expand="true"><h5 class="concept-section-head m5-yellow-use-heading"><span class="icon" aria-hidden="true">🟨</span><span>How to use the yellow cards — single exchange</span></h5><p class="m5-yellow-use-lead">Steps for helping swimmers recognise objects and equipment through symbols using single exchange:</p><div class="m5-yellow-use-grid"><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">01</span><h6 class="m5-yellow-use-card__title">Introduce One Symbol</h6><p class="m5-yellow-use-card__text">Present one yellow card that represents an object or piece of equipment (for example a ball or noodle).</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">02</span><h6 class="m5-yellow-use-card__title">Pair Symbol with Object</h6><p class="m5-yellow-use-card__text">Show the real object or equipment while pointing to the yellow card, so symbol and object are linked.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">03</span><h6 class="m5-yellow-use-card__title">Encourage Interaction</h6><p class="m5-yellow-use-card__text">Prompt the swimmer to exchange the yellow card for the object or equipment.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">04</span><h6 class="m5-yellow-use-card__title">Wait for Response</h6><p class="m5-yellow-use-card__text">Give enough time to process and respond — avoid rushing or stacking verbal instructions.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">05</span><h6 class="m5-yellow-use-card__title">Reinforce the Exchange</h6><p class="m5-yellow-use-card__text">As soon as the card is given, provide the object or equipment immediately.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">06</span><h6 class="m5-yellow-use-card__title">Repeat for Consistency</h6><p class="m5-yellow-use-card__text">Keep using the same yellow card until recognition and exchange are consistent.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">07</span><h6 class="m5-yellow-use-card__title">Gradually Introduce New Symbols</h6><p class="m5-yellow-use-card__text">Only add the next yellow card once the first symbol is recognised reliably.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">08</span><h6 class="m5-yellow-use-card__title">Discrimination</h6><p class="m5-yellow-use-card__text">Present two yellow cards and prompt the swimmer to choose the correct one for the object or equipment.</p></article></div></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Yellow cards link a clear symbol to real toys and equipment.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Single exchange builds recognition: symbol given → object received.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Start with one symbol, reinforce immediately, then build discrimination.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Keep the exchange calm and predictable — waiting time matters.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
+  <div class="b2-screen" data-b2-screen="fc32"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--f4-2">Toys &amp; Equipment</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Yellow Toys &amp; Equipment flashcards help swimmers understand what equipment will be used and how it connects to the activity.</p><p>They can also be used for controlled choice, motivation, and single exchange — showing a symbol to request or recognise an object.</p></div><div class="concept-section-card m5-yellow-exchange-visual-card" data-b2-no-expand="true" data-m5-yellow-exchange="1"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><p class="m5-yellow-exchange-lead">How single exchange looks with yellow Toys &amp; Equipment cards — eight steps from one symbol to discrimination.</p><div class="m5-yellow-exchange-visual" role="img" aria-label="Eight step visual guide for yellow card single exchange"><figure class="m5-yellow-exchange-panel" data-step="1"><div class="m5-yellow-exchange-panel__top"><span class="m5-yellow-exchange-panel__num" aria-hidden="true">01</span><h6 class="m5-yellow-exchange-panel__title">Introduce One Symbol</h6></div><div class="m5-yellow-exchange-panel__scene"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt="Yellow toys card"></span></div><figcaption class="m5-yellow-exchange-panel__caption">Show one yellow card for one object.</figcaption></figure><figure class="m5-yellow-exchange-panel" data-step="2"><div class="m5-yellow-exchange-panel__top"><span class="m5-yellow-exchange-panel__num" aria-hidden="true">02</span><h6 class="m5-yellow-exchange-panel__title">Pair Symbol with Object</h6></div><div class="m5-yellow-exchange-panel__scene"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt="Yellow toys card"></span><span class="m5-yellow-exchange-arrow" aria-hidden="true">↔</span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span></div><figcaption class="m5-yellow-exchange-panel__caption">Point between the card and the real toy.</figcaption></figure><figure class="m5-yellow-exchange-panel" data-step="3"><div class="m5-yellow-exchange-panel__top"><span class="m5-yellow-exchange-panel__num" aria-hidden="true">03</span><h6 class="m5-yellow-exchange-panel__title">Encourage Interaction</h6></div><div class="m5-yellow-exchange-panel__scene"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt="Yellow toys card"></span><span class="m5-yellow-exchange-arrow" aria-hidden="true">➜</span><span class="m5-yellow-exchange-obj m5-yellow-exchange-obj--hand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 11.5V7.8a1.3 1.3 0 0 1 2.6 0V11" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round"/><path d="M10.6 10.8V6.6a1.3 1.3 0 0 1 2.6 0v4.4" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round"/><path d="M13.2 10.5V7.2a1.3 1.3 0 1 1 2.6 0v5.2" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round"/><path d="M15.8 12.2V9.4a1.25 1.25 0 0 1 2.5.2v5.1c0 2.6-1.7 4.8-4.3 5.3l-.5.1c-2.6.4-5.1-1.1-5.9-3.6L6.2 12.8A1.6 1.6 0 0 1 8.7 11c.4 0 .8.2 1.1.5l.8 1" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><figcaption class="m5-yellow-exchange-panel__caption">Prompt the swimmer to give the yellow card.</figcaption></figure><figure class="m5-yellow-exchange-panel" data-step="4"><div class="m5-yellow-exchange-panel__top"><span class="m5-yellow-exchange-panel__num" aria-hidden="true">04</span><h6 class="m5-yellow-exchange-panel__title">Wait for Response</h6></div><div class="m5-yellow-exchange-panel__scene"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt="Yellow toys card"></span><span class="m5-yellow-exchange-pause" aria-hidden="true">…</span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span></div><figcaption class="m5-yellow-exchange-panel__caption">Pause. Give processing time before helping.</figcaption></figure><figure class="m5-yellow-exchange-panel" data-step="5"><div class="m5-yellow-exchange-panel__top"><span class="m5-yellow-exchange-panel__num" aria-hidden="true">05</span><h6 class="m5-yellow-exchange-panel__title">Reinforce the Exchange</h6></div><div class="m5-yellow-exchange-panel__scene"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt="Yellow toys card"></span><span class="m5-yellow-exchange-arrow" aria-hidden="true">⇄</span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span></div><figcaption class="m5-yellow-exchange-panel__caption">Card in → object out, straight away.</figcaption></figure><figure class="m5-yellow-exchange-panel" data-step="6"><div class="m5-yellow-exchange-panel__top"><span class="m5-yellow-exchange-panel__num" aria-hidden="true">06</span><h6 class="m5-yellow-exchange-panel__title">Repeat for Consistency</h6></div><div class="m5-yellow-exchange-panel__scene"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt="Yellow toys card"></span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="m5-yellow-exchange-loop" aria-hidden="true">↻ again</span></div><figcaption class="m5-yellow-exchange-panel__caption">Keep the same yellow card until it is solid.</figcaption></figure><figure class="m5-yellow-exchange-panel" data-step="7"><div class="m5-yellow-exchange-panel__top"><span class="m5-yellow-exchange-panel__num" aria-hidden="true">07</span><h6 class="m5-yellow-exchange-panel__title">Gradually Introduce New Symbols</h6></div><div class="m5-yellow-exchange-panel__scene"><span class="m5-yellow-exchange-card m5-yellow-exchange-card--active"><img src="/assets/images/b2c3-fc32-toys.png" alt="Yellow toys card"></span><span class="m5-yellow-exchange-card m5-yellow-exchange-card--ghost"><img src="/assets/images/b2c3-fc32-noodle.png" alt="Yellow noodle card"></span></div><figcaption class="m5-yellow-exchange-panel__caption">Add the next yellow card only when ready.</figcaption></figure><figure class="m5-yellow-exchange-panel" data-step="8"><div class="m5-yellow-exchange-panel__top"><span class="m5-yellow-exchange-panel__num" aria-hidden="true">08</span><h6 class="m5-yellow-exchange-panel__title">Discrimination</h6></div><div class="m5-yellow-exchange-panel__scene"><span class="m5-yellow-exchange-card m5-yellow-exchange-card--active"><img src="/assets/images/b2c3-fc32-toys.png" alt="Yellow toys card"></span><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-noodle.png" alt="Yellow noodle card"></span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="m5-yellow-exchange-choice" aria-hidden="true">✓</span></div><figcaption class="m5-yellow-exchange-panel__caption">Offer two cards and choose the matching one.</figcaption></figure></div></div><div class="concept-section-card m5-yellow-use-cards" data-m5-yellow-use="1" data-b2-no-expand="true"><h5 class="concept-section-head m5-yellow-use-heading"><span class="icon" aria-hidden="true">🟨</span><span>How to use the yellow cards — single exchange</span></h5><p class="m5-yellow-use-lead">Steps for helping swimmers recognise objects and equipment through symbols using single exchange:</p><div class="m5-yellow-use-grid"><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">01</span><div class="m5-yellow-use-card__scene" aria-hidden="true"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt=""></span></div><h6 class="m5-yellow-use-card__title">Introduce One Symbol</h6><p class="m5-yellow-use-card__text">Present one yellow card that represents an object or piece of equipment (for example a ball or noodle).</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">02</span><div class="m5-yellow-use-card__scene" aria-hidden="true"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt=""></span><span class="m5-yellow-exchange-arrow" aria-hidden="true">↔</span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span></div><h6 class="m5-yellow-use-card__title">Pair Symbol with Object</h6><p class="m5-yellow-use-card__text">Show the real object or equipment while pointing to the yellow card, so symbol and object are linked.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">03</span><div class="m5-yellow-use-card__scene" aria-hidden="true"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt=""></span><span class="m5-yellow-exchange-arrow" aria-hidden="true">➜</span><span class="m5-yellow-exchange-obj m5-yellow-exchange-obj--hand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 11.5V7.8a1.3 1.3 0 0 1 2.6 0V11" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round"/><path d="M10.6 10.8V6.6a1.3 1.3 0 0 1 2.6 0v4.4" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round"/><path d="M13.2 10.5V7.2a1.3 1.3 0 1 1 2.6 0v5.2" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round"/><path d="M15.8 12.2V9.4a1.25 1.25 0 0 1 2.5.2v5.1c0 2.6-1.7 4.8-4.3 5.3l-.5.1c-2.6.4-5.1-1.1-5.9-3.6L6.2 12.8A1.6 1.6 0 0 1 8.7 11c.4 0 .8.2 1.1.5l.8 1" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><h6 class="m5-yellow-use-card__title">Encourage Interaction</h6><p class="m5-yellow-use-card__text">Prompt the swimmer to exchange the yellow card for the object or equipment.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">04</span><div class="m5-yellow-use-card__scene" aria-hidden="true"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt=""></span><span class="m5-yellow-exchange-pause" aria-hidden="true">…</span></div><h6 class="m5-yellow-use-card__title">Wait for Response</h6><p class="m5-yellow-use-card__text">Give enough time to process and respond — avoid rushing or stacking verbal instructions.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">05</span><div class="m5-yellow-use-card__scene" aria-hidden="true"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt=""></span><span class="m5-yellow-exchange-arrow" aria-hidden="true">⇄</span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span></div><h6 class="m5-yellow-use-card__title">Reinforce the Exchange</h6><p class="m5-yellow-use-card__text">As soon as the card is given, provide the object or equipment immediately.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">06</span><div class="m5-yellow-use-card__scene" aria-hidden="true"><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-toys.png" alt=""></span><span class="m5-yellow-exchange-loop" style="position:static;margin-left:4px;" aria-hidden="true">↻</span></div><h6 class="m5-yellow-use-card__title">Repeat for Consistency</h6><p class="m5-yellow-use-card__text">Keep using the same yellow card until recognition and exchange are consistent.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">07</span><div class="m5-yellow-use-card__scene" aria-hidden="true"><span class="m5-yellow-exchange-card m5-yellow-exchange-card--active"><img src="/assets/images/b2c3-fc32-toys.png" alt=""></span><span class="m5-yellow-exchange-card m5-yellow-exchange-card--ghost"><img src="/assets/images/b2c3-fc32-noodle.png" alt=""></span></div><h6 class="m5-yellow-use-card__title">Gradually Introduce New Symbols</h6><p class="m5-yellow-use-card__text">Only add the next yellow card once the first symbol is recognised reliably.</p></article><article class="m5-yellow-use-card"><span class="m5-yellow-use-card__num" aria-hidden="true">08</span><div class="m5-yellow-use-card__scene" aria-hidden="true"><span class="m5-yellow-exchange-card m5-yellow-exchange-card--active"><img src="/assets/images/b2c3-fc32-toys.png" alt=""></span><span class="m5-yellow-exchange-card"><img src="/assets/images/b2c3-fc32-noodle.png" alt=""></span><span class="m5-yellow-exchange-choice" style="position:static;" aria-hidden="true">✓</span></div><h6 class="m5-yellow-use-card__title">Discrimination</h6><p class="m5-yellow-use-card__text">Present two yellow cards and prompt the swimmer to choose the correct one for the object or equipment.</p></article></div></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Yellow cards link a clear symbol to real toys and equipment.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Single exchange builds recognition: symbol given → object received.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Start with one symbol, reinforce immediately, then build discrimination.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Keep the exchange calm and predictable — waiting time matters.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
   <div class="b2-screen" data-b2-screen="fc33"><div class="folder-page"><h5 class="b2pl-cathead b2pl-cathead--fc33">Break Time / Choosing</h5><div class="concept-section-card section-intro"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">📘</span>Introduction</h5><p>Break Time and Choosing flashcards support regulation, autonomy and communication.</p><p>The Break Time card helps swimmers understand that a break is available in a structured way. The Choosing card allows swimmers to make controlled choices within the session.</p></div><div class="concept-section-card"><h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5><div class="concept-activity-box"><img src="" alt="Break time and choosing flashcard visual placeholder"></div><div class="concept-points-box"><h4 class="concept-section-head"><span class="icon" aria-hidden="true">🧩</span>Key Ideas for Instructors</h4><ul><li class="key-idea-item"><span class="key-idea-index">1</span><div class="key-idea-text">Breaks can support regulation.</div></li><li class="key-idea-item"><span class="key-idea-index">2</span><div class="key-idea-text">Choice increases autonomy.</div></li><li class="key-idea-item"><span class="key-idea-index">3</span><div class="key-idea-text">Visual choices reduce verbal demand.</div></li><li class="key-idea-item"><span class="key-idea-index">4</span><div class="key-idea-text">Breaks and choices should remain structured.</div></li></ul></div><div class="b2-nav"><button class="carousel-btn" type="button" data-b2-go="home">← Back</button></div></div></div>
 
@@ -6941,12 +7220,16 @@
       if(f === 'compare4'){
         var c4 = (cfg.rows || []).map(function(r, idx){
           return (
-            '<div class="b2-compare-row" data-b2-c4="' + idx + '"><p style="font-size:.92rem; margin:0 0 6px;">' + b2Esc(r.t) + '</p><div class="b2-compare-opts">' +
-            '<button type="button" class="activity-option" data-b2-side="main" style="min-width:120px; flex:1;"><span class="opt-text">Main</span></button>' +
-            '<button type="button" class="activity-option" data-b2-side="break" style="min-width:120px; flex:1;"><span class="opt-text">Break it down</span></button></div>'
+            '<div class="b2-compare-row" data-b2-c4="' + idx + '">' +
+              '<p class="b2-compare-row__label">' + b2Esc(r.t) + '</p>' +
+              '<div class="b2-compare-opts" role="group" aria-label="' + b2Esc(r.t) + '">' +
+                '<button type="button" class="activity-option" data-b2-side="main" aria-pressed="false"><span class="opt-text">Main</span></button>' +
+                '<button type="button" class="activity-option" data-b2-side="break" aria-pressed="false"><span class="opt-text">Break it down</span></button>' +
+              '</div>' +
+            '</div>'
           );
         }).join('');
-        var ch = '<p class="b2-mark-row"><button type="button" class="btn" data-b2-c4c="1" style="font-size:.9rem;">Check choices</button></p>';
+        var ch = '<div class="b2-mark-row"><button type="button" class="btn btn-primary" data-b2-c4c="1">Check choices</button></div>';
         return buildActivityContainerShellM5({ variant: 'scenario', contentHtml: qHtml + c4 + ch });
       }
       if(f === 'match3eq'){
@@ -6983,12 +7266,16 @@
       if(f === 'qmatch'){
         var qm = (cfg.rows || []).map(function(r, i){
           return (
-            '<div class="b2-qmatch-row" data-b2-qm="' + i + '"><p style="font-size:.92rem; margin:0 0 6px;">' + b2Esc(r.t) + '</p><div class="b2-qmatch-opts">' +
-            '<button type="button" class="activity-option" data-b2-qa="feel" style="min-width:140px; flex:1;"><span class="opt-text">How do you feel?</span></button>' +
-            '<button type="button" class="activity-option" data-b2-qa="where" style="min-width:100px; flex:1;"><span class="opt-text">Where?</span></button></div>'
+            '<div class="b2-qmatch-row" data-b2-qm="' + i + '">' +
+              '<p class="b2-qmatch-row__label">' + b2Esc(r.t) + '</p>' +
+              '<div class="b2-qmatch-opts" role="group" aria-label="' + b2Esc(r.t) + '">' +
+                '<button type="button" class="activity-option" data-b2-qa="feel" aria-pressed="false"><span class="opt-text">How do you feel?</span></button>' +
+                '<button type="button" class="activity-option" data-b2-qa="where" aria-pressed="false"><span class="opt-text">Where?</span></button>' +
+              '</div>' +
+            '</div>'
           );
         }).join('');
-        var ch = '<p class="b2-mark-row"><button type="button" class="btn" data-b2-qmc="1" style="font-size:.9rem;">Check all four</button></p>';
+        var ch = '<div class="b2-mark-row"><button type="button" class="btn btn-primary" data-b2-qmc="1">Check all four</button></div>';
         return buildActivityContainerShellM5({ variant: 'scenario', contentHtml: qHtml + qm + ch });
       }
       if(f === 'first_then_board'){
@@ -7297,24 +7584,58 @@
         }
         if(f === 'compare4'){
           var ckm2 = inner.querySelector('[data-b2-c4c]');
-          if(ckm2) ckm2.addEventListener('click', function(){
-            var rws2 = (cfg.rows || []);
-            var ok8 = rws2.every(function(r, i){
-              var rowe = inner.querySelector('[data-b2-c4="' + i + '"]');
-              var picked = rowe && rowe.querySelector('.activity-option.b2-compare-picked');
-              return picked && picked.getAttribute('data-b2-side') === r.side;
-            });
-            b2MarkShell(shell, panel, block, target, feedback, ok8 ? cfg.ok : cfg.bad, ok8);
-          });
           (cfg.rows || []).forEach(function(_, i){
             var rsel = inner.querySelector('[data-b2-c4="' + i + '"]');
             if(!rsel) return;
             rsel.querySelectorAll('.activity-option').forEach(function(ob){
               ob.addEventListener('click', function(){
-                rsel.querySelectorAll('.activity-option').forEach(function(x){ x.classList.remove('is-selected', 'b2-compare-picked'); });
+                rsel.querySelectorAll('.activity-option').forEach(function(x){
+                  x.classList.remove('is-selected', 'b2-compare-picked', 'is-correct', 'is-incorrect');
+                  x.setAttribute('aria-pressed', 'false');
+                });
                 ob.classList.add('is-selected', 'b2-compare-picked');
+                ob.setAttribute('aria-pressed', 'true');
+                rsel.classList.remove('is-correct-row', 'is-incorrect-row', 'is-incomplete-row');
+                if(feedback){
+                  feedback.classList.add('hidden');
+                  feedback.classList.remove('is-correct', 'is-incorrect');
+                  feedback.textContent = '';
+                }
               });
             });
+          });
+          if(ckm2) ckm2.addEventListener('click', function(){
+            var rws2 = (cfg.rows || []);
+            var missing = false;
+            var ok8 = true;
+            rws2.forEach(function(r, i){
+              var rowe = inner.querySelector('[data-b2-c4="' + i + '"]');
+              if(!rowe){ ok8 = false; return; }
+              var picked = rowe.querySelector('.activity-option.b2-compare-picked');
+              rowe.classList.remove('is-correct-row', 'is-incorrect-row', 'is-incomplete-row');
+              rowe.querySelectorAll('.activity-option').forEach(function(btn){
+                btn.classList.remove('is-correct', 'is-incorrect');
+              });
+              if(!picked){
+                missing = true;
+                ok8 = false;
+                rowe.classList.add('is-incomplete-row');
+                return;
+              }
+              var rowOk = picked.getAttribute('data-b2-side') === r.side;
+              if(!rowOk) ok8 = false;
+              rowe.classList.add(rowOk ? 'is-correct-row' : 'is-incorrect-row');
+              picked.classList.add(rowOk ? 'is-correct' : 'is-incorrect');
+            });
+            if(missing){
+              if(feedback){
+                feedback.textContent = 'Choose Main or Break it down for every line, then check again.';
+                feedback.classList.remove('hidden', 'is-correct');
+                feedback.classList.add('is-incorrect');
+              }
+              return;
+            }
+            b2MarkShell(shell, panel, block, target, feedback, ok8 ? cfg.ok : cfg.bad, ok8);
           });
           return;
         }
@@ -9490,6 +9811,38 @@
       applyNestedVisualClasses(wrapper);
     }
 
+
+    function buildFc32YellowExchangeVisualHTML(){
+      var toys = '/assets/images/b2c3-fc32-toys.png';
+      var noodle = '/assets/images/b2c3-fc32-noodle.png';
+      function card(src, alt, extra){
+        return '<span class="m5-yellow-exchange-card' + (extra ? ' ' + extra : '') + '"><img src="' + src + '" alt="' + alt + '"></span>';
+      }
+      function panel(n, title, scene, caption){
+        return '<figure class="m5-yellow-exchange-panel" data-step="' + n + '">' +
+          '<div class="m5-yellow-exchange-panel__top">' +
+            '<span class="m5-yellow-exchange-panel__num" aria-hidden="true">' + String(n).padStart(2,'0') + '</span>' +
+            '<h6 class="m5-yellow-exchange-panel__title">' + title + '</h6>' +
+          '</div>' +
+          '<div class="m5-yellow-exchange-panel__scene">' + scene + '</div>' +
+          '<figcaption class="m5-yellow-exchange-panel__caption">' + caption + '</figcaption>' +
+        '</figure>';
+      }
+      var panels = [
+        panel(1, 'Introduce One Symbol', card(toys, 'Yellow toys card'), 'Show one yellow card for one object.'),
+        panel(2, 'Pair Symbol with Object', card(toys, 'Yellow toys card') + '<span class="m5-yellow-exchange-arrow" aria-hidden="true">↔</span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span>', 'Point between the card and the real toy.'),
+        panel(3, 'Encourage Interaction', card(toys, 'Yellow toys card') + '<span class="m5-yellow-exchange-arrow" aria-hidden="true">➜</span><span class="m5-yellow-exchange-obj m5-yellow-exchange-obj--hand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 11.5V7.8a1.3 1.3 0 0 1 2.6 0V11" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round"/><path d="M10.6 10.8V6.6a1.3 1.3 0 0 1 2.6 0v4.4" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round"/><path d="M13.2 10.5V7.2a1.3 1.3 0 1 1 2.6 0v5.2" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round"/><path d="M15.8 12.2V9.4a1.25 1.25 0 0 1 2.5.2v5.1c0 2.6-1.7 4.8-4.3 5.3l-.5.1c-2.6.4-5.1-1.1-5.9-3.6L6.2 12.8A1.6 1.6 0 0 1 8.7 11c.4 0 .8.2 1.1.5l.8 1" stroke="#2d84b3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>', 'Prompt the swimmer to give the yellow card.'),
+        panel(4, 'Wait for Response', card(toys, 'Yellow toys card') + '<span class="m5-yellow-exchange-pause" aria-hidden="true">…</span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span>', 'Pause. Give processing time before helping.'),
+        panel(5, 'Reinforce the Exchange', card(toys, 'Yellow toys card') + '<span class="m5-yellow-exchange-arrow" aria-hidden="true">⇄</span><span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span>', 'Card in → object out, straight away.'),
+        panel(6, 'Repeat for Consistency', card(toys, 'Yellow toys card') + '<span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="m5-yellow-exchange-loop" aria-hidden="true">↻ again</span>', 'Keep the same yellow card until it is solid.'),
+        panel(7, 'Gradually Introduce New Symbols', card(toys, 'Yellow toys card', 'm5-yellow-exchange-card--active') + card(noodle, 'Yellow noodle card', 'm5-yellow-exchange-card--ghost'), 'Add the next yellow card only when ready.'),
+        panel(8, 'Discrimination', card(toys, 'Yellow toys card', 'm5-yellow-exchange-card--active') + card(noodle, 'Yellow noodle card') + '<span class="m5-yellow-exchange-obj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="15.5" rx="7.5" ry="5.2" fill="#5ec46a"/><circle cx="16.2" cy="9.2" r="4.2" fill="#6fd37a"/><circle cx="17.6" cy="8.4" r="1.05" fill="#1f2a32"/><path d="M19.4 9.6c1.4.2 2.4 1 2.2 1.7-.2.6-1.4.8-2.5.5" stroke="#f0a03a" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="m5-yellow-exchange-choice" aria-hidden="true">✓</span>', 'Offer two cards and choose the matching one.')
+      ].join('');
+      return '<h5 class="concept-section-head"><span class="icon" aria-hidden="true">🖼️</span>Visual image</h5>' +
+        '<p class="m5-yellow-exchange-lead">How single exchange looks with yellow Toys &amp; Equipment cards — eight steps from one symbol to discrimination.</p>' +
+        '<div class="m5-yellow-exchange-visual" role="img" aria-label="Eight step visual guide for yellow card single exchange">' + panels + '</div>';
+    }
+
     function refineB2C3Visuals(panel, target){
       if(!panel || target !== 'b2c3') return;
       const wrapper = panel.querySelector('[data-b2-screens="b2c3"]');
@@ -9523,9 +9876,23 @@
 
         page.querySelectorAll('.concept-section-card').forEach(function(card){
           if(card.classList.contains('m5-explore-categories-card')) return;
+          if(card.classList.contains('m5-yellow-use-cards')) return;
           if(card.querySelector('.b2pl-cat-grid, .b2pl-folder-grid')) return;
           stripNestedVisualImageCard(card);
         });
+        page.querySelectorAll('.m5-yellow-exchange-visual-card, .b2c3-visual-card').forEach(function(card){
+          card.remove();
+        });
+
+        if(screenId === 'fc32'){
+          const visualCard = document.createElement('div');
+          visualCard.className = 'concept-section-card m5-yellow-exchange-visual-card m5-screen-visual-card m5-nested-visual-shell';
+          visualCard.setAttribute('data-b2-no-expand', 'true');
+          visualCard.setAttribute('data-m5-yellow-exchange', '1');
+          visualCard.innerHTML = buildFc32YellowExchangeVisualHTML();
+          insertNestedVisualCard(page, visualCard);
+          return;
+        }
 
         let imageBox = page.querySelector('.b2c3-direct-image');
         let visualCard = page.querySelector('.b2c3-visual-card');
@@ -9541,9 +9908,7 @@
         if(!visualCard.contains(imageBox)){
           visualCard.appendChild(imageBox);
         }
-        if(!visualCard.parentElement){
-          insertNestedVisualCard(page, visualCard);
-        }
+        insertNestedVisualCard(page, visualCard);
       });
 
       applyNestedVisualClasses(wrapper);
