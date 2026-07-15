@@ -1432,6 +1432,45 @@
       gap:14px;
       align-items:stretch;
     }
+    .m5-ftx[data-m5-ftx-cols="2"] .m5-ftx__boards{
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+    }
+    .m5-ftx[data-m5-ftx-cols="1"] .m5-ftx__boards{
+      grid-template-columns:minmax(0, 1fr);
+      max-width:760px;
+      margin:0 auto;
+      width:100%;
+    }
+    .m5-ftx__stand{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+      gap:10px;
+      align-items:end;
+      width:100%;
+      max-width:268px;
+      margin:auto auto 0;
+    }
+    .m5-ftx[data-m5-ftx-slots="3"] .m5-ftx__stand{
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      max-width:360px;
+      gap:8px;
+    }
+    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__stand{
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      max-width:560px;
+      gap:8px;
+    }
+    .m5-ftx[data-m5-ftx-slots="3"] .m5-ftx__pocket,
+    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__pocket{
+      max-width:108px;
+    }
+    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__slot-drop{
+      height:118px;
+    }
+    .m5-ftx[data-m5-ftx-slots="3"] .m5-ftx__sc-caption,
+    .m5-ftx[data-m5-ftx-slots="4"] .m5-ftx__sc-caption{
+      min-height:3.6em;
+    }
     .m5-ftx__scenario{
       display:flex;
       flex-direction:column;
@@ -1484,15 +1523,6 @@
       font-style:italic;
       min-height:4.4em;
       flex:1 1 auto;
-    }
-    .m5-ftx__stand{
-      display:grid;
-      grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-      gap:10px;
-      align-items:end;
-      width:100%;
-      max-width:268px;
-      margin:auto auto 0;
     }
     /* Base stand: flashcard sits in the top slot of a short acrylic foot */
     .m5-ftx__pocket{
@@ -1579,14 +1609,15 @@
     .m5-ftx__pool{
       display:flex;
       flex-wrap:wrap;
-      gap:8px;
+      gap:12px;
       align-items:flex-start;
+      justify-content:center;
     }
     .m5-ftx__flask{
       position:relative;
       margin:0;
       padding:0;
-      width:76px;
+      width:102px;
       flex:0 0 auto;
       border:1.5px solid rgba(26,92,56,.14);
       border-radius:8px;
@@ -1668,7 +1699,7 @@
       .m5-ftx__stand{ margin-top:4px; }
     }
     @media (max-width:720px){
-      .m5-ftx__flask{ width:68px; }
+      .m5-ftx__flask{ width:88px; }
     }
     .concept-panel[data-panel-for="block1"] .section-activity-shell > .concept-section-head,
     .concept-panel[data-panel-for="block2"] .section-activity-shell > .concept-section-head,
@@ -6323,12 +6354,17 @@
         return buildActivityContainerShellM5({ variant: 'scenario', contentHtml: scene + (qHtml || '') + tip + board + pool + check });
       }
       if(f === 'ft_flask_scenarios'){
+        var slotDefsShell = cfg.slots || [
+          { key: 'first', stand: 'stand-base-first.png', aria: 'First stand' },
+          { key: 'then', stand: 'stand-base-then.png', aria: 'Then stand' }
+        ];
+        var boardCols = cfg.boardCols || Math.min(3, Math.max(1, (cfg.scenarios || []).length || 1));
         var tipF =
           '<p class="b2-inline-hint" style="font-size:.82rem; margin:0 0 8px; color:#4a5560;">' +
-          'Build all three First &amp; Then boards. Slide a flashcard into each PixtoLearn stand — used cards leave the tray.' +
+          b2Esc(cfg.guideHint || 'Build each board from the shared tray. Slide flashcards into the PixtoLearn stands — used cards leave the tray.') +
           '</p>';
         var shellF =
-          '<div class="m5-ftx" data-m5-ftx data-m5-ftx-no-expand="true" data-no-expand="true">' +
+          '<div class="m5-ftx" data-m5-ftx data-m5-ftx-no-expand="true" data-no-expand="true" data-m5-ftx-slots="' + slotDefsShell.length + '" data-m5-ftx-cols="' + boardCols + '">' +
             '<div class="m5-ftx__boards" data-m5-ftx-boards></div>' +
             '<div class="m5-ftx__tray">' +
               '<p class="m5-ftx__pool-label">Flashcard tray</p>' +
@@ -6707,6 +6743,11 @@
           var scenarios = cfg.scenarios || [];
           var flasks = cfg.flasks || [];
           var flaskBase = cfg.flaskBase || '/assets/images/module-5/first-then-flasks/';
+          var slotDefs = cfg.slots || [
+            { key: 'first', stand: 'stand-base-first.png', aria: 'First stand' },
+            { key: 'then', stand: 'stand-base-then.png', aria: 'Then stand' }
+          ];
+          var slotKeys = slotDefs.map(function(s){ return s.key; });
           var flaskMap = {};
           flasks.forEach(function(fl){ flaskMap[fl.id] = fl; });
           var boardsEl = root.querySelector('[data-m5-ftx-boards]');
@@ -6716,8 +6757,30 @@
           var selectedId = '';
           var dragId = '';
           var placements = {};
+
+          function emptyPlacement(){
+            var pl = {};
+            slotKeys.forEach(function(k){ pl[k] = ''; });
+            return pl;
+          }
+
+          function scenarioCorrect(sc){
+            if(sc.correct && typeof sc.correct === 'object') return sc.correct;
+            var out = {};
+            if(sc.correctFirst) out.first = sc.correctFirst;
+            if(sc.correctNext) out.next = sc.correctNext;
+            if(sc.correctThen) out.then = sc.correctThen;
+            return out;
+          }
+
+          function scenarioOk(sc){
+            var want = scenarioCorrect(sc);
+            var have = placements[sc.id] || {};
+            return slotKeys.every(function(k){ return have[k] === want[k]; });
+          }
+
           scenarios.forEach(function(sc){
-            placements[sc.id] = { first: '', then: '' };
+            placements[sc.id] = emptyPlacement();
           });
 
           function flaskCardHtml(fl){
@@ -6732,10 +6795,17 @@
             var used = {};
             Object.keys(placements).forEach(function(sid){
               var pl = placements[sid];
-              if(pl.first) used[pl.first] = true;
-              if(pl.then) used[pl.then] = true;
+              slotKeys.forEach(function(k){ if(pl[k]) used[pl[k]] = true; });
             });
             return used;
+          }
+
+          function stripExpandChrome(){
+            root.querySelectorAll('.img-expand-btn').forEach(function(btn){ btn.remove(); });
+            root.querySelectorAll('[data-expandable-visual]').forEach(function(host){
+              host.removeAttribute('data-expandable-visual');
+              if(host.style.position === 'relative') host.style.position = '';
+            });
           }
 
           function renderDrop(scId, slotKey){
@@ -6785,23 +6855,11 @@
             });
           }
 
-          function stripExpandChrome(){
-            root.querySelectorAll('.img-expand-btn').forEach(function(btn){ btn.remove(); });
-            root.querySelectorAll('[data-expandable-visual]').forEach(function(host){
-              host.removeAttribute('data-expandable-visual');
-              if(host.style.position === 'relative') host.style.position = '';
-            });
-          }
-
           function paintAll(){
             scenarios.forEach(function(sc){
-              renderDrop(sc.id, 'first');
-              renderDrop(sc.id, 'then');
+              slotKeys.forEach(function(k){ renderDrop(sc.id, k); });
               var card = root.querySelector('article.m5-ftx__scenario[data-m5-ftx-sc="' + sc.id + '"]');
-              if(card){
-                var ok = placements[sc.id].first === sc.correctFirst && placements[sc.id].then === sc.correctThen;
-                card.classList.toggle('is-correct', ok);
-              }
+              if(card) card.classList.toggle('is-correct', scenarioOk(sc));
             });
             paintPool();
             stripExpandChrome();
@@ -6810,8 +6868,9 @@
           function placeInto(scId, slotKey, flaskId){
             if(!flaskId || !flaskMap[flaskId] || !placements[scId]) return;
             Object.keys(placements).forEach(function(sid){
-              if(placements[sid].first === flaskId) placements[sid].first = '';
-              if(placements[sid].then === flaskId) placements[sid].then = '';
+              slotKeys.forEach(function(k){
+                if(placements[sid][k] === flaskId) placements[sid][k] = '';
+              });
             });
             placements[scId][slotKey] = flaskId;
             selectedId = '';
@@ -6842,24 +6901,22 @@
           }
 
           function renderBoards(){
-            var standBase = (cfg.flaskBase || '/assets/images/module-5/first-then-flasks/');
             boardsEl.innerHTML = scenarios.map(function(sc, i){
+              var pockets = slotDefs.map(function(slot){
+                return (
+                  '<div class="m5-ftx__pocket m5-ftx__pocket--' + b2Esc(slot.key) + '" data-m5-ftx-slot="' + b2Esc(slot.key) + '" data-m5-ftx-sc="' + b2Esc(sc.id) + '" role="button" tabindex="0" aria-label="' + b2Esc(slot.aria || (slot.key + ' stand')) + '">' +
+                    '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="' + b2Esc(slot.key) + '" data-m5-ftx-sc="' + b2Esc(sc.id) + '"></div>' +
+                    '<img class="m5-ftx__stand-base" src="' + b2Esc(flaskBase + slot.stand) + '" alt="" aria-hidden="true" draggable="false" />' +
+                  '</div>'
+                );
+              }).join('');
               return (
                 '<article class="m5-ftx__scenario" data-m5-ftx-sc="' + b2Esc(sc.id) + '">' +
                   '<div class="m5-ftx__sc-head">' +
                     '<span class="m5-ftx__sc-num">' + String(i + 1).padStart(2, '0') + '</span>' +
                   '</div>' +
                   '<p class="m5-ftx__sc-caption">' + b2Esc(sc.caption || '') + '</p>' +
-                  '<div class="m5-ftx__stand" aria-label="PixtoLearn First and Then stands">' +
-                    '<div class="m5-ftx__pocket m5-ftx__pocket--first" data-m5-ftx-slot="first" data-m5-ftx-sc="' + b2Esc(sc.id) + '" role="button" tabindex="0" aria-label="First stand">' +
-                      '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="first" data-m5-ftx-sc="' + b2Esc(sc.id) + '"></div>' +
-                      '<img class="m5-ftx__stand-base" src="' + b2Esc(standBase + 'stand-base-first.png') + '" alt="" aria-hidden="true" draggable="false" />' +
-                    '</div>' +
-                    '<div class="m5-ftx__pocket m5-ftx__pocket--then" data-m5-ftx-slot="then" data-m5-ftx-sc="' + b2Esc(sc.id) + '" role="button" tabindex="0" aria-label="Then stand">' +
-                      '<div class="m5-ftx__slot-drop" data-m5-ftx-drop="then" data-m5-ftx-sc="' + b2Esc(sc.id) + '"></div>' +
-                      '<img class="m5-ftx__stand-base" src="' + b2Esc(standBase + 'stand-base-then.png') + '" alt="" aria-hidden="true" draggable="false" />' +
-                    '</div>' +
-                  '</div>' +
+                  '<div class="m5-ftx__stand" aria-label="PixtoLearn schedule stands">' + pockets + '</div>' +
                 '</article>'
               );
             }).join('');
@@ -6869,7 +6926,7 @@
 
           if(clearBtn) clearBtn.addEventListener('click', function(){
             scenarios.forEach(function(sc){
-              placements[sc.id] = { first: '', then: '' };
+              placements[sc.id] = emptyPlacement();
             });
             selectedId = '';
             if(feedback){
@@ -6881,19 +6938,17 @@
           });
 
           if(checkBtn) checkBtn.addEventListener('click', function(){
-            var allOk = scenarios.every(function(sc){
-              return placements[sc.id].first === sc.correctFirst && placements[sc.id].then === sc.correctThen;
-            });
+            var allOk = scenarios.every(scenarioOk);
             paintAll();
             if(!allOk){
               if(feedback){
-                feedback.textContent = cfg.bad || 'Not quite. Check each stand: First = planned work, Then = the motivating preference.';
+                feedback.textContent = cfg.bad || 'Not quite. Check each stand and try again.';
                 feedback.classList.remove('hidden', 'is-correct');
                 feedback.classList.add('is-incorrect');
               }
               return;
             }
-            b2MarkShell(shell, panel, block, target, feedback, cfg.ok || 'Strong boards — planned work in First, motivating preference in Then.', true);
+            b2MarkShell(shell, panel, block, target, feedback, cfg.ok || 'All boards are correct.', true);
           });
 
           renderBoards();
@@ -7397,8 +7452,14 @@
           format: 'ft_flask_scenarios',
           activityType: 'Examples of First & Then',
           guideText: 'Build all three boards from the shared tray. Slide cards into the PixtoLearn stands — used cards leave the pool.',
+          guideHint: 'Build all three First & Then boards. Slide a flashcard into each stand — used cards leave the tray.',
           q: 'Examples of First & Then',
           flaskBase: '/assets/images/module-5/first-then-flasks/',
+          boardCols: 3,
+          slots: [
+            { key: 'first', stand: 'stand-base-first.png', aria: 'First stand' },
+            { key: 'then', stand: 'stand-base-then.png', aria: 'Then stand' }
+          ],
           flasks: [
             { id: 'bubbles', label: 'face in the water & blow bubbles', file: 'bubbles.png' },
             { id: 'water-pistol', label: 'water pistol', file: 'water-pistol.png' },
@@ -7411,71 +7472,102 @@
           scenarios: [
             {
               id: 's1',
-              title: 'Breathing & submersion',
               caption: 'Example of a beginner working on breathing and submersion who loves to play and splash with a water pistol.',
-              correctFirst: 'bubbles',
-              correctThen: 'water-pistol'
+              correct: { first: 'bubbles', then: 'water-pistol' }
             },
             {
               id: 's2',
-              title: 'Floating & balance',
               caption: 'Example of a swimmer practising floating and balance who needs to be engaged by choosing different toys.',
-              correctFirst: 'float-on-back',
-              correctThen: 'choosing'
+              correct: { first: 'float-on-back', then: 'choosing' }
             },
             {
               id: 's3',
-              title: 'Stroke preference',
               caption: 'Example of a swimmer who prefers front crawl to breaststroke.',
-              correctFirst: 'breaststroke-kick',
-              correctThen: 'front-crawl'
+              correct: { first: 'breaststroke-kick', then: 'front-crawl' }
             }
           ],
           ok: 'All three boards are correct — planned work in First, motivating preference in Then.',
           bad: 'Not quite. On each stand, put the planned / less preferred work in First and the motivating preference in Then.'
         },
         vs2: {
-          format: 'reorder',
-          activityType: 'Planning Task',
-          guideText: 'Put the beginner schedule in order: First at the top, Then at the bottom. Use Up / Down — no typing.',
-          q: 'Create a First, Next & Then schedule for a beginner swimmer.',
-          order: [
-            'First — calm entry or simple warm-up',
-            'Next — short skill practice (e.g. bubbles or float)',
-            'Then — motivating preferred activity or clear exit'
+          format: 'ft_flask_scenarios',
+          activityType: 'Examples of First, Next & Then',
+          guideText: 'Build both three-step boards from the shared tray. First starts, Next carries the skill focus, Then closes with motivation.',
+          guideHint: 'Build both First, Next & Then boards. Slide flashcards into each stand — used cards leave the tray.',
+          q: 'Examples of First, Next & Then',
+          flaskBase: '/assets/images/module-5/first-then-flasks/',
+          boardCols: 2,
+          slots: [
+            { key: 'first', stand: 'stand-base-first.png', aria: 'First stand' },
+            { key: 'next', stand: 'stand-base-next.png', aria: 'Next stand' },
+            { key: 'then', stand: 'stand-base-then.png', aria: 'Then stand' }
           ],
-          ok: 'Yes. First starts calm and doable, Next carries the teaching focus, and Then ends with something motivating or clear.',
-          bad: 'Not quite. Top should be First (easy start), middle Next (skill focus), bottom Then (motivating close).'
-        },
-        vs3: {
-          format: 'teach_decisions',
-          activityType: 'Practical Application',
-          guideText: 'Tap the best choice for each decision — no typing. Cover the full four-step board and when to shrink to First & Then.',
-          q: 'You are preparing a 30-minute swimming session.',
+          flasks: [
+            { id: 'sitting-safety-entry', label: 'sitting safety entry', file: 'sitting-safety-entry.png' },
+            { id: 'bubbles', label: 'face in the water & blow bubbles', file: 'bubbles.png' },
+            { id: 'choosing', label: 'choosing', file: 'choosing.png' },
+            { id: 'float-on-back', label: 'float on back', file: 'float-on-back.png' },
+            { id: 'front-crawl', label: 'front crawl', file: 'front-crawl.png' },
+            { id: 'water-pistol', label: 'water pistol', file: 'water-pistol.png' },
+            { id: 'kick-with-noodle', label: 'kick with noodle', file: 'kick-with-noodle.png' },
+            { id: 'splash', label: 'splash', file: 'splash.png' },
+            { id: 'jump-in', label: 'jump in', file: 'jump-in.png' }
+          ],
           scenarios: [
             {
-              situation: 'How do you organise the four-step visual schedule?',
-              options: [
-                { id: 'a', text: 'Entry → main practice → motivating step → exit / Finished' },
-                { id: 'b', text: 'List every flashcard in the kit so nothing is left out' },
-                { id: 'c', text: 'Only preferred activities — hide the harder steps' },
-                { id: 'd', text: 'No board — narrate the 30 minutes verbally' }
-              ],
-              correct: 'a'
+              id: 's1',
+              caption: 'Example of a beginner building a short confidence progression who loves choosing different toys.',
+              correct: { first: 'sitting-safety-entry', next: 'bubbles', then: 'choosing' }
             },
             {
-              situation: 'When do you break part of it into a smaller First & Then?',
-              options: [
-                { id: 'a', text: 'Never — a longer board is always clearer' },
-                { id: 'b', text: 'When the swimmer looks overloaded or stuck on one step' },
-                { id: 'c', text: 'Only at the end of term, not during sessions' },
-                { id: 'd', text: 'Whenever you want to remove the preferred activity' }
-              ],
-              correct: 'b'
+              id: 's2',
+              caption: 'Example of a swimmer practising floating and front crawl who loves water-pistol play.',
+              correct: { first: 'float-on-back', next: 'front-crawl', then: 'water-pistol' }
             }
           ],
-          ok: 'Yes. Keep the four-step overview clear, and shrink to First & Then when load or hesitation rises.',
-          bad: 'Not quite. Organise entry → practice → motivate → finish, and use First & Then when the swimmer needs a smaller chunk.'
+          ok: 'Both boards are correct — First starts, Next carries the teaching focus, Then closes with motivation.',
+          bad: 'Not quite. Check the order: First = start, Next = skill focus, Then = motivating close.'
+        },
+        vs3: {
+          format: 'ft_flask_scenarios',
+          activityType: 'Build a four-step session schedule',
+          guideText: 'Slide cards into Entry → Practice → Motivate → Exit. Present a clear overview first; smaller First & Then boards can still break it down later.',
+          guideHint: 'Build one four-step session board. Slide flashcards into Entry, Practice, Motivate and Exit — used cards leave the tray.',
+          q: 'Four or More Activities',
+          flaskBase: '/assets/images/module-5/first-then-flasks/',
+          boardCols: 1,
+          slots: [
+            { key: 'entry', stand: 'stand-base-entry.png', aria: 'Entry stand' },
+            { key: 'practice', stand: 'stand-base-practice.png', aria: 'Practice stand' },
+            { key: 'motivate', stand: 'stand-base-motivate.png', aria: 'Motivate stand' },
+            { key: 'exit', stand: 'stand-base-exit.png', aria: 'Exit stand' }
+          ],
+          flasks: [
+            { id: 'sitting-safety-entry', label: 'sitting safety entry', file: 'sitting-safety-entry.png' },
+            { id: 'bubbles', label: 'face in the water & blow bubbles', file: 'bubbles.png' },
+            { id: 'water-pistol', label: 'water pistol', file: 'water-pistol.png' },
+            { id: 'climb-out', label: 'climb out', file: 'climb-out.png' },
+            { id: 'jump-in', label: 'jump in', file: 'jump-in.png' },
+            { id: 'splash', label: 'splash', file: 'splash.png' },
+            { id: 'choosing', label: 'choosing', file: 'choosing.png' },
+            { id: 'float-on-back', label: 'float on back', file: 'float-on-back.png' },
+            { id: 'ladder-entry', label: 'entry in the water using the ladder', file: 'ladder-entry.png' },
+            { id: 'ladder-exit', label: 'exit the water using the ladder', file: 'ladder-exit.png' }
+          ],
+          scenarios: [
+            {
+              id: 's1',
+              caption: 'Example of a beginner confidence session. The swimmer loves water-pistol play and needs a calm entry plus a clear, safe exit.',
+              correct: {
+                entry: 'sitting-safety-entry',
+                practice: 'bubbles',
+                motivate: 'water-pistol',
+                exit: 'climb-out'
+              }
+            }
+          ],
+          ok: 'Strong four-step overview — entry, practice focus, motivator, then a clear exit.',
+          bad: 'Not quite. Aim for Entry → Practice → Motivate → Exit for this beginner confidence session.'
         }
       },
       b3c2: {
