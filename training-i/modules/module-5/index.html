@@ -7493,10 +7493,57 @@
             return out;
           }
 
-          function scenarioOk(sc){
-            var want = scenarioCorrect(sc);
+          function overviewPlacedIds(){
+            var overview = null;
+            for(var i = 0; i < scenarios.length; i++){
+              if(scenarios[i].role === 'overview' || scenarios[i].id === 'overview'){
+                overview = scenarios[i];
+                break;
+              }
+            }
+            if(!overview) return {};
+            var pl = placements[overview.id] || {};
+            var ids = {};
+            slotKeysFor(overview).forEach(function(k){ if(pl[k]) ids[pl[k]] = true; });
+            return ids;
+          }
+
+          function exactScenarioMatch(sc, want){
+            if(!want) return false;
             var have = placements[sc.id] || {};
             return slotKeysFor(sc).every(function(k){ return have[k] === want[k]; });
+          }
+
+          function scenarioOk(sc){
+            var have = placements[sc.id] || {};
+            var mode = sc.checkMode || '';
+
+            /* Schedule breakdown: many valid routines — check structure, not one guessed answer */
+            if(allowFlaskReuse && (mode === 'fill-distinct' || (!mode && sc.role === 'overview'))){
+              var keys = slotKeysFor(sc);
+              var seen = {};
+              for(var i = 0; i < keys.length; i++){
+                var id = have[keys[i]];
+                if(!id || seen[id]) return false;
+                seen[id] = true;
+              }
+              return Object.keys(seen).length === keys.length;
+            }
+            if(allowFlaskReuse && mode === 'chunk-from-overview'){
+              var from = overviewPlacedIds();
+              return !!(have.first && have.then && have.first !== have.then && from[have.first] && from[have.then]);
+            }
+            if(allowFlaskReuse && mode === 'cue-from-overview'){
+              var fromCue = overviewPlacedIds();
+              var cue = sc.thenMust || sc.cueId || '';
+              return !!(cue && have.first && have.then === cue && have.first !== cue && fromCue[have.first]);
+            }
+
+            var alternatives = Array.isArray(sc.correctAlternatives) ? sc.correctAlternatives.slice() : [];
+            var primary = scenarioCorrect(sc);
+            if(primary && Object.keys(primary).length) alternatives.unshift(primary);
+            if(!alternatives.length) return false;
+            return alternatives.some(function(want){ return exactScenarioMatch(sc, want); });
           }
 
           scenarios.forEach(function(sc){
@@ -8550,8 +8597,8 @@
         vs3: {
           format: 'ft_flask_scenarios',
           activityType: 'Four or more — session overview & First–Then breakdowns',
-          guideText: 'Read the teacher session prompt, mount the full overview schedule, then reuse cards on the three First–Then boards.',
-          guideHint: 'Use the session prompt above the boards. Fill the 6-card overview first, then reuse those cards on the First–Then boards to break the schedule down.',
+          guideText: 'Mount any sensible full-session overview, then reuse cards from that overview on the First–Then boards.',
+          guideHint: 'There is no single correct routine. Fill a full 6-card overview, then reuse those cards to simplify, add a break, or finish.',
           q: 'Four or More Activities',
           flaskBase: '/assets/images/module-5/first-then-flasks/',
           layout: 'schedule-breakdown',
@@ -8559,15 +8606,16 @@
           boardCols: 3,
           sessionPrompt: {
             kicker: 'Teacher session prompt',
-            title: 'Mount this pool session with visual schedules',
-            learner: 'A confident beginner who can follow a longer schedule, but may need it broken into smaller First–Then boards when load rises or energy drops.',
-            goal: 'Keep the whole session visible (first / next / then pairs), and stay ready to simplify, insert a recovery break, or end clearly with finished.',
-            mount: 'Build one 6-card overview board for the full session flow. Then show three ways you would adapt that same session on First–Then boards.',
+            title: 'Design a session — many valid options',
+            learner: 'A confident beginner who can follow a longer schedule, but may need First–Then boards when load rises or energy drops.',
+            goal: 'Show a full session overview, then prove you can adapt it: simplify a chunk, insert recovery, and end clearly.',
+            mount: 'Choose any 6 distinct activity cards for the overview (2 under first, 2 under next, 2 under then). The example below is only one possible routine — not the only answer.',
             steps: [
-              'Overview — mount the full session: jumping + airplane on back (first), seahorse + monkey walk (next), move in the water + kick on back with float (then).',
-              'Example 1 — pull a chunk out: reuse jumping → seahorse as a shorter First–Then board.',
-              'Example 2 — protect recovery: reuse monkey walk → break time when the swimmer needs a clearer pause.',
-              'Example 3 — close cleanly: reuse kick on back with float → finished so the ending is visible.'
+              'Overview — mount any full session in first / next / then pairs (6 different cards).',
+              'Example 1 — reuse any two overview cards as First → Then to pull out a shorter chunk.',
+              'Example 2 — reuse one overview skill → break time to show a recovery board.',
+              'Example 3 — reuse one overview skill → finished to close the session clearly.',
+              'Example only: jumping + airplane on back → seahorse + monkey walk → move in the water + kick on back with float.'
             ]
           },
           slots: [
@@ -8594,7 +8642,8 @@
             {
               id: 'overview',
               role: 'overview',
-              caption: 'Full-session overview: pair cards under first / next / then so the swimmer sees the whole flow.',
+              checkMode: 'fill-distinct',
+              caption: 'Full-session overview: choose any sensible 6-card routine in first / next / then pairs.',
               slots: [
                 { key: 'first1', stand: 'stand-base-first.png', aria: 'First stand 1', group: 'first', groupLabel: 'first' },
                 { key: 'first2', stand: 'stand-base-first.png', aria: 'First stand 2', group: 'first', groupLabel: 'first' },
@@ -8602,40 +8651,34 @@
                 { key: 'next2', stand: 'stand-base-next.png', aria: 'Next stand 2', group: 'next', groupLabel: 'next' },
                 { key: 'then1', stand: 'stand-base-then.png', aria: 'Then stand 1', group: 'then', groupLabel: 'then' },
                 { key: 'then2', stand: 'stand-base-then.png', aria: 'Then stand 2', group: 'then', groupLabel: 'then' }
-              ],
-              correct: {
-                first1: 'jumping',
-                first2: 'airplane-on-back',
-                next1: 'seahorse',
-                next2: 'monkey-walk',
-                then1: 'move-in-the-water',
-                then2: 'kick-on-back-with-float'
-              }
+              ]
             },
             {
               id: 'ex1',
               role: 'example',
+              checkMode: 'chunk-from-overview',
               caption: 'Example 1: break a chunk of the session into fewer steps.',
-              note: 'Reuse jumping → seahorse from the overview to pull a shorter First–Then chunk out of the long schedule.',
-              correct: { first: 'jumping', then: 'seahorse' }
+              note: 'Reuse any two different cards from your overview as First → Then.'
             },
             {
               id: 'ex2',
               role: 'example',
+              checkMode: 'cue-from-overview',
+              thenMust: 'break-time',
               caption: 'Example 2: insert a clear break when the swimmer needs recovery time.',
-              note: 'Reuse monkey walk from the overview, then add break time so recovery is visible.',
-              correct: { first: 'monkey-walk', then: 'break-time' }
+              note: 'Reuse one skill from your overview, then add break time.'
             },
             {
               id: 'ex3',
               role: 'example',
+              checkMode: 'cue-from-overview',
+              thenMust: 'finished',
               caption: 'Example 3: close the session with a clear finished cue.',
-              note: 'Reuse kick on back with float from the overview and add finished to end clearly.',
-              correct: { first: 'kick-on-back-with-float', then: 'finished' }
+              note: 'Reuse one skill from your overview, then add finished.'
             }
           ],
-          ok: 'Strong overview plus clear First–Then adaptations — simplify, recover, and finish.',
-          bad: 'Not quite. Follow the session prompt: fill the overview pairs first, then reuse those cards on the three First–Then boards.'
+          ok: 'Nice work — full overview mounted, and First–Then boards reuse it to simplify, recover, and finish.',
+          bad: 'Not quite. Fill all 6 overview slots with different cards, then reuse overview cards on the First–Then boards (break time / finished where needed).'
         }
       },
       b3c2: {
