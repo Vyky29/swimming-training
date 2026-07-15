@@ -3689,12 +3689,14 @@
       background:linear-gradient(180deg, rgba(255,255,255,.94) 0%, color-mix(in srgb, var(--m5-folder-accent, #2d84b3) 12%, #fff) 100%) !important;
       box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--m5-folder-accent, #2d84b3) 22%, transparent), 0 8px 18px rgba(18,50,71,.08) !important;
     }
-    /* Core Concept insight subtitle + underline → category colour (not block purple/blue) */
-    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-insight-intro__title{
-      color:var(--m5-folder-accent, var(--concept-title-accent, var(--blue, #2d84b3))) !important;
+    /* Core Concept insight title + underline → always brand blue (category accents stay on tiles only) */
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-insight-intro__title,
+    .portal .concept-panel .concept-insight-intro__title{
+      color:var(--blue, #2d84b3) !important;
     }
-    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-insight-intro__title::after{
-      background:var(--m5-folder-accent, var(--concept-title-accent, #2d84b3)) !important;
+    .portal .concept-panel.m5-nested-active[data-flow-m5-root] .concept-insight-intro__title::after,
+    .portal .concept-panel .concept-insight-intro__title::after{
+      background:#2d84b3 !important;
     }
     .portal .concept-panel.m5-nested-active[data-flow-m5-root] .b2pl-lvl-btn{
       border-color:color-mix(in srgb, var(--b2c2-accent, var(--m5-folder-accent, #2d84b3)) 35%, rgba(45,132,179,.16));
@@ -6011,12 +6013,19 @@
       return parseInt(h.slice(0, 2), 16) + ', ' + parseInt(h.slice(2, 4), 16) + ', ' + parseInt(h.slice(4, 6), 16);
     }
 
+    function clearNestedPanelChrome(panel){
+      if(!panel) return;
+      panel.classList.remove('m5-nested-active');
+      applyNestedTitleAccent(panel, 'home');
+    }
+
     function applyNestedTitleAccent(panel, screenId){
       if(!panel) return;
       if(!screenId || screenId === 'home'){
         panel.removeAttribute('data-flow-m5-root');
         panel.style.removeProperty('--m5-folder-accent');
         panel.style.removeProperty('--m5-folder-accent-rgb');
+        /* Never leave category tints on --concept-title-accent — that leaks into Sequence / flat concepts */
         panel.style.removeProperty('--concept-title-accent');
         panel.style.removeProperty('--concept-title-accent-soft');
         panel.style.removeProperty('--concept-title-accent-border');
@@ -6029,13 +6038,9 @@
       if(!hex) return;
       var rgb = hexToRgbCss(hex);
       panel.dataset.flowM5Root = rootId;
+      /* Folder accent only — Core Concept / panel title accents use brand/pathway defaults */
       panel.style.setProperty('--m5-folder-accent', hex);
       if(rgb) panel.style.setProperty('--m5-folder-accent-rgb', rgb);
-      panel.style.setProperty('--concept-title-accent', hex);
-      if(rgb){
-        panel.style.setProperty('--concept-title-accent-soft', 'rgba(' + rgb + ', 0.12)');
-        panel.style.setProperty('--concept-title-accent-border', 'rgba(' + rgb + ', 0.28)');
-      }
       if(/^f\d/.test(screenId)) panel.style.setProperty('--b2c2-accent', hex);
       if(/^(fc|vs)\d/.test(screenId)) panel.style.setProperty('--b2c3-accent', hex);
     }
@@ -9153,9 +9158,16 @@
     }
 
     function setupB2NestedScreens(panel, target){
-      if(!panel || (target !== 'b2c2' && target !== 'b2c3' && target !== 'b3c1')) return;
+      if(!panel) return;
+      if(target !== 'b2c2' && target !== 'b2c3' && target !== 'b3c1'){
+        clearNestedPanelChrome(panel);
+        return;
+      }
       const wrapper = panel.querySelector('[data-b2-screens="' + target + '"]');
-      if(!wrapper) return;
+      if(!wrapper){
+        clearNestedPanelChrome(panel);
+        return;
+      }
       flattenNestedB2Screens(wrapper);
 
       function showScreen(id){
@@ -9482,6 +9494,13 @@
       panel.classList.add('show');
       panel.dataset.currentTarget = target;
       panel.dataset.currentBlock = block;
+      /* Flat concepts (e.g. Sequence) must not keep Visual Schedule nested chrome / category tint */
+      if(target !== 'b2c2' && target !== 'b2c3' && target !== 'b3c1'){
+        clearNestedPanelChrome(panel);
+        if(prevTarget === 'b2c2' || prevTarget === 'b2c3' || prevTarget === 'b3c1'){
+          clearNestedScreenState(panel, prevTarget);
+        }
+      }
       setConceptTitle(panel.querySelector('h4'), data.title, target, block);
       var resolvedInsight = (typeof ConceptInsightIntro !== 'undefined')
         ? ConceptInsightIntro.renderIntro(panel, data, 5, target, { restoreComplete: !!alreadyCompleted })

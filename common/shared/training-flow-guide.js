@@ -693,11 +693,12 @@
     panel.dataset.flowM5AccentRgb = rgb;
     var hex = rgbToCssHex(rgb);
     if(hex){
+      /* Folder/tile accent only ? do not overwrite --concept-title-accent (leaks into Sequence / Core Concept) */
       panel.style.setProperty('--m5-folder-accent', hex);
       panel.style.setProperty('--m5-folder-accent-rgb', rgb);
-      panel.style.setProperty('--concept-title-accent', hex);
-      panel.style.setProperty('--concept-title-accent-soft', 'rgba(' + rgb + ', 0.12)');
-      panel.style.setProperty('--concept-title-accent-border', 'rgba(' + rgb + ', 0.28)');
+      panel.style.removeProperty('--concept-title-accent');
+      panel.style.removeProperty('--concept-title-accent-soft');
+      panel.style.removeProperty('--concept-title-accent-border');
       if(/^f\d+$/.test(rootId) || /^f\d+-s\d+$/.test(screenId)){
         panel.style.setProperty('--b2c2-accent', hex);
       }
