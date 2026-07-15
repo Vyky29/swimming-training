@@ -1522,74 +1522,6 @@
       line-height:1.45;
       font-style:normal;
     }
-    .m5-ftx__prompt{
-      margin:0 0 14px;
-      padding:16px 18px;
-      border-radius:16px;
-      background:linear-gradient(180deg, #f4fbf6 0%, #fff 70%);
-      border:1px solid rgba(26,92,56,.18);
-      box-shadow:0 10px 22px rgba(18,50,71,.05);
-    }
-    .m5-ftx__prompt-kicker{
-      margin:0 0 4px;
-      font-size:.68rem;
-      font-weight:800;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:#1a5c38;
-    }
-    .m5-ftx__prompt-title{
-      margin:0 0 10px;
-      font-size:1.02rem;
-      font-weight:800;
-      color:#163247;
-      line-height:1.3;
-    }
-    .m5-ftx__prompt-meta{
-      margin:0;
-      font-size:.84rem;
-      line-height:1.5;
-      color:#314555;
-    }
-    .m5-ftx__prompt-meta + .m5-ftx__prompt-meta{ margin-top:6px; }
-    .m5-ftx__prompt-meta strong{ color:#163247; }
-    .m5-ftx__prompt-steps{
-      margin:12px 0 0;
-      padding:0;
-      list-style:none;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    .m5-ftx__prompt-steps li{
-      position:relative;
-      margin:0;
-      padding:8px 12px 8px 36px;
-      border-radius:10px;
-      background:rgba(255,255,255,.78);
-      border:1px solid rgba(26,92,56,.12);
-      font-size:.8rem;
-      line-height:1.45;
-      color:#314555;
-    }
-    .m5-ftx__prompt-steps li::before{
-      content:attr(data-step);
-      position:absolute;
-      left:10px;
-      top:8px;
-      width:18px;
-      height:18px;
-      border-radius:999px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:.68rem;
-      font-weight:800;
-      color:#fff;
-      background:#1a5c38;
-      line-height:18px;
-      text-align:center;
-    }
     .m5-ftx[data-m5-ftx-layout="schedule-breakdown"] .m5-ftx__boards{
       grid-template-columns:repeat(3, minmax(0, 1fr));
       max-width:none;
@@ -7033,12 +6965,8 @@
           b2Esc(cfg.guideHint || 'Build each board from the shared tray. Slide flashcards into the PixtoLearn stands — used cards leave the tray.') +
           '</p>';
         var layoutAttr = cfg.layout ? (' data-m5-ftx-layout="' + b2Esc(cfg.layout) + '"') : '';
-        var promptSlot = cfg.sessionPrompt
-          ? '<div class="m5-ftx__prompt" data-m5-ftx-prompt></div>'
-          : '';
         var shellF =
           '<div class="m5-ftx" data-m5-ftx data-m5-ftx-no-expand="true" data-no-expand="true" data-m5-ftx-slots="' + slotDefsShell.length + '" data-m5-ftx-cols="' + boardCols + '"' + layoutAttr + '>' +
-            promptSlot +
             '<div class="m5-ftx__boards" data-m5-ftx-boards></div>' +
             '<div class="m5-ftx__tray">' +
               '<p class="m5-ftx__pool-label">Flashcard tray</p>' +
@@ -7447,28 +7375,11 @@
           var poolEl = root.querySelector('[data-m5-ftx-pool]');
           var checkBtn = root.querySelector('[data-m5-ftx-check]');
           var clearBtn = root.querySelector('[data-m5-ftx-clear]');
-          var promptEl = root.querySelector('[data-m5-ftx-prompt]');
           var selectedId = '';
           var dragId = '';
           var placements = {};
           /* Schedule breakdown: overview cards must stay reusable on First–Then boards */
           var allowFlaskReuse = cfg.layout === 'schedule-breakdown' || cfg.allowFlaskReuse === true;
-
-          if(promptEl && cfg.sessionPrompt){
-            var sp = cfg.sessionPrompt;
-            var stepsHtml = Array.isArray(sp.steps) && sp.steps.length
-              ? ('<ol class="m5-ftx__prompt-steps">' + sp.steps.map(function(step, idx){
-                  return '<li data-step="' + String(idx + 1) + '">' + b2Esc(step) + '</li>';
-                }).join('') + '</ol>')
-              : '';
-            promptEl.innerHTML =
-              '<p class="m5-ftx__prompt-kicker">' + b2Esc(sp.kicker || 'Teacher session prompt') + '</p>' +
-              '<h5 class="m5-ftx__prompt-title">' + b2Esc(sp.title || 'Build this session on visual schedules') + '</h5>' +
-              (sp.learner ? ('<p class="m5-ftx__prompt-meta"><strong>Learner:</strong> ' + b2Esc(sp.learner) + '</p>') : '') +
-              (sp.goal ? ('<p class="m5-ftx__prompt-meta"><strong>Session goal:</strong> ' + b2Esc(sp.goal) + '</p>') : '') +
-              (sp.mount ? ('<p class="m5-ftx__prompt-meta"><strong>What to mount:</strong> ' + b2Esc(sp.mount) + '</p>') : '') +
-              stepsHtml;
-          }
 
           function slotsFor(sc){
             return (sc && sc.slots && sc.slots.length) ? sc.slots : defaultSlotDefs;
@@ -8575,9 +8486,9 @@
             { id: 'airplane-on-back', label: 'airplane on back', file: 'airplane-on-back.png' },
             { id: 'airplane-on-front', label: 'airplane on front', file: 'airplane-on-front.png' },
             { id: 'sinkers', label: 'sinkers', file: 'sinkers.png' },
-            { id: 'jumping', label: 'jumping', file: 'jumping.png' },
-            { id: 'front-paddle', label: 'front paddle', file: 'front-paddle.png' },
-            { id: 'pop-tube', label: 'pop tube', file: 'pop-tube.png' }
+            /* Obvious wrong-level distractors for beginner First / Next / Then boards */
+            { id: 'breaststroke-kick', label: 'breaststroke kick on front', file: 'breaststroke-kick.png' },
+            { id: 'front-crawl', label: 'front crawl', file: 'front-crawl.png' }
           ],
           scenarios: [
             {
@@ -8604,20 +8515,6 @@
           layout: 'schedule-breakdown',
           allowFlaskReuse: true,
           boardCols: 3,
-          sessionPrompt: {
-            kicker: 'Teacher session prompt',
-            title: 'Design a session — many valid options',
-            learner: 'A confident beginner who can follow a longer schedule, but may need First–Then boards when load rises or energy drops.',
-            goal: 'Show a full session overview, then prove you can adapt it: simplify a chunk, insert recovery, and end clearly.',
-            mount: 'Choose any 6 distinct activity cards for the overview (2 under first, 2 under next, 2 under then). The example below is only one possible routine — not the only answer.',
-            steps: [
-              'Overview — mount any full session in first / next / then pairs (6 different cards).',
-              'Example 1 — reuse any two overview cards as First → Then to pull out a shorter chunk.',
-              'Example 2 — reuse one overview skill → break time to show a recovery board.',
-              'Example 3 — reuse one overview skill → finished to close the session clearly.',
-              'Example only: jumping + airplane on back → seahorse + monkey walk → move in the water + kick on back with float.'
-            ]
-          },
           slots: [
             { key: 'first', stand: 'stand-base-first.png', aria: 'First stand' },
             { key: 'then', stand: 'stand-base-then.png', aria: 'Then stand' }
