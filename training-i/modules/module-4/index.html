@@ -9881,6 +9881,12 @@
  b2core1: 'Single choice: select the best first response.',
  b2core2: 'Select True or False.',
  b2core3: 'Single choice: select the best interpretation.',
+ b2l1: 'Single choice: select the best first response for Level 1.',
+ b2l2: 'Single choice: select the best next step for Level 2.',
+ b2l3: 'Single choice: select the best response for Level 3.',
+ b2l4: 'Select True or False.',
+ b2l5: 'Single choice: select the best instructor response for Level 5.',
+ b2l6: 'Single choice: select the best response for Level 6.',
  b3c1: 'Select True or False.',
  b3c2_physical: 'Classification: drag each card into the correct column, or tap a card then tap a column.',
  b3c2_motor: 'Scenario-based: choose the best instructor response for each situation.',
@@ -9890,6 +9896,25 @@
  b3c3_step3: 'Select True or False.'
  };
  return defaults[id] || 'Review the prompt and complete the activity below.';
+ }
+
+ function purgeOrphanConceptActivities(panel, imageInner){
+ if(!panel) return;
+ Array.from(panel.querySelectorAll(
+ '.concept-activity-section[data-activity], .concept-activity-interactive[data-activity], [data-concept-activity-flow]'
+ )).forEach(function(node){
+ if(imageInner && imageInner.contains(node)) return;
+ // Stale leaves left after previous levels ripped activity out of the shell
+ if(node.hasAttribute('data-concept-activity-flow')){
+ // Keep the shared host element; clear it so stages / new leaves start clean
+ node.innerHTML = '';
+ node.classList.remove('concept-section-card','section-activity-shell');
+ node.style.display = 'none';
+ node.removeAttribute('data-activity-complete');
+ return;
+ }
+ node.remove();
+ });
  }
 
  function enforceUnifiedConceptFlow(panel){
@@ -9903,6 +9928,10 @@
  var ideas = panel.querySelector('.concept-points-box');
  var nav = panel.querySelector('[data-parent-subconcept-nav]');
  var isFlatWithNav = panel.getAttribute('data-concept-flow') === 'flat' && nav && !nav.hasAttribute('hidden');
+ var imageInnerEarly = image && image.matches && image.matches('.concept-image')
+ ? image
+ : (image ? (image.querySelector('.concept-image') || image) : null);
+ purgeOrphanConceptActivities(panel, imageInnerEarly);
 
  if(isFlatWithNav && intro && ideas && image){
  var introMediaReorder = panel.querySelector('[data-concept-intro-media]');
@@ -10671,8 +10700,6 @@
  setupB3c2FactorExplore(panel);
  setupB2LevelProgrammeInteractive(panel, block, target);
  setupBlock3LevelActivities(panel, target);
- placeLevelActivityAfterKeyIdeas(panel, target);
- requestAnimationFrame(function(){ placeLevelActivityAfterKeyIdeas(panel, target); });
  if(isPathwayStage){
  setupStageIntroCards(panel, target, !!alreadyCompleted);
  } else {
@@ -11806,16 +11833,6 @@
  }
  }
 
-
- function placeLevelActivityAfterKeyIdeas(panel, target){
- if(!panel || !/^b2l[1-6]$/.test(String(target || ''))) return;
- var act = panel.querySelector('[data-activity="' + target + '"]');
- var points = panel.querySelector('.concept-points-box');
- if(!act || !points || !points.parentNode) return;
- if(points.nextElementSibling !== act){
- points.insertAdjacentElement('afterend', act);
- }
- }
 
  function setupBlock3LevelActivities(panel, target){
  if(!panel || !/^b2l[1-6]$/.test(String(target || ''))) return;
