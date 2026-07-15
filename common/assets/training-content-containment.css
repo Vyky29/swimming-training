@@ -1220,11 +1220,11 @@ body {
   --key-idea-badge: #2d84b3;
 }
 .portal .section.block-part--core .concept-panel:not([data-stage-theme]):not([data-level]){
-  --concept-title-accent: #2d84b3;
-  --concept-title-accent-soft: rgba(45, 132, 179, 0.12);
-  --concept-title-accent-border: rgba(45, 132, 179, 0.28);
-  --concept-title-surface: linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%);
-  --concept-title-line: linear-gradient(90deg, #89b5c1 0%, #2d84b3 100%);
+  --concept-title-accent: #7b2fa1;
+  --concept-title-accent-soft: rgba(123, 47, 161, 0.12);
+  --concept-title-accent-border: rgba(123, 47, 161, 0.28);
+  --concept-title-surface: linear-gradient(135deg, #fbf7fe 0%, #f5ecfc 100%);
+  --concept-title-line: linear-gradient(90deg, #a855f7 0%, #7b2fa1 100%);
   --key-idea-badge: #2d84b3;
 }
 .portal .section.block-part--pathway .concept-panel:not([data-stage-theme]):not([data-level]){

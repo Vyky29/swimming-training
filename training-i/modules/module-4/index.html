@@ -9,12 +9,12 @@
 
 @import url('/assets/water-orbit-branding.css');
  @import url('/assets/module-completion-flow.css');
- @import url('/assets/module-roadmap.css?v=20260715coreblue1');
+ @import url('/assets/module-roadmap.css?v=20260715corepurple1');
 @import url('/assets/module-hero-system.css');
  @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
  @import url('/assets/concept-insight-intro.css?v=20260715corew');
  @import url('/assets/training-flow-guide.css?v=20260714freenav1');
- @import url('/assets/module-block-accordion.css?v=20260715explore1');
+ @import url('/assets/module-block-accordion.css?v=20260715corepurple1');
  @import url('/assets/programme-journey-map.css?v=20260714pjmfixed1');
 
  :root{
@@ -2634,7 +2634,7 @@
  letter-spacing:.02em;
  }
  .concept-square--level .concept-square-level-blurbs{
- display:flex;
+ display:none;
  flex-direction:column;
  gap:2px;
  margin-top:2px;
@@ -3192,7 +3192,7 @@
  .concept-panel[data-stage-theme="confidence"] .concept-square.visited.active{ outline-color:rgba(26,92,56,.55); }
  .concept-panel[data-stage-theme="basic"] .concept-square.visited.active{ outline-color:rgba(201,120,22,.55); }
  .concept-panel[data-stage-theme="structured"] .concept-square.visited.active{ outline-color:rgba(74,134,180,.55); }
- .concept-panel[data-stage-theme="core"] .concept-square.visited.active{ outline-color:rgba(45,132,179,.55); }
+ .concept-panel[data-stage-theme="core"] .concept-square.visited.active{ outline-color:rgba(138,63,176,.55); }
  .concept-square.active{
  outline:3px solid rgba(255,255,255,.4);
  outline-offset:2px;
@@ -3344,9 +3344,9 @@
  color:#4A86B4;
  }
  .concept-panel[data-stage-theme="core"] .concept-breadcrumb .breadcrumb-part{
- background:rgba(45,132,179,.12);
- border-color:rgba(45,132,179,.3);
- color:#2d84b3;
+ background:rgba(138,63,176,.12);
+ border-color:rgba(138,63,176,.3);
+ color:#8a3fb0;
  }
 
  .concept-level-badge{
@@ -3408,7 +3408,7 @@
  .level-badge--basic-tone2{ background:#c4a74a; border-color:#c4a74a; color:#fff; }
  .level-badge--structured-tone1{ background:#4eb0e5; border-color:#4eb0e5; }
  .level-badge--structured-tone2{ background:#12456b; border-color:#12456b; color:#fff; }
- .level-badge--core{ background:#2d84b3; border-color:#2d84b3; }
+ .level-badge--core{ background:#8a3fb0; border-color:#8a3fb0; }
 
  .concept-panel{
  margin-top:20px;
@@ -3629,19 +3629,19 @@
  .concept-panel[data-stage-theme="structured"][data-level="6"] .concept-points-box{ background:rgba(74,134,180,.1); }
 
  .concept-panel[data-stage-theme="core"]{
- --concept-title-accent:#2d84b3;
- --concept-title-accent-soft:rgba(45,132,179,.12);
- --concept-title-accent-border:rgba(45,132,179,.22);
- --concept-title-surface:linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%);
- --concept-title-line:linear-gradient(90deg, #89b5c1 0%, #2d84b3 100%);
- background:linear-gradient(180deg,#f5fafc 0%,#fbfdfe 50%,#f5fafc 100%);
- border-color:rgba(45,132,179,.18);
+ --concept-title-accent:#8a3fb0;
+ --concept-title-accent-soft:rgba(138,63,176,.14);
+ --concept-title-accent-border:rgba(138,63,176,.22);
+ --concept-title-surface:linear-gradient(135deg, #fbf3fe 0%, #f3e8fa 100%);
+ --concept-title-line:linear-gradient(90deg, #c78fe4 0%, #8a3fb0 100%);
+ background:linear-gradient(180deg,#f8f1fc 0%,#fbf7fd 50%,#f8f1fc 100%);
+ border-color:rgba(138,63,176,.2);
  }
  .concept-panel[data-stage-theme="core"] .concept-points-box{
- background:#edf6fb;
+ background:rgba(138,63,176,.08);
  border-radius:16px;
  padding:14px 16px;
- border:1px solid rgba(45,132,179,.16);
+ border:1px solid rgba(138,63,176,.15);
  }
  .concept-panel[data-stage-theme] > .concept-panel-title-row{
  background:var(--concept-title-surface) !important;
@@ -3674,7 +3674,7 @@
  display:block;
  filter:drop-shadow(0 4px 8px rgba(18,50,71,.14));
  }
- .concept-panel[data-stage-theme="core"] .concept-breadcrumb .breadcrumb-part.current{ color:#2d84b3; border-color:#2d84b3; background:rgba(45,132,179,.18); }
+ .concept-panel[data-stage-theme="core"] .concept-breadcrumb .breadcrumb-part.current{ color:#8a3fb0; border-color:#8a3fb0; background:rgba(138,63,176,.18); }
 
  /* Stage intro (Block 3): hero + three visible cards */
  .stage-intro-wrap{
@@ -3694,53 +3694,117 @@
  overflow:hidden;
  border-radius:18px;
  border:1px solid rgba(18,50,71,.10);
- background:linear-gradient(180deg, rgba(248,251,253,.96) 0%, #fff 100%);
+ background:#fff;
  text-align:center;
  box-shadow:0 12px 28px rgba(18,50,71,.06);
  }
+ /* Match stage picker boxes: world photo + title overlay (no animals) */
  .stage-intro-hero-world{
  position:relative;
+ isolation:isolate;
  width:100%;
- max-height:none;
- overflow:visible;
- background:rgba(18,50,71,.04);
- border-radius:0 0 17px 17px;
+ min-height:min(220px,34vh);
+ overflow:hidden;
+ background:rgba(18,50,71,.08);
+ border-radius:17px 17px 0 0;
  text-align:center;
  }
- .stage-intro-hero-world img{
- width:auto !important;
- max-width:100% !important;
- height:auto !important;
- max-height:min(280px,36vh) !important;
- display:block;
- margin:0 auto;
- object-fit:contain !important;
- object-position:center center;
+ .stage-intro-hero-world-media{
+ position:absolute;
+ inset:0;
+ z-index:0;
+ pointer-events:none;
+ overflow:hidden;
  }
- .concept-panel[data-stage-theme="structured"] .stage-intro-hero-world img{
+ .stage-intro-hero-world-media img,
+ .stage-intro-hero-world > img{
+ position:absolute;
+ inset:0;
+ width:100% !important;
+ height:100% !important;
+ max-width:none !important;
+ max-height:none !important;
+ margin:0 !important;
+ display:block;
+ object-fit:cover !important;
  object-position:center center;
+ transform:scale(1.04);
+ }
+ .concept-panel[data-stage-theme="structured"] .stage-intro-hero-world-media img,
+ .concept-panel[data-stage-theme="structured"] .stage-intro-hero-world > img{
+ object-position:center 72%;
+ filter:saturate(1.14) brightness(1.24) contrast(1.04);
+ }
+ .stage-intro-hero-world-shade{
+ position:absolute;
+ inset:0;
+ z-index:1;
+ pointer-events:none;
+ }
+ .stage-intro-hero-world-shade--confidence{
+ background:linear-gradient(135deg, rgba(26,92,56,.46) 0%, rgba(26,92,56,.34) 46%, rgba(20,61,46,.52) 100%);
+ }
+ .stage-intro-hero-world-shade--basic{
+ background:linear-gradient(135deg, rgba(201,120,22,.48) 0%, rgba(234,143,34,.36) 46%, rgba(168,98,16,.54) 100%);
+ }
+ .stage-intro-hero-world-shade--structured{
+ background:linear-gradient(135deg, rgba(94,200,240,.34) 0%, rgba(74,134,180,.24) 42%, rgba(58,118,158,.38) 100%);
+ }
+ .stage-intro-hero-world-copy{
+ position:relative;
+ z-index:2;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:8px;
+ width:100%;
+ min-height:min(220px,34vh);
+ padding:28px 20px;
+ box-sizing:border-box;
+ text-align:center;
+ }
+ .stage-intro-hero-world-kicker,
+ .stage-intro-hero-world-title{
+ margin:0;
+ color:#fff !important;
+ text-shadow:0 1px 14px rgba(0,0,0,.48), 0 0 1px rgba(0,0,0,.35);
+ }
+ .stage-intro-hero-world-kicker{
+ font-size:.78rem;
+ font-weight:800;
+ letter-spacing:.14em;
+ text-transform:uppercase;
+ opacity:.92;
+ }
+ .stage-intro-hero-world-title{
+ font-size:clamp(1.35rem, 2.6vw, 1.85rem);
+ font-weight:900;
+ letter-spacing:.01em;
+ line-height:1.2;
  }
  @media (max-width:640px){
- .stage-intro-hero-world img{
- max-height:min(220px,32vh) !important;
+ .stage-intro-hero-world,
+ .stage-intro-hero-world-copy{
+ min-height:min(180px,30vh);
  }
  }
- .stage-intro-hero-mascots{
- display:none;
- }
+ .stage-intro-hero-mascots,
  .stage-intro-hero-mascot{
- display:none;
+ display:none !important;
  }
  .stage-intro-hero-copy{
  display:flex;
  flex-direction:column;
- align-items:center;
+ align-items:flex-start;
  gap:6px;
- max-width:42rem;
- margin:0 auto;
- padding:16px 18px 18px;
+ max-width:none;
+ margin:0;
+ padding:0;
  box-sizing:border-box;
  width:100%;
+ flex:1 1 auto;
+ text-align:left;
  }
  .stage-intro-hero-top{
  display:flex;
@@ -3750,8 +3814,9 @@
  width:100%;
  max-width:none;
  margin:0;
- padding:16px 18px 14px;
+ padding:14px 16px 16px;
  box-sizing:border-box;
+ background:linear-gradient(180deg, rgba(248,251,253,.98) 0%, #fff 100%);
  }
  .stage-intro-hero-top .stage-intro-hero-copy{
  align-items:flex-start;
@@ -3760,7 +3825,6 @@
  padding:0;
  flex:1 1 auto;
  min-width:0;
- max-width:42rem;
  }
  .stage-intro-hero-tts{
  flex:0 0 auto;
@@ -3774,12 +3838,11 @@
  flex-direction:column;
  align-items:stretch;
  gap:10px;
- padding:14px 14px 12px;
+ padding:12px 14px 14px;
  }
  .stage-intro-hero-top .stage-intro-hero-copy{
  align-items:center;
  text-align:center;
- max-width:none;
  }
  .stage-intro-hero-tts{
  justify-content:center;
@@ -3789,29 +3852,16 @@
  .concept-panel--stage-hero > .concept-panel-title-row{
  display:none !important;
  }
- .stage-intro-hero-kicker{
- font-size:.72rem;
- font-weight:800;
- letter-spacing:.08em;
- text-transform:uppercase;
- color:rgba(78,91,103,.88);
- }
+ .stage-intro-hero-kicker,
  .stage-intro-title{
- margin:0;
- font-size:1.15rem;
- font-weight:800;
- line-height:1.25;
- color:var(--ink);
- }
- .concept-panel[data-stage-theme] .stage-intro-title{
- display:block;
+ display:none !important;
  }
  .stage-intro-focus{
  margin:0;
- font-size:.98rem;
- font-weight:600;
+ font-size:.95rem;
+ font-weight:700;
  line-height:1.45;
- color:var(--text);
+ color:var(--ink, #163247);
  }
  .stage-intro-cards{
  display:grid;
@@ -3917,7 +3967,7 @@
  .concept-panel[data-stage-theme="confidence"] .stage-intro-card-icon{ color:#1a5c38; }
  .concept-panel[data-stage-theme="basic"] .stage-intro-card-icon{ color:#c97816; }
  .concept-panel[data-stage-theme="structured"] .stage-intro-card-icon{ color:#356995; }
- .concept-panel[data-stage-theme="core"] .stage-intro-card-icon{ color:#2d84b3; }
+ .concept-panel[data-stage-theme="core"] .stage-intro-card-icon{ color:#8a3fb0; }
  .concept-panel[data-stage-theme="confidence"] .stage-intro-card.is-complete{
  border-color:#1a5c38;
  box-shadow:0 0 0 2px rgba(26,92,56,.14), 0 10px 22px rgba(26,92,56,.08);
@@ -4027,17 +4077,17 @@
 
  /* Core Development Areas - brand blue (aligned with training chrome) */
  .concept-panel[data-stage-theme="core"] .stage-intro-hero{
- background:linear-gradient(180deg, rgba(45,132,179,.10) 0%, #fff 72%);
- border-color:rgba(45,132,179,.18);
+ background:linear-gradient(180deg, rgba(138,63,176,.10) 0%, #fff 72%);
+ border-color:rgba(138,63,176,.18);
  }
  .concept-panel[data-stage-theme="core"] .stage-intro-hero-kicker,
  .concept-panel[data-stage-theme="core"] .stage-intro-title,
- .concept-panel[data-stage-theme="core"] .stage-intro-focus{ color:#2d84b3; }
+ .concept-panel[data-stage-theme="core"] .stage-intro-focus{ color:#7b2fa1; }
  .concept-panel[data-stage-theme="core"] .stage-intro-card{
- background:linear-gradient(180deg, rgba(45,132,179,.07) 0%, #fff 55%);
- border-color:rgba(45,132,179,.16);
+ background:linear-gradient(180deg, rgba(138,63,176,.07) 0%, #fff 55%);
+ border-color:rgba(138,63,176,.16);
  }
- .concept-panel[data-stage-theme="core"] .stage-intro-card-title{ color:#2d84b3; }
+ .concept-panel[data-stage-theme="core"] .stage-intro-card-title{ color:#8a3fb0; }
 
  .concept-panel.show{
  display:flex;
@@ -4505,18 +4555,18 @@
  }
  .concept-panel[data-stage-theme="core"] .btn-tts-inline,
  .concept-panel[data-stage-theme="core"] .btn-tts-stop-inline{
- border:1px solid rgba(45,132,179,.5);
+ border:1px solid rgba(138,63,176,.5);
  background:#eef6fb;
- color:#2d84b3;
+ color:#8a3fb0;
  box-shadow:0 1px 2px rgba(0,0,0,.05);
  }
  .concept-panel[data-stage-theme="core"] .btn-tts-inline:hover,
  .concept-panel[data-stage-theme="core"] .btn-tts-stop-inline:hover,
  .concept-panel[data-stage-theme="core"] .btn-tts-inline:focus-visible,
  .concept-panel[data-stage-theme="core"] .btn-tts-stop-inline:focus-visible{
- background:#2d84b3;
+ background:#8a3fb0;
  color:#fff;
- border-color:#2d84b3;
+ border-color:#8a3fb0;
  }
 
  .levels-section{
@@ -4548,7 +4598,7 @@
  background:rgba(74,134,180,.18);
  }
  .concept-panel[data-stage-theme="core"] .levels-section-title{
- color:#2d84b3;
+ color:#8a3fb0;
  background:rgba(45,132,179,.18);
  }
  .subconcept-intro{
@@ -5236,7 +5286,7 @@
  .concept-panel[data-stage-theme="confidence"] .concept-image{ background:rgba(26,92,56,.06); border-color:rgba(26,92,56,.15); }
  .concept-panel[data-stage-theme="basic"] .concept-image{ background:rgba(234,143,34,.06); border-color:rgba(234,143,34,.15); }
  .concept-panel[data-stage-theme="structured"] .concept-image{ background:rgba(74,134,180,.06); border-color:rgba(74,134,180,.15); }
- .concept-panel[data-stage-theme="core"] .concept-image{ background:rgba(45,132,179,.06); border-color:rgba(45,132,179,.12); }
+ .concept-panel[data-stage-theme="core"] .concept-image{ background:rgba(138,63,176,.06); border-color:rgba(138,63,176,.12); }
 
  .concept-image img{
  width:auto;
@@ -6117,7 +6167,7 @@
  min-width:0;
  }
  </style>
- <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260715coreblue1" />
+ <link rel="stylesheet" href="/assets/training-content-containment.css?v=20260715corepurple1" />
  <link rel="stylesheet" href="/assets/aquatic-journey-connectors.css" />
  <link rel="stylesheet" href="/assets/journey-editorial-hierarchy.css?v=20260726" />
 <link rel="stylesheet" href="/assets/journey-node-layout.css?v=20260726" />
@@ -6857,16 +6907,13 @@
  </div>
  <div class="stage-intro-wrap" data-stage-intro aria-hidden="true">
  <div class="stage-intro-hero" data-stage-hero>
+ <div class="stage-intro-hero-world" data-stage-hero-world aria-hidden="true"></div>
  <div class="stage-intro-hero-top">
  <div class="stage-intro-hero-copy">
- <span class="stage-intro-hero-kicker" data-stage-hero-kicker></span>
- <h4 class="stage-intro-title"></h4>
  <p class="stage-intro-focus" data-stage-focus></p>
  </div>
  <div class="stage-intro-hero-tts" data-stage-hero-tts></div>
  </div>
- <div class="stage-intro-hero-world" data-stage-hero-world aria-hidden="true"></div>
- <div class="stage-intro-hero-mascots" data-stage-hero-mascots aria-hidden="true"></div>
  </div>
  <p class="stage-intro-cards-hint">Tap each card to review it. Complete all three to unlock the levels.</p>
  <div class="stage-intro-cards" aria-label="Stage overview">
@@ -7461,8 +7508,8 @@
  text: '',
  points: [],
  focus: 'Emotional readiness and sensory experience before technique.',
- whatThisLooksLike: '<ul><li>swimmer hesitates to enter the water</li><li>stays physically close to the instructor</li><li>avoids face immersion or submersion</li><li>engagement is short and cautious</li></ul>',
- instructorPriorities: '<ul><li>build emotional safety before introducing challenge</li><li>use repetition and predictable routines</li><li>reduce unpredictability in tasks and transitions</li><li>keep demands low and achievable</li></ul>',
+ whatThisLooksLike: '<ul><li>Swimmer hesitates to enter the water.</li><li>Stays physically close to the instructor.</li><li>Avoids face immersion or submersion.</li><li>Engagement is short and cautious.</li></ul>',
+ instructorPriorities: '<ul><li>Build emotional safety before introducing challenge.</li><li>Use repetition and predictable routines.</li><li>Reduce unpredictability in tasks and transitions.</li><li>Keep demands low and achievable.</li></ul>',
  goal: '<p>Swimmers feel safe, remain regulated, and are willing to engage in the water.</p>',
  imageHTML: `
  <div class="levels-section">
@@ -7471,19 +7518,11 @@
  <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-1-turtle.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
  <span class="concept-square-level-kicker">Level 1</span>
  <span class="concept-square-level-title">Turtle</span>
- <span class="concept-square-level-blurbs">
- <span class="concept-square-level-blurb">- Building early confidence in the water</span>
- <span class="concept-square-level-blurb">- Staying calm and safe with support</span>
- </span>
  </button>
  <button class="concept-square concept-square--level level-card--confidence level-tone-2" data-target="b2l2" aria-label="Level 2 Starfish">
  <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-2-starfish.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
  <span class="concept-square-level-kicker">Level 2</span>
  <span class="concept-square-level-title">Starfish</span>
- <span class="concept-square-level-blurbs">
- <span class="concept-square-level-blurb">- Progressing with reduced hesitation</span>
- <span class="concept-square-level-blurb">- Improving breathing with less help</span>
- </span>
  </button>
  </div>
  </div>
@@ -7495,7 +7534,7 @@
  points: [],
  focus: 'Fundamental skills that support safe, confident movement in water.',
  whatThisLooksLike: '<p>Swimmers develop core movement skills: floating, balance, streamlining, rotation, and first propulsion.</p><p>Control improves and support can be reduced step by step.</p>',
- instructorPriorities: '<ul><li>Teach core movement patterns clearly</li><li>Build control before adding complexity</li><li>Increase independence gradually</li></ul>',
+ instructorPriorities: '<ul><li>Teach core movement patterns clearly.</li><li>Build control before adding complexity.</li><li>Increase independence gradually.</li></ul>',
  goal: '<p>Main goal: safe and confident movement with growing control.</p>',
  imageHTML: `
  <div class="levels-section">
@@ -7504,19 +7543,11 @@
  <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-3-jellyfish.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
  <span class="concept-square-level-kicker">Level 3</span>
  <span class="concept-square-level-title">Jellyfish</span>
- <span class="concept-square-level-blurbs">
- <span class="concept-square-level-blurb">- Developing balance and body position</span>
- <span class="concept-square-level-blurb">- Moving forward with guidance and control</span>
- </span>
  </button>
  <button class="concept-square concept-square--level level-card--basic level-tone-2" data-target="b2l4" aria-label="Level 4 Ray">
  <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
  <span class="concept-square-level-kicker">Level 4</span>
  <span class="concept-square-level-title">Ray</span>
- <span class="concept-square-level-blurbs">
- <span class="concept-square-level-blurb">- More control and coordination in movement</span>
- <span class="concept-square-level-blurb">- Improving rotation, propulsion and direction</span>
- </span>
  </button>
  </div>
  </div>
@@ -7528,7 +7559,7 @@
  points: [],
  focus: 'Stroke refinement, rhythm, and endurance with integrated water safety.',
  whatThisLooksLike: '<p>Swimmers refine the four strokes and swim with better rhythm and control.</p><p>Distance and endurance are developed with safe, consistent technique.</p>',
- instructorPriorities: '<ul><li>Refine stroke quality across all four strokes</li><li>Develop rhythm, timing, and endurance</li><li>Keep safety integrated in all tasks</li></ul>',
+ instructorPriorities: '<ul><li>Refine stroke quality across all four strokes.</li><li>Develop rhythm, timing, and endurance.</li><li>Keep safety integrated in all tasks.</li></ul>',
  goal: '<p>Main goal: structured, sustained swimming with consistency and safety.</p>',
  imageHTML: `
  <div class="levels-section">
@@ -7537,19 +7568,11 @@
  <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-5-dolphin.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
  <span class="concept-square-level-kicker">Level 5</span>
  <span class="concept-square-level-title">Dolphin</span>
- <span class="concept-square-level-blurbs">
- <span class="concept-square-level-blurb">- Refining technique with stronger safety awareness</span>
- <span class="concept-square-level-blurb">- Longer sequences with increasing independence</span>
- </span>
  </button>
  <button class="concept-square concept-square--level level-card--structured level-tone-2" data-target="b2l6" aria-label="Level 6 Whale">
  <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-6-whale.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
  <span class="concept-square-level-kicker">Level 6</span>
  <span class="concept-square-level-title">Whale</span>
- <span class="concept-square-level-blurbs">
- <span class="concept-square-level-blurb">- Efficiency, rhythm and endurance</span>
- <span class="concept-square-level-blurb">- Sustaining control and safety throughout sessions</span>
- </span>
  </button>
  </div>
  </div>
@@ -7592,16 +7615,24 @@
  imageHTML: '<div class="concept-activity-section concept-activity-interactive" data-activity="b2core3"><p class="activity-question">A swimmer is physically able to do the task but keeps drifting off. What does this suggest?</p><div class="option-grid activity-option-grid"><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2core3_act" value="A"><span class="opt-badge" aria-hidden="true">A</span><span class="opt-text">They need a harder task to stay interested.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2core3_act" value="B"><span class="opt-badge" aria-hidden="true">B</span><span class="opt-text">Learning &amp; engagement may be low: check regulation and match your demand.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2core3_act" value="C"><span class="opt-badge" aria-hidden="true">C</span><span class="opt-text">Ignore attention if technique looks correct.</span></label></div><div class="feedback" data-activity-feedback="b2core3"></div></div>'
  },
 
- // BLOCK 3 pathway - LEVEL ENTRY (L1-L6): identical shell - Introduction → Focus Areas → Activities (see setupB2LevelProgrammeInteractive)
+ // BLOCK 3 pathway - LEVEL ENTRY (L1-L6): Introduction + Learning outcomes + Key Ideas + activity (see setupB2LevelProgrammeInteractive)
  b2l1: {
  title: 'Turtle',
  headerSubtitle: 'Calm first water contact built around regulation, trust, and fully supported exploration.',
  text: '<p>When you have reviewed this level, use <strong>Continue</strong> for the next step in the module path.</p>',
- points: [],
+ points: [
+ 'Prioritise emotional safety before introducing new water contact.',
+ 'Keep support full and predictable until calm participation is consistent.',
+ 'Use short, repeated routines rather than long performance goals.',
+ 'Watch regulation closely: reduce demand if tension rises.',
+ 'In practice: When a swimmer hesitates, return to a familiar supported entry before adding challenge.',
+ ],
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--confidence">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
- <p class="b2l-intro-line">This level is the programme’s first formal water experience: calm contact, regulation, and trust with full support.</p>
+ <p class="b2l-intro-line">• Building early confidence in the water.</p>
+ <p class="b2l-intro-line">• Staying calm and safe with support.</p>
+ <p class="b2l-intro-line">This level is the programme's first formal water experience: calm contact, regulation, and trust with full support.</p>
  <p class="b2l-intro-line">Compared with informal water play, sessions here prioritise predictable safety rhythms before any performance demand.</p>
  <div class="b2l1-section">
  <h4 class="b2l1-section-title">Learning outcomes</h4>
@@ -7613,27 +7644,26 @@
  <button type="button" class="b2l1-item-btn" data-b2l1-item="ws"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Safety I</span></button>
  </div>
  </div>
- <div class="b2l1-section">
- <h4 class="b2l1-section-title">Activities in Practice</h4>
- <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
- <div class="b2l1-list" data-b2l1-activities-list>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="se"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Supported Water Entry</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="sp"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Splash & Water Play</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="af"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Assisted Floating</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="gm"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Guided Movement</span></button>
  </div>
- </div>
- </div>
+ <div class="concept-activity-section concept-activity-interactive" data-activity="b2l1"><p class="activity-question">A Level 1 swimmer shows tension when water reaches their shoulders. What should you do first?</p><div class="option-grid activity-option-grid"><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l1_act" value="A"><span class="opt-badge" aria-hidden="true">A</span><span class="opt-text">Push through the planned water play set to build resilience.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l1_act" value="B"><span class="opt-badge" aria-hidden="true">B</span><span class="opt-text">Reduce demand, restore calm supported contact, and keep the pace predictable.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l1_act" value="C"><span class="opt-badge" aria-hidden="true">C</span><span class="opt-text">Add a free-swim distance task to distract them.</span></label></div><div class="feedback" data-activity-feedback="b2l1"></div></div>
  `
  },
  b2l2: {
  title: 'Starfish',
  headerSubtitle: 'Confidence grows through repeated supported actions, longer engagement, and lighter prompting.',
  text: '<p>When you have reviewed this level, use <strong>Continue</strong> for the next step in the module path.</p>',
- points: [],
+ points: [
+ 'Fade support gradually while keeping the swimmer regulated.',
+ 'Extend time in water through familiar routines before reducing help.',
+ 'Link early breathing practice to calm, not performance.',
+ 'Celebrate small increases in independence without rushing the next skill.',
+ 'In practice: If hesitation returns, restore a familiar supported pattern before asking for longer travel.',
+ ],
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--confidence">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
+ <p class="b2l-intro-line">• Progressing with reduced hesitation.</p>
+ <p class="b2l-intro-line">• Improving breathing with less help.</p>
  <p class="b2l-intro-line">Level 2 stretches tolerance for tasks and time in the water while keeping predictable support.</p>
  <p class="b2l-intro-line">Compared with Level 1, swimmers repeat actions more willingly and join short sequences with lighter prompting.</p>
  <div class="b2l1-section">
@@ -7646,95 +7676,92 @@
  <button type="button" class="b2l1-item-btn" data-b2l1-item="ws2"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Safety II</span></button>
  </div>
  </div>
- <div class="b2l1-section">
- <h4 class="b2l1-section-title">Activities in Practice</h4>
- <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
- <div class="b2l1-list" data-b2l1-activities-list>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="ss"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Supported Submersion</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="rp"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Rotation Practice</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="sd"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Short Distance Travel</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="bm"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Breath & Movement Coordination</span></button>
  </div>
- </div>
- </div>
+ <div class="concept-activity-section concept-activity-interactive" data-activity="b2l2"><p class="activity-question">A Level 2 swimmer can blow bubbles at the surface with support but freezes when asked to try with less help. Best next step?</p><div class="option-grid activity-option-grid"><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l2_act" value="A"><span class="opt-badge" aria-hidden="true">A</span><span class="opt-text">Remove support fully and insist on a longer attempt.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l2_act" value="B"><span class="opt-badge" aria-hidden="true">B</span><span class="opt-text">Keep a familiar cue, reduce help gradually, and shorten the attempt.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l2_act" value="C"><span class="opt-badge" aria-hidden="true">C</span><span class="opt-text">Skip breathing and move on to longer swimming sequences.</span></label></div><div class="feedback" data-activity-feedback="b2l2"></div></div>
  `
  },
  b2l3: {
  title: 'Jellyfish',
  headerSubtitle: 'Floating, streamlining, rotation, and early propulsion start to connect confidence with movement skills.',
  text: '<p>When you have reviewed this level, use <strong>Continue</strong> for the next step in the module path.</p>',
- points: [],
+ points: [
+ 'Establish stable floating and body shape before adding propulsion.',
+ 'Teach recovery back to safety within every short skill block.',
+ 'Keep rotations simple and supported until the swimmer stays organised.',
+ 'Use guidance to protect control, not to rush distance.',
+ 'In practice: If body shape collapses during propulsion, return to a supported float before trying again.',
+ ],
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--basic">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
+ <p class="b2l-intro-line">• Developing balance and body position.</p>
+ <p class="b2l-intro-line">• Moving forward with guidance and control.</p>
  <p class="b2l-intro-line">Level 3 introduces controlled floating, streamlining, simple rotation, and first propulsive actions.</p>
  <p class="b2l-intro-line">Compared with Level 2, work balances confidence play with clearer links to movement skills and recovery priorities.</p>
  <div class="b2l1-section">
  <h4 class="b2l1-section-title">Learning outcomes</h4>
  <p class="b2l1-section-intro">These match the focus areas used in the Swimming Term Review. Open each one to see the outcomes you assess for this level.</p>
  <div class="b2l1-list" data-b2l1-focus-list>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="fb3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Floating & Balance I</span></button>
+ <button type="button" class="b2l1-item-btn" data-b2l1-item="fb3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Floating &amp; Balance I</span></button>
  <button type="button" class="b2l1-item-btn" data-b2l1-item="st3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Streamlining &amp; Rotation I</span></button>
  <button type="button" class="b2l1-item-btn" data-b2l1-item="pp3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Propulsion I</span></button>
  <button type="button" class="b2l1-item-btn" data-b2l1-item="ws3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Safety III</span></button>
  </div>
  </div>
- <div class="b2l1-section">
- <h4 class="b2l1-section-title">Activities in Practice</h4>
- <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
- <div class="b2l1-list" data-b2l1-activities-list>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="sg3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Supported Glide</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="rt3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Rotation Practice</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="ap3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Assisted Propulsion</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="rc3"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Recovery Practice</span></button>
  </div>
- </div>
- </div>
+ <div class="concept-activity-section concept-activity-interactive" data-activity="b2l3"><p class="activity-question">A Level 3 swimmer starts kicking but loses body position and becomes unsettled. What should you do?</p><div class="option-grid activity-option-grid"><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l3_act" value="A"><span class="opt-badge" aria-hidden="true">A</span><span class="opt-text">Add more kick distance so they practise under pressure.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l3_act" value="B"><span class="opt-badge" aria-hidden="true">B</span><span class="opt-text">Pause propulsion, restore a calm float or glide shape, then retry a shorter attempt.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l3_act" value="C"><span class="opt-badge" aria-hidden="true">C</span><span class="opt-text">Switch immediately to freestyle drills to keep moving.</span></label></div><div class="feedback" data-activity-feedback="b2l3"></div></div>
  `
  },
  b2l4: {
  title: 'Ray',
- headerSubtitle: 'Control and coordination become more consistent as swimmers sustain movement with greater independence.',
+ headerSubtitle: 'Control, coordination, and clearer links between float, glide, rotation, and propulsion.',
  text: '<p>When you have reviewed this level, use <strong>Continue</strong> for the next step in the module path.</p>',
- points: [],
+ points: [
+ 'Link float, streamline, and propulsion only while control stays stable.',
+ 'Practise rotation as an organised skill, not a rushed transition.',
+ 'Reduce support as coordination improves, not before.',
+ 'Keep recovery options clear whenever direction or density increases.',
+ 'In practice: If direction breaks during propulsion, simplify to a shorter glide-kick sequence with a clear safety target.',
+ ],
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--basic">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
- <p class="b2l-intro-line">This level develops consistent control and coordination.</p>
- <p class="b2l-intro-line">Swimmers begin to sustain movement and act with increasing independence.</p>
+ <p class="b2l-intro-line">• More control and coordination in movement.</p>
+ <p class="b2l-intro-line">• Improving rotation, propulsion and direction.</p>
+ <p class="b2l-intro-line">Level 4 develops cleaner floating shapes, coordinated rotation, and more consistent propulsion with clearer direction.</p>
+ <p class="b2l-intro-line">Compared with Level 3, swimmers link skills with less support while recovery and control stay visible.</p>
  <div class="b2l1-section">
  <h4 class="b2l1-section-title">Learning outcomes</h4>
  <p class="b2l1-section-intro">These match the focus areas used in the Swimming Term Review. Open each one to see the outcomes you assess for this level.</p>
  <div class="b2l1-list" data-b2l1-focus-list>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="fb4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Floating & Balance II</span></button>
+ <button type="button" class="b2l1-item-btn" data-b2l1-item="fb4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Floating &amp; Balance II</span></button>
  <button type="button" class="b2l1-item-btn" data-b2l1-item="sr4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Streamlining &amp; Rotation II</span></button>
  <button type="button" class="b2l1-item-btn" data-b2l1-item="pp4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Propulsion II</span></button>
  <button type="button" class="b2l1-item-btn" data-b2l1-item="ws4"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Water Safety IV</span></button>
  </div>
  </div>
- <div class="b2l1-section">
- <h4 class="b2l1-section-title">Activities in Practice</h4>
- <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
- <div class="b2l1-list" data-b2l1-activities-list>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l4t"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Independent Glide</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l4s"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Controlled Rotation</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l4f"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Propulsion Development</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l4c"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Swim Float Swim Practice</span></button>
  </div>
- </div>
- </div>
+ <div class="concept-activity-section concept-activity-interactive" data-activity="b2l4"><p class="activity-question">True or false: At Level 4, support can be removed as soon as a swimmer completes one successful rotation.</p><div class="option-grid activity-option-grid activity-option-grid--two-up option-grid--two"><label class="option activity-option activity-option--tf" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l4_act" value="T"><span class="opt-badge" aria-hidden="true">T</span><span class="opt-text">True</span></label><label class="option activity-option activity-option--tf" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l4_act" value="F"><span class="opt-badge" aria-hidden="true">F</span><span class="opt-text">False</span></label></div><div class="feedback" data-activity-feedback="b2l4"></div></div>
  `
  },
  b2l5: {
  title: 'Dolphin',
- headerSubtitle: 'Technique, structured movement, and sustained independence become the focus across sessions.',
+ headerSubtitle: 'Stroke quality, turns, and recovery grow alongside longer structured sequences.',
  text: '<p>When you have reviewed this level, use <strong>Continue</strong> for the next step in the module path.</p>',
- points: [],
+ points: [
+ 'Quality of stroke and recovery matters more than raw distance.',
+ 'Build turns and starts only when streamline control is already reliable.',
+ 'Keep safety decisions active during busy swimming, not only at the start.',
+ 'Increase sequence length only while fluency and self-regulation stay stable.',
+ 'In practice: If stroke quality drops mid-sequence, shorten the set and reset body position before adding length again.',
+ ],
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--structured">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
- <p class="b2l-intro-line">This level focuses on technique and sustained independence.</p>
- <p class="b2l-intro-line">Swimmers begin to refine movement and apply skills consistently.</p>
+ <p class="b2l-intro-line">• Refining technique with stronger safety awareness.</p>
+ <p class="b2l-intro-line">• Longer sequences with increasing independence.</p>
+ <p class="b2l-intro-line">Level 5 develops stroke structure, turns, push-offs, and safer recovery within longer swimming sequences.</p>
+ <p class="b2l-intro-line">Compared with Level 4, independence rises, but technique and safety awareness must stay visible throughout.</p>
  <div class="b2l1-section">
  <h4 class="b2l1-section-title">Learning outcomes</h4>
  <p class="b2l1-section-intro">These match the focus areas used in the Swimming Term Review. Open each one to see the outcomes you assess for this level.</p>
@@ -7745,53 +7772,41 @@
  <button type="button" class="b2l1-item-btn" data-b2l1-item="iws5"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Integrated Water Safety &amp; Recovery</span></button>
  </div>
  </div>
- <div class="b2l1-section">
- <h4 class="b2l1-section-title">Activities in Practice</h4>
- <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
- <div class="b2l1-list" data-b2l1-activities-list>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l5s"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Stroke Development</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l5d"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Turn Practice</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l5e"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Push Off Drills</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l5a"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Applied Swimming</span></button>
  </div>
- </div>
- </div>
+ <div class="concept-activity-section concept-activity-interactive" data-activity="b2l5"><p class="activity-question">A Level 5 swimmer shows good early stroke form but rushes turns and loses recovery control. Best instructor response?</p><div class="option-grid activity-option-grid"><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l5_act" value="A"><span class="opt-badge" aria-hidden="true">A</span><span class="opt-text">Add more continuous length so they get used to fatigue.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l5_act" value="B"><span class="opt-badge" aria-hidden="true">B</span><span class="opt-text">Slow the sequence, coach a clear wall recovery, then rebuild a shorter linked set.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l5_act" value="C"><span class="opt-badge" aria-hidden="true">C</span><span class="opt-text">Ignore recovery if stroke look is improving.</span></label></div><div class="feedback" data-activity-feedback="b2l5"></div></div>
  `
  },
  b2l6: {
  title: 'Whale',
- headerSubtitle: 'Efficiency, fluency, and full independence shape longer, more consistent swimming.',
+ headerSubtitle: 'Efficiency, rhythm, and endurance with sustained control and safety across the session.',
  text: '<p>When you have reviewed this level, use <strong>Continue</strong> for the next step in the module path.</p>',
- points: [],
+ points: [
+ 'Build endurance only while rhythm and technique stay consistent.',
+ 'Treat denser swimming as a controlled progression, not a competition set by default.',
+ 'Check safety decisions during busy swimming, not only at session start.',
+ 'Use fatigue as information: if control drops, reduce density before adding length.',
+ 'In practice: When rhythm breaks under fatigue, shorten the set and restore timing cues before increasing demand again.',
+ ],
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--structured">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
- <p class="b2l-intro-line">This level focuses on efficiency, fluency, and full independence.</p>
- <p class="b2l-intro-line">Swimmers perform skills with consistency and control over longer distances.</p>
+ <p class="b2l-intro-line">• Efficiency, rhythm and endurance.</p>
+ <p class="b2l-intro-line">• Sustaining control and safety throughout sessions.</p>
+ <p class="b2l-intro-line">Level 6 focuses on efficient stroke rhythm, sustained swimming, and advanced turns with consistent safety awareness.</p>
+ <p class="b2l-intro-line">Compared with Level 5, sessions ask for longer density while control and recovery must remain stable.</p>
  <div class="b2l1-section">
  <h4 class="b2l1-section-title">Learning outcomes</h4>
  <p class="b2l1-section-intro">These match the focus areas used in the Swimming Term Review. Open each one to see the outcomes you assess for this level.</p>
  <div class="b2l1-list" data-b2l1-focus-list>
  <button type="button" class="b2l1-item-btn" data-b2l1-item="rf6"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Swimming Strokes II</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="de6"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Distance &amp; Endurance</span></button>
+ <button type="button" class="b2l1-item-btn" data-b2l1-item="de6"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Distance &amp; Endurance I</span></button>
  <button type="button" class="b2l1-item-btn" data-b2l1-item="dst6"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Dives, Starts &amp; Turns II</span></button>
  </div>
  </div>
- <div class="b2l1-section">
- <h4 class="b2l1-section-title">Activities in Practice</h4>
- <p class="b2l1-section-intro">Activities in Practice show how to apply these focus areas in real sessions.</p>
- <div class="b2l1-list" data-b2l1-activities-list>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l6r"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Continuous Swimming</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l6m"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Rhythm Practice</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l6d"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Endurance Sets</span></button>
- <button type="button" class="b2l1-item-btn" data-b2l1-item="l6t"><span class="b2l1-item-arrow" aria-hidden="true">▶</span><span class="b2l1-item-label">Advanced Turns</span></button>
  </div>
- </div>
- </div>
+ <div class="concept-activity-section concept-activity-interactive" data-activity="b2l6"><p class="activity-question">A Level 6 swimmer maintains stroke form early but loses rhythm and wall recovery as the set gets denser. What should you do?</p><div class="option-grid activity-option-grid"><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l6_act" value="A"><span class="opt-badge" aria-hidden="true">A</span><span class="opt-text">Keep adding length to force fitness adaptation.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l6_act" value="B"><span class="opt-badge" aria-hidden="true">B</span><span class="opt-text">Reduce density, restore rhythm and recovery quality, then rebuild gradually.</span></label><label class="option activity-option" data-premium-option="1"><input class="premium-option-input" type="radio" name="b2l6_act" value="C"><span class="opt-badge" aria-hidden="true">C</span><span class="opt-text">Switch to maximum-speed sprints for the rest of the session.</span></label></div><div class="feedback" data-activity-feedback="b2l6"></div></div>
  `
  },
-
- // BLOCK 2 - LEVEL 1 sub-concepts (Overview, Focus Areas, Activities in Practice)
  b2l1_overview: {
  title: 'Level Overview',
  text: '<p>Level 1 focuses on building <strong>safety</strong>, <strong>regulation</strong>, and <strong>positive associations</strong> with water.</p><p>Swimmers experience first contact with the pool in a supported way, with emphasis on feeling calm and secure before any skill demands.</p>',
@@ -8340,9 +8355,9 @@
  <p><strong>What this affects</strong><br>Stability and ability to hold positions in water.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>stiffness in floating or rotation</li>
- <li>difficulty relaxing into support</li>
- <li>wobbling between positions</li>
+ <li>Stiffness in floating or rotation.</li>
+ <li>Difficulty relaxing into support.</li>
+ <li>Wobbling between positions.</li>
  </ul>
  <p><strong>What to do</strong><br>Use more support and reduce the physical demand of the task.</p>
  </div>
@@ -8350,9 +8365,9 @@
  <p><strong>What this affects</strong><br>Range and ease of movement into key swimming positions.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>difficulty reaching streamline shapes</li>
- <li>limited rotation or extension</li>
- <li>compensations that affect balance</li>
+ <li>Difficulty reaching streamline shapes.</li>
+ <li>Limited rotation or extension.</li>
+ <li>Compensations that affect balance.</li>
  </ul>
  <p><strong>What to do</strong><br>Adapt the shape and reduce how much movement is required.</p>
  </div>
@@ -8360,9 +8375,9 @@
  <p><strong>What this affects</strong><br>Ability to sustain movement, posture, and repeated effort.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>control drops quickly with repetition</li>
- <li>short success but poor consistency</li>
- <li>fatigue affects technique early</li>
+ <li>Control drops quickly with repetition.</li>
+ <li>Short success but poor consistency.</li>
+ <li>Fatigue affects technique early.</li>
  </ul>
  <p><strong>What to do</strong><br>Shorten the task and build control before increasing effort.</p>
  </div>
@@ -8370,9 +8385,9 @@
  <p><strong>What this affects</strong><br>Coordination, alignment, and organisation of movement.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>inconsistent body shape</li>
- <li>difficulty linking movements</li>
- <li>loss of control during transitions</li>
+ <li>Inconsistent body shape.</li>
+ <li>Difficulty linking movements.</li>
+ <li>Loss of control during transitions.</li>
  </ul>
  <p><strong>What to do</strong><br>Stabilise one part of the body before adding more movement.</p>
  </div>
@@ -8433,9 +8448,9 @@
  <p><strong>What this affects</strong><br>How the swimmer organises movement before acting.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>hesitation before starting</li>
- <li>unclear body response to instruction</li>
- <li>movement looks effortful or unsure</li>
+ <li>Hesitation before starting.</li>
+ <li>Unclear body response to instruction.</li>
+ <li>Movement looks effortful or unsure.</li>
  </ul>
  <p><strong>What to do</strong><br>Simplify the task and model the movement clearly.</p>
  </div>
@@ -8443,9 +8458,9 @@
  <p><strong>What this affects</strong><br>Ability to follow movements in the correct order.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>steps happen in the wrong order</li>
- <li>parts of the skill are missed out</li>
- <li>transitions break down easily</li>
+ <li>Steps happen in the wrong order.</li>
+ <li>Parts of the skill are missed out.</li>
+ <li>Transitions break down easily.</li>
  </ul>
  <p><strong>What to do</strong><br>Break the skill into smaller steps and teach one part at a time.</p>
  </div>
@@ -8453,9 +8468,9 @@
  <p><strong>What this affects</strong><br>Coordination of body parts moving together at the right time.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>movements are out of sync</li>
- <li>breathing and movement do not match</li>
- <li>rhythm is inconsistent</li>
+ <li>Movements are out of sync.</li>
+ <li>Breathing and movement do not match.</li>
+ <li>Rhythm is inconsistent.</li>
  </ul>
  <p><strong>What to do</strong><br>Slow the task down and practise the pattern with fewer demands.</p>
  </div>
@@ -8463,9 +8478,9 @@
  <p><strong>What this affects</strong><br>Ability to adapt a movement to a new situation or instruction.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>needs more time when the task changes</li>
- <li>repeats an old pattern when conditions change</li>
- <li>can do the skill in one context but not another</li>
+ <li>Needs more time when the task changes.</li>
+ <li>Repeats an old pattern when conditions change.</li>
+ <li>Can do the skill in one context but not another.</li>
  </ul>
  <p><strong>What to do</strong><br>Change one variable at a time and give practice in the new context.</p>
  </div>
@@ -8523,9 +8538,9 @@
  <p><strong>What this affects</strong><br>How clearly the swimmer interprets instructions and expectations.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>responds to only part of the instruction</li>
- <li>misunderstands the task</li>
- <li>needs simpler language</li>
+ <li>Responds to only part of the instruction.</li>
+ <li>Misunderstands the task.</li>
+ <li>Needs simpler language.</li>
  </ul>
  <p><strong>What to do</strong><br>Use short instructions and support them with demonstration or visuals.</p>
  </div>
@@ -8533,9 +8548,9 @@
  <p><strong>What this affects</strong><br>Ability to stay focused on the task.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>shifts attention quickly</li>
- <li>misses parts of the explanation</li>
- <li>engagement changes across the session</li>
+ <li>Shifts attention quickly.</li>
+ <li>Misses parts of the explanation.</li>
+ <li>Engagement changes across the session.</li>
  </ul>
  <p><strong>What to do</strong><br>Reduce distractions and keep the task short and clear.</p>
  </div>
@@ -8543,9 +8558,9 @@
  <p><strong>What this affects</strong><br>How quickly the swimmer makes sense of information.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>delayed response after instruction</li>
- <li>needs extra time before acting</li>
- <li>performs better when pace is slower</li>
+ <li>Delayed response after instruction.</li>
+ <li>Needs extra time before acting.</li>
+ <li>Performs better when pace is slower.</li>
  </ul>
  <p><strong>What to do</strong><br>Pause after instructions and avoid rushing the next cue.</p>
  </div>
@@ -8553,9 +8568,9 @@
  <p><strong>What this affects</strong><br>Need for structure, routine, and clear expectations.</p>
  <p><strong>What you might see</strong></p>
  <ul>
- <li>anxiety when the task changes</li>
- <li>stronger response to familiar routines</li>
- <li>difficulty with sudden transitions</li>
+ <li>Anxiety when the task changes.</li>
+ <li>Stronger response to familiar routines.</li>
+ <li>Difficulty with sudden transitions.</li>
  </ul>
  <p><strong>What to do</strong><br>Keep the structure clear and prepare the swimmer before changes.</p>
  </div>
@@ -8818,11 +8833,11 @@
  line: 'linear-gradient(90deg, #4eb0e5 0%, #12456b 100%)'
  };
  return {
- accent: '#2d84b3',
- soft: 'rgba(45,132,179,.2)',
- border: 'rgba(45,132,179,.22)',
- surface: 'linear-gradient(135deg, #f8fbfe 0%, #eef6fb 100%)',
- line: 'linear-gradient(90deg, #89b5c1 0%, #2d84b3 100%)'
+ accent: '#8a3fb0',
+ soft: 'rgba(138,63,176,.2)',
+ border: 'rgba(138,63,176,.22)',
+ surface: 'linear-gradient(135deg, #fbf3fe 0%, #f1e6f8 100%)',
+ line: 'linear-gradient(90deg, #c78fe4 0%, #8a3fb0 100%)'
  };
  }
  /** Title / intro chrome per programme column (Levels 1-6) when viewing that level’s pages */
@@ -8974,7 +8989,7 @@
  const level = getBlock2Level(target);
  const stageLabels = { b2c1: 'Stage 1 - Swim Confidence', b2c2: 'Stage 2 - Swim Basic', b2c3: 'Stage 3 - Swim Structured' };
  const levelLabels = { 1: 'Level 1', 2: 'Level 2', 3: 'Level 3', 4: 'Level 4', 5: 'Level 5', 6: 'Level 6' };
- const subLabels = { overview: 'Overview', focus: 'Focus Areas', activities: 'Activities in Practice' };
+ const subLabels = { overview: 'Overview', focus: 'Focus Areas', activities: 'Level activity' };
  let parts = [];
  if(stage && target === stage) return parts;
  if(level && target === ('b2l' + level)) return parts;
@@ -9011,7 +9026,7 @@
  if(focusReturn) return 'Done';
  var nextInLevel = getNextInLevelGroup(block, target);
  if(nextInLevel){
- if(nextInLevel.endsWith('_activities')) return 'Next: Activities in Practice';
+ if(nextInLevel.endsWith('_activities')) return 'Continue';
  if(nextInLevel.endsWith('_focus') || nextInLevel.match(/^b2l[1-6]_f[1-4]$/)) return 'Next: Focus Areas';
  return 'Continue';
  }
@@ -9831,7 +9846,7 @@
  var rest = paras.slice(1).join(' ');
  var items = rest.split(/\. +/).map(function(s){ return s.trim(); }).filter(Boolean);
  if(items.length >= 2){
- return '<p>' + intro + '</p><ul>' + items.map(function(it){ return '<li>' + it.replace(/\.$/,'') + '</li>'; }).join('') + '</ul>';
+ return '<p>' + intro + '</p><ul>' + items.map(function(it){ it = it.replace(/\.$/,''); return '<li>' + it.charAt(0).toUpperCase() + it.slice(1) + '.</li>'; }).join('') + '</ul>';
  }
  }
  return raw;
@@ -9839,7 +9854,7 @@
  var sentences = raw.split(/\. +/).map(function(s){ return s.trim(); }).filter(Boolean);
  if(sentences.length >= 2){
  var introLine = sentences.shift().replace(/\.$/,'') + '.';
- return '<p>' + introLine + '</p><ul>' + sentences.map(function(s){ return '<li>' + s.replace(/\.$/,'') + '</li>'; }).join('') + '</ul>';
+ return '<p>' + introLine + '</p><ul>' + sentences.map(function(s){ s = s.replace(/\.$/,''); return '<li>' + s.charAt(0).toUpperCase() + s.slice(1) + '.</li>'; }).join('') + '</ul>';
  }
  return '<p>' + raw + '</p>';
  }
@@ -10052,7 +10067,7 @@
  function isB2LevelAccordionsCompleteM4(panel){
  if(!panel) return true;
  var buttons = panel.querySelectorAll(
- '[data-b2l1-focus-list] .b2l1-item-btn, [data-b2l1-activities-list] .b2l1-item-btn'
+ '[data-b2l1-focus-list] .b2l1-item-btn'
  );
  if(!buttons.length) return true;
  for(var i = 0; i < buttons.length; i++){
@@ -10341,21 +10356,24 @@
  const STAGE_HERO = {
  b2c1: {
  kicker: 'Stage 1',
- levels: [1, 2],
- world: '/assets/images/module-4/worlds/stage-1-swim-confidence.png',
- worldAlt: 'Swim Confidence world with Turtle and Starfish'
+ label: 'Swim Confidence',
+ theme: 'confidence',
+ world: '/assets/images/module-4/worlds/stage-1-world-bg.jpg',
+ worldAlt: 'Stage 1 Swim Confidence'
  },
  b2c2: {
  kicker: 'Stage 2',
- levels: [3, 4],
- world: '/assets/images/module-4/worlds/stage-2-swim-basic.png',
- worldAlt: 'Swim Basic world with Jellyfish and Ray'
+ label: 'Swim Basic',
+ theme: 'basic',
+ world: '/assets/images/module-4/worlds/stage-2-world-bg.jpg',
+ worldAlt: 'Stage 2 Swim Basic'
  },
  b2c3: {
  kicker: 'Stage 3',
- levels: [5, 6],
- world: '/assets/images/module-4/worlds/stage-3-swim-structured.png',
- worldAlt: 'Swim Structured world with Dolphin and Whale'
+ label: 'Swim Structured',
+ theme: 'structured',
+ world: '/assets/images/module-4/worlds/stage-3-world-bg.jpg',
+ worldAlt: 'Stage 3 Swim Structured'
  }
  };
  function renderStageHeroWorld(host, target){
@@ -10363,21 +10381,21 @@
  var meta = STAGE_HERO[target];
  host.innerHTML = '';
  if(!meta || !meta.world) return;
- host.innerHTML = '<img src="' + meta.world + '" alt="' + (meta.worldAlt || '') + '" width="1024" height="682" loading="lazy" decoding="async" data-no-expand="true" />';
+ var shade = meta.theme ? ('stage-intro-hero-world-shade--' + meta.theme) : '';
+ host.innerHTML =
+ '<span class="stage-intro-hero-world-media" aria-hidden="true">' +
+ '<img src="' + meta.world + '" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />' +
+ '<span class="stage-intro-hero-world-shade ' + shade + '"></span>' +
+ '</span>' +
+ '<span class="stage-intro-hero-world-copy">' +
+ '<span class="stage-intro-hero-world-kicker">' + (meta.kicker || '') + '</span>' +
+ '<span class="stage-intro-hero-world-title">' + (meta.label || '') + '</span>' +
+ '</span>';
+ host.setAttribute('aria-label', meta.worldAlt || ((meta.kicker || '') + ' ' + (meta.label || '')).trim());
+ host.removeAttribute('aria-hidden');
  }
- function renderStageHeroMascots(host, target){
- if(!host) return;
- var meta = STAGE_HERO[target];
- host.innerHTML = '';
- if(!meta) return;
- meta.levels.forEach(function(level){
- var mascot = getLevelMascot(level);
- if(!mascot) return;
- var mark = document.createElement('span');
- mark.className = 'stage-intro-hero-mascot';
- mark.innerHTML = '<img src="' + mascot.src + '" alt="" width="72" height="64" loading="lazy" decoding="async" />';
- host.appendChild(mark);
- });
+ function renderStageHeroMascots(host){
+ if(host) host.innerHTML = '';
  }
  const isPathwayStage = isPathwayStageEarly;
  const titleRowEl = panel.querySelector('.concept-panel-title-row');
@@ -10398,25 +10416,13 @@
  stageTtsHost.appendChild(panelTts);
  }
  stageIntroWrap.setAttribute('aria-hidden', 'false');
- var stageMeta = STAGE_HERO[target] || null;
- var stageTitleEl = stageIntroWrap.querySelector('.stage-intro-title');
  var stageFocusEl = stageIntroWrap.querySelector('[data-stage-focus]');
- var stageKickerEl = stageIntroWrap.querySelector('[data-stage-hero-kicker]');
  var stageHeroWorld = stageIntroWrap.querySelector('[data-stage-hero-world]');
- var stageHeroMascots = stageIntroWrap.querySelector('[data-stage-hero-mascots]');
- if(stageKickerEl){
- stageKickerEl.textContent = stageMeta ? stageMeta.kicker : '';
- }
- if(stageTitleEl){
- stageTitleEl.textContent = data.title || '';
- stageTitleEl.style.display = '';
- }
  if(stageFocusEl){
  stageFocusEl.textContent = data.focus || '';
  stageFocusEl.style.display = '';
  }
  renderStageHeroWorld(stageHeroWorld, target);
- renderStageHeroMascots(stageHeroMascots, target);
  var panelLooks = stageIntroWrap.querySelector('[data-panel="looks"]');
  var panelPriorities = stageIntroWrap.querySelector('[data-panel="priorities"]');
  var panelGoal = stageIntroWrap.querySelector('[data-panel="goal"]');
@@ -10429,14 +10435,13 @@
  if(titleRowEl) titleRowEl.style.display = '';
  restorePanelTts();
  stageIntroWrap.setAttribute('aria-hidden', 'true');
- var hiddenStageTitleEl = stageIntroWrap.querySelector('.stage-intro-title');
- if(hiddenStageTitleEl) hiddenStageTitleEl.style.display = '';
  var hiddenStageFocusEl = stageIntroWrap.querySelector('[data-stage-focus]');
  if(hiddenStageFocusEl) hiddenStageFocusEl.style.display = '';
  var hiddenHeroWorld = stageIntroWrap.querySelector('[data-stage-hero-world]');
- if(hiddenHeroWorld) hiddenHeroWorld.innerHTML = '';
- var hiddenHeroMascots = stageIntroWrap.querySelector('[data-stage-hero-mascots]');
- if(hiddenHeroMascots) hiddenHeroMascots.innerHTML = '';
+ if(hiddenHeroWorld){
+ hiddenHeroWorld.innerHTML = '';
+ hiddenHeroWorld.setAttribute('aria-hidden', 'true');
+ }
  }
  } else {
  panel.classList.remove('concept-panel--stage-hero');
@@ -10665,6 +10670,9 @@
  if(block === 'block4') setupBlock3ConceptActivities(panel);
  setupB3c2FactorExplore(panel);
  setupB2LevelProgrammeInteractive(panel, block, target);
+ setupBlock3LevelActivities(panel, target);
+ placeLevelActivityAfterKeyIdeas(panel, target);
+ requestAnimationFrame(function(){ placeLevelActivityAfterKeyIdeas(panel, target); });
  if(isPathwayStage){
  setupStageIntroCards(panel, target, !!alreadyCompleted);
  } else {
@@ -11796,6 +11804,51 @@
  });
  });
  }
+ }
+
+
+ function placeLevelActivityAfterKeyIdeas(panel, target){
+ if(!panel || !/^b2l[1-6]$/.test(String(target || ''))) return;
+ var act = panel.querySelector('[data-activity="' + target + '"]');
+ var points = panel.querySelector('.concept-points-box');
+ if(!act || !points || !points.parentNode) return;
+ if(points.nextElementSibling !== act){
+ points.insertAdjacentElement('afterend', act);
+ }
+ }
+
+ function setupBlock3LevelActivities(panel, target){
+ if(!panel || !/^b2l[1-6]$/.test(String(target || ''))) return;
+ var meta = {
+ b2l1: { correct: 'B', ok: 'Correct. At Level 1, re-regulation and supported calm contact come before adding demand.', bad: 'Not quite. Keep support high and demand low until the swimmer is calm again.' },
+ b2l2: { correct: 'B', ok: 'Correct. Level 2 builds independence in small steps without sudden removal of support.', bad: 'Not quite. Reduce help gradually and keep the task short enough to stay calm.' },
+ b2l3: { correct: 'B', ok: 'Correct. At Level 3, control and calm body position come before longer propulsion.', bad: 'Not quite. Restore organisation first, then return to a shorter supported attempt.' },
+ b2l4: { correct: 'F', ok: 'Correct. False. Progress at Level 4 needs consistent control over time, not a single success.', bad: 'Incorrect. Keep support available until control and recovery stay consistent across attempts.' },
+ b2l5: { correct: 'B', ok: 'Correct. Level 5 progress depends on controlled linked skills, including recovery at the wall.', bad: 'Not quite. Reset recovery quality before increasing length or density.' },
+ b2l6: { correct: 'B', ok: 'Correct. Endurance at Level 6 must protect rhythm, control, and recovery.', bad: 'Not quite. Protect quality first, then rebuild density in smaller steps.' }
+ };
+ var conf = meta[target];
+ if(!conf) return;
+ var act = panel.querySelector('[data-activity="' + target + '"]');
+ if(!act || act.getAttribute('data-m4-level-act-bound') === '1') return;
+ act.setAttribute('data-m4-level-act-bound', '1');
+ var fb = act.querySelector('[data-activity-feedback="' + target + '"]');
+ var name = target + '_act';
+ act.querySelectorAll('input[name="' + name + '"]').forEach(function(r){
+ r.addEventListener('change', function(){
+ var v = act.querySelector('input[name="' + name + '"]:checked');
+ if(!v || !fb) return;
+ if(v.value === conf.correct){
+ fb.textContent = conf.ok;
+ fb.className = 'feedback show good';
+ } else {
+ fb.textContent = conf.bad;
+ fb.className = 'feedback show warn';
+ }
+ if(window.PremiumOptionGrid) window.PremiumOptionGrid.scan(act);
+ syncConceptFinishBtn(panel, panel.dataset.currentBlock || 'block3', target, { force: true });
+ });
+ });
  }
 
  function setupB2LevelProgrammeInteractive(panel, block, target){
