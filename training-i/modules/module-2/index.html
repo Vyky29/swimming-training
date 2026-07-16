@@ -1258,8 +1258,8 @@
  align-items:center;
  justify-content:center;
  gap:12px;
- min-height:168px;
- padding:22px 16px 18px;
+ min-height:160px;
+ padding:20px 14px 18px;
  font-weight:800;
  text-align:center;
  }
@@ -1273,25 +1273,32 @@
  display:flex;
  align-items:center;
  justify-content:center;
- width:72px;
- height:72px;
+ width:64px;
+ height:64px;
  flex:0 0 auto;
  padding:0;
- background:transparent;
- border:0;
- box-shadow:none;
- border-radius:50%;
+ background:transparent !important;
+ border:0 !important;
+ box-shadow:none !important;
+ border-radius:0;
  }
+ .concept-panel .concept-image .concept-grid--factors .m2-factor-icon svg,
+ .concept-panel [data-parent-subconcept-nav] .m2-factor-icon svg,
  .concept-panel .concept-image .concept-grid--factors .m2-factor-icon img,
  .concept-panel [data-parent-subconcept-nav] .m2-factor-icon img{
  display:block;
- width:72px;
- height:72px;
+ width:56px;
+ height:56px;
  object-fit:contain;
- border-radius:50%;
- filter:drop-shadow(0 4px 10px rgba(18,50,71,.16));
+ filter:drop-shadow(0 2px 5px rgba(18,50,71,.12));
  pointer-events:none;
  }
+ .concept-panel .concept-image .concept-grid--factors .concept-square--factor-water .m2-factor-icon,
+ .concept-panel [data-parent-subconcept-nav] .concept-square--factor-water .m2-factor-icon{ color:#1565c0; }
+ .concept-panel .concept-image .concept-grid--factors .concept-square--factor-env .m2-factor-icon,
+ .concept-panel [data-parent-subconcept-nav] .concept-square--factor-env .m2-factor-icon{ color:#e67e0e; }
+ .concept-panel .concept-image .concept-grid--factors .concept-square--factor-internal .m2-factor-icon,
+ .concept-panel [data-parent-subconcept-nav] .concept-square--factor-internal .m2-factor-icon{ color:#7b33a8; }
  .concept-panel .concept-image .concept-grid--factors .m2-factor-label,
  .concept-panel [data-parent-subconcept-nav] .m2-factor-label{
  display:block;
@@ -4991,9 +4998,45 @@
  parentSubconceptTitle: 'Explore each factor',
  parentSubconceptLead: 'Tap one to open it.',
  parentSubconceptNavHTML: '<div class="concept-image"><div class="concept-grid concept-grid--factors" data-concept-grid="block3">' +
- '<button type="button" class="concept-square concept-square--factor-water" data-target="b3c2_water"><span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-water.png?v=20260716f3" alt="" width="72" height="72" loading="lazy" decoding="async" /></span><span class="m2-factor-label">Water-Based</span></button>' +
- '<button type="button" class="concept-square concept-square--factor-env" data-target="b3c2_env"><span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-environmental.png?v=20260716f3" alt="" width="72" height="72" loading="lazy" decoding="async" /></span><span class="m2-factor-label">Environmental</span></button>' +
- '<button type="button" class="concept-square concept-square--factor-internal" data-target="b3c2_internal"><span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-internal.png?v=20260716f3" alt="" width="72" height="72" loading="lazy" decoding="async" /></span><span class="m2-factor-label">Internal</span></button>' +
+ '<button type="button" class="concept-square concept-square--factor-water" data-target="b3c2_water">' +
+ '<span class="m2-factor-icon" aria-hidden="true">' +
+ '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+ '<path fill="currentColor" d="M32 8c2.2 6.8 9.5 17.8 9.5 25.2a9.5 9.5 0 1 1-19 0C22.5 25.8 29.8 14.8 32 8Z"/>' +
+ '<path fill="currentColor" d="M16.5 22c1.5 4.6 6.4 12 6.4 16.6a6.4 6.4 0 1 1-12.8 0c0-4.6 4.9-12 6.4-16.6Z"/>' +
+ '<path fill="currentColor" d="M47.5 22c1.5 4.6 6.4 12 6.4 16.6a6.4 6.4 0 1 1-12.8 0c0-4.6 4.9-12 6.4-16.6Z"/>' +
+ '<path fill="currentColor" d="M8.8 38.5c.9 2.7 3.7 7 3.7 9.6a3.7 3.7 0 1 1-7.4 0c0-2.6 2.8-6.9 3.7-9.6Z"/>' +
+ '<path fill="currentColor" d="M55.2 38.5c.9 2.7 3.7 7 3.7 9.6a3.7 3.7 0 1 1-7.4 0c0-2.6 2.8-6.9 3.7-9.6Z"/>' +
+ '</svg></span><span class="m2-factor-label">Water-Based</span></button>' +
+ '<button type="button" class="concept-square concept-square--factor-env" data-target="b3c2_env">' +
+ '<span class="m2-factor-icon" aria-hidden="true">' +
+ '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
+ '<circle cx="34" cy="36" r="14"/>' +
+ '<path d="M27 28c2.4 1.4 5.2 4.2 6.1 8 .8 3.4-.2 6.8-2 9.2"/>' +
+ '<path d="M40.2 27.2c2 2.6 3.1 5.9 2.6 9.4-.5 3.8-2.6 6.8-5 8.7"/>' +
+ '<path d="M21 36.5h26"/>' +
+ '<path d="M15 22v20"/>' +
+ '<path d="M12.8 41.5h4.4"/>' +
+ '<circle cx="15" cy="45" r="2.8" fill="currentColor" stroke="none"/>' +
+ '<path d="M15 22c0-2.4 1.3-3.7 2.8-3.7"/>' +
+ '<path d="M15 26.5h2.4M15 31h2.4M15 35.5h2.4"/>' +
+ '<path d="M27.5 16.5c1.4-3.2 4.8-5 8.4-4.2 2.9.6 5.1 2.5 5.9 5.1 2-.2 4.2 1 5 3 .9 2.3-.1 4.8-2.3 5.8"/>' +
+ '</svg></span><span class="m2-factor-label">Environmental</span></button>' +
+ '<button type="button" class="concept-square concept-square--factor-internal" data-target="b3c2_internal">' +
+ '<span class="m2-factor-icon" aria-hidden="true">' +
+ '<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
+ '<path d="M24.5 46c.5-4.2 2.6-7 5.8-8.6 2.3-1.1 5.1-1.1 7.3.2 4 2.3 6.4 6.8 6.4 11.4"/>' +
+ '<path d="M21.5 32.5C21.8 24.8 27.4 19 34.8 19c5.4 0 10 3.4 11.9 8.2"/>' +
+ '<path d="M35.5 24c.2 2.1-.6 3.4-.2 5.2.5 2.3 2.6 3 2.6 5.3 0 1.9-1.5 3.3-3.4 3.3"/>' +
+ '<path d="M30.8 27.2c0-2.5 1.9-4.3 4.4-4.3 2.4 0 4.1 1.7 4.1 3.9 0 1.7-.8 2.7-2.2 3.6-1.4.9-2.3 1.8-2.3 3.4"/>' +
+ '<circle cx="34.8" cy="37.8" r="1.5" fill="currentColor" stroke="none"/>' +
+ '<path d="M14 17l5 5M11 31h6M14 45l5-5M32 10v6M50 17l-5 5M53 31h-6"/>' +
+ '<path d="M14 17l2.4-3.2M14 17l-3.2.3"/>' +
+ '<path d="M11 31l-2.4-2.1M11 31l-2.4 2.2"/>' +
+ '<path d="M14 45l-3.1.4M14 45l2 3"/>' +
+ '<path d="M32 10l-2.2-2.2M32 10l2.2-2.2"/>' +
+ '<path d="M50 17l3.1.2M50 17l-1.9-3.1"/>' +
+ '<path d="M53 31l2.4-2M53 31l2.4 2"/>' +
+ '</svg></span><span class="m2-factor-label">Internal</span></button>' +
  '</div></div>'
  },
  b3c2_env: {
