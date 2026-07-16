@@ -2262,15 +2262,18 @@
  gap:10px;
  width:100%;
  }
+ .b3c3-overview-step.concept-square,
  .b3c3-overview-step{
  appearance:none;
  display:flex;
  align-items:center;
+ justify-content:flex-start;
  gap:12px;
  width:100%;
  max-width:100%;
  min-width:0;
  min-height:72px;
+ height:auto;
  padding:14px 14px;
  border:1px solid transparent;
  border-radius:16px;
@@ -2280,6 +2283,9 @@
  text-decoration:none;
  text-align:left;
  font:inherit;
+ font-size:inherit;
+ font-weight:inherit;
+ line-height:1.25;
  cursor:pointer;
  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
  }
@@ -2287,6 +2293,19 @@
  transform:translateY(-2px);
  filter:brightness(1.04);
  box-shadow:0 14px 28px rgba(18,50,71,.16);
+ }
+ .b3c3-overview-step.concept-square.visited::after,
+ .b3c3-overview-step.visited::after{
+ top:8px;
+ right:8px;
+ width:20px;
+ height:20px;
+ font-size:.65rem;
+ }
+ .b3c3-overview-step.concept-square.active,
+ .b3c3-overview-step.active{
+ outline:2px solid rgba(255,255,255,.55);
+ outline-offset:2px;
  }
  .b3c3-overview-step:focus-visible{
  outline:2px solid var(--blue);
@@ -8710,9 +8729,9 @@
  parentSubconceptLead: 'Complete Core Concept and the visual first, then open each step.',
  parentSubconceptNavHTML: '<div class="b3c3-overview-wrap"><div class="b3c3-overview-list">' +
  '<div class="b3c3-overview-steps">' +
- '<button type="button" class="b3c3-overview-step b3c3-overview-step--stage" data-target="b3c3_step1"><span class="b3c3-overview-step-num" aria-hidden="true">1</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Stages</span><span class="b3c3-overview-step-title">Review Stage</span></span></button>' +
- '<button type="button" class="b3c3-overview-step b3c3-overview-step--level" data-target="b3c3_step2"><span class="b3c3-overview-step-num" aria-hidden="true">2</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Levels 1-6</span><span class="b3c3-overview-step-title">Review Level</span></span></button>' +
- '<button type="button" class="b3c3-overview-step b3c3-overview-step--core" data-target="b3c3_step3"><span class="b3c3-overview-step-num" aria-hidden="true">3</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Core Areas</span><span class="b3c3-overview-step-title">Review Development Areas</span></span></button>' +
+ '<button type="button" class="concept-square b3c3-overview-step b3c3-overview-step--stage" data-target="b3c3_step1"><span class="b3c3-overview-step-num" aria-hidden="true">1</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Stages</span><span class="b3c3-overview-step-title">Review Stage</span></span></button>' +
+ '<button type="button" class="concept-square b3c3-overview-step b3c3-overview-step--level" data-target="b3c3_step2"><span class="b3c3-overview-step-num" aria-hidden="true">2</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Levels 1-6</span><span class="b3c3-overview-step-title">Review Level</span></span></button>' +
+ '<button type="button" class="concept-square b3c3-overview-step b3c3-overview-step--core" data-target="b3c3_step3"><span class="b3c3-overview-step-num" aria-hidden="true">3</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Core Areas</span><span class="b3c3-overview-step-title">Review Development Areas</span></span></button>' +
  '</div>' +
  '<a href="https://clubsensational-staff.vercel.app/swtermreview.html" class="b3c3-overview-step b3c3-overview-step--form" target="_blank" rel="noopener noreferrer"><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Open in portal</span><span class="b3c3-overview-step-title">Term Review Form</span><span class="b3c3-overview-step-hint">Capture stage, level and development for each swimmer</span></span><span class="b3c3-overview-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>' +
  '</div></div>'
