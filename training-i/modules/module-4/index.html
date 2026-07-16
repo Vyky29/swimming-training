@@ -15,7 +15,7 @@
  @import url('/assets/concept-insight-intro.css?v=20260715corew');
  @import url('/assets/training-flow-guide.css?v=20260714freenav1');
  @import url('/assets/module-block-accordion.css?v=20260715corepurple1');
- @import url('/assets/programme-journey-map.css?v=20260714pjmfixed1');
+@import url('/assets/programme-journey-map.css?v=20260716stages1');
  @import url('/assets/review-progress-infographic.css?v=20260716rpi2');
 
  :root{
@@ -2385,13 +2385,40 @@
  border:2px solid rgba(255,255,255,.95);
  box-shadow:0 4px 10px rgba(18,50,71,.12);
  }
- .b3c3-timeline-stage-thumb img{
- display:block;
- width:100%;
- height:100%;
- object-fit:cover;
- object-position:center;
+.b3c3-timeline-stage-thumb::before{
+ content:'';
+ position:absolute;
+ left:-12%;
+ bottom:-35%;
+ width:124%;
+ height:68%;
+ border-radius:50%;
+ background:rgba(255,255,255,.14);
+ transform:rotate(-4deg);
+}
+.b3c3-timeline-stage-thumb::after{
+ position:absolute;
+ inset:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding-bottom:12px;
+ font-size:.72rem;
+ font-weight:900;
+ color:rgba(255,255,255,.9);
+}
+.b3c3-timeline-stage-thumb--confidence{
+ background:linear-gradient(145deg,#1a5c38,#28784d 62%,#143d2e);
+}
+.b3c3-timeline-stage-thumb--confidence::after{ content:'1'; }
+.b3c3-timeline-stage-thumb--basic{
+ background:linear-gradient(145deg,#c97816,#ea8f22 62%,#a45f12);
+}
+.b3c3-timeline-stage-thumb--basic::after{ content:'2'; }
+.b3c3-timeline-stage-thumb--structured{
+ background:linear-gradient(145deg,#2d84b3,#4a86b4 60%,#12456b);
  }
+.b3c3-timeline-stage-thumb--structured::after{ content:'3'; }
  .b3c3-timeline-stage-thumb span{
  position:absolute;
  left:0; right:0; bottom:0;
@@ -3079,7 +3106,7 @@
  line-height:1.25;
  }
 
- /* Block 3 stage picker - world photo + tinted overlay + white copy */
+/* Block 3 stage picker - corporate stage colour + subtle aquatic flow */
  .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick{
  position:relative;
  isolation:isolate;
@@ -3109,35 +3136,42 @@
  overflow:hidden;
  pointer-events:none;
  }
- .concept-stage-pick-world img{
+.concept-stage-pick-world::before,
+.concept-stage-pick-world::after{
+ content:'';
  position:absolute;
- inset:0;
- width:100%;
- height:100%;
- object-fit:cover;
- object-position:center center;
- opacity:1;
- transform:scale(1.05);
- filter:saturate(1);
- transition:transform .35s ease, filter .22s ease;
- }
+ left:-8%;
+ width:116%;
+ border-radius:50%;
+ pointer-events:none;
+ z-index:1;
+}
+.concept-stage-pick-world::before{
+ height:92%;
+ bottom:-62%;
+ background:rgba(255,255,255,.11);
+ transform:rotate(-3deg);
+}
+.concept-stage-pick-world::after{
+ height:76%;
+ bottom:-55%;
+ background:rgba(255,255,255,.09);
+ transform:rotate(5deg);
+}
  .concept-stage-pick-shade{
  position:absolute;
  inset:0;
+ z-index:0;
  transition:opacity .22s ease;
  }
  .concept-stage-pick-shade--confidence{
- background:linear-gradient(135deg, rgba(26,92,56,.46) 0%, rgba(26,92,56,.34) 46%, rgba(20,61,46,.52) 100%);
+ background:linear-gradient(135deg, #1a5c38 0%, #28784d 58%, #143d2e 100%);
  }
  .concept-stage-pick-shade--basic{
- background:linear-gradient(135deg, rgba(201,120,22,.48) 0%, rgba(234,143,34,.36) 46%, rgba(168,98,16,.54) 100%);
+ background:linear-gradient(135deg, #c97816 0%, #ea8f22 58%, #a45f12 100%);
  }
  .concept-stage-pick-shade--structured{
- background:linear-gradient(135deg, rgba(94,200,240,.34) 0%, rgba(74,134,180,.24) 42%, rgba(58,118,158,.38) 100%);
- }
- .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--structured .concept-stage-pick-world img{
- object-position:center 72%;
- filter:saturate(1.14) brightness(1.24) contrast(1.04);
+ background:linear-gradient(135deg, #2d84b3 0%, #4A86B4 55%, #12456b 100%);
  }
  .concept-stage-pick-copy{
  position:relative;
@@ -3158,7 +3192,7 @@
  position:relative;
  z-index:1;
  color:#fff !important;
- text-shadow:0 1px 14px rgba(0,0,0,.48), 0 0 1px rgba(0,0,0,.35);
+ text-shadow:0 1px 8px rgba(0,0,0,.18);
  }
  .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick .concept-square-stage-kicker{
  opacity:.92;
@@ -3183,11 +3217,6 @@
  .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick.level-card--structured:focus-visible{
  border-color:rgba(74,134,180,.62);
  box-shadow:0 16px 28px rgba(74,134,180,.28);
- }
- .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick:hover .concept-stage-pick-world img,
- .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick:focus-visible .concept-stage-pick-world img{
- transform:scale(1.08);
- filter:saturate(1.06);
  }
  .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick:hover .concept-stage-pick-shade,
  .concept-stage > .concept-grid[data-concept-grid="block3"] > .concept-square--stage-pick:focus-visible .concept-stage-pick-shade{
@@ -3237,7 +3266,7 @@
  border-color:#1a5c38;
  }
  .concept-square--level.level-card--confidence.level-tone-1{ background:#1a5c38; border-color:#1a5c38; }
- .concept-square--level.level-card--confidence.level-tone-2{ background:#6da372; border-color:#6da372; color:#fff; }
+.concept-square--level.level-card--confidence.level-tone-2{ background:#28784d; border-color:#28784d; color:#fff; }
 
  .concept-square--level.level-card--basic{
  background:#ea8f22;
@@ -3245,15 +3274,33 @@
  border-color:#ea8f22;
  }
  .concept-square--level.level-card--basic.level-tone-1{ background:#ea8f22; border-color:#ea8f22; }
- .concept-square--level.level-card--basic.level-tone-2{ background:#c4a74a; border-color:#c4a74a; color:#fff; }
+.concept-square--level.level-card--basic.level-tone-2{ background:#c97816; border-color:#c97816; color:#fff; }
 
  .concept-square--level.level-card--structured{
  background:#4A86B4;
  color:#fff;
  border-color:#4A86B4;
  }
- .concept-square--level.level-card--structured.level-tone-1{ background:#4eb0e5; border-color:#4eb0e5; color:#fff; }
- .concept-square--level.level-card--structured.level-tone-2{ background:#12456b; border-color:#12456b; color:#fff; }
+.concept-square--level.level-card--structured.level-tone-1{ background:#4A86B4; border-color:#4A86B4; color:#fff; }
+.concept-square--level.level-card--structured.level-tone-2{ background:#2d6f9d; border-color:#2d6f9d; color:#fff; }
+.concept-grid--levels .concept-square--level{
+ position:relative;
+ isolation:isolate;
+ overflow:hidden;
+}
+.concept-grid--levels .concept-square--level::before{
+ content:'';
+ position:absolute;
+ z-index:-1;
+ left:-10%;
+ right:-10%;
+ bottom:-48%;
+ height:68%;
+ border-radius:50% 50% 0 0;
+ background:rgba(255,255,255,.10);
+ transform:rotate(-2deg);
+ pointer-events:none;
+}
 
  /* Default blue concept squares (block1): hover = white; selected = blue + outline */
  .concept-square:hover,
@@ -3414,7 +3461,7 @@
  }
  .concept-square--level.level-card--confidence.level-tone-2:hover,
  .concept-square--level.level-card--confidence.level-tone-2:focus-visible{
- background:#5a8f5f;
+ background:#216640;
  color:#fff !important;
  border-color:#5a8f5f;
  box-shadow:0 16px 28px rgba(26,92,56,.28);
@@ -3431,7 +3478,7 @@
  }
  .concept-square--level.level-card--basic.level-tone-2:hover,
  .concept-square--level.level-card--basic.level-tone-2:focus-visible{
- background:#a88e38;
+ background:#ad6714;
  color:#fff !important;
  border-color:#a88e38;
  box-shadow:0 16px 28px rgba(90,70,20,.22);
@@ -3445,14 +3492,14 @@
  }
  .concept-square--level.level-card--structured.level-tone-1:hover,
  .concept-square--level.level-card--structured.level-tone-1:focus-visible{
- background:#2f8dbd;
+ background:#3c769f;
  color:#fff;
  border-color:#2f8dbd;
  box-shadow:0 16px 28px rgba(78,176,229,.35);
  }
  .concept-square--level.level-card--structured.level-tone-2:hover,
  .concept-square--level.level-card--structured.level-tone-2:focus-visible{
- background:#0d3554;
+ background:#245e88;
  color:#fff !important;
  border-color:#0d3554;
  box-shadow:0 16px 28px rgba(18,69,107,.35);
@@ -4139,14 +4186,14 @@
  text-align:center;
  box-shadow:0 12px 28px rgba(18,50,71,.06);
  }
- /* Match stage picker boxes: world photo + title overlay (no animals) */
+/* Corporate stage banner: colour system + subtle waves (no world scenes) */
  .stage-intro-hero-world{
  position:relative;
  isolation:isolate;
  width:100%;
  min-height:min(220px,34vh);
  overflow:hidden;
- background:rgba(18,50,71,.08);
+ background:#2d84b3;
  border-radius:17px 17px 0 0;
  text-align:center;
  }
@@ -4157,24 +4204,27 @@
  pointer-events:none;
  overflow:hidden;
  }
- .stage-intro-hero-world-media img,
- .stage-intro-hero-world > img{
+.stage-intro-hero-world-media::before,
+.stage-intro-hero-world-media::after{
+ content:'';
  position:absolute;
- inset:0;
- width:100% !important;
- height:100% !important;
- max-width:none !important;
- max-height:none !important;
- margin:0 !important;
- display:block;
- object-fit:cover !important;
- object-position:center center;
- transform:scale(1.04);
- }
- .concept-panel[data-stage-theme="structured"] .stage-intro-hero-world-media img,
- .concept-panel[data-stage-theme="structured"] .stage-intro-hero-world > img{
- object-position:center 72%;
- filter:saturate(1.14) brightness(1.24) contrast(1.04);
+ left:-8%;
+ width:116%;
+ border-radius:50%;
+ pointer-events:none;
+ z-index:2;
+}
+.stage-intro-hero-world-media::before{
+ height:94%;
+ bottom:-65%;
+ background:rgba(255,255,255,.11);
+ transform:rotate(-3deg);
+}
+.stage-intro-hero-world-media::after{
+ height:78%;
+ bottom:-58%;
+ background:rgba(255,255,255,.08);
+ transform:rotate(4deg);
  }
  .stage-intro-hero-world-shade{
  position:absolute;
@@ -4183,13 +4233,13 @@
  pointer-events:none;
  }
  .stage-intro-hero-world-shade--confidence{
- background:linear-gradient(135deg, rgba(26,92,56,.46) 0%, rgba(26,92,56,.34) 46%, rgba(20,61,46,.52) 100%);
+ background:linear-gradient(135deg, #1a5c38 0%, #28784d 58%, #143d2e 100%);
  }
  .stage-intro-hero-world-shade--basic{
- background:linear-gradient(135deg, rgba(201,120,22,.48) 0%, rgba(234,143,34,.36) 46%, rgba(168,98,16,.54) 100%);
+ background:linear-gradient(135deg, #c97816 0%, #ea8f22 58%, #a45f12 100%);
  }
  .stage-intro-hero-world-shade--structured{
- background:linear-gradient(135deg, rgba(94,200,240,.34) 0%, rgba(74,134,180,.24) 42%, rgba(58,118,158,.38) 100%);
+ background:linear-gradient(135deg, #2d84b3 0%, #4A86B4 55%, #12456b 100%);
  }
  .stage-intro-hero-world-copy{
  position:relative;
@@ -4209,7 +4259,7 @@
  .stage-intro-hero-world-title{
  margin:0;
  color:#fff !important;
- text-shadow:0 1px 14px rgba(0,0,0,.48), 0 0 1px rgba(0,0,0,.35);
+ text-shadow:0 1px 8px rgba(0,0,0,.18);
  }
  .stage-intro-hero-world-kicker{
  font-size:.78rem;
@@ -4757,34 +4807,42 @@
  border-radius:inherit;
  pointer-events:none;
  }
- .concept-level-hero-world img{
+.concept-level-hero-world::before,
+.concept-level-hero-world::after{
+ content:'';
  position:absolute;
- inset:0;
- width:100%;
- height:100%;
- object-fit:cover;
- object-position:center center;
- opacity:1;
- transform:scale(1.05);
- filter:saturate(1);
+ left:-6%;
+ width:112%;
+ border-radius:50%;
+ pointer-events:none;
+ z-index:1;
+}
+.concept-level-hero-world::before{
+ height:92%;
+ bottom:-68%;
+ background:rgba(255,255,255,.24);
+ transform:rotate(-2deg);
+}
+.concept-level-hero-world::after{
+ height:74%;
+ bottom:-61%;
+ background:rgba(255,255,255,.18);
+ transform:rotate(4deg);
  }
  .concept-level-hero-world-shade{
  position:absolute;
  inset:0;
- background:linear-gradient(118deg, rgba(255,255,255,.58) 0%, rgba(255,255,255,.38) 44%, rgba(255,255,255,.52) 100%);
+ z-index:0;
+ background:linear-gradient(118deg, #f3f8fb 0%, #e8f2f8 100%);
  }
  .concept-level-hero-world--confidence .concept-level-hero-world-shade{
- background:linear-gradient(118deg, rgba(241,250,243,.62) 0%, rgba(226,241,229,.40) 42%, rgba(248,252,249,.54) 100%);
+ background:linear-gradient(118deg, #eef7f1 0%, #dcece2 100%);
  }
  .concept-level-hero-world--basic .concept-level-hero-world-shade{
- background:linear-gradient(118deg, rgba(255,251,244,.62) 0%, rgba(255,242,220,.40) 42%, rgba(255,252,247,.54) 100%);
+ background:linear-gradient(118deg, #fff7eb 0%, #fbe8cb 100%);
  }
  .concept-level-hero-world--structured .concept-level-hero-world-shade{
- background:linear-gradient(118deg, rgba(210,238,252,.54) 0%, rgba(186,224,245,.34) 42%, rgba(200,232,248,.48) 100%);
- }
- .concept-level-hero-world--structured img{
- object-position:center 68%;
- filter:saturate(1.12) brightness(1.18) contrast(1.03);
+ background:linear-gradient(118deg, #edf6fb 0%, #d5e9f5 100%);
  }
  .concept-panel--level-hero .concept-panel-title-display::after{
  content:'';
@@ -7215,7 +7273,6 @@
  <div class="pjm-stages" aria-label="Three stages and six adaptive levels">
  <section class="pjm-stage pjm-stage--discover" data-stage="discover">
  <div class="pjm-stage-world">
- <img class="pjm-stage-world-img" src="/assets/images/module-4/worlds/stage-1-world-bg.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />
  <div class="pjm-stage-world-shade" aria-hidden="true"></div>
  <header class="pjm-stage-head">
  <div class="pjm-stage-meta"><span class="pjm-stage-num">Stage 1</span><span class="pjm-stage-theme">Discover</span></div>
@@ -7247,7 +7304,6 @@
 
  <section class="pjm-stage pjm-stage--explore" data-stage="explore">
  <div class="pjm-stage-world">
- <img class="pjm-stage-world-img" src="/assets/images/module-4/worlds/stage-2-world-bg.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />
  <div class="pjm-stage-world-shade" aria-hidden="true"></div>
  <header class="pjm-stage-head">
  <div class="pjm-stage-meta"><span class="pjm-stage-num">Stage 2</span><span class="pjm-stage-theme">Explore</span></div>
@@ -7279,7 +7335,6 @@
 
  <section class="pjm-stage pjm-stage--master" data-stage="master">
  <div class="pjm-stage-world">
- <img class="pjm-stage-world-img" src="/assets/images/module-4/worlds/stage-3-world-bg.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />
  <div class="pjm-stage-world-shade" aria-hidden="true"></div>
  <header class="pjm-stage-head">
  <div class="pjm-stage-meta"><span class="pjm-stage-num">Stage 3</span><span class="pjm-stage-theme">Master</span></div>
@@ -7319,8 +7374,7 @@
 
  <div class="concept-grid" data-concept-grid="block3">
  <button class="concept-square concept-square--stage-pick level-card--confidence" data-target="b2c1" type="button">
- <span class="concept-stage-pick-world" aria-hidden="true">
- <img src="/assets/images/module-4/worlds/stage-1-world-bg.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />
+<span class="concept-stage-pick-world" aria-hidden="true">
  <span class="concept-stage-pick-shade concept-stage-pick-shade--confidence"></span>
  </span>
  <span class="concept-stage-pick-copy">
@@ -7329,8 +7383,7 @@
  </span>
  </button>
  <button class="concept-square concept-square--stage-pick level-card--basic" data-target="b2c2" type="button">
- <span class="concept-stage-pick-world" aria-hidden="true">
- <img src="/assets/images/module-4/worlds/stage-2-world-bg.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />
+<span class="concept-stage-pick-world" aria-hidden="true">
  <span class="concept-stage-pick-shade concept-stage-pick-shade--basic"></span>
  </span>
  <span class="concept-stage-pick-copy">
@@ -7339,8 +7392,7 @@
  </span>
  </button>
  <button class="concept-square concept-square--stage-pick level-card--structured" data-target="b2c3" type="button">
- <span class="concept-stage-pick-world" aria-hidden="true">
- <img src="/assets/images/module-4/worlds/stage-3-world-bg.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />
+<span class="concept-stage-pick-world" aria-hidden="true">
  <span class="concept-stage-pick-shade concept-stage-pick-shade--structured"></span>
  </span>
  <span class="concept-stage-pick-copy">
@@ -7796,13 +7848,6 @@
  return LEVEL_MASCOTS[String(level)] || null;
  }
 
- function getLevelWorldBg(level){
- var n = parseInt(level, 10);
- if(n <= 2) return '/assets/images/module-4/worlds/stage-1-world-bg.jpg';
- if(n <= 4) return '/assets/images/module-4/worlds/stage-2-world-bg.jpg';
- return '/assets/images/module-4/worlds/stage-3-world-bg.jpg';
- }
-
  function applyLevelHeroWorld(panel, level){
  if(!panel) return;
  var existing = panel.querySelector('.concept-level-hero-world');
@@ -7820,8 +7865,7 @@
  }
  var theme = panel.dataset.stageTheme || 'core';
  worldHost.className = 'concept-level-hero-world concept-level-hero-world--' + theme;
- worldHost.innerHTML = '<img src="' + getLevelWorldBg(level) + '" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />' +
- '<span class="concept-level-hero-world-shade"></span>';
+worldHost.innerHTML = '<span class="concept-level-hero-world-shade"></span>';
  }
 
  function getLevelBadgeClass(level){
@@ -9069,9 +9113,9 @@
    + '<span class="b3c3-timeline-visual" aria-hidden="true">'
    + '<span class="b3c3-timeline-visual-label">Stages</span>'
    + '<span class="b3c3-timeline-stages">'
-   + '<span class="b3c3-timeline-stage-thumb"><img src="/assets/images/module-4/worlds/stage-1-world-bg.jpg" alt="" width="120" height="120" loading="lazy" decoding="async" /><span>Confidence</span></span>'
-   + '<span class="b3c3-timeline-stage-thumb"><img src="/assets/images/module-4/worlds/stage-2-world-bg.jpg" alt="" width="120" height="120" loading="lazy" decoding="async" /><span>Basic</span></span>'
-   + '<span class="b3c3-timeline-stage-thumb"><img src="/assets/images/module-4/worlds/stage-3-world-bg.jpg" alt="" width="120" height="120" loading="lazy" decoding="async" /><span>Structured</span></span>'
+   + '<span class="b3c3-timeline-stage-thumb b3c3-timeline-stage-thumb--confidence"><span>Confidence</span></span>'
+   + '<span class="b3c3-timeline-stage-thumb b3c3-timeline-stage-thumb--basic"><span>Basic</span></span>'
+   + '<span class="b3c3-timeline-stage-thumb b3c3-timeline-stage-thumb--structured"><span>Structured</span></span>'
    + '</span></span>'
    + '<span class="b3c3-timeline-copy">'
    + '<span class="b3c3-timeline-kicker">Step 1</span>'
@@ -10919,21 +10963,18 @@
  kicker: 'Stage 1',
  label: 'Swim Confidence',
  theme: 'confidence',
- world: '/assets/images/module-4/worlds/stage-1-world-bg.jpg',
  worldAlt: 'Stage 1 Swim Confidence'
  },
  b2c2: {
  kicker: 'Stage 2',
  label: 'Swim Basic',
  theme: 'basic',
- world: '/assets/images/module-4/worlds/stage-2-world-bg.jpg',
  worldAlt: 'Stage 2 Swim Basic'
  },
  b2c3: {
  kicker: 'Stage 3',
  label: 'Swim Structured',
  theme: 'structured',
- world: '/assets/images/module-4/worlds/stage-3-world-bg.jpg',
  worldAlt: 'Stage 3 Swim Structured'
  }
  };
@@ -10941,11 +10982,10 @@
  if(!host) return;
  var meta = STAGE_HERO[target];
  host.innerHTML = '';
- if(!meta || !meta.world) return;
+if(!meta) return;
  var shade = meta.theme ? ('stage-intro-hero-world-shade--' + meta.theme) : '';
  host.innerHTML =
  '<span class="stage-intro-hero-world-media" aria-hidden="true">' +
- '<img src="' + meta.world + '" alt="" width="1200" height="800" loading="lazy" decoding="async" data-no-expand="true" />' +
  '<span class="stage-intro-hero-world-shade ' + shade + '"></span>' +
  '</span>' +
  '<span class="stage-intro-hero-world-copy">' +

@@ -241,37 +241,48 @@
       box-shadow:0 10px 22px rgba(12,36,54,.08);
       color:#fff;
     }
-    .stage-world{
+    .stage--confidence{ background:linear-gradient(145deg,#1a5c38 0%,#28784d 58%,#143d2e 100%); }
+    .stage--basic{ background:linear-gradient(145deg,#c97816 0%,#ea8f22 58%,#a45f12 100%); }
+    .stage--structured{ background:linear-gradient(145deg,#2d84b3 0%,#4a86b4 56%,#12456b 100%); }
+    .stage::before,
+    .stage::after{
+      content:"";
       position:absolute;
-      inset:0;
-      z-index:0;
+      left:-10%;
+      z-index:1;
+      width:120%;
+      border-radius:50%;
+      pointer-events:none;
     }
-    .stage-world img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
+    .stage::before{
+      height:56%;
+      bottom:-38%;
+      background:rgba(255,255,255,.10);
+      transform:rotate(-3deg);
     }
-    .stage--confidence .stage-world img{ object-position:center 40%; }
-    .stage--basic .stage-world img{ object-position:center 55%; }
-    .stage--structured .stage-world img{
-      object-position:center 72%;
-      filter:saturate(1.12) brightness(1.18);
+    .stage::after{
+      height:44%;
+      bottom:-34%;
+      background:rgba(255,255,255,.07);
+      transform:rotate(5deg);
+    }
+    .stage-world{
+      display:none;
     }
     .stage-shade{
       position:absolute;
       inset:0;
-      z-index:1;
+      z-index:0;
       pointer-events:none;
     }
     .stage--confidence .stage-shade{
-      background:linear-gradient(180deg, rgba(26,92,56,.4) 0%, rgba(14,48,30,.52) 46%, rgba(10,36,24,.84) 100%);
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(8,40,24,.10));
     }
     .stage--basic .stage-shade{
-      background:linear-gradient(180deg, rgba(201,120,22,.38) 0%, rgba(140,78,12,.5) 46%, rgba(90,50,8,.84) 100%);
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(72,40,8,.10));
     }
     .stage--structured .stage-shade{
-      background:linear-gradient(180deg, rgba(74,134,180,.32) 0%, rgba(21,80,120,.46) 44%, rgba(10,40,70,.8) 100%);
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(8,32,56,.10));
     }
     .stage-body{
       position:relative;
@@ -568,9 +579,6 @@
 
     <section class="stages" aria-label="Stages and levels">
       <article class="stage stage--confidence">
-        <div class="stage-world" aria-hidden="true">
-          <img src="./images/module-4/worlds/stage-1-world-bg.jpg" alt="" width="1200" height="800" />
-        </div>
         <div class="stage-shade" aria-hidden="true"></div>
         <div class="stage-body">
           <div class="stage-meta">
@@ -601,9 +609,6 @@
       </article>
 
       <article class="stage stage--basic">
-        <div class="stage-world" aria-hidden="true">
-          <img src="./images/module-4/worlds/stage-2-world-bg.jpg" alt="" width="1200" height="800" />
-        </div>
         <div class="stage-shade" aria-hidden="true"></div>
         <div class="stage-body">
           <div class="stage-meta">
@@ -634,9 +639,6 @@
       </article>
 
       <article class="stage stage--structured">
-        <div class="stage-world" aria-hidden="true">
-          <img src="./images/module-4/worlds/stage-3-world-bg.jpg" alt="" width="1200" height="800" />
-        </div>
         <div class="stage-shade" aria-hidden="true"></div>
         <div class="stage-body">
           <div class="stage-meta">

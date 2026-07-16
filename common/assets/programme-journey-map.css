@@ -1,5 +1,5 @@
-/* The clubSENsational Swimming Journey  Module 4 Block 3
-   Three stage worlds + six adaptive levels (integrated pathway map) */
+/* The clubSENsational Swimming Journey — three corporate stage colours,
+   subtle aquatic flow, and six mascot-led adaptive levels. */
 
 .swimming-journey-section{
   margin:28px 0 32px;
@@ -86,7 +86,7 @@
   color:var(--pjm-muted);
 }
 
-/* Three world columns */
+/* Three stage columns */
 .pjm-stages{
   display:grid;
   grid-template-columns:1fr;
@@ -117,23 +117,46 @@
 .pjm-stage--explore.is-highlighted{ border-color:rgba(196,127,18,.4); }
 .pjm-stage--master.is-highlighted{ border-color:rgba(45,132,179,.4); }
 
-/* World hero  photo + animals */
+/* Stage hero — colour field + restrained wave detail + mascots */
 .pjm-stage-world{
   position:relative;
   min-height:210px;
   isolation:isolate;
   overflow:hidden;
 }
-.pjm-stage-world-img{
+.pjm-stage--discover .pjm-stage-world{
+  background:linear-gradient(145deg,#1a5c38 0%,#28784d 58%,#143d2e 100%);
+}
+.pjm-stage--explore .pjm-stage-world{
+  background:linear-gradient(145deg,#c97816 0%,#ea8f22 58%,#a45f12 100%);
+}
+.pjm-stage--master .pjm-stage-world{
+  background:linear-gradient(145deg,#2d84b3 0%,#4a86b4 56%,#12456b 100%);
+}
+.pjm-stage-world::before,
+.pjm-stage-world::after{
+  content:"";
   position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center center;
-  transform:scale(1.02);
-  transition:transform .55s ease;
-  z-index:0;
+  left:-10%;
+  z-index:1;
+  width:120%;
+  border-radius:50%;
+  pointer-events:none;
+}
+.pjm-stage-world::before{
+  height:72%;
+  bottom:-50%;
+  background:rgba(255,255,255,.11);
+  transform:rotate(-3deg);
+}
+.pjm-stage-world::after{
+  height:58%;
+  bottom:-44%;
+  background:rgba(255,255,255,.08);
+  transform:rotate(5deg);
+}
+.pjm-stage-world-img{
+  display:none;
 }
 .pjm-stage.is-highlighted .pjm-stage-world-img,
 .pjm-stage:hover .pjm-stage-world-img{
@@ -145,24 +168,16 @@
   inset:0;
   z-index:1;
   pointer-events:none;
-  background:
-    linear-gradient(180deg, rgba(8,24,40,.12) 0%, rgba(8,24,40,.04) 32%, rgba(8,24,40,.38) 72%, rgba(8,24,40,.62) 100%);
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(8,24,40,.12));
 }
 .pjm-stage--discover .pjm-stage-world-shade{
-  background:
-    linear-gradient(180deg, rgba(10,48,28,.10) 0%, rgba(10,48,28,.04) 30%, rgba(8,40,24,.34) 70%, rgba(6,32,18,.58) 100%);
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(8,40,24,.12));
 }
 .pjm-stage--explore .pjm-stage-world-shade{
-  background:
-    linear-gradient(180deg, rgba(72,40,8,.10) 0%, rgba(72,40,8,.04) 30%, rgba(56,32,6,.34) 70%, rgba(40,24,4,.58) 100%);
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(72,40,8,.12));
 }
 .pjm-stage--master .pjm-stage-world-shade{
-  background:
-    linear-gradient(180deg, rgba(8,32,56,.10) 0%, rgba(8,32,56,.03) 30%, rgba(8,28,48,.28) 70%, rgba(6,22,40,.48) 100%);
-}
-.pjm-stage--master .pjm-stage-world-img{
-  object-position:center 72%;
-  filter:saturate(1.12) brightness(1.18);
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(8,32,56,.12));
 }
 
 .pjm-stage-head{
@@ -215,7 +230,7 @@
   max-width:28ch;
 }
 
-/* Animals living on the world */
+/* Mascot-led level shortcuts */
 .pjm-stage-path{
   position:relative;
   z-index:3;
@@ -267,21 +282,20 @@
   align-items:flex-end;
   justify-content:center;
   border-radius:18px;
-  background:rgba(255,255,255,.22);
-  border:1px solid rgba(255,255,255,.4);
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(255,255,255,.78);
   box-shadow:
-    0 10px 24px rgba(0,0,0,.22),
-    inset 0 1px 0 rgba(255,255,255,.45);
-  backdrop-filter:blur(8px);
+    0 10px 24px rgba(8,32,48,.14),
+    inset 0 1px 0 #fff;
   transition:none;
 }
 .pjm-ocean-node:hover .pjm-ocean-node-icon,
 .pjm-ocean-node.is-active .pjm-ocean-node-icon{
-  background:rgba(255,255,255,.22);
-  border-color:rgba(255,255,255,.4);
+  background:#fff;
+  border-color:#fff;
   box-shadow:
-    0 10px 24px rgba(0,0,0,.22),
-    inset 0 1px 0 rgba(255,255,255,.45);
+    0 12px 26px rgba(8,32,48,.18),
+    inset 0 1px 0 #fff;
 }
 .pjm-ocean-node-icon img{
   position:relative;
@@ -291,7 +305,7 @@
   max-width:64px;
   object-fit:contain;
   display:block;
-  filter:drop-shadow(0 6px 12px rgba(0,0,0,.28));
+  filter:drop-shadow(0 5px 9px rgba(18,50,71,.16));
   transition:none;
   transform:none !important;
 }
@@ -301,7 +315,7 @@
 }
 .pjm-ocean-node.is-complete .pjm-ocean-node-icon{
   box-shadow:
-    0 10px 24px rgba(0,0,0,.22),
+    0 10px 24px rgba(8,32,48,.14),
     0 0 0 2px rgba(244,183,64,.65);
 }
 .pjm-ocean-node-name{
@@ -313,7 +327,7 @@
   text-align:center;
   line-height:1.15;
   color:#fff;
-  text-shadow:0 1px 8px rgba(0,0,0,.45);
+  text-shadow:0 1px 5px rgba(0,0,0,.18);
 }
 .pjm-ocean-node-level{
   margin:0;
@@ -322,7 +336,7 @@
   letter-spacing:.06em;
   text-transform:uppercase;
   color:rgba(255,255,255,.78);
-  text-shadow:0 1px 6px rgba(0,0,0,.4);
+  text-shadow:0 1px 5px rgba(0,0,0,.16);
 }
 .pjm-ocean-node.is-active .pjm-ocean-node-name{
   color:#fff;
