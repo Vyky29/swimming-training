@@ -12621,21 +12621,12 @@
  var data = focusData[key];
  if(!data) return;
  var isOpen = !!focusOpen[key];
- if(isOpen && !data.completed){
+ if(isOpen){
  detail.hidden = true;
  focusOpen[key] = false;
  setDisclosureState(btn, false);
  return;
  }
- buttons.forEach(function(other){
- var otherKey = other.getAttribute('data-b2l1-item');
- if(otherKey !== key && focusOpen[otherKey] && !focusData[otherKey]?.completed){
- var otherDetail = other.nextElementSibling;
- if(otherDetail && otherDetail.classList.contains('b2l1-focus-detail')) otherDetail.hidden = true;
- setDisclosureState(other, false);
- focusOpen[otherKey] = false;
- }
- });
  focusOpen[key] = true;
  setDisclosureState(btn, true);
  detail.innerHTML = '<div class="b2l1-list">' +
