@@ -861,7 +861,7 @@
 
   function getSubconceptNavButtons(nav){
     if(!nav) return [];
-    return $$('.concept-square[data-target], .b3c3-overview-step[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget], .overview-subconcept-btn', nav);
+    return $$('.concept-square[data-target], .b3c3-overview-step[data-target], .b3c3-timeline-card[data-target], .overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget], .overview-subconcept-btn', nav);
   }
 
   function isOnParentHubWithSubconcepts(panel){
@@ -1847,14 +1847,14 @@
   function getSubconceptNav(panel){
     if(!panel) return null;
     var nav = panel.querySelector('[data-parent-subconcept-nav]:not([hidden])');
-    if(nav && nav.querySelector('.concept-square[data-target], .overview-subconcept-btn, .b3c3-overview-step[data-target]')) return nav;
+    if(nav && nav.querySelector('.concept-square[data-target], .overview-subconcept-btn, .b3c3-overview-step[data-target], .b3c3-timeline-card[data-target]')) return nav;
     var shell = panel.querySelector('.overview-subconcept-shell:not([hidden])');
     if(shell) return shell.querySelector('.overview-subconcept-grid') || shell;
     var overviewGrid = panel.querySelector('.overview-subconcept-grid');
     if(overviewGrid) return overviewGrid;
-    // Term Review steps (and similar) may sit in the primary image slot
-    var b3c3 = panel.querySelector('.b3c3-overview-list, .b3c3-overview-wrap');
-    if(b3c3 && b3c3.querySelector('.concept-square[data-target], .b3c3-overview-step[data-target]')) return b3c3;
+    // Term Review pathway (timeline cards) may sit in parent nav or as a path root
+    var b3c3 = panel.querySelector('.b3c3-review-path, .b3c3-overview-list, .b3c3-overview-wrap');
+    if(b3c3 && b3c3.querySelector('.concept-square[data-target], .b3c3-overview-step[data-target], .b3c3-timeline-card[data-target]')) return b3c3;
     return null;
   }
 
@@ -3903,6 +3903,7 @@
     return !!(
       el.closest('[data-parent-subconcept-nav] .concept-square[data-target]') ||
       el.closest('.b3c3-overview-step[data-target]') ||
+      el.closest('.b3c3-timeline-card[data-target]') ||
       el.closest('.overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget]') ||
       el.closest('.b2c2-folder-tile[data-b2-go], .b2c3-flash-tile[data-b2-go]') ||
       el.closest('.b2pl-cat-grid .b2pl-lvl-btn[data-b2-go], .b2pl-folder-grid .b2pl-lvl-btn[data-b2-go]') ||
@@ -3967,6 +3968,7 @@
       var leafEntry = e.target && e.target.closest ? e.target.closest(
         '[data-parent-subconcept-nav] .concept-square[data-target], ' +
         '[data-parent-subconcept-nav] .b3c3-overview-step[data-target], ' +
+        '[data-parent-subconcept-nav] .b3c3-timeline-card[data-target], ' +
         '.b3c3-overview-step.concept-square[data-target], ' +
         '.overview-subconcept-btn[data-overview-subtarget], .overview-subconcept-btn[data-parent-subtarget], ' +
         '.b2c2-folder-tile[data-b2-go], .b2c3-flash-tile[data-b2-go], ' +

@@ -2248,113 +2248,336 @@
  }
  .b2l1-hidden-source{ display:none !important; }
 
- /* b3c3 overview: review step cards + Term Review CTA */
- .b3c3-overview-wrap{ width:100%; max-width:100%; min-width:0; margin:0 0 4px; }
- .b3c3-overview-list{
- display:flex;
- flex-direction:column;
- gap:10px;
+ /* b3c3 review pathway: clickable timeline (special hub, still on-brand) */
+ .b3c3-review-path{
+ position:relative;
  width:100%;
+ max-width:100%;
+ min-width:0;
+ margin:0;
+ padding:4px 0 2px 0;
  }
- .b3c3-overview-steps{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
- gap:10px;
- width:100%;
+ .b3c3-review-path-rail{
+ position:absolute;
+ left:23px;
+ top:28px;
+ bottom:88px;
+ width:3px;
+ border-radius:999px;
+ background:linear-gradient(180deg,#1a5c38 0%,#2d84b3 48%,#6b3fa0 100%);
+ opacity:.35;
+ pointer-events:none;
  }
- .b3c3-overview-step.concept-square,
- .b3c3-overview-step{
+ .b3c3-timeline-card.concept-square,
+ .b3c3-timeline-card{
  appearance:none;
- display:flex;
- align-items:center;
- justify-content:flex-start;
+ position:relative;
+ display:grid;
+ grid-template-columns:46px minmax(0,1fr);
  gap:12px;
  width:100%;
  max-width:100%;
  min-width:0;
- min-height:72px;
+ min-height:0;
  height:auto;
- padding:14px 14px;
- border:1px solid transparent;
- border-radius:16px;
- color:#fff;
- box-shadow:0 10px 22px rgba(18,50,71,.1);
- box-sizing:border-box;
- text-decoration:none;
+ margin:0 0 12px;
+ padding:0;
+ border:0;
+ background:transparent;
+ box-shadow:none;
+ color:var(--ink);
  text-align:left;
  font:inherit;
  font-size:inherit;
  font-weight:inherit;
- line-height:1.25;
+ line-height:1.35;
  cursor:pointer;
- transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+ transition:transform .18s ease;
  }
- .b3c3-overview-step:hover{
- transform:translateY(-2px);
- filter:brightness(1.04);
- box-shadow:0 14px 28px rgba(18,50,71,.16);
- }
- .b3c3-overview-step.concept-square.visited::after,
- .b3c3-overview-step.visited::after{
- top:8px;
- right:8px;
- width:20px;
- height:20px;
- font-size:.65rem;
- }
- .b3c3-overview-step.concept-square.active,
- .b3c3-overview-step.active{
- outline:2px solid rgba(255,255,255,.55);
- outline-offset:2px;
- }
- .b3c3-overview-step:focus-visible{
+ .b3c3-timeline-card:last-of-type{ margin-bottom:14px; }
+ .b3c3-timeline-card:hover{ transform:translateY(-2px); filter:none; }
+ .b3c3-timeline-card:focus-visible{
  outline:2px solid var(--blue);
- outline-offset:2px;
+ outline-offset:3px;
  }
- .b3c3-overview-step--stage{
- background:linear-gradient(145deg,#2f7a4d 0%,#1a5c38 100%);
- border-color:rgba(26,92,56,.35);
- }
- .b3c3-overview-step--level{
- background:linear-gradient(145deg,#3a8fbb 0%,#1580b0 100%);
- border-color:rgba(45,132,179,.35);
- }
- .b3c3-overview-step--core{
- background:linear-gradient(145deg,#8a5fc0 0%,#6b3fa0 100%);
- border-color:rgba(107,63,160,.35);
- }
- .b3c3-overview-step--form{
- align-items:center;
- justify-content:space-between;
- min-height:64px;
- padding:14px 16px;
- background:linear-gradient(90deg,var(--gold) 0%,var(--blue) 100%);
- border-color:rgba(204,149,43,.35);
- box-shadow:0 12px 26px rgba(45,132,179,.16);
- }
- .b3c3-overview-step-num{
- flex:0 0 auto;
- width:30px;
- height:30px;
+ .b3c3-timeline-marker{
+ position:relative;
+ z-index:1;
+ width:46px;
+ height:46px;
+ margin-top:18px;
  border-radius:50%;
  display:inline-flex;
  align-items:center;
  justify-content:center;
- background:rgba(255,255,255,.2);
- border:1px solid rgba(255,255,255,.35);
- font-size:.85rem;
+ font-size:1rem;
  font-weight:800;
  color:#fff;
- line-height:1;
+ box-shadow:0 8px 18px rgba(18,50,71,.16);
+ border:3px solid #fff;
  }
- .b3c3-overview-step-copy{
+ .b3c3-timeline-card--stage .b3c3-timeline-marker{
+ background:linear-gradient(145deg,#2f7a4d 0%,#1a5c38 100%);
+ }
+ .b3c3-timeline-card--level .b3c3-timeline-marker{
+ background:linear-gradient(145deg,#3a8fbb 0%,#1580b0 100%);
+ }
+ .b3c3-timeline-card--core .b3c3-timeline-marker{
+ background:linear-gradient(145deg,#8a5fc0 0%,#6b3fa0 100%);
+ }
+ .b3c3-timeline-panel{
+ display:grid;
+ grid-template-columns:minmax(118px,32%) minmax(0,1fr);
+ gap:0;
+ overflow:hidden;
+ border-radius:18px;
+ border:1px solid rgba(22,50,71,.1);
+ background:#fff;
+ box-shadow:0 10px 24px rgba(18,50,71,.08);
+ min-width:0;
+ transition:box-shadow .18s ease,border-color .18s ease;
+ }
+ .b3c3-timeline-card:hover .b3c3-timeline-panel{
+ box-shadow:0 14px 30px rgba(18,50,71,.14);
+ }
+ .b3c3-timeline-card--stage .b3c3-timeline-panel{ border-color:rgba(26,92,56,.22); }
+ .b3c3-timeline-card--level .b3c3-timeline-panel{ border-color:rgba(45,132,179,.22); }
+ .b3c3-timeline-card--core .b3c3-timeline-panel{ border-color:rgba(107,63,160,.22); }
+ .b3c3-timeline-visual{
+ position:relative;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ gap:8px;
+ padding:12px;
+ min-height:132px;
+ border-right:1px solid rgba(22,50,71,.06);
+ overflow:hidden;
+ }
+ .b3c3-timeline-card--stage .b3c3-timeline-visual{
+ background:linear-gradient(165deg,rgba(26,92,56,.12),rgba(21,128,176,.08));
+ }
+ .b3c3-timeline-card--level .b3c3-timeline-visual{
+ background:linear-gradient(160deg,rgba(45,132,179,.12),rgba(78,176,229,.06));
+ }
+ .b3c3-timeline-card--core .b3c3-timeline-visual{
+ background:linear-gradient(160deg,rgba(107,63,160,.12),rgba(45,132,179,.06));
+ }
+ .b3c3-timeline-visual-label{
+ margin:0;
+ font-size:.58rem;
+ font-weight:800;
+ letter-spacing:.12em;
+ text-transform:uppercase;
+ color:var(--muted);
+ text-align:center;
+ }
+ .b3c3-timeline-stages{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:5px;
+ }
+ .b3c3-timeline-stage-thumb{
+ position:relative;
+ aspect-ratio:1.05;
+ border-radius:10px;
+ overflow:hidden;
+ border:2px solid rgba(255,255,255,.95);
+ box-shadow:0 4px 10px rgba(18,50,71,.12);
+ }
+ .b3c3-timeline-stage-thumb img{
+ display:block;
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ object-position:center;
+ }
+ .b3c3-timeline-stage-thumb span{
+ position:absolute;
+ left:0; right:0; bottom:0;
+ padding:3px 2px 4px;
+ font-size:.42rem;
+ font-weight:800;
+ letter-spacing:.03em;
+ text-transform:uppercase;
+ text-align:center;
+ color:#fff;
+ background:linear-gradient(180deg,transparent,rgba(12,36,54,.82));
+ line-height:1.1;
+ }
+ .b3c3-timeline-levels{
+ display:grid;
+ grid-template-columns:repeat(6,minmax(0,1fr));
+ gap:4px;
+ }
+ .b3c3-timeline-level-pill{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ aspect-ratio:1;
+ border-radius:10px;
+ font-size:.68rem;
+ font-weight:800;
+ color:#fff;
+ box-shadow:0 3px 8px rgba(18,50,71,.1);
+ }
+ .b3c3-timeline-level-pill--1{ background:#1a5c38; }
+ .b3c3-timeline-level-pill--2{ background:#6da372; }
+ .b3c3-timeline-level-pill--3{ background:#ea8f22; }
+ .b3c3-timeline-level-pill--4{ background:#c4a74a; }
+ .b3c3-timeline-level-pill--5{ background:#4eb0e5; }
+ .b3c3-timeline-level-pill--6{ background:#12456b; }
+ .b3c3-timeline-cores{
+ display:flex;
+ flex-direction:column;
+ gap:5px;
+ }
+ .b3c3-timeline-core-chip{
+ display:grid;
+ grid-template-columns:32px 1fr;
+ align-items:center;
+ gap:6px;
+ padding:4px 6px 4px 4px;
+ border-radius:10px;
+ background:rgba(255,255,255,.9);
+ border:1px solid rgba(107,63,160,.12);
+ }
+ .b3c3-timeline-core-chip img{
+ width:32px;
+ height:32px;
+ object-fit:contain;
+ }
+ .b3c3-timeline-core-chip strong{
+ font-size:.6rem;
+ font-weight:800;
+ color:var(--ink);
+ line-height:1.15;
+ }
+ .b3c3-timeline-copy{
+ display:flex;
+ flex-direction:column;
+ gap:4px;
+ padding:14px 14px 14px 12px;
+ min-width:0;
+ }
+ .b3c3-timeline-kicker{
+ margin:0;
+ font-size:.62rem;
+ font-weight:800;
+ letter-spacing:.1em;
+ text-transform:uppercase;
+ color:var(--muted);
+ }
+ .b3c3-timeline-card--stage .b3c3-timeline-kicker{ color:#1a5c38; }
+ .b3c3-timeline-card--level .b3c3-timeline-kicker{ color:#1580b0; }
+ .b3c3-timeline-card--core .b3c3-timeline-kicker{ color:#6b3fa0; }
+ .b3c3-timeline-title{
+ margin:0;
+ font-size:.95rem;
+ font-weight:800;
+ color:var(--ink);
+ line-height:1.2;
+ }
+ .b3c3-timeline-lead{
+ margin:0;
+ font-size:.8rem;
+ font-weight:700;
+ color:var(--blue);
+ line-height:1.35;
+ }
+ .b3c3-timeline-card--stage .b3c3-timeline-lead{ color:#1a5c38; }
+ .b3c3-timeline-card--core .b3c3-timeline-lead{ color:#6b3fa0; }
+ .b3c3-timeline-list{
+ margin:2px 0 0;
+ padding:0;
+ list-style:none;
+ }
+ .b3c3-timeline-list li{
+ position:relative;
+ margin:0;
+ padding:2px 0 2px 12px;
+ font-size:.72rem;
+ font-weight:600;
+ line-height:1.4;
+ color:var(--text);
+ }
+ .b3c3-timeline-list li::before{
+ content:"";
+ position:absolute;
+ left:0;
+ top:.65em;
+ width:5px;
+ height:5px;
+ border-radius:50%;
+ background:var(--blue);
+ opacity:.75;
+ }
+ .b3c3-timeline-card--stage .b3c3-timeline-list li::before{ background:#1a5c38; }
+ .b3c3-timeline-card--core .b3c3-timeline-list li::before{ background:#6b3fa0; }
+ .b3c3-timeline-cta{
+ margin-top:6px;
+ display:inline-flex;
+ align-items:center;
+ gap:6px;
+ font-size:.72rem;
+ font-weight:800;
+ color:var(--blue);
+ }
+ .b3c3-timeline-card--stage .b3c3-timeline-cta{ color:#1a5c38; }
+ .b3c3-timeline-card--core .b3c3-timeline-cta{ color:#6b3fa0; }
+ .b3c3-timeline-cta::after{
+ content:"→";
+ font-weight:800;
+ }
+ .b3c3-timeline-card.concept-square.visited::after,
+ .b3c3-timeline-card.visited::after{
+ top:10px;
+ right:10px;
+ width:22px;
+ height:22px;
+ font-size:.7rem;
+ z-index:2;
+ }
+ .b3c3-timeline-card.concept-square.active .b3c3-timeline-panel,
+ .b3c3-timeline-card.active .b3c3-timeline-panel{
+ outline:2px solid rgba(45,132,179,.45);
+ outline-offset:0;
+ }
+ .b3c3-timeline-card.is-next .b3c3-timeline-panel{
+ box-shadow:0 0 0 2px rgba(45,132,179,.35),0 14px 30px rgba(18,50,71,.14);
+ }
+ .b3c3-timeline-form{
+ appearance:none;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+ width:100%;
+ margin:2px 0 0 46px;
+ max-width:calc(100% - 46px);
+ min-height:64px;
+ padding:14px 16px;
+ border-radius:16px;
+ border:1px solid rgba(204,149,43,.35);
+ background:linear-gradient(90deg,var(--gold) 0%,var(--blue) 100%);
+ color:#fff;
+ text-decoration:none;
+ box-shadow:0 12px 26px rgba(45,132,179,.16);
+ box-sizing:border-box;
+ transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+ }
+ .b3c3-timeline-form:hover{
+ transform:translateY(-2px);
+ filter:brightness(1.04);
+ box-shadow:0 14px 28px rgba(18,50,71,.16);
+ }
+ .b3c3-timeline-form-copy{
  display:flex;
  flex-direction:column;
  gap:2px;
  min-width:0;
- flex:1;
  }
- .b3c3-overview-step-kicker{
+ .b3c3-timeline-form-kicker{
  margin:0;
  font-size:.62rem;
  font-weight:800;
@@ -2362,23 +2585,19 @@
  text-transform:uppercase;
  color:rgba(255,255,255,.78);
  }
- .b3c3-overview-step-title{
+ .b3c3-timeline-form-title{
  margin:0;
- font-size:.9rem;
+ font-size:.92rem;
  font-weight:800;
  color:#fff;
- line-height:1.25;
- max-width:100%;
- overflow-wrap:break-word;
  }
- .b3c3-overview-step-hint{
+ .b3c3-timeline-form-hint{
  margin:0;
  font-size:.72rem;
  font-weight:600;
- color:rgba(255,255,255,.82);
- line-height:1.3;
+ color:rgba(255,255,255,.85);
  }
- .b3c3-overview-step-icon{
+ .b3c3-timeline-form-icon{
  flex:0 0 auto;
  width:28px;
  height:28px;
@@ -2389,14 +2608,24 @@
  background:rgba(255,255,255,.2);
  color:#fff;
  }
- .b3c3-overview-step-icon svg{
- width:14px;
- height:14px;
- display:block;
- }
+ .b3c3-timeline-form-icon svg{ width:14px; height:14px; display:block; }
  @media (max-width:720px){
- .b3c3-overview-steps{ grid-template-columns:1fr; }
+ .b3c3-review-path-rail{ left:19px; }
+ .b3c3-timeline-card.concept-square,
+ .b3c3-timeline-card{ grid-template-columns:38px minmax(0,1fr); gap:10px; }
+ .b3c3-timeline-marker{ width:38px; height:38px; margin-top:14px; font-size:.9rem; }
+ .b3c3-timeline-panel{ grid-template-columns:1fr; }
+ .b3c3-timeline-visual{
+ min-height:0;
+ border-right:0;
+ border-bottom:1px solid rgba(22,50,71,.06);
  }
+ .b3c3-timeline-form{ margin-left:38px; max-width:calc(100% - 38px); }
+ }
+
+ /* legacy overview aliases kept for flow-guide selectors */
+ .b3c3-overview-wrap{ width:100%; }
+ .b3c3-overview-step{ /* handled by timeline card styles when combined */ }
 
  /* b3c3 step visuals */
  .b3c3-step-visual{
@@ -2984,8 +3213,40 @@
 
  /* b3c2 parent - three pathway tiles (after default .concept-square:hover so themed states win) */
  .concept-grid.b3c2-subconcept-buttons .b3c2-path-btn{
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:10px;
+ min-height:148px;
+ padding:18px 14px 16px;
  font-weight:800;
+ text-align:center;
  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,color .18s ease,outline-color .18s ease,transform .18s ease;
+ }
+ .concept-grid.b3c2-subconcept-buttons .b3c2-path-icon{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ width:64px;
+ height:64px;
+ flex:0 0 auto;
+ background:transparent;
+ border:0;
+ box-shadow:none;
+ }
+ .concept-grid.b3c2-subconcept-buttons .b3c2-path-icon img{
+ display:block;
+ width:56px;
+ height:56px;
+ object-fit:contain;
+ filter:drop-shadow(0 2px 4px rgba(18,50,71,.08));
+ pointer-events:none;
+ }
+ .concept-grid.b3c2-subconcept-buttons .b3c2-path-label{
+ display:block;
+ line-height:1.25;
+ max-width:14ch;
  }
  .concept-grid.b3c2-subconcept-buttons .b3c2-path-btn--physical{
  background:linear-gradient(180deg,#e6f6f9 0%,#f2fbfc 100%);
@@ -4244,6 +4505,23 @@
  .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > [data-parent-subconcept-nav]{ order:7; }
  .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > .concept-media-actions{ order:8; }
  .concept-panel.show[data-concept-flow="flat"]:has([data-parent-subconcept-nav]) > .concept-actions{ order:9; }
+
+ /* b3c3 pathway is the visual: place it directly under the intro copy */
+ .concept-panel.show[data-concept-flow="flat"]:has(.b3c3-review-path) > [data-parent-subconcept-nav]{ order:2; }
+ .concept-panel.show[data-concept-flow="flat"]:has(.b3c3-review-path) > [data-concept-intro-media]{ order:3; }
+ .concept-panel.show[data-concept-flow="flat"]:has(.b3c3-review-path) > [data-concept-primary-image],
+ .concept-panel.show[data-concept-flow="flat"]:has(.b3c3-review-path) > .concept-image{ order:4; }
+ .concept-panel.show[data-concept-flow="flat"]:has(.b3c3-review-path) > .concept-points-box{ order:5; }
+ .concept-panel.show[data-concept-flow="flat"]:has(.b3c3-review-path) > .b3c2-factor-explore{ order:6; }
+ .concept-panel.show[data-concept-flow="flat"]:has(.b3c3-review-path) > [data-concept-activity-flow]{ order:7; }
+ .concept-panel.show[data-concept-flow="flat"]:has(.b3c3-review-path) > .concept-media-actions{ order:8; }
+ .concept-panel.show[data-concept-flow="flat"]:has(.b3c3-review-path) > .concept-actions{ order:9; }
+ .concept-panel.show:has(.b3c3-review-path) > [data-parent-subconcept-nav].concept-section-card{
+ border:0;
+ background:transparent;
+ box-shadow:none;
+ padding:0;
+ }
 
  /* Block 1 + 3 flat flow: use full panel width (no 920px gutters inside the concept card) */
  .concept-panel[data-concept-flow="flat"] .concept-section-card,
@@ -8455,9 +8733,9 @@
  parentSubconceptLead: 'Tap one to open it.',
  parentSubconceptNavHTML: '<div class="b3c2-subconcepts-wrap">' +
  '<div class="concept-grid b3c2-subconcept-buttons">' +
- '<button class="concept-square b3c2-path-btn b3c2-path-btn--physical" type="button" data-target="b3c2_physical"><span>Physical Factors</span></button>' +
- '<button class="concept-square b3c2-path-btn b3c2-path-btn--motor" type="button" data-target="b3c2_motor"><span>Motor Planning Factors</span></button>' +
- '<button class="concept-square b3c2-path-btn b3c2-path-btn--cognitive" type="button" data-target="b3c2_cognitive"><span>Cognitive Factors</span></button>' +
+ '<button class="concept-square b3c2-path-btn b3c2-path-btn--physical" type="button" data-target="b3c2_physical"><span class="b3c2-path-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/factor-physical.png?v=20260716path1" alt="" width="56" height="56" loading="lazy" decoding="async" /></span><span class="b3c2-path-label">Physical Factors</span></button>' +
+ '<button class="concept-square b3c2-path-btn b3c2-path-btn--motor" type="button" data-target="b3c2_motor"><span class="b3c2-path-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/factor-motor.png?v=20260716path1" alt="" width="56" height="56" loading="lazy" decoding="async" /></span><span class="b3c2-path-label">Motor Planning Factors</span></button>' +
+ '<button class="concept-square b3c2-path-btn b3c2-path-btn--cognitive" type="button" data-target="b3c2_cognitive"><span class="b3c2-path-icon" aria-hidden="true"><img src="/assets/images/module-4/factors/icons/factor-cognitive.png?v=20260716path1" alt="" width="56" height="56" loading="lazy" decoding="async" /></span><span class="b3c2-path-label">Cognitive Factors</span></button>' +
  '</div></div>'
  },
  b3c2_physical: {
@@ -8721,20 +8999,74 @@
  },
  b3c3: {
  title: 'Using the Framework to Review Progress',
- text: '<p>At the end of each term, instructors review swimmer development using the programme framework.</p><p>This helps identify where progress is happening and determine the most appropriate next step.</p>',
+ text: '<p>At the end of each term, instructors review swimmer development using the programme framework.</p><p>Work through the pathway in order: <strong>Stage</strong>, then <strong>Level</strong>, then <strong>Core Development Areas</strong>. Tap each step to open it.</p>',
  points: [],
- introMediaHTML: '<div class="b3c2-concept-hero"><img src="/assets/images/module-4/review-progress-three-columns.png" alt="Three steps to review progress: Review Stage, Review Level, and Review Development Areas" width="2200" height="761" loading="lazy" decoding="async" /></div>',
+ introMediaHTML: '',
  imageHTML: '',
- parentSubconceptTitle: 'Review steps',
- parentSubconceptLead: 'Complete Core Concept and the visual first, then open each step.',
- parentSubconceptNavHTML: '<div class="b3c3-overview-wrap"><div class="b3c3-overview-list">' +
- '<div class="b3c3-overview-steps">' +
- '<button type="button" class="concept-square b3c3-overview-step b3c3-overview-step--stage" data-target="b3c3_step1"><span class="b3c3-overview-step-num" aria-hidden="true">1</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Stages</span><span class="b3c3-overview-step-title">Review Stage</span></span></button>' +
- '<button type="button" class="concept-square b3c3-overview-step b3c3-overview-step--level" data-target="b3c3_step2"><span class="b3c3-overview-step-num" aria-hidden="true">2</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Levels 1-6</span><span class="b3c3-overview-step-title">Review Level</span></span></button>' +
- '<button type="button" class="concept-square b3c3-overview-step b3c3-overview-step--core" data-target="b3c3_step3"><span class="b3c3-overview-step-num" aria-hidden="true">3</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Core Areas</span><span class="b3c3-overview-step-title">Review Development Areas</span></span></button>' +
- '</div>' +
- '<a href="https://clubsensational-staff.vercel.app/swtermreview.html" class="b3c3-overview-step b3c3-overview-step--form" target="_blank" rel="noopener noreferrer"><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Open in portal</span><span class="b3c3-overview-step-title">Term Review Form</span><span class="b3c3-overview-step-hint">Capture stage, level and development for each swimmer</span></span><span class="b3c3-overview-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>' +
- '</div></div>'
+ parentSubconceptTitle: '',
+ parentSubconceptLead: '',
+ parentSubconceptNavHTML: ''
+   + '<div class="b3c3-review-path" aria-label="Term review pathway">'
+   + '<div class="b3c3-review-path-rail" aria-hidden="true"></div>'
+   + '<button type="button" class="concept-square b3c3-overview-step b3c3-timeline-card b3c3-timeline-card--stage" data-target="b3c3_step1">'
+   + '<span class="b3c3-timeline-marker" aria-hidden="true">1</span>'
+   + '<span class="b3c3-timeline-panel">'
+   + '<span class="b3c3-timeline-visual" aria-hidden="true">'
+   + '<span class="b3c3-timeline-visual-label">Stages</span>'
+   + '<span class="b3c3-timeline-stages">'
+   + '<span class="b3c3-timeline-stage-thumb"><img src="/assets/images/module-4/worlds/stage-1-world-bg.jpg" alt="" width="120" height="120" loading="lazy" decoding="async" /><span>Confidence</span></span>'
+   + '<span class="b3c3-timeline-stage-thumb"><img src="/assets/images/module-4/worlds/stage-2-world-bg.jpg" alt="" width="120" height="120" loading="lazy" decoding="async" /><span>Basic</span></span>'
+   + '<span class="b3c3-timeline-stage-thumb"><img src="/assets/images/module-4/worlds/stage-3-world-bg.jpg" alt="" width="120" height="120" loading="lazy" decoding="async" /><span>Structured</span></span>'
+   + '</span></span>'
+   + '<span class="b3c3-timeline-copy">'
+   + '<span class="b3c3-timeline-kicker">Step 1</span>'
+   + '<span class="b3c3-timeline-title">Review Stage</span>'
+   + '<span class="b3c3-timeline-lead">Look at the bigger picture.</span>'
+   + '<ul class="b3c3-timeline-list"><li>What is working well?</li><li>What challenges or barriers are present?</li><li>What does the swimmer need right now?</li></ul>'
+   + '<span class="b3c3-timeline-cta">Open this step</span>'
+   + '</span></span></button>'
+   + '<button type="button" class="concept-square b3c3-overview-step b3c3-timeline-card b3c3-timeline-card--level" data-target="b3c3_step2">'
+   + '<span class="b3c3-timeline-marker" aria-hidden="true">2</span>'
+   + '<span class="b3c3-timeline-panel">'
+   + '<span class="b3c3-timeline-visual" aria-hidden="true">'
+   + '<span class="b3c3-timeline-visual-label">Levels 1-6</span>'
+   + '<span class="b3c3-timeline-levels">'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--1">1</span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--2">2</span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--3">3</span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--4">4</span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--5">5</span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--6">6</span>'
+   + '</span></span>'
+   + '<span class="b3c3-timeline-copy">'
+   + '<span class="b3c3-timeline-kicker">Step 2</span>'
+   + '<span class="b3c3-timeline-title">Review Level</span>'
+   + '<span class="b3c3-timeline-lead">Focus on support and challenge.</span>'
+   + '<ul class="b3c3-timeline-list"><li>Is the support level right?</li><li>Is the challenge appropriate?</li><li>Does the environment match the swimmer\'s needs?</li></ul>'
+   + '<span class="b3c3-timeline-cta">Open this step</span>'
+   + '</span></span></button>'
+   + '<button type="button" class="concept-square b3c3-overview-step b3c3-timeline-card b3c3-timeline-card--core" data-target="b3c3_step3">'
+   + '<span class="b3c3-timeline-marker" aria-hidden="true">3</span>'
+   + '<span class="b3c3-timeline-panel">'
+   + '<span class="b3c3-timeline-visual" aria-hidden="true">'
+   + '<span class="b3c3-timeline-visual-label">Core Areas</span>'
+   + '<span class="b3c3-timeline-cores">'
+   + '<span class="b3c3-timeline-core-chip"><img src="/assets/images/module-4/core-areas/core-regulation-brain.png" alt="" width="32" height="32" loading="lazy" decoding="async" /><strong>Regulation</strong></span>'
+   + '<span class="b3c3-timeline-core-chip"><img src="/assets/images/module-4/core-areas/core-independence-rocket.png" alt="" width="32" height="32" loading="lazy" decoding="async" /><strong>Independence</strong></span>'
+   + '<span class="b3c3-timeline-core-chip"><img src="/assets/images/module-4/core-areas/core-engagement-wave.png" alt="" width="32" height="32" loading="lazy" decoding="async" /><strong>Learning &amp; Engagement</strong></span>'
+   + '</span></span>'
+   + '<span class="b3c3-timeline-copy">'
+   + '<span class="b3c3-timeline-kicker">Step 3</span>'
+   + '<span class="b3c3-timeline-title">Review Development Areas</span>'
+   + '<span class="b3c3-timeline-lead">Identify the next steps for growth.</span>'
+   + '<ul class="b3c3-timeline-list"><li>Which areas need more focus?</li><li>What goals can we set?</li><li>What strategies or adjustments will help?</li></ul>'
+   + '<span class="b3c3-timeline-cta">Open this step</span>'
+   + '</span></span></button>'
+   + '<a href="https://clubsensational-staff.vercel.app/swtermreview.html" class="b3c3-timeline-form" target="_blank" rel="noopener noreferrer">'
+   + '<span class="b3c3-timeline-form-copy"><span class="b3c3-timeline-form-kicker">Apply it</span><span class="b3c3-timeline-form-title">Term Review Form</span><span class="b3c3-timeline-form-hint">Capture stage, level and development for each swimmer</span></span>'
+   + '<span class="b3c3-timeline-form-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+   + '</a>'
+   + '</div>'
  },
  b3c3_step1: {
  title: 'Step 1 - Review Stage',
@@ -10891,13 +11223,20 @@
  hubReady = false;
  }
  }
- const innerButtons3 = panel.querySelectorAll('[data-parent-subconcept-nav] .concept-square[data-target], [data-concept-primary-image] .concept-square[data-target], .concept-image .concept-square[data-target]');
+ const innerButtons3 = panel.querySelectorAll(
+   '[data-parent-subconcept-nav] .concept-square[data-target], ' +
+   '[data-parent-subconcept-nav] .b3c3-overview-step[data-target], ' +
+   '[data-parent-subconcept-nav] .b3c3-timeline-card[data-target], ' +
+   '[data-concept-primary-image] .concept-square[data-target], ' +
+   '.concept-image .concept-square[data-target]'
+ );
  innerButtons3.forEach(button => {
  const btTarget = button.dataset.target;
  button.classList.toggle('active', btTarget === target);
  button.classList.toggle('visited', conceptCompletion[block].has(btTarget));
  button.classList.toggle('is-next', hubReady && !!nextNeeded && btTarget === nextNeeded);
- button.onclick = () => {
+ button.onclick = function(ev){
+ if(ev){ ev.preventDefault(); ev.stopPropagation(); }
  const nextTarget = button.dataset.target;
  if(!nextTarget || !conceptContent[nextTarget]) return;
  prepareConceptTransition(button);
@@ -12689,7 +13028,7 @@
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-flow-guide.js?v=20260714freenav1"></script>
+ <script src="/shared/training-flow-guide.js?v=20260716b3c3path1"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
