@@ -2261,7 +2261,7 @@
  position:absolute;
  left:23px;
  top:28px;
- bottom:88px;
+ bottom:28px;
  width:3px;
  border-radius:999px;
  background:linear-gradient(180deg,#1a5c38 0%,#2d84b3 48%,#6b3fa0 100%);
@@ -2411,22 +2411,44 @@
  gap:4px;
  }
  .b3c3-timeline-level-pill{
+ position:relative;
  display:flex;
  align-items:center;
  justify-content:center;
  aspect-ratio:1;
  border-radius:10px;
- font-size:.68rem;
- font-weight:800;
- color:#fff;
  box-shadow:0 3px 8px rgba(18,50,71,.1);
+ overflow:hidden;
  }
- .b3c3-timeline-level-pill--1{ background:#1a5c38; }
- .b3c3-timeline-level-pill--2{ background:#6da372; }
- .b3c3-timeline-level-pill--3{ background:#ea8f22; }
- .b3c3-timeline-level-pill--4{ background:#c4a74a; }
- .b3c3-timeline-level-pill--5{ background:#4eb0e5; }
- .b3c3-timeline-level-pill--6{ background:#12456b; }
+ .b3c3-timeline-level-pill img{
+ width:78%;
+ height:78%;
+ object-fit:contain;
+ display:block;
+ filter:drop-shadow(0 2px 4px rgba(12,36,54,.16));
+ }
+ .b3c3-timeline-level-pill em{
+ position:absolute;
+ right:3px;
+ bottom:2px;
+ min-width:12px;
+ height:12px;
+ padding:0 3px;
+ border-radius:999px;
+ background:rgba(12,36,54,.78);
+ color:#fff;
+ font-size:.52rem;
+ font-style:normal;
+ font-weight:800;
+ line-height:12px;
+ text-align:center;
+ }
+ .b3c3-timeline-level-pill--1{ background:linear-gradient(145deg,#e8f5ec,#fff); }
+ .b3c3-timeline-level-pill--2{ background:linear-gradient(145deg,#eef6ef,#fff); }
+ .b3c3-timeline-level-pill--3{ background:linear-gradient(145deg,#fff4e8,#fff); }
+ .b3c3-timeline-level-pill--4{ background:linear-gradient(145deg,#faf6e6,#fff); }
+ .b3c3-timeline-level-pill--5{ background:linear-gradient(145deg,#e8f5fb,#fff); }
+ .b3c3-timeline-level-pill--6{ background:linear-gradient(145deg,#e4eef6,#fff); }
  .b3c3-timeline-cores{
  display:flex;
  flex-direction:column;
@@ -2546,30 +2568,64 @@
  .b3c3-timeline-card.is-next .b3c3-timeline-panel{
  box-shadow:0 0 0 2px rgba(45,132,179,.35),0 14px 30px rgba(18,50,71,.14);
  }
+ .b3c3-timeline-activity{
+ width:100%;
+ max-width:100%;
+ margin:10px 0 0;
+ padding:14px 16px;
+ border:1px solid rgba(45,132,179,.22);
+ border-radius:14px;
+ background:linear-gradient(180deg,#f5fbff 0%,#ffffff 100%);
+ box-shadow:0 10px 22px rgba(18,50,71,.06);
+ box-sizing:border-box;
+ }
+ .b3c3-timeline-activity > .concept-section-head{
+ margin:0 0 10px;
+ }
+ .b3c3-timeline-activity > .activity-mini-guide{
+ margin:0 0 14px;
+ font-size:.88rem;
+ font-weight:600;
+ color:var(--blue);
+ line-height:1.5;
+ }
+ .b3c3-timeline-activity .activity-container--concept{
+ margin:0;
+ padding:18px;
+ }
+ .b3c3-timeline-activity .activity-question{
+ margin:0 0 14px;
+ font-size:.95rem;
+ line-height:1.5;
+ font-weight:700;
+ color:#1D3557;
+ }
  .b3c3-timeline-form{
  appearance:none;
  display:flex;
  align-items:center;
  justify-content:space-between;
- gap:12px;
+ gap:14px;
  width:100%;
- margin:2px 0 0 46px;
- max-width:calc(100% - 46px);
- min-height:64px;
- padding:14px 16px;
- border-radius:16px;
- border:1px solid rgba(204,149,43,.35);
- background:linear-gradient(90deg,var(--gold) 0%,var(--blue) 100%);
+ min-height:56px;
+ padding:12px 14px;
+ border-radius:12px;
+ border:1px solid rgba(45,132,179,.35);
+ background:var(--blue);
  color:#fff;
  text-decoration:none;
- box-shadow:0 12px 26px rgba(45,132,179,.16);
+ box-shadow:0 8px 18px rgba(45,132,179,.18);
  box-sizing:border-box;
- transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+ transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
  }
  .b3c3-timeline-form:hover{
- transform:translateY(-2px);
- filter:brightness(1.04);
- box-shadow:0 14px 28px rgba(18,50,71,.16);
+ transform:translateY(-1px);
+ background:#246f96;
+ box-shadow:0 10px 22px rgba(18,50,71,.16);
+ }
+ .b3c3-timeline-form:focus-visible{
+ outline:2px solid rgba(45,132,179,.55);
+ outline-offset:3px;
  }
  .b3c3-timeline-form-copy{
  display:flex;
@@ -2581,7 +2637,7 @@
  margin:0;
  font-size:.62rem;
  font-weight:800;
- letter-spacing:.1em;
+ letter-spacing:.08em;
  text-transform:uppercase;
  color:rgba(255,255,255,.78);
  }
@@ -2595,20 +2651,20 @@
  margin:0;
  font-size:.72rem;
  font-weight:600;
- color:rgba(255,255,255,.85);
+ color:rgba(255,255,255,.88);
  }
  .b3c3-timeline-form-icon{
  flex:0 0 auto;
- width:28px;
- height:28px;
+ width:36px;
+ height:36px;
  display:inline-flex;
  align-items:center;
  justify-content:center;
- border-radius:50%;
- background:rgba(255,255,255,.2);
+ border-radius:10px;
+ background:rgba(255,255,255,.18);
  color:#fff;
  }
- .b3c3-timeline-form-icon svg{ width:14px; height:14px; display:block; }
+ .b3c3-timeline-form-icon svg{ width:18px; height:18px; display:block; }
  @media (max-width:720px){
  .b3c3-review-path-rail{ left:19px; }
  .b3c3-timeline-card.concept-square,
@@ -2620,7 +2676,6 @@
  border-right:0;
  border-bottom:1px solid rgba(22,50,71,.06);
  }
- .b3c3-timeline-form{ margin-left:38px; max-width:calc(100% - 38px); }
  }
 
  /* legacy overview aliases kept for flow-guide selectors */
@@ -9031,12 +9086,12 @@
    + '<span class="b3c3-timeline-visual" aria-hidden="true">'
    + '<span class="b3c3-timeline-visual-label">Levels 1-6</span>'
    + '<span class="b3c3-timeline-levels">'
-   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--1">1</span>'
-   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--2">2</span>'
-   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--3">3</span>'
-   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--4">4</span>'
-   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--5">5</span>'
-   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--6">6</span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--1"><img src="/assets/images/module-4/mascots/level-1-turtle.png" alt="" width="40" height="40" loading="lazy" decoding="async" /><em>1</em></span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--2"><img src="/assets/images/module-4/mascots/level-2-starfish.png" alt="" width="40" height="40" loading="lazy" decoding="async" /><em>2</em></span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--3"><img src="/assets/images/module-4/mascots/level-3-jellyfish.png" alt="" width="40" height="40" loading="lazy" decoding="async" /><em>3</em></span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--4"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="40" height="40" loading="lazy" decoding="async" /><em>4</em></span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--5"><img src="/assets/images/module-4/mascots/level-5-dolphin.png" alt="" width="40" height="40" loading="lazy" decoding="async" /><em>5</em></span>'
+   + '<span class="b3c3-timeline-level-pill b3c3-timeline-level-pill--6"><img src="/assets/images/module-4/mascots/level-6-whale.png" alt="" width="40" height="40" loading="lazy" decoding="async" /><em>6</em></span>'
    + '</span></span>'
    + '<span class="b3c3-timeline-copy">'
    + '<span class="b3c3-timeline-kicker">Step 2</span>'
@@ -9062,10 +9117,28 @@
    + '<ul class="b3c3-timeline-list"><li>Which areas need more focus?</li><li>What goals can we set?</li><li>What strategies or adjustments will help?</li></ul>'
    + '<span class="b3c3-timeline-cta">Open this step</span>'
    + '</span></span></button>'
+   + '</div>'
+   + '<div class="b3c3-timeline-activity concept-section-card section-activity-shell">'
+   + ((window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
+      '<div class="concept-section-head concept-section-head--activity activity-shell-head"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity - Apply your understanding</span></div>')
+   + '<p class="activity-mini-guide">Familiarise yourself with the Swimming Term Review form. Open it and simulate a full review from start to finish, as you would for a real swimmer.</p>'
+   + '<div class="activity-container activity-container--concept">'
+   + '<p class="activity-question">Open the Term Review form and complete one practice review end to end.</p>'
    + '<a href="https://clubsensational-staff.vercel.app/swtermreview.html" class="b3c3-timeline-form" target="_blank" rel="noopener noreferrer">'
-   + '<span class="b3c3-timeline-form-copy"><span class="b3c3-timeline-form-kicker">Apply it</span><span class="b3c3-timeline-form-title">Term Review Form</span><span class="b3c3-timeline-form-hint">Capture stage, level and development for each swimmer</span></span>'
-   + '<span class="b3c3-timeline-form-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+   + '<span class="b3c3-timeline-form-copy">'
+   + '<span class="b3c3-timeline-form-kicker">Practice task</span>'
+   + '<span class="b3c3-timeline-form-title">Swimming Term Review</span>'
+   + '<span class="b3c3-timeline-form-hint">Open the form and work through a complete example</span>'
+   + '</span>'
+   + '<span class="b3c3-timeline-form-icon" aria-hidden="true">'
+   + '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">'
+   + '<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>'
+   + '<rect x="9" y="3" width="6" height="4" rx="1.2" stroke="currentColor" stroke-width="1.9"/>'
+   + '<path d="M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>'
+   + '</svg>'
+   + '</span>'
    + '</a>'
+   + '</div>'
    + '</div>'
  },
  b3c3_step1: {
@@ -11128,6 +11201,7 @@
  if(navHtml){
  navEl.innerHTML = navHtml;
  navEl.removeAttribute('hidden');
+ if(window.ConceptSectionIcons) ConceptSectionIcons.scan(navEl);
  } else {
  navEl.innerHTML = '';
  navEl.setAttribute('hidden', '');
