@@ -16,6 +16,7 @@
  @import url('/assets/training-flow-guide.css?v=20260714freenav1');
  @import url('/assets/module-block-accordion.css?v=20260715corepurple1');
  @import url('/assets/programme-journey-map.css?v=20260714pjmfixed1');
+ @import url('/assets/review-progress-infographic.css?v=20260716rpi2');
 
  :root{
  --blue:#2d84b3;
@@ -2247,31 +2248,136 @@
  }
  .b2l1-hidden-source{ display:none !important; }
 
- /* b3c3 overview: stacked step selector */
+ /* b3c3 overview: review step cards + Term Review CTA */
  .b3c3-overview-wrap{ width:100%; max-width:100%; min-width:0; margin:0 0 4px; }
- .b3c3-overview-list{ display:flex; flex-direction:column; gap:12px; width:100%; }
+ .b3c3-overview-list{
+ display:flex;
+ flex-direction:column;
+ gap:10px;
+ width:100%;
+ }
+ .b3c3-overview-steps{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:10px;
+ width:100%;
+ }
  .b3c3-overview-step{
+ appearance:none;
  display:flex;
  align-items:center;
- justify-content:flex-start;
+ gap:12px;
  width:100%;
  max-width:100%;
  min-width:0;
- padding:14px 16px;
- border:1px solid rgba(45,132,179,.35);
- border-radius:14px;
- background:var(--gradBlue);
+ min-height:72px;
+ padding:14px 14px;
+ border:1px solid transparent;
+ border-radius:16px;
  color:#fff;
- box-shadow:0 10px 22px rgba(18,50,71,.06);
+ box-shadow:0 10px 22px rgba(18,50,71,.1);
  box-sizing:border-box;
  text-decoration:none;
+ text-align:left;
  font:inherit;
  cursor:pointer;
- transition:filter .18s ease,box-shadow .18s ease;
+ transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
  }
- .b3c3-overview-step:hover{ filter:brightness(1.03); box-shadow:0 6px 18px rgba(18,50,71,.18); }
- .b3c3-overview-step:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
- .b3c3-overview-step-title{ font-size:.95rem; font-weight:800; color:#fff; max-width:100%; overflow-wrap:break-word; }
+ .b3c3-overview-step:hover{
+ transform:translateY(-2px);
+ filter:brightness(1.04);
+ box-shadow:0 14px 28px rgba(18,50,71,.16);
+ }
+ .b3c3-overview-step:focus-visible{
+ outline:2px solid var(--blue);
+ outline-offset:2px;
+ }
+ .b3c3-overview-step--stage{
+ background:linear-gradient(145deg,#2f7a4d 0%,#1a5c38 100%);
+ border-color:rgba(26,92,56,.35);
+ }
+ .b3c3-overview-step--level{
+ background:linear-gradient(145deg,#3a8fbb 0%,#1580b0 100%);
+ border-color:rgba(45,132,179,.35);
+ }
+ .b3c3-overview-step--core{
+ background:linear-gradient(145deg,#8a5fc0 0%,#6b3fa0 100%);
+ border-color:rgba(107,63,160,.35);
+ }
+ .b3c3-overview-step--form{
+ align-items:center;
+ justify-content:space-between;
+ min-height:64px;
+ padding:14px 16px;
+ background:linear-gradient(90deg,var(--gold) 0%,var(--blue) 100%);
+ border-color:rgba(204,149,43,.35);
+ box-shadow:0 12px 26px rgba(45,132,179,.16);
+ }
+ .b3c3-overview-step-num{
+ flex:0 0 auto;
+ width:30px;
+ height:30px;
+ border-radius:50%;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ background:rgba(255,255,255,.2);
+ border:1px solid rgba(255,255,255,.35);
+ font-size:.85rem;
+ font-weight:800;
+ color:#fff;
+ line-height:1;
+ }
+ .b3c3-overview-step-copy{
+ display:flex;
+ flex-direction:column;
+ gap:2px;
+ min-width:0;
+ flex:1;
+ }
+ .b3c3-overview-step-kicker{
+ margin:0;
+ font-size:.62rem;
+ font-weight:800;
+ letter-spacing:.1em;
+ text-transform:uppercase;
+ color:rgba(255,255,255,.78);
+ }
+ .b3c3-overview-step-title{
+ margin:0;
+ font-size:.9rem;
+ font-weight:800;
+ color:#fff;
+ line-height:1.25;
+ max-width:100%;
+ overflow-wrap:break-word;
+ }
+ .b3c3-overview-step-hint{
+ margin:0;
+ font-size:.72rem;
+ font-weight:600;
+ color:rgba(255,255,255,.82);
+ line-height:1.3;
+ }
+ .b3c3-overview-step-icon{
+ flex:0 0 auto;
+ width:28px;
+ height:28px;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:50%;
+ background:rgba(255,255,255,.2);
+ color:#fff;
+ }
+ .b3c3-overview-step-icon svg{
+ width:14px;
+ height:14px;
+ display:block;
+ }
+ @media (max-width:720px){
+ .b3c3-overview-steps{ grid-template-columns:1fr; }
+ }
 
  /* b3c3 step visuals */
  .b3c3-step-visual{
@@ -8598,15 +8704,17 @@
  title: 'Using the Framework to Review Progress',
  text: '<p>At the end of each term, instructors review swimmer development using the programme framework.</p><p>This helps identify where progress is happening and determine the most appropriate next step.</p>',
  points: [],
- introMediaHTML: '<div class="b3c2-concept-hero"><img src="https://www.clubsensational.org/wp-content/uploads/2026/05/ChatGPT-Image-May-9-2026-12_15_29-AM.png" alt="Infographic: using the framework to review progress - review stage, level and development areas" loading="lazy" /></div>',
+ introMediaHTML: '<div class="b3c2-concept-hero"><img src="/assets/images/module-4/review-progress-three-columns.png" alt="Three steps to review progress: Review Stage, Review Level, and Review Development Areas" width="2200" height="761" loading="lazy" decoding="async" /></div>',
  imageHTML: '',
  parentSubconceptTitle: 'Review steps',
  parentSubconceptLead: 'Complete Core Concept and the visual first, then open each step.',
  parentSubconceptNavHTML: '<div class="b3c3-overview-wrap"><div class="b3c3-overview-list">' +
- '<button type="button" class="concept-square b3c3-overview-step" data-target="b3c3_step1"><span class="b3c3-overview-step-title">Step 1 - Review Stage</span></button>' +
- '<button type="button" class="concept-square b3c3-overview-step" data-target="b3c3_step2"><span class="b3c3-overview-step-title">Step 2 - Review Level</span></button>' +
- '<button type="button" class="concept-square b3c3-overview-step" data-target="b3c3_step3"><span class="b3c3-overview-step-title">Step 3 - Review Development Areas</span></button>' +
- '<a href="https://www.clubsensational.org/termreview-2/" class="b3c3-overview-step" target="_blank" rel="noopener noreferrer"><span class="b3c3-overview-step-title">Term Review Form</span></a>' +
+ '<div class="b3c3-overview-steps">' +
+ '<button type="button" class="b3c3-overview-step b3c3-overview-step--stage" data-target="b3c3_step1"><span class="b3c3-overview-step-num" aria-hidden="true">1</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Stages</span><span class="b3c3-overview-step-title">Review Stage</span></span></button>' +
+ '<button type="button" class="b3c3-overview-step b3c3-overview-step--level" data-target="b3c3_step2"><span class="b3c3-overview-step-num" aria-hidden="true">2</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Levels 1-6</span><span class="b3c3-overview-step-title">Review Level</span></span></button>' +
+ '<button type="button" class="b3c3-overview-step b3c3-overview-step--core" data-target="b3c3_step3"><span class="b3c3-overview-step-num" aria-hidden="true">3</span><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Core Areas</span><span class="b3c3-overview-step-title">Review Development Areas</span></span></button>' +
+ '</div>' +
+ '<a href="https://clubsensational-staff.vercel.app/swtermreview.html" class="b3c3-overview-step b3c3-overview-step--form" target="_blank" rel="noopener noreferrer"><span class="b3c3-overview-step-copy"><span class="b3c3-overview-step-kicker">Open in portal</span><span class="b3c3-overview-step-title">Term Review Form</span><span class="b3c3-overview-step-hint">Capture stage, level and development for each swimmer</span></span><span class="b3c3-overview-step-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>' +
  '</div></div>'
  },
  b3c3_step1: {

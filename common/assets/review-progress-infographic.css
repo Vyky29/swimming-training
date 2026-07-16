@@ -1,0 +1,501 @@
+/**
+ * Review Progress infographic - Module 4 Block 4 / b3c3
+ * Three-column branded stages / levels / core development areas
+ */
+
+.review-progress-infographic{
+  --rpi-ink:#163247;
+  --rpi-text:#314555;
+  --rpi-muted:#70808f;
+  --rpi-blue:#2d84b3;
+  --rpi-confidence:#1a5c38;
+  --rpi-basic:#c97816;
+  --rpi-structured:#1580b0;
+  --rpi-core:#6b3fa0;
+  --rpi-radius:18px;
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  max-width:min(980px,100%);
+  margin:0 auto 16px;
+  padding:16px;
+  border:1px solid rgba(22,50,71,.1);
+  border-radius:22px;
+  background:
+    radial-gradient(80% 55% at 0% 0%, rgba(110,198,230,.16), transparent 55%),
+    radial-gradient(60% 45% at 100% 8%, rgba(167,139,212,.1), transparent 48%),
+    linear-gradient(168deg, #f3f8fc 0%, #fbfcfe 46%, #eaf3f9 100%);
+  box-shadow:0 14px 34px rgba(18,50,71,.08);
+  box-sizing:border-box;
+  font-family:inherit;
+  color:var(--rpi-ink);
+  -webkit-font-smoothing:antialiased;
+}
+
+.review-progress-infographic.rpi--columns-only{
+  padding:14px;
+  background:
+    radial-gradient(70% 50% at 10% 0%, rgba(110,198,230,.14), transparent 55%),
+    radial-gradient(55% 40% at 95% 10%, rgba(167,139,212,.08), transparent 50%),
+    linear-gradient(180deg, #f5fafd 0%, #ffffff 100%);
+}
+
+.rpi-header,
+.rpi-footer{
+  display:none;
+}
+
+.review-progress-infographic:not(.rpi--columns-only) .rpi-header{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(22,50,71,.08);
+}
+
+.review-progress-infographic:not(.rpi--columns-only) .rpi-footer{
+  display:block;
+  position:relative;
+  z-index:1;
+  margin-top:14px;
+  padding:11px 14px;
+  border-radius:14px;
+  border:1px solid rgba(45,132,179,.14);
+  background:linear-gradient(180deg, rgba(233,243,247,.75), rgba(255,255,255,.92));
+  text-align:center;
+}
+
+.rpi-header-mark{
+  flex:0 0 auto;
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg, #3a8fbb 0%, #1e6a94 100%);
+  box-shadow:0 8px 18px rgba(45,132,179,.28);
+  color:#fff;
+}
+
+.rpi-header-mark svg{
+  width:26px;
+  height:26px;
+  display:block;
+}
+
+.rpi-kicker{
+  margin:0 0 4px;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--rpi-blue);
+}
+
+.rpi-title{
+  margin:0;
+  font-size:clamp(1.12rem, 2.4vw, 1.42rem);
+  font-weight:800;
+  line-height:1.18;
+  color:var(--rpi-ink);
+}
+
+.rpi-sub{
+  margin:6px 0 0;
+  font-size:.82rem;
+  font-weight:600;
+  line-height:1.45;
+  color:var(--rpi-muted);
+  max-width:46ch;
+}
+
+.rpi-footer p{
+  margin:0;
+  font-size:.76rem;
+  font-weight:600;
+  line-height:1.45;
+  color:var(--rpi-text);
+}
+
+.rpi-footer strong{
+  color:var(--rpi-ink);
+  font-weight:800;
+}
+
+/* Three columns */
+.rpi-steps{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:12px;
+  align-items:stretch;
+}
+
+.rpi-step{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  overflow:hidden;
+  border-radius:var(--rpi-radius);
+  border:1px solid rgba(22,50,71,.1);
+  background:#fff;
+  box-shadow:0 8px 20px rgba(18,50,71,.06);
+  opacity:0;
+  transform:translateY(10px);
+  animation:rpi-step-in .55s cubic-bezier(.22,.9,.28,1) forwards;
+}
+
+.rpi-step:nth-child(1){ animation-delay:.06s; }
+.rpi-step:nth-child(2){ animation-delay:.16s; }
+.rpi-step:nth-child(3){ animation-delay:.26s; }
+
+@keyframes rpi-step-in{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .rpi-step{
+    opacity:1;
+    transform:none;
+    animation:none;
+  }
+}
+
+.rpi-visual{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:8px;
+  padding:12px 10px 10px;
+  min-height:132px;
+  border-bottom:1px solid rgba(22,50,71,.06);
+  overflow:hidden;
+}
+
+.rpi-visual::after{
+  content:"";
+  position:absolute;
+  inset:auto -20% -40% -20%;
+  height:70%;
+  background:radial-gradient(ellipse at center, rgba(45,132,179,.12), transparent 68%);
+  pointer-events:none;
+}
+
+.rpi-step--stage .rpi-visual{
+  background:linear-gradient(165deg, rgba(26,92,56,.12) 0%, rgba(201,120,22,.07) 48%, rgba(21,128,176,.1) 100%);
+}
+
+.rpi-step--level .rpi-visual{
+  background:linear-gradient(160deg, rgba(45,132,179,.14) 0%, rgba(78,176,229,.07) 100%);
+}
+
+.rpi-step--core .rpi-visual{
+  background:linear-gradient(160deg, rgba(107,63,160,.12) 0%, rgba(45,132,179,.07) 100%);
+}
+
+.rpi-visual-label{
+  position:relative;
+  z-index:1;
+  margin:0;
+  font-size:.6rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--rpi-muted);
+  text-align:center;
+}
+
+.rpi-stages{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:5px;
+}
+
+.rpi-stage-thumb{
+  position:relative;
+  aspect-ratio:1;
+  border-radius:10px;
+  overflow:hidden;
+  border:2px solid rgba(255,255,255,.92);
+  box-shadow:0 5px 12px rgba(18,50,71,.12);
+}
+
+.rpi-stage-thumb img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 35%;
+}
+
+.rpi-stage-thumb span{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:3px 2px 4px;
+  font-size:.42rem;
+  font-weight:800;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  text-align:center;
+  color:#fff;
+  background:linear-gradient(180deg, transparent, rgba(12,36,54,.8));
+  line-height:1.1;
+}
+
+.rpi-mascots{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:6px 4px;
+  justify-items:center;
+}
+
+.rpi-mascot{
+  width:100%;
+  max-width:48px;
+  aspect-ratio:1;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+  border:2px solid rgba(255,255,255,.95);
+  box-shadow:0 4px 10px rgba(18,50,71,.1);
+}
+
+.rpi-mascot img{
+  display:block;
+  width:82%;
+  height:82%;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 4px rgba(12,36,54,.1));
+}
+
+.rpi-mascot--1{ background:linear-gradient(145deg, #e8f5ec, #fff); }
+.rpi-mascot--2{ background:linear-gradient(145deg, #eef6ef, #fff); }
+.rpi-mascot--3{ background:linear-gradient(145deg, #fff4e8, #fff); }
+.rpi-mascot--4{ background:linear-gradient(145deg, #faf6e6, #fff); }
+.rpi-mascot--5{ background:linear-gradient(145deg, #e8f5fb, #fff); }
+.rpi-mascot--6{ background:linear-gradient(145deg, #e4eef6, #fff); }
+
+.rpi-cores{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.rpi-core-chip{
+  display:grid;
+  grid-template-columns:34px 1fr;
+  align-items:center;
+  gap:7px;
+  padding:4px 7px 4px 4px;
+  border-radius:10px;
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(107,63,160,.12);
+  box-shadow:0 3px 8px rgba(18,50,71,.05);
+}
+
+.rpi-core-chip img{
+  width:34px;
+  height:34px;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 4px rgba(12,36,54,.1));
+}
+
+.rpi-core-chip strong{
+  font-size:.62rem;
+  font-weight:800;
+  color:var(--rpi-ink);
+  line-height:1.15;
+}
+
+.rpi-core-chip--regulation{ border-color:rgba(180,80,140,.18); }
+.rpi-core-chip--independence{ border-color:rgba(45,132,179,.18); }
+.rpi-core-chip--engagement{ border-color:rgba(78,176,229,.22); }
+
+.rpi-copy{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  padding:12px 12px 14px;
+  flex:1;
+  min-width:0;
+}
+
+.rpi-copy-top{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+}
+
+.rpi-num{
+  flex:0 0 auto;
+  width:26px;
+  height:26px;
+  margin-top:1px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:.78rem;
+  font-weight:800;
+  color:#fff;
+  background:linear-gradient(145deg, #3a8fbb 0%, #1e6a94 100%);
+  box-shadow:0 4px 10px rgba(45,132,179,.25);
+}
+
+.rpi-step--stage .rpi-num{
+  background:linear-gradient(145deg, #2f7a4d 0%, #1a5c38 100%);
+  box-shadow:0 4px 10px rgba(26,92,56,.25);
+}
+
+.rpi-step--level .rpi-num{
+  background:linear-gradient(145deg, #3a8fbb 0%, #1580b0 100%);
+}
+
+.rpi-step--core .rpi-num{
+  background:linear-gradient(145deg, #8a5fc0 0%, #6b3fa0 100%);
+  box-shadow:0 4px 10px rgba(107,63,160,.25);
+}
+
+.rpi-step-title{
+  margin:0;
+  font-size:.82rem;
+  font-weight:800;
+  line-height:1.25;
+  color:var(--rpi-ink);
+}
+
+.rpi-lead{
+  margin:2px 0 0;
+  font-size:.74rem;
+  font-weight:700;
+  color:var(--rpi-blue);
+  line-height:1.35;
+}
+
+.rpi-step--stage .rpi-lead{ color:var(--rpi-confidence); }
+.rpi-step--core .rpi-lead{ color:var(--rpi-core); }
+
+.rpi-list{
+  margin:4px 0 0;
+  padding:0;
+  list-style:none;
+}
+
+.rpi-list li{
+  position:relative;
+  margin:0;
+  padding:2px 0 2px 12px;
+  font-size:.7rem;
+  font-weight:600;
+  line-height:1.4;
+  color:var(--rpi-text);
+}
+
+.rpi-list li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.65em;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--rpi-blue);
+  opacity:.75;
+}
+
+.rpi-step--stage .rpi-list li::before{ background:var(--rpi-confidence); }
+.rpi-step--core .rpi-list li::before{ background:var(--rpi-core); }
+
+@media (max-width:780px){
+  .rpi-steps{
+    grid-template-columns:1fr;
+  }
+
+  .rpi-visual{
+    min-height:0;
+  }
+
+  .rpi-mascots{
+    grid-template-columns:repeat(6, minmax(0, 1fr));
+  }
+
+  .rpi-mascot{
+    max-width:42px;
+  }
+
+  .rpi-step-title{
+    font-size:.9rem;
+  }
+
+  .rpi-lead,
+  .rpi-list li{
+    font-size:.8rem;
+  }
+}
+
+.portal .b3c2-concept-hero:has(.review-progress-infographic),
+.portal .concept-panel .b3c2-concept-hero:has(.review-progress-infographic){
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+}
+
+.portal .b3c2-concept-hero .review-progress-infographic{
+  margin-bottom:0;
+}
+
+/* Export / screenshot shell */
+html.rpi-export,
+body.rpi-export{
+  margin:0;
+  padding:0;
+  background:#fff;
+  overflow:hidden;
+}
+
+body.rpi-export{
+  display:block;
+  min-height:0;
+}
+
+body.rpi-export .rpi-toolbar{ display:none !important; }
+
+body.rpi-export .rpi-export-frame{
+  width:1100px;
+  margin:0;
+  padding:0;
+}
+
+body.rpi-export .review-progress-infographic{
+  margin:0;
+  max-width:none;
+  width:1100px;
+  border-radius:20px;
+  box-shadow:none;
+}
+
+body.rpi-export .rpi-step{
+  opacity:1;
+  transform:none;
+  animation:none;
+}
