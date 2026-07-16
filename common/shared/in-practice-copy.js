@@ -546,7 +546,7 @@
       next: 'Walk the full sequence with support once, then fade support on the float phase only if calm holds.',
     },
     m4_b2l4_overview: {
-      scene: 'Level 4 (Ray) grows independent floats, glide-rotation links, efficient propulsion, and structured swim-float-swim safety.',
+      scene: 'Level 4 (Stingray) grows independent floats, glide-rotation links, efficient propulsion, and structured swim-float-swim safety.',
       notice: 'Independence can rise only while safety sequences remain structured and calm.',
       move: 'Increase independence in floats, glides, and propulsion while safety sequences stay structured.',
       watch: 'Independence without structured safety sequences creates unsupported risk at the wrong moment.',

@@ -28,7 +28,7 @@
     1: 'Level 1 Turtle',
     2: 'Level 2 Starfish',
     3: 'Level 3 Jellyfish',
-    4: 'Level 4 Ray',
+    4: 'Level 4 Stingray',
     5: 'Level 5 Dolphin',
     6: 'Level 6 Whale'
   };

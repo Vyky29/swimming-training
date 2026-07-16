@@ -300,9 +300,10 @@
 .pjm-ocean-node-icon img{
   position:relative;
   z-index:1;
-  width:auto;
-  height:56px;
+  width:100%;
+  height:100%;
   max-width:64px;
+  max-height:56px;
   object-fit:contain;
   display:block;
   filter:drop-shadow(0 5px 9px rgba(18,50,71,.16));
@@ -508,9 +509,10 @@
   background:transparent;
 }
 .pjm-mascot-mark img{
-  width:auto;
-  height:48px;
+  width:100%;
+  height:100%;
   max-width:56px;
+  max-height:48px;
   object-fit:contain;
   display:block;
   filter:none;

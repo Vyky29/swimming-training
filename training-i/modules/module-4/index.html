@@ -1985,9 +1985,10 @@
  justify-content:center;
  }
  .b2l-level-mascot img{
- width:auto;
- height:46px;
- max-width:52px;
+ width:100%;
+ height:100%;
+ max-width:100%;
+ max-height:100%;
  object-fit:contain;
  display:block;
  filter:drop-shadow(0 4px 8px rgba(18,50,71,.12));
@@ -2002,9 +2003,8 @@
  max-width:min(360px,100%);
  }
  .b2l-focus-mascot-bar img{
- width:auto;
+ width:52px;
  height:48px;
- max-width:52px;
  object-fit:contain;
  display:block;
  filter:drop-shadow(0 4px 8px rgba(18,50,71,.12));
@@ -2026,9 +2026,10 @@
  vertical-align:middle;
  }
  .breadcrumb-mascot img{
- width:auto;
- height:20px;
- max-width:22px;
+ width:100%;
+ height:100%;
+ max-width:100%;
+ max-height:100%;
  object-fit:contain;
  display:block;
  filter:drop-shadow(0 2px 4px rgba(18,50,71,.12));
@@ -2810,9 +2811,10 @@
  position:relative;
  }
  .b2-level-thumb img{
- width:auto;
- height:56px;
- max-width:64px;
+ width:100%;
+ height:100%;
+ max-width:100%;
+ max-height:100%;
  object-fit:contain;
  display:block;
  filter:drop-shadow(0 4px 8px rgba(0,0,0,.22));
@@ -2822,6 +2824,32 @@
  .concept-square--level .b2-level-thumb{
  margin:0 0 2px;
  }
+.concept-panel .concept-intro-media .b2-level-overview-visual{
+ width:100%;
+ max-width:min(1024px,100%);
+ margin:0 auto;
+ padding:0;
+ border:0;
+ background:transparent !important;
+ overflow:visible;
+}
+.concept-panel .concept-intro-media .b2-level-overview-visual .concept-activity-box{
+ width:fit-content;
+ max-width:100%;
+ margin:0 auto;
+ position:relative;
+}
+.concept-panel .concept-intro-media .b2-level-overview-visual img{
+ width:auto;
+ max-width:100%;
+ height:auto;
+ max-height:min(560px,70vh);
+ margin:0 auto;
+ display:block;
+ object-fit:contain;
+ object-position:center;
+ border-radius:14px;
+}
  .concept-square--level .concept-activity-box,
  .concept-square--level [data-expandable-visual],
  .b2-level-thumb.concept-activity-box,
@@ -3863,9 +3891,10 @@
  justify-content:center;
  }
  .level-badge-mascot img{
- width:auto;
- height:42px;
- max-width:48px;
+ width:100%;
+ height:100%;
+ max-width:100%;
+ max-height:100%;
  object-fit:contain;
  display:block;
  filter:drop-shadow(0 4px 8px rgba(0,0,0,.18));
@@ -4155,9 +4184,10 @@
  justify-content:center;
  }
  .concept-title-icon--mascot img{
- width:auto;
- height:44px;
- max-width:48px;
+ width:100%;
+ height:100%;
+ max-width:100%;
+ max-height:100%;
  object-fit:contain;
  display:block;
  filter:drop-shadow(0 4px 8px rgba(18,50,71,.14));
@@ -4754,8 +4784,10 @@
  flex:0 0 58px;
  }
  .concept-panel[data-level] .concept-title-icon--mascot img{
- height:52px;
- max-width:58px;
+ width:100%;
+ height:100%;
+ max-width:100%;
+ max-height:100%;
  }
  .concept-panel-title-row .concept-breadcrumb{
  flex:1;
@@ -4896,13 +4928,13 @@
  min-width:0;
  }
  .concept-level-hero__mark{
- flex:0 0 76px;
+ flex:0 0 92px;
  display:flex;
  align-items:center;
  justify-content:center;
  align-self:stretch;
- min-height:76px;
- padding:10px 8px;
+ min-height:92px;
+ padding:8px;
  border-radius:16px;
  background:rgba(255,255,255,.86);
  backdrop-filter:blur(10px);
@@ -4911,9 +4943,10 @@
  box-shadow:inset 0 1px 0 rgba(255,255,255,.85), 0 8px 18px rgba(18,50,71,.07);
  }
  .concept-level-hero__mark img{
- width:auto;
- height:58px;
- max-width:64px;
+ width:76px;
+ height:76px;
+ max-width:100%;
+ max-height:100%;
  object-fit:contain;
  display:block;
  filter:drop-shadow(0 5px 10px rgba(18,50,71,.14));
@@ -4983,11 +5016,12 @@
  align-items:flex-start;
  }
  .concept-level-hero__mark{
- flex-basis:68px;
- min-height:68px;
+ flex-basis:78px;
+ min-height:78px;
  }
  .concept-level-hero__mark img{
- height:50px;
+ width:62px;
+ height:62px;
  }
  .concept-panel-tts{
  width:100%;
@@ -7312,7 +7346,7 @@
  </header>
  <div class="pjm-stage-path" aria-label="Levels in Swim Basic">
  <button type="button" class="pjm-ocean-node" data-level="3" aria-label="Level 3 Jellyfish"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-3-jellyfish.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Jellyfish</span><span class="pjm-ocean-node-level">Level 3</span></button>
- <button type="button" class="pjm-ocean-node" data-level="4" aria-label="Level 4 Ray"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Ray</span><span class="pjm-ocean-node-level">Level 4</span></button>
+ <button type="button" class="pjm-ocean-node" data-level="4" aria-label="Level 4 Stingray"><span class="pjm-ocean-node-icon" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="54" height="54" loading="lazy" decoding="async" /></span><span class="pjm-ocean-node-name">Stingray</span><span class="pjm-ocean-node-level">Level 4</span></button>
  </div>
  </div>
  <div class="pjm-levels">
@@ -7323,9 +7357,9 @@
  </div>
  <ul class="pjm-chips"><li class="pjm-chip">Floating &amp; Balance I</li><li class="pjm-chip">Streamlining &amp; Rotation I</li><li class="pjm-chip">Propulsion I</li><li class="pjm-chip">Water Safety III</li></ul>
  </button>
- <button type="button" class="pjm-level-card" data-level="4" aria-label="Level 4 Ray">
+ <button type="button" class="pjm-level-card" data-level="4" aria-label="Level 4 Stingray">
  <div class="pjm-level-head">
- <div class="pjm-level-meta"><span class="pjm-level-num">Level 4</span><span class="pjm-level-animal">Ray</span></div>
+ <div class="pjm-level-meta"><span class="pjm-level-num">Level 4</span><span class="pjm-level-animal">Stingray</span></div>
  <div class="pjm-mascot-mark" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="52" height="44" loading="lazy" decoding="async" /></div>
  </div>
  <ul class="pjm-chips"><li class="pjm-chip">Floating &amp; Balance II</li><li class="pjm-chip">Streamlining &amp; Rotation II</li><li class="pjm-chip">Propulsion II</li><li class="pjm-chip">Water Safety IV</li></ul>
@@ -7454,6 +7488,7 @@
  </div>
  </div>
  <div class="concept-panel-desc"></div>
+<div class="concept-intro-media" data-concept-intro-media style="display:none;"></div>
 
  <div class="concept-points-box">
  <h4>Key Ideas for Instructors</h4>
@@ -7839,7 +7874,7 @@
  1: { src: '/assets/images/module-4/mascots/level-1-turtle.png', animal: 'Turtle' },
  2: { src: '/assets/images/module-4/mascots/level-2-starfish.png', animal: 'Starfish' },
  3: { src: '/assets/images/module-4/mascots/level-3-jellyfish.png', animal: 'Jellyfish' },
- 4: { src: '/assets/images/module-4/mascots/level-4-ray.png', animal: 'Ray' },
+ 4: { src: '/assets/images/module-4/mascots/level-4-ray.png', animal: 'Stingray' },
  5: { src: '/assets/images/module-4/mascots/level-5-dolphin.png', animal: 'Dolphin' },
  6: { src: '/assets/images/module-4/mascots/level-6-whale.png', animal: 'Whale' }
  };
@@ -8046,10 +8081,10 @@ worldHost.innerHTML = '<span class="concept-level-hero-world-shade"></span>';
  <span class="concept-square-level-kicker">Level 3</span>
  <span class="concept-square-level-title">Jellyfish</span>
  </button>
- <button class="concept-square concept-square--level level-card--basic level-tone-2" data-target="b2l4" aria-label="Level 4 Ray">
+ <button class="concept-square concept-square--level level-card--basic level-tone-2" data-target="b2l4" aria-label="Level 4 Stingray">
  <span class="b2-level-thumb" aria-hidden="true"><img src="/assets/images/module-4/mascots/level-4-ray.png" alt="" width="56" height="56" loading="lazy" decoding="async" /></span>
  <span class="concept-square-level-kicker">Level 4</span>
- <span class="concept-square-level-title">Ray</span>
+ <span class="concept-square-level-title">Stingray</span>
  </button>
  </div>
  </div>
@@ -8129,6 +8164,7 @@ worldHost.innerHTML = '<span class="concept-level-hero-world-shade"></span>';
  'Watch regulation closely: reduce demand if tension rises.',
  'In practice: When a swimmer hesitates, return to a familiar supported entry before adding challenge.',
  ],
+introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/assets/images/module-4/levels/level-1-turtle-overview.png?v=20260716levelvisual1" alt="Level 1 Turtle overview: learning outcomes and instructor focus" width="1024" height="682" loading="lazy" decoding="async" /></div>',
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--confidence">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
@@ -8161,6 +8197,7 @@ worldHost.innerHTML = '<span class="concept-level-hero-world-shade"></span>';
  'Celebrate small increases in independence without rushing the next skill.',
  'In practice: If hesitation returns, restore a familiar supported pattern before asking for longer travel.',
  ],
+introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/assets/images/module-4/levels/level-2-starfish-overview.png?v=20260716levelvisual1" alt="Level 2 Starfish overview: learning outcomes and instructor focus" width="1024" height="682" loading="lazy" decoding="async" /></div>',
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--confidence">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
@@ -8193,6 +8230,7 @@ worldHost.innerHTML = '<span class="concept-level-hero-world-shade"></span>';
  'Use guidance to protect control, not to rush distance.',
  'In practice: If body shape collapses during propulsion, return to a supported float before trying again.',
  ],
+introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/assets/images/module-4/levels/level-3-jellyfish-overview.png?v=20260716levelvisual1" alt="Level 3 Jellyfish overview: learning outcomes and instructor focus" width="1024" height="682" loading="lazy" decoding="async" /></div>',
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--basic">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
@@ -8215,7 +8253,7 @@ worldHost.innerHTML = '<span class="concept-level-hero-world-shade"></span>';
  `
  },
  b2l4: {
- title: 'Ray',
+ title: 'Stingray',
  headerSubtitle: 'Control, coordination, and clearer links between float, glide, rotation, and propulsion.',
  text: '<p>When you have reviewed this level, use <strong>Continue</strong> for the next step in the module path.</p>',
  points: [
@@ -8225,6 +8263,7 @@ worldHost.innerHTML = '<span class="concept-level-hero-world-shade"></span>';
  'Keep recovery options clear whenever direction or density increases.',
  'In practice: If direction breaks during propulsion, simplify to a shorter glide-kick sequence with a clear safety target.',
  ],
+introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/assets/images/module-4/levels/level-4-stingray-overview.png?v=20260716levelvisual1" alt="Level 4 Stingray overview: learning outcomes and instructor focus" width="1024" height="682" loading="lazy" decoding="async" /></div>',
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--basic">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
@@ -8257,6 +8296,7 @@ worldHost.innerHTML = '<span class="concept-level-hero-world-shade"></span>';
  'Increase sequence length only while fluency and self-regulation stay stable.',
  'In practice: If stroke quality drops mid-sequence, shorten the set and reset body position before adding length again.',
  ],
+introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/assets/images/module-4/levels/level-5-dolphin-overview.png?v=20260716levelvisual1" alt="Level 5 Dolphin overview: learning outcomes and instructor focus" width="1024" height="682" loading="lazy" decoding="async" /></div>',
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--structured">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
@@ -8289,6 +8329,7 @@ worldHost.innerHTML = '<span class="concept-level-hero-world-shade"></span>';
  'Use fatigue as information: if control drops, reduce density before adding length.',
  'In practice: When rhythm breaks under fatigue, shorten the set and restore timing cues before increasing demand again.',
  ],
+introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/assets/images/module-4/levels/level-6-whale-overview.png?v=20260716levelvisual1" alt="Level 6 Whale overview: learning outcomes and instructor focus" width="1024" height="682" loading="lazy" decoding="async" /></div>',
  imageHTML: `
  <div class="b2l1-intro-box b2l-stage--structured">
  <div class="b2l1-intro-head"><span class="b2l-intro-book" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h8a4 4 0 0 1 4 4v14a4 4 0 0 0-4-4H2z"/><path d="M22 3h-8a4 4 0 0 0-4 4v14a4 4 0 0 1 4-4h8z"/></svg></span><span>Introduction</span></div>
