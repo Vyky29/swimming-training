@@ -991,7 +991,9 @@
     'training-i/modules/module-4': {
       b1c1: 'm4_b1c1', b1c2: 'm4_b1c2', b1c3: 'm4_b1c3', b2c1: 'm4_b2c1',
       b2c2: 'm4_b2c2', b2c3: 'm4_b2c3', b2core1: 'm4_b2core1', b2core2: 'm4_b2core2',
-      b2core3: 'm4_b2core3', b2l1_overview: 'm4_b2l1_overview', b2l1_f1: 'm4_b2l1_f1', b2l1_f2: 'm4_b2l1_f2',
+      b2core3: 'm4_b2core3', b2l1: 'm4_b2l1_overview', b2l2: 'm4_b2l2_overview',
+      b2l3: 'm4_b2l3_overview', b2l4: 'm4_b2l4_overview', b2l5: 'm4_b2l5_overview', b2l6: 'm4_b2l6_overview',
+      b2l1_overview: 'm4_b2l1_overview', b2l1_f1: 'm4_b2l1_f1', b2l1_f2: 'm4_b2l1_f2',
       b2l1_f3: 'm4_b2l1_f3', b2l1_f4: 'm4_b2l1_f4', b2l1_activities: 'm4_b2l1_activities', b2l2_overview: 'm4_b2l2_overview',
       b2l2_f1: 'm4_b2l2_f1', b2l2_f2: 'm4_b2l2_f2', b2l2_f3: 'm4_b2l2_f3', b2l2_f4: 'm4_b2l2_f4',
       b2l2_activities: 'm4_b2l2_activities', b2l3_overview: 'm4_b2l3_overview', b2l3_f1: 'm4_b2l3_f1', b2l3_f2: 'm4_b2l3_f2',

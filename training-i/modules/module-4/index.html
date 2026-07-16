@@ -11359,6 +11359,13 @@ if(!meta) return;
  }
  return true;
  });
+/* Every level teaching screen has a context-specific coach card in the shared
+   copy map. Resolve it even when the learning-outcome list has no legacy
+   "In practice:" marker, so the card never renders as an empty shell. */
+var isLevelPracticeTarget = /^b2l[1-6](?:$|_(?:overview|f[1-4]|activities)$)/.test(target || '');
+if(!inPracticeLine && isLevelPracticeTarget && window.InPracticeCopy){
+inPracticeLine = InPracticeCopy.resolve(target, '') || '';
+}
  panel.dataset.keyIdeasRequired = keyIdeaPoints.length ? 'true' : 'false';
  panel.dataset.keyIdeasDone = keyIdeaPoints.length ? 'false' : 'true';
  ul.innerHTML = keyIdeaPoints.map((point, i) => `<li class="key-idea-item" role="button" tabindex="0"><span class="key-idea-index" aria-hidden="true">${i + 1}</span><div class="key-idea-text">${point}</div></li>`).join('');
@@ -13369,7 +13376,7 @@ if(!meta) return;
  </script>
  <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20260614"></script>
- <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
+<script src="/shared/in-practice-copy.js?v=20260716practice7"></script>
 <script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
 <script src="/shared/premium-option-grid.js?v=20260714opt3"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
