@@ -1251,11 +1251,53 @@
  color:var(--ink) !important;
  }
 
+ .concept-panel .concept-image .concept-grid--factors .concept-square[class*="concept-square--factor"],
+ .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--factor"]{
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:10px;
+ min-height:148px;
+ padding:18px 14px 16px;
+ font-weight:800;
+ text-align:center;
+ }
+ .concept-panel .concept-image .concept-grid--factors .concept-square[class*="concept-square--factor"]::before,
+ .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--factor"]::before{
+ display:none !important;
+ content:none !important;
+ }
+ .concept-panel .concept-image .concept-grid--factors .m2-factor-icon,
+ .concept-panel [data-parent-subconcept-nav] .m2-factor-icon{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ width:64px;
+ height:64px;
+ flex:0 0 auto;
+ background:transparent;
+ border:0;
+ box-shadow:none;
+ }
+ .concept-panel .concept-image .concept-grid--factors .m2-factor-icon img,
+ .concept-panel [data-parent-subconcept-nav] .m2-factor-icon img{
+ display:block;
+ width:56px;
+ height:56px;
+ object-fit:contain;
+ filter:drop-shadow(0 2px 4px rgba(18,50,71,.1));
+ pointer-events:none;
+ }
+ .concept-panel .concept-image .concept-grid--factors .m2-factor-label,
+ .concept-panel [data-parent-subconcept-nav] .m2-factor-label{
+ display:block;
+ line-height:1.25;
+ }
+
  /* Specialty subconcept tiles: readable labels on light fills (not white-on-blue) */
  .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--state"]::before,
- .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--factor"]::before,
- .concept-panel .concept-image .concept-grid--factors .concept-square[class*="concept-square--state"]::before,
- .concept-panel .concept-image .concept-grid--factors .concept-square[class*="concept-square--factor"]::before{
+ .concept-panel .concept-image .concept-grid--factors .concept-square[class*="concept-square--state"]::before{
  background-color:rgba(255,255,255,.55);
  background-image:var(--concept-nav-icon-on-light);
  border-color:rgba(18,50,71,.12);
@@ -4940,13 +4982,13 @@
  text: '<p>Emotional state is shaped by different types of influences that are constantly interacting during the session.</p>' +
  '<p>These influences do not act in isolation, and small changes in one area can affect how the swimmer feels and responds.</p>' +
  '<p>Understanding these categories helps instructors move from reacting to behaviour to understanding it.</p>',
- imageHTML: '<img src="/assets/images/training-i/m2/m2-b3c2-factors-that-shape-emotional-state.png" alt="Infographic: three factors overview - water, environment, internal" />',
+ imageHTML: '<img src="/assets/images/training-i/m2/m2-b3c2-factors-that-shape-emotional-state.png?v=20260716titleicons1" alt="Infographic: three factors overview - water, environment, internal" />',
  parentSubconceptTitle: 'Explore each factor',
  parentSubconceptLead: 'Tap one to open it.',
  parentSubconceptNavHTML: '<div class="concept-image"><div class="concept-grid concept-grid--factors" data-concept-grid="block3">' +
- '<button type="button" class="concept-square concept-square--factor-water" data-target="b3c2_water">Water-Based</button>' +
- '<button type="button" class="concept-square concept-square--factor-env" data-target="b3c2_env">Environmental</button>' +
- '<button type="button" class="concept-square concept-square--factor-internal" data-target="b3c2_internal">Internal</button>' +
+ '<button type="button" class="concept-square concept-square--factor-water" data-target="b3c2_water"><span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-water.png?v=20260716f1" alt="" width="56" height="56" loading="lazy" decoding="async" /></span><span class="m2-factor-label">Water-Based</span></button>' +
+ '<button type="button" class="concept-square concept-square--factor-env" data-target="b3c2_env"><span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-environmental.png?v=20260716f1" alt="" width="56" height="56" loading="lazy" decoding="async" /></span><span class="m2-factor-label">Environmental</span></button>' +
+ '<button type="button" class="concept-square concept-square--factor-internal" data-target="b3c2_internal"><span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-internal.png?v=20260716f1" alt="" width="56" height="56" loading="lazy" decoding="async" /></span><span class="m2-factor-label">Internal</span></button>' +
  '</div></div>'
  },
  b3c2_env: {
