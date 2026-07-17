@@ -2267,22 +2267,6 @@
   0 18px 42px rgba(18,50,71,.09),
   inset 0 1px 0 rgba(255,255,255,.9);
 }
-.b2l1-intro-box.is-summary-in-title .b2l1-section::before{
- content:'Term Review framework';
- display:inline-flex;
- align-items:center;
- margin:0 0 9px;
- padding:5px 9px;
- border:1px solid rgba(var(--level-rgb),.18);
- border-radius:999px;
- background:rgba(var(--level-rgb),.07);
- color:var(--level-accent);
- font-size:.64rem;
- font-weight:850;
- letter-spacing:.11em;
- line-height:1;
- text-transform:uppercase;
-}
 .b2l1-intro-box.is-summary-in-title .b2l1-section::after{
  content:'';
  position:absolute;
@@ -2662,23 +2646,27 @@
  display:flex;
  align-items:center;
  justify-content:center;
- padding-bottom:12px;
- font-size:.72rem;
+ padding:0 4px 12px;
+ font-size:.52rem;
  font-weight:900;
- color:rgba(255,255,255,.9);
+ letter-spacing:.04em;
+ text-transform:uppercase;
+ color:rgba(255,255,255,.95);
+ text-align:center;
+ line-height:1.1;
 }
 .b3c3-timeline-stage-thumb--confidence{
  background:linear-gradient(145deg,#1a5c38,#28784d 62%,#143d2e);
 }
-.b3c3-timeline-stage-thumb--confidence::after{ content:'1'; }
+.b3c3-timeline-stage-thumb--confidence::after{ content:'Stage 1'; }
 .b3c3-timeline-stage-thumb--basic{
  background:linear-gradient(145deg,#c97816,#ea8f22 62%,#a45f12);
 }
-.b3c3-timeline-stage-thumb--basic::after{ content:'2'; }
+.b3c3-timeline-stage-thumb--basic::after{ content:'Stage 2'; }
 .b3c3-timeline-stage-thumb--structured{
  background:linear-gradient(145deg,#2d84b3,#4a86b4 60%,#12456b);
  }
-.b3c3-timeline-stage-thumb--structured::after{ content:'3'; }
+.b3c3-timeline-stage-thumb--structured::after{ content:'Stage 3'; }
  .b3c3-timeline-stage-thumb span{
  position:absolute;
  left:0; right:0; bottom:0;
