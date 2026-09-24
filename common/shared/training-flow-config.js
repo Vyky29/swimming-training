@@ -23,7 +23,7 @@
         id: 'module-2',
         number: 2,
         path: '/training-i/modules/module-2/',
-        title: 'Understanding the Swimmer\'s Experience',
+        title: 'Understanding the Swimmer\'s Experience in the Aquatic Environment',
         sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
         blocks: ['block1', 'block2', 'block3']
       },
@@ -31,7 +31,7 @@
         id: 'module-3',
         number: 3,
         path: '/training-i/modules/module-3/',
-        title: 'Building Engagement and Connection',
+        title: 'Building Engagement and Connection in the Water',
         sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
         blocks: ['block1', 'block2', 'block3']
       },
@@ -39,8 +39,8 @@
         id: 'module-4',
         number: 4,
         path: '/training-i/modules/module-4/',
-        title: 'clubSENsational Programme',
-        sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'block4', 'keyideas', 'quiz'],
+        title: 'The clubSENsational Swimming Programme',
+        sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'block4', 'recap', 'quiz'],
         blocks: ['block1', 'block2', 'block3', 'block4'],
         pathwayBlock: 'block3'
       },
@@ -48,7 +48,7 @@
         id: 'module-5',
         number: 5,
         path: '/training-i/modules/module-5/',
-        title: 'PixtoLearn',
+        title: 'Using Visual Aids Effectively - PixtoLearn in Action',
         sections: ['journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'recap', 'complete', 'quiz'],
         blocks: ['block1', 'block2', 'block3']
       }

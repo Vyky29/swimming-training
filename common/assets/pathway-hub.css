@@ -761,6 +761,11 @@ a{
   color:var(--blue-deep);
 }
 
+.module-status-badge.status-review{
+  background:rgba(45,132,179,0.12);
+  color:var(--blue-deep);
+}
+
 .module-status-badge.status-locked{
   background:rgba(55,65,81,0.10);
   color:#55606d;

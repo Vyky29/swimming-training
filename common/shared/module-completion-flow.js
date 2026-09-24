@@ -11,7 +11,7 @@
     'training-i-module-2': {
       trainingId: 'training-i',
       moduleNumber: 2,
-      moduleTitle: "Understanding the Swimmer's Experience in the Water",
+      moduleTitle: "Understanding the Swimmer's Experience in the Aquatic Environment",
       trainingLabel: 'Swimming Training I',
       nextModuleLabel: 'Module 3',
       isFinalModule: false

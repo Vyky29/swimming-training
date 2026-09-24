@@ -14,6 +14,7 @@
  @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
  @import url('/assets/concept-insight-intro.css?v=20260715corew');
  @import url('/assets/training-flow-guide.css?v=20260714freenav1');
+@import url('/assets/training-i-module-shell.css?v=20260911');
 @import url('/assets/module-block-accordion.css?v=20260716ttsfit1');
 @import url('/assets/programme-journey-map.css?v=20260716stages1');
  @import url('/assets/review-progress-infographic.css?v=20260716rpi2');
@@ -4402,7 +4403,7 @@
  --concept-title-accent:#8a3fb0;
  --concept-title-accent-soft:rgba(138,63,176,.14);
  --concept-title-accent-border:rgba(138,63,176,.22);
- --concept-title-surface:linear-gradient(135deg, #fbf3fe 0%, #f3e8fa 100%);
+ --concept-title-surface:transparent;
  --concept-title-line:linear-gradient(90deg, #c78fe4 0%, #8a3fb0 100%);
  background:linear-gradient(180deg,#ffffff 0%,#fbfcfd 55%,#ffffff 100%);
  border-color:rgba(18,50,71,.12);
@@ -4425,6 +4426,15 @@
  background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, var(--concept-title-accent-soft) 100%) !important;
  box-shadow:inset 0 0 0 1px var(--concept-title-accent-border), 0 8px 18px rgba(18,50,71,.08) !important;
  }
+.concept-panel[data-stage-theme="core"] > .concept-panel-title-row{
+ background:transparent !important;
+ border-color:transparent !important;
+ box-shadow:none !important;
+}
+.concept-panel[data-stage-theme="core"] > .concept-panel-title-row .concept-title-icon{
+ background:transparent !important;
+ box-shadow:none !important;
+}
  .concept-title-icon--mascot{
  background:transparent !important;
  box-shadow:none !important;
@@ -7218,7 +7228,7 @@ grid-column:1;
  <h3>Module Navigation</h3>
  <div class="nav-list">
  <a class="nav-link active" href="#module-title" data-progress-key="module4_module_title">Overview</a>
- <a class="nav-link" href="#journey" data-progress-key="module4_journey">Understanding Aquatic Practice Journey</a>
+ <a class="nav-link" href="#journey" data-progress-key="module4_journey">Journey</a>
  <a class="nav-link" href="#outcomes" data-progress-key="module4_outcomes">Learning Outcomes</a>
  <a class="nav-link" href="#block1" data-progress-key="module4_block1">Block 1</a>
  <a class="nav-link" href="#block2" data-progress-key="module4_block2">Block 2</a>
@@ -7318,7 +7328,7 @@ grid-column:1;
 
  <div class="journey-item journey-item--past">
  <div class="journey-node"><span class="journey-node__kicker">Module</span><div class="journey-circle"><span class="journey-node__num">2</span></div></div>
- <div class="journey-title">Understanding the Swimmer's Experience</div>
+ <div class="journey-title">Understanding the Swimmer's Experience in the Aquatic Environment</div>
  <div class="journey-status">Completed</div>
  </div>
 
@@ -7433,7 +7443,7 @@ grid-column:1;
  <a class="journey-item module-roadmap__item" href="#block3">
  <div class="journey-node"><span class="module-roadmap__node-kicker">Block</span><div class="journey-circle"><span class="module-roadmap__node-num">3</span></div></div>
  <div class="module-roadmap__text-stack">
- <div class="journey-title">Program Structure</div>
+ <div class="journey-title">Programme Structure</div>
  <div class="journey-status module-roadmap__hint">Explore stages and levels from Swim Confidence to Swim Structured.</div>
  </div>
  </a>
@@ -7698,7 +7708,7 @@ grid-column:1;
 
  <div class="block-header">
  <div class="block-title-wrap">
- <h3>Program Structure</h3>
+ <h3>Programme Structure</h3>
  </div>
  <div class="section-top-actions">
  <button class="btn btn-tts" data-tts-button="block3">🔊 Listen</button>
@@ -7971,7 +7981,7 @@ grid-column:1;
  </div>
  <div class="concept-progress">
  <span data-mini-text="block3">0 of 30 concepts completed</span>
- <span>Program Structure</span>
+ <span>Programme Structure</span>
  </div>
  </div>
  </div>
@@ -7994,7 +8004,7 @@ grid-column:1;
 
  <label class="check-item clickable-progress">
  <input type="checkbox" class="overall-check gated-check" data-stage-check="block3" data-check-for="block3" disabled>
- <span>I have completed Program Structure.</span>
+ <span>I have completed Programme Structure.</span>
  </label>
  </div>
  </section>
@@ -9725,7 +9735,7 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
 
  const stageOrder = ['journey','outcomes','block1','block2','block3','block4','keyideas'];
  const stageChecks = {};
- const REVIEW_MODE = true;
+ let REVIEW_MODE = false;
  document.querySelectorAll('.overall-check').forEach(input => {
  stageChecks[input.dataset.stageCheck] = input;
  });
@@ -10283,6 +10293,9 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
  }
 
  function updateProgress(){
+ if(window.TrainingIModuleShell && typeof TrainingIModuleShell.refresh === 'function'){
+ try { TrainingIModuleShell.refresh(); return; } catch (err) {}
+ }
  const completed = REVIEW_MODE ? 0 : stageOrder.filter(stage => stageChecks[stage] && stageChecks[stage].checked).length;
  const total = stageOrder.length;
  const percent = REVIEW_MODE ? 0 : (total ? Math.round((completed / total) * 100) : 0);
@@ -13626,7 +13639,6 @@ updateFocusProgress();
  setupSpeech();
  setupModal();
  setupBlockIntroSlideImageExpandButtons();
- if(REVIEW_MODE) enableReviewMode();
  updateProgress();
  if (typeof window !== 'undefined') window.updateProgress = updateProgress;
  if (typeof window !== 'undefined') {
@@ -13666,13 +13678,15 @@ updateFocusProgress();
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-flow-guide.js?v=20260716b3c3path1"></script>
+ <script src="/shared/training-flow-guide.js?v=20260924flow1"></script>
+<script src="/shared/training-i-progress.js?v=20260911"></script>
+<script src="/shared/training-i-module-shell.js?v=20260924voice1"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
  (function(){
  var MODULE_NUMBER = 4;
- var REVIEW_MODE = true;
+ var REVIEW_MODE = false;
  var STORAGE_KEY = 'swimming_module_4_progress';
  var SUPABASE_URL = 'https://mdzmlcswrxabsdqceveh.supabase.co';
  var SUPABASE_ANON_KEY = 'sb_publishable_e4cDcMhf1DgtbbcTogAiww_O621PmTE';
@@ -13697,6 +13711,11 @@ updateFocusProgress();
  }
  async function loadProgress(trainingType){
  currentTrainingType = trainingType || 'swimming';
+ if(window.TrainingIProgress){
+ currentProgress = {};
+ applyProgressToUI();
+ return currentProgress;
+ }
  if(REVIEW_MODE){
  currentProgress = {};
  applyProgressToUI();
@@ -13987,6 +14006,7 @@ updateFocusProgress();
  progressFill.style.width = '100%';
  progressText.textContent = '8 of 8 answered';
  var passed = score === total;
+ if(window.TrainingIProgress){ TrainingIProgress.submitQuiz(4, score, total); if(window.TrainingIModuleShell) TrainingIModuleShell.refresh(); }
  scoreValue.textContent = passed ? ('Quiz passed - ' + score + '/' + total) : (score + '/' + total);
  if(passed){
  try {
@@ -14024,7 +14044,7 @@ updateFocusProgress();
  </script>
  
  <script src="/shared/programme-journey-map.js?v=20260714pjmfixed1"></script>
- <script src="/shared/concept-visual-expand-system.js?v=20260710stagecards"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20260924dwell1"></script>
 </body>
 </html>
 

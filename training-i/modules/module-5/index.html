@@ -14,6 +14,7 @@
  @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
  @import url('/assets/concept-insight-intro.css?v=20260715corew');
  @import url('/assets/training-flow-guide.css?v=20260714freenav1');
+@import url('/assets/training-i-module-shell.css?v=20260911');
  @import url('/assets/module-block-accordion.css?v=20260715corepurple1');
  :root{
  --blue:#2d84b3;
@@ -5000,7 +5001,7 @@
  <h3>Module Navigation</h3>
  <div class="nav-list">
  <a class="nav-link active" href="#overview" data-progress-key="module5_overview">Overview</a>
- <a class="nav-link" href="#journey" data-progress-key="module5_journey">Understanding Aquatic Practice Journey</a>
+ <a class="nav-link" href="#journey" data-progress-key="module5_journey">Journey</a>
  <a class="nav-link" href="#outcomes" data-progress-key="module5_outcomes">Learning Outcomes</a>
  <a class="nav-link" href="#block1" data-progress-key="module5_block1">Block 1</a>
  <a class="nav-link" href="#block2" data-progress-key="module5_block2">Block 2</a>
@@ -5096,7 +5097,7 @@
 
  <div class="journey-item journey-item--past">
  <div class="journey-node"><span class="journey-node__kicker">Module</span><div class="journey-circle"><span class="journey-node__num">2</span></div></div>
- <div class="journey-title">Understanding the Swimmer's Experience</div>
+ <div class="journey-title">Understanding the Swimmer's Experience in the Aquatic Environment</div>
  <div class="journey-status">Completed</div>
  </div>
 
@@ -6515,8 +6516,8 @@
  'f1-s1': {
  format: 'teach_decisions',
  activityType: 'Safe Teaching Decisions',
- guideText: 'Read each situation and choose the best instructor response. All four decisions must be correct to complete the activity.',
- q: 'Choose the safest and most supportive instructor response for each situation.',
+ guideText: 'Read the situation and choose the best instructor response.',
+ q: 'Choose the safest and most supportive instructor response.',
  scenarios: [
  {
  situation: 'A swimmer hesitates at the ladder and looks unsure about entering.',
@@ -6527,36 +6528,6 @@
  { id: 'd', text: 'Remove the ladder option and insist on a different entry immediately' }
  ],
  correct: 'a'
- },
- {
- situation: 'A swimmer wants to jump into the water immediately without following the routine.',
- options: [
- { id: 'a', text: 'Allow the jump so they stay motivated and engaged' },
- { id: 'b', text: 'Redirect to the agreed entry routine using the visual and a calm cue' },
- { id: 'c', text: 'Raise your voice to stop them before anyone else copies the behaviour' },
- { id: 'd', text: 'End the activity and send them out of the pool' }
- ],
- correct: 'b'
- },
- {
- situation: 'A swimmer needs help exiting and reaches for you mid-session.',
- options: [
- { id: 'a', text: 'Offer stable support, guide them to the designated exit, and model the routine' },
- { id: 'b', text: 'Tell them to figure it out independently to build resilience' },
- { id: 'c', text: 'Pull them quickly to the nearest edge regardless of the planned exit' },
- { id: 'd', text: 'Ignore the request until they ask again more clearly' }
- ],
- correct: 'a'
- },
- {
- situation: 'A swimmer leaves the designated exit point and moves toward an open area of the pool edge.',
- options: [
- { id: 'a', text: 'Let them choose any exit so they feel autonomous' },
- { id: 'b', text: 'Calmly redirect using the exit visual and guide them back to the agreed point' },
- { id: 'c', text: 'Stop the whole group until everyone watches a lecture about exits' },
- { id: 'd', text: 'Block them physically without explaining the safer exit routine' }
- ],
- correct: 'b'
  }
  ],
  ok: 'Well judged. Safe entries and exits depend on calm routines, clear visuals, designated exits, and responsive support.',
@@ -8620,7 +8591,7 @@
 
  const stageOrder = ['journey','outcomes','block1','block2','block3','recap','complete'];
  const stageChecks = {};
- const REVIEW_MODE = true;
+ let REVIEW_MODE = false;
  document.querySelectorAll('.overall-check').forEach(input => {
  stageChecks[input.dataset.stageCheck] = input;
  });
@@ -9020,6 +8991,9 @@
  }
 
  function updateProgress(){
+ if(window.TrainingIModuleShell && typeof TrainingIModuleShell.refresh === 'function'){
+ try { TrainingIModuleShell.refresh(); return; } catch (err) {}
+ }
  const completed = REVIEW_MODE ? 0 : stageOrder.filter(stage => stageChecks[stage] && stageChecks[stage].checked).length;
  const total = stageOrder.length;
  const percent = REVIEW_MODE ? 0 : Math.round((completed / total) * 100);
@@ -10436,7 +10410,6 @@
  setupLearningOutcomes();
  setupSpeech();
  setupModal();
- if(REVIEW_MODE) enableReviewMode();
  updateProgress();
  if(window.ModuleBlockAccordion) ModuleBlockAccordion.init();
  document.querySelectorAll('.btn-save-progress').forEach(function(btn){
@@ -10465,13 +10438,15 @@
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
  <script src="/shared/guided-concept-layout.js?v=20260714nestedback1"></script>
- <script src="/shared/training-flow-guide.js?v=20260715opentiles"></script>
+ <script src="/shared/training-flow-guide.js?v=20260924flow1"></script>
+<script src="/shared/training-i-progress.js?v=20260911"></script>
+<script src="/shared/training-i-module-shell.js?v=20260924voice1"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
  (function(){
  var MODULE_NUMBER = 5;
- var REVIEW_MODE = true;
+ var REVIEW_MODE = false;
  var STORAGE_KEY = 'swimming_module_5_progress';
  var SUPABASE_URL = 'https://mdzmlcswrxabsdqceveh.supabase.co';
  var SUPABASE_ANON_KEY = 'sb_publishable_e4cDcMhf1DgtbbcTogAiww_O621PmTE';
@@ -10496,6 +10471,11 @@
  }
  async function loadProgress(trainingType){
  currentTrainingType = trainingType || 'swimming';
+ if(window.TrainingIProgress){
+ currentProgress = {};
+ applyProgressToUI();
+ return currentProgress;
+ }
  if(REVIEW_MODE){
  currentProgress = {};
  applyProgressToUI();
@@ -10720,6 +10700,7 @@
  progressFill.style.width = '100%';
  progressText.textContent = '8 of 8 answered';
  var passed = score === total;
+ if(window.TrainingIProgress){ TrainingIProgress.submitQuiz(5, score, total); if(window.TrainingIModuleShell) TrainingIModuleShell.refresh(); }
  scoreValue.textContent = passed ? ('Quiz passed - ' + score + '/' + total) : (score + '/' + total);
  if(passed){
  try {
@@ -10757,7 +10738,7 @@
  })();
  </script>
  
- <script src="/shared/concept-visual-expand-system.js?v=20260715explore1"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20260924dwell1"></script>
 </body>
 </html>
 

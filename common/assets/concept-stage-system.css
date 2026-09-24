@@ -355,13 +355,27 @@
   border-color: #8e24aa !important;
   color: #4a148c !important;
 }
-.portal .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--state"]::before,
 .portal .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--factor"]::before,
-.portal .concept-panel .concept-grid--factors > .concept-square[class*="concept-square--state"]::before,
 .portal .concept-panel .concept-grid--factors > .concept-square[class*="concept-square--factor"]::before{
   background-color: rgba(255,255,255,.55) !important;
   background-image: var(--concept-nav-icon-on-light) !important;
   border-color: rgba(18,50,71,.14) !important;
+}
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--state"],
+.portal .concept-panel .concept-grid--factors > .concept-square[class*="concept-square--state"]{
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 160px;
+  padding: 20px 14px 18px;
+  text-align: center;
+}
+.portal .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--state"]::before,
+.portal .concept-panel .concept-grid--factors > .concept-square[class*="concept-square--state"]::before{
+  display: none !important;
+  content: none !important;
 }
 
 /* Visited tick + clearer done wash for specialty subconcept hubs (Calm/Alert/Overloaded, factors, approaches) */

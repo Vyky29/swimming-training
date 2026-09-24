@@ -3,7 +3,7 @@
 <head>
  <meta charset="UTF-8" />
  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>clubSENsational Training Module 2 | Understanding the Swimmer's Experience in the Water</title>
+ <title>clubSENsational Training Module 2 | Understanding the Swimmer's Experience in the Aquatic Environment</title>
  <style>
  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
@@ -14,6 +14,7 @@
  @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
  @import url('/assets/concept-insight-intro.css?v=20260715corew');
  @import url('/assets/training-flow-guide.css?v=20260714freenav1');
+@import url('/assets/training-i-module-shell.css?v=20260911');
  @import url('/assets/module-block-accordion.css?v=20260715corepurple1');
  :root{
  --blue:#2d84b3;
@@ -1302,12 +1303,23 @@
  letter-spacing:.01em;
  }
 
- /* Specialty subconcept tiles: readable labels on light fills (not white-on-blue) */
+ /* Emotional-state picker: face icon above the label, same layout as factor tiles */
+ .concept-panel .concept-image .concept-grid--factors .concept-square[class*="concept-square--state"],
+ .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--state"]{
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:12px;
+ min-height:160px;
+ padding:20px 14px 18px;
+ font-weight:800;
+ text-align:center;
+ }
  .concept-panel [data-parent-subconcept-nav] .concept-square[class*="concept-square--state"]::before,
  .concept-panel .concept-image .concept-grid--factors .concept-square[class*="concept-square--state"]::before{
- background-color:rgba(255,255,255,.55);
- background-image:var(--concept-nav-icon-on-light);
- border-color:rgba(18,50,71,.12);
+ display:none !important;
+ content:none !important;
  }
 
  .concept-square{
@@ -3824,7 +3836,7 @@
  <h3>Module Navigation</h3>
  <div class="nav-list">
  <a class="nav-link active" href="#overview" data-progress-key="module2_overview">Overview</a>
- <a class="nav-link" href="#journey" data-progress-key="module2_journey">Understanding Aquatic Practice Journey</a>
+ <a class="nav-link" href="#journey" data-progress-key="module2_journey">Journey</a>
  <a class="nav-link" href="#outcomes" data-progress-key="module2_outcomes">Learning Outcomes</a>
  <a class="nav-link" href="#block1" data-progress-key="module2_block1">Block 1</a>
  <a class="nav-link" href="#block2" data-progress-key="module2_block2">Block 2</a>
@@ -3872,7 +3884,7 @@
  <div class="section-top section-top--hero">
  <div class="hero-title-line">
  <div class="hero-title-line__stack">
- <h2>Understanding the Swimmer's Experience in the Water</h2>
+ <h2>Understanding the Swimmer's Experience in the Aquatic Environment</h2>
  <p class="module-hero__descriptor">Connect with how swimmers feel and respond in the water, then move into the structured blocks.</p>
  <p class="module-hero__path"><span>Journey</span><span class="module-hero__path-sep" aria-hidden="true">·</span><span>Outcomes</span><span class="module-hero__path-sep" aria-hidden="true">·</span><span>Blocks</span><span class="module-hero__path-sep" aria-hidden="true">·</span><span>Recap</span><span class="module-hero__path-sep" aria-hidden="true">·</span><span>Quiz</span></p>
  </div>
@@ -3920,7 +3932,7 @@
 
  <div class="journey-item active">
  <div class="journey-node"><span class="journey-node__kicker">Module</span><div class="journey-circle"><span class="journey-node__num">2</span></div></div>
- <div class="journey-title">Understanding the Swimmer's Experience</div>
+ <div class="journey-title">Understanding the Swimmer's Experience in the Aquatic Environment</div>
  <div class="journey-status">Current module</div>
  </div>
 
@@ -3944,7 +3956,7 @@
  </div>
 
  <div class="journey-panel" id="journeyPanel" data-tts-source="journey">
- <h4>Module 2 - Understanding the Swimmer's Experience in the Water</h4>
+ <h4>Module 2 - Understanding the Swimmer's Experience in the Aquatic Environment</h4>
  <p>This module builds on understanding the aquatic environment by focusing on the swimmer's internal experience. It sits at a key stage in the training, helping instructors interpret behaviour more accurately before moving into engagement and teaching strategies.</p>
  </div>
  </div>
@@ -4447,7 +4459,7 @@
  </div>
  <header class="quiz-hero">
  <span class="tag">Module 2</span>
- <h1>Understanding the Swimmer's Experience</h1>
+ <h1>Understanding the Swimmer's Experience in the Aquatic Environment</h1>
  <p>Test your knowledge of readiness, emotional states, influences in the water, and interpreting behaviour in context.</p>
  </header>
  <form id="quizFormM2">
@@ -4926,9 +4938,15 @@
  parentSubconceptTitle: 'Explore each emotional state',
  parentSubconceptLead: 'Tap one to open it.',
  parentSubconceptNavHTML: '<div class="concept-image"><div class="concept-grid concept-grid--factors" data-concept-grid="block2">' +
- '<button type="button" class="concept-square concept-square--state-calm" data-target="b2c2_calm">Calm</button>' +
- '<button type="button" class="concept-square concept-square--state-alert" data-target="b2c2_alert">Alert</button>' +
- '<button type="button" class="concept-square concept-square--state-overloaded" data-target="b2c2_overloaded">Overloaded</button>' +
+ '<button type="button" class="concept-square concept-square--state-calm" data-target="b2c2_calm">' +
+ '<span class="m2-factor-icon" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#2E9B4F"/><circle cx="23" cy="26" r="3.2" fill="#fff"/><circle cx="41" cy="26" r="3.2" fill="#fff"/><path d="M20 36c3.2 6.2 8 9.2 12 9.2s8.8-3 12-9.2" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>' +
+ '<span class="m2-factor-label">Calm</span></button>' +
+ '<button type="button" class="concept-square concept-square--state-alert" data-target="b2c2_alert">' +
+ '<span class="m2-factor-icon" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#E0A106"/><circle cx="23" cy="26" r="3.2" fill="#fff"/><circle cx="41" cy="26" r="3.2" fill="#fff"/><path d="M22 38c2.6 3.4 6.2 5.2 10 5.2s7.4-1.8 10-5.2" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>' +
+ '<span class="m2-factor-label">Alert</span></button>' +
+ '<button type="button" class="concept-square concept-square--state-overloaded" data-target="b2c2_overloaded">' +
+ '<span class="m2-factor-icon" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="30" fill="#E53935"/><circle cx="23" cy="27" r="3.2" fill="#fff"/><circle cx="41" cy="27" r="3.2" fill="#fff"/><path d="M20 46c3.2-6.2 8-9.2 12-9.2s8.8 3 12 9.2" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>' +
+ '<span class="m2-factor-label">Overloaded</span></button>' +
  '</div></div>'
  },
  b2c2_calm: {
@@ -4989,18 +5007,18 @@
  text: '<p>Emotional state is shaped by different types of influences that are constantly interacting during the session.</p>' +
  '<p>These influences do not act in isolation, and small changes in one area can affect how the swimmer feels and responds.</p>' +
  '<p>Understanding these categories helps instructors move from reacting to behaviour to understanding it.</p>',
- imageHTML: '<img src="/assets/images/training-i/m2/m2-b3c2-factors-that-shape-emotional-state.png?v=20260716titleicons5" alt="Infographic: three factors overview - water, environment, internal" />',
+ imageHTML: '<img src="/assets/images/training-i/m2/m2-b3c2-factors-that-shape-emotional-state.png?v=20260924icons1" alt="Infographic: three factors overview - water, environment, internal" />',
  parentSubconceptTitle: 'Explore each factor',
  parentSubconceptLead: 'Tap one to open it.',
  parentSubconceptNavHTML: '<div class="concept-image"><div class="concept-grid concept-grid--factors" data-concept-grid="block3">' +
  '<button type="button" class="concept-square concept-square--factor-water" data-target="b3c2_water">' +
- '<span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-water.png?v=20260716f5" alt="" width="68" height="68" loading="lazy" decoding="async" /></span>' +
+ '<span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-water.png?v=20260924icons1" alt="" width="68" height="68" loading="lazy" decoding="async" /></span>' +
  '<span class="m2-factor-label">Water-Based</span></button>' +
  '<button type="button" class="concept-square concept-square--factor-env" data-target="b3c2_env">' +
- '<span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-environmental.png?v=20260716f5" alt="" width="68" height="68" loading="lazy" decoding="async" /></span>' +
+ '<span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-environmental.png?v=20260924icons1" alt="" width="68" height="68" loading="lazy" decoding="async" /></span>' +
  '<span class="m2-factor-label">Environmental</span></button>' +
  '<button type="button" class="concept-square concept-square--factor-internal" data-target="b3c2_internal">' +
- '<span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-internal.png?v=20260716f5" alt="" width="68" height="68" loading="lazy" decoding="async" /></span>' +
+ '<span class="m2-factor-icon" aria-hidden="true"><img src="/assets/images/training-i/m2/factors/icons/factor-internal.png?v=20260924icons1" alt="" width="68" height="68" loading="lazy" decoding="async" /></span>' +
  '<span class="m2-factor-label">Internal</span></button>' +
  '</div></div>'
  },
@@ -5047,7 +5065,7 @@
 
  const stageOrder = ['journey','outcomes','block1','block2','block3','recap','complete'];
  const stageChecks = {};
- const REVIEW_MODE = true;
+ let REVIEW_MODE = false;
  document.querySelectorAll('.overall-check').forEach(input => {
  stageChecks[input.dataset.stageCheck] = input;
  });
@@ -5260,6 +5278,9 @@
  }
 
  function updateProgress(){
+ if(window.TrainingIModuleShell && typeof TrainingIModuleShell.refresh === 'function'){
+ try { TrainingIModuleShell.refresh(); return; } catch (err) {}
+ }
  const completed = REVIEW_MODE ? 0 : stageOrder.filter(stage => stageChecks[stage] && stageChecks[stage].checked).length;
  const total = stageOrder.length;
  const percent = REVIEW_MODE ? 0 : Math.round((completed / total) * 100);
@@ -7114,7 +7135,6 @@
  finalizeZeroDwellIfNeeded();
  setupSpeech();
  setupModal();
- if(REVIEW_MODE) enableReviewMode();
  updateProgress();
  if(window.ModuleBlockAccordion) ModuleBlockAccordion.init();
  document.querySelectorAll('.btn-save-progress').forEach(function(btn){
@@ -7140,13 +7160,15 @@
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-flow-guide.js?v=20260714freenav1"></script>
+ <script src="/shared/training-flow-guide.js?v=20260924flow1"></script>
+<script src="/shared/training-i-progress.js?v=20260911"></script>
+<script src="/shared/training-i-module-shell.js?v=20260924voice1"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
  (function(){
  var MODULE_NUMBER = 2;
- var REVIEW_MODE = true;
+ var REVIEW_MODE = false;
  var STORAGE_KEY = 'swimming_module_2_progress';
  var SUPABASE_URL = 'https://mdzmlcswrxabsdqceveh.supabase.co';
  var SUPABASE_ANON_KEY = 'sb_publishable_e4cDcMhf1DgtbbcTogAiww_O621PmTE';
@@ -7171,6 +7193,11 @@
  }
  async function loadProgress(trainingType){
  currentTrainingType = trainingType || 'swimming';
+ if(window.TrainingIProgress){
+ currentProgress = {};
+ applyProgressToUI();
+ return currentProgress;
+ }
  if(REVIEW_MODE){
  currentProgress = {};
  applyProgressToUI();
@@ -7449,6 +7476,7 @@
  progressFill.style.width = '100%';
  progressText.textContent = '8 of 8 answered';
  var passed = score === total;
+ if(window.TrainingIProgress){ TrainingIProgress.submitQuiz(2, score, total); if(window.TrainingIModuleShell) TrainingIModuleShell.refresh(); }
  scoreValue.textContent = passed ? ('Quiz passed - ' + score + '/' + total) : (score + '/' + total);
  if(passed){
  try {
@@ -7470,7 +7498,7 @@
  passed: passed,
  isFinalModule: false,
  trainingLabel: 'Swimming Training I',
- moduleLabel: "Module 2 - Understanding the Swimmer's Experience in the Water",
+ moduleLabel: "Module 2 - Understanding the Swimmer's Experience in the Aquatic Environment",
  successMessage: 'You passed the quiz for Module 2. Continue into Module 3 when you are ready.',
  failureMessage: 'You need all 8 correct before moving on. Review the module and try again.'
  });
@@ -7485,6 +7513,6 @@
  })();
  </script>
  
- <script src="/shared/concept-visual-expand-system.js?v=20260725"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20260924dwell1"></script>
 </body>
 </html>

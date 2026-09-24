@@ -6,7 +6,7 @@
    * Flip to true when content is final for learners.
    * Override anytime with ?flowGuide=1 (on) or ?flowGuide=0 (off).
    */
-  var FLOW_GUIDE_ACTIVE_DEFAULT = false;
+  var FLOW_GUIDE_ACTIVE_DEFAULT = true;
 
   var PULSE_CLASS = 'flow-guide-pulse';
   var PULSE_EXPAND = 'flow-guide-pulse--expand';
@@ -4231,6 +4231,23 @@
         return;
       }
       activeModuleConfig = moduleConfig;
+      document.addEventListener('change', function (event) {
+        var input = event.target;
+        if (!input || !input.matches || !input.checked) return;
+        if (!input.matches('input[data-check-for], input[data-stage-check]')) return;
+        var id = input.getAttribute('data-check-for') || input.getAttribute('data-stage-check');
+        var blocks = moduleConfig.blocks || [];
+        var idx = blocks.indexOf(id);
+        if (idx <= 0) return;
+        for (var b = 0; b < idx; b++) {
+          var prev = document.querySelector('input[data-check-for="' + blocks[b] + '"], input[data-stage-check="' + blocks[b] + '"]');
+          if (prev && !prev.checked) {
+            input.checked = false;
+            event.stopPropagation();
+            return;
+          }
+        }
+      }, true);
       document.documentElement.setAttribute('data-guided-flow', 'true');
       document.documentElement.removeAttribute('data-flow-guide-off');
       if(ctx.pathway) document.documentElement.setAttribute('data-guided-pathway', ctx.pathway.id);

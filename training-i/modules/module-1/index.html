@@ -8,6 +8,7 @@
 @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
 @import url('/assets/concept-insight-intro.css?v=20260715corew');
 @import url('/assets/training-flow-guide.css?v=20260714freenav1');
+@import url('/assets/training-i-module-shell.css?v=20260911');
 @import url('/assets/module-block-accordion.css?v=20260715corepurple1');
 :root{
  --blue:#2d84b3;
@@ -3522,7 +3523,7 @@
  <h3>Module Navigation</h3>
  <div class="nav-list">
  <a class="nav-link active" href="#overview" data-progress-key="module1_overview">Overview</a>
- <a class="nav-link" href="#journey" data-progress-key="module1_journey">Understanding Aquatic Practice Journey</a>
+ <a class="nav-link" href="#journey" data-progress-key="module1_journey">Journey</a>
  <a class="nav-link" href="#outcomes" data-progress-key="module1_outcomes">Learning Outcomes</a>
  <a class="nav-link" href="#block1" data-progress-key="module1_block1">Block 1</a>
  <a class="nav-link" href="#block2" data-progress-key="module1_block2">Block 2</a>
@@ -3618,7 +3619,7 @@
 
  <div class="journey-item">
  <div class="journey-node"><span class="journey-node__kicker">Module</span><div class="journey-circle"><span class="journey-node__num">2</span></div></div>
- <div class="journey-title">Understanding the Swimmer's Experience</div>
+ <div class="journey-title">Understanding the Swimmer's Experience in the Aquatic Environment</div>
  <div class="journey-status"></div>
  </div>
 
@@ -4417,7 +4418,7 @@
 
  const stageOrder = ['journey','outcomes','block1','block2','block3','recap','complete'];
  const stageChecks = {};
- const REVIEW_MODE = true;
+ let REVIEW_MODE = false;
  var updateOutcomeStateRef = null;
  document.querySelectorAll('.overall-check').forEach(input => {
  stageChecks[input.dataset.stageCheck] = input;
@@ -4606,6 +4607,9 @@
  }
 
  function updateProgress(){
+ if(window.TrainingIModuleShell && typeof TrainingIModuleShell.refresh === 'function'){
+ try { TrainingIModuleShell.refresh(); return; } catch (err) {}
+ }
  const completed = REVIEW_MODE ? 0 : stageOrder.filter(stage => stageChecks[stage] && stageChecks[stage].checked).length;
  const total = stageOrder.length;
  const percent = REVIEW_MODE ? 0 : Math.round((completed / total) * 100);
@@ -6866,7 +6870,6 @@
  setupLearningOutcomes();
  setupSpeech();
  setupModal();
- if(REVIEW_MODE) enableReviewMode();
  updateProgress();
  if(window.ModuleBlockAccordion) ModuleBlockAccordion.init();
  document.querySelectorAll('.btn-save-progress').forEach(function(btn){
@@ -6892,20 +6895,22 @@
  ParentSubconceptLayout.markParentConceptSquares(conceptContent);
  }
 </script>
-<script src="/shared/concept-visual-expand-system.js?v=20260725"></script>
+<script src="/shared/concept-visual-expand-system.js?v=20260924dwell1"></script>
 <script src="/shared/concept-insight-intro.js?v=20260714core1"></script>
 <script src="/shared/review-item-clicks.js"></script>
 <script src="/shared/key-ideas-recap-enhance.js?v=20260623"></script>
 <script src="/shared/module-completion-flow.js"></script>
 <script src="/shared/module-nav-blocks.js"></script>
 <script src="/shared/training-flow-config.js?v=20260716"></script>
-<script src="/shared/training-flow-guide.js?v=20260714freenav1"></script>
+<script src="/shared/training-flow-guide.js?v=20260924flow1"></script>
+<script src="/shared/training-i-progress.js?v=20260911"></script>
+<script src="/shared/training-i-module-shell.js?v=20260924voice1"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
  var MODULE_NUMBER = 1;
- var REVIEW_MODE = true;
+ var REVIEW_MODE = false;
  var STORAGE_KEY = 'swimming_module_1_progress';
  var SUPABASE_URL = 'https://mdzmlcswrxabsdqceveh.supabase.co';
  var SUPABASE_ANON_KEY = 'sb_publishable_e4cDcMhf1DgtbbcTogAiww_O621PmTE';
@@ -6933,6 +6938,11 @@
  }
  async function loadProgress(trainingType){
  currentTrainingType = trainingType || 'swimming';
+ if(window.TrainingIProgress){
+ currentProgress = {};
+ applyProgressToUI();
+ return currentProgress;
+ }
  if(REVIEW_MODE){
  currentProgress = {};
  applyProgressToUI();
@@ -7035,14 +7045,13 @@
  link.addEventListener('click', function(e){
  var quizSec = document.getElementById('quiz');
  if(!quizSec) return;
+ if(window.TrainingIProgress && !TrainingIProgress.quizUnlocked(MODULE_NUMBER)){
+ e.preventDefault();
+ return;
+ }
  e.preventDefault();
  quizSec.classList.remove('gated-locked');
  quizSec.classList.add('quiz-visible');
- if(!REVIEW_MODE){
- saveProgress({ ['module' + MODULE_NUMBER + '_complete']: true });
- var cb = document.querySelector('.overall-check[data-stage-check="complete"]');
- if(cb){ cb.checked = true; if(cb.closest('.check-item')) cb.closest('.check-item').classList.add('clicked'); }
- }
  window.location.hash = 'quiz';
  setTimeout(function(){ quizSec.scrollIntoView({ behavior:'smooth', block:'start' }); }, 50);
  });
@@ -7235,6 +7244,7 @@
  progressFill.style.width = '100%';
  progressText.textContent = '8 of 8 answered';
  var passed = score === total;
+ if(window.TrainingIProgress){ TrainingIProgress.submitQuiz(1, score, total); if(window.TrainingIModuleShell) TrainingIModuleShell.refresh(); }
  scoreValue.textContent = passed ? ('Quiz passed - ' + score + '/' + total) : (score + '/' + total);
  if(passed){
  try {

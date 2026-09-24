@@ -25,7 +25,7 @@
     block3: {
       variant: 'pathway',
       kicker: 'Block 3',
-      title: 'Program Structure',
+      title: 'Programme Structure',
       text: 'Three stages and six levels: the pathway from first water contact to structured swimming.'
     },
     block4: {
@@ -137,10 +137,6 @@
   }
 
   function reflectionReady(key){
-    var lockBox = document.querySelector('[data-lock-box="' + key + '"]');
-    if(lockBox && lockBox.classList.contains('ready')) return true;
-    var gate = document.querySelector('[data-gate="' + key + '"]');
-    if(gate && gate.classList.contains('open')) return true;
     var progress = getConceptProgress(key);
     return !!(progress.total > 0 && progress.done >= progress.total);
   }
@@ -290,7 +286,7 @@
       }
     });
 
-    // Guided flow keeps accordions closed after Done — learner taps the next block head.
+    // Guided flow keeps accordions closed after Done ? learner taps the next block head.
     // Outside guided flow, auto-open the next complete?ready block once.
     if(!options.skipAutoAdvance && !isGuidedFlow()){
       var current = openBlockPart;
@@ -351,7 +347,7 @@
       }, 0);
     });
 
-    // Start fully collapsed — learner opens a block intentionally
+    // Start fully collapsed ? learner opens a block intentionally
     openBlockPart = null;
     refresh({ skipAutoAdvance: true });
   }

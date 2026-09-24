@@ -206,7 +206,7 @@
       title: 'The Environment Matters',
       pillars: [
         { icon: 'balance', title: 'Noise and Space', text: 'Noise, space, movement, and the presence of others can support engagement or increase demand.' },
-        { icon: 'focus', title: 'Predictability', text: 'Predictability of the environment matters — adjust positioning and structure where possible.' },
+        { icon: 'focus', title: 'Predictability', text: 'Predictability of the environment matters. Adjust positioning and structure where possible.' },
         { icon: 'shield', title: 'Reduce Demand', text: 'When the environment increases demand, simplify tasks or reduce sensory input.' }
       ]
     },

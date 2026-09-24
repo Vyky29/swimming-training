@@ -25,6 +25,9 @@
 
   var modalOpener = null;
   var builtinModal = null;
+  var IMAGE_DWELL_MS = 15000;
+  var dwellSeen = {};
+  try { dwellSeen = JSON.parse(sessionStorage.getItem('cs_img_dwell') || '{}'); } catch (err) { dwellSeen = {}; }
 
   function setModalOpener(fn) {
     modalOpener = typeof fn === 'function' ? fn : null;
@@ -86,11 +89,13 @@
     mediaModal.classList.add('open');
     mediaModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    if (imageOnly) beginImageDwell(mediaModal);
     return true;
   }
 
   function closeBuiltinModal() {
     if (!builtinModal) return;
+    if (builtinModal.dataset.imageDwellUntil) return;
     builtinModal.classList.remove('open');
     builtinModal.setAttribute('aria-hidden', 'true');
     var body = builtinModal.querySelector('.concept-expand-fallback-body');
@@ -131,6 +136,7 @@
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    beginImageDwell(modal);
   }
 
   function resolveModalOpener(options) {
@@ -547,10 +553,7 @@
     btn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
-      btn.setAttribute('data-visual-expanded', 'true');
-      var host = btn.closest('[data-expandable-visual]');
-      if (host) host.setAttribute('data-visual-expanded', 'true');
-      syncPanelVisualFlowState(panel);
+      btn.setAttribute('data-visual-opening', 'true');
       openExpandedImage(img, panel, options);
       try {
         document.dispatchEvent(new CustomEvent('concept-visual-expand-change', { bubbles: true, detail: { panel: panel } }));
@@ -605,9 +608,108 @@
     });
   }
 
+  function rememberSeen(src) {
+    if (!src) return;
+    dwellSeen[src] = 1;
+    try { sessionStorage.setItem('cs_img_dwell', JSON.stringify(dwellSeen)); } catch (err) {}
+  }
+
+  function markSrcExpanded(src) {
+    if (!src) return;
+    document.querySelectorAll('.img-expand-btn').forEach(function (btn) {
+      var host = btn.closest('[data-expandable-visual]');
+      var img = host && host.querySelector('img');
+      var imgSrc = img && (img.currentSrc || img.getAttribute('src') || '');
+      if (!imgSrc || (imgSrc !== src && imgSrc.indexOf(src) === -1 && src.indexOf(imgSrc) === -1)) return;
+      btn.setAttribute('data-visual-expanded', 'true');
+      btn.removeAttribute('data-visual-opening');
+      if (host) host.setAttribute('data-visual-expanded', 'true');
+      var panel = btn.closest('.concept-panel');
+      if (panel) syncPanelVisualFlowState(panel);
+    });
+    try {
+      document.dispatchEvent(new CustomEvent('concept-visual-expand-change', { bubbles: true }));
+    } catch (err) {}
+  }
+
+  function beginImageDwell(modal) {
+    if (!modal) return;
+    var img = modal.querySelector('img');
+    var src = img && (img.currentSrc || img.getAttribute('src') || '');
+    if (!src) return;
+    if (modal.dataset.imageDwellSrc === src && modal.dataset.imageDwellUntil) return;
+    var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
+    if (dwellSeen[src]) {
+      delete modal.dataset.imageDwellUntil;
+      modal.dataset.imageDwellSrc = src;
+      if (closeBtn) {
+        closeBtn.disabled = false;
+        closeBtn.textContent = 'Close';
+      }
+      markSrcExpanded(src);
+      return;
+    }
+    var until = Date.now() + IMAGE_DWELL_MS;
+    modal.dataset.imageDwellUntil = String(until);
+    modal.dataset.imageDwellSrc = src;
+    if (closeBtn) {
+      closeBtn.disabled = true;
+      closeBtn.setAttribute('aria-disabled', 'true');
+    }
+    var timer = setInterval(function () {
+      if (!modal.classList.contains('open')) {
+        clearInterval(timer);
+        return;
+      }
+      var left = Math.ceil((until - Date.now()) / 1000);
+      if (closeBtn) closeBtn.textContent = left > 0 ? ('Close (' + left + 's)') : 'Close';
+      if (left > 0) return;
+      clearInterval(timer);
+      rememberSeen(src);
+      delete modal.dataset.imageDwellUntil;
+      if (closeBtn) {
+        closeBtn.disabled = false;
+        closeBtn.removeAttribute('aria-disabled');
+        closeBtn.textContent = 'Close';
+      }
+      markSrcExpanded(src);
+    }, 250);
+  }
+
+  function dwellBlocksClose(event) {
+    var modal = document.getElementById('mediaModal') || document.getElementById('conceptExpandFallbackModal');
+    if (!modal || !modal.classList.contains('open') || !modal.dataset.imageDwellUntil) return;
+    var closeHit = event.target && event.target.closest && event.target.closest('#mediaModalClose, .media-modal-close, .concept-expand-fallback-close');
+    var backdrop = event.target === modal;
+    if (!closeHit && !backdrop) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  function watchImageModal(modal) {
+    if (!modal || modal.dataset.dwellWatch === '1') return;
+    modal.dataset.dwellWatch = '1';
+    var obs = new MutationObserver(function () {
+      if (modal.classList.contains('open') && (modal.classList.contains('media-modal--image-only') || modal.id === 'conceptExpandFallbackModal')) {
+        beginImageDwell(modal);
+      }
+    });
+    obs.observe(modal, { attributes: true, attributeFilter: ['class'] });
+  }
+
   function initDocument() {
     bindModalOpenerFromWindow();
     wireBlockIntroSlides();
+    watchImageModal(document.getElementById('mediaModal'));
+    document.addEventListener('click', dwellBlocksClose, true);
+    document.addEventListener('keydown', function (event) {
+      if (event.key !== 'Escape') return;
+      var modal = document.getElementById('mediaModal');
+      if (modal && modal.classList.contains('open') && modal.dataset.imageDwellUntil) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }, true);
   }
 
   window.ConceptVisualExpand = {
