@@ -132,6 +132,31 @@
 .portal .nav-list .nav-link.active:not(.is-next){
   box-shadow:inset 3px 0 0 #2d84b3;
 }
+.portal .nav-list .nav-link.nav-link--block{
+  display:grid !important;
+  grid-template-columns:minmax(0, 1fr) auto;
+  grid-template-rows:auto auto;
+  align-items:center;
+  column-gap:10px;
+  row-gap:2px;
+}
+.portal .nav-link__block-label{
+  grid-column:1;
+  grid-row:1;
+  word-break:normal !important;
+}
+.portal .nav-link__block-name{
+  grid-column:1;
+  grid-row:2;
+  word-break:normal !important;
+}
+.portal .nav-list .nav-link.nav-link--block .nav-next-label,
+.portal .nav-list .nav-link.nav-link--block.done::after,
+.portal .nav-list .nav-link.nav-link--block.is-complete::after{
+  grid-column:2;
+  grid-row:1 / span 2;
+  align-self:center;
+}
 
 .module-menu-btn{
   display:none;

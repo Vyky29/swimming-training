@@ -126,7 +126,7 @@
   }
 
   function ensureNavLabel(link) {
-    if (link.querySelector('.nav-link__label')) return;
+    if (link.querySelector('.nav-link__label, .nav-link__block-label, .nav-link__block-name')) return;
     var badge = link.querySelector('.nav-next-label');
     var text = '';
     Array.prototype.forEach.call(link.childNodes, function (node) {
