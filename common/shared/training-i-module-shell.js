@@ -125,9 +125,27 @@
     }
   }
 
+  function ensureNavLabel(link) {
+    if (link.querySelector('.nav-link__label')) return;
+    var badge = link.querySelector('.nav-next-label');
+    var text = '';
+    Array.prototype.forEach.call(link.childNodes, function (node) {
+      if (node !== badge && node.nodeType === 3) text += node.textContent;
+    });
+    text = text.replace(/\s+/g, ' ').trim();
+    Array.prototype.slice.call(link.childNodes).forEach(function (node) {
+      if (node !== badge) link.removeChild(node);
+    });
+    var label = document.createElement('span');
+    label.className = 'nav-link__label';
+    label.textContent = text;
+    link.insertBefore(label, link.firstChild);
+  }
+
   function paintNav(snap) {
     var current = snap.nextStep;
     $$('.nav-link').forEach(function (link) {
+      ensureNavLabel(link);
       var href = link.getAttribute('href') || '';
       var id = href.replace('#', '');
       if (id === 'keyideas') id = 'recap';
