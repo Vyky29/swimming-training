@@ -13,7 +13,7 @@
  @import url('/assets/module-hero-system.css');
  @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
  @import url('/assets/concept-insight-intro.css?v=20260715corew');
- @import url('/assets/training-flow-guide.css?v=20260924flow2');
+ @import url('/assets/training-flow-guide.css?v=20260924flow3');
 @import url('/assets/training-i-module-shell.css?v=20260911');
  @import url('/assets/module-block-accordion.css?v=20260715corepurple1');
  :root{
@@ -6383,15 +6383,11 @@
  var isB3c2Container = block === 'block3' && target === 'b3c2';
  if(isStateView){
  mainGridTarget = 'b2c2';
- block2StatesViewed.add(target);
- if(block2StatesViewed.size === 3) markConceptComplete(block, 'b2c2');
  if(target === 'b2c2_calm') panel.classList.add('state-calm');
  else if(target === 'b2c2_alert') panel.classList.add('state-alert');
  else if(target === 'b2c2_overloaded') panel.classList.add('state-overloaded');
  } else if(block === 'block3' && block3FactorTargets.indexOf(target) !== -1){
  mainGridTarget = 'b3c2';
- block3FactorsViewed.add(target);
- if(block3FactorsViewed.size === 3) markConceptComplete(block, 'b3c2');
  } else {
  conceptGroups[block].visited.add(target);
  }
@@ -7160,9 +7156,9 @@
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-flow-guide.js?v=20260924flow2"></script>
+ <script src="/shared/training-flow-guide.js?v=20260924flow3"></script>
 <script src="/shared/training-i-progress.js?v=20260911"></script>
-<script src="/shared/training-i-module-shell.js?v=20260924flow2"></script>
+<script src="/shared/training-i-module-shell.js?v=20260924flow3"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>

@@ -379,14 +379,15 @@
     var introSlot = panel.querySelector('.concept-intro-slot');
     // Pathway stage hubs hide the intro slot (display:none). Do not guide
     // pillars that remain in the DOM but are invisible ? they steal the pulse.
-    if(introSlot && (introSlot.style.display === 'none' || !isVisibleEl(introSlot))){
-      return [];
-    }
+    if(introSlot && introSlot.style.display === 'none') return [];
     var nodes = introSlot
       ? introSlot.querySelectorAll('.concept-insight-pillar:not(.clicked)')
       : panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
     return Array.prototype.filter.call(nodes, function(el){
-      return isVisibleEl(el) && el.offsetParent !== null;
+      if(!el || el.closest('[hidden]')) return false;
+      if(el.closest('.b2-screen:not(.active)')) return false;
+      var style = window.getComputedStyle(el);
+      return style.display !== 'none' && style.visibility !== 'hidden';
     });
   }
 
@@ -3705,7 +3706,7 @@
         }
       }
     }
-    if(step.kind === 'block-intro' || el.classList.contains('block-intro-card')){
+    if(step.kind === 'block-intro' || el.classList.contains('block-intro-card') || step.kind === 'pillar' || el.classList.contains('concept-insight-pillar')){
       el.classList.add('flow-guide-pulse--ring-host');
       ensureBlockIntroRing(el);
     }
@@ -4053,6 +4054,15 @@
 
       var panel = e.target.closest && e.target.closest('.concept-panel.show');
       if(!panel) return;
+
+      var expandBeforePillars = e.target.closest && e.target.closest('.img-expand-btn, [data-expandable-visual]');
+      if(expandBeforePillars && panel.contains(expandBeforePillars) && getVisibleInsightPillars(panel).length){
+        e.preventDefault();
+        e.stopPropagation();
+        if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        bumpFlowAdvance(moduleConfig, 60);
+        return;
+      }
 
       var pillar = e.target.closest && e.target.closest('.concept-insight-pillar');
       if(pillar && panel.contains(pillar)){

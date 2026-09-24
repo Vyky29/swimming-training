@@ -403,6 +403,12 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
   z-index: 6;
 }
 
+html[data-guided-flow="true"] .section-core-concept:has(.concept-insight-pillar.flow-guide-pulse),
+html[data-guided-flow="true"] .concept-insight-intro:has(.concept-insight-pillar.flow-guide-pulse),
+html[data-guided-flow="true"] .concept-insight-intro__cards:has(.concept-insight-pillar.flow-guide-pulse){
+  overflow: visible !important;
+}
+
 html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card),
 html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card) .section-body,
 html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-intro-card),
