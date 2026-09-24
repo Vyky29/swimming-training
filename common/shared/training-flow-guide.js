@@ -182,7 +182,6 @@
 
   function isMostlyVisible(el, step){
     if(!el || typeof el.getBoundingClientRect !== 'function') return false;
-    if(step && step.forceScroll) return false;
     var rect = el.getBoundingClientRect();
     if(rect.width <= 0 || rect.height <= 0) return false;
     var topBound = 76;
@@ -277,8 +276,17 @@
     var key = stepKey(step);
     if(key && lastScrolledKey === key && !(step && step.forceScroll)) return;
 
+    /* Already on screen: do not yank the page, even after a click refresh. */
+    if(target && isMostlyVisible(target, step)){
+      lastScrolledKey = key;
+      return;
+    }
+
     if(step && step.scrollBlock === 'reflection-view' && step.scrollBlockId){
-      if(!(step.forceScroll) && step.el && isMostlyVisible(step.el, step)) return;
+      if(step.el && isMostlyVisible(step.el, step)){
+        lastScrolledKey = key;
+        return;
+      }
       scrollToBlockReflectionView(step.scrollBlockId);
       lastScrolledKey = key;
       return;
@@ -3167,8 +3175,24 @@
     return null;
   }
 
+  function resolveOpenImageModal(){
+    var modal = document.querySelector('#mediaModal.open, #conceptExpandFallbackModal.open');
+    if(!modal) return null;
+    var closeBtn = modal.querySelector('#mediaModalClose, .media-modal-close, .concept-expand-fallback-close');
+    if(!closeBtn) return null;
+    var waiting = closeBtn.disabled || closeBtn.getAttribute('aria-disabled') === 'true';
+    return sectionScrollStep('image-close', closeBtn, waiting ? 'Look at the image' : 'Close the image', {
+      noScroll: true,
+      tone: 'explore',
+      keyToken: 'image-close'
+    });
+  }
+
   function resolveNextStep(moduleConfig){
     if(!moduleConfig) return null;
+
+    var imageModal = resolveOpenImageModal();
+    if(imageModal) return imageModal;
 
     var start = resolveStartModule();
     if(start) return start;

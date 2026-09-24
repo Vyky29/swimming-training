@@ -186,6 +186,8 @@
     $$('.is-current-step, .training-i-next').forEach(function (el) {
       el.classList.remove('is-current-step', 'training-i-next', 'training-i-next--pulse');
     });
+    /* The flow guide owns the single next-step light. This outline is a second pulse. */
+    if (document.documentElement.getAttribute('data-guided-flow') === 'true') return;
     if (!snap.nextStep || snap.status === 'completed' || snap.status === 'review') return;
     var target = $(stepTarget(snap.nextStep));
     if (!target) return;
@@ -297,6 +299,8 @@
 
   function unlockFollowing(snap) {
     if (snap.status === 'not-started') return;
+    /* Guided training keeps each section locked until the module's own gates open it. */
+    if (document.documentElement.getAttribute('data-guided-flow') === 'true') return;
     $$('.section.gated-locked').forEach(function (section) {
       if (section.id === 'quiz') return;
       if (section.id === 'complete' && !snap.quizUnlocked) return;

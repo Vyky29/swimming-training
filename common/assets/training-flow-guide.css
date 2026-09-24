@@ -348,6 +348,11 @@ html[data-guided-flow="true"] .portal .concept-panel .concept-activity-box.flow-
   }
 }
 
+/* One light: the ring child. The host box-shadow was a second pulse on the same control. */
+.flow-guide-pulse.flow-guide-pulse--ring-host{
+  animation: none !important;
+}
+
 /* Intro / reflection / expand image hosts: ring child, no competing animation on host */
 .flow-guide-pulse.block-intro-card,
 .flow-guide-pulse.reflection-gate,
@@ -461,7 +466,8 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
   border-radius: 999px;
   pointer-events: none;
   z-index: 0;
-  animation: flowGuideRing 1.55s cubic-bezier(.45, 0, .2, 1) infinite;
+  animation: none;
+  box-shadow: none;
 }
 .flow-guide-rail.flow-guide-pulse > :not(.flow-guide-rail-ring){
   position: relative;
