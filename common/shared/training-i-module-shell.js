@@ -807,6 +807,34 @@
     });
   }
 
+  function clearModuleResidue(moduleNumber) {
+    try {
+      Object.keys(localStorage).forEach(function (key) {
+        if (key.indexOf('blockIntro_') === 0) localStorage.removeItem(key);
+        if (key.indexOf('swimming_module_' + moduleNumber) === 0) localStorage.removeItem(key);
+      });
+      sessionStorage.clear();
+    } catch (err) {}
+  }
+
+  function mountRestart(moduleNumber) {
+    if (document.getElementById('trainingRestartBtn')) return;
+    var card = document.querySelector('.save-progress-card') || document.querySelector('.sidebar');
+    if (!card) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'trainingRestartBtn';
+    btn.className = 'btn-restart-module';
+    btn.textContent = 'Start again from the beginning';
+    btn.addEventListener('click', function () {
+      if (!global.confirm('Clear this module on this computer and start again from Overview?')) return;
+      P.resetModule(moduleNumber);
+      clearModuleResidue(moduleNumber);
+      global.location.replace(global.location.pathname);
+    });
+    card.appendChild(btn);
+  }
+
   function bootModule() {
     var moduleNumber = detectModuleNumber();
     if (!moduleNumber) return;
@@ -832,6 +860,7 @@
     bindOutcomes(moduleNumber);
     bindRecapCards(moduleNumber);
     bindQuiz(moduleNumber);
+    mountRestart(moduleNumber);
     var snap = P.getSnapshot(moduleNumber);
     restoreChecks(snap);
     refresh(moduleNumber);

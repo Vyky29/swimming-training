@@ -377,6 +377,16 @@
       try { store.removeItem(LEGACY_GUIDED_KEY); } catch (err) {}
       return blank;
     },
+    resetModule: function (moduleId, storage) {
+      var id = normalizeModuleId(moduleId);
+      var def = getModuleDef(id);
+      if (!def) return loadState(storage);
+      var state = loadState(storage);
+      state.modules[id] = emptyModule(def);
+      saveState(state, storage);
+      try { getStorage(storage).removeItem(LEGACY_MODULE_KEY(def.number)); } catch (err) {}
+      return state;
+    },
     subscribe: function (fn) {
       if (typeof fn === 'function') listeners.push(fn);
       return function () {

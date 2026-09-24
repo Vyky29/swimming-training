@@ -185,7 +185,23 @@
   min-height:44px;
 }
 
-.completion-actions .btn.is-locked,
+.portal .btn-restart-module{
+  display:block;
+  width:100%;
+  margin-top:10px;
+  min-height:44px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(22,50,71,.14);
+  background:#fff;
+  color:#163247;
+  font:700 .84rem/1.2 Montserrat, system-ui, sans-serif;
+  cursor:pointer;
+}
+.portal .btn-restart-module:hover{
+  border-color:rgba(45,132,179,.4);
+  background:#f4f9fc;
+}
 .completion-actions a.is-locked{
   pointer-events:none;
   opacity:.72;
