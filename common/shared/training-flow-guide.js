@@ -3849,12 +3849,15 @@
     scrollIfNeeded(step.scrollEl || target, step);
   }
 
+  var guideMuteUntil = 0;
+
   function refresh(moduleConfig){
     if(!isFlowGuideActive()){
       suppressFlowGuideChrome();
       return;
     }
     if(!moduleConfig) return;
+    guideMuteUntil = Date.now() + 450;
     syncBlockIntroVisualState();
     var openPanel = getActiveOpenPanel();
     if(openPanel){
@@ -3863,6 +3866,7 @@
       syncParentHubFinishGate(openPanel);
     }
     applyGuide(resolveNextStep(moduleConfig));
+    guideMuteUntil = Date.now() + 450;
   }
 
   function shouldIgnoreMutation(target, mutation){
@@ -4190,6 +4194,7 @@
 
     if(typeof MutationObserver !== 'undefined'){
       var observer = new MutationObserver(function(mutations){
+        if(Date.now() < guideMuteUntil) return;
         for(var i = 0; i < mutations.length; i++){
           var mutation = mutations[i];
           if(mutation.type === 'attributes'){

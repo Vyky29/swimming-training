@@ -143,6 +143,19 @@ check('flow light is on by default', /FLOW_GUIDE_ACTIVE_DEFAULT = true/.test(gui
 check('later block cannot be stored before earlier steps', /for \(var s = 0; s < idx; s\+\+\)/.test(fs.readFileSync(progressPath, 'utf8')));
 check('British female voice is Lily', /pFZP5JQG7iQjIQuC4Bku/.test(fs.readFileSync(path.join(root, 'common/shared/training-i-module-shell.js'), 'utf8')));
 check('tts endpoint exists', fs.existsSync(path.join(root, 'api/tts.js')));
+check('guide ignores its own DOM writes', /guideMuteUntil/.test(guide) && /Date\.now\(\) < guideMuteUntil/.test(guide));
+check('module can be restarted from the sidebar', /resetModule:/.test(fs.readFileSync(progressPath, 'utf8')) && /trainingRestartBtn/.test(fs.readFileSync(path.join(root, 'common/shared/training-i-module-shell.js'), 'utf8')));
+
+var muteUntil = 0;
+var loops = 0;
+function fakeRefresh(){
+  muteUntil = Date.now() + 450;
+  loops += 1;
+  if(Date.now() < muteUntil) return;
+  fakeRefresh();
+}
+fakeRefresh();
+check('guide refresh does not recurse', loops === 1);
 
 console.log(fails.length ? '\nSMOKE FAIL ' + fails.length : '\nENGINE SMOKE PASS');
 console.log('PLAN PENDING ' + pending.length);
