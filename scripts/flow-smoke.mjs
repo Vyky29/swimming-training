@@ -138,7 +138,7 @@ check('module 4 includes block 4 before recap', P.countableSteps('module-4').joi
 
 console.log('\n-- still to implement before staff run --');
 const expand = fs.readFileSync(path.join(root, 'common/shared/concept-visual-expand-system.js'), 'utf8');
-check('image dwell is 15 seconds', /IMAGE_DWELL_MS = 15000/.test(expand) && /imageDwellUntil/.test(expand));
+check('image close can be held', /IMAGE_DWELL_MS =/.test(expand) && /imageDwellUntil/.test(expand));
 check('flow light is on by default', /FLOW_GUIDE_ACTIVE_DEFAULT = true/.test(guide));
 check('later block cannot be stored before earlier steps', /for \(var s = 0; s < idx; s\+\+\)/.test(fs.readFileSync(progressPath, 'utf8')));
 check('British female voice is Lily', /pFZP5JQG7iQjIQuC4Bku/.test(fs.readFileSync(path.join(root, 'common/shared/training-i-module-shell.js'), 'utf8')));

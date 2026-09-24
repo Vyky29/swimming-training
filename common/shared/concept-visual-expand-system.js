@@ -25,7 +25,7 @@
 
   var modalOpener = null;
   var builtinModal = null;
-  var IMAGE_DWELL_MS = 15000;
+  var IMAGE_DWELL_MS = 0;
   var dwellSeen = {};
   try { dwellSeen = JSON.parse(sessionStorage.getItem('cs_img_dwell') || '{}'); } catch (err) { dwellSeen = {}; }
 
@@ -646,6 +646,18 @@
         closeBtn.disabled = false;
         closeBtn.textContent = 'Close';
       }
+      markSrcExpanded(src);
+      return;
+    }
+    if (IMAGE_DWELL_MS <= 0) {
+      delete modal.dataset.imageDwellUntil;
+      modal.dataset.imageDwellSrc = src;
+      if (closeBtn) {
+        closeBtn.disabled = false;
+        closeBtn.removeAttribute('aria-disabled');
+        closeBtn.textContent = 'Close';
+      }
+      rememberSeen(src);
       markSrcExpanded(src);
       return;
     }
