@@ -376,18 +376,34 @@
 
   function getVisibleInsightPillars(panel){
     if(!panel) return [];
-    var introSlot = panel.querySelector('.concept-intro-slot');
-    // Pathway stage hubs hide the intro slot (display:none). Do not guide
-    // pillars that remain in the DOM but are invisible ? they steal the pulse.
-    if(introSlot && introSlot.style.display === 'none') return [];
-    var nodes = introSlot
-      ? introSlot.querySelectorAll('.concept-insight-pillar:not(.clicked)')
-      : panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
+    var nodes = panel.querySelectorAll('.concept-insight-pillar:not(.clicked)');
     return Array.prototype.filter.call(nodes, function(el){
       if(!el || el.closest('[hidden]')) return false;
       if(el.closest('.b2-screen:not(.active)')) return false;
       var style = window.getComputedStyle(el);
-      return style.display !== 'none' && style.visibility !== 'hidden';
+      return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+    });
+  }
+
+  function pillarSpeechText(el){
+    if(!el) return '';
+    var title = el.querySelector('.concept-insight-pillar__title');
+    var body = el.querySelector('.concept-insight-pillar__text');
+    return [title && title.textContent, body && body.textContent].filter(Boolean).join('. ').replace(/\s+/g, ' ').trim();
+  }
+
+  function ensurePillarSpoken(el){
+    if(!el) return;
+    if(el.getAttribute('data-pillar-spoken') === 'done' || el.getAttribute('data-pillar-spoken') === 'playing') return;
+    var text = pillarSpeechText(el);
+    if(!text || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function'){
+      el.setAttribute('data-pillar-spoken', 'done');
+      return;
+    }
+    el.setAttribute('data-pillar-spoken', 'playing');
+    CSTrainingVoice.speak(text, function(){
+      el.setAttribute('data-pillar-spoken', 'done');
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
     });
   }
 
@@ -2128,6 +2144,7 @@
     var pillars = getVisibleInsightPillars(panel);
     if(pillars.length){
       var title = pillars[0].querySelector('.concept-insight-pillar__title');
+      ensurePillarSpoken(pillars[0]);
       return withM5Tone(panel, sectionScrollStep('pillar', pillars[0], 'Read intro card: ' + ((title && title.textContent.trim()) || 'next point'), {
         scrollEl: pillars[0],
         scrollBlock: 'center',
@@ -4056,6 +4073,28 @@
           bumpFlowAdvance(moduleConfig, 80);
           return;
         }
+      }
+    }, true);
+
+    document.addEventListener('click', function(e){
+      if(!isFlowGuideActive()) return;
+      var openPanel = e.target.closest && e.target.closest('.concept-panel.show');
+      if(!openPanel) return;
+      var pillarHit = e.target.closest && e.target.closest('.concept-insight-pillar');
+      if(pillarHit && openPanel.contains(pillarHit) && pillarHit.getAttribute('data-pillar-spoken') !== 'done'){
+        e.preventDefault();
+        e.stopPropagation();
+        if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        ensurePillarSpoken(pillarHit);
+        return;
+      }
+      var expandHit = e.target.closest && e.target.closest('.img-expand-btn, [data-expandable-visual]');
+      var waitingPillar = getVisibleInsightPillars(openPanel)[0];
+      if(expandHit && waitingPillar && openPanel.contains(expandHit) && (waitingPillar.compareDocumentPosition(expandHit) & Node.DOCUMENT_POSITION_FOLLOWING)){
+        e.preventDefault();
+        e.stopPropagation();
+        if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        bumpFlowAdvance(moduleConfig, 60);
       }
     }, true);
 
