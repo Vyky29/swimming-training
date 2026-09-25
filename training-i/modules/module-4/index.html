@@ -12016,10 +12016,58 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  ParentSubconceptLayout.lockStandardConceptOrder(panel);
  }
 
+ if(block === 'block1') paintFoundationConcept(panel, data, target, block);
  updateConceptProgress(block);
  if(!opts.skipPanelScroll){
  scrollPanelIntoView(panel);
  }
+ }
+
+ function paintFoundationConcept(panel, data, target, block){
+ if(!panel || !data) return;
+ var titleEl = panel.querySelector('.concept-panel-title');
+ if(titleEl){
+ setConceptTitle(titleEl, data.title || '', target, block, '');
+ titleEl.style.display = '';
+ }
+ var desc = panel.querySelector('.concept-intro-slot') || panel.querySelector('.concept-panel-desc');
+ if(desc && data.text && !desc.querySelector('.concept-source-copy')){
+ desc.style.display = '';
+ var copy = document.createElement('div');
+ copy.className = 'concept-source-copy';
+ copy.innerHTML = data.text;
+ desc.appendChild(copy);
+ } else if(desc){
+ desc.style.display = '';
+ }
+ var media = panel.querySelector('[data-concept-intro-media]');
+ if(media && data.introMediaHTML){
+ if(!media.querySelector('img')) media.innerHTML = data.introMediaHTML;
+ media.style.display = '';
+ }
+ var pointsBox = panel.querySelector('.concept-points-box');
+ if(!pointsBox || !Array.isArray(data.points) || !data.points.length) return;
+ pointsBox.style.display = '';
+ var ul = pointsBox.querySelector('ul');
+ if(!ul){
+ ul = document.createElement('ul');
+ pointsBox.appendChild(ul);
+ }
+ if(ul.querySelector('.key-idea-item')) return;
+ ul.innerHTML = data.points.filter(function(point){ return String(point || '').trim(); }).map(function(point, i){
+ return '<li class="key-idea-item" role="button" tabindex="0"><span class="key-idea-index" aria-hidden="true">' + (i + 1) + '</span><div class="key-idea-text">' + point + '</div></li>';
+ }).join('');
+ ul.querySelectorAll('.key-idea-item').forEach(function(li){
+ li.addEventListener('click', function(){
+ this.classList.add('clicked');
+ var total = panel.querySelectorAll('.key-idea-item').length;
+ var done = panel.querySelectorAll('.key-idea-item.clicked').length;
+ panel.dataset.keyIdeasDone = (total > 0 && done === total) ? 'true' : 'false';
+ syncConceptFinishBtn(panel, block, target, { respectDwell: true });
+ });
+ });
+ panel.dataset.keyIdeasRequired = 'true';
+ panel.dataset.keyIdeasDone = 'false';
  }
 
  function setupConcepts(){
