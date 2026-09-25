@@ -392,6 +392,21 @@
     return [title && title.textContent, body && body.textContent].filter(Boolean).join('. ').replace(/\s+/g, ' ').trim();
   }
 
+  function ensureOutcomeSpoken(el){
+    if(!el) return;
+    if(el.getAttribute('data-outcome-spoken') === 'done' || el.getAttribute('data-outcome-spoken') === 'playing') return;
+    var text = String(el.textContent || '').replace(/\s+/g, ' ').trim();
+    if(!text || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function'){
+      el.setAttribute('data-outcome-spoken', 'done');
+      return;
+    }
+    el.setAttribute('data-outcome-spoken', 'playing');
+    CSTrainingVoice.speak(text, function(){
+      el.setAttribute('data-outcome-spoken', 'done');
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    });
+  }
+
   function ensurePillarSpoken(el){
     if(!el) return;
     if(el.getAttribute('data-pillar-spoken') === 'done' || el.getAttribute('data-pillar-spoken') === 'playing') return;
@@ -2793,23 +2808,27 @@
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
 
     var section = $('#outcomes');
-    if(!spokenReady('outcomes')){
-      speakSectionThen('outcomes', outcomesSpeechText());
-      var list = (section && section.querySelector('.outcomes')) || section;
-      return sectionScrollStep('outcomes-read', list || section, 'Listen to the learning outcomes');
+    var title = section && section.querySelector('h3');
+    var titleText = title ? String(title.textContent || '').replace(/\s+/g, ' ').trim() : '';
+    if(titleText && !spokenReady('outcomes-title')){
+      speakSectionThen('outcomes-title', titleText);
+      return sectionScrollStep('outcomes-title', title, 'Listen to the learning outcomes', {
+        scrollEl: section || title,
+        scrollBlock: 'start',
+        forceScroll: true
+      });
     }
     var items = $$('[data-outcomes-group="outcomes"] .outcome, #outcomes .outcome');
     for(var i = 0; i < items.length; i++){
-      if(!items[i].classList.contains('clicked')){
-        var scrollSection = i === 0;
-        return sectionScrollStep('outcome', items[i], 'Review learning outcome ' + (i + 1), {
-          noScroll: !scrollSection,
-          scrollEl: scrollSection ? (section || items[i]) : undefined,
-          scrollBlock: 'center',
-          forceScroll: scrollSection,
-          tone: 'expand'
-        });
-      }
+      if(items[i].classList.contains('clicked')) continue;
+      ensureOutcomeSpoken(items[i]);
+      return sectionScrollStep('outcome', items[i], 'Review learning outcome ' + (i + 1), {
+        scrollEl: items[i],
+        scrollBlock: 'center',
+        forceScroll: true,
+        tone: 'expand',
+        keyToken: 'outcome:' + i
+      });
     }
     var check = $('input[data-stage-check="outcomes"]');
     if(check && !isChecked(check)){
@@ -4271,11 +4290,32 @@
           return;
         }
       }
-      var hit = e.target.closest && e.target.closest('.outcome, .block-intro-card, .recap-takeaway-card, .recap-card, input[data-stage-check="outcomes"]');
+      var outcome = e.target.closest && e.target.closest('#outcomes .outcome');
+      if(outcome){
+        var outcomes = document.querySelectorAll('#outcomes .outcome');
+        var current = null;
+        for(var oi = 0; oi < outcomes.length; oi++){
+          if(!outcomes[oi].classList.contains('clicked')){ current = outcomes[oi]; break; }
+        }
+        if(outcome !== current || outcome.getAttribute('data-outcome-spoken') !== 'done'){
+          e.preventDefault();
+          e.stopPropagation();
+          if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        }
+        return;
+      }
+      var hit = e.target.closest && e.target.closest('.block-intro-card, .recap-takeaway-card, .recap-card, input[data-stage-check="outcomes"]');
       if(!hit) return;
+      if(hit.matches && hit.matches('input[data-stage-check="outcomes"]')){
+        if(document.querySelector('#outcomes .outcome:not(.clicked)')){
+          e.preventDefault();
+          e.stopPropagation();
+          if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        }
+        return;
+      }
       var key = '';
-      if(hit.closest('#outcomes')) key = 'outcomes';
-      else if(hit.closest('#recap')) key = 'recap';
+      if(hit.closest('#recap')) key = 'recap';
       else if(hit.closest('#keyideas')) key = 'keyideas';
       else {
         var blockSection = hit.closest('[id^="block"]');
