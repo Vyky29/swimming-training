@@ -316,13 +316,16 @@
   var refreshing = false;
 
   function unlockFollowing(snap) {
-    if (snap.status === 'not-started') return;
-    /* Guided training keeps each section locked until the module's own gates open it. */
-    if (document.documentElement.getAttribute('data-guided-flow') === 'true') return;
-    $$('.section.gated-locked').forEach(function (section) {
-      if (section.id === 'quiz') return;
-      if (section.id === 'complete' && !snap.quizUnlocked) return;
-      section.classList.remove('gated-locked');
+    var nextId = snap.nextStep === 'keyideas' ? 'recap' : snap.nextStep;
+    ['overview', 'journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'block4', 'recap', 'complete'].forEach(function (id) {
+      var stepKey = id === 'keyideas' ? 'recap' : id;
+      var done = id === 'overview' || id === 'inside-module'
+        ? snap.status !== 'not-started'
+        : !!(snap.steps && snap.steps[stepKey]);
+      var isNext = nextId === id;
+      if (!done && !isNext) return;
+      var section = document.getElementById(id);
+      if (section) section.classList.remove('gated-locked');
     });
   }
 
@@ -818,21 +821,25 @@
   }
 
   function mountRestart(moduleNumber) {
-    if (document.getElementById('trainingRestartBtn')) return;
-    var card = document.querySelector('.save-progress-card') || document.querySelector('.sidebar');
-    if (!card) return;
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.id = 'trainingRestartBtn';
-    btn.className = 'btn-restart-module';
-    btn.textContent = 'Start again from the beginning';
+    var btn = document.getElementById('trainingRestartBtn');
+    if (!btn) {
+      var card = document.querySelector('.save-progress-card') || document.querySelector('.sidebar');
+      if (!card) return;
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'trainingRestartBtn';
+      btn.className = 'btn-restart-module';
+      btn.textContent = 'Start again from the beginning';
+      card.appendChild(btn);
+    }
+    if (btn.getAttribute('data-bound') === '1') return;
+    btn.setAttribute('data-bound', '1');
     btn.addEventListener('click', function () {
       if (!global.confirm('Clear this module on this computer and start again from Overview?')) return;
       P.resetModule(moduleNumber);
       clearModuleResidue(moduleNumber);
       global.location.replace(global.location.pathname);
     });
-    card.appendChild(btn);
   }
 
   function bootModule() {

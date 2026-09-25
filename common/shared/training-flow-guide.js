@@ -4059,15 +4059,6 @@
       var panel = e.target.closest && e.target.closest('.concept-panel.show');
       if(!panel) return;
 
-      var expandBeforePillars = e.target.closest && e.target.closest('.img-expand-btn, [data-expandable-visual]');
-      if(expandBeforePillars && panel.contains(expandBeforePillars) && getVisibleInsightPillars(panel).length){
-        e.preventDefault();
-        e.stopPropagation();
-        if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
-        bumpFlowAdvance(moduleConfig, 60);
-        return;
-      }
-
       var pillar = e.target.closest && e.target.closest('.concept-insight-pillar');
       if(pillar && panel.contains(pillar)){
         bumpFlowAdvance(moduleConfig, 120);
