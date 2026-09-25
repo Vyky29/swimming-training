@@ -124,6 +124,7 @@
       noScroll: options.noScroll === true,
       tone: options.tone,
       scrollEl: options.scrollEl,
+      scrollOffset: options.scrollOffset,
       pulseEls: options.pulseEls,
       keyToken: options.keyToken,
       noPulse: options.noPulse === true
@@ -276,8 +277,9 @@
     var key = stepKey(step);
     if(key && lastScrolledKey === key && !(step && step.forceScroll)) return;
 
-    /* Already on screen: do not yank the page, even after a click refresh. */
-    if(target && isMostlyVisible(target, step)){
+    /* Already on screen: do not yank the page, even after a click refresh.
+       A forced step still moves, so a clipped title is not treated as "in view". */
+    if(target && isMostlyVisible(target, step) && !(step && step.forceScroll)){
       lastScrolledKey = key;
       return;
     }
@@ -298,7 +300,8 @@
 
     var block = (step && step.scrollBlock) || 'nearest';
     if(block === 'start' && typeof target.getBoundingClientRect === 'function'){
-      var top = target.getBoundingClientRect().top + window.pageYOffset - 92;
+      var offset = (step && typeof step.scrollOffset === 'number') ? step.scrollOffset : 92;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
       lastScrolledKey = key;
       return;
@@ -2820,9 +2823,11 @@
       setJourneyCheckLocked(true);
       var panel = (section && section.querySelector('.journey-panel')) || section;
       speakSectionThen('journey', journeySpeechText());
+      var progressBar = document.querySelector('.module-progress-bar');
       return sectionScrollStep('journey-read', panel, 'Listen to this module', {
-        scrollEl: section || panel,
+        scrollEl: progressBar || section || panel,
         scrollBlock: 'start',
+        scrollOffset: 16,
         forceScroll: true
       });
     }
