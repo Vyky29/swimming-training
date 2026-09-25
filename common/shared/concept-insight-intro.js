@@ -609,6 +609,7 @@
     else if(header.lastElementChild !== titleDisplay) header.appendChild(titleDisplay);
 
     header.querySelectorAll('.concept-panel-title-stack').forEach(function(stack){
+      if(stack.querySelector('.concept-title-text')) return;
       if(!stack.querySelector('h4, .concept-panel-title')) stack.remove();
     });
 
