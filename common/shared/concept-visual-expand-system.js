@@ -632,11 +632,86 @@
     } catch (err) {}
   }
 
+  function cleanSpeech(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function capWords(text, max) {
+    var words = cleanSpeech(text).split(' ').filter(Boolean);
+    if (words.length <= max) return words.join(' ');
+    return words.slice(0, max).join(' ').replace(/[,:;]$/, '') + '.';
+  }
+
+  function firstSentences(text, count) {
+    var parts = cleanSpeech(text).split(/(?<=[.!?])\s+/).filter(Boolean);
+    return parts.slice(0, count).join(' ');
+  }
+
+  function teachingRoot(img) {
+    if (!img) return null;
+    return img.closest('.concept-panel, .block-intro-slide, .block-part, section') || null;
+  }
+
+  function infographicScript(img) {
+    var root = teachingRoot(img);
+    if (!root) return '';
+    var heading = root.querySelector('.concept-heading-row h4, .concept-panel-title, h3, h4');
+    var title = cleanSpeech(heading && heading.textContent);
+    var desc = root.querySelector('.concept-panel-desc, .concept-insight-body, .concept-intro-copy');
+    var body = cleanSpeech(desc && desc.textContent);
+    if (!body) {
+      var paras = root.querySelectorAll('p');
+      var bits = [];
+      for (var i = 0; i < paras.length && bits.length < 2; i++) {
+        if (paras[i].closest('.key-ideas-action, .media-modal, nav, button')) continue;
+        var line = cleanSpeech(paras[i].textContent);
+        if (line.length > 40) bits.push(line);
+      }
+      body = bits.join(' ');
+    }
+    var ideas = [];
+    root.querySelectorAll('.key-idea-text, .concept-insight-pillar').forEach(function (node) {
+      var line = cleanSpeech(node.textContent);
+      if (line && ideas.length < 3) ideas.push(line.replace(/\.$/, ''));
+    });
+    var spoken = '';
+    if (title) spoken += title + '. ';
+    if (body) spoken += firstSentences(body, 2) + ' ';
+    if (ideas.length) spoken += 'What matters is ' + ideas.join('. ') + '.';
+    return capWords(spoken, 55);
+  }
+
+  function sourceImage(src) {
+    if (!src) return null;
+    var imgs = document.querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++) {
+      if (imgs[i].closest('#mediaModal, #conceptExpandFallbackModal')) continue;
+      var current = imgs[i].currentSrc || imgs[i].getAttribute('src') || '';
+      if (current && (current === src || current.indexOf(src) !== -1 || src.indexOf(current) !== -1)) return imgs[i];
+    }
+    return null;
+  }
+
+  var lastNarration = { src: '', at: 0 };
+
+  function narrateOpenImage(modal) {
+    var shown = modal && modal.querySelector('img');
+    var src = shown && (shown.currentSrc || shown.getAttribute('src') || '');
+    var img = sourceImage(src) || shown;
+    var script = infographicScript(img);
+    if (!script || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function') return;
+    var now = Date.now();
+    if (lastNarration.src === src && now - lastNarration.at < 900) return;
+    lastNarration = { src: src, at: now };
+    CSTrainingVoice.speak(script);
+  }
+
   function beginImageDwell(modal) {
     if (!modal) return;
     var img = modal.querySelector('img');
     var src = img && (img.currentSrc || img.getAttribute('src') || '');
     if (!src) return;
+    narrateOpenImage(modal);
     if (modal.dataset.imageDwellSrc === src && modal.dataset.imageDwellUntil) return;
     var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
     if (dwellSeen[src]) {
@@ -702,14 +777,67 @@
     if (!modal || modal.dataset.dwellWatch === '1') return;
     modal.dataset.dwellWatch = '1';
     var obs = new MutationObserver(function () {
-      if (modal.classList.contains('open') && (modal.classList.contains('media-modal--image-only') || modal.id === 'conceptExpandFallbackModal')) {
+      if (!modal.classList.contains('open')) {
+        if (window.CSTrainingVoice) CSTrainingVoice.stop();
+        return;
+      }
+      if (modal.classList.contains('media-modal--image-only') || modal.id === 'conceptExpandFallbackModal') {
         beginImageDwell(modal);
       }
     });
     obs.observe(modal, { attributes: true, attributeFilter: ['class'] });
   }
 
+  function ensureLilyVoice() {
+    if (!window.CSTrainingVoice) {
+      var voiceAudio = null;
+      window.CSTrainingVoice = {
+        id: 'pFZP5JQG7iQjIQuC4Bku',
+        name: 'Lily',
+        speak: function (text) { return this.trySpeak(text, null, null); },
+        trySpeak: function (text) {
+          if (!text || text.length > 3500) return false;
+          fetch('/api/tts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: text })
+          }).then(function (res) {
+            if (!res.ok) throw new Error('tts');
+            return res.blob();
+          }).then(function (blob) {
+            if (voiceAudio) {
+              try { voiceAudio.pause(); } catch (err) {}
+            }
+            voiceAudio = new Audio(URL.createObjectURL(blob));
+            return voiceAudio.play();
+          }).catch(function () {});
+          return true;
+        },
+        stop: function () {
+          if (voiceAudio) {
+            try { voiceAudio.pause(); } catch (err) {}
+            voiceAudio = null;
+          }
+        }
+      };
+    }
+    if (window.speechSynthesis && !window.speechSynthesis.__trainingIPatched) {
+      window.speechSynthesis.speak = function (utterance) {
+        try { window.speechSynthesis.cancel(); } catch (err) {}
+        var text = utterance && utterance.text ? String(utterance.text) : '';
+        if (text) CSTrainingVoice.trySpeak(text);
+      };
+      var origCancel = window.speechSynthesis.cancel.bind(window.speechSynthesis);
+      window.speechSynthesis.cancel = function () {
+        origCancel();
+        CSTrainingVoice.stop();
+      };
+      window.speechSynthesis.__trainingIPatched = true;
+    }
+  }
+
   function initDocument() {
+    ensureLilyVoice();
     bindModalOpenerFromWindow();
     wireBlockIntroSlides();
     watchImageModal(document.getElementById('mediaModal'));

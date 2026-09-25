@@ -141,7 +141,8 @@ const expand = fs.readFileSync(path.join(root, 'common/shared/concept-visual-exp
 check('image close can be held', /IMAGE_DWELL_MS =/.test(expand) && /imageDwellUntil/.test(expand));
 check('flow light is on by default', /FLOW_GUIDE_ACTIVE_DEFAULT = true/.test(guide));
 check('later block cannot be stored before earlier steps', /for \(var s = 0; s < idx; s\+\+\)/.test(fs.readFileSync(progressPath, 'utf8')));
-check('British female voice is Lily', /pFZP5JQG7iQjIQuC4Bku/.test(fs.readFileSync(path.join(root, 'common/shared/training-i-module-shell.js'), 'utf8')));
+check('British female voice is Lily', /pFZP5JQG7iQjIQuC4Bku/.test(fs.readFileSync(path.join(root, 'common/shared/training-i-module-shell.js'), 'utf8')) && !/SpeechSynthesisUtterance\(text\)/.test(fs.readFileSync(path.join(root, 'common/shared/training-i-module-shell.js'), 'utf8')));
+check('open image explains the idea', /function infographicScript/.test(expand));
 check('tts endpoint exists', fs.existsSync(path.join(root, 'api/tts.js')));
 check('guide ignores its own DOM writes', /guideMuteUntil/.test(guide) && /Date\.now\(\) < guideMuteUntil/.test(guide));
 check('module can be restarted from the sidebar', /resetModule:/.test(fs.readFileSync(progressPath, 'utf8')) && /trainingRestartBtn/.test(fs.readFileSync(path.join(root, 'common/shared/training-i-module-shell.js'), 'utf8')));

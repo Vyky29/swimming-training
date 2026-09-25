@@ -676,9 +676,11 @@
   global.CSTrainingVoice = {
     id: 'pFZP5JQG7iQjIQuC4Bku',
     name: 'Lily',
+    speak: function (text) {
+      return this.trySpeak(text, null, null);
+    },
     trySpeak: function (text, utterance, syncStop) {
       if (!text || text.length > 3500) return false;
-      var played = false;
       fetch('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -689,28 +691,15 @@
       }).then(function (blob) {
         if (voiceAudio) {
           try { voiceAudio.pause(); } catch (err) {}
+          voiceAudio = null;
         }
         voiceAudio = new Audio(URL.createObjectURL(blob));
         voiceAudio.onended = function () {
           if (utterance && typeof utterance.onend === 'function') utterance.onend();
           if (syncStop) syncStop();
         };
-        voiceAudio.onerror = function () {
-          if (utterance && typeof utterance.onerror === 'function') utterance.onerror();
-        };
-        played = true;
         return voiceAudio.play();
-      }).catch(function () {
-        if (played || !global.CSTrainingVoice.fallback) return;
-        try {
-          var u = new SpeechSynthesisUtterance(text);
-          u.lang = 'en-GB';
-          u.rate = 0.9;
-          u.pitch = 1.05;
-          if (utterance && utterance.onend) u.onend = utterance.onend;
-          global.CSTrainingVoice.fallback(u);
-        } catch (err) {}
-      });
+      }).catch(function () {});
       return true;
     },
     stop: function () {
@@ -730,16 +719,10 @@
       });
     }
     if (global.speechSynthesis && !global.speechSynthesis.__trainingIPatched) {
-      var proto = global.SpeechSynthesisUtterance ? global.speechSynthesis : null;
-      var origSpeak = global.speechSynthesis.speak.bind(global.speechSynthesis);
       global.speechSynthesis.speak = function (utterance) {
         try { global.speechSynthesis.cancel(); } catch (err) {}
         var text = utterance && utterance.text ? String(utterance.text) : '';
-        if (text && global.CSTrainingVoice) {
-          CSTrainingVoice.fallback = origSpeak;
-          if (CSTrainingVoice.trySpeak(text, utterance, syncStop)) return;
-        }
-        origSpeak(utterance);
+        if (text && global.CSTrainingVoice && CSTrainingVoice.trySpeak(text, utterance, syncStop)) return;
         syncStop();
         if (utterance) {
           utterance.addEventListener('end', syncStop);

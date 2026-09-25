@@ -26,7 +26,7 @@ module.exports = async function handler(req, res) {
     body: JSON.stringify({
       text: text,
       model_id: 'eleven_multilingual_v2',
-      voice_settings: { stability: 0.42, similarity_boost: 0.78, style: 0.15 }
+      voice_settings: { stability: 0.55, similarity_boost: 0.8, style: 0.05 }
     })
   });
   if (!upstream.ok) {
