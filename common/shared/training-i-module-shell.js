@@ -675,23 +675,34 @@
   var voiceAudio = null;
   var voiceGen = 0;
   function voicePieces(text) {
-    var words = String(text || '').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
-    var pieces = [];
-    var current = '';
-    words.forEach(function (word) {
-      var next = current ? current + ' ' + word : word;
-      if (next.length > 700 && current) {
-        pieces.push(current);
-        current = word;
+    var clean = String(text || '').replace(/\s+/g, ' ').trim();
+    if (!clean) return [];
+    var words = clean.split(' ');
+    var head = '';
+    for (var i = 0; i < words.length; i++) {
+      var next = head ? head + ' ' + words[i] : words[i];
+      if (next.length > 110 && head) break;
+      head = next;
+    }
+    var pieces = [head];
+    var rest = clean.slice(head.length).trim();
+    var bucket = '';
+    rest.split(/(?<=[.!?])\s+/).filter(Boolean).forEach(function (sentence) {
+      var joined = bucket ? bucket + ' ' + sentence : sentence;
+      if (bucket && joined.length > 280) {
+        pieces.push(bucket);
+        bucket = sentence;
       } else {
-        current = next;
+        bucket = joined;
       }
     });
-    if (current) pieces.push(current);
-    return pieces.slice(0, 6);
+    if (bucket) pieces.push(bucket);
+    return pieces.slice(0, 8);
   }
+  var voiceCache = {};
   function fetchVoice(text) {
-    return fetch('/api/tts', {
+    if (voiceCache[text]) return voiceCache[text];
+    voiceCache[text] = fetch('/api/tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: text })
@@ -699,6 +710,7 @@
       if (!res.ok) throw new Error('tts');
       return res.blob();
     });
+    return voiceCache[text];
   }
   global.CSTrainingVoice = {
     id: 'pFZP5JQG7iQjIQuC4Bku',
