@@ -804,22 +804,23 @@
   }
 
   function mountRestart(moduleNumber) {
+    var nav = document.querySelector('.sidebar .nav-list');
+    var host = nav ? nav.closest('.sidebar-card') : document.querySelector('.sidebar');
+    if (!host) return;
     var btn = document.getElementById('trainingRestartBtn');
     if (!btn) {
-      var card = document.querySelector('.save-progress-card') || document.querySelector('.sidebar');
-      if (!card) return;
       btn = document.createElement('button');
       btn.type = 'button';
       btn.id = 'trainingRestartBtn';
       btn.className = 'btn-restart-module';
       btn.textContent = 'Start again from the beginning';
-      card.appendChild(btn);
     }
+    host.appendChild(btn);
     if (btn.getAttribute('data-bound') === '1') return;
     btn.setAttribute('data-bound', '1');
     btn.addEventListener('click', function () {
       if (!global.confirm('Clear this module on this computer and start again from Overview?')) return;
-      P.resetModule(moduleNumber);
+      try { P.resetModule(moduleNumber); } catch (err) {}
       clearModuleResidue(moduleNumber);
       global.location.replace(global.location.pathname);
     });
@@ -828,6 +829,7 @@
   function bootModule() {
     var moduleNumber = detectModuleNumber();
     if (!moduleNumber) return;
+    mountRestart(moduleNumber);
     maybeResetFromQuery();
     normalizeNavLabels();
     hideAdminChrome();
@@ -850,7 +852,6 @@
     bindOutcomes(moduleNumber);
     bindRecapCards(moduleNumber);
     bindQuiz(moduleNumber);
-    mountRestart(moduleNumber);
     var snap = P.getSnapshot(moduleNumber);
     restoreChecks(snap);
     refresh(moduleNumber);
