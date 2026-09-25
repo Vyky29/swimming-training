@@ -1422,6 +1422,29 @@
     };
   }
 
+  function resolveConceptPhoto(panel){
+    if(!panel || getVisibleInsightPillars(panel).length) return null;
+    var box = panel.querySelector('.concept-image');
+    if(!box || !isVisibleEl(box)) return null;
+    var img = box.querySelector('img[src]');
+    if(!img) return null;
+    var btn = box.querySelector('.img-expand-btn');
+    if(btn && btn.getAttribute('data-visual-expanded') === 'true') return null;
+    if(btn){
+      return buildExpandVisualStep(btn, {
+        noScroll: false,
+        forceScroll: true,
+        scrollEl: box
+      });
+    }
+    return sectionScrollStep('expand-visual', box, 'Open the image', {
+      scrollEl: box,
+      scrollBlock: 'center',
+      forceScroll: true,
+      tone: 'expand'
+    });
+  }
+
   function resolveNextVisualExpand(panel, options){
     options = options || {};
     if(!panel) return null;
@@ -2141,6 +2164,18 @@
       if(hubTourStep) return hubTourStep;
     }
 
+    var titleKey = conceptTitleKey(panel);
+    var titleText = conceptTitleText(panel);
+    if(titleText && !spokenReady(titleKey)){
+      var heading = panel.querySelector('.concept-heading-row h4') || panel;
+      speakSectionThen(titleKey, titleText);
+      return withM5Tone(panel, sectionScrollStep('concept-title', heading, 'Listen to this concept', {
+        scrollEl: heading,
+        scrollBlock: 'center',
+        forceScroll: true
+      }));
+    }
+
     var pillars = getVisibleInsightPillars(panel);
     if(pillars.length){
       var title = pillars[0].querySelector('.concept-insight-pillar__title');
@@ -2151,6 +2186,9 @@
         forceScroll: true
       }));
     }
+
+    var photoStep = resolveConceptPhoto(panel);
+    if(photoStep) return withM5Tone(panel, photoStep);
 
     var preVisualStep = resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
     if(preVisualStep) return withM5Tone(panel, preVisualStep);
@@ -2321,13 +2359,40 @@
   }
 
   function outcomesSpeechText(){
+    var section = document.getElementById('outcomes');
+    var title = section && section.querySelector('h3');
     var items = document.querySelectorAll('[data-outcomes-group="outcomes"] .outcome, #outcomes .outcome');
     var parts = [];
+    if(title){
+      var heading = String(title.textContent || '').replace(/\s+/g, ' ').trim();
+      if(heading) parts.push(heading);
+    }
     for(var i = 0; i < items.length; i++){
       var line = String(items[i].textContent || '').replace(/\s+/g, ' ').trim();
       if(line) parts.push(line);
     }
-    return parts.join(' ');
+    return parts.join('. ');
+  }
+
+  function conceptNamesSpeech(block){
+    var buttons = getConceptButtons(block);
+    var names = [];
+    for(var i = 0; i < buttons.length; i++){
+      var name = String(buttons[i].textContent || '').replace(/\s+/g, ' ').trim();
+      if(name) names.push(name);
+    }
+    if(!names.length) return '';
+    return 'Explore the key concepts. ' + names.join('. ');
+  }
+
+  function conceptTitleText(panel){
+    if(!panel) return '';
+    var heading = panel.querySelector('.concept-heading-row h4, .concept-panel-title');
+    return heading ? String(heading.textContent || '').replace(/\s+/g, ' ').trim() : '';
+  }
+
+  function conceptTitleKey(panel){
+    return 'title-' + ((panel && (panel.dataset.currentTarget || panel.getAttribute('data-panel-for'))) || 'concept');
   }
 
   function blockIntroSpeechText(block){
@@ -3002,6 +3067,17 @@
 
     var journeyTourStep = resolveProgrammeJourneyTour(block, moduleConfig);
     if(journeyTourStep) return journeyTourStep;
+
+    if(!blockConceptsComplete(block) && !spokenReady(block + '-concepts')){
+      var stage = document.querySelector('#' + block + ' .concept-stage');
+      speakSectionThen(block + '-concepts', conceptNamesSpeech(block));
+      var stageTitle = (stage && stage.querySelector('h4')) || stage;
+      return sectionScrollStep('concepts-read', stageTitle, 'Listen to the concepts', {
+        scrollEl: stage || stageTitle,
+        scrollBlock: 'start',
+        forceScroll: true
+      });
+    }
 
     var openPanel = getOpenPanel(block);
     if(openPanel){
@@ -4000,6 +4076,18 @@
     scrollIfNeeded(step.scrollEl || target, step);
   }
 
+  function syncConceptStageLocks(moduleConfig){
+    var blocks = (moduleConfig && moduleConfig.blocks) || [];
+    for(var i = 0; i < blocks.length; i++){
+      var block = blocks[i];
+      var stage = document.querySelector('#' + block + ' .concept-stage');
+      if(!stage) continue;
+      var open = blockIntroCardsComplete(block) && spokenReady(block) && spokenReady(block + '-concepts');
+      if(open) stage.removeAttribute('data-flow-locked');
+      else stage.setAttribute('data-flow-locked', '1');
+    }
+  }
+
   var guideMuteUntil = 0;
 
   function refresh(moduleConfig){
@@ -4010,6 +4098,7 @@
     if(!moduleConfig) return;
     guideMuteUntil = Date.now() + 450;
     syncBlockIntroVisualState();
+    syncConceptStageLocks(moduleConfig);
     var openPanel = getActiveOpenPanel();
     if(openPanel){
       syncM5AccentContext(openPanel);
@@ -4143,6 +4232,45 @@
 
     document.addEventListener('click', function(e){
       if(!isFlowGuideActive()) return;
+      var square = e.target.closest && e.target.closest('.concept-square[data-target]');
+      if(square && !square.closest('[data-parent-subconcept-nav]')){
+        var grid = square.closest('[data-concept-grid]');
+        var blockId = grid && grid.getAttribute('data-concept-grid');
+        var introOpen = blockId && blockIntroCardsComplete(blockId) && spokenReady(blockId) && spokenReady(blockId + '-concepts');
+        var buttons = blockId ? getConceptButtons(blockId) : [];
+        var allowed = null;
+        for(var i = 0; i < buttons.length; i++){
+          if(!isConceptDone(buttons[i])){ allowed = buttons[i]; break; }
+        }
+        if(!introOpen || (allowed && square !== allowed)){
+          e.preventDefault();
+          e.stopPropagation();
+          if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+          return;
+        }
+      }
+      var photo = e.target.closest && e.target.closest('.concept-image, .img-expand-btn, [data-expandable-visual]');
+      if(photo){
+        var photoPanel = photo.closest('.concept-panel');
+        if(photoPanel && getVisibleInsightPillars(photoPanel).length){
+          e.preventDefault();
+          e.stopPropagation();
+          if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+          return;
+        }
+      }
+      var idea = e.target.closest && e.target.closest('.key-idea-item');
+      if(idea){
+        var ideaPanel = idea.closest('.concept-panel');
+        var ideaPhoto = ideaPanel && ideaPanel.querySelector('.concept-image img[src]');
+        var ideaBtn = ideaPanel && ideaPanel.querySelector('.concept-image .img-expand-btn');
+        if(ideaPhoto && (!ideaBtn || ideaBtn.getAttribute('data-visual-expanded') !== 'true')){
+          e.preventDefault();
+          e.stopPropagation();
+          if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+          return;
+        }
+      }
       var hit = e.target.closest && e.target.closest('.outcome, .block-intro-card, .recap-takeaway-card, .recap-card, input[data-stage-check="outcomes"]');
       if(!hit) return;
       var key = '';

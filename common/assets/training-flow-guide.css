@@ -572,3 +572,8 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
       0 0 0 6px rgba(var(--_pulse-rgb, var(--flow-accent-rgb)), .22) !important;
   }
 }
+
+.concept-stage[data-flow-locked="1"] .concept-grid{
+  pointer-events:none;
+  opacity:.45;
+}
