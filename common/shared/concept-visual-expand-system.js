@@ -30,7 +30,13 @@
   try { dwellSeen = JSON.parse(sessionStorage.getItem('cs_img_dwell') || '{}'); } catch (err) { dwellSeen = {}; }
 
   function setModalOpener(fn) {
-    modalOpener = typeof fn === 'function' ? fn : null;
+    var pageFn = typeof fn === 'function' ? fn : null;
+    modalOpener = function (html, title) {
+      var result = pageFn ? pageFn(html, title) : null;
+      var modal = document.getElementById('mediaModal') || document.getElementById('conceptExpandFallbackModal');
+      if (modal && modal.classList.contains('open')) beginImageDwell(modal);
+      return result;
+    };
   }
 
   function bindModalOpenerFromWindow() {
@@ -731,10 +737,10 @@
     var src = shown && (shown.currentSrc || shown.getAttribute('src') || '');
     var img = sourceImage(src) || shown;
     var script = infographicScript(img);
+    if (!script && shown) script = cleanSpeech(shown.getAttribute('alt') || '');
     if (!script || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function') return 'none';
-    var now = Date.now();
-    if (modal.dataset.imageNarration === 'playing' && lastNarration.src === src && now - lastNarration.at < 900) return 'held';
-    lastNarration = { src: src, at: now };
+    if (modal.dataset.imageNarration === 'playing' && lastNarration.src === src) return 'held';
+    lastNarration = { src: src, at: Date.now() };
     holdImageClose(modal);
     CSTrainingVoice.speak(script, function () { releaseImageClose(modal, src); });
     return 'started';
@@ -767,6 +773,7 @@
     if (!closeHit && !backdrop) return;
     event.preventDefault();
     event.stopPropagation();
+    if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
   }
 
   function watchImageModal(modal) {
@@ -946,6 +953,7 @@
       if (modal && modal.classList.contains('open') && modal.dataset.imageDwellUntil) {
         event.preventDefault();
         event.stopPropagation();
+        if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
       }
     }, true);
   }
