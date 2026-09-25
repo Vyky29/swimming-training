@@ -319,9 +319,11 @@
     var nextId = snap.nextStep === 'keyideas' ? 'recap' : snap.nextStep;
     ['overview', 'journey', 'outcomes', 'inside-module', 'block1', 'block2', 'block3', 'block4', 'recap', 'complete'].forEach(function (id) {
       var stepKey = id === 'keyideas' ? 'recap' : id;
-      var done = id === 'overview' || id === 'inside-module'
+      var done = id === 'overview'
         ? snap.status !== 'not-started'
-        : !!(snap.steps && snap.steps[stepKey]);
+        : id === 'inside-module'
+          ? !!(snap.steps && snap.steps.outcomes)
+          : !!(snap.steps && snap.steps[stepKey]);
       var isNext = nextId === id;
       if (!done && !isNext) return;
       var section = document.getElementById(id);
