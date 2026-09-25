@@ -712,45 +712,60 @@
     });
     return voiceCache[text];
   }
+  var voiceQueue = [];
+  var voicePlaying = false;
+  function finishVoiceJob(job, gen) {
+    if (gen !== voiceGen) return;
+    voicePlaying = false;
+    if (job && typeof job.onDone === 'function') job.onDone();
+    playNextVoice();
+  }
+  function playNextVoice() {
+    if (voicePlaying || !voiceQueue.length) return;
+    var job = voiceQueue.shift();
+    var pieces = voicePieces(job.text);
+    if (!pieces.length) {
+      if (typeof job.onDone === 'function') job.onDone();
+      playNextVoice();
+      return;
+    }
+    voicePlaying = true;
+    var gen = voiceGen;
+    var pending = {};
+    function load(index) {
+      if (index >= pieces.length || pending[index]) return;
+      pending[index] = fetchVoice(pieces[index]);
+    }
+    function play(index) {
+      if (gen !== voiceGen) return;
+      if (index >= pieces.length) {
+        finishVoiceJob(job, gen);
+        return;
+      }
+      load(index);
+      load(index + 1);
+      pending[index].then(function (blob) {
+        if (gen !== voiceGen) return;
+        if (voiceAudio) {
+          try { voiceAudio.pause(); } catch (err) {}
+        }
+        voiceAudio = new Audio(URL.createObjectURL(blob));
+        voiceAudio.onended = function () { play(index + 1); };
+        var started = voiceAudio.play();
+        if (started && typeof started.catch === 'function') started.catch(function () { play(index + 1); });
+      }).catch(function () {
+        if (gen === voiceGen) play(index + 1);
+      });
+    }
+    play(0);
+  }
   global.CSTrainingVoice = {
     id: 'pFZP5JQG7iQjIQuC4Bku',
     name: 'Lily',
     speak: function (text, onDone) {
-      if (voiceAudio) {
-        try { voiceAudio.pause(); } catch (err) {}
-        voiceAudio = null;
-      }
-      var pieces = voicePieces(text);
-      if (!pieces.length) return false;
-      var gen = ++voiceGen;
-      var pending = {};
-      function load(index) {
-        if (index >= pieces.length || pending[index]) return;
-        pending[index] = fetchVoice(pieces[index]);
-      }
-      function play(index) {
-        if (gen !== voiceGen || index >= pieces.length) return;
-        load(index);
-        load(index + 1);
-        pending[index].then(function (blob) {
-          if (gen !== voiceGen) return;
-          if (voiceAudio) {
-            try { voiceAudio.pause(); } catch (err) {}
-          }
-          voiceAudio = new Audio(URL.createObjectURL(blob));
-          voiceAudio.onended = function () {
-            if (index + 1 >= pieces.length) {
-              if (gen === voiceGen && typeof onDone === 'function') onDone();
-              return;
-            }
-            play(index + 1);
-          };
-          return voiceAudio.play();
-        }).catch(function () {
-          if (gen === voiceGen && typeof onDone === 'function') onDone();
-        });
-      }
-      play(0);
+      if (!onDone && (voicePlaying || voiceQueue.length)) return false;
+      voiceQueue.push({ text: text, onDone: onDone });
+      playNextVoice();
       return true;
     },
     trySpeak: function (text, utterance, syncStop) {
@@ -765,6 +780,8 @@
     },
     stop: function () {
       voiceGen += 1;
+      voiceQueue = [];
+      voicePlaying = false;
       if (voiceAudio) {
         try { voiceAudio.pause(); } catch (err) {}
         voiceAudio = null;

@@ -401,10 +401,14 @@
       return;
     }
     el.setAttribute('data-outcome-spoken', 'playing');
-    CSTrainingVoice.speak(text, function(){
+    var started = CSTrainingVoice.speak(text, function(){
       el.setAttribute('data-outcome-spoken', 'done');
       if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
     });
+    if(started === false){
+      el.setAttribute('data-outcome-spoken', 'done');
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    }
   }
 
   function ensurePillarSpoken(el){
@@ -416,10 +420,14 @@
       return;
     }
     el.setAttribute('data-pillar-spoken', 'playing');
-    CSTrainingVoice.speak(text, function(){
+    var started = CSTrainingVoice.speak(text, function(){
       el.setAttribute('data-pillar-spoken', 'done');
       if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
     });
+    if(started === false){
+      el.setAttribute('data-pillar-spoken', 'done');
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    }
   }
 
   function isKeyIdeaGuideable(el){
@@ -2465,10 +2473,14 @@
       return;
     }
     root.setAttribute('data-spoken-' + key, 'playing');
-    CSTrainingVoice.speak(text, function(){
+    var started = CSTrainingVoice.speak(text, function(){
       root.setAttribute('data-spoken-' + key, 'done');
       if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
     });
+    if(started === false){
+      root.setAttribute('data-spoken-' + key, 'done');
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    }
   }
 
   function setJourneyCheckLocked(locked){

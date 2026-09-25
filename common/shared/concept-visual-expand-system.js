@@ -772,14 +772,18 @@
   function watchImageModal(modal) {
     if (!modal || modal.dataset.dwellWatch === '1') return;
     modal.dataset.dwellWatch = '1';
+    var wasOpen = modal.classList.contains('open');
     var obs = new MutationObserver(function () {
-      if (!modal.classList.contains('open')) {
-        if (window.CSTrainingVoice) CSTrainingVoice.stop();
+      var open = modal.classList.contains('open');
+      if (!open) {
+        if (wasOpen && window.CSTrainingVoice) CSTrainingVoice.stop();
+        wasOpen = false;
         return;
       }
-      if (modal.classList.contains('media-modal--image-only') || modal.id === 'conceptExpandFallbackModal') {
+      if (!wasOpen && (modal.classList.contains('media-modal--image-only') || modal.id === 'conceptExpandFallbackModal')) {
         beginImageDwell(modal);
       }
+      wasOpen = true;
     });
     obs.observe(modal, { attributes: true, attributeFilter: ['class'] });
   }
