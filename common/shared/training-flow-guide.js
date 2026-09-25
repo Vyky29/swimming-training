@@ -2865,9 +2865,8 @@
       if(items[i].classList.contains('clicked')) continue;
       return sectionScrollStep('outcome', items[i], 'Review learning outcome ' + (i + 1), {
         scrollEl: items[i],
-        scrollBlock: 'center',
-        forceScroll: true,
-        tone: 'expand',
+        scrollBlock: 'nearest',
+        forceScroll: false,
         keyToken: 'outcome:' + i
       });
     }
