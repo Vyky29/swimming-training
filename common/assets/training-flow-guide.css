@@ -479,7 +479,17 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
   position: relative;
   z-index: 1;
 }
+.flow-guide-rail.is-anchored{
+  bottom: auto;
+}
 .flow-guide-rail[hidden]{ display: none !important; }
+.portal .main .content #journey .journey-wrap:has(.flow-guide-pulse){
+  overflow: visible;
+}
+.portal .main .content #journey .journey-panel.flow-guide-pulse{
+  overflow: visible;
+  z-index: 4;
+}
 .flow-guide-rail__copy{
   min-width: 0;
   flex: 1;
