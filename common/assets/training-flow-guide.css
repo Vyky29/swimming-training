@@ -432,6 +432,43 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
 }
 
 /* ===== Bottom rail ===== */
+/* Concept panels must show the title, intro, image and key ideas in full. */
+.portal .concept-panel.show{
+  overflow: visible;
+}
+.portal .concept-panel.show > .concept-panel-title-row,
+.portal .concept-panel.show > .concept-heading-row,
+.portal .concept-panel.show > .concept-intro-slot,
+.portal .concept-panel.show > .concept-panel-desc,
+.portal .concept-panel.show > [data-concept-intro-media],
+.portal .concept-panel.show > .concept-slide-block,
+.portal .concept-panel.show > .concept-points-box{
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
+}
+.portal .concept-panel .concept-title-text,
+.portal .concept-panel .concept-title-stack,
+.portal .concept-panel .concept-panel-title{
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.portal .concept-panel .concept-title-text{
+  display: block !important;
+  font-size: clamp(1.15rem, 2vw, 1.45rem) !important;
+  line-height: 1.25 !important;
+  color: #163247 !important;
+  -webkit-text-fill-color: #163247 !important;
+}
+.portal .concept-insight-intro__cards{
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+}
+
 /* Later sections stay out of view until this one is finished. */
 html[data-guided-flow="true"] .content > section.gated-locked{
   display: none !important;

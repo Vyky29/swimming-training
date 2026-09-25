@@ -1083,6 +1083,10 @@
 
   function conceptReadyForFinishCue(panel){
     if(!panel) return false;
+    var titleText = panel.querySelector('.concept-title-text');
+    if(titleText && !(titleText.textContent || '').trim() && titleText.offsetParent) return false;
+    var pointsBox = panel.querySelector('.concept-points-box');
+    if(pointsBox && pointsBox.style.display !== 'none' && pointsBox.offsetParent && !panel.querySelector('.key-idea-item')) return false;
     syncPanelInPracticeDone(panel);
     if(getVisibleInsightPillars(panel).length) return false;
     var conceptImg = panel.querySelector('.concept-image img[src]');

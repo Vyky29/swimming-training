@@ -13,7 +13,7 @@
 @import url('/assets/module-hero-system.css');
  @import url('/assets/key-ideas-recap-system.css?v=20260713keyidea1');
  @import url('/assets/concept-insight-intro.css?v=20260715corew');
- @import url('/assets/training-flow-guide.css?v=20260925open2');
+ @import url('/assets/training-flow-guide.css?v=20260925open3');
 @import url('/assets/training-i-module-shell.css?v=20260925flow1');
 @import url('/assets/module-block-accordion.css?v=20260716ttsfit1');
 @import url('/assets/programme-journey-map.css?v=20260716stages1');
@@ -11599,7 +11599,7 @@ if(!meta) return;
  }
  var useInsightAsPrimaryIntro = !!(resolvedInsight && !hideInsightIntroEarly);
  if(titleEl){
- titleEl.style.display = (useInsightAsPrimaryIntro || isPathwayStage) ? 'none' : '';
+ titleEl.style.display = isPathwayStage ? 'none' : '';
  }
 
  const introMediaEl = panel.querySelector('[data-concept-intro-media]');
@@ -13678,7 +13678,7 @@ updateFocusProgress();
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-flow-guide.js?v=20260925open2"></script>
+ <script src="/shared/training-flow-guide.js?v=20260925open3"></script>
 <script src="/shared/training-i-progress.js?v=20260924reset1"></script>
 <script src="/shared/training-i-module-shell.js?v=20260925open1"></script>
 
