@@ -72,10 +72,10 @@ callOrder('resolveInsideModule', ['data-stage-check="outcomes"', 'inside-module'
 console.log('\n-- inside a block --');
 callOrder('resolveBlock', [
   'block-open',
+  'panelIncompleteTarget',
   'resolveBlockIntroCards',
   'resolveBlockIntroSlideExpand',
   'resolveProgrammeJourneyTour',
-  'panelIncompleteTarget',
   'resolveConceptGrid',
   'resolveReflectionCheckpoint',
   'block-check'

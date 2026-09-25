@@ -2935,6 +2935,12 @@
       }
     }
 
+    var openPanelEarly = getOpenPanel(block);
+    if(openPanelEarly){
+      var insideEarly = panelIncompleteTarget(openPanelEarly);
+      if(insideEarly) return insideEarly;
+    }
+
     var introStep = resolveBlockIntroCards(block);
     if(introStep) return introStep;
 
