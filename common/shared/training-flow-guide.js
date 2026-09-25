@@ -3182,7 +3182,15 @@
     var closeBtn = modal.querySelector('#mediaModalClose, .media-modal-close, .concept-expand-fallback-close');
     if(!closeBtn) return null;
     var waiting = closeBtn.disabled || closeBtn.getAttribute('aria-disabled') === 'true';
-    return sectionScrollStep('image-close', closeBtn, waiting ? 'Look at the image' : 'Close the image', {
+    if(waiting){
+      var picture = modal.querySelector('img') || closeBtn;
+      return sectionScrollStep('image-listen', picture, 'Listen to the explanation', {
+        noScroll: true,
+        tone: 'explore',
+        keyToken: 'image-listen'
+      });
+    }
+    return sectionScrollStep('image-close', closeBtn, 'Close the image', {
       noScroll: true,
       tone: 'explore',
       keyToken: 'image-close'

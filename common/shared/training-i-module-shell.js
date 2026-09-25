@@ -703,7 +703,7 @@
   global.CSTrainingVoice = {
     id: 'pFZP5JQG7iQjIQuC4Bku',
     name: 'Lily',
-    speak: function (text) {
+    speak: function (text, onDone) {
       var pieces = voicePieces(text);
       if (!pieces.length) return false;
       var gen = ++voiceGen;
@@ -722,9 +722,17 @@
             try { voiceAudio.pause(); } catch (err) {}
           }
           voiceAudio = new Audio(URL.createObjectURL(blob));
-          voiceAudio.onended = function () { play(index + 1); };
+          voiceAudio.onended = function () {
+            if (index + 1 >= pieces.length) {
+              if (gen === voiceGen && typeof onDone === 'function') onDone();
+              return;
+            }
+            play(index + 1);
+          };
           return voiceAudio.play();
-        }).catch(function () {});
+        }).catch(function () {
+          if (gen === voiceGen && typeof onDone === 'function') onDone();
+        });
       }
       play(0);
       return true;

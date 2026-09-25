@@ -698,16 +698,46 @@
 
   var lastNarration = { src: '', at: 0 };
 
+  function releaseImageClose(modal, src) {
+    if (!modal) return;
+    delete modal.dataset.imageDwellUntil;
+    modal.dataset.imageNarration = 'done';
+    var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
+    if (closeBtn) {
+      closeBtn.disabled = false;
+      closeBtn.removeAttribute('aria-disabled');
+      closeBtn.textContent = 'Close';
+    }
+    rememberSeen(src);
+    markSrcExpanded(src);
+    try {
+      document.dispatchEvent(new CustomEvent('concept-visual-expand-change', { bubbles: true }));
+    } catch (err) {}
+  }
+
+  function holdImageClose(modal) {
+    modal.dataset.imageDwellUntil = 'voice';
+    modal.dataset.imageNarration = 'playing';
+    var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
+    if (closeBtn) {
+      closeBtn.disabled = true;
+      closeBtn.setAttribute('aria-disabled', 'true');
+      closeBtn.textContent = 'Listen';
+    }
+  }
+
   function narrateOpenImage(modal) {
     var shown = modal && modal.querySelector('img');
     var src = shown && (shown.currentSrc || shown.getAttribute('src') || '');
     var img = sourceImage(src) || shown;
     var script = infographicScript(img);
-    if (!script || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function') return;
+    if (!script || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function') return 'none';
     var now = Date.now();
-    if (lastNarration.src === src && now - lastNarration.at < 900) return;
+    if (modal.dataset.imageNarration === 'playing' && lastNarration.src === src && now - lastNarration.at < 900) return 'held';
     lastNarration = { src: src, at: now };
-    CSTrainingVoice.speak(script);
+    holdImageClose(modal);
+    CSTrainingVoice.speak(script, function () { releaseImageClose(modal, src); });
+    return 'started';
   }
 
   function beginImageDwell(modal) {
@@ -715,56 +745,18 @@
     var img = modal.querySelector('img');
     var src = img && (img.currentSrc || img.getAttribute('src') || '');
     if (!src) return;
-    narrateOpenImage(modal);
-    if (modal.dataset.imageDwellSrc === src && modal.dataset.imageDwellUntil) return;
-    var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
-    if (dwellSeen[src]) {
-      delete modal.dataset.imageDwellUntil;
-      modal.dataset.imageDwellSrc = src;
-      if (closeBtn) {
-        closeBtn.disabled = false;
-        closeBtn.textContent = 'Close';
-      }
-      markSrcExpanded(src);
-      return;
-    }
-    if (IMAGE_DWELL_MS <= 0) {
-      delete modal.dataset.imageDwellUntil;
-      modal.dataset.imageDwellSrc = src;
-      if (closeBtn) {
-        closeBtn.disabled = false;
-        closeBtn.removeAttribute('aria-disabled');
-        closeBtn.textContent = 'Close';
-      }
-      rememberSeen(src);
-      markSrcExpanded(src);
-      return;
-    }
-    var until = Date.now() + IMAGE_DWELL_MS;
-    modal.dataset.imageDwellUntil = String(until);
+    var narration = narrateOpenImage(modal);
+    if (narration === 'started' || narration === 'held') return;
+    delete modal.dataset.imageDwellUntil;
     modal.dataset.imageDwellSrc = src;
+    var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
     if (closeBtn) {
-      closeBtn.disabled = true;
-      closeBtn.setAttribute('aria-disabled', 'true');
+      closeBtn.disabled = false;
+      closeBtn.removeAttribute('aria-disabled');
+      closeBtn.textContent = 'Close';
     }
-    var timer = setInterval(function () {
-      if (!modal.classList.contains('open')) {
-        clearInterval(timer);
-        return;
-      }
-      var left = Math.ceil((until - Date.now()) / 1000);
-      if (closeBtn) closeBtn.textContent = left > 0 ? ('Close (' + left + 's)') : 'Close';
-      if (left > 0) return;
-      clearInterval(timer);
-      rememberSeen(src);
-      delete modal.dataset.imageDwellUntil;
-      if (closeBtn) {
-        closeBtn.disabled = false;
-        closeBtn.removeAttribute('aria-disabled');
-        closeBtn.textContent = 'Close';
-      }
-      markSrcExpanded(src);
-    }, 250);
+    rememberSeen(src);
+    markSrcExpanded(src);
   }
 
   function dwellBlocksClose(event) {
