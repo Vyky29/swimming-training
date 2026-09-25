@@ -2295,12 +2295,62 @@
     return resolveConceptPick(block, moduleConfig);
   }
 
+  function journeySpeechText(){
+    var panel = document.querySelector('#journey .journey-panel, #journeyPanel');
+    if(!panel) return '';
+    var title = panel.querySelector('h4, h3');
+    var body = panel.querySelector('p');
+    return [title && title.textContent, body && body.textContent].filter(Boolean).join('. ').replace(/\s+/g, ' ').trim();
+  }
+
+  function insideModuleSpeechText(){
+    var items = document.querySelectorAll('#inside-module .module-roadmap__item, #inside-module .journey-item');
+    var parts = [];
+    for(var i = 0; i < items.length; i++){
+      var title = items[i].querySelector('.journey-title');
+      var hint = items[i].querySelector('.module-roadmap__hint, .journey-status');
+      var line = 'Block ' + (i + 1) + '. ' + (title ? String(title.textContent || '').trim() : '');
+      var extra = hint ? String(hint.textContent || '').trim() : '';
+      if(extra) line += '. ' + extra;
+      parts.push(line.replace(/\s+/g, ' ').trim());
+    }
+    return parts.join(' ');
+  }
+
+  function spokenReady(key){
+    return document.documentElement.getAttribute('data-spoken-' + key) === 'done';
+  }
+
+  function speakSectionThen(key, text){
+    var root = document.documentElement;
+    if(root.getAttribute('data-spoken-' + key) === 'done') return;
+    if(root.getAttribute('data-spoken-' + key) === 'playing') return;
+    if(!text || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function'){
+      root.setAttribute('data-spoken-' + key, 'done');
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+      return;
+    }
+    root.setAttribute('data-spoken-' + key, 'playing');
+    CSTrainingVoice.speak(text, function(){
+      root.setAttribute('data-spoken-' + key, 'done');
+      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    });
+  }
+
+  function setJourneyCheckLocked(locked){
+    var check = document.querySelector('input[data-stage-check="journey"]');
+    if(!check) return;
+    if(locked){
+      check.disabled = true;
+      check.setAttribute('aria-disabled', 'true');
+    } else if(document.documentElement.getAttribute('data-spoken-journey') === 'done'){
+      check.disabled = false;
+      check.removeAttribute('aria-disabled');
+    }
+  }
+
   function journeyContentReviewed(){
-    var section = $('#journey');
-    if(!section) return true;
-    if(section.getAttribute('data-flow-reviewed') === 'true') return true;
-    var wrap = section.querySelector('.journey-wrap');
-    return !!(wrap && wrap.getAttribute('data-flow-reviewed') === 'true');
+    return spokenReady('journey');
   }
 
   function insideModuleReviewed(){
@@ -2369,7 +2419,17 @@
   }
 
   function bindJourneyReview(){
-    bindSectionReview($('#journey'), { disableAutoReview: true });
+    var section = $('#journey');
+    if(!section || section.getAttribute('data-journey-audio-bound') === '1') return;
+    section.setAttribute('data-journey-audio-bound', '1');
+    section.addEventListener('change', function(event){
+      var input = event.target;
+      if(!input || !input.matches || !input.matches('input[data-stage-check="journey"]')) return;
+      if(spokenReady('journey')) return;
+      input.checked = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
   }
 
   function ensureInsideModuleReviewed(){
@@ -2382,16 +2442,15 @@
 
   function bindInsideModuleReview(){
     var section = $('#inside-module');
-    if(!section) return;
-    bindSectionReview(section, { disableAutoReview: true });
-
+    if(!section || section.getAttribute('data-inside-audio-bound') === '1') return;
+    section.setAttribute('data-inside-audio-bound', '1');
     section.addEventListener('click', function(e){
       if(document.documentElement.getAttribute('data-guided-flow') !== 'true') return;
-      if(e.target.closest('.check-item, .overall-check')) return;
-      var link = e.target.closest('.module-roadmap__item, a.module-roadmap__item');
-      if(link) e.preventDefault();
-      ensureInsideModuleReviewed();
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 80);
+      if(spokenReady('inside')) return;
+      if(e.target.closest('.module-roadmap__item, a, .journey-item')){
+        e.preventDefault();
+        e.stopPropagation();
+      }
     }, true);
   }
 
@@ -2593,15 +2652,14 @@
     var check = $('input[data-stage-check="journey"]');
     if(isChecked(check)) return null;
 
-    if(!journeyContentReviewed()){
-      var content = (section && section.querySelector('.journey-wrap')) || (section && section.querySelector('.journey-panel')) || section;
-      return sectionScrollStep('journey-read', content, 'Review the pathway overview');
+    if(!spokenReady('journey') || !journeyContentReviewed()){
+      setJourneyCheckLocked(true);
+      var panel = (section && section.querySelector('.journey-panel')) || section;
+      speakSectionThen('journey', journeySpeechText());
+      return sectionScrollStep('journey-read', panel, 'Listen to this module');
     }
-
-    if(isDisabled(check)){
-      var journeyWrap = section && section.querySelector('.journey-wrap') || section;
-      return sectionScrollStep('journey-wait', journeyWrap, 'Spend a moment reviewing the journey section');
-    }
+    setJourneyCheckLocked(false);
+    if(section) section.setAttribute('data-flow-reviewed', 'true');
 
     var labelEl = check && check.closest('.check-item');
     return {
@@ -2646,10 +2704,13 @@
 
     var section = $('#inside-module');
     if(!section) return null;
-    if(section.getAttribute('data-flow-reviewed') === 'true') return null;
-
-    var content = section.querySelector('.module-roadmap-wrap') || section.querySelector('.journey-wrap') || section;
-    return sectionScrollStep('inside-module', content, 'Review the blocks in this module');
+    if(!spokenReady('inside')){
+      speakSectionThen('inside', insideModuleSpeechText());
+      var map = section.querySelector('.module-roadmap-wrap') || section.querySelector('.journey-wrap') || section;
+      return sectionScrollStep('inside-module', map, 'Listen to the blocks in this module');
+    }
+    section.setAttribute('data-flow-reviewed', 'true');
+    return null;
   }
 
   function blockIntroCardsComplete(block){

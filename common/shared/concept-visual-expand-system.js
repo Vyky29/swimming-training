@@ -787,6 +787,21 @@
   function plainSectionSpeech(button) {
     var section = button.closest('section, .concept-panel, .block-part');
     if (!section) return '';
+    if (section.id === 'journey') {
+      var panel = section.querySelector('.journey-panel');
+      return panel ? String(panel.textContent || '').replace(/\s+/g, ' ').trim() : '';
+    }
+    if (section.id === 'inside-module') {
+      var bits = [];
+      section.querySelectorAll('.module-roadmap__item, .journey-item').forEach(function (item, index) {
+        var title = item.querySelector('.journey-title');
+        var hint = item.querySelector('.module-roadmap__hint, .journey-status');
+        var line = 'Block ' + (index + 1) + '. ' + (title ? title.textContent : '');
+        if (hint && hint.textContent.trim()) line += '. ' + hint.textContent.trim();
+        bits.push(line.replace(/\s+/g, ' ').trim());
+      });
+      return bits.join(' ');
+    }
     var copy = section.cloneNode(true);
     copy.querySelectorAll(
       'button, .section-lock-banner, nav, script, style, .img-expand-btn, ' +
