@@ -42,7 +42,7 @@
   function bindModalOpenerFromWindow() {
     if (typeof modalOpener === 'function') return;
     if (typeof window.openMediaModal === 'function') {
-      modalOpener = window.openMediaModal;
+      setModalOpener(window.openMediaModal);
     }
   }
 
@@ -661,7 +661,8 @@
   function infographicScript(img) {
     var src = img && (img.currentSrc || img.getAttribute('src') || '');
     var file = String(src).split('/').pop().split('?')[0];
-    var written = file && global.TrainingIImageSpeech && global.TrainingIImageSpeech[file];
+    var speechMap = window.TrainingIImageSpeech;
+    var written = file && speechMap && speechMap[file];
     if (written) return written;
     var root = teachingRoot(img);
     if (!root) return '';
@@ -711,6 +712,8 @@
     var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
     if (closeBtn) {
       closeBtn.disabled = false;
+      closeBtn.hidden = false;
+      closeBtn.style.removeProperty('display');
       closeBtn.removeAttribute('aria-disabled');
       closeBtn.textContent = 'Close';
     }
@@ -727,8 +730,10 @@
     var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
     if (closeBtn) {
       closeBtn.disabled = true;
+      closeBtn.hidden = true;
+      closeBtn.style.setProperty('display', 'none', 'important');
       closeBtn.setAttribute('aria-disabled', 'true');
-      closeBtn.textContent = 'Listen';
+      closeBtn.textContent = 'Close';
     }
   }
 
@@ -736,13 +741,20 @@
     var shown = modal && modal.querySelector('img');
     var src = shown && (shown.currentSrc || shown.getAttribute('src') || '');
     var img = sourceImage(src) || shown;
-    var script = infographicScript(img);
+    var script = '';
+    try { script = infographicScript(img); } catch (err) { script = ''; }
     if (!script && shown) script = cleanSpeech(shown.getAttribute('alt') || '');
     if (!script || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function') return 'none';
     if (modal.dataset.imageNarration === 'playing' && lastNarration.src === src) return 'held';
     lastNarration = { src: src, at: Date.now() };
     holdImageClose(modal);
-    CSTrainingVoice.speak(script, function () { releaseImageClose(modal, src); });
+    var started = false;
+    try {
+      started = CSTrainingVoice.speak(script, function () { releaseImageClose(modal, src); });
+    } catch (err) {
+      started = false;
+    }
+    if (started === false) releaseImageClose(modal, src);
     return 'started';
   }
 
@@ -786,7 +798,9 @@
         return;
       }
       if (!wasOpen && (modal.classList.contains('media-modal--image-only') || modal.id === 'conceptExpandFallbackModal')) {
-        beginImageDwell(modal);
+        wasOpen = true;
+        try { beginImageDwell(modal); } catch (err) {}
+        return;
       }
       wasOpen = true;
     });
