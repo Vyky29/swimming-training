@@ -2320,6 +2320,43 @@
     return [title && title.textContent, body && body.textContent].filter(Boolean).join('. ').replace(/\s+/g, ' ').trim();
   }
 
+  function outcomesSpeechText(){
+    var items = document.querySelectorAll('[data-outcomes-group="outcomes"] .outcome, #outcomes .outcome');
+    var parts = [];
+    for(var i = 0; i < items.length; i++){
+      var line = String(items[i].textContent || '').replace(/\s+/g, ' ').trim();
+      if(line) parts.push(line);
+    }
+    return parts.join(' ');
+  }
+
+  function blockIntroSpeechText(block){
+    var section = document.getElementById(block);
+    if(!section) return '';
+    var title = section.querySelector('.block-title-wrap h3, .block-header h3');
+    var lead = section.querySelector('.lead');
+    var cards = section.querySelectorAll('.block-intro-card');
+    var parts = [];
+    if(title) parts.push(String(title.textContent || '').replace(/\s+/g, ' ').trim());
+    if(lead) parts.push(String(lead.textContent || '').replace(/\s+/g, ' ').trim());
+    for(var i = 0; i < cards.length; i++){
+      var line = String(cards[i].textContent || '').replace(/\s+/g, ' ').trim();
+      if(line) parts.push(line);
+    }
+    return parts.join('. ');
+  }
+
+  function recapSpeechText(section){
+    if(!section) return '';
+    var cards = section.querySelectorAll('.recap-takeaway-card, .recap-card');
+    var parts = [];
+    for(var i = 0; i < cards.length; i++){
+      var line = String(cards[i].textContent || '').replace(/\s+/g, ' ').trim();
+      if(line) parts.push(line);
+    }
+    return parts.join(' ');
+  }
+
   function insideModuleSpeechText(){
     var items = document.querySelectorAll('#inside-module .module-roadmap__item, #inside-module .journey-item');
     var parts = [];
@@ -2691,6 +2728,11 @@
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
 
     var section = $('#outcomes');
+    if(!spokenReady('outcomes')){
+      speakSectionThen('outcomes', outcomesSpeechText());
+      var list = (section && section.querySelector('.outcomes')) || section;
+      return sectionScrollStep('outcomes-read', list || section, 'Listen to the learning outcomes');
+    }
     var items = $$('[data-outcomes-group="outcomes"] .outcome, #outcomes .outcome');
     for(var i = 0; i < items.length; i++){
       if(!items[i].classList.contains('clicked')){
@@ -2935,6 +2977,17 @@
       }
     }
 
+    if(!spokenReady(block)){
+      var blockSection = document.getElementById(block);
+      var lead = (blockSection && blockSection.querySelector('.lead')) || blockSection;
+      speakSectionThen(block, blockIntroSpeechText(block));
+      return sectionScrollStep('block-read', lead, 'Listen to this block', {
+        scrollEl: blockSection || lead,
+        scrollBlock: 'start',
+        forceScroll: true
+      });
+    }
+
     var openPanelEarly = getOpenPanel(block);
     if(openPanelEarly){
       var insideEarly = panelIncompleteTarget(openPanelEarly);
@@ -3023,6 +3076,12 @@
     var check = section.querySelector('input[data-stage-check="' + sectionId + '"]') ||
       $('input[data-stage-check="' + sectionId + '"]');
     if(check && isChecked(check)) return null;
+
+    if(!spokenReady(sectionId)){
+      speakSectionThen(sectionId, recapSpeechText(section));
+      var stack = section.querySelector('.recap-stack--key-ideas') || section;
+      return sectionScrollStep('recap-read', stack, 'Listen to the key ideas');
+    }
 
     var cards = section.querySelectorAll(
       '.recap-stack--key-ideas .recap-takeaway-card, ' +
@@ -4080,6 +4139,24 @@
           return;
         }
       }
+    }, true);
+
+    document.addEventListener('click', function(e){
+      if(!isFlowGuideActive()) return;
+      var hit = e.target.closest && e.target.closest('.outcome, .block-intro-card, .recap-takeaway-card, .recap-card, input[data-stage-check="outcomes"]');
+      if(!hit) return;
+      var key = '';
+      if(hit.closest('#outcomes')) key = 'outcomes';
+      else if(hit.closest('#recap')) key = 'recap';
+      else if(hit.closest('#keyideas')) key = 'keyideas';
+      else {
+        var blockSection = hit.closest('[id^="block"]');
+        if(blockSection) key = blockSection.id;
+      }
+      if(!key || spokenReady(key)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
     }, true);
 
     document.addEventListener('click', function(e){

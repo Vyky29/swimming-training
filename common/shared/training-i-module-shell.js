@@ -716,6 +716,10 @@
     id: 'pFZP5JQG7iQjIQuC4Bku',
     name: 'Lily',
     speak: function (text, onDone) {
+      if (voiceAudio) {
+        try { voiceAudio.pause(); } catch (err) {}
+        voiceAudio = null;
+      }
       var pieces = voicePieces(text);
       if (!pieces.length) return false;
       var gen = ++voiceGen;
