@@ -469,6 +469,25 @@ html[data-guided-flow="true"] .concept-panel:has(.flow-guide-expand-ring) .b2-sc
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
 }
 
+.portal .concept-source-copy{
+  margin-top: 16px;
+  color: #163247;
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+.portal .concept-source-copy p{
+  margin: 0 0 .75em;
+}
+.portal .concept-source-copy p:last-child{
+  margin-bottom: 0;
+}
+.portal .concept-points-box .key-idea-item,
+.portal .concept-points-box ul{
+  visibility: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
 /* Later sections stay out of view until this one is finished. */
 html[data-guided-flow="true"] .content > section.gated-locked{
   display: none !important;

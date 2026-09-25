@@ -708,6 +708,13 @@
     if(insight){
       introEl.innerHTML = buildConceptInsightIntroHTML(insight);
       introEl.classList.add('concept-insight-intro-shell');
+      var sourceCopy = data && data.text ? String(data.text) : '';
+      if(sourceCopy.trim()){
+        var copyEl = document.createElement('div');
+        copyEl.className = 'concept-source-copy';
+        copyEl.innerHTML = sourceCopy;
+        introEl.appendChild(copyEl);
+      }
       bindInsightPillarInteractions(introEl, panel, opts);
     } else {
       introEl.innerHTML = data && data.text ? data.text : '';
