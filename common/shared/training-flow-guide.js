@@ -4043,29 +4043,6 @@
         : 'Guided next';
     }
     if(textEl) textEl.innerHTML = '<strong>' + String(step.label || '').replace(/</g, '&lt;') + '</strong>';
-    placeRail(step);
-  }
-
-  function placeRail(step){
-    var rail = document.getElementById(RAIL_ID);
-    if(!rail) return;
-    if(!step || !step.el || rail.hidden){
-      rail.classList.remove('is-anchored');
-      rail.style.top = '';
-      rail.style.bottom = '';
-      return;
-    }
-    var el = step.el;
-    var rect = el.getBoundingClientRect();
-    var height = rail.offsetHeight || 56;
-    var top = rect.bottom + 10;
-    var maxTop = window.innerHeight - height - 12;
-    if(top > maxTop) top = Math.max(12, rect.top - height - 10);
-    if(top < 12) top = 12;
-    if(top > maxTop) top = maxTop;
-    rail.classList.add('is-anchored');
-    rail.style.bottom = 'auto';
-    rail.style.top = Math.round(top) + 'px';
   }
 
   function applyGuide(step){
@@ -4575,15 +4552,6 @@
         }
         scheduleRefresh(moduleConfig);
       }, true);
-    });
-
-    window.addEventListener('scroll', function(){
-      if(!activePulseEl) return;
-      placeRail({ el: activePulseEl });
-    }, { passive: true });
-    window.addEventListener('resize', function(){
-      if(!activePulseEl) return;
-      placeRail({ el: activePulseEl });
     });
 
     if(typeof MutationObserver !== 'undefined'){
