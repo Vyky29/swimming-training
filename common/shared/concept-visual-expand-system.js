@@ -784,32 +784,105 @@
     obs.observe(modal, { attributes: true, attributeFilter: ['class'] });
   }
 
+  function plainSectionSpeech(button) {
+    var section = button.closest('section, .concept-panel, .block-part');
+    if (!section) return '';
+    var copy = section.cloneNode(true);
+    copy.querySelectorAll(
+      'button, .section-lock-banner, nav, script, style, .img-expand-btn, ' +
+      '.cards-review-hint, .key-ideas-instruction, .key-ideas-recap__hint, ' +
+      '.small-note, .check-item, .concept-visual-hint, .section-top-actions'
+    ).forEach(function (node) { node.remove(); });
+    var text = String(copy.textContent || '').replace(/\s+/g, ' ').trim();
+    return text.split(/(?<=[.!?])\s+/).filter(function (sentence) {
+      return !/\b(click|confirm you|read each|unlock|press |tap )\b/i.test(sentence);
+    }).join(' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function bindPlainListen() {
+    if (document.documentElement.getAttribute('data-plain-listen') === '1') return;
+    document.documentElement.setAttribute('data-plain-listen', '1');
+    document.addEventListener('click', function (event) {
+      var stop = event.target.closest && event.target.closest('[data-tts-stop], [data-concept-tts-stop]');
+      if (stop) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (window.CSTrainingVoice) CSTrainingVoice.stop();
+        return;
+      }
+      var listen = event.target.closest && event.target.closest('[data-tts-button], [data-concept-tts]');
+      if (!listen || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function') return;
+      var text = plainSectionSpeech(listen);
+      if (!text) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      CSTrainingVoice.speak(text);
+    }, true);
+  }
+
   function ensureLilyVoice() {
     if (!window.CSTrainingVoice) {
       var voiceAudio = null;
+      var voiceGen = 0;
+      function piecesOf(text) {
+        var words = String(text || '').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
+        var pieces = [];
+        var current = '';
+        words.forEach(function (word) {
+          var next = current ? current + ' ' + word : word;
+          if (next.length > 700 && current) {
+            pieces.push(current);
+            current = word;
+          } else current = next;
+        });
+        if (current) pieces.push(current);
+        return pieces.slice(0, 6);
+      }
       window.CSTrainingVoice = {
         id: 'pFZP5JQG7iQjIQuC4Bku',
         name: 'Lily',
-        speak: function (text) { return this.trySpeak(text, null, null); },
-        trySpeak: function (text) {
-          if (!text || text.length > 3500) return false;
-          fetch('/api/tts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: text })
-          }).then(function (res) {
-            if (!res.ok) throw new Error('tts');
-            return res.blob();
-          }).then(function (blob) {
-            if (voiceAudio) {
-              try { voiceAudio.pause(); } catch (err) {}
-            }
-            voiceAudio = new Audio(URL.createObjectURL(blob));
-            return voiceAudio.play();
-          }).catch(function () {});
+        speak: function (text, onDone) {
+          var pieces = piecesOf(text);
+          if (!pieces.length) return false;
+          var gen = ++voiceGen;
+          var pending = {};
+          function load(index) {
+            if (index >= pieces.length || pending[index]) return;
+            pending[index] = fetch('/api/tts', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text: pieces[index] })
+            }).then(function (res) {
+              if (!res.ok) throw new Error('tts');
+              return res.blob();
+            });
+          }
+          function play(index) {
+            if (gen !== voiceGen || index >= pieces.length) return;
+            load(index);
+            load(index + 1);
+            pending[index].then(function (blob) {
+              if (gen !== voiceGen) return;
+              if (voiceAudio) { try { voiceAudio.pause(); } catch (err) {} }
+              voiceAudio = new Audio(URL.createObjectURL(blob));
+              voiceAudio.onended = function () {
+                if (index + 1 >= pieces.length) {
+                  if (gen === voiceGen && typeof onDone === 'function') onDone();
+                  return;
+                }
+                play(index + 1);
+              };
+              return voiceAudio.play();
+            }).catch(function () {
+              if (gen === voiceGen && typeof onDone === 'function') onDone();
+            });
+          }
+          play(0);
           return true;
         },
+        trySpeak: function (text) { return this.speak(text); },
         stop: function () {
+          voiceGen += 1;
           if (voiceAudio) {
             try { voiceAudio.pause(); } catch (err) {}
             voiceAudio = null;
@@ -821,7 +894,7 @@
       window.speechSynthesis.speak = function (utterance) {
         try { window.speechSynthesis.cancel(); } catch (err) {}
         var text = utterance && utterance.text ? String(utterance.text) : '';
-        if (text) CSTrainingVoice.trySpeak(text);
+        if (text) CSTrainingVoice.speak(text);
       };
       var origCancel = window.speechSynthesis.cancel.bind(window.speechSynthesis);
       window.speechSynthesis.cancel = function () {
@@ -830,6 +903,7 @@
       };
       window.speechSynthesis.__trainingIPatched = true;
     }
+    bindPlainListen();
   }
 
   function initDocument() {
