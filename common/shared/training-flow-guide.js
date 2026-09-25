@@ -2851,20 +2851,18 @@
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
 
     var section = $('#outcomes');
-    var title = section && section.querySelector('h3');
-    var titleText = title ? String(title.textContent || '').replace(/\s+/g, ' ').trim() : '';
-    if(titleText && !spokenReady('outcomes-title')){
-      speakSectionThen('outcomes-title', titleText);
-      return sectionScrollStep('outcomes-title', title, 'Listen to the learning outcomes', {
-        scrollEl: section || title,
+    var items = $$('[data-outcomes-group="outcomes"] .outcome, #outcomes .outcome');
+    if(!spokenReady('outcomes-read')){
+      speakSectionThen('outcomes-read', outcomesSpeechText());
+      var list = section && (section.querySelector('[data-outcomes-group="outcomes"]') || section.querySelector('h3') || section);
+      return sectionScrollStep('outcomes-read', list || section, 'Listen to the learning outcomes', {
+        scrollEl: section || list,
         scrollBlock: 'start',
         forceScroll: true
       });
     }
-    var items = $$('[data-outcomes-group="outcomes"] .outcome, #outcomes .outcome');
     for(var i = 0; i < items.length; i++){
       if(items[i].classList.contains('clicked')) continue;
-      ensureOutcomeSpoken(items[i]);
       return sectionScrollStep('outcome', items[i], 'Review learning outcome ' + (i + 1), {
         scrollEl: items[i],
         scrollBlock: 'center',
@@ -4350,7 +4348,7 @@
         for(var oi = 0; oi < outcomes.length; oi++){
           if(!outcomes[oi].classList.contains('clicked')){ current = outcomes[oi]; break; }
         }
-        if(outcome !== current || outcome.getAttribute('data-outcome-spoken') !== 'done'){
+        if(outcome !== current || !spokenReady('outcomes-read')){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
