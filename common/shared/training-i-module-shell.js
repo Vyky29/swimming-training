@@ -760,10 +760,18 @@
     var section = button.closest('section, .concept-panel, .block-part');
     if (!section) return '';
     var copy = section.cloneNode(true);
-    copy.querySelectorAll('button, .section-lock-banner, nav, script, style, .img-expand-btn').forEach(function (node) {
+    copy.querySelectorAll(
+      'button, .section-lock-banner, nav, script, style, .img-expand-btn, ' +
+      '.cards-review-hint, .key-ideas-instruction, .key-ideas-recap__hint, ' +
+      '.small-note, .check-item, .concept-visual-hint, .section-top-actions'
+    ).forEach(function (node) {
       node.remove();
     });
-    return String(copy.textContent || '').replace(/\s+/g, ' ').trim();
+    var text = String(copy.textContent || '').replace(/\s+/g, ' ').trim();
+    var parts = text.split(/(?<=[.!?])\s+/).filter(function (sentence) {
+      return !/\b(click|confirm you|read each|unlock|press |tap )\b/i.test(sentence);
+    });
+    return parts.join(' ').replace(/\s+/g, ' ').trim();
   }
 
   function bindTts() {
