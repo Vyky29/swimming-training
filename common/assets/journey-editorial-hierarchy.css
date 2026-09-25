@@ -217,10 +217,26 @@
 /* Nodes  -  calm blue; current: aquatic blue + subtle blue pulse (no tick/dot) */
 /* -------------------------------------------------------------------------- */
 
+.portal .main .content #journey .journey-track{
+  align-items:stretch;
+}
+
+/* Training I has five modules. The shared track is six columns, which left a blank slot. */
+.portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child){
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+}
+
 .portal .main .content #journey .journey-item{
   position:relative;
   z-index:1;
   gap:8px;
+  height:100%;
+}
+
+.portal .main .content #journey .journey-title{
+  flex:1 1 auto;
+  width:100%;
+  max-width:none;
 }
 
 .portal .main .content #journey .journey-item.active{
@@ -270,9 +286,15 @@
   letter-spacing:.04em;
   font-size:.62rem;
   font-weight:600;
-  min-height:0;
-  margin-top:1px;
+  min-height:1.35em;
+  margin-top:auto;
   line-height:1.35;
+}
+
+@media (max-width:1080px){
+  .portal .main .content #journey .journey-track:has(> .journey-item:nth-child(5):last-child){
+    grid-template-columns:repeat(5, minmax(0, 1fr));
+  }
 }
 
 .portal .main .content #journey .journey-status:empty{

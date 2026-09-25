@@ -178,7 +178,7 @@
 
   function paintJourneyMap(moduleNumber) {
     var state = P.load();
-    $$('.journey-track .journey-item').forEach(function (item, index) {
+    $$('#journey .journey-track > .journey-item').forEach(function (item, index) {
       var n = index + 1;
       var rec = state.modules['module-' + n];
       var statusEl = item.querySelector('.journey-status');
