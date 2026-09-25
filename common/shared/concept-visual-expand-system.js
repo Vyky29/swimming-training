@@ -753,16 +753,14 @@
     if (!src) return;
     var narration = narrateOpenImage(modal);
     if (narration === 'started' || narration === 'held') return;
-    delete modal.dataset.imageDwellUntil;
-    modal.dataset.imageDwellSrc = src;
-    var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
-    if (closeBtn) {
-      closeBtn.disabled = false;
-      closeBtn.removeAttribute('aria-disabled');
-      closeBtn.textContent = 'Close';
+    holdImageClose(modal);
+    var shown = modal.querySelector('img');
+    var line = (shown && shown.getAttribute('alt')) || 'This picture shows the idea of this concept. Stay with it until the explanation ends.';
+    if (window.CSTrainingVoice && typeof CSTrainingVoice.speak === 'function') {
+      CSTrainingVoice.speak(line, function () { releaseImageClose(modal, src); });
+      return;
     }
-    rememberSeen(src);
-    markSrcExpanded(src);
+    releaseImageClose(modal, src);
   }
 
   function dwellBlocksClose(event) {

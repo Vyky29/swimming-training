@@ -1245,8 +1245,17 @@
     return true;
   }
 
+  function conceptPhotoPending(panel){
+    if(!panel) return false;
+    var img = panel.querySelector('.concept-image img[src]');
+    if(!img) return false;
+    var btn = panel.querySelector('.concept-image .img-expand-btn');
+    return !btn || btn.getAttribute('data-visual-expanded') !== 'true';
+  }
+
   function preKeyIdeasVisualsComplete(panel){
     if(getVisibleInsightPillars(panel).length) return false;
+    if(conceptPhotoPending(panel)) return false;
     return !resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
   }
 
@@ -4266,6 +4275,16 @@
 
     document.addEventListener('click', function(e){
       if(!isFlowGuideActive()) return;
+      var sub = e.target.closest && e.target.closest('.overview-subconcept-btn, [data-overview-subtarget], [data-parent-subconcept-nav] .concept-square');
+      if(sub){
+        var subPanel = sub.closest('.concept-panel');
+        if(subPanel && conceptPhotoPending(subPanel)){
+          e.preventDefault();
+          e.stopPropagation();
+          if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+          return;
+        }
+      }
       var square = e.target.closest && e.target.closest('.concept-square[data-target]');
       if(square && !square.closest('[data-parent-subconcept-nav]')){
         var grid = square.closest('[data-concept-grid]');
