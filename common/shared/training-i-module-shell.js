@@ -363,8 +363,12 @@
       ModuleBlockAccordion.ensureOpen(step, { scroll: true });
     }
     if (el) {
-      try { el.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' }); }
-      catch (err) { el.scrollIntoView(true); }
+      try {
+        var top = el.getBoundingClientRect().top + window.pageYOffset - 92;
+        window.scrollTo({ top: Math.max(0, top), behavior: reducedMotion ? 'auto' : 'smooth' });
+      } catch (err) {
+        el.scrollIntoView(true);
+      }
       var focusable = el.querySelector('h2, h3, .block-part-head, .btn, [tabindex]') || el;
       if (!focusable.hasAttribute('tabindex')) focusable.setAttribute('tabindex', '-1');
       try { focusable.focus({ preventScroll: true }); } catch (e2) { try { focusable.focus(); } catch (e3) {} }

@@ -297,6 +297,12 @@
     if(!(step && step.forceScroll) && isMostlyVisible(target, step)) return;
 
     var block = (step && step.scrollBlock) || 'nearest';
+    if(block === 'start' && typeof target.getBoundingClientRect === 'function'){
+      var top = target.getBoundingClientRect().top + window.pageYOffset - 92;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      lastScrolledKey = key;
+      return;
+    }
     target.scrollIntoView({ behavior: 'smooth', block: block, inline: 'nearest' });
     lastScrolledKey = key;
   }
@@ -2814,7 +2820,11 @@
       setJourneyCheckLocked(true);
       var panel = (section && section.querySelector('.journey-panel')) || section;
       speakSectionThen('journey', journeySpeechText());
-      return sectionScrollStep('journey-read', panel, 'Listen to this module');
+      return sectionScrollStep('journey-read', panel, 'Listen to this module', {
+        scrollEl: section || panel,
+        scrollBlock: 'start',
+        forceScroll: true
+      });
     }
     setJourneyCheckLocked(false);
     if(section) section.setAttribute('data-flow-reviewed', 'true');
