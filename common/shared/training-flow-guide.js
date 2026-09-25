@@ -4307,11 +4307,14 @@
         var blockId = grid && grid.getAttribute('data-concept-grid');
         var introOpen = blockId && blockIntroCardsComplete(blockId) && spokenReady(blockId) && spokenReady(blockId + '-concepts');
         var buttons = blockId ? getConceptButtons(blockId) : [];
+        var pulsed = blockId
+          ? document.querySelector('[data-concept-grid="' + blockId + '"] .concept-square.flow-guide-pulse[data-target]')
+          : null;
         var allowed = null;
         for(var i = 0; i < buttons.length; i++){
           if(!isConceptDone(buttons[i])){ allowed = buttons[i]; break; }
         }
-        if(!introOpen || (allowed && square !== allowed)){
+        if(!introOpen || (allowed && square !== allowed && square !== pulsed)){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
@@ -4663,6 +4666,10 @@
 
     var moduleConfig = TrainingFlowConfig.getModuleConfig(ctx.pathway, ctx.moduleId);
     if(!moduleConfig) return;
+
+    if(isFlowGuideActive()){
+      document.documentElement.setAttribute('data-guided-flow', 'true');
+    }
 
     function start(){
       if(!isFlowGuideActive()){

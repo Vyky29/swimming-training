@@ -412,49 +412,10 @@
   }
 
   function bindConcepts(moduleNumber) {
-    document.addEventListener('click', function (e) {
-      var btn = e.target.closest && e.target.closest('.concept-square[data-target]');
-      if (!btn) return;
-      var grid = btn.closest('[data-concept-grid]');
-      if (!grid) return;
-      var block = grid.getAttribute('data-concept-grid');
-      var target = btn.getAttribute('data-target');
-      var panel = $('[data-panel-for="' + block + '"]');
-      var closing = btn.classList.contains('is-open-concept') || btn.getAttribute('aria-expanded') === 'true';
-      if (global.ModuleBlockAccordion && ModuleBlockAccordion.ensureOpen) {
-        ModuleBlockAccordion.ensureOpen(block, { scroll: false });
-      }
-      if (closing) {
-        btn.classList.remove('is-open-concept', 'active');
-        btn.setAttribute('aria-expanded', 'false');
-        if (panel) {
-          panel.classList.remove('show');
-          delete panel.dataset.currentTarget;
-        }
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-      $$('[data-concept-grid="' + block + '"] .concept-square[data-target]').forEach(function (b) {
-        b.classList.toggle('is-open-concept', b === btn);
-        b.classList.toggle('active', b === btn);
-        b.setAttribute('aria-expanded', b === btn ? 'true' : 'false');
-        if (panel && panel.id) b.setAttribute('aria-controls', panel.id);
-      });
-      if (panel) {
-        if (!panel.id) panel.id = block + '-concept-panel';
-        panel.classList.add('show');
-        panel.setAttribute('tabindex', '-1');
-        setTimeout(function () {
-          try { panel.focus({ preventScroll: true }); } catch (err) {}
-        }, 50);
-      }
-      if (target && block) {
-        P.markConcept(moduleNumber, block, target);
-        btn.classList.add('visited');
-      }
-    }, true);
-
+    // Do not open or complete a concept here. This listener runs before the
+    // module paints the panel. Marking it visited on the click itself made the
+    // guide treat the square as finished and cancel the render, so the first
+    // concept stayed an empty shell and the only click left was the next square.
     document.addEventListener('click', function (e) {
       var finish = e.target.closest && e.target.closest('[data-finish-concept]');
       if (!finish) return;

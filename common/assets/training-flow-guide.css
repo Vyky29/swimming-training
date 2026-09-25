@@ -512,6 +512,12 @@ html[data-guided-flow="true"] .content > section.gated-locked{
   display: none !important;
 }
 
+/* An open concept must not be clipped by the stage or the section card. */
+html[data-guided-flow="true"] .portal .concept-stage:has(.concept-panel.show),
+html[data-guided-flow="true"] .section:has(.concept-panel.show){
+  overflow: visible !important;
+}
+
 .flow-guide-rail{
   position: fixed;
   right: 18px;
