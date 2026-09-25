@@ -380,8 +380,7 @@
     return Array.prototype.filter.call(nodes, function(el){
       if(!el || el.closest('[hidden]')) return false;
       if(el.closest('.b2-screen:not(.active)')) return false;
-      var style = window.getComputedStyle(el);
-      return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+      return true;
     });
   }
 
@@ -1077,6 +1076,10 @@
     if(!panel) return false;
     syncPanelInPracticeDone(panel);
     if(getVisibleInsightPillars(panel).length) return false;
+    var conceptImg = panel.querySelector('.concept-image img[src]');
+    var conceptBtn = panel.querySelector('.concept-image .img-expand-btn');
+    if(conceptImg && (!conceptBtn || conceptBtn.getAttribute('data-visual-expanded') !== 'true')) return false;
+    if(panel.querySelector('.key-idea-item:not(.clicked)')) return false;
     if(!preKeyIdeasVisualsComplete(panel)) return false;
     if(hasUnclickedKeyIdeasInScope(panel)) return false;
     if(!inPracticeFlowComplete(panel)) return false;
@@ -1122,8 +1125,8 @@
 
     return sectionScrollStep('finish', host, label, {
       scrollEl: host,
-      scrollBlock: 'center',
-      forceScroll: true,
+      scrollBlock: 'nearest',
+      forceScroll: false,
       tone: 'expand',
       pulseEls: [finishVisible ? finish : host],
       keyToken: (panel.dataset.currentTarget || '') + ':finish'
@@ -1448,7 +1451,7 @@
   function resolveConceptPhoto(panel){
     if(!panel || getVisibleInsightPillars(panel).length) return null;
     var box = panel.querySelector('.concept-image');
-    if(!box || !isVisibleEl(box)) return null;
+    if(!box) return null;
     var img = box.querySelector('img[src]');
     if(!img) return null;
     var btn = box.querySelector('.img-expand-btn');
