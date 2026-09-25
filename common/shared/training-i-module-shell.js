@@ -673,36 +673,74 @@
   }
 
   var voiceAudio = null;
+  var voiceGen = 0;
+  function voicePieces(text) {
+    var words = String(text || '').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
+    var pieces = [];
+    var current = '';
+    words.forEach(function (word) {
+      var next = current ? current + ' ' + word : word;
+      if (next.length > 700 && current) {
+        pieces.push(current);
+        current = word;
+      } else {
+        current = next;
+      }
+    });
+    if (current) pieces.push(current);
+    return pieces.slice(0, 6);
+  }
+  function fetchVoice(text) {
+    return fetch('/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: text })
+    }).then(function (res) {
+      if (!res.ok) throw new Error('tts');
+      return res.blob();
+    });
+  }
   global.CSTrainingVoice = {
     id: 'pFZP5JQG7iQjIQuC4Bku',
     name: 'Lily',
     speak: function (text) {
-      return this.trySpeak(text, null, null);
-    },
-    trySpeak: function (text, utterance, syncStop) {
-      if (!text || text.length > 3500) return false;
-      fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: text })
-      }).then(function (res) {
-        if (!res.ok) throw new Error('tts');
-        return res.blob();
-      }).then(function (blob) {
-        if (voiceAudio) {
-          try { voiceAudio.pause(); } catch (err) {}
-          voiceAudio = null;
-        }
-        voiceAudio = new Audio(URL.createObjectURL(blob));
-        voiceAudio.onended = function () {
-          if (utterance && typeof utterance.onend === 'function') utterance.onend();
-          if (syncStop) syncStop();
-        };
-        return voiceAudio.play();
-      }).catch(function () {});
+      var pieces = voicePieces(text);
+      if (!pieces.length) return false;
+      var gen = ++voiceGen;
+      var pending = {};
+      function load(index) {
+        if (index >= pieces.length || pending[index]) return;
+        pending[index] = fetchVoice(pieces[index]);
+      }
+      function play(index) {
+        if (gen !== voiceGen || index >= pieces.length) return;
+        load(index);
+        load(index + 1);
+        pending[index].then(function (blob) {
+          if (gen !== voiceGen) return;
+          if (voiceAudio) {
+            try { voiceAudio.pause(); } catch (err) {}
+          }
+          voiceAudio = new Audio(URL.createObjectURL(blob));
+          voiceAudio.onended = function () { play(index + 1); };
+          return voiceAudio.play();
+        }).catch(function () {});
+      }
+      play(0);
       return true;
     },
+    trySpeak: function (text, utterance, syncStop) {
+      var ok = this.speak(text);
+      if (voiceAudio) {
+        voiceAudio.addEventListener('ended', function onDone() {
+          if (utterance && typeof utterance.onend === 'function') utterance.onend();
+          if (syncStop) syncStop();
+        });
+      }
+      return ok;
+    },
     stop: function () {
+      voiceGen += 1;
       if (voiceAudio) {
         try { voiceAudio.pause(); } catch (err) {}
         voiceAudio = null;
@@ -710,7 +748,33 @@
     }
   };
 
+  function sectionSpeech(button) {
+    var section = button.closest('section, .concept-panel, .block-part');
+    if (!section) return '';
+    var copy = section.cloneNode(true);
+    copy.querySelectorAll('button, .section-lock-banner, nav, script, style, .img-expand-btn').forEach(function (node) {
+      node.remove();
+    });
+    return String(copy.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+
   function bindTts() {
+    document.addEventListener('click', function (event) {
+      var stop = event.target.closest && event.target.closest('[data-tts-stop], [data-concept-tts-stop]');
+      if (stop) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (global.CSTrainingVoice) CSTrainingVoice.stop();
+        return;
+      }
+      var listen = event.target.closest && event.target.closest('[data-tts-button], [data-concept-tts]');
+      if (!listen || !global.CSTrainingVoice) return;
+      var text = sectionSpeech(listen);
+      if (!text) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      CSTrainingVoice.speak(text);
+    }, true);
     function syncStop() {
       var speaking = !!(global.speechSynthesis && global.speechSynthesis.speaking);
       $$('[data-tts-stop], [data-concept-tts-stop], .btn-tts-stop-inline').forEach(function (btn) {

@@ -653,6 +653,10 @@
   }
 
   function infographicScript(img) {
+    var src = img && (img.currentSrc || img.getAttribute('src') || '');
+    var file = String(src).split('/').pop().split('?')[0];
+    var written = file && global.TrainingIImageSpeech && global.TrainingIImageSpeech[file];
+    if (written) return written;
     var root = teachingRoot(img);
     if (!root) return '';
     var heading = root.querySelector('.concept-heading-row h4, .concept-panel-title, h3, h4');
@@ -678,7 +682,7 @@
     if (title) spoken += title + '. ';
     if (body) spoken += firstSentences(body, 2) + ' ';
     if (ideas.length) spoken += 'What matters is ' + ideas.join('. ') + '.';
-    return capWords(spoken, 55);
+    return capWords(spoken, 90);
   }
 
   function sourceImage(src) {
