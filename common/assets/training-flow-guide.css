@@ -409,6 +409,17 @@ html[data-guided-flow="true"] .concept-insight-intro__cards:has(.concept-insight
   overflow: visible !important;
 }
 
+.portal .concept-insight-pillar.flow-guide-pulse{
+  overflow: visible !important;
+  z-index: 6;
+  border-color: rgb(var(--flow-accent-rgb)) !important;
+}
+.portal .concept-insight-pillar.flow-guide-pulse .flow-guide-block-intro-ring{
+  inset: -7px;
+  border-radius: 20px;
+  z-index: 8;
+}
+
 html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card),
 html[data-guided-flow="true"] section[id^="block"]:has(.flow-guide-pulse.block-intro-card) .section-body,
 html[data-guided-flow="true"] .block-intro-cards:has(.flow-guide-pulse.block-intro-card),
