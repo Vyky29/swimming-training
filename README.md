@@ -138,4 +138,4 @@ For replacements, just keep the same file name and overwrite it, or change the `
 
 ## Training I flow verification
 
-See [staff flow rules and verification](docs/training-i-staff-flow.md) for the 30-second image rule, sequential unlocking, regression tests, and the remaining production acceptance scope.
+See [staff flow rules and verification](docs/training-i-staff-flow.md) for the 15-second minimum plus narration image rule, sequential unlocking, regression tests, and the remaining production acceptance scope.

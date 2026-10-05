@@ -22,6 +22,7 @@ function chunksOf(text) {
 async function speakDirect(text, key) {
   var upstream = await fetch('https://api.elevenlabs.io/v1/text-to-speech/' + LILY, {
     method: 'POST',
+    signal: AbortSignal.timeout(20000),
     headers: {
       'xi-api-key': key,
       'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ async function speakDirect(text, key) {
     body: JSON.stringify({
       text: text,
       model_id: 'eleven_multilingual_v2',
-      voice_settings: { stability: 0.55, similarity_boost: 0.8, style: 0.05 }
+      voice_settings: { stability: 0.55, similarity_boost: 0.8, style: 0.05, speed: 0.95, use_speaker_boost: true }
     })
   });
   if (!upstream.ok) return null;
@@ -43,6 +44,7 @@ async function speakViaPixtolearn(text) {
   for (var i = 0; i < pieces.length; i++) {
     var upstream = await fetch(UPSTREAM, {
       method: 'POST',
+      signal: AbortSignal.timeout(20000),
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: pieces[i], lang: 'en' })
     });
@@ -64,8 +66,8 @@ module.exports = async function handler(req, res) {
     return;
   }
   var key = process.env.ELEVENLABS_API_KEY;
-  var buf = key ? await speakDirect(text, key) : null;
-  if (!buf) buf = await speakViaPixtolearn(text);
+  var buf = key ? await speakDirect(text, key).catch(function () { return null; }) : null;
+  if (!buf) buf = await speakViaPixtolearn(text).catch(function () { return null; });
   if (!buf || !buf.length) {
     res.status(502).json({ error: 'voice' });
     return;

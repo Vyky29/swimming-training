@@ -25,7 +25,7 @@
 
   var modalOpener = null;
   var builtinModal = null;
-  var IMAGE_DWELL_MS = 30000;
+  var IMAGE_DWELL_MS = 15000;
   var dwellSeen = {};
   try { dwellSeen = JSON.parse(sessionStorage.getItem('cs_img_dwell') || '{}'); } catch (err) { dwellSeen = {}; }
 
@@ -703,8 +703,7 @@
     return null;
   }
 
-  // Count only loaded, visible image time. Narration is optional and never
-  // awards progress or holds the learner indefinitely when audio fails.
+  // Require visible review plus the complete narration, or an explicit transcript review.
   var activeDwell = null;
 
   function releaseImageClose(modal, src) {
@@ -751,7 +750,7 @@
       closeBtn.style.removeProperty('display');
       closeBtn.setAttribute('aria-disabled', 'true');
     }
-    var state = { modal: modal, img: img, elapsed: 0, last: performance.now(), timer: null, visible: !document.hidden };
+    var state = { narrated: false, modal: modal, img: img, elapsed: 0, last: performance.now(), timer: null, visible: !document.hidden };
     activeDwell = state;
     function tick() {
       if (activeDwell !== state) return;
@@ -767,9 +766,9 @@
       var left = Math.max(0, Math.ceil((IMAGE_DWELL_MS - state.elapsed) / 1000));
       var message = img.complete && !img.naturalWidth
         ? 'Image could not load. Close and reopen it to retry; no progress has been awarded.'
-        : (!ready ? 'Viewing timer paused — keep the loaded image visible.' : 'Review this image — ' + left + ' seconds remaining');
+        : (!ready ? 'Viewing timer paused — keep the loaded image visible.' : (left ? 'Review this image — ' + left + ' seconds remaining' : 'Finish the narration or review its transcript to continue.'));
       if (status.textContent !== message) status.textContent = message;
-      if (closeBtn && closeBtn.textContent !== 'Close (' + left + 's)') closeBtn.textContent = 'Close (' + left + 's)';
+      if (closeBtn) closeBtn.textContent = left ? 'Close (' + left + 's)' : 'Finish narration';
       if (img.complete && !img.naturalWidth) {
         stopImageDwell();
         delete modal.dataset.imageDwellUntil;
@@ -780,7 +779,7 @@
         }
         return;
       }
-      if (left === 0) {
+      if (left === 0 && state.narrated) {
         stopImageDwell();
         status.textContent = 'Image reviewed. You can continue.';
         releaseImageClose(modal, src);
@@ -791,9 +790,37 @@
     var script = '';
     try { script = infographicScript(sourceImage(src) || img); } catch (err) {}
     if (!script) script = cleanSpeech(img.getAttribute('alt') || '');
-    if (script && window.CSTrainingVoice && typeof CSTrainingVoice.speak === 'function') {
-      try { CSTrainingVoice.speak(script); } catch (err) {}
+    var old = modal.querySelector('.image-narration');
+    if (old) old.remove();
+    var narrative = document.createElement('details');
+    narrative.className = 'image-narration';
+    narrative.style.cssText = 'position:fixed;bottom:84px;left:16px;z-index:100001;max-width:420px;max-height:35vh;overflow:auto;background:#fff;color:#102e43;padding:12px;border-radius:12px';
+    var summary = document.createElement('summary');
+    summary.textContent = 'Read image narration';
+    narrative.appendChild(summary);
+    var transcript = document.createElement('p');
+    transcript.textContent = script;
+    narrative.appendChild(transcript);
+    var read = document.createElement('button');
+    read.type = 'button'; read.textContent = 'I have read the narration';
+    read.addEventListener('click', function () {
+      if (activeDwell !== state) return;
+      state.narrated = true;
+      if (window.CSTrainingVoice) CSTrainingVoice.stop();
+      tick();
+    });
+    narrative.appendChild(read);
+    modal.appendChild(narrative);
+    function finished(result) {
+      if (activeDwell !== state || state.narrated) return;
+      if (result && result.completed === true) { state.narrated = true; tick(); }
+      else { narrative.open = true; summary.textContent = 'Audio unavailable — read the narration'; }
     }
+    if (script && window.CSTrainingVoice && typeof CSTrainingVoice.speak === 'function') {
+      try {
+        if (CSTrainingVoice.speak(script, finished) === false) finished({ completed: false });
+      } catch (err) { finished({ completed: false }); }
+    } else finished({ completed: false });
   }
 
   document.addEventListener('visibilitychange', function () {
@@ -943,14 +970,14 @@
               voiceAudio = new Audio(URL.createObjectURL(blob));
               voiceAudio.onended = function () {
                 if (index + 1 >= pieces.length) {
-                  if (gen === voiceGen && typeof onDone === 'function') onDone();
+                  if (gen === voiceGen && typeof onDone === 'function') onDone({ completed: true });
                   return;
                 }
                 play(index + 1);
               };
               return voiceAudio.play();
             }).catch(function () {
-              if (gen === voiceGen && typeof onDone === 'function') onDone();
+              if (gen === voiceGen && typeof onDone === 'function') onDone({ completed: false });
             });
           }
           play(0);

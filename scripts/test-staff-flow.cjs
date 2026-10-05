@@ -17,48 +17,59 @@ function fn(src, name) {
 let count = 0;
 function test(name, run) { run(); count++; console.log('ok', name); }
 function imageHarness() {
-  let now = 0, id = 0;
-  const timers = new Map(), listeners = {}, seen = [];
+  let now = 0, id = 0, onDone;
+  const timers = new Map(), listeners = {}, seen = [], buttons=[];
   const close = {style:{removeProperty(){}},setAttribute(){},removeAttribute(){}};
   let image = {currentSrc:'photo.png',complete:true,naturalWidth:100,getAttribute(){return 'Photo';}};
   const status = {textContent:'',setAttribute(){},style:{}};
   const modal = {dataset:{},open:true,classList:{contains(){return modal.open;}},
-    querySelector(q){ return q === 'img' ? image : q === '.image-dwell-status' ? status : close; },appendChild(){}};
-  const document = {hidden:false,addEventListener(n,f){listeners[n]=f;},createElement(){return status;}};
+    querySelector(q){ return q === 'img' ? image : q === '.image-dwell-status' ? status : q === '.image-narration' ? null : close; },appendChild(){}};
+  const document = {hidden:false,addEventListener(n,f){listeners[n]=f;},createElement(tag){
+    const el={textContent:'',style:{},appendChild(){},setAttribute(){},addEventListener(n,f){this[n]=f;}};
+    if(tag==='button')buttons.push(el);return el;
+  }};
   const ctx = vm.createContext({document,performance:{now:()=>now},setInterval(f){timers.set(++id,f);return id;},clearInterval(i){timers.delete(i);},
-    window:{CSTrainingVoice:{speak(){return false;}}},cleanSpeech:x=>x,infographicScript:()=>'',sourceImage:()=>null,
-    rememberSeen:s=>seen.push(s),markSrcExpanded(){},IMAGE_DWELL_MS:30000});
+    window:{CSTrainingVoice:{speak(text,done){onDone=done;return true;},stop(){}}},cleanSpeech:x=>x,infographicScript:()=>'',sourceImage:()=>null,
+    rememberSeen:s=>seen.push(s),markSrcExpanded(){},IMAGE_DWELL_MS:15000});
   ctx.CSTrainingVoice=ctx.window.CSTrainingVoice;
   const src=source('common/shared/concept-visual-expand-system.js');
   vm.runInContext(src.slice(src.indexOf('  var activeDwell ='),src.indexOf('  function dwellBlocksClose')),ctx);
   return {ctx,modal,close,status,seen,image,
-    open(){ctx.beginImageDwell(modal);},
+    open(){ctx.beginImageDwell(modal);},audio(ok=true){onDone({completed:ok});},read(){buttons.at(-1).click();},
     advance(ms){for(let i=0;i<ms;i+=100){now+=100;[...timers.values()].forEach(f=>f());}},
     hide(v){document.hidden=v;listeners.visibilitychange();},
     replace(){image={...image,currentSrc:'second.png'};this.open();}};
 }
-test('audio failure cannot complete an image before 30 visible seconds',()=>{
-  const h=imageHarness();h.open();h.advance(29900);assert.equal(h.close.disabled,true);assert.equal(h.seen.length,0);
-  h.advance(100);assert.equal(h.close.disabled,false);assert.deepEqual(h.seen,['photo.png']);
+test('short narration still requires 15 visible seconds',()=>{
+  const h=imageHarness();h.open();h.audio();h.advance(14900);assert.equal(h.close.disabled,true);
+  h.advance(100);assert.deepEqual(h.seen,['photo.png']);
+});
+test('long narration must finish even after the visual minimum',()=>{
+  const h=imageHarness();h.open();h.advance(40000);assert.equal(h.seen.length,0);h.audio();assert.equal(h.seen.length,1);
+});
+test('failed audio needs explicit transcript review and the visible minimum',()=>{
+  const h=imageHarness();h.open();h.audio(false);h.advance(40000);assert.equal(h.seen.length,0);h.read();assert.equal(h.seen.length,1);
+  const early=imageHarness();early.open();early.audio(false);early.read();early.advance(14900);assert.equal(early.seen.length,0);
+  early.advance(100);assert.equal(early.seen.length,1);
 });
 test('time in another tab does not count',()=>{
-  const h=imageHarness();h.open();h.advance(10000);h.hide(true);h.advance(60000);assert.equal(h.seen.length,0);
-  h.hide(false);h.advance(20000);assert.equal(h.seen.length,0);h.advance(100);assert.equal(h.seen.length,1);
+  const h=imageHarness();h.open();h.audio();h.advance(5000);h.hide(true);h.advance(60000);assert.equal(h.seen.length,0);
+  h.hide(false);h.advance(10000);assert.equal(h.seen.length,0);h.advance(100);assert.equal(h.seen.length,1);
 });
 test('unloaded and broken images cannot earn progress',()=>{
-  const h=imageHarness();h.image.complete=false;h.open();h.advance(60000);assert.equal(h.seen.length,0);
+  const h=imageHarness();h.image.complete=false;h.open();h.audio();h.advance(60000);assert.equal(h.seen.length,0);
   h.image.complete=true;h.image.naturalWidth=0;h.advance(60000);assert.equal(h.seen.length,0);
-  assert.equal(h.close.disabled,false);h.image.naturalWidth=100;h.open();h.advance(30100);assert.equal(h.seen.length,1);
+  assert.equal(h.close.disabled,false);h.image.naturalWidth=100;h.open();h.audio();h.advance(15100);assert.equal(h.seen.length,1);
 });
 test('repeated open notifications do not restart or shorten the timer',()=>{
-  const h=imageHarness();h.open();h.advance(15000);h.open();h.advance(15000);assert.equal(h.seen.length,1);
+  const h=imageHarness();h.open();h.audio();h.advance(7500);h.open();h.advance(7500);assert.equal(h.seen.length,1);
 });
-test('a replacement image needs its own full 30 seconds',()=>{
-  const h=imageHarness();h.open();h.advance(15000);h.replace();h.advance(15000);assert.equal(h.seen.length,0);
-  h.advance(15000);assert.deepEqual(h.seen,['second.png']);
+test('a replacement image needs its own full review and narration',()=>{
+  const h=imageHarness();h.open();h.audio();h.advance(7500);h.replace();h.advance(15000);assert.equal(h.seen.length,0);
+  h.audio();assert.deepEqual(h.seen,['second.png']);
 });
 test('closing a modal externally does not award completion',()=>{
-  const h=imageHarness();h.open();h.advance(10000);h.modal.open=false;h.advance(60000);assert.equal(h.seen.length,0);
+  const h=imageHarness();h.open();h.audio();h.advance(10000);h.modal.open=false;h.advance(60000);assert.equal(h.seen.length,0);
 });
 function familyTest(n, block, parent, leaves, extra={}) {
   const src=source(`training-i/modules/module-${n}/index.html`), completed=[],renders=[],returns=[];

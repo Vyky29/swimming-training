@@ -646,55 +646,56 @@
   function voicePieces(text) {
     var clean = String(text || '').replace(/\s+/g, ' ').trim();
     if (!clean) return [];
-    var words = clean.split(' ');
-    var head = '';
-    for (var i = 0; i < words.length; i++) {
-      var next = head ? head + ' ' + words[i] : words[i];
-      if (next.length > 110 && head) break;
-      head = next;
-    }
-    var pieces = [head];
-    var rest = clean.slice(head.length).trim();
-    var bucket = '';
-    rest.split(/(?<=[.!?])\s+/).filter(Boolean).forEach(function (sentence) {
-      var joined = bucket ? bucket + ' ' + sentence : sentence;
-      if (bucket && joined.length > 280) {
-        pieces.push(bucket);
-        bucket = sentence;
-      } else {
-        bucket = joined;
+    // Preserve complete sentences; never truncate the narration after eight chunks.
+    var pieces = [], bucket = '';
+    clean.split(/(?<=[.!?])\s+/).forEach(function (sentence) {
+      if (bucket && (bucket + ' ' + sentence).length > 600) {
+        pieces.push(bucket); bucket = '';
       }
+      while (sentence.length > 3000) {
+        var split = sentence.lastIndexOf(' ', 3000);
+        if (split < 1) split = 3000;
+        if (bucket) { pieces.push(bucket); bucket = ''; }
+        pieces.push(sentence.slice(0, split)); sentence = sentence.slice(split).trim();
+      }
+      bucket = bucket ? bucket + ' ' + sentence : sentence;
     });
     if (bucket) pieces.push(bucket);
-    return pieces.slice(0, 8);
+    return pieces;
   }
+
   var voiceCache = {};
   function fetchVoice(text) {
     if (voiceCache[text]) return voiceCache[text];
     voiceCache[text] = fetch('/api/tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: text })
+      body: JSON.stringify({ text: text }),
+      signal: AbortSignal.timeout(45000)
     }).then(function (res) {
       if (!res.ok) throw new Error('tts');
       return res.blob();
-    });
+    }).catch(function (error) { delete voiceCache[text]; throw error; });
     return voiceCache[text];
   }
   var voiceQueue = [];
   var voicePlaying = false;
-  function finishVoiceJob(job, gen) {
+  var currentVoiceJob = null;
+  function finishVoiceJob(job, gen, completed) {
     if (gen !== voiceGen) return;
     voicePlaying = false;
-    if (job && typeof job.onDone === 'function') job.onDone();
+    currentVoiceJob = null;
+    if (job && typeof job.onDone === 'function') job.onDone({ completed: completed !== false });
     playNextVoice();
   }
   function playNextVoice() {
     if (voicePlaying || !voiceQueue.length) return;
     var job = voiceQueue.shift();
+    currentVoiceJob = job;
     var pieces = voicePieces(job.text);
     if (!pieces.length) {
-      if (typeof job.onDone === 'function') job.onDone();
+      currentVoiceJob = null;
+      if (typeof job.onDone === 'function') job.onDone({ completed: false });
       playNextVoice();
       return;
     }
@@ -704,6 +705,7 @@
     function load(index) {
       if (index >= pieces.length || pending[index]) return;
       pending[index] = fetchVoice(pieces[index]);
+      pending[index].catch(function () {});
     }
     function play(index) {
       if (gen !== voiceGen) return;
@@ -718,12 +720,22 @@
         if (voiceAudio) {
           try { voiceAudio.pause(); } catch (err) {}
         }
-        voiceAudio = new Audio(URL.createObjectURL(blob));
-        voiceAudio.onended = function () { play(index + 1); };
-        var started = voiceAudio.play();
-        if (started && typeof started.catch === 'function') started.catch(function () { play(index + 1); });
+        var objectUrl = URL.createObjectURL(blob);
+        var audio = new Audio(objectUrl);
+        voiceAudio = audio;
+        var settled = false;
+        function settle(ok) {
+          if (settled) return;
+          settled = true; URL.revokeObjectURL(objectUrl);
+          if (voiceAudio === audio) voiceAudio = null;
+          if (ok) play(index + 1); else finishVoiceJob(job, gen, false);
+        }
+        voiceAudio.onended = function () { settle(true); };
+        voiceAudio.onerror = function () { settle(false); };
+        var started = document.hidden ? null : voiceAudio.play();
+        if (started && typeof started.catch === 'function') started.catch(function () { settle(false); });
       }).catch(function () {
-        if (gen === voiceGen) play(index + 1);
+        if (gen === voiceGen) finishVoiceJob(job, gen, false);
       });
     }
     play(0);
@@ -738,25 +750,41 @@
       return true;
     },
     trySpeak: function (text, utterance, syncStop) {
-      var ok = this.speak(text);
-      if (voiceAudio) {
-        voiceAudio.addEventListener('ended', function onDone() {
-          if (utterance && typeof utterance.onend === 'function') utterance.onend();
-          if (syncStop) syncStop();
-        });
-      }
-      return ok;
+      return this.speak(text, function (result) {
+        if (utterance) {
+          var callback = result && result.completed ? utterance.onend : utterance.onerror;
+          if (typeof callback === 'function') callback.call(utterance);
+        }
+        if (syncStop) syncStop();
+      });
     },
     stop: function () {
       voiceGen += 1;
+      var cancelled = (currentVoiceJob ? [currentVoiceJob] : []).concat(voiceQueue);
+      currentVoiceJob = null;
       voiceQueue = [];
       voicePlaying = false;
       if (voiceAudio) {
         try { voiceAudio.pause(); } catch (err) {}
+        if (voiceAudio.src) URL.revokeObjectURL(voiceAudio.src);
         voiceAudio = null;
       }
+      cancelled.forEach(function (job) {
+        if (typeof job.onDone === 'function') job.onDone({ completed: false, cancelled: true });
+      });
     }
   };
+
+  document.addEventListener('visibilitychange', function () {
+    if (!voiceAudio || !voicePlaying) return;
+    if (document.hidden) voiceAudio.pause();
+    else {
+      var resumed = voiceAudio.play();
+      if (resumed && resumed.catch) resumed.catch(function () {
+        if (voiceAudio && voiceAudio.onerror) voiceAudio.onerror();
+      });
+    }
+  });
 
   function sectionSpeech(button) {
     var section = button.closest('section, .concept-panel, .block-part');

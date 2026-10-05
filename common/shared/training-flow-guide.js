@@ -400,6 +400,21 @@
     return [title && title.textContent, body && body.textContent].filter(Boolean).join('. ').replace(/\s+/g, ' ').trim();
   }
 
+  function acceptNarrationResult(result, text, host, done) {
+    if (result && result.completed === true) { done(); return; }
+    var box = document.createElement('div');
+    box.className = 'narration-reading-fallback';
+    box.style.cssText = 'padding:16px;margin:12px;background:white;color:#102e43;border:2px solid #8055bf;border-radius:12px;position:relative;z-index:10';
+    var label = document.createElement('p');
+    label.textContent = result && result.cancelled ? 'Narration stopped. Read this narration to continue:' : 'Audio unavailable. Read this narration to continue:';
+    var transcript = document.createElement('p'); transcript.textContent = text;
+    var button = document.createElement('button'); button.type = 'button';
+    button.textContent = 'I have read this narration';
+    button.addEventListener('click', function (event) { event.stopPropagation(); box.remove(); done(); });
+    box.appendChild(label); box.appendChild(transcript); box.appendChild(button);
+    (host || document.body).appendChild(box);
+  }
+
   function ensureOutcomeSpoken(el){
     if(!el) return;
     if(el.getAttribute('data-outcome-spoken') === 'done' || el.getAttribute('data-outcome-spoken') === 'playing') return;
@@ -409,9 +424,11 @@
       return;
     }
     el.setAttribute('data-outcome-spoken', 'playing');
-    var started = CSTrainingVoice.speak(text, function(){
-      el.setAttribute('data-outcome-spoken', 'done');
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    var started = CSTrainingVoice.speak(text, function(result){
+      acceptNarrationResult(result, text, el.parentElement, function () {
+        el.setAttribute('data-outcome-spoken', 'done');
+        if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+      });
     });
     if(started === false){
       el.setAttribute('data-outcome-spoken', 'done');
@@ -428,9 +445,11 @@
       return;
     }
     el.setAttribute('data-pillar-spoken', 'playing');
-    var started = CSTrainingVoice.speak(text, function(){
-      el.setAttribute('data-pillar-spoken', 'done');
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    var started = CSTrainingVoice.speak(text, function(result){
+      acceptNarrationResult(result, text, el.parentElement, function () {
+        el.setAttribute('data-pillar-spoken', 'done');
+        if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+      });
     });
     if(started === false){
       el.setAttribute('data-pillar-spoken', 'done');
@@ -2417,19 +2436,7 @@
   }
 
   function outcomesSpeechText(){
-    var section = document.getElementById('outcomes');
-    var title = section && section.querySelector('h3');
-    var items = document.querySelectorAll('[data-outcomes-group="outcomes"] .outcome, #outcomes .outcome');
-    var parts = [];
-    if(title){
-      var heading = String(title.textContent || '').replace(/\s+/g, ' ').trim();
-      if(heading) parts.push(heading);
-    }
-    for(var i = 0; i < items.length; i++){
-      var line = String(items[i].textContent || '').replace(/\s+/g, ' ').trim();
-      if(line) parts.push(line);
-    }
-    return parts.join('. ');
+    return 'Review the learning outcomes one at a time. Listen to each outcome, then select it to continue.';
   }
 
   function conceptNamesSpeech(block){
@@ -2508,9 +2515,11 @@
       return;
     }
     root.setAttribute('data-spoken-' + key, 'playing');
-    var started = CSTrainingVoice.speak(text, function(){
-      root.setAttribute('data-spoken-' + key, 'done');
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    var started = CSTrainingVoice.speak(text, function(result){
+      acceptNarrationResult(result, text, document.getElementById(key) || document.querySelector('main'), function () {
+        root.setAttribute('data-spoken-' + key, 'done');
+        if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+      });
     });
     if(started === false){
       root.setAttribute('data-spoken-' + key, 'done');
@@ -2873,7 +2882,9 @@
     }
     for(var i = 0; i < items.length; i++){
       if(items[i].classList.contains('clicked')) continue;
-      return sectionScrollStep('outcome', items[i], 'Review learning outcome ' + (i + 1), {
+      ensureOutcomeSpoken(items[i]);
+      var outcomeLabel = items[i].getAttribute('data-outcome-spoken') === 'done' ? 'Confirm learning outcome ' : 'Listen to learning outcome ';
+      return sectionScrollStep('outcome', items[i], outcomeLabel + (i + 1), {
         scrollEl: items[i],
         scrollBlock: 'nearest',
         forceScroll: false,
@@ -3472,7 +3483,7 @@
     var waiting = closeBtn.disabled || closeBtn.getAttribute('aria-disabled') === 'true';
     if(waiting){
       var picture = modal.querySelector('img') || closeBtn;
-      return sectionScrollStep('image-listen', picture, 'Review the image for 30 seconds', {
+      return sectionScrollStep('image-listen', picture, 'Review the image and its narration', {
         noScroll: true,
         tone: 'explore',
         keyToken: 'image-listen'
@@ -4296,7 +4307,7 @@
       var outcome = e.target.closest && e.target.closest('#outcomes .outcome');
       if(!outcome || !isFlowGuideActive()) return;
       var first = document.querySelector('#outcomes .outcome:not(.clicked)');
-      if(outcome !== first || !spokenReady('outcomes-read')){
+      if(outcome !== first || !spokenReady('outcomes-read') || outcome.getAttribute('data-outcome-spoken') !== 'done'){
         e.preventDefault();
         e.stopImmediatePropagation();
       }
@@ -4378,7 +4389,7 @@
         for(var oi = 0; oi < outcomes.length; oi++){
           if(!outcomes[oi].classList.contains('clicked')){ current = outcomes[oi]; break; }
         }
-        if(outcome !== current || !spokenReady('outcomes-read')){
+        if(outcome !== current || !spokenReady('outcomes-read') || outcome.getAttribute('data-outcome-spoken') !== 'done'){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
