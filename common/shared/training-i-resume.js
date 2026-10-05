@@ -74,6 +74,8 @@
     resume: function (snapshot) {
       var point = saved.point;
       if (!point || point.block !== snapshot.nextStep || typeof global.renderConcept !== 'function') return false;
+      var completed = snapshot.concepts && snapshot.concepts[point.block] || [];
+      if (completed.indexOf(point.target) !== -1) { saved.point = null; write(); return false; }
       global.renderConcept(point.block, point.target);
       restore();
       // Re-enter a nested screen through its normal handler, preserving its guards.

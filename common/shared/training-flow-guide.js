@@ -1160,10 +1160,10 @@
 
     var onNestedLeaf = panelHasM5NestedNav(panel) && isM5LeafScreen(getM5ActiveScreen(panel));
     var label = !finishVisible
-      ? 'Ready to finish ? Done appears next'
+      ? 'The finish button appears next'
       : (finish.disabled
-        ? 'Done will unlock next ? keep it in view'
-        : (onNestedLeaf ? 'Tap Done to complete this section' : 'Tap Done to finish this concept'));
+        ? 'Complete the remaining steps to continue'
+        : ('Select ' + finish.textContent.trim() + (onNestedLeaf ? ' to complete this section' : ' to finish this concept')));
 
     return sectionScrollStep('finish', host, label, {
       scrollEl: host,
@@ -3043,7 +3043,7 @@
     if(finish && conceptReadyForFinishCue(panel)){
       var finishVisible = isVisibleEl(finish) && finish.style.display !== 'none';
       var host = finishVisible ? finish : (panel.querySelector('.concept-media-actions') || panel);
-      return sectionScrollStep('finish-hold', host, finish.disabled ? 'Done unlocks next ? keep going' : 'Tap Done to finish this concept', {
+      return sectionScrollStep('finish-hold', host, finish.disabled ? 'Complete the remaining steps to continue' : 'Select ' + finish.textContent.trim() + ' to finish this concept', {
         scrollEl: host,
         scrollBlock: 'nearest',
         forceScroll: false,
