@@ -3368,6 +3368,15 @@
       if(beforeQuiz) return beforeQuiz;
       var quiz = $('#quiz');
       if(!quiz || quiz.classList.contains('gated-locked')) return null;
+      var moduleMatch = window.location.pathname.match(/\/modules\/module-(\d+)\//);
+      var progress = window.TrainingIProgress && moduleMatch ? TrainingIProgress.getSnapshot(Number(moduleMatch[1])) : null;
+      var nextModule = quiz.querySelector('.quiz-next-btn');
+      if(progress && progress.quiz && progress.quiz.passed && nextModule && isVisibleEl(nextModule)){
+        return sectionScrollStep('quiz-passed', nextModule, nextModule.textContent.trim(), {
+          scrollEl: nextModule, scrollBlock: 'center', forceScroll: true,
+          tone: 'primary', pulseEls: [nextModule], keyToken: 'quiz-passed'
+        });
+      }
       var quizTarget = quiz.querySelector('.quiz-inline, .quiz-hero, .q-card, .quiz-embed') || quiz;
       return sectionScrollStep('quiz', quizTarget, 'Complete the module quiz', {
         scrollEl: quiz,

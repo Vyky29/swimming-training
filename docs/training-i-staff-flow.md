@@ -21,6 +21,7 @@ node scripts/test-staff-flow.cjs
 node scripts/test-training-i-voice.cjs
 node scripts/test-training-i-tts.cjs
 node scripts/test-training-i-resume.cjs
+node scripts/test-training-i-next-module.cjs
 node scripts/flow-smoke.mjs
 node scripts/module-audit.mjs
 python3 build_swimming_training.py
@@ -66,3 +67,7 @@ Browser return test: while inside Overview of Water Forces, left to the module c
 Latest API integration smoke: the local handler returned HTTP 200, audio/mpeg, 129193 bytes and X-Training-Voice-Id B9PDs7mcHTMxHUw5U8Cf for the requested Inside This Module / Block One introduction.
 
 Resume regression found and fixed in the live browser: restored intro cards looked checked but the module completion gate still read its initial dataset. Restoration now synchronizes the derived card gates and emits the normal completion-change event. Repeating the dashboard return, reviewing the activity, and finishing Dynamic Forces completed its parent and unlocked Block 2. An interrupted photo could be reopened without being falsely awarded; reviewed cards and completed photos stayed saved.
+
+Asset availability audit: all 54 distinct external image URLs extracted from the five module HTML files returned HTTP 200 to HEAD requests. This checks availability, not visual accuracy. Live Module 1 Block 2 checks completed Drowning Risk (true/false), Who Is More Vulnerable (classification), and Neurodiverse Risk Factors (matching) with real narration and photo gates.
+
+Full live Module 1 path completed: all three blocks, nested forces leaves, photo narrations and 15-second gates, all four activity patterns present, recap, and 8/8 quiz. The chooser shows Module 1 Completed, Module 2 Start Module, and Modules 3–5 locked. Module 2 has now been started through that chooser. The quiz guide now points at the visible next-module/portal link after passing instead of continuing to request the quiz. Four resolver cases cover passed, unpassed, hidden review CTA, and final-module portal behavior.
