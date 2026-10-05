@@ -64,6 +64,7 @@ test('status transitions: start, complete quiz, review', function () {
   P.startModule(2, store);
   assert.strictEqual(P.getSnapshot(2, store).status, 'in-progress');
   assert.strictEqual(P.getSnapshot(2, store).cta, 'Continue Module');
+  ['journey', 'outcomes', 'block1', 'block2', 'block3', 'recap'].forEach(function(step){ P.markStep(2, step, true, store); });
   P.submitQuiz(2, 8, 8, store);
   var snap = P.getSnapshot(2, store);
   assert.strictEqual(snap.status, 'completed');
@@ -175,6 +176,7 @@ test('legacy swimming_module_N_progress migrates without completing neighbours',
 
 test('keyideas aliases to recap for module 4', function () {
   var store = memory();
+  ['journey', 'outcomes', 'block1', 'block2', 'block3', 'block4'].forEach(function(step){ P.markStep(4, step, true, store); });
   P.markStep(4, 'keyideas', true, store);
   assert.strictEqual(P.getSnapshot(4, store).steps.recap, true);
 });
@@ -186,6 +188,50 @@ test('accordion aria helper contract: expanded is boolean string', function () {
   expanded = false;
   attr = expanded ? 'true' : 'false';
   assert.strictEqual(attr, 'false');
+});
+
+test('perfect quiz cannot bypass required content', function () {
+  var store = memory();
+  P.submitQuiz(1, 8, 8, store);
+  assert.strictEqual(P.getSnapshot(1, store).steps.quiz, false);
+  assert.strictEqual(P.getSnapshot(1, store).status, 'not-started');
+});
+
+test('all modules reject out-of-order progress and preserve earned completion', function () {
+  [1,2,3,4,5].forEach(function(n) {
+    var store = memory();
+    P.markStep(n, 'recap', true, store);
+    assert.strictEqual(P.getSnapshot(n, store).steps.recap, false);
+    P.countableSteps(n).filter(function(s){ return s !== 'quiz'; }).forEach(function(s){ P.markStep(n, s, true, store); });
+    P.submitQuiz(n, 9, 8, store);
+    assert.strictEqual(P.getSnapshot(n, store).steps.quiz, false);
+    P.submitQuiz(n, 8, 8, store);
+    assert.strictEqual(P.getSnapshot(n, store).percent, 100);
+    P.submitQuiz(n, 0, 8, store);
+    assert.strictEqual(P.getSnapshot(n, store).percent, 100);
+  });
+});
+
+test('leaf completion persists without awarding its parent or block', function () {
+  var store = memory();
+  P.markConcept(2, 'block2', 'b2c2_calm', store);
+  var snap = P.getSnapshot(2, store);
+  assert.deepStrictEqual(snap.concepts.block2, ['b2c2_calm']);
+  assert.strictEqual(snap.steps.block2, false);
+});
+
+test('modules unlock in order after a passed quiz', function () {
+  var store = memory();
+  assert.strictEqual(P.moduleUnlocked(1, store), true);
+  assert.strictEqual(P.moduleUnlocked(2, store), false);
+  [1,2,3,4,5].forEach(function(n){
+    assert.strictEqual(P.moduleUnlocked(n, store), true);
+    P.countableSteps(n).filter(function(s){ return s !== 'quiz'; }).forEach(function(s){ P.markStep(n,s,true,store); });
+    P.submitQuiz(n,7,8,store);
+    if(n<5) assert.strictEqual(P.moduleUnlocked(n+1,store),false);
+    P.submitQuiz(n,8,8,store);
+    if(n<5) assert.strictEqual(P.moduleUnlocked(n+1,store),true);
+  });
 });
 
 if (failed) {

@@ -15,7 +15,7 @@
 
   /**
    * Completion rules (Training I):
-   * - Concept: marked reviewed after the learner opens it and its panel is shown
+   * - Concept: marked reviewed only by its successful completion handler
    *   (not by hover or a missed click). Accidental open of one concept never
    *   completes the whole block.
    * - Block: complete only when every concept in that block is reviewed and the
@@ -419,6 +419,14 @@
         cta: api.ctaLabel(rec.status)
       };
     },
+    moduleUnlocked: function (moduleId, storage) {
+      var def = getModuleDef(moduleId);
+      if (!def) return false;
+      var state = loadState(storage);
+      return MODULES.filter(function(m){ return m.number < def.number; }).every(function(m){
+        return !!state.modules[m.id].quiz.passed;
+      });
+    },
     ctaLabel: function (status) {
       if (status === 'in-progress') return 'Continue Module';
       if (status === 'completed' || status === 'review') return 'Review Module';
@@ -495,8 +503,11 @@
     submitQuiz: function (moduleId, score, total, storage) {
       var t = Number(total) || 0;
       var s = Number(score) || 0;
-      var passed = t > 0 && (s / t) >= QUIZ_PASS_RATIO;
+      var passed = Number.isFinite(t) && Number.isFinite(s) && t > 0 && s >= 0 && s <= t && (s / t) >= QUIZ_PASS_RATIO;
       return updateModule(moduleId, function (rec) {
+        if (!contentComplete(rec, normalizeModuleId(moduleId))) return;
+        // A failed practice attempt must not revoke an earned completion.
+        if (rec.quiz.passed && !passed) return;
         rec.quiz = { submitted: true, passed: passed, score: s, total: t };
         rec.steps.quiz = passed;
         if (passed) {

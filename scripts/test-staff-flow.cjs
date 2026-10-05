@@ -1,0 +1,148 @@
+'use strict';
+// Execute production handlers with a deterministic clock and small DOM doubles.
+// These tests exercise transitions, not the mere presence of function names.
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const path = require('node:path');
+const root = path.resolve(__dirname, '..');
+function source(file) { return fs.readFileSync(path.join(root, file), 'utf8'); }
+function fn(src, name) {
+  const start = src.indexOf('function ' + name + '(');
+  assert.ok(start >= 0, name);
+  let at = src.indexOf('{', start), depth = 1, i = at + 1;
+  for (; depth && i < src.length; i++) { if (src[i] === '{') depth++; if (src[i] === '}') depth--; }
+  return src.slice(start, i);
+}
+let count = 0;
+function test(name, run) { run(); count++; console.log('ok', name); }
+function imageHarness() {
+  let now = 0, id = 0;
+  const timers = new Map(), listeners = {}, seen = [];
+  const close = {style:{removeProperty(){}},setAttribute(){},removeAttribute(){}};
+  let image = {currentSrc:'photo.png',complete:true,naturalWidth:100,getAttribute(){return 'Photo';}};
+  const status = {textContent:'',setAttribute(){},style:{}};
+  const modal = {dataset:{},open:true,classList:{contains(){return modal.open;}},
+    querySelector(q){ return q === 'img' ? image : q === '.image-dwell-status' ? status : close; },appendChild(){}};
+  const document = {hidden:false,addEventListener(n,f){listeners[n]=f;},createElement(){return status;}};
+  const ctx = vm.createContext({document,performance:{now:()=>now},setInterval(f){timers.set(++id,f);return id;},clearInterval(i){timers.delete(i);},
+    window:{CSTrainingVoice:{speak(){return false;}}},cleanSpeech:x=>x,infographicScript:()=>'',sourceImage:()=>null,
+    rememberSeen:s=>seen.push(s),markSrcExpanded(){},IMAGE_DWELL_MS:30000});
+  ctx.CSTrainingVoice=ctx.window.CSTrainingVoice;
+  const src=source('common/shared/concept-visual-expand-system.js');
+  vm.runInContext(src.slice(src.indexOf('  var activeDwell ='),src.indexOf('  function dwellBlocksClose')),ctx);
+  return {ctx,modal,close,status,seen,image,
+    open(){ctx.beginImageDwell(modal);},
+    advance(ms){for(let i=0;i<ms;i+=100){now+=100;[...timers.values()].forEach(f=>f());}},
+    hide(v){document.hidden=v;listeners.visibilitychange();},
+    replace(){image={...image,currentSrc:'second.png'};this.open();}};
+}
+test('audio failure cannot complete an image before 30 visible seconds',()=>{
+  const h=imageHarness();h.open();h.advance(29900);assert.equal(h.close.disabled,true);assert.equal(h.seen.length,0);
+  h.advance(100);assert.equal(h.close.disabled,false);assert.deepEqual(h.seen,['photo.png']);
+});
+test('time in another tab does not count',()=>{
+  const h=imageHarness();h.open();h.advance(10000);h.hide(true);h.advance(60000);assert.equal(h.seen.length,0);
+  h.hide(false);h.advance(20000);assert.equal(h.seen.length,0);h.advance(100);assert.equal(h.seen.length,1);
+});
+test('unloaded and broken images cannot earn progress',()=>{
+  const h=imageHarness();h.image.complete=false;h.open();h.advance(60000);assert.equal(h.seen.length,0);
+  h.image.complete=true;h.image.naturalWidth=0;h.advance(60000);assert.equal(h.seen.length,0);
+  assert.equal(h.close.disabled,false);h.image.naturalWidth=100;h.open();h.advance(30100);assert.equal(h.seen.length,1);
+});
+test('repeated open notifications do not restart or shorten the timer',()=>{
+  const h=imageHarness();h.open();h.advance(15000);h.open();h.advance(15000);assert.equal(h.seen.length,1);
+});
+test('a replacement image needs its own full 30 seconds',()=>{
+  const h=imageHarness();h.open();h.advance(15000);h.replace();h.advance(15000);assert.equal(h.seen.length,0);
+  h.advance(15000);assert.deepEqual(h.seen,['second.png']);
+});
+test('closing a modal externally does not award completion',()=>{
+  const h=imageHarness();h.open();h.advance(10000);h.modal.open=false;h.advance(60000);assert.equal(h.seen.length,0);
+});
+function familyTest(n, block, parent, leaves, extra={}) {
+  const src=source(`training-i/modules/module-${n}/index.html`), completed=[],renders=[],returns=[];
+  const sets={block1:new Set(),block2:new Set(),block3:new Set(),block4:new Set()};
+  const ctx=vm.createContext({conceptCompletion:sets,conceptHistory:{},
+    markConceptComplete(b,t){sets[b].add(t);completed.push(t);},
+    renderConcept(b,t){renders.push(t);},
+    TrainingFlowGuide:{returnToConceptGrid(b){returns.push(b);},requestRefresh(){}},
+    block2StateTargets:[],block2StatesViewed:new Set(),block3FactorTargets:[],block3FactorsViewed:new Set(),
+    block3ApproachTargets:[],block3ApproachesViewed:new Set(),getNextConceptTarget(){return null;},...extra});
+  if(src.includes('function nextSiblingSubconcept('))vm.runInContext(fn(src,'nextSiblingSubconcept'),ctx);
+  vm.runInContext(fn(src,'finishConcept'),ctx);
+  leaves.forEach((leaf,i)=>{
+    ctx.finishConcept(block,leaf);
+    assert.ok(completed.includes(leaf),'leaf is explicitly completed');
+    if(i<leaves.length-1){assert.equal(renders.at(-1),parent);assert.ok(!completed.includes(parent));assert.equal(returns.length,0);}
+    else {assert.ok(completed.includes(parent));assert.equal(returns.at(-1),block);}
+  });
+}
+test('M1 forces: each leaf returns to picker, last leaf completes parent',()=>familyTest(1,'block1','b1c2',['b1c3','b1c4']));
+const states=['b2c2_calm','b2c2_alert','b2c2_overloaded'];
+test('M2 emotional states: picker between leaves, exit after last',()=>familyTest(2,'block2','b2c2',states,{block2StateTargets:states}));
+const factors=['b3c2_water','b3c2_env','b3c2_internal'];
+test('M2 factors: picker between leaves, exit after last',()=>familyTest(2,'block3','b3c2',factors,{block3FactorTargets:factors}));
+const m3=source('training-i/modules/module-3/index.html').match(/const block3ApproachTargets = (\[[^;]+\])/);
+const approaches=vm.runInNewContext(m3[1]);
+test('M3 approaches: picker between leaves, exit after last',()=>familyTest(3,'block3','b3c3',approaches,{block3ApproachTargets:approaches}));
+test('M4 development factors: picker between leaves, exit after last',()=>familyTest(4,'block4','b3c2',['b3c2_physical','b3c2_motor','b3c2_cognitive']));
+test('M4 term review: picker between leaves, exit after last',()=>familyTest(4,'block4','b3c3',['b3c3_step1','b3c3_step2','b3c3_step3']));
+test('M4 stage returns to its level picker until both levels are complete',()=>{
+  const src=source('training-i/modules/module-4/index.html'), done=new Set(), renders=[], returns=[];
+  const ctx=vm.createContext({conceptCompletion:{block3:new Set()},conceptHistory:{},block2StageLevels:{stage:['b2l1','b2l2']},
+    markPathwayAccordionLevelComplete:t=>done.add(t),getStageIdForLevel:()=> 'stage',isLevelFullyCompleted:t=>done.has(t),
+    markConceptComplete(b,t){ctx.conceptCompletion.block3.add(t);},renderConcept(b,t){renders.push(t);},
+    TrainingFlowGuide:{returnToConceptGrid:b=>returns.push(b),requestRefresh(){}}});
+  vm.runInContext(fn(src,'finishConcept'),ctx);
+  ctx.finishConcept('block3','b2l1');assert.deepEqual(renders,['stage']);assert.equal(returns.length,0);
+  ctx.finishConcept('block3','b2l2');assert.deepEqual(returns,['block3']);assert.ok(ctx.conceptCompletion.block3.has('stage'));
+});
+test('M5 nested completion survives re-render and stays scoped to its concept',()=>{
+  const mem={}, src=source('common/shared/training-flow-guide.js');
+  const ctx=vm.createContext({activeModuleConfig:{number:5},localStorage:{getItem:k=>mem[k]||null,setItem(k,v){mem[k]=v;}}});
+  ['parseM5DoneList','isM5ItemDone','markM5ItemDone'].forEach(n=>vm.runInContext(fn(src,n),ctx));
+  const panel={dataset:{currentTarget:'b2c2'}};
+  ctx.markM5ItemDone(panel,'flowM5CatsDone','f1-s1');
+  assert.equal(ctx.isM5ItemDone({dataset:{currentTarget:'b2c2'}},'flowM5CatsDone','f1-s1'),true);
+  assert.equal(ctx.isM5ItemDone({dataset:{currentTarget:'b2c3'}},'flowM5CatsDone','f1-s1'),false);
+});
+// Minimal bubbling DOM for the production classification activity handlers.
+class Element {
+  constructor(classes='',data={}) {this.classes=new Set(classes.split(' ').filter(Boolean));this.dataset=data;this.children=[];this.parent=null;this.listeners={};this.style={};this.attrs={};this.textContent='';this.classList={add:(...x)=>x.forEach(c=>this.classes.add(c)),remove:(...x)=>x.forEach(c=>this.classes.delete(c)),contains:x=>this.classes.has(x)};}
+  setAttribute(k,v){this.attrs[k]=v;} getAttribute(k){return this.attrs[k];} removeAttribute(k){delete this.attrs[k];}
+  matches(q){return q.startsWith('.')?q.slice(1).split('.').every(c=>this.classes.has(c)):q.startsWith('[')?q.slice(1,-1).split('=')[0] in this.attrs:false;}
+  closest(q){return this.matches(q)?this:this.parent?.closest(q);}
+  querySelectorAll(q){return this.children.flatMap(c=>[...(c.matches(q)?[c]:[]),...c.querySelectorAll(q)]);}
+  querySelector(q){return this.querySelectorAll(q)[0]||null;}
+  appendChild(c){if(c.parent)c.parent.children=c.parent.children.filter(x=>x!==c);this.children.push(c);c.parent=this;return c;}
+  addEventListener(n,f){(this.listeners[n]??=[]).push(f);}
+  emit(type,extra={}){const route=[];for(let p=this;p;p=p.parent)route.push(p);const e={target:this,preventDefault(){},...extra};route.forEach(p=>(p.listeners[type]||[]).forEach(f=>f(e)));}
+  click(){this.emit('click');}
+}
+[1,2,3,4].forEach(n=>test(`M${n} classification works with click and keyboard, without drag`,()=>{
+  const panel=new Element('concept-panel'),pool=panel.appendChild(new Element('categorize-pool-items'));
+  const zones=['a','b'].map(zone=>{const z=panel.appendChild(new Element('categorize-zone',{zone}));z.appendChild(new Element('categorize-zone-items'));return z;});
+  const items=['a','b'].map(category=>pool.appendChild(new Element('categorize-item',{category})));
+  const finish=panel.appendChild(new Element());finish.setAttribute('data-finish-concept','');
+  const feedback=panel.appendChild(new Element());feedback.setAttribute('data-categorize-feedback','');
+  const ctx=vm.createContext({conceptContent:{sample:{classificationCount:2}},window:{},updateConceptFinishState(){}});
+  const setup = n === 4 ? 'initCategorizeModule4' : 'setupCategorizeActivity';
+  vm.runInContext(fn(source(`training-i/modules/module-${n}/index.html`),setup),ctx);
+  if(n === 4) ctx.initCategorizeModule4(panel, feedback, 'Correct');
+  else ctx.setupCategorizeActivity(panel,'block1','sample');
+  items[0].click();assert.ok(items[0].classList.contains('selected'),'pool must not cancel the item click');
+  zones[0].click();assert.equal(items[0].parent,zones[0].children[0]);
+  items[1].emit('keydown',{key:'Enter'});zones[1].emit('keydown',{key:'Enter'});
+  assert.equal(panel.dataset.categorizeComplete,'true');
+}));
+
+[1,2,3,4,5].forEach(n=>test(`M${n} activity completion cannot bypass a pending image`,()=>{
+  const panel={dataset:{currentTarget:'test'}};
+  const guide={conceptPhotoPending:()=>true,requestRefresh(){}};
+  const ctx=vm.createContext({window:{TrainingFlowGuide:guide},TrainingFlowGuide:guide,document:{querySelector:()=>panel},
+    markConceptComplete(){throw new Error('Premature completion');}});
+  vm.runInContext(fn(source(`training-i/modules/module-${n}/index.html`),'finishConcept'),ctx);
+  ctx.finishConcept('block1','test');
+}));
+console.log(`${count} behavioral staff-flow tests passed`);

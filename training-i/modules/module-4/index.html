@@ -9778,6 +9778,14 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
 
  const principlesReviewed = new Set();
 
+ document.addEventListener('DOMContentLoaded', function(){
+ if(!window.TrainingIProgress) return;
+ var saved = TrainingIProgress.getSnapshot(4).concepts || {};
+ Object.keys(conceptCompletion).forEach(function(block){
+ (saved[block] || []).forEach(function(target){ conceptCompletion[block].add(target); });
+ });
+ Object.keys(conceptCompletion).forEach(function(block){ updateConceptProgress(block); });
+ });
  const conceptHistory = { block1: [], block2: [], block3: [], block4: [] };
 
  const block2LevelGroups = [
@@ -10371,6 +10379,7 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
  }
 
  function markConceptComplete(block, target){
+ if(window.TrainingIProgress) TrainingIProgress.markConcept(4, block, target);
  conceptCompletion[block].add(target);
  const button = document.querySelector(`[data-concept-grid="${block}"] [data-target="${target}"]`);
  if(button) button.classList.add('visited');
@@ -10640,6 +10649,13 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
  }
 
  function finishConcept(block, target){
+ if(typeof window !== 'undefined' && window.TrainingFlowGuide && TrainingFlowGuide.conceptPhotoPending){
+ var activePanel = document.querySelector('[data-panel-for="' + block + '"]');
+ if(activePanel && activePanel.dataset.currentTarget === target && TrainingFlowGuide.conceptPhotoPending(activePanel)){
+ TrainingFlowGuide.requestRefresh([80]);
+ return;
+ }
+ }
  // Accordion pathway levels write the nested keys the progress counter expects
  if(block === 'block3' && /^b2l[1-6]$/.test(target)){
  markPathwayAccordionLevelComplete(target);
@@ -12216,6 +12232,13 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  }
  zones.forEach(function(zone){
  var zoneItems = zone.querySelector('.categorize-zone-items');
+ zone.setAttribute('tabindex', '0');
+ zone.setAttribute('role', 'button');
+ var zoneTitle = zone.querySelector('h5, h4');
+ zone.setAttribute('aria-label', 'Place selected item in ' + (zoneTitle ? zoneTitle.textContent : zone.dataset.zone));
+ zone.addEventListener('keydown', function(e){
+ if(e.target === zone && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); zone.click(); }
+ });
  if(!zoneItems) return;
  function acceptZoneItem(item){
  if(!item) return;
@@ -12225,7 +12248,8 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  }
  makeDropTarget(zoneItems, acceptZoneItem);
  makeDropTarget(zone, acceptZoneItem);
- zoneItems.addEventListener('click', function(){
+ zoneItems.addEventListener('click', function(e){
+ if(e.target && e.target.closest && e.target.closest('.categorize-item')) return;
  if(!selectedItem) return;
  acceptZoneItem(selectedItem);
  selectedItem.classList.remove('selected');
@@ -12249,7 +12273,8 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  }
  updateFinishState();
  });
- poolItems.addEventListener('click', function(){
+ poolItems.addEventListener('click', function(e){
+ if(e.target && e.target.closest && e.target.closest('.categorize-item')) return;
  if(!selectedItem) return;
  poolItems.appendChild(selectedItem);
  selectedItem.classList.remove('selected');
@@ -13506,7 +13531,7 @@ updateFocusProgress();
 
  function updateOutcomeState(){
  const total = outcomeItems.length;
- const done = visited.size;
+ const done = Array.from(outcomeItems).filter(function(item){ return item.classList.contains('clicked'); }).length;
  const ready = done === total;
 
  if(helper){
@@ -13727,7 +13752,7 @@ updateFocusProgress();
  });
  </script>
  <script src="/shared/tts-controls.js?v=20260612"></script>
-<script src="/shared/concept-insight-content.js?v=20260614"></script>
+<script src="/shared/concept-insight-content.js?v=20261005utf8"></script>
 <script src="/shared/in-practice-copy.js?v=20260716practice7"></script>
 <script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
 <script src="/shared/premium-option-grid.js?v=20260714opt3"></script>
@@ -13739,9 +13764,9 @@ updateFocusProgress();
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-flow-guide.js?v=20260925open1"></script>
-<script src="/shared/training-i-progress.js?v=20260924reset1"></script>
-<script src="/shared/training-i-module-shell.js?v=20260925open1"></script>
+ <script src="/shared/training-flow-guide.js?v=20261005staff2"></script>
+<script src="/shared/training-i-progress.js?v=20261005staff2"></script>
+<script src="/shared/training-i-module-shell.js?v=20261005staff2"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
@@ -14106,7 +14131,7 @@ updateFocusProgress();
  
  <script src="/shared/programme-journey-map.js?v=20260714pjmfixed1"></script>
  <script src="/shared/training-i-image-speech.js?v=20260925speech1"></script>
- <script src="/shared/concept-visual-expand-system.js?v=20260925img1"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20261005staff2"></script>
 </body>
 </html>
 

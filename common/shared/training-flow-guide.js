@@ -642,7 +642,14 @@
   }
 
   function parseM5DoneList(panel, key){
-    return (panel.dataset[key] || '').split(',').filter(Boolean);
+    var list = (panel.dataset[key] || '').split(',').filter(Boolean);
+    if(activeModuleConfig && activeModuleConfig.number === 5 && /^(flowM5CatsDone|flowM5FoldersDone|flowM5VisualDone)$/.test(key)){
+      try {
+        var saved = JSON.parse(localStorage.getItem('swimming_module_5_nested_' + panel.dataset.currentTarget + '_' + key) || '[]');
+        if(Array.isArray(saved)) saved.forEach(function(id){ if(list.indexOf(id) < 0) list.push(id); });
+      } catch(err){}
+    }
+    return list;
   }
 
   function isM5ItemDone(panel, key, id){
@@ -654,6 +661,9 @@
     var list = parseM5DoneList(panel, key);
     list.push(id);
     panel.dataset[key] = list.join(',');
+    if(activeModuleConfig && activeModuleConfig.number === 5 && /^(flowM5CatsDone|flowM5FoldersDone|flowM5VisualDone)$/.test(key)){
+      try { localStorage.setItem('swimming_module_5_nested_' + panel.dataset.currentTarget + '_' + key, JSON.stringify(list)); } catch(err){}
+    }
   }
 
   function getM5NestedWrapper(panel){
@@ -3462,7 +3472,7 @@
     var waiting = closeBtn.disabled || closeBtn.getAttribute('aria-disabled') === 'true';
     if(waiting){
       var picture = modal.querySelector('img') || closeBtn;
-      return sectionScrollStep('image-listen', picture, 'Listen to the explanation', {
+      return sectionScrollStep('image-listen', picture, 'Review the image for 30 seconds', {
         noScroll: true,
         tone: 'explore',
         keyToken: 'image-listen'
@@ -4274,11 +4284,29 @@
   }
 
   function bindConceptFlowInteractions(moduleConfig){
+    // Apply the same order to keyboard activation as pointer activation.
+    document.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      var idea = e.target.closest && e.target.closest('.key-idea-item');
+      if(idea && conceptPhotoPending(idea.closest('.concept-panel'))){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return;
+      }
+      var outcome = e.target.closest && e.target.closest('#outcomes .outcome');
+      if(!outcome || !isFlowGuideActive()) return;
+      var first = document.querySelector('#outcomes .outcome:not(.clicked)');
+      if(outcome !== first || !spokenReady('outcomes-read')){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+
     document.addEventListener('click', function(e){
       var finishGate = e.target && e.target.closest ? e.target.closest('[data-finish-concept]') : null;
       if(finishGate){
         var gatePanel = finishGate.closest('.concept-panel.show');
-        if(gatePanel && (parentHubHasIncompleteLeaves(gatePanel) || !b2LevelAccordionsComplete(gatePanel))){
+        if(gatePanel && (conceptPhotoPending(gatePanel) || parentHubHasIncompleteLeaves(gatePanel) || !b2LevelAccordionsComplete(gatePanel))){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
@@ -4314,7 +4342,7 @@
         for(var i = 0; i < buttons.length; i++){
           if(!isConceptDone(buttons[i])){ allowed = buttons[i]; break; }
         }
-        if(!introOpen || (allowed && square !== allowed && square !== pulsed)){
+        if(!introOpen || (allowed && square !== allowed && square !== pulsed && !isConceptDone(square))){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
@@ -4888,6 +4916,7 @@
     markPanelInPracticeDone: markPanelInPracticeDone,
     parentHubContentReady: parentHubContentReady,
     hubContentBeforeLeaves: hubContentBeforeLeaves,
+    conceptPhotoPending: conceptPhotoPending,
     inPracticeFlowComplete: inPracticeFlowComplete
   };
 

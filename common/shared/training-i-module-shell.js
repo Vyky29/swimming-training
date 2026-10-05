@@ -251,8 +251,17 @@
     });
     (snap.outcomesReviewed || []).forEach(function (id) {
       var card = $('[data-outcome-item="' + id + '"]');
-      if (card) card.classList.add('clicked', 'is-reviewed');
+      if (card) {
+        card.classList.add('clicked', 'is-reviewed');
+        card.setAttribute('aria-pressed', 'true');
+        card.setAttribute('aria-checked', 'true');
+      }
     });
+    var restoredOutcomes = $$('#outcomes .outcome');
+    var reviewedCount = restoredOutcomes.filter(function(card){ return card.classList.contains('clicked'); }).length;
+    var helper = document.getElementById('outcomesHelper');
+    if(helper && restoredOutcomes.length) helper.textContent = reviewedCount === restoredOutcomes.length
+      ? 'All learning outcomes reviewed.' : reviewedCount + ' of ' + restoredOutcomes.length + ' learning outcomes reviewed.';
     if (snap.status === 'review' || snap.status === 'completed') {
       $$('.gated-locked').forEach(function (section) {
         section.classList.remove('gated-locked');
@@ -412,35 +421,28 @@
   }
 
   function bindConcepts(moduleNumber) {
-    // Do not open or complete a concept here. This listener runs before the
-    // module paints the panel. Marking it visited on the click itself made the
-    // guide treat the square as finished and cancel the render, so the first
-    // concept stayed an empty shell and the only click left was the next square.
-    document.addEventListener('click', function (e) {
-      var finish = e.target.closest && e.target.closest('[data-finish-concept]');
-      if (!finish) return;
-      var panel = finish.closest('.concept-panel');
-      if (!panel) return;
-      var block = panel.getAttribute('data-panel-for') || panel.dataset.currentBlock;
-      var target = panel.dataset.currentTarget;
-      if (block && target) {
-        P.markConcept(moduleNumber, block, target);
-        var btn = $('[data-concept-grid="' + block + '"] [data-target="' + target + '"]');
-        if (btn) btn.classList.add('visited');
-        refresh(moduleNumber);
-      }
-    });
+    // Module completion handlers persist the exact leaf before rendering its
+    // parent or clearing the panel. Reading currentTarget during bubbling can
+    // accidentally award the parent instead of the leaf just completed.
+    P.subscribe(function () { refresh(moduleNumber); });
   }
 
   function bindOutcomes(moduleNumber) {
     $$('[data-outcome-item], .outcomes .outcome').forEach(function (card, index) {
       var id = card.getAttribute('data-outcome-item') || String(index + 1);
+      card.setAttribute('data-outcome-item', id);
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
       card.setAttribute('aria-pressed', card.classList.contains('clicked') ? 'true' : 'false');
       function mark() {
+        var journey = $('input[data-stage-check="journey"]');
+        var first = $('#outcomes .outcome:not(.clicked)');
+        if (!journey || !journey.checked || (first && first !== card && !card.classList.contains('clicked'))) return;
+        if (document.documentElement.getAttribute('data-guided-flow') === 'true' &&
+            document.documentElement.getAttribute('data-spoken-outcomes-read') !== 'done') return;
         card.classList.add('clicked', 'is-reviewed');
         card.setAttribute('aria-pressed', 'true');
+        card.setAttribute('aria-checked', 'true');
         P.markOutcome(moduleNumber, id);
         var group = card.closest('[data-outcomes-group], .outcomes');
         if (group) {
@@ -870,16 +872,24 @@
     maybeResetFromQuery();
     P.MODULES.forEach(function (def) {
       var snap = P.getSnapshot(def.id);
+      var available = P.moduleUnlocked(def.id);
       var card = $('.module-card[data-module-number="' + def.number + '"]');
       if (!card) return;
       var badge = card.querySelector('.module-status-badge') || document.getElementById('moduleStatus' + def.number);
       if (badge) {
-        badge.textContent = P.statusLabel(snap.status);
+        badge.textContent = available ? P.statusLabel(snap.status) : 'Locked';
         badge.className = 'module-status-badge status-' + snap.status;
       }
       var btn = card.querySelector('.module-btn, .module-footer a.btn');
       if (btn) {
-        btn.textContent = snap.cta;
+        btn.textContent = available ? snap.cta : 'Complete Module ' + (def.number - 1) + ' first';
+        if(available){
+          btn.setAttribute('href', '/training-i/modules/module-' + def.number + '/');
+          btn.removeAttribute('aria-disabled');
+        } else {
+          btn.removeAttribute('href');
+          btn.setAttribute('aria-disabled', 'true');
+        }
         btn.classList.remove('btn-primary', 'btn-secondary');
         btn.classList.add(snap.status === 'not-started' ? 'btn-primary' : 'btn-primary');
       }
@@ -894,7 +904,7 @@
         if (key.indexOf('blockIntro_') === 0) localStorage.removeItem(key);
         if (key.indexOf('swimming_module_' + moduleNumber) === 0) localStorage.removeItem(key);
       });
-      sessionStorage.clear();
+      sessionStorage.removeItem('cs_img_dwell');
     } catch (err) {}
   }
 
@@ -924,6 +934,10 @@
   function bootModule() {
     var moduleNumber = detectModuleNumber();
     if (!moduleNumber) return;
+    if (!P.moduleUnlocked(moduleNumber)) {
+      global.location.replace('/training-i/');
+      return;
+    }
     mountRestart(moduleNumber);
     maybeResetFromQuery();
     normalizeNavLabels();

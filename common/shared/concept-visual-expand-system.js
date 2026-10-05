@@ -25,7 +25,7 @@
 
   var modalOpener = null;
   var builtinModal = null;
-  var IMAGE_DWELL_MS = 0;
+  var IMAGE_DWELL_MS = 30000;
   var dwellSeen = {};
   try { dwellSeen = JSON.parse(sessionStorage.getItem('cs_img_dwell') || '{}'); } catch (err) { dwellSeen = {}; }
 
@@ -703,12 +703,13 @@
     return null;
   }
 
-  var lastNarration = { src: '', at: 0 };
+  // Count only loaded, visible image time. Narration is optional and never
+  // awards progress or holds the learner indefinitely when audio fails.
+  var activeDwell = null;
 
   function releaseImageClose(modal, src) {
     if (!modal) return;
     delete modal.dataset.imageDwellUntil;
-    modal.dataset.imageNarration = 'done';
     var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
     if (closeBtn) {
       closeBtn.disabled = false;
@@ -719,43 +720,12 @@
     }
     rememberSeen(src);
     markSrcExpanded(src);
-    try {
-      document.dispatchEvent(new CustomEvent('concept-visual-expand-change', { bubbles: true }));
-    } catch (err) {}
   }
 
-  function holdImageClose(modal) {
-    modal.dataset.imageDwellUntil = 'voice';
-    modal.dataset.imageNarration = 'playing';
-    var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
-    if (closeBtn) {
-      closeBtn.disabled = true;
-      closeBtn.hidden = true;
-      closeBtn.style.setProperty('display', 'none', 'important');
-      closeBtn.setAttribute('aria-disabled', 'true');
-      closeBtn.textContent = 'Close';
-    }
-  }
-
-  function narrateOpenImage(modal) {
-    var shown = modal && modal.querySelector('img');
-    var src = shown && (shown.currentSrc || shown.getAttribute('src') || '');
-    var img = sourceImage(src) || shown;
-    var script = '';
-    try { script = infographicScript(img); } catch (err) { script = ''; }
-    if (!script && shown) script = cleanSpeech(shown.getAttribute('alt') || '');
-    if (!script || !window.CSTrainingVoice || typeof CSTrainingVoice.speak !== 'function') return 'none';
-    if (modal.dataset.imageNarration === 'playing' && lastNarration.src === src) return 'held';
-    lastNarration = { src: src, at: Date.now() };
-    holdImageClose(modal);
-    var started = false;
-    try {
-      started = CSTrainingVoice.speak(script, function () { releaseImageClose(modal, src); });
-    } catch (err) {
-      started = false;
-    }
-    if (started === false) releaseImageClose(modal, src);
-    return 'started';
+  function stopImageDwell() {
+    if (!activeDwell) return;
+    clearInterval(activeDwell.timer);
+    activeDwell = null;
   }
 
   function beginImageDwell(modal) {
@@ -763,17 +733,75 @@
     var img = modal.querySelector('img');
     var src = img && (img.currentSrc || img.getAttribute('src') || '');
     if (!src) return;
-    var narration = narrateOpenImage(modal);
-    if (narration === 'started' || narration === 'held') return;
-    holdImageClose(modal);
-    var shown = modal.querySelector('img');
-    var line = (shown && shown.getAttribute('alt')) || 'This picture shows the idea of this concept. Stay with it until the explanation ends.';
-    if (window.CSTrainingVoice && typeof CSTrainingVoice.speak === 'function') {
-      CSTrainingVoice.speak(line, function () { releaseImageClose(modal, src); });
-      return;
+    if (activeDwell && activeDwell.modal === modal && activeDwell.img === img) return;
+    stopImageDwell();
+    var closeBtn = modal.querySelector('.media-modal-close, .concept-expand-fallback-close, #mediaModalClose');
+    var status = modal.querySelector('.image-dwell-status');
+    if (!status) {
+      status = document.createElement('div');
+      status.className = 'image-dwell-status';
+      status.setAttribute('role', 'status');
+      status.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100000;background:#102e43;color:white;padding:12px 20px;border-radius:12px;text-align:center;max-width:90vw;pointer-events:none';
+      modal.appendChild(status);
     }
-    releaseImageClose(modal, src);
+    modal.dataset.imageDwellUntil = 'viewing';
+    if (closeBtn) {
+      closeBtn.disabled = true;
+      closeBtn.hidden = false;
+      closeBtn.style.removeProperty('display');
+      closeBtn.setAttribute('aria-disabled', 'true');
+    }
+    var state = { modal: modal, img: img, elapsed: 0, last: performance.now(), timer: null, visible: !document.hidden };
+    activeDwell = state;
+    function tick() {
+      if (activeDwell !== state) return;
+      if (!modal.classList.contains('open') || modal.querySelector('img') !== img) {
+        stopImageDwell();
+        return;
+      }
+      var now = performance.now();
+      var ready = !document.hidden && img.complete && img.naturalWidth > 0;
+      if (ready && state.visible) state.elapsed += Math.min(now - state.last, 500);
+      state.visible = ready;
+      state.last = now;
+      var left = Math.max(0, Math.ceil((IMAGE_DWELL_MS - state.elapsed) / 1000));
+      var message = img.complete && !img.naturalWidth
+        ? 'Image could not load. Close and reopen it to retry; no progress has been awarded.'
+        : (!ready ? 'Viewing timer paused — keep the loaded image visible.' : 'Review this image — ' + left + ' seconds remaining');
+      if (status.textContent !== message) status.textContent = message;
+      if (closeBtn && closeBtn.textContent !== 'Close (' + left + 's)') closeBtn.textContent = 'Close (' + left + 's)';
+      if (img.complete && !img.naturalWidth) {
+        stopImageDwell();
+        delete modal.dataset.imageDwellUntil;
+        if (closeBtn) {
+          closeBtn.disabled = false;
+          closeBtn.removeAttribute('aria-disabled');
+          closeBtn.textContent = 'Close and retry';
+        }
+        return;
+      }
+      if (left === 0) {
+        stopImageDwell();
+        status.textContent = 'Image reviewed. You can continue.';
+        releaseImageClose(modal, src);
+      }
+    }
+    state.timer = setInterval(tick, 100);
+    tick();
+    var script = '';
+    try { script = infographicScript(sourceImage(src) || img); } catch (err) {}
+    if (!script) script = cleanSpeech(img.getAttribute('alt') || '');
+    if (script && window.CSTrainingVoice && typeof CSTrainingVoice.speak === 'function') {
+      try { CSTrainingVoice.speak(script); } catch (err) {}
+    }
   }
+
+  document.addEventListener('visibilitychange', function () {
+    if (activeDwell) {
+      activeDwell.last = performance.now();
+      activeDwell.visible = false;
+    }
+  });
 
   function dwellBlocksClose(event) {
     var modal = document.getElementById('mediaModal') || document.getElementById('conceptExpandFallbackModal');
@@ -793,6 +821,7 @@
     var obs = new MutationObserver(function () {
       var open = modal.classList.contains('open');
       if (!open) {
+        if (wasOpen && activeDwell && activeDwell.modal === modal) stopImageDwell();
         if (wasOpen && window.CSTrainingVoice) CSTrainingVoice.stop();
         wasOpen = false;
         return;

@@ -8830,6 +8830,14 @@
  block2: new Set(),
  block3: new Set()
  };
+ document.addEventListener('DOMContentLoaded', function(){
+ if(!window.TrainingIProgress) return;
+ var saved = TrainingIProgress.getSnapshot(5).concepts || {};
+ Object.keys(conceptCompletion).forEach(function(block){
+ (saved[block] || []).forEach(function(target){ conceptCompletion[block].add(target); });
+ });
+ Object.keys(conceptCompletion).forEach(function(block){ updateConceptProgress(block); });
+ });
  const conceptHistory = { block1: [], block2: [], block3: [] };
 
  const correctFeedback = {
@@ -9061,6 +9069,7 @@
 }
 
  function markConceptComplete(block, target){
+ if(window.TrainingIProgress) TrainingIProgress.markConcept(5, block, target);
  conceptCompletion[block].add(target);
  const button = document.querySelector(`[data-concept-grid="${block}"] [data-target="${target}"]`);
  if(button) button.classList.add('visited');
@@ -9252,6 +9261,13 @@
  }
 
  function finishConcept(block, target){
+ if(typeof window !== 'undefined' && window.TrainingFlowGuide && TrainingFlowGuide.conceptPhotoPending){
+ var activePanel = document.querySelector('[data-panel-for="' + block + '"]');
+ if(activePanel && activePanel.dataset.currentTarget === target && TrainingFlowGuide.conceptPhotoPending(activePanel)){
+ TrainingFlowGuide.requestRefresh([80]);
+ return;
+ }
+ }
  markConceptComplete(block, target);
 
  if(typeof TrainingFlowGuide !== 'undefined'){
@@ -10280,7 +10296,7 @@
 
  function updateOutcomeState(){
  const total = outcomeItems.length;
- const done = visited.size;
+ const done = Array.from(outcomeItems).filter(function(item){ return item.classList.contains('clicked'); }).length;
  const ready = done === total;
 
  if(ready){
@@ -10423,7 +10439,7 @@
  });
  </script>
  <script src="/shared/tts-controls.js?v=20260612"></script>
-<script src="/shared/concept-insight-content.js?v=20260614"></script>
+<script src="/shared/concept-insight-content.js?v=20261005utf8"></script>
  <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
 <script src="/shared/in-practice-system.js?v=20260714cueend1"></script>
 <script src="/shared/premium-option-grid.js?v=20260714opt2"></script>
@@ -10438,9 +10454,9 @@
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
  <script src="/shared/guided-concept-layout.js?v=20260714nestedback1"></script>
- <script src="/shared/training-flow-guide.js?v=20260925open1"></script>
-<script src="/shared/training-i-progress.js?v=20260924reset1"></script>
-<script src="/shared/training-i-module-shell.js?v=20260925open1"></script>
+ <script src="/shared/training-flow-guide.js?v=20261005staff2"></script>
+<script src="/shared/training-i-progress.js?v=20261005staff2"></script>
+<script src="/shared/training-i-module-shell.js?v=20261005staff2"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
@@ -10739,7 +10755,7 @@
  </script>
  
  <script src="/shared/training-i-image-speech.js?v=20260925speech1"></script>
- <script src="/shared/concept-visual-expand-system.js?v=20260925img1"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20261005staff2"></script>
 </body>
 </html>
 
