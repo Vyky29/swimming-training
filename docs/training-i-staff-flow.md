@@ -20,6 +20,7 @@ node scripts/test-training-i-progress.js
 node scripts/test-staff-flow.cjs
 node scripts/test-training-i-voice.cjs
 node scripts/test-training-i-tts.cjs
+node scripts/test-training-i-resume.cjs
 node scripts/flow-smoke.mjs
 node scripts/module-audit.mjs
 python3 build_swimming_training.py
@@ -38,15 +39,14 @@ Browser smoke performed locally:
 
 ## Release scope and remaining verification
 
-The complete five-module course has **not** been walked end to end in a production browser. Local preview has no live `/api/tts` service, so these browser checks exercised the audio-failure fallback; live narration and authenticated staff reporting were not validated. A full staff acceptance run of modules 2–5 remains necessary before claiming comprehensive launch certification.
+The complete five-module course has **not** been walked end to end in a production browser. Initial browser checks used the audio-failure fallback; the later local proxy checks below use real production narration. Authenticated staff reporting has not been validated. A full staff acceptance run of modules 2–5 remains necessary before claiming comprehensive launch certification.
 
-Progress remains browser-local, as in the existing implementation. It is not a server-verified staff completion record and does not synchronize between devices. Restarting a prerequisite module relocks later modules until it is passed again, without deleting their saved progress. In-progress concepts may require their unfinished review steps again after reload; completed concepts and leaves remain saved.
+Progress remains browser-local, as in the existing implementation. It is not a server-verified staff completion record and does not synchronize between devices. Restarting a prerequisite module relocks later modules until it is passed again, without deleting their saved progress. Continue restores the in-progress concept and reviewed cards, with audio checkpoints for unfinished narration. Unfinished activities still require completion.
 
 ## Narration follow-up
 
-- Lily is the configured ElevenLabs voice, with multilingual v2, stability 0.55, similarity 0.8, restrained style 0.05, speaker boost and speed 0.95 on the direct API path.
-- The existing PixtoLearn proxy remains the fallback. Its response does not identify its voice, so the exact fallback voice cannot be certified from this repository. Do not describe every proxy sample as verified Lily. A dedicated ELEVENLABS_API_KEY on the deployment is needed for the directly controlled voice settings; no secrets are checked in.
-- ElevenLabs now lists Lily among default voices due to expire on 31 December 2026, recommending Florence as a replacement. Re-audition a supported voice before that date: https://help.elevenlabs.io/hc/en-us/articles/26942950589969-What-are-Default-voices
+- Holly — Relaxing, Velvety and Silky (`B9PDs7mcHTMxHUw5U8Cf`) is pinned on both provider paths. Verified in the signed-in ElevenLabs library under English / British and in an actual upstream response. A fallback response with a different voice is rejected.
+- The direct path uses multilingual v2, stability 0.55, similarity 0.8, style 0.05, speaker boost and speed 0.95. The existing PixtoLearn fallback uses its own v3 settings; voice identity is the same, delivery settings differ. No secrets are checked in.
 - Narration uses complete sentence chunks and no longer silently truncates after eight pieces. Failed audio is not cached permanently. Network, playback and decoding failures report failure separately from an actual ended event.
 - Outcomes have a brief introduction, then individual narrations and confirmations in order. Image stories follow the concept introduction. Key ideas and activities remain their own subsequent steps.
 - The image script library now covers 115 asset names: the original 96 plus six replacement PixtoLearn page names and 13 category page images. Decorative icons and activity tokens are not each assigned a separate narrated review. The four stroke category pages share a category-level teaching script; these are not bespoke descriptions of each diagram.
@@ -54,3 +54,13 @@ Progress remains browser-local, as in the existing implementation. It is not a s
 - Local browser connected to the production TTS endpoint: Journey remained locked during narration and unlocked after actual playback completed. The browser also confirmed outcomes narrate individually and reject confirmation while their audio is playing. Full five-module end-to-end acceptance remains outstanding.
 
 Live image check: Module 1, Water as an Active Environment, opened its exact scripted story. After 15 visible seconds, Escape was rejected and Close remained disabled while the real narration continued. When playback ended, Image reviewed appeared and Close enabled. The displayed transcript matched the script.
+
+## Resume and voice verification follow-up
+
+The live PixtoLearn GET diagnostic reports `eleven_v3`, and an actual POST response identifies `B9PDs7mcHTMxHUw5U8Cf`. Verified in the signed-in ElevenLabs library with English + British filters: **Holly - Relaxing, Velvety and Silky**, described as a professional English female voice suited to narration. The earlier Lily assumption is superseded. Both paths now select Holly; a proxy response identifying another voice is rejected, and successful responses expose X-Training-Voice-Id.
+
+Resume checkpoints are module-scoped: current concept, reviewed cards, finished section narrations, reviewed images, and partial audio position. Interrupted playing flags are never restored. Continue Module reopens the stored concept only within the next permitted block. A staff member returns through Continue to give the browser a playback gesture. Unfinished activities still require completion; completed steps are not fabricated. The block introduction now begins “Inside this module, we’ll explore the following blocks.” before listing block numbers and titles.
+
+Browser return test: while inside Overview of Water Forces, left to the module chooser, returned, and selected Continue. The same concept reopened with Always Acting still reviewed and the next card highlighted; earlier completed stages did not replay.
+
+Latest API integration smoke: the local handler returned HTTP 200, audio/mpeg, 129193 bytes and X-Training-Voice-Id B9PDs7mcHTMxHUw5U8Cf for the requested Inside This Module / Block One introduction.

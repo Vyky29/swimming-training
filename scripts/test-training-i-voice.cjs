@@ -20,4 +20,19 @@ async function run(failure){
  }
  console.log('ok narration '+(failure||'ends successfully'));
 }
-(async()=>{for(const kind of [null,'network','autoplay','decode','stop'])await run(kind);})().catch(e=>{console.error(e);process.exitCode=1;});
+async function resumeAudio(){
+ const audios=[],saved=[],cleared=[];
+ const context={global:{TrainingIResume:{audioPosition:()=>({index:1,time:11}),saveAudio:(...x)=>saved.push(x),clearAudio:t=>cleared.push(t)}},
+ document:{hidden:false,addEventListener(){}},AbortSignal,fetch:async()=>({ok:true,blob:async()=>({})}),
+ URL:{createObjectURL:()=> 'blob:resume',revokeObjectURL(){}},Audio:class{constructor(){this.duration=30;this.currentTime=0;audios.push(this);}pause(){}play(){return Promise.resolve();}}};
+ vm.createContext(context);vm.runInContext(src.slice(src.indexOf('  var voiceAudio ='),src.indexOf('  function sectionSpeech')),context);
+ const text='A complete sentence about movement in water. '.repeat(20);
+ assert.equal(context.voicePieces(text).length,2);
+ let complete=false;context.global.CSTrainingVoice.speak(text,r=>complete=r.completed);
+ for(let i=0;i<10;i++)await Promise.resolve();
+ audios[0].onloadedmetadata();assert.equal(audios[0].currentTime,11);
+ audios[0].currentTime=16.7;audios[0].ontimeupdate();assert.equal(saved[0][1],1);assert.equal(saved[0][2],16);
+ audios[0].onended();assert.equal(complete,true);assert.deepEqual(cleared,[text]);assert.equal(audios.length,1);
+ console.log('ok narration seeks saved chunk and second, then clears checkpoint');
+}
+(async()=>{await resumeAudio();for(const kind of [null,'network','autoplay','decode','stop'])await run(kind);})().catch(e=>{console.error(e);process.exitCode=1;});

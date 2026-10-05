@@ -398,6 +398,7 @@
         e.preventDefault();
         e.stopImmediatePropagation();
         goToNext(next);
+        if (global.TrainingIResume) global.TrainingIResume.resume(next);
       }, true);
     });
   }
@@ -685,6 +686,7 @@
     if (gen !== voiceGen) return;
     voicePlaying = false;
     currentVoiceJob = null;
+    if (completed !== false && global.TrainingIResume) global.TrainingIResume.clearAudio(job.text);
     if (job && typeof job.onDone === 'function') job.onDone({ completed: completed !== false });
     playNextVoice();
   }
@@ -723,6 +725,16 @@
         var objectUrl = URL.createObjectURL(blob);
         var audio = new Audio(objectUrl);
         voiceAudio = audio;
+        var lastSaved = -1;
+        audio.onloadedmetadata = function () {
+          if (checkpoint && checkpoint.index === index && checkpoint.time > 0 && checkpoint.time < audio.duration) audio.currentTime = checkpoint.time;
+        };
+        audio.ontimeupdate = function () {
+          var second = Math.floor(audio.currentTime);
+          if (gen === voiceGen && second !== lastSaved && global.TrainingIResume) {
+            lastSaved = second; global.TrainingIResume.saveAudio(job.text, index, second);
+          }
+        };
         var settled = false;
         function settle(ok) {
           if (settled) return;
@@ -738,11 +750,12 @@
         if (gen === voiceGen) finishVoiceJob(job, gen, false);
       });
     }
-    play(0);
+    var checkpoint = global.TrainingIResume ? global.TrainingIResume.audioPosition(job.text) : { index: 0, time: 0 };
+    play(Math.min(checkpoint.index || 0, pieces.length - 1));
   }
   global.CSTrainingVoice = {
-    id: 'pFZP5JQG7iQjIQuC4Bku',
-    name: 'Lily',
+    id: 'B9PDs7mcHTMxHUw5U8Cf',
+    name: 'Holly',
     speak: function (text, onDone) {
       if (!onDone && (voicePlaying || voiceQueue.length)) return false;
       voiceQueue.push({ text: text, onDone: onDone });
@@ -794,7 +807,7 @@
       return panel ? String(panel.textContent || '').replace(/\s+/g, ' ').trim() : '';
     }
     if (section.id === 'inside-module') {
-      var bits = [];
+      var bits = ["Inside this module, we'll explore the following blocks."];
       section.querySelectorAll('.module-roadmap__item, .journey-item').forEach(function (item, index) {
         var title = item.querySelector('.journey-title');
         var hint = item.querySelector('.module-roadmap__hint, .journey-status');

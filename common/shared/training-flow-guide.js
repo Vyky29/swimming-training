@@ -2489,7 +2489,7 @@
 
   function insideModuleSpeechText(){
     var items = document.querySelectorAll('#inside-module .module-roadmap__item, #inside-module .journey-item');
-    var parts = [];
+    var parts = ["Inside this module, we'll explore the following blocks."];
     for(var i = 0; i < items.length; i++){
       var title = items[i].querySelector('.journey-title');
       var hint = items[i].querySelector('.module-roadmap__hint, .journey-status');
