@@ -1,4 +1,4 @@
-# Training I staff flow — 5 October 2026
+# Training I staff flow — 5–6 October 2026
 
 ## Completion rules
 
@@ -78,3 +78,5 @@ Live Module 2: Journey, all five narrated outcomes, and the revised Inside This 
 Module 2 In Practice acceptance: partial cue review originally reset after reload. Resume now saves reviewed Do/Look/Avoid cues and completed actions, synchronizes their visible counters through InPracticeSystem, and retains yellow usage-card reviews for Module 5. Browser checks confirmed resume at Look for after Do, then resume directly at the activity after all cues. Matching and concept completion still worked after those reloads. All six test suites pass (64 behavioral cases).
 
 Subconcept requirement audit found a legacy bypass in Modules 2 and 3: overview-return leaves treated their review and activity requirements as optional. Removed that exception. Production-handler tests now prove leaves require their activity, intro cards, and key ideas before Done enables. The live Calm screen now disables Done while its activity is pending. Parent navigation additionally checks the full parent content readiness rather than only its photo.
+
+Full live Module 2 path completed (6 October): all blocks, both nested pickers, real narration and photo gates, key ideas, In Practice cues, choice/classification/matching exercises, recap, and 8/8 quiz. Calm and Alert returned to their parent picker; Overloaded completed the parent. Reload between children retained Calm and resumed at Alert. Water-Based stayed locked at 7/8 classified items and enabled only after item 8. The final quiz correctly pulsed Go to Next Module and opened Module 3 with Modules 1 and 2 shown completed.
