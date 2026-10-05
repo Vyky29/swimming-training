@@ -64,3 +64,5 @@ Resume checkpoints are module-scoped: current concept, reviewed cards, finished 
 Browser return test: while inside Overview of Water Forces, left to the module chooser, returned, and selected Continue. The same concept reopened with Always Acting still reviewed and the next card highlighted; earlier completed stages did not replay.
 
 Latest API integration smoke: the local handler returned HTTP 200, audio/mpeg, 129193 bytes and X-Training-Voice-Id B9PDs7mcHTMxHUw5U8Cf for the requested Inside This Module / Block One introduction.
+
+Resume regression found and fixed in the live browser: restored intro cards looked checked but the module completion gate still read its initial dataset. Restoration now synchronizes the derived card gates and emits the normal completion-change event. Repeating the dashboard return, reviewing the activity, and finishing Dynamic Forces completed its parent and unlocked Block 2. An interrupted photo could be reopened without being falsely awarded; reviewed cards and completed photos stayed saved.

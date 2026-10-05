@@ -7,17 +7,19 @@ function harness(storage={},moduleNumber=1){
   getAttribute(k){return this.a[k]||null;},setAttribute(k,v){this.a[k]=v;},querySelector(){return null;},
   closest(s){return s==='.concept-panel'?panel:s==='[data-b2-screen]'?null:section;}};
  element.classList={contains:k=>element.classes.has(k),add:k=>element.classes.add(k)};
+ panel.querySelectorAll=()=>[element];panel.dispatchEvent=()=>{};
  const document={readyState:'complete',hidden:false,body:{},documentElement:{
   get attributes(){return Object.entries(attrs).map(([name,value])=>({name,value}));},getAttribute:k=>attrs[k],setAttribute(k,v){attrs[k]=v;}},
-  addEventListener(k,v){listeners[k]=v;},querySelectorAll(){return[element];},querySelector(s){return s.includes('.concept-panel.show')?panel:null;}};
+  addEventListener(k,v){listeners[k]=v;},querySelectorAll(s){return s==='.concept-panel.show'?[panel]:[element];},querySelector(s){return s.includes('.concept-panel.show')?panel:null;}};
  const global={addEventListener(k,v){listeners[k]=v;},renderConcept:(b,t)=>renders.push([b,t]),TrainingFlowGuide:{requestRefresh(){}}};
- const ctx={window:global,document,location:{pathname:`/training-i/modules/module-${moduleNumber}/`,href:`https://training.test/training-i/modules/module-${moduleNumber}/`},URL,
+ const ctx={CustomEvent:class{},window:global,document,location:{pathname:`/training-i/modules/module-${moduleNumber}/`,href:`https://training.test/training-i/modules/module-${moduleNumber}/`},URL,
  localStorage:{getItem:k=>storage[k]||null,setItem(k,v){storage[k]=v;}},MutationObserver:class{constructor(f){}observe(){}},setTimeout(){}};
  vm.runInNewContext(source,ctx);
  return {api:global.TrainingIResume,element,panel,attrs,listeners,renders,storage};
 }
 let h=harness();h.element.classes.add('clicked');h.element.a['data-pillar-spoken']='done';h.attrs['data-spoken-title-water']='done';h.api.capture();
 let reopened=harness(h.storage);assert.ok(reopened.element.classes.has('clicked'));assert.equal(reopened.element.a['data-pillar-spoken'],'done');assert.equal(reopened.attrs['data-spoken-title-water'],'done');
+assert.equal(reopened.panel.dataset.insightPillarsDone,'true');assert.equal(reopened.panel.dataset.keyIdeasDone,'true');
 assert.equal(reopened.api.resume({nextStep:'block1'}),true);assert.deepEqual(reopened.renders,[['block1','water']]);console.log('ok dashboard return restores concept and completed narration');
 let pending=harness();pending.element.a['data-pillar-spoken']='playing';pending.attrs['data-spoken-title-water']='playing';pending.api.capture();let retry=harness(pending.storage);assert.equal(retry.element.a['data-pillar-spoken'],undefined);assert.equal(retry.attrs['data-spoken-title-water'],undefined);console.log('ok interrupted narration never restores a stuck playing flag');
 h.api.saveAudio('A complete story.',2,11);let audio=harness(h.storage);assert.equal(audio.api.audioPosition('A complete story.').index,2);assert.equal(audio.api.audioPosition('A complete story.').time,11);audio.api.clearAudio('A complete story.');assert.equal(harness(h.storage).api.audioPosition('A complete story.').time,0);console.log('ok audio position survives navigation and clears on completion');

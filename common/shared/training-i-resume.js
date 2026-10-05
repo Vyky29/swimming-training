@@ -51,6 +51,18 @@
         if (flags[attr] === 'done' && el.getAttribute(attr) !== 'done') el.setAttribute(attr, 'done');
       });
     });
+    // Restoring appearance must also restore the completion state consumed by modules.
+    document.querySelectorAll('.concept-panel.show').forEach(function (panel) {
+      var changed = false;
+      [['.concept-insight-pillar', 'insightPillarsDone'], ['.key-idea-item', 'keyIdeasDone']].forEach(function (entry) {
+        var cards = panel.querySelectorAll(entry[0]);
+        if (!cards.length) return;
+        var complete = Array.prototype.every.call(cards, function (card) { return card.classList.contains('clicked'); });
+        var value = complete ? 'true' : 'false';
+        if (panel.dataset[entry[1]] !== value) { panel.dataset[entry[1]] = value; changed = true; }
+      });
+      if (changed) panel.dispatchEvent(new CustomEvent('concept-insight-pillars-change', { bubbles: true }));
+    });
   }
   global.TrainingIResume = {
     capture: capture,
