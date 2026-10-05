@@ -22,6 +22,7 @@ node scripts/test-training-i-voice.cjs
 node scripts/test-training-i-tts.cjs
 node scripts/test-training-i-resume.cjs
 node scripts/test-training-i-next-module.cjs
+node scripts/test-subconcept-requirements.cjs
 node scripts/flow-smoke.mjs
 node scripts/module-audit.mjs
 python3 build_swimming_training.py
@@ -75,3 +76,5 @@ Full live Module 1 path completed: all three blocks, nested forces leaves, photo
 Live Module 2: Journey, all five narrated outcomes, and the revised Inside This Module introduction completed in order. After finishing the first concept, reload exposed a stale resume point reopening that completed concept. Resume now rejects targets already present in the module completion record; repeated reload correctly guides to Teaching Requires Regulation. Finish cues use the actual button label (Continue or Done).
 
 Module 2 In Practice acceptance: partial cue review originally reset after reload. Resume now saves reviewed Do/Look/Avoid cues and completed actions, synchronizes their visible counters through InPracticeSystem, and retains yellow usage-card reviews for Module 5. Browser checks confirmed resume at Look for after Do, then resume directly at the activity after all cues. Matching and concept completion still worked after those reloads. All six test suites pass (64 behavioral cases).
+
+Subconcept requirement audit found a legacy bypass in Modules 2 and 3: overview-return leaves treated their review and activity requirements as optional. Removed that exception. Production-handler tests now prove leaves require their activity, intro cards, and key ideas before Done enables. The live Calm screen now disables Done while its activity is pending. Parent navigation additionally checks the full parent content readiness rather than only its photo.

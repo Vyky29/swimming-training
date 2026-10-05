@@ -4936,17 +4936,16 @@
  }
  var dwellEnd = parseInt(panel.dataset.conceptDwellEnd, 10) || 0;
  var dwellOk = !dwellEnd || Date.now() >= dwellEnd;
- var optionalSubconceptActivity = isOverviewReturnSubconcept(block, target);
  var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
  var requiredMatches = data.matchingPairsCount || 7;
- var matchingOk = optionalSubconceptActivity || !data.requiresMatching || matchedCount === requiredMatches;
- var categorizeOk = optionalSubconceptActivity || !data.requiresCategorize || panel.dataset.categorizeComplete === 'true';
- var choiceOk = optionalSubconceptActivity || !data.requiresChoiceActivity || panel.dataset.choiceComplete === 'true';
- var carouselOk = optionalSubconceptActivity || !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
- var reflectAckOk = optionalSubconceptActivity || !data.requiresReflectAck || panel.dataset.reflectAckComplete === 'true';
- var keyIdeasOk = optionalSubconceptActivity || panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
- var insightPillarsOk = optionalSubconceptActivity || panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
- var inPracticeOk = optionalSubconceptActivity || isInPracticeCompleteForPanel(panel);
+ var matchingOk = !data.requiresMatching || matchedCount === requiredMatches;
+ var categorizeOk = !data.requiresCategorize || panel.dataset.categorizeComplete === 'true';
+ var choiceOk = !data.requiresChoiceActivity || panel.dataset.choiceComplete === 'true';
+ var carouselOk = !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
+ var reflectAckOk = !data.requiresReflectAck || panel.dataset.reflectAckComplete === 'true';
+ var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
+ var insightPillarsOk = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
+ var inPracticeOk = isInPracticeCompleteForPanel(panel);
  var canFinish = dwellOk && matchingOk && categorizeOk && choiceOk && carouselOk && reflectAckOk && keyIdeasOk && insightPillarsOk && inPracticeOk;
  finishBtn.disabled = !canFinish;
  finishBtn.style.opacity = canFinish ? '1' : '.55';
@@ -6185,7 +6184,7 @@
  <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20261005utf8"></script>
  <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20261005resume9"></script>
+<script src="/shared/in-practice-system.js?v=20261005resume10"></script>
 <script src="/shared/premium-option-grid.js?v=20260714opt2"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260714core1"></script>
@@ -6195,10 +6194,10 @@
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-i-resume.js?v=20261005resume9"></script>
-<script src="/shared/training-flow-guide.js?v=20261005resume9"></script>
-<script src="/shared/training-i-progress.js?v=20261005resume9"></script>
-<script src="/shared/training-i-module-shell.js?v=20261005resume9"></script>
+ <script src="/shared/training-i-resume.js?v=20261005resume10"></script>
+<script src="/shared/training-flow-guide.js?v=20261005resume10"></script>
+<script src="/shared/training-i-progress.js?v=20261005resume10"></script>
+<script src="/shared/training-i-module-shell.js?v=20261005resume10"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
@@ -6557,8 +6556,8 @@
  })();
  </script>
  
- <script src="/shared/training-i-image-speech.js?v=20261005resume9"></script>
- <script src="/shared/concept-visual-expand-system.js?v=20261005resume9"></script>
+ <script src="/shared/training-i-image-speech.js?v=20261005resume10"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20261005resume10"></script>
 </body>
 </html>
 

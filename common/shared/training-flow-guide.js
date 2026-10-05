@@ -4342,7 +4342,7 @@
       var sub = e.target.closest && e.target.closest('.overview-subconcept-btn, [data-overview-subtarget], [data-parent-subconcept-nav] .concept-square');
       if(sub){
         var subPanel = sub.closest('.concept-panel');
-        if(subPanel && conceptPhotoPending(subPanel)){
+        if(subPanel && !parentHubContentReady(subPanel)){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
