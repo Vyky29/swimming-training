@@ -16,14 +16,17 @@
     var screen = el.closest('[data-b2-screen]');
     var section = el.closest('section[id], [data-panel-for]');
     var copy = el.querySelector('.key-idea-text') || el;
-    var text = String(copy.textContent || '').replace(/✓|\bREVIEWED\b|\bREVIEW\b/g, '').replace(/\s+/g, ' ').trim();
+    var copyText = el.classList.contains('key-ideas-action') ? ['[data-inprac-lead]', '[data-inprac-look]', '[data-inprac-avoid]'].map(function (selector) { var node = el.querySelector(selector); return node ? node.textContent : ''; }).join('|') : copy.textContent;
+    var text = String(copyText || '').replace(/✓|\bREVIEWED\b|\bREVIEW\b/g, '').replace(/\s+/g, ' ').trim();
     return [(panel && panel.dataset.currentTarget) || (section && section.id) || 'module', screen && screen.dataset.b2Screen || '', text].join('|');
   }
-  var selector = '.concept-insight-pillar, .key-idea-item, #outcomes .outcome, .block-intro-card, .recap-card, .recap-takeaway-card';
+  var selector = '.concept-insight-pillar, .key-idea-item, #outcomes .outcome, .block-intro-card, .recap-card, .recap-takeaway-card, [data-inprac-part], .key-ideas-action, .m5-yellow-use-card';
   function capture() {
     document.querySelectorAll(selector).forEach(function (el) {
       var flags = {};
       if (el.classList.contains('clicked')) flags.clicked = true;
+      if (el.classList.contains('is-reviewed')) flags.reviewed = true;
+      if (el.classList.contains('is-completed')) flags.completed = true;
       ['data-pillar-spoken', 'data-outcome-spoken'].forEach(function (attr) { if (el.getAttribute(attr) === 'done') flags[attr] = 'done'; });
       if (Object.keys(flags).length) saved.reviews[reviewKey(el)] = flags;
     });
@@ -35,12 +38,18 @@
     write();
   }
   function restore() {
+    var changedActions = [];
     Object.keys(saved.speech).forEach(function (attr) {
       if (saved.speech[attr] && attr.indexOf('data-spoken-') === 0 && document.documentElement.getAttribute(attr) !== 'done') document.documentElement.setAttribute(attr, 'done');
     });
     document.querySelectorAll(selector).forEach(function (el) {
       var flags = saved.reviews[reviewKey(el)];
       if (!flags) return;
+      if (flags.reviewed && !el.classList.contains('is-reviewed')) {
+        el.classList.add('is-reviewed'); el.setAttribute('aria-pressed', 'true');
+        var action = el.closest('.key-ideas-action');
+        if (action && changedActions.indexOf(action) === -1) changedActions.push(action);
+      }
       if (flags.clicked) {
         if (!el.classList.contains('clicked')) el.classList.add('clicked');
         if (el.getAttribute('aria-checked') !== 'true') el.setAttribute('aria-checked', 'true');
@@ -51,6 +60,13 @@
         if (flags[attr] === 'done' && el.getAttribute(attr) !== 'done') el.setAttribute(attr, 'done');
       });
     });
+    if (global.InPracticeSystem) {
+      document.querySelectorAll('.key-ideas-action').forEach(function (action) {
+        var flags = saved.reviews[reviewKey(action)];
+        if (flags && flags.completed && !action.classList.contains('is-completed')) global.InPracticeSystem.completeAction(action);
+      });
+      changedActions.forEach(function (action) { if (global.InPracticeSystem.refreshProgress) global.InPracticeSystem.refreshProgress(action); });
+    }
     // Restoring appearance must also restore the completion state consumed by modules.
     document.querySelectorAll('.concept-panel.show').forEach(function (panel) {
       var changed = false;

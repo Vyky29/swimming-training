@@ -27,3 +27,5 @@ h.api.imageReviewed('https://training.test/assets/photo.png');assert.equal(harne
 assert.equal(harness(h.storage,2).element.classes.has('clicked'),false);assert.equal(reopened.api.resume({nextStep:'block2'}),false);console.log('ok module and prerequisite boundaries prevent wrong restoration');
 
 let finished=harness(h.storage);assert.equal(finished.api.resume({nextStep:'block1',concepts:{block1:['water']}}),false);assert.equal(finished.renders.length,0);console.log('ok completed concepts are not reopened by stale resume points');
+
+let practice=harness();practice.element.classes.add('is-reviewed');practice.api.capture();let continuedPractice=harness(practice.storage);assert.ok(continuedPractice.element.classes.has('is-reviewed'));assert.equal(continuedPractice.element.a['aria-pressed'],'true');console.log('ok partially reviewed practice cues survive navigation');
