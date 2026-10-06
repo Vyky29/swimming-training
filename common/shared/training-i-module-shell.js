@@ -251,8 +251,17 @@
     });
     (snap.outcomesReviewed || []).forEach(function (id) {
       var card = $('[data-outcome-item="' + id + '"]');
-      if (card) card.classList.add('clicked', 'is-reviewed');
+      if (card) {
+        card.classList.add('clicked', 'is-reviewed');
+        card.setAttribute('aria-pressed', 'true');
+        card.setAttribute('aria-checked', 'true');
+      }
     });
+    var restoredOutcomes = $$('#outcomes .outcome');
+    var reviewedCount = restoredOutcomes.filter(function(card){ return card.classList.contains('clicked'); }).length;
+    var helper = document.getElementById('outcomesHelper');
+    if(helper && restoredOutcomes.length) helper.textContent = reviewedCount === restoredOutcomes.length
+      ? 'All learning outcomes reviewed.' : reviewedCount + ' of ' + restoredOutcomes.length + ' learning outcomes reviewed.';
     if (snap.status === 'review' || snap.status === 'completed') {
       $$('.gated-locked').forEach(function (section) {
         section.classList.remove('gated-locked');
@@ -326,7 +335,7 @@
           : !!(snap.steps && snap.steps[stepKey]);
       var isNext = nextId === id;
       if (!done && !isNext) return;
-      var section = document.getElementById(id);
+      var section = document.getElementById(id) || (id === 'recap' ? document.getElementById('keyideas') : null);
       if (section) section.classList.remove('gated-locked');
     });
   }
@@ -389,6 +398,7 @@
         e.preventDefault();
         e.stopImmediatePropagation();
         goToNext(next);
+        if (global.TrainingIResume) global.TrainingIResume.resume(next);
       }, true);
     });
   }
@@ -412,35 +422,28 @@
   }
 
   function bindConcepts(moduleNumber) {
-    // Do not open or complete a concept here. This listener runs before the
-    // module paints the panel. Marking it visited on the click itself made the
-    // guide treat the square as finished and cancel the render, so the first
-    // concept stayed an empty shell and the only click left was the next square.
-    document.addEventListener('click', function (e) {
-      var finish = e.target.closest && e.target.closest('[data-finish-concept]');
-      if (!finish) return;
-      var panel = finish.closest('.concept-panel');
-      if (!panel) return;
-      var block = panel.getAttribute('data-panel-for') || panel.dataset.currentBlock;
-      var target = panel.dataset.currentTarget;
-      if (block && target) {
-        P.markConcept(moduleNumber, block, target);
-        var btn = $('[data-concept-grid="' + block + '"] [data-target="' + target + '"]');
-        if (btn) btn.classList.add('visited');
-        refresh(moduleNumber);
-      }
-    });
+    // Module completion handlers persist the exact leaf before rendering its
+    // parent or clearing the panel. Reading currentTarget during bubbling can
+    // accidentally award the parent instead of the leaf just completed.
+    P.subscribe(function () { refresh(moduleNumber); });
   }
 
   function bindOutcomes(moduleNumber) {
     $$('[data-outcome-item], .outcomes .outcome').forEach(function (card, index) {
       var id = card.getAttribute('data-outcome-item') || String(index + 1);
+      card.setAttribute('data-outcome-item', id);
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
       card.setAttribute('aria-pressed', card.classList.contains('clicked') ? 'true' : 'false');
       function mark() {
+        var journey = $('input[data-stage-check="journey"]');
+        var first = $('#outcomes .outcome:not(.clicked)');
+        if (!journey || !journey.checked || (first && first !== card && !card.classList.contains('clicked'))) return;
+        if (document.documentElement.getAttribute('data-guided-flow') === 'true' &&
+            document.documentElement.getAttribute('data-spoken-outcomes-read') !== 'done') return;
         card.classList.add('clicked', 'is-reviewed');
         card.setAttribute('aria-pressed', 'true');
+        card.setAttribute('aria-checked', 'true');
         P.markOutcome(moduleNumber, id);
         var group = card.closest('[data-outcomes-group], .outcomes');
         if (group) {
@@ -529,6 +532,12 @@
       if (!form || !form.id || !/quizForm/i.test(form.id)) return;
       setTimeout(function () {
         var scoreCard = form.parentNode && form.parentNode.querySelector('.score-card.show, #scoreCardM1, #scoreCardM2, #scoreCardM3, #scoreCardM4, #scoreCardM5');
+        // Current modules submit their numeric score directly. Never infer a pass
+        // from presentation copy, which may be changed by a shared result card.
+        if(scoreCard && scoreCard.hasAttribute('data-quiz-passed')){
+          refresh(moduleNumber);
+          return;
+        }
         var valueEl = document.getElementById('scoreValueM' + moduleNumber) || (scoreCard && scoreCard.querySelector('#scoreValueM' + moduleNumber + ', .score-value, #scoreValue'));
         var text = valueEl ? String(valueEl.textContent || '') : '';
         var passed = /passed/i.test(text);
@@ -644,55 +653,57 @@
   function voicePieces(text) {
     var clean = String(text || '').replace(/\s+/g, ' ').trim();
     if (!clean) return [];
-    var words = clean.split(' ');
-    var head = '';
-    for (var i = 0; i < words.length; i++) {
-      var next = head ? head + ' ' + words[i] : words[i];
-      if (next.length > 110 && head) break;
-      head = next;
-    }
-    var pieces = [head];
-    var rest = clean.slice(head.length).trim();
-    var bucket = '';
-    rest.split(/(?<=[.!?])\s+/).filter(Boolean).forEach(function (sentence) {
-      var joined = bucket ? bucket + ' ' + sentence : sentence;
-      if (bucket && joined.length > 280) {
-        pieces.push(bucket);
-        bucket = sentence;
-      } else {
-        bucket = joined;
+    // Preserve complete sentences; never truncate the narration after eight chunks.
+    var pieces = [], bucket = '';
+    clean.split(/(?<=[.!?])\s+/).forEach(function (sentence) {
+      if (bucket && (bucket + ' ' + sentence).length > 600) {
+        pieces.push(bucket); bucket = '';
       }
+      while (sentence.length > 3000) {
+        var split = sentence.lastIndexOf(' ', 3000);
+        if (split < 1) split = 3000;
+        if (bucket) { pieces.push(bucket); bucket = ''; }
+        pieces.push(sentence.slice(0, split)); sentence = sentence.slice(split).trim();
+      }
+      bucket = bucket ? bucket + ' ' + sentence : sentence;
     });
     if (bucket) pieces.push(bucket);
-    return pieces.slice(0, 8);
+    return pieces;
   }
+
   var voiceCache = {};
   function fetchVoice(text) {
     if (voiceCache[text]) return voiceCache[text];
     voiceCache[text] = fetch('/api/tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: text })
+      body: JSON.stringify({ text: text }),
+      signal: AbortSignal.timeout(45000)
     }).then(function (res) {
       if (!res.ok) throw new Error('tts');
       return res.blob();
-    });
+    }).catch(function (error) { delete voiceCache[text]; throw error; });
     return voiceCache[text];
   }
   var voiceQueue = [];
   var voicePlaying = false;
-  function finishVoiceJob(job, gen) {
+  var currentVoiceJob = null;
+  function finishVoiceJob(job, gen, completed) {
     if (gen !== voiceGen) return;
     voicePlaying = false;
-    if (job && typeof job.onDone === 'function') job.onDone();
+    currentVoiceJob = null;
+    if (completed !== false && global.TrainingIResume) global.TrainingIResume.clearAudio(job.text);
+    if (job && typeof job.onDone === 'function') job.onDone({ completed: completed !== false });
     playNextVoice();
   }
   function playNextVoice() {
     if (voicePlaying || !voiceQueue.length) return;
     var job = voiceQueue.shift();
+    currentVoiceJob = job;
     var pieces = voicePieces(job.text);
     if (!pieces.length) {
-      if (typeof job.onDone === 'function') job.onDone();
+      currentVoiceJob = null;
+      if (typeof job.onDone === 'function') job.onDone({ completed: false });
       playNextVoice();
       return;
     }
@@ -702,6 +713,7 @@
     function load(index) {
       if (index >= pieces.length || pending[index]) return;
       pending[index] = fetchVoice(pieces[index]);
+      pending[index].catch(function () {});
     }
     function play(index) {
       if (gen !== voiceGen) return;
@@ -716,19 +728,40 @@
         if (voiceAudio) {
           try { voiceAudio.pause(); } catch (err) {}
         }
-        voiceAudio = new Audio(URL.createObjectURL(blob));
-        voiceAudio.onended = function () { play(index + 1); };
-        var started = voiceAudio.play();
-        if (started && typeof started.catch === 'function') started.catch(function () { play(index + 1); });
+        var objectUrl = URL.createObjectURL(blob);
+        var audio = new Audio(objectUrl);
+        voiceAudio = audio;
+        var lastSaved = -1;
+        audio.onloadedmetadata = function () {
+          if (checkpoint && checkpoint.index === index && checkpoint.time > 0 && checkpoint.time < audio.duration) audio.currentTime = checkpoint.time;
+        };
+        audio.ontimeupdate = function () {
+          var second = Math.floor(audio.currentTime);
+          if (gen === voiceGen && second !== lastSaved && global.TrainingIResume) {
+            lastSaved = second; global.TrainingIResume.saveAudio(job.text, index, second);
+          }
+        };
+        var settled = false;
+        function settle(ok) {
+          if (settled) return;
+          settled = true; URL.revokeObjectURL(objectUrl);
+          if (voiceAudio === audio) voiceAudio = null;
+          if (ok) play(index + 1); else finishVoiceJob(job, gen, false);
+        }
+        voiceAudio.onended = function () { settle(true); };
+        voiceAudio.onerror = function () { settle(false); };
+        var started = document.hidden ? null : voiceAudio.play();
+        if (started && typeof started.catch === 'function') started.catch(function () { settle(false); });
       }).catch(function () {
-        if (gen === voiceGen) play(index + 1);
+        if (gen === voiceGen) finishVoiceJob(job, gen, false);
       });
     }
-    play(0);
+    var checkpoint = global.TrainingIResume ? global.TrainingIResume.audioPosition(job.text) : { index: 0, time: 0 };
+    play(Math.min(checkpoint.index || 0, pieces.length - 1));
   }
   global.CSTrainingVoice = {
-    id: 'pFZP5JQG7iQjIQuC4Bku',
-    name: 'Lily',
+    id: 'B9PDs7mcHTMxHUw5U8Cf',
+    name: 'Holly',
     speak: function (text, onDone) {
       if (!onDone && (voicePlaying || voiceQueue.length)) return false;
       voiceQueue.push({ text: text, onDone: onDone });
@@ -736,25 +769,41 @@
       return true;
     },
     trySpeak: function (text, utterance, syncStop) {
-      var ok = this.speak(text);
-      if (voiceAudio) {
-        voiceAudio.addEventListener('ended', function onDone() {
-          if (utterance && typeof utterance.onend === 'function') utterance.onend();
-          if (syncStop) syncStop();
-        });
-      }
-      return ok;
+      return this.speak(text, function (result) {
+        if (utterance) {
+          var callback = result && result.completed ? utterance.onend : utterance.onerror;
+          if (typeof callback === 'function') callback.call(utterance);
+        }
+        if (syncStop) syncStop();
+      });
     },
     stop: function () {
       voiceGen += 1;
+      var cancelled = (currentVoiceJob ? [currentVoiceJob] : []).concat(voiceQueue);
+      currentVoiceJob = null;
       voiceQueue = [];
       voicePlaying = false;
       if (voiceAudio) {
         try { voiceAudio.pause(); } catch (err) {}
+        if (voiceAudio.src) URL.revokeObjectURL(voiceAudio.src);
         voiceAudio = null;
       }
+      cancelled.forEach(function (job) {
+        if (typeof job.onDone === 'function') job.onDone({ completed: false, cancelled: true });
+      });
     }
   };
+
+  document.addEventListener('visibilitychange', function () {
+    if (!voiceAudio || !voicePlaying) return;
+    if (document.hidden) voiceAudio.pause();
+    else {
+      var resumed = voiceAudio.play();
+      if (resumed && resumed.catch) resumed.catch(function () {
+        if (voiceAudio && voiceAudio.onerror) voiceAudio.onerror();
+      });
+    }
+  });
 
   function sectionSpeech(button) {
     var section = button.closest('section, .concept-panel, .block-part');
@@ -764,7 +813,7 @@
       return panel ? String(panel.textContent || '').replace(/\s+/g, ' ').trim() : '';
     }
     if (section.id === 'inside-module') {
-      var bits = [];
+      var bits = ["Inside this module, we'll explore the following blocks."];
       section.querySelectorAll('.module-roadmap__item, .journey-item').forEach(function (item, index) {
         var title = item.querySelector('.journey-title');
         var hint = item.querySelector('.module-roadmap__hint, .journey-status');
@@ -870,16 +919,24 @@
     maybeResetFromQuery();
     P.MODULES.forEach(function (def) {
       var snap = P.getSnapshot(def.id);
+      var available = P.moduleUnlocked(def.id);
       var card = $('.module-card[data-module-number="' + def.number + '"]');
       if (!card) return;
       var badge = card.querySelector('.module-status-badge') || document.getElementById('moduleStatus' + def.number);
       if (badge) {
-        badge.textContent = P.statusLabel(snap.status);
+        badge.textContent = available ? P.statusLabel(snap.status) : 'Locked';
         badge.className = 'module-status-badge status-' + snap.status;
       }
       var btn = card.querySelector('.module-btn, .module-footer a.btn');
       if (btn) {
-        btn.textContent = snap.cta;
+        btn.textContent = available ? snap.cta : 'Complete Module ' + (def.number - 1) + ' first';
+        if(available){
+          btn.setAttribute('href', '/training-i/modules/module-' + def.number + '/');
+          btn.removeAttribute('aria-disabled');
+        } else {
+          btn.removeAttribute('href');
+          btn.setAttribute('aria-disabled', 'true');
+        }
         btn.classList.remove('btn-primary', 'btn-secondary');
         btn.classList.add(snap.status === 'not-started' ? 'btn-primary' : 'btn-primary');
       }
@@ -894,7 +951,7 @@
         if (key.indexOf('blockIntro_') === 0) localStorage.removeItem(key);
         if (key.indexOf('swimming_module_' + moduleNumber) === 0) localStorage.removeItem(key);
       });
-      sessionStorage.clear();
+      sessionStorage.removeItem('cs_img_dwell');
     } catch (err) {}
   }
 
@@ -924,6 +981,10 @@
   function bootModule() {
     var moduleNumber = detectModuleNumber();
     if (!moduleNumber) return;
+    if (!P.moduleUnlocked(moduleNumber)) {
+      global.location.replace('/training-i/');
+      return;
+    }
     mountRestart(moduleNumber);
     maybeResetFromQuery();
     normalizeNavLabels();

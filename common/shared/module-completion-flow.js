@@ -238,6 +238,7 @@
   function renderResultCard(options){
     var scoreCard = options.scoreCard;
     if(!scoreCard) return;
+    scoreCard.setAttribute('data-quiz-passed', options.passed ? 'true' : 'false');
 
     var title = scoreCard.querySelector('h2');
     var scoreValue = options.scoreValue || scoreCard.querySelector('.score-value');
@@ -252,7 +253,8 @@
 
     if(scoreValue){
       scoreValue.hidden = false;
-      scoreValue.textContent = options.scoreLabel || 'QUIZ PASSED';
+      if(options.passed) scoreValue.textContent = options.scoreLabel || 'QUIZ PASSED';
+      else if(options.scoreLabel) scoreValue.textContent = options.scoreLabel;
     }
 
     if(options.passed){

@@ -600,6 +600,7 @@
     iconHtml: iconHtml,
     shellInnerHtml: shellInnerHtml,
     refreshIcon: refreshIcon,
+    refreshProgress: syncChrome,
     ensureStructure: ensureStructure,
     enhanceAction: enhanceAction,
     applyScenarioCopy: applyScenarioCopy,

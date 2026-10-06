@@ -8305,7 +8305,7 @@ grid-column:1;
  </div>
  </div>
 
- <script src="/shared/parent-subconcept-layout.js?v=20260715explore1"></script>
+ <script src="/shared/parent-subconcept-layout.js?v=20261006resume24"></script>
  <script src="/shared/module-block-accordion.js?v=20260714ttsheader1"></script>
  <script>
  document.addEventListener('DOMContentLoaded', function(){
@@ -9675,12 +9675,12 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
    + '<div class="b3c3-timeline-activity concept-section-card section-activity-shell">'
    + ((window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
       '<div class="concept-section-head concept-section-head--activity activity-shell-head"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity - Apply your understanding</span></div>')
-   + '<p class="activity-mini-guide">Familiarise yourself with the Swimming Term Review form. Open it and simulate a full review from start to finish, as you would for a real swimmer.</p>'
+   + '<p class="activity-mini-guide">Optional practice: familiarise yourself with the Swimming Term Review form. Use a fictional example to plan a review; do not submit a practice record.</p>'
    + '<div class="activity-container activity-container--concept">'
-   + '<p class="activity-question">Open the Term Review form and complete one practice review end to end.</p>'
+   + '<p class="activity-question">This external practice is not recorded in your training progress. Your three review steps above count towards this module.</p>'
    + '<a href="https://clubsensational-staff.vercel.app/swtermreview.html" class="b3c3-timeline-form" target="_blank" rel="noopener noreferrer">'
    + '<span class="b3c3-timeline-form-copy">'
-   + '<span class="b3c3-timeline-form-kicker">Practice task</span>'
+   + '<span class="b3c3-timeline-form-kicker">Optional practice</span>'
    + '<span class="b3c3-timeline-form-title">Swimming Term Review</span>'
    + '<span class="b3c3-timeline-form-hint">Open the form and work through a complete example</span>'
    + '</span>'
@@ -9778,6 +9778,26 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
 
  const principlesReviewed = new Set();
 
+ function restoreConceptCompletion(){
+ if(!window.TrainingIProgress) return;
+ var saved = TrainingIProgress.getSnapshot(4).concepts || {};
+ Object.keys(conceptCompletion).forEach(function(block){
+ (saved[block] || []).forEach(function(target){ conceptCompletion[block].add(target); });
+ });
+ // A completed level earns its nested focus/activity keys as one unit.
+ block2LevelIds.forEach(function(levelId, index){
+ if(!conceptCompletion.block3.has(levelId)) return;
+ (block2LevelGroups[index] || []).forEach(function(target){ conceptCompletion.block3.add(target); });
+ var hub = levelId + '_focus';
+ if(conceptGroups.block3.order.indexOf(hub) !== -1) conceptCompletion.block3.add(hub);
+ });
+ Object.keys(conceptCompletion).forEach(function(block){
+ document.querySelectorAll('[data-concept-grid="' + block + '"] [data-target]').forEach(function(button){
+ button.classList.toggle('visited', conceptCompletion[block].has(button.dataset.target));
+ });
+ updateConceptProgress(block);
+ });
+ }
  const conceptHistory = { block1: [], block2: [], block3: [], block4: [] };
 
  const block2LevelGroups = [
@@ -10371,6 +10391,7 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
  }
 
  function markConceptComplete(block, target){
+ if(window.TrainingIProgress) TrainingIProgress.markConcept(4, block, target);
  conceptCompletion[block].add(target);
  const button = document.querySelector(`[data-concept-grid="${block}"] [data-target="${target}"]`);
  if(button) button.classList.add('visited');
@@ -10640,6 +10661,13 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
  }
 
  function finishConcept(block, target){
+ if(typeof window !== 'undefined' && window.TrainingFlowGuide && TrainingFlowGuide.conceptPhotoPending){
+ var activePanel = document.querySelector('[data-panel-for="' + block + '"]');
+ if(activePanel && activePanel.dataset.currentTarget === target && TrainingFlowGuide.conceptPhotoPending(activePanel)){
+ TrainingFlowGuide.requestRefresh([80]);
+ return;
+ }
+ }
  // Accordion pathway levels write the nested keys the progress counter expects
  if(block === 'block3' && /^b2l[1-6]$/.test(target)){
  markPathwayAccordionLevelComplete(target);
@@ -11327,6 +11355,9 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
  : 'Tap each card to review it. Complete all three to unlock the levels.';
  }
  }
+ if(panel._stageCardsRestored) panel.removeEventListener('training-stage-cards-restored', panel._stageCardsRestored);
+ panel._stageCardsRestored = syncStageCards;
+ panel.addEventListener('training-stage-cards-restored', syncStageCards);
  cards.forEach(function(card){
  if(stageHasProgress){
  card.classList.add('is-complete');
@@ -11358,6 +11389,7 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
  }
 
  function renderConcept(block, target, fromBack, opts){
+ if(window.TrainingIResume) TrainingIResume.capture();
  opts = opts || {};
  const data = conceptContent[target];
  const panel = document.querySelector(`[data-panel-for="${block}"]`);
@@ -12216,6 +12248,13 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  }
  zones.forEach(function(zone){
  var zoneItems = zone.querySelector('.categorize-zone-items');
+ zone.setAttribute('tabindex', '0');
+ zone.setAttribute('role', 'button');
+ var zoneTitle = zone.querySelector('h5, h4');
+ zone.setAttribute('aria-label', 'Place selected item in ' + (zoneTitle ? zoneTitle.textContent : zone.dataset.zone));
+ zone.addEventListener('keydown', function(e){
+ if(e.target === zone && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); zone.click(); }
+ });
  if(!zoneItems) return;
  function acceptZoneItem(item){
  if(!item) return;
@@ -12225,7 +12264,8 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  }
  makeDropTarget(zoneItems, acceptZoneItem);
  makeDropTarget(zone, acceptZoneItem);
- zoneItems.addEventListener('click', function(){
+ zoneItems.addEventListener('click', function(e){
+ if(e.target && e.target.closest && e.target.closest('.categorize-item')) return;
  if(!selectedItem) return;
  acceptZoneItem(selectedItem);
  selectedItem.classList.remove('selected');
@@ -12249,7 +12289,8 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  }
  updateFinishState();
  });
- poolItems.addEventListener('click', function(){
+ poolItems.addEventListener('click', function(e){
+ if(e.target && e.target.closest && e.target.closest('.categorize-item')) return;
  if(!selectedItem) return;
  poolItems.appendChild(selectedItem);
  selectedItem.classList.remove('selected');
@@ -12423,6 +12464,7 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  function setupClickToPlace(){
  container.querySelectorAll('.match-chip').forEach(function(chip){
  chip.setAttribute('tabindex', '0');
+ chip.setAttribute('role', 'button');
  chip.addEventListener('click', function(){
  var parentDrop = chip.closest('.slot-drop');
  if(parentDrop){
@@ -12442,6 +12484,7 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  chip.classList.add('selected');
  });
  chip.addEventListener('keydown', function(e){
+ e.stopPropagation();
  if(e.key === 'Enter' || e.key === ' '){
  e.preventDefault();
  chip.click();
@@ -12449,6 +12492,16 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  });
  });
  slots.forEach(function(slot){
+ slot.setAttribute('role', 'button');
+ slot.setAttribute('tabindex', '0');
+ var label = slot.querySelector('.slot-label');
+ if(label) slot.setAttribute('aria-label', label.textContent.trim());
+ slot.addEventListener('keydown', function(e){
+ if(e.target === slot && (e.key === 'Enter' || e.key === ' ')){
+ e.preventDefault();
+ slot.click();
+ }
+ });
  slot.addEventListener('click', function(){
  if(!selectedChip) return;
  var dz = slot.querySelector('.slot-drop');
@@ -12718,7 +12771,10 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  /* Detail lives in the factor grid so it can spill under the active row */
  if(panelEl.parentNode !== grid) grid.appendChild(panelEl);
  panelEl.setAttribute('aria-live','polite');
- var reviewed = {};
+ var reviewTarget = panel.dataset.currentTarget;
+ var factorReview = window.TrainingIResume ? TrainingIResume.levelReview(reviewTarget) : {};
+ var reviewed = factorReview.factors || (factorReview.factors = {});
+ function saveFactorReview(){ if(window.TrainingIResume) TrainingIResume.saveLevelReview(reviewTarget, factorReview); }
 
  function syncExploreDone(){
  var done = true;
@@ -12804,6 +12860,7 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  }
  card.addEventListener('click', function(){
  reviewed[factorKey][key] = true;
+ saveFactorReview();
  card.classList.add('is-done');
  card.setAttribute('aria-pressed', 'true');
  var conf = card.querySelector('.b3c2-factor-info-confirm');
@@ -12816,6 +12873,7 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  boxes.forEach(function(btn){
  btn.addEventListener('click', function(){
  var key = btn.getAttribute('data-factor-key');
+ factorReview.lastFactor = key; saveFactorReview();
  var titleEl = btn.querySelector('.b3c2-factor-box-title');
  var iconEl = btn.querySelector('.b3c2-factor-box-icon img');
  var factorTitle = titleEl ? titleEl.textContent.trim() : '';
@@ -12846,6 +12904,8 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  });
  });
  syncExploreDone();
+ var lastFactor = boxes.find(function(btn){ return btn.getAttribute('data-factor-key') === factorReview.lastFactor; });
+ if(lastFactor) lastFactor.click();
  }
 
  function setupBlock3ConceptActivities(panel){
@@ -13213,7 +13273,10 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  };
  var focusData = focusDataByLevel[target] || {};
  var activityData = activityDataByLevel[target] || {};
- var pointDone = {};
+ var levelReview = window.TrainingIResume ? TrainingIResume.levelReview(target) : { points: {}, activities: {} };
+ var pointDone = levelReview.points || (levelReview.points = {});
+ var reviewedActivities = levelReview.activities || (levelReview.activities = {});
+ function saveLevelReview(){ if(window.TrainingIResume) TrainingIResume.saveLevelReview(target, levelReview); }
  var focusOpen = {};
  var activityOpen = {};
  function setDisclosureState(btn, open){
@@ -13259,6 +13322,11 @@ progress.setAttribute('aria-valuemin', '0');
 progress.setAttribute('aria-valuemax', String(total));
 progress.setAttribute('aria-valuenow', String(done));
 }
+ buttons.forEach(function(btn){
+ var data = focusData[btn.getAttribute('data-b2l1-item')];
+ var key = btn.getAttribute('data-b2l1-item');
+ if(data && data.points.every(function(_, idx){ return !!pointDone[target + '_' + key + '_' + idx]; })){ btn.classList.add('is-complete'); data.completed = true; }
+ });
 updateFocusProgress();
  buttons.forEach(function(btn){
  var key = btn.getAttribute('data-b2l1-item');
@@ -13270,10 +13338,12 @@ updateFocusProgress();
  if(isOpen){
  detail.hidden = true;
  focusOpen[key] = false;
+ if(levelReview.lastFocus === key) { delete levelReview.lastFocus; saveLevelReview(); }
  setDisclosureState(btn, false);
  return;
  }
  focusOpen[key] = true;
+ levelReview.lastFocus = key; saveLevelReview();
  setDisclosureState(btn, true);
  detail.innerHTML = '<div class="b2l1-list">' +
  data.points.map(function(point, idx){
@@ -13285,6 +13355,7 @@ updateFocusProgress();
  pointBtn.addEventListener('click', function(){
  var pKey = pointBtn.getAttribute('data-b2l1-point');
  pointDone[pKey] = true;
+ saveLevelReview();
  pointBtn.classList.add('is-done');
  var allDone = data.points.every(function(_, idx){ return !!pointDone[target + '_' + key + '_' + idx]; });
  if(allDone){
@@ -13305,6 +13376,7 @@ updateFocusProgress();
  buttons.forEach(function(btn){
  var key = btn.getAttribute('data-b2l1-item');
  var detail = ensureDetailAfter(btn, 'b2l1-activity-detail');
+ if(reviewedActivities[key]) { btn.classList.add('is-complete'); if(activityData[key]) activityData[key].completed = true; }
  btn.onclick = function(){
  var data = activityData[key];
  if(!data) return;
@@ -13334,12 +13406,17 @@ updateFocusProgress();
  detail.innerHTML = '<p class="b2l1-detail-section">' + data.text + '</p>';
  detail.hidden = false;
  data.completed = true;
+ reviewedActivities[key] = true; saveLevelReview();
  syncConceptFinishBtn(panel, block, target, { force: true });
  };
  });
  }
  bindFocus();
  bindActivities();
+ if(levelReview.lastFocus){
+ var lastFocusButton = panel.querySelector('[data-b2l1-focus-list] [data-b2l1-item="' + levelReview.lastFocus + '"]');
+ if(lastFocusButton) lastFocusButton.click();
+ }
  syncConceptFinishBtn(panel, block, target, { force: true });
  }
 
@@ -13506,7 +13583,7 @@ updateFocusProgress();
 
  function updateOutcomeState(){
  const total = outcomeItems.length;
- const done = visited.size;
+ const done = Array.from(outcomeItems).filter(function(item){ return item.classList.contains('clicked'); }).length;
  const ready = done === total;
 
  if(helper){
@@ -13682,6 +13759,9 @@ updateFocusProgress();
 
  try {
  if (typeof console !== 'undefined') console.log('Module 4: running setup...');
+ // Share the module renderer with the common Continue/resume controller.
+ window.renderConcept = renderConcept;
+ restoreConceptCompletion();
  setupConcepts();
  if(typeof ParentSubconceptLayout !== "undefined" && ParentSubconceptLayout.markParentConceptSquares){
  ParentSubconceptLayout.markParentConceptSquares(conceptContent);
@@ -13727,9 +13807,9 @@ updateFocusProgress();
  });
  </script>
  <script src="/shared/tts-controls.js?v=20260612"></script>
-<script src="/shared/concept-insight-content.js?v=20260614"></script>
+<script src="/shared/concept-insight-content.js?v=20261005utf8"></script>
 <script src="/shared/in-practice-copy.js?v=20260716practice7"></script>
-<script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
+<script src="/shared/in-practice-system.js?v=20261006resume24"></script>
 <script src="/shared/premium-option-grid.js?v=20260714opt3"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260714core1"></script>
@@ -13739,9 +13819,10 @@ updateFocusProgress();
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-flow-guide.js?v=20260925open1"></script>
-<script src="/shared/training-i-progress.js?v=20260924reset1"></script>
-<script src="/shared/training-i-module-shell.js?v=20260925open1"></script>
+ <script src="/shared/training-i-resume.js?v=20261006resume24"></script>
+<script src="/shared/training-flow-guide.js?v=20261006resume24"></script>
+<script src="/shared/training-i-progress.js?v=20261006resume24"></script>
+<script src="/shared/training-i-module-shell.js?v=20261006resume24"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
@@ -13979,6 +14060,7 @@ updateFocusProgress();
  function setupClickMode(){
  container.querySelectorAll('.match-chip').forEach(function(chip){
  chip.setAttribute('tabindex','0');
+ chip.setAttribute('role', 'button');
  chip.addEventListener('click', function(){
  var parentDrop = chip.closest('.slot-drop');
  if(parentDrop){
@@ -13997,6 +14079,7 @@ updateFocusProgress();
  chip.classList.add('selected');
  });
  chip.addEventListener('keydown', function(e){
+ e.stopPropagation();
  if(e.key === 'Enter' || e.key === ' '){
  e.preventDefault();
  chip.click();
@@ -14004,6 +14087,16 @@ updateFocusProgress();
  });
  });
  slots.forEach(function(slot){
+ slot.setAttribute('role', 'button');
+ slot.setAttribute('tabindex', '0');
+ var label = slot.querySelector('.slot-label');
+ if(label) slot.setAttribute('aria-label', label.textContent.trim());
+ slot.addEventListener('keydown', function(e){
+ if(e.target === slot && (e.key === 'Enter' || e.key === ' ')){
+ e.preventDefault();
+ slot.click();
+ }
+ });
  slot.addEventListener('click', function(){
  if(!selectedChip) return;
  moveChipToSlot(selectedChip, slot);
@@ -14105,8 +14198,8 @@ updateFocusProgress();
  </script>
  
  <script src="/shared/programme-journey-map.js?v=20260714pjmfixed1"></script>
- <script src="/shared/training-i-image-speech.js?v=20260925speech1"></script>
- <script src="/shared/concept-visual-expand-system.js?v=20260925img1"></script>
+ <script src="/shared/training-i-image-speech.js?v=20261006resume24"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20261006resume24"></script>
 </body>
 </html>
 

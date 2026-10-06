@@ -105,7 +105,7 @@ Production deploys for this repo have been reliable when commits use the GitHub 
 
 ## Notes
 
-- The standalone Training I quiz pages are still available, even though the modules already include inline quizzes.
+- Legacy Training I quiz routes redirect to the gated inline module assessments.
 - `common/assets/` is copied into `dist/assets/`.
 - `common/shared/` is copied into `dist/shared/`.
 - `Training II` assets, scripts, styles, and shared files are namespaced into `dist/training-ii/` to avoid collisions with `Training I`.
@@ -135,3 +135,7 @@ Example:
 ```
 
 For replacements, just keep the same file name and overwrite it, or change the `src` to the new file.
+
+## Training I flow verification
+
+See [staff flow rules and verification](docs/training-i-staff-flow.md) for the 15-second minimum plus narration image rule, sequential unlocking, regression tests, and the remaining production acceptance scope.

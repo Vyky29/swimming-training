@@ -6472,8 +6472,8 @@
  guideText: 'Decide whether the statement about cognitive load is true or false.',
  q: 'Showing one clear visual cue that stays visible usually increases cognitive load compared with giving several verbal instructions at once.',
  correctBool: false,
- ok: 'Correct. <strong>False</strong> - a visible visual cue reduces the need to hold several spoken instructions in memory.',
- bad: 'Not quite. The answer is <strong>False</strong> - visual cues that stay visible typically lower cognitive load.'
+ ok: 'Correct. False - a visible visual cue reduces the need to hold several spoken instructions in memory.',
+ bad: 'Not quite. The answer is False - visual cues that stay visible typically lower cognitive load.'
  },
  b1c3: {
  format: 'sort_bins',
@@ -6590,7 +6590,7 @@
  'f2-s2': {
  format: 'fill_step',
  activityType: 'Fill in the missing step',
- guideText: 'Type the correct missing line to complete a sensible teaching sequence. Spelling can be a little different.',
+ guideText: 'Type the correct missing line to complete a sensible teaching sequence. Explain when you would introduce a glide; equivalent wording is accepted.',
  q: 'Complete the teaching sequence:',
  steps: [
  '1. Establish body alignment',
@@ -6721,11 +6721,11 @@
  rows: [
  { t: 'Introducing the activity', side: 'main' },
  { t: 'Teaching the steps', side: 'break' },
- { t: 'Supporting modelling', side: 'main' },
- { t: 'Checking understanding', side: 'break' }
+ { t: 'Showing the whole action while modelling', side: 'main' },
+ { t: 'Checking understanding of each teaching step', side: 'break' }
  ],
  ok: 'Sensible. Show the “what” on Main; split the “how” on Break; model big pictures on Main; go finer when checking the steps with Break.',
- bad: 'Not quite. Reread the four jobs: sometimes you need a clean picture (Main) and sometimes you need a broken down teaching line (Break).'
+ bad: 'Not quite. Use Main to introduce or model the whole action. Use Break It Down to teach or check the individual steps.'
  },
  fc32: {
  format: 'match3eq',
@@ -6859,8 +6859,15 @@
  .replace(/\s+/g, ' ')
  .trim();
  }
+ function b2GlideStepCorrect(value, accepted){
+ var text = b2Norm(value);
+ if((accepted || []).some(function(phrase){ return text === b2Norm(phrase); })) return true;
+ return /\bglid(?:e|ing)\b/.test(text) && /\b(?:when|once|after)\b/.test(text) &&
+ /\b(?:shape|alignment|streamline|control|stable|stability)\b/.test(text) &&
+ !/\b(?:not|cannot|can't|unstable|before)\b/.test(text);
+ }
  function b2MarkShell(shell, panel, block, target, feedback, text, good){
- shell.dataset.choiceShellComplete = 'true';
+ shell.dataset.choiceShellComplete = good ? 'true' : 'false';
  if(feedback){
  feedback.textContent = text || '';
  feedback.classList.remove('hidden', 'is-correct', 'is-incorrect');
@@ -7263,9 +7270,7 @@
  var inf = inner.querySelector('[data-b2-fill]');
  if(ck4) ck4.addEventListener('click', function(){
  var u = b2Norm(inf && inf.value);
- var ok4 = (cfg.accept || []).some(function(phrase){
- return u.indexOf(b2Norm(phrase)) !== -1;
- });
+ var ok4 = b2GlideStepCorrect(u, cfg.accept);
  b2MarkShell(shell, panel, block, target, feedback, ok4 ? cfg.ok : cfg.bad, ok4);
  });
  return;
@@ -7766,6 +7771,11 @@
  if(e.target.closest('[data-m5-ftx-flask]')) return;
  if(selectedId) placeInto(scId, key, selectedId);
  });
+ slot.addEventListener('keydown', function(e){
+ if(e.target !== slot || (e.key !== 'Enter' && e.key !== ' ')) return;
+ e.preventDefault();
+ if(selectedId) placeInto(scId, key, selectedId);
+ });
  });
  }
 
@@ -8039,6 +8049,11 @@
  if(e.target.closest('[data-m5-spm-flask]')) return;
  if(selectedSp) placeIntoPhase(key, selectedSp);
  });
+ drop.addEventListener('keydown', function(e){
+ if(e.target !== drop || (e.key !== 'Enter' && e.key !== ' ')) return;
+ e.preventDefault();
+ if(selectedSp) placeIntoPhase(key, selectedSp);
+ });
  });
 
  if(clearSp) clearSp.addEventListener('click', function(){
@@ -8204,6 +8219,17 @@
  }
 
  if(data.nestedChoiceKeys && data.nestedChoiceKeys.length && onNestedHub){
+ var nestedComplete = data.nestedChoiceKeys.every(function(key){
+ return window.GuidedConceptLayout && GuidedConceptLayout.isItemDone(panel, 'flowM5CatsDone', key);
+ });
+ if(nestedComplete){
+ finishBtn.style.display = '';
+ finishBtn.disabled = false;
+ finishBtn.style.opacity = '1';
+ finishBtn.style.cursor = 'pointer';
+ finishBtn.textContent = 'Done';
+ return;
+ }
  finishBtn.style.display = 'none';
  return;
  }
@@ -8830,6 +8856,14 @@
  block2: new Set(),
  block3: new Set()
  };
+ document.addEventListener('DOMContentLoaded', function(){
+ if(!window.TrainingIProgress) return;
+ var saved = TrainingIProgress.getSnapshot(5).concepts || {};
+ Object.keys(conceptCompletion).forEach(function(block){
+ (saved[block] || []).forEach(function(target){ conceptCompletion[block].add(target); });
+ });
+ Object.keys(conceptCompletion).forEach(function(block){ updateConceptProgress(block); });
+ });
  const conceptHistory = { block1: [], block2: [], block3: [] };
 
  const correctFeedback = {
@@ -9061,6 +9095,7 @@
 }
 
  function markConceptComplete(block, target){
+ if(window.TrainingIProgress) TrainingIProgress.markConcept(5, block, target);
  conceptCompletion[block].add(target);
  const button = document.querySelector(`[data-concept-grid="${block}"] [data-target="${target}"]`);
  if(button) button.classList.add('visited');
@@ -9252,6 +9287,13 @@
  }
 
  function finishConcept(block, target){
+ if(typeof window !== 'undefined' && window.TrainingFlowGuide && TrainingFlowGuide.conceptPhotoPending){
+ var activePanel = document.querySelector('[data-panel-for="' + block + '"]');
+ if(activePanel && activePanel.dataset.currentTarget === target && TrainingFlowGuide.conceptPhotoPending(activePanel)){
+ TrainingFlowGuide.requestRefresh([80]);
+ return;
+ }
+ }
  markConceptComplete(block, target);
 
  if(typeof TrainingFlowGuide !== 'undefined'){
@@ -9731,6 +9773,7 @@
  }
 
  function renderConcept(block, target, fromBack){
+ if(window.TrainingIResume) TrainingIResume.capture();
  const data = conceptContent[target];
  const panel = document.querySelector(`[data-panel-for="${block}"]`);
  if(!data || !panel) return;
@@ -9806,11 +9849,6 @@
  });
  panel.dataset.keyIdeasRequired = keyIdeaPoints.length ? 'true' : 'false';
  panel.dataset.keyIdeasDone = keyIdeaPoints.length ? 'false' : 'true';
- if(block === 'block2' && (target === 'b2c2' || target === 'b2c3')){
- panel.dataset.keyIdeasRequired = 'false';
- panel.dataset.keyIdeasDone = 'true';
- keyIdeaPoints = [];
- }
  ul.innerHTML = keyIdeaPoints.map((point, i) => `<li class="key-idea-item" role="button" tabindex="0"><span class="key-idea-index" aria-hidden="true">${i + 1}</span><div class="key-idea-text">${point}</div></li>`).join('');
  panel.querySelectorAll('.key-idea-item').forEach(li => {
  li.addEventListener('click', function(){
@@ -10280,7 +10318,7 @@
 
  function updateOutcomeState(){
  const total = outcomeItems.length;
- const done = visited.size;
+ const done = Array.from(outcomeItems).filter(function(item){ return item.classList.contains('clicked'); }).length;
  const ready = done === total;
 
  if(ready){
@@ -10423,13 +10461,13 @@
  });
  </script>
  <script src="/shared/tts-controls.js?v=20260612"></script>
-<script src="/shared/concept-insight-content.js?v=20260614"></script>
+<script src="/shared/concept-insight-content.js?v=20261005utf8"></script>
  <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260714cueend1"></script>
+<script src="/shared/in-practice-system.js?v=20261006resume24"></script>
 <script src="/shared/premium-option-grid.js?v=20260714opt2"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260714core1"></script>
- <script src="/shared/parent-subconcept-layout.js?v=20260715explore1"></script>
+ <script src="/shared/parent-subconcept-layout.js?v=20261006resume24"></script>
  <script src="/shared/concept-insight-nested-m5.js?v=20260610"></script>
  <script src="/shared/concept-insight-intro.js?v=20260925body2"></script>
  <script src="/shared/review-item-clicks.js"></script>
@@ -10437,10 +10475,11 @@
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/guided-concept-layout.js?v=20260714nestedback1"></script>
- <script src="/shared/training-flow-guide.js?v=20260925open1"></script>
-<script src="/shared/training-i-progress.js?v=20260924reset1"></script>
-<script src="/shared/training-i-module-shell.js?v=20260925open1"></script>
+ <script src="/shared/guided-concept-layout.js?v=20261006resume24"></script>
+ <script src="/shared/training-i-resume.js?v=20261006resume24"></script>
+<script src="/shared/training-flow-guide.js?v=20261006resume24"></script>
+<script src="/shared/training-i-progress.js?v=20261006resume24"></script>
+<script src="/shared/training-i-module-shell.js?v=20261006resume24"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
@@ -10602,6 +10641,32 @@
  function initMatch(container, poolEl){
  var slots = container.querySelectorAll('.match-slot');
  var dragged = null;
+ var selected = null;
+ function selectChip(chip){
+ container.querySelectorAll('.match-chip').forEach(function(item){ item.classList.remove('selected'); item.setAttribute('aria-pressed','false'); });
+ selected = chip;
+ chip.classList.add('selected'); chip.setAttribute('aria-pressed','true');
+ }
+ function placeSelected(slot){
+ if(!selected) return;
+ var zone = slot.querySelector('.slot-drop');
+ var existing = zone.querySelector('.match-chip');
+ if(existing && existing !== selected) poolEl.appendChild(existing);
+ zone.appendChild(selected);
+ selected.classList.remove('selected'); selected.setAttribute('aria-pressed','false'); selected = null;
+ slot.classList.add('filled'); zone.classList.add('filled'); updateProgress();
+ }
+ container.querySelectorAll('.match-chip').forEach(function(chip){
+ chip.setAttribute('role','button'); chip.tabIndex = 0;
+ chip.addEventListener('click', function(e){ e.stopPropagation(); selectChip(chip); });
+ chip.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); selectChip(chip); } });
+ });
+ slots.forEach(function(slot){
+ slot.setAttribute('role','button'); slot.tabIndex = 0;
+ slot.setAttribute('aria-label', slot.querySelector('.slot-label').textContent.trim());
+ slot.addEventListener('click', function(){ placeSelected(slot); });
+ slot.addEventListener('keydown', function(e){ if(e.target === slot && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); placeSelected(slot); } });
+ });
  function onDragStart(e){
  dragged = e.target;
  if(!dragged.classList.contains('match-chip')) return;
@@ -10738,8 +10803,7 @@
  })();
  </script>
  
- <script src="/shared/training-i-image-speech.js?v=20260925speech1"></script>
- <script src="/shared/concept-visual-expand-system.js?v=20260925img1"></script>
+ <script src="/shared/training-i-image-speech.js?v=20261006resume24"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20261006resume24"></script>
 </body>
 </html>
-

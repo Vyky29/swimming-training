@@ -150,7 +150,7 @@ PORTAL_COMMON_REPLACEMENTS = [
 TRAINING_ONE_COMMON_REPLACEMENTS = [
     (
         'src="/shared/module-completion-flow.js"',
-        'src="/shared/module-completion-flow.js?v=20260512"',
+        'src="/shared/module-completion-flow.js?v=20261006resume24"',
     ),
     (
         'src="/shared/concept-insight-content.js',

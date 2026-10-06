@@ -27,7 +27,7 @@
   }
 
   function getPoints(panel){
-    return panel ? panel.querySelector('.concept-points-box') : null;
+    return panel ? panel.querySelector(':scope > .concept-points-box') : null;
   }
 
   function getPrimaryImageSlot(panel){

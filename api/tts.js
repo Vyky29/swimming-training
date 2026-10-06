@@ -1,6 +1,6 @@
-// British woman from the Pixtolearn app. The key stays on that project.
+// Holly: British female narrator, verified against the live PixtoLearn response and ElevenLabs library.
 var UPSTREAM = 'https://pixtolearn-parents-vic-s-projects1.vercel.app/api/voice/speak';
-var LILY = 'pFZP5JQG7iQjIQuC4Bku';
+var TRAINING_VOICE_ID = 'B9PDs7mcHTMxHUw5U8Cf';
 
 function chunksOf(text) {
   var words = String(text || '').trim().split(/\s+/).filter(Boolean);
@@ -20,8 +20,9 @@ function chunksOf(text) {
 }
 
 async function speakDirect(text, key) {
-  var upstream = await fetch('https://api.elevenlabs.io/v1/text-to-speech/' + LILY, {
+  var upstream = await fetch('https://api.elevenlabs.io/v1/text-to-speech/' + TRAINING_VOICE_ID, {
     method: 'POST',
+    signal: AbortSignal.timeout(20000),
     headers: {
       'xi-api-key': key,
       'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ async function speakDirect(text, key) {
     body: JSON.stringify({
       text: text,
       model_id: 'eleven_multilingual_v2',
-      voice_settings: { stability: 0.55, similarity_boost: 0.8, style: 0.05 }
+      voice_settings: { stability: 0.55, similarity_boost: 0.8, style: 0.05, speed: 0.95, use_speaker_boost: true }
     })
   });
   if (!upstream.ok) return null;
@@ -43,11 +44,12 @@ async function speakViaPixtolearn(text) {
   for (var i = 0; i < pieces.length; i++) {
     var upstream = await fetch(UPSTREAM, {
       method: 'POST',
+      signal: AbortSignal.timeout(20000),
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: pieces[i], lang: 'en' })
     });
     var data = await upstream.json().catch(function () { return {}; });
-    if (!upstream.ok || !data.audioBase64) return null;
+    if (!upstream.ok || !data.audioBase64 || data.voiceId !== TRAINING_VOICE_ID) return null;
     parts.push(Buffer.from(data.audioBase64, 'base64'));
   }
   return parts.length ? Buffer.concat(parts) : null;
@@ -64,13 +66,14 @@ module.exports = async function handler(req, res) {
     return;
   }
   var key = process.env.ELEVENLABS_API_KEY;
-  var buf = key ? await speakDirect(text, key) : null;
-  if (!buf) buf = await speakViaPixtolearn(text);
+  var buf = key ? await speakDirect(text, key).catch(function () { return null; }) : null;
+  if (!buf) buf = await speakViaPixtolearn(text).catch(function () { return null; });
   if (!buf || !buf.length) {
     res.status(502).json({ error: 'voice' });
     return;
   }
   res.setHeader('Content-Type', 'audio/mpeg');
+  res.setHeader('X-Training-Voice-Id', TRAINING_VOICE_ID);
   res.setHeader('Cache-Control', 'public, max-age=86400');
   res.status(200).send(buf);
 };

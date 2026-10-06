@@ -3746,7 +3746,7 @@
  </div>
  </div>
 
- <script src="/shared/parent-subconcept-layout.js?v=20260715explore1"></script>
+ <script src="/shared/parent-subconcept-layout.js?v=20261006resume24"></script>
  <script src="/shared/module-block-accordion.js?v=20260714ttsheader1"></script>
 <script>
  function escapeHtml(str){
@@ -4292,6 +4292,15 @@
  block2: new Set(),
  block3: new Set()
  };
+ document.addEventListener('DOMContentLoaded', function(){
+ if(!window.TrainingIProgress) return;
+ var saved = TrainingIProgress.getSnapshot(3).concepts || {};
+ Object.keys(conceptCompletion).forEach(function(block){
+ (saved[block] || []).forEach(function(target){ conceptCompletion[block].add(target); });
+ });
+ block3ApproachTargets.forEach(function(t){ if(conceptCompletion.block3.has(t)) block3ApproachesViewed.add(t); });
+ Object.keys(conceptCompletion).forEach(function(block){ updateConceptProgress(block); });
+ });
  const conceptHistory = { block1: [], block2: [], block3: [] };
 
  const correctFeedback = {
@@ -4371,7 +4380,7 @@
  var updateOutcomeStateRef = null;
 
  function tryUnlockBlockGate(block){
- if(!conceptGroups[block] || conceptCompletion[block].size !== conceptGroups[block].total) return;
+ if(!conceptGroups[block] || conceptGroups[block].order.filter(function(t){ return conceptCompletion[block].has(t); }).length !== conceptGroups[block].total) return;
  var lockBox = document.querySelector('[data-lock-box="' + block + '"]');
  var gate = document.querySelector('[data-gate="' + block + '"]');
  if(lockBox){
@@ -4444,14 +4453,14 @@
  var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]');
  if(countdownEl) countdownEl.textContent = 'Please spend a moment reviewing (' + secLeft + 's)';
  var lockBox = document.querySelector('[data-lock-box="' + stage + '"]');
- if(lockBox && conceptCompletion[stage] && conceptCompletion[stage].size === conceptGroups[stage].total){
+ if(lockBox && conceptCompletion[stage] && conceptGroups[stage].order.filter(function(t){ return conceptCompletion[stage].has(t); }).length === conceptGroups[stage].total){
  var msg = lockBox.querySelector('.lock-message');
  if(msg && !lockBox.classList.contains('ready')) msg.innerHTML = 'Unlocks in <strong>' + secLeft + 's</strong>. Please review the block first.';
  }
  }
  });
  }, 1000);
- function tickDwell(){ var now = Date.now(); stagesWithDwell.forEach(function(stage){ if(!sectionDwellStart[stage]) return; if(sectionDwellElapsed[stage]) return; var elapsed = now - sectionDwellStart[stage]; var dwellMs = stage === 'journey' ? MIN_JOURNEY_DWELL_MS : (stage === 'outcomes' ? MIN_OUTCOMES_DWELL_MS : MIN_SECTION_DWELL_MS); if(elapsed >= dwellMs){ sectionDwellElapsed[stage] = true; var cb = stageChecks[stage]; var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = ''; if(['journey','recap'].indexOf(stage) >= 0 && cb){ cb.disabled = false; cb.removeAttribute('data-dwell-required'); } if(stage === 'outcomes' && updateOutcomeStateRef) updateOutcomeStateRef(); if(['block1','block2','block3'].indexOf(stage) >= 0) tryUnlockBlockGate(stage); } else { var secLeft = Math.max(0, Math.ceil((dwellMs - elapsed) / 1000)); var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = 'Please spend a moment reviewing (' + secLeft + 's)'; var lockBox = document.querySelector('[data-lock-box="' + stage + '"]'); if(lockBox && conceptCompletion[stage] && conceptCompletion[stage].size === conceptGroups[stage].total){ var msg = lockBox.querySelector('.lock-message'); if(msg && !lockBox.classList.contains('ready')) msg.innerHTML = 'Unlocks in <strong>' + secLeft + 's</strong>. Please review the block first.'; } } }); }
+ function tickDwell(){ var now = Date.now(); stagesWithDwell.forEach(function(stage){ if(!sectionDwellStart[stage]) return; if(sectionDwellElapsed[stage]) return; var elapsed = now - sectionDwellStart[stage]; var dwellMs = stage === 'journey' ? MIN_JOURNEY_DWELL_MS : (stage === 'outcomes' ? MIN_OUTCOMES_DWELL_MS : MIN_SECTION_DWELL_MS); if(elapsed >= dwellMs){ sectionDwellElapsed[stage] = true; var cb = stageChecks[stage]; var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = ''; if(['journey','recap'].indexOf(stage) >= 0 && cb){ cb.disabled = false; cb.removeAttribute('data-dwell-required'); } if(stage === 'outcomes' && updateOutcomeStateRef) updateOutcomeStateRef(); if(['block1','block2','block3'].indexOf(stage) >= 0) tryUnlockBlockGate(stage); } else { var secLeft = Math.max(0, Math.ceil((dwellMs - elapsed) / 1000)); var countdownEl = document.querySelector('.dwell-countdown[data-stage="' + stage + '"]'); if(countdownEl) countdownEl.textContent = 'Please spend a moment reviewing (' + secLeft + 's)'; var lockBox = document.querySelector('[data-lock-box="' + stage + '"]'); if(lockBox && conceptCompletion[stage] && conceptGroups[stage].order.filter(function(t){ return conceptCompletion[stage].has(t); }).length === conceptGroups[stage].total){ var msg = lockBox.querySelector('.lock-message'); if(msg && !lockBox.classList.contains('ready')) msg.innerHTML = 'Unlocks in <strong>' + secLeft + 's</strong>. Please review the block first.'; } } }); }
  document.addEventListener('visibilitychange', function(){ if(document.visibilityState === 'visible') tickDwell(); });
  }
 
@@ -4506,7 +4515,7 @@
 }
 
  function updateConceptProgress(block){
- const count = conceptCompletion[block].size;
+ const count = conceptGroups[block].order.filter(function(t){ return conceptCompletion[block].has(t); }).length;
  const total = conceptGroups[block].total;
  const percent = Math.round((count / total) * 100);
 
@@ -4526,6 +4535,7 @@
 }
 
  function markConceptComplete(block, target){
+ if(window.TrainingIProgress) TrainingIProgress.markConcept(3, block, target);
  conceptCompletion[block].add(target);
  const button = document.querySelector(`[data-concept-grid="${block}"] [data-target="${target}"]`);
  if(button) button.classList.add('visited');
@@ -4721,8 +4731,16 @@
  }
 
  function finishConcept(block, target){
+ if(typeof window !== 'undefined' && window.TrainingFlowGuide && TrainingFlowGuide.conceptPhotoPending){
+ var activePanel = document.querySelector('[data-panel-for="' + block + '"]');
+ if(activePanel && activePanel.dataset.currentTarget === target && TrainingFlowGuide.conceptPhotoPending(activePanel)){
+ TrainingFlowGuide.requestRefresh([80]);
+ return;
+ }
+ }
  if(block === 'block3' && block3ApproachTargets.indexOf(target) !== -1){
  block3ApproachesViewed.add(target);
+ markConceptComplete(block, target);
  var nextApproach = nextSiblingSubconcept(block3ApproachTargets, target, block3ApproachesViewed);
  if(nextApproach){
  renderConcept(block, 'b3c3', false, { resumeHub: true, skipPanelScroll: true });
@@ -4918,17 +4936,16 @@
  }
  var dwellEnd = parseInt(panel.dataset.conceptDwellEnd, 10) || 0;
  var dwellOk = !dwellEnd || Date.now() >= dwellEnd;
- var optionalSubconceptActivity = isOverviewReturnSubconcept(block, target);
  var matchedCount = parseInt(panel.dataset.matchedCount, 10) || 0;
  var requiredMatches = data.matchingPairsCount || 7;
- var matchingOk = optionalSubconceptActivity || !data.requiresMatching || matchedCount === requiredMatches;
- var categorizeOk = optionalSubconceptActivity || !data.requiresCategorize || panel.dataset.categorizeComplete === 'true';
- var choiceOk = optionalSubconceptActivity || !data.requiresChoiceActivity || panel.dataset.choiceComplete === 'true';
- var carouselOk = optionalSubconceptActivity || !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
- var reflectAckOk = optionalSubconceptActivity || !data.requiresReflectAck || panel.dataset.reflectAckComplete === 'true';
- var keyIdeasOk = optionalSubconceptActivity || panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
- var insightPillarsOk = optionalSubconceptActivity || panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
- var inPracticeOk = optionalSubconceptActivity || isInPracticeCompleteForPanel(panel);
+ var matchingOk = !data.requiresMatching || matchedCount === requiredMatches;
+ var categorizeOk = !data.requiresCategorize || panel.dataset.categorizeComplete === 'true';
+ var choiceOk = !data.requiresChoiceActivity || panel.dataset.choiceComplete === 'true';
+ var carouselOk = !data.requiresCarousel || panel.dataset.carouselComplete === 'true';
+ var reflectAckOk = !data.requiresReflectAck || panel.dataset.reflectAckComplete === 'true';
+ var keyIdeasOk = panel.dataset.keyIdeasRequired !== 'true' || panel.dataset.keyIdeasDone === 'true';
+ var insightPillarsOk = panel.dataset.insightPillarsRequired !== 'true' || panel.dataset.insightPillarsDone === 'true';
+ var inPracticeOk = isInPracticeCompleteForPanel(panel);
  var canFinish = dwellOk && matchingOk && categorizeOk && choiceOk && carouselOk && reflectAckOk && keyIdeasOk && insightPillarsOk && inPracticeOk;
  finishBtn.disabled = !canFinish;
  finishBtn.style.opacity = canFinish ? '1' : '.55';
@@ -5340,6 +5357,13 @@
  }
  zones.forEach(function(zone){
         var zoneItems = zone.querySelector('.categorize-zone-items');
+ zone.setAttribute('tabindex', '0');
+ zone.setAttribute('role', 'button');
+ var zoneTitle = zone.querySelector('h5, h4');
+ zone.setAttribute('aria-label', 'Place selected item in ' + (zoneTitle ? zoneTitle.textContent : zone.dataset.zone));
+ zone.addEventListener('keydown', function(e){
+ if(e.target === zone && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); zone.click(); }
+ });
         function acceptZoneItem(item){
           if(!zoneItems || !item) return;
           zoneItems.appendChild(item);
@@ -5349,7 +5373,8 @@
         if(zoneItems){
           makeDropTarget(zoneItems, acceptZoneItem);
           makeDropTarget(zone, acceptZoneItem);
-          zoneItems.addEventListener('click', function(){
+          zoneItems.addEventListener('click', function(e){
+ if(e.target && e.target.closest && e.target.closest('.categorize-item')) return;
             if(!selectedItem) return;
             acceptZoneItem(selectedItem);
             selectedItem.classList.remove('selected');
@@ -5371,7 +5396,8 @@
  if(feedbackEl) feedbackEl.textContent = 'Place items in the categories above.';
  updateFinishState();
  });
- poolItems.addEventListener('click', function(){
+ poolItems.addEventListener('click', function(e){
+ if(e.target && e.target.closest && e.target.closest('.categorize-item')) return;
  if(!selectedItem) return;
  poolItems.appendChild(selectedItem);
  selectedItem.classList.remove('selected');
@@ -5409,6 +5435,7 @@
  }
 
  function renderConcept(block, target, fromBack, opts){
+ if(window.TrainingIResume) TrainingIResume.capture();
  opts = opts || {};
  const data = conceptContent[target];
  const panel = document.querySelector(`[data-panel-for="${block}"]`);
@@ -5921,7 +5948,7 @@
 
  function updateOutcomeState(){
  const total = outcomeItems.length;
- const done = visited.size;
+ const done = Array.from(outcomeItems).filter(function(item){ return item.classList.contains('clicked'); }).length;
  const ready = done === total;
 
  if(ready){
@@ -6155,9 +6182,9 @@
  });
  </script>
  <script src="/shared/tts-controls.js?v=20260612"></script>
-<script src="/shared/concept-insight-content.js?v=20260614"></script>
+<script src="/shared/concept-insight-content.js?v=20261005utf8"></script>
  <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20260714m5flow1"></script>
+<script src="/shared/in-practice-system.js?v=20261006resume24"></script>
 <script src="/shared/premium-option-grid.js?v=20260714opt2"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260714core1"></script>
@@ -6167,9 +6194,10 @@
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-flow-guide.js?v=20260925open1"></script>
-<script src="/shared/training-i-progress.js?v=20260924reset1"></script>
-<script src="/shared/training-i-module-shell.js?v=20260925open1"></script>
+ <script src="/shared/training-i-resume.js?v=20261006resume24"></script>
+<script src="/shared/training-flow-guide.js?v=20261006resume24"></script>
+<script src="/shared/training-i-progress.js?v=20261006resume24"></script>
+<script src="/shared/training-i-module-shell.js?v=20261006resume24"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
@@ -6528,8 +6556,8 @@
  })();
  </script>
  
- <script src="/shared/training-i-image-speech.js?v=20260925speech1"></script>
- <script src="/shared/concept-visual-expand-system.js?v=20260925img1"></script>
+ <script src="/shared/training-i-image-speech.js?v=20261006resume24"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20261006resume24"></script>
 </body>
 </html>
 

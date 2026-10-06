@@ -400,6 +400,31 @@
     return [title && title.textContent, body && body.textContent].filter(Boolean).join('. ').replace(/\s+/g, ' ').trim();
   }
 
+  function acceptNarrationResult(result, text, host, done) {
+    if (result && result.completed === true) { done(); return; }
+    var box = document.createElement('div');
+    box.className = 'narration-reading-fallback';
+    box.style.cssText = 'padding:16px;margin:12px;background:white;color:#102e43;border:2px solid #8055bf;border-radius:12px;position:relative;z-index:10';
+    var label = document.createElement('p');
+    label.textContent = result && result.cancelled ? 'Narration stopped. Read this narration to continue:' : 'Audio unavailable. Read this narration to continue:';
+    var transcript = document.createElement('p'); transcript.textContent = text;
+    var retry = document.createElement('button'); retry.type = 'button';
+    retry.textContent = 'Retry narration';
+    retry.addEventListener('click', function(event){
+      event.stopPropagation();
+      if(!window.CSTrainingVoice) return;
+      box.remove();
+      CSTrainingVoice.speak(text, function(nextResult){
+        acceptNarrationResult(nextResult, text, host, done);
+      });
+    });
+    var button = document.createElement('button'); button.type = 'button';
+    button.textContent = 'I have read this narration';
+    button.addEventListener('click', function (event) { event.stopPropagation(); box.remove(); done(); });
+    box.appendChild(label); box.appendChild(transcript); box.appendChild(retry); box.appendChild(button);
+    (host || document.body).appendChild(box);
+  }
+
   function ensureOutcomeSpoken(el){
     if(!el) return;
     if(el.getAttribute('data-outcome-spoken') === 'done' || el.getAttribute('data-outcome-spoken') === 'playing') return;
@@ -409,9 +434,11 @@
       return;
     }
     el.setAttribute('data-outcome-spoken', 'playing');
-    var started = CSTrainingVoice.speak(text, function(){
-      el.setAttribute('data-outcome-spoken', 'done');
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    var started = CSTrainingVoice.speak(text, function(result){
+      acceptNarrationResult(result, text, el.parentElement, function () {
+        el.setAttribute('data-outcome-spoken', 'done');
+        if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+      });
     });
     if(started === false){
       el.setAttribute('data-outcome-spoken', 'done');
@@ -428,9 +455,11 @@
       return;
     }
     el.setAttribute('data-pillar-spoken', 'playing');
-    var started = CSTrainingVoice.speak(text, function(){
-      el.setAttribute('data-pillar-spoken', 'done');
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    var started = CSTrainingVoice.speak(text, function(result){
+      acceptNarrationResult(result, text, el.parentElement, function () {
+        el.setAttribute('data-pillar-spoken', 'done');
+        if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+      });
     });
     if(started === false){
       el.setAttribute('data-pillar-spoken', 'done');
@@ -642,7 +671,14 @@
   }
 
   function parseM5DoneList(panel, key){
-    return (panel.dataset[key] || '').split(',').filter(Boolean);
+    var list = (panel.dataset[key] || '').split(',').filter(Boolean);
+    if(activeModuleConfig && activeModuleConfig.number === 5 && /^(flowM5CatsDone|flowM5FoldersDone|flowM5VisualDone)$/.test(key)){
+      try {
+        var saved = JSON.parse(localStorage.getItem('swimming_module_5_nested_' + panel.dataset.currentTarget + '_' + key) || '[]');
+        if(Array.isArray(saved)) saved.forEach(function(id){ if(list.indexOf(id) < 0) list.push(id); });
+      } catch(err){}
+    }
+    return list;
   }
 
   function isM5ItemDone(panel, key, id){
@@ -654,6 +690,9 @@
     var list = parseM5DoneList(panel, key);
     list.push(id);
     panel.dataset[key] = list.join(',');
+    if(activeModuleConfig && activeModuleConfig.number === 5 && /^(flowM5CatsDone|flowM5FoldersDone|flowM5VisualDone)$/.test(key)){
+      try { localStorage.setItem('swimming_module_5_nested_' + panel.dataset.currentTarget + '_' + key, JSON.stringify(list)); } catch(err){}
+    }
   }
 
   function getM5NestedWrapper(panel){
@@ -900,6 +939,12 @@
 
   function resolveM5LeafReturn(panel){
     if(!isM5LeafFlowComplete(panel)) return null;
+    var finish = panel.querySelector('[data-finish-concept]');
+    if(finish && !finish.disabled && isVisibleEl(finish)){
+      return sectionScrollStep('m5-nested-finish', finish, 'Complete this section', {
+        scrollEl: finish, scrollBlock: 'center', forceScroll: true, tone: 'm5-nav', pulseEls: [finish]
+      });
+    }
     var active = getM5ActiveScreen(panel);
     var screenId = getM5ScreenId(panel);
     if(!active || !screenId || isM5ItemDone(panel, 'flowM5LeafReturned', screenId)) return null;
@@ -954,6 +999,13 @@
       if(!buttons[i].classList.contains('is-complete')) return false;
     }
     return true;
+  }
+
+  function conceptNavLabel(btn){
+    if(!btn) return '';
+    var title = btn.querySelector('.b3c3-timeline-title');
+    var step = btn.querySelector('.b3c3-timeline-kicker');
+    return (title ? [step && step.textContent, title.textContent].filter(Boolean).join(': ') : (btn.textContent || '')).replace(/\s+/g, ' ').trim();
   }
 
   function b2LevelItemLabel(btn, fallback){
@@ -1131,10 +1183,10 @@
 
     var onNestedLeaf = panelHasM5NestedNav(panel) && isM5LeafScreen(getM5ActiveScreen(panel));
     var label = !finishVisible
-      ? 'Ready to finish ? Done appears next'
+      ? 'The finish button appears next'
       : (finish.disabled
-        ? 'Done will unlock next ? keep it in view'
-        : (onNestedLeaf ? 'Tap Done to complete this section' : 'Tap Done to finish this concept'));
+        ? 'Complete the remaining steps to continue'
+        : ('Select ' + finish.textContent.trim() + (onNestedLeaf ? ' to complete this section' : ' to finish this concept')));
 
     return sectionScrollStep('finish', host, label, {
       scrollEl: host,
@@ -1179,6 +1231,8 @@
 
   function imgHasRealSrc(img){
     if(!img) return false;
+    // Level mascots are navigation, not instructional photos.
+    if(img.closest && img.closest('.concept-square, .b2c2-folder-tile, .b2c3-folder-tile, [data-b2c2-no-expand="true"], .b2-level-thumb, .b2l-level-mascot, .b2l-focus-mascot-bar, .breadcrumb-mascot, .level-badge-mascot, .concept-title-icon--mascot, [data-no-expand="true"]')) return false;
     var src = (img.getAttribute('src') || '').trim();
     return !!src;
   }
@@ -1207,10 +1261,9 @@
   function getPanelExpandButtons(panel){
     if(!panel) return [];
     var scope = getM5FlowScope(panel);
-    // Nested M5: one primary visual cue ? don't require every fan thumb
+    // Nested M5: review each instructional image; navigation art is excluded.
     if(panelHasM5NestedNav(panel)){
       var screenId = getM5ScreenId(panel);
-      if(isM5ItemDone(panel, 'flowM5VisualDone', screenId)) return [];
       var primary = scope.querySelector(
         '.m5-nested-visual-shell > .img-expand-btn, ' +
         '.m5-nested-visual-frame > .img-expand-btn, ' +
@@ -1259,8 +1312,8 @@
   }
 
   function conceptPhotoPending(panel){
-    if(!panel) return false;
-    var img = panel.querySelector('.concept-image img[src]');
+    if(!panel || panel.querySelector('[data-b2-screens]')) return false;
+    var img = Array.from(panel.querySelectorAll('.concept-image img[src]')).find(imgHasRealSrc);
     if(!img) return false;
     var btn = panel.querySelector('.concept-image .img-expand-btn');
     return !btn || btn.getAttribute('data-visual-expanded') !== 'true';
@@ -1471,10 +1524,11 @@
   }
 
   function resolveConceptPhoto(panel){
-    if(!panel || getVisibleInsightPillars(panel).length) return null;
+    // Nested screens have their own scoped visual resolver; hidden siblings are not prerequisites.
+    if(!panel || panel.querySelector('[data-b2-screens]') || getVisibleInsightPillars(panel).length) return null;
     var box = panel.querySelector('.concept-image');
     if(!box) return null;
-    var img = box.querySelector('img[src]');
+    var img = Array.from(box.querySelectorAll('img[src]')).find(imgHasRealSrc);
     if(!img) return null;
     var btn = box.querySelector('.img-expand-btn');
     if(btn && btn.getAttribute('data-visual-expanded') === 'true') return null;
@@ -1548,7 +1602,7 @@
       });
     }
 
-    if(options.phase === 'preKeyideas' && panelHasM5NestedNav(panel)){
+    if(options.phase === 'preKeyideas' && panelHasM5NestedNav(panel) && getM5ScreenId(panel) !== 'home'){
       var screenId = getM5ScreenId(panel);
       if(!isM5ItemDone(panel, 'flowM5VisualDone', screenId)){
         var visualHost = resolveLeafVisualPulseTarget(scope) ||
@@ -1580,6 +1634,16 @@
       }
     }
     return null;
+  }
+
+  function resolveYellowUseCards(panel){
+    var scope = getM5FlowScope(panel);
+    var cards = Array.from(scope.querySelectorAll('.m5-yellow-use-card:not(.clicked)')).filter(isVisibleEl);
+    if(!cards.length) return null;
+    var title = cards[0].querySelector('h6');
+    return sectionScrollStep('yellow-use', cards[0], 'Review: ' + (title ? title.textContent.trim() : 'how to use this card'), {
+      scrollEl: cards[0], scrollBlock: 'center', forceScroll: true, tone: 'expand'
+    });
   }
 
   function resolveKeyIdeaItems(panel){
@@ -2048,7 +2112,7 @@
     return {
       kind: 'subconcept',
       el: btn,
-      label: (btn.textContent || '').replace(/\s+/g, ' ').trim() || 'Choose the next subconcept'
+      label: conceptNavLabel(btn) || 'Choose the next subconcept'
     };
   }
 
@@ -2090,7 +2154,7 @@
     var subconceptStep = resolveSubconceptNav(panel);
     if(!subconceptStep) return null;
     var btn = subconceptStep.el;
-    var label = btn && btn.textContent ? btn.textContent.replace(/\s+/g, ' ').trim() : subconceptStep.label;
+    var label = conceptNavLabel(btn) || subconceptStep.label;
     return sectionScrollStep('subconcept', btn, label || subconceptStep.label, {
       scrollEl: btn.closest('.overview-subconcept-grid') || btn.closest('[data-parent-subconcept-nav]') || btn,
       scrollBlock: 'center',
@@ -2134,7 +2198,7 @@
     }
     if(!btn) btn = unvisited[0];
 
-    var label = btn.textContent.replace(/\s+/g, ' ').trim() || 'Choose the next subconcept';
+    var label = conceptNavLabel(btn) || 'Choose the next subconcept';
     return sectionScrollStep('subconcept', btn, label, {
       scrollEl: btn.closest('.overview-subconcept-grid') || btn,
       scrollBlock: 'center',
@@ -2240,6 +2304,9 @@
 
     var preVisualStep = resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
     if(preVisualStep) return withM5Tone(panel, preVisualStep);
+
+    var yellowUseStep = resolveYellowUseCards(panel);
+    if(yellowUseStep) return withM5Tone(panel, yellowUseStep);
 
     var stageCardStep = resolveStageIntroCards(panel);
     if(stageCardStep) return stageCardStep;
@@ -2407,19 +2474,7 @@
   }
 
   function outcomesSpeechText(){
-    var section = document.getElementById('outcomes');
-    var title = section && section.querySelector('h3');
-    var items = document.querySelectorAll('[data-outcomes-group="outcomes"] .outcome, #outcomes .outcome');
-    var parts = [];
-    if(title){
-      var heading = String(title.textContent || '').replace(/\s+/g, ' ').trim();
-      if(heading) parts.push(heading);
-    }
-    for(var i = 0; i < items.length; i++){
-      var line = String(items[i].textContent || '').replace(/\s+/g, ' ').trim();
-      if(line) parts.push(line);
-    }
-    return parts.join('. ');
+    return 'Review the learning outcomes one at a time. Listen to each outcome, then select it to continue.';
   }
 
   function conceptNamesSpeech(block){
@@ -2472,7 +2527,7 @@
 
   function insideModuleSpeechText(){
     var items = document.querySelectorAll('#inside-module .module-roadmap__item, #inside-module .journey-item');
-    var parts = [];
+    var parts = ["Inside this module, we'll explore the following blocks."];
     for(var i = 0; i < items.length; i++){
       var title = items[i].querySelector('.journey-title');
       var hint = items[i].querySelector('.module-roadmap__hint, .journey-status');
@@ -2498,9 +2553,11 @@
       return;
     }
     root.setAttribute('data-spoken-' + key, 'playing');
-    var started = CSTrainingVoice.speak(text, function(){
-      root.setAttribute('data-spoken-' + key, 'done');
-      if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+    var started = CSTrainingVoice.speak(text, function(result){
+      acceptNarrationResult(result, text, document.getElementById(key) || document.querySelector('main'), function () {
+        root.setAttribute('data-spoken-' + key, 'done');
+        if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
+      });
     });
     if(started === false){
       root.setAttribute('data-spoken-' + key, 'done');
@@ -2863,7 +2920,9 @@
     }
     for(var i = 0; i < items.length; i++){
       if(items[i].classList.contains('clicked')) continue;
-      return sectionScrollStep('outcome', items[i], 'Review learning outcome ' + (i + 1), {
+      ensureOutcomeSpoken(items[i]);
+      var outcomeLabel = items[i].getAttribute('data-outcome-spoken') === 'done' ? 'Confirm learning outcome ' : 'Listen to learning outcome ';
+      return sectionScrollStep('outcome', items[i], outcomeLabel + (i + 1), {
         scrollEl: items[i],
         scrollBlock: 'nearest',
         forceScroll: false,
@@ -3022,7 +3081,7 @@
     if(finish && conceptReadyForFinishCue(panel)){
       var finishVisible = isVisibleEl(finish) && finish.style.display !== 'none';
       var host = finishVisible ? finish : (panel.querySelector('.concept-media-actions') || panel);
-      return sectionScrollStep('finish-hold', host, finish.disabled ? 'Done unlocks next ? keep going' : 'Tap Done to finish this concept', {
+      return sectionScrollStep('finish-hold', host, finish.disabled ? 'Complete the remaining steps to continue' : 'Select ' + finish.textContent.trim() + ' to finish this concept', {
         scrollEl: host,
         scrollBlock: 'nearest',
         forceScroll: false,
@@ -3301,6 +3360,8 @@
   }
 
   function resolveSectionStage(sectionId){
+    // Module 4 uses the historical keyideas DOM id for its recap.
+    if(sectionId === 'recap' && !document.getElementById('recap') && document.getElementById('keyideas')) sectionId = 'keyideas';
     if(sectionId.indexOf('block') === 0) return null;
     if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
@@ -3347,6 +3408,15 @@
       if(beforeQuiz) return beforeQuiz;
       var quiz = $('#quiz');
       if(!quiz || quiz.classList.contains('gated-locked')) return null;
+      var moduleMatch = window.location.pathname.match(/\/modules\/module-(\d+)\//);
+      var progress = window.TrainingIProgress && moduleMatch ? TrainingIProgress.getSnapshot(Number(moduleMatch[1])) : null;
+      var nextModule = quiz.querySelector('.quiz-next-btn');
+      if(progress && progress.quiz && progress.quiz.passed && nextModule && isVisibleEl(nextModule)){
+        return sectionScrollStep('quiz-passed', nextModule, nextModule.textContent.trim(), {
+          scrollEl: nextModule, scrollBlock: 'center', forceScroll: true,
+          tone: 'primary', pulseEls: [nextModule], keyToken: 'quiz-passed'
+        });
+      }
       var quizTarget = quiz.querySelector('.quiz-inline, .quiz-hero, .q-card, .quiz-embed') || quiz;
       return sectionScrollStep('quiz', quizTarget, 'Complete the module quiz', {
         scrollEl: quiz,
@@ -3419,7 +3489,7 @@
       var id = sections[i];
       if(id.indexOf('block') === 0) continue;
       if(id === 'journey' || id === 'outcomes' || id === 'inside-module') continue;
-      var section = document.getElementById(id);
+      var section = document.getElementById(id) || (id === 'recap' ? document.getElementById('keyideas') : null);
       if(section && section.classList.contains('gated-locked')){
         section.classList.remove('gated-locked');
       }
@@ -3462,7 +3532,7 @@
     var waiting = closeBtn.disabled || closeBtn.getAttribute('aria-disabled') === 'true';
     if(waiting){
       var picture = modal.querySelector('img') || closeBtn;
-      return sectionScrollStep('image-listen', picture, 'Listen to the explanation', {
+      return sectionScrollStep('image-listen', picture, 'Review the image and its narration', {
         noScroll: true,
         tone: 'explore',
         keyToken: 'image-listen'
@@ -4274,11 +4344,29 @@
   }
 
   function bindConceptFlowInteractions(moduleConfig){
+    // Apply the same order to keyboard activation as pointer activation.
+    document.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      var idea = e.target.closest && e.target.closest('.key-idea-item');
+      if(idea && conceptPhotoPending(idea.closest('.concept-panel'))){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return;
+      }
+      var outcome = e.target.closest && e.target.closest('#outcomes .outcome');
+      if(!outcome || !isFlowGuideActive()) return;
+      var first = document.querySelector('#outcomes .outcome:not(.clicked)');
+      if(outcome !== first || !spokenReady('outcomes-read') || outcome.getAttribute('data-outcome-spoken') !== 'done'){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+
     document.addEventListener('click', function(e){
       var finishGate = e.target && e.target.closest ? e.target.closest('[data-finish-concept]') : null;
       if(finishGate){
         var gatePanel = finishGate.closest('.concept-panel.show');
-        if(gatePanel && (parentHubHasIncompleteLeaves(gatePanel) || !b2LevelAccordionsComplete(gatePanel))){
+        if(gatePanel && (conceptPhotoPending(gatePanel) || parentHubHasIncompleteLeaves(gatePanel) || !b2LevelAccordionsComplete(gatePanel))){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
@@ -4294,7 +4382,7 @@
       var sub = e.target.closest && e.target.closest('.overview-subconcept-btn, [data-overview-subtarget], [data-parent-subconcept-nav] .concept-square');
       if(sub){
         var subPanel = sub.closest('.concept-panel');
-        if(subPanel && conceptPhotoPending(subPanel)){
+        if(subPanel && !parentHubContentReady(subPanel)){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
@@ -4314,7 +4402,7 @@
         for(var i = 0; i < buttons.length; i++){
           if(!isConceptDone(buttons[i])){ allowed = buttons[i]; break; }
         }
-        if(!introOpen || (allowed && square !== allowed && square !== pulsed)){
+        if(!introOpen || (allowed && square !== allowed && square !== pulsed && !isConceptDone(square))){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
@@ -4350,7 +4438,7 @@
         for(var oi = 0; oi < outcomes.length; oi++){
           if(!outcomes[oi].classList.contains('clicked')){ current = outcomes[oi]; break; }
         }
-        if(outcome !== current || !spokenReady('outcomes-read')){
+        if(outcome !== current || !spokenReady('outcomes-read') || outcome.getAttribute('data-outcome-spoken') !== 'done'){
           e.preventDefault();
           e.stopPropagation();
           if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
@@ -4888,6 +4976,7 @@
     markPanelInPracticeDone: markPanelInPracticeDone,
     parentHubContentReady: parentHubContentReady,
     hubContentBeforeLeaves: hubContentBeforeLeaves,
+    conceptPhotoPending: conceptPhotoPending,
     inPracticeFlowComplete: inPracticeFlowComplete
   };
 
