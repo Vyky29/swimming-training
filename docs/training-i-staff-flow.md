@@ -1,104 +1,37 @@
-# Training I staff flow — 5–6 October 2026
+# Training I staff-flow acceptance — 6 October 2026
 
-## Completion rules
+## Implemented flow
 
-- Complete modules in order. Passing the preceding modules unlocks the next one; direct module URLs respect the same rule.
-- Journey → learning outcomes, reviewed individually in order → blocks → recap → quiz. The existing 100% quiz pass requirement is retained. A failed review attempt does not erase an earned pass.
-- The existing guide points to the next action. Completed concepts can be reopened for review.
-- Expanded teaching images require 15 seconds of loaded, visible viewing AND completion of their narration, or explicit confirmation of the visible transcript. Hidden tabs pause the timer and narration. Audio failure opens the transcript and never silently awards completion. A broken image can be closed and retried without awarding progress.
-- Complete each subconcept before returning to its parent picker. The last sibling completes the parent and returns to the block grid. Module 4 levels return to the stage picker until the stage is complete.
-- Completion is persisted by the actual completion handler, before the panel changes target. Reload restores completed concepts and leaves. Module 5 nested folder/category progress is scoped to its parent concept.
-- Classification exercises support selecting an item and selecting a category with a pointer or keyboard, in addition to dragging.
-- Old standalone quiz routes redirect to the inline assessment, using the same prerequisite checks and progress store.
+Journey → separately narrated learning outcomes → “Inside this module, we’ll explore…” with each numbered block and full title → blocks/concepts → recap → quiz. One pulsing target points to the next required action. Modules unlock in order after all content and a perfect quiz.
 
-## Verification
+Each instructional image requires 15 seconds while loaded and visible, plus completed narration. Longer narration extends the review naturally. Hidden-tab time is excluded. Failed narration offers a transcript acknowledgement; section narration also offers Retry narration. Neither failure nor closing an unfinished modal earns completion. Previously reviewed images remain reviewed, and distinct images each require review.
 
-Run from the repository root:
+Nested concepts return to their picker between siblings. The final leaf closes the parent or advances to the next required group. Module 5 uses its actual Done handler rather than a Back shortcut; completed hubs also expose Done after reload.
 
-```sh
-node scripts/test-training-i-progress.js
-node scripts/test-staff-flow.cjs
-node scripts/test-training-i-voice.cjs
-node scripts/test-training-i-tts.cjs
-node scripts/test-training-i-resume.cjs
-node scripts/test-training-i-next-module.cjs
-node scripts/test-subconcept-requirements.cjs
-node scripts/flow-smoke.mjs
-node scripts/module-audit.mjs
-python3 build_swimming_training.py
-```
+Continue restores the module, concept, nested screen, completed cards/images, practice cues, and interrupted narration chunk/second. Module 4 additionally preserves stage cards, journey-map visits, level focus points and open focus, and development-factor points. Persistence is in this browser; cross-device/account synchronization of these detailed checkpoints was not verified.
 
-The behavioral suite executes the production timer and completion handlers with a deterministic clock and DOM doubles. It covers 15-second timing, longer narration completion, explicit reading alternatives, hidden tabs, image failures/replacement, sibling return/last-leaf exit, Module 4 stage return, Module 5 nested persistence, and click/keyboard classification in modules 1–4. Progress tests cover all five modules, quiz prerequisites, module sequencing, reload, legacy migration, and review attempts. Structural audits are supplementary, not browser end-to-end tests.
+## Voice and images
 
-Browser smoke performed locally:
+ElevenLabs Holly — Relaxing, Velvety and Silky, voice ID `B9PDs7mcHTMxHUw5U8Cf`, verified in the official British-English voice library. The API pins Holly for both providers and rejects a mismatched fallback identity. Direct generation uses multilingual v2; the existing PixtoLearn fallback uses v3 with different pacing. No keys or billing settings were created or changed.
 
-- Module 1: Journey, outcomes in order, rejection of skipping to the last outcome, reload of reviewed outcomes.
-- Block 1: introduction, first concept, real 30-second image waits, premature Escape blocked, ideas, correct activity, completion.
-- Water Forces parent and both children: return to picker after Supportive Forces, saved child completion after reload, Dynamic Forces classification by clicking, last-child parent completion, and Block 2 unlocking after the block confirmation.
-- Hub locks modules 2–5; direct Module 2 navigation returns to the hub.
-- Legacy Module 1 quiz URL redirects to the inline module without unlocking its quiz prematurely.
-- Mobile navigation menu at 390 × 844 opens and closes with Escape.
+All five modules were walked through with real generated MP3 narration against the production TTS endpoint from the local release build. Direct-handler voice identity was separately smoke-tested. Image scripts are present in code, including renamed assets and Module 5 nested categories. The four swimming-stroke images share a category explanation rather than four bespoke diagram scripts. All four were individually played and reviewed. The 54 distinct external image URLs passed availability checks.
 
-## Release scope and remaining verification
+## Live acceptance
 
-The complete five-module course has **not** been walked end to end in a production browser. Initial browser checks used the audio-failure fallback; the later local proxy checks below use real production narration. Authenticated staff reporting has not been validated. Modules 1, 2 and 3 have now passed full live acceptance. Walking Modules 4–5 remains necessary before claiming comprehensive launch certification.
+- Module 1: all blocks, nested forces, images, activities, recap and quiz; 8/8. Intermediate forces returned to the picker; final force closed its parent.
+- Module 2: all blocks, emotional states and environment/internal factors, images, activities, recap and quiz; 8/8. A 7/8 attempt was exercised. Partial practice-cue resume restored the next cue.
+- Module 3: all blocks, five teaching approaches, images, activities, recap and quiz; 8/8. Wrong matching was rejected. The last approach closed the parent; disengagement sequence passed.
+- Module 4: all four blocks, three stages, all six levels and every focus point, development factors and three review steps; recap and quiz 8/8. Reload/chooser returns preserved partial stage, level and factor work. The legacy recap ID now resolves correctly. The external term-review form is optional practice and was not submitted with fictional data.
+- Module 5: all three blocks; all five folders and every category; all six flashcards; all three visual schedules; sequence and session planning; full narrated recap and quiz 8/8. Two- and three-step boards, the six-card overview and its three breakdowns, and the Level 3 session plan all passed with keyboard controls. The final schedule closed its parent and highlighted Swimming Sequence. Both sequence images were required. Yellow-card reload restored step five after four were reviewed. The final portal return and chooser showed all five modules completed.
 
-Progress remains browser-local, as in the existing implementation. It is not a server-verified staff completion record and does not synchronize between devices. Restarting a prerequisite module relocks later modules until it is passed again, without deleting their saved progress. Continue restores the in-progress concept and reviewed cards, with audio checkpoints for unfinished narration. Unfinished activities still require completion.
+Module 5 acceptance exposed and fixed incorrect attempts awarding activity completion, a hidden final Done button, inaccessible schedule pockets, and a result-card label incorrectly saying QUIZ PASSED on failure. The latter could also fool the shell's text-based fallback into recording completion. The result card now preserves the actual failure score and marks its explicit outcome; the shell does not resubmit a score inferred from presentation copy. The corrected live result showed Quiz incomplete / 7/8, followed by all eight correct and the final congratulations card. A behavioral test ensures a failed card cannot cause a second inferred submission. Earlier local test completion was not used as evidence of passing: all eight answers were subsequently completed correctly.
 
-## Narration follow-up
+One transient block-intro audio failure was recovered by reloading/Continue and then listening to the complete real narration. Retry narration now exposes that recovery without requiring a reload.
 
-- Holly — Relaxing, Velvety and Silky (`B9PDs7mcHTMxHUw5U8Cf`) is pinned on both provider paths. Verified in the signed-in ElevenLabs library under English / British and in an actual upstream response. A fallback response with a different voice is rejected.
-- The direct path uses multilingual v2, stability 0.55, similarity 0.8, style 0.05, speaker boost and speed 0.95. The existing PixtoLearn fallback uses its own v3 settings; voice identity is the same, delivery settings differ. No secrets are checked in.
-- Narration uses complete sentence chunks and no longer silently truncates after eight pieces. Failed audio is not cached permanently. Network, playback and decoding failures report failure separately from an actual ended event.
-- Outcomes have a brief introduction, then individual narrations and confirmations in order. Image stories follow the concept introduction. Key ideas and activities remain their own subsequent steps.
-- The image script library now covers 115 asset names: the original 96 plus six replacement PixtoLearn page names and 13 category page images. Decorative icons and activity tokens are not each assigned a separate narrated review. The four stroke category pages share a category-level teaching script; these are not bespoke descriptions of each diagram.
-- Five actual production API requests returned HTTP 200 audio/mpeg, decoded by macOS afinfo: M1 31.48s, M2 24.69s, M3 22.99s, M4 23.33s, M5 19.07s. These validate representative generated files, not every narration or subjective voice quality.
-- Local browser connected to the production TTS endpoint: Journey remained locked during narration and unlocked after actual playback completed. The browser also confirmed outcomes narrate individually and reject confirmation while their audio is playing. Full five-module end-to-end acceptance remains outstanding.
+The certificate button is available after success. Its native name prompt/download was not confirmed in the in-app browser; certificate export is not counted as a completed acceptance check.
 
-Live image check: Module 1, Water as an Active Environment, opened its exact scripted story. After 15 visible seconds, Escape was rejected and Close remained disabled while the real narration continued. When playback ended, Image reviewed appeared and Close enabled. The displayed transcript matched the script.
+## Automated validation
 
-## Resume and voice verification follow-up
+All seven regression entry points passed: progress, staff flow (39 behavioral cases), voice queue/resume, TTS provider/identity, detailed resume, next-module/legacy recap, and mandatory subconcept requirements. Structural module audit: PASS for all five. Flow smoke: ENGINE PASS, PLAN PENDING 0. Release build and whitespace checks passed.
 
-The live PixtoLearn GET diagnostic reports `eleven_v3`, and an actual POST response identifies `B9PDs7mcHTMxHUw5U8Cf`. Verified in the signed-in ElevenLabs library with English + British filters: **Holly - Relaxing, Velvety and Silky**, described as a professional English female voice suited to narration. The earlier Lily assumption is superseded. Both paths now select Holly; a proxy response identifying another voice is rejected, and successful responses expose X-Training-Voice-Id.
-
-Resume checkpoints are module-scoped: current concept, reviewed cards, finished section narrations, reviewed images, and partial audio position. Interrupted playing flags are never restored. Continue Module reopens the stored concept only within the next permitted block. A staff member returns through Continue to give the browser a playback gesture. Unfinished activities still require completion; completed steps are not fabricated. The block introduction now begins “Inside this module, we’ll explore the following blocks.” before listing block numbers and titles.
-
-Browser return test: while inside Overview of Water Forces, left to the module chooser, returned, and selected Continue. The same concept reopened with Always Acting still reviewed and the next card highlighted; earlier completed stages did not replay.
-
-Latest API integration smoke: the local handler returned HTTP 200, audio/mpeg, 129193 bytes and X-Training-Voice-Id B9PDs7mcHTMxHUw5U8Cf for the requested Inside This Module / Block One introduction.
-
-Resume regression found and fixed in the live browser: restored intro cards looked checked but the module completion gate still read its initial dataset. Restoration now synchronizes the derived card gates and emits the normal completion-change event. Repeating the dashboard return, reviewing the activity, and finishing Dynamic Forces completed its parent and unlocked Block 2. An interrupted photo could be reopened without being falsely awarded; reviewed cards and completed photos stayed saved.
-
-Asset availability audit: all 54 distinct external image URLs extracted from the five module HTML files returned HTTP 200 to HEAD requests. This checks availability, not visual accuracy. Live Module 1 Block 2 checks completed Drowning Risk (true/false), Who Is More Vulnerable (classification), and Neurodiverse Risk Factors (matching) with real narration and photo gates.
-
-Full live Module 1 path completed: all three blocks, nested forces leaves, photo narrations and 15-second gates, all four activity patterns present, recap, and 8/8 quiz. The chooser shows Module 1 Completed, Module 2 Start Module, and Modules 3–5 locked. Module 2 has now been started through that chooser. The quiz guide now points at the visible next-module/portal link after passing instead of continuing to request the quiz. Four resolver cases cover passed, unpassed, hidden review CTA, and final-module portal behavior.
-
-Live Module 2: Journey, all five narrated outcomes, and the revised Inside This Module introduction completed in order. After finishing the first concept, reload exposed a stale resume point reopening that completed concept. Resume now rejects targets already present in the module completion record; repeated reload correctly guides to Teaching Requires Regulation. Finish cues use the actual button label (Continue or Done).
-
-Module 2 In Practice acceptance: partial cue review originally reset after reload. Resume now saves reviewed Do/Look/Avoid cues and completed actions, synchronizes their visible counters through InPracticeSystem, and retains yellow usage-card reviews for Module 5. Browser checks confirmed resume at Look for after Do, then resume directly at the activity after all cues. Matching and concept completion still worked after those reloads. All six test suites pass (64 behavioral cases).
-
-Subconcept requirement audit found a legacy bypass in Modules 2 and 3: overview-return leaves treated their review and activity requirements as optional. Removed that exception. Production-handler tests now prove leaves require their activity, intro cards, and key ideas before Done enables. The live Calm screen now disables Done while its activity is pending. Parent navigation additionally checks the full parent content readiness rather than only its photo.
-
-Full live Module 2 path completed (6 October): all blocks, both nested pickers, real narration and photo gates, key ideas, In Practice cues, choice/classification/matching exercises, recap, and 8/8 quiz. Calm and Alert returned to their parent picker; Overloaded completed the parent. Reload between children retained Calm and resumed at Alert. Water-Based stayed locked at 7/8 classified items and enabled only after item 8. The final quiz correctly pulsed Go to Next Module and opened Module 3 with Modules 1 and 2 shown completed.
-
-Live Module 3 partial acceptance (6 October): Journey, five sequential outcomes, the numbered/titled Inside This Module narration, all of Blocks 1 and 2, and the first two concepts of Block 3 completed with actual audio, photo gates, key ideas and activities. In Using Engagement Approaches, attempting Modelling before parent reviews, and again after the photo but before key ideas, correctly kept the parent open. After all parent reviews, Modelling unlocked. Modelling, Turn Taking, Guided Discovery and Intensive Interaction each completed and returned to the picker highlighting the next child. Play-Based Interaction was opened and its first two cards confirmed. The browser connection disappeared during the third-card/photo transition; whether that last action completed is unverified. Resume here next. Remaining: finish Play-Based Interaction, verify last-child parent completion, the final Block 3 concept, recap and quiz, then all of Modules 4 and 5. Production remains unchanged.
-
-Browser connection recovered without resetting progress. Full Module 3 acceptance then completed: the final Play-Based Interaction leaf closed its parent and highlighted Responding to Disengagement; its sequence activity, Block 3 checkpoint, recap and quiz all passed. Quiz result 8/8 and Go to Next Module opened Module 4 with Modules 1–3 shown completed. Module 4 Journey and five narrated outcomes have passed; its numbered/titled block introduction is now being checked.
-
-Module 4 live return exposed two issues: renderConcept was private to its DOM-ready callback, and concept restoration registered another DOM-ready listener too late to run. The renderer is now exposed to Continue, and saved completions load during setup, expanding only earned level groups. Reload/Continue reopened Core Principles directly with all prior reviews and 2/3 concepts retained. Completing its keyboard matching exercise enabled Done and the Block 1 checkpoint. Matching chips and slots now expose buttons and keyboard activation in both concept and quiz matching. The full concept matching exercise passed using Enter. Regression tests cover restored concepts and ensure unearned levels remain incomplete.
-
-
-Module 4 live follow-up (6 October): all four blocks completed with actual Holly audio, including all six levels and their focus-area points. Navigation mascots no longer count as unreviewed photos. Partial stage intro cards, the six-stop journey map, level focus points/open focus, and factor points/open factor survive reload. Verified returning at the next unfinished point, without awarding the rest. The three term-review steps return to the picker between siblings and close the parent after the final step. The external form is explicitly optional practice, is not credited as a submitted review, and instructs staff not to submit fictional records. Timeline guide labels now use step and title only.
-
-Module 4 recap regression: its historical `keyideas` DOM id did not match the canonical `recap` config. This skipped recap narration and could leave the section locked after reload. Both the module shell and flow guide now resolve the alias; a behavior regression test and live reload confirmed the section opens and narrates before the quiz. Module 4 quiz and the full Module 5 walkthrough remain pending at this checkpoint; production has not been published.
-
-
-Module 4 quiz completed live at 8/8; its next-module CTA opened Module 5. Module 5 Journey, all five separately narrated outcomes, Inside This Module with all three block titles, and the complete first block passed with real audio and all images/activities. In Block 2, PixtoLearn as a Visual System is complete.
-
-Module 5 nested-selector regression found live: the shared parent layout selected the first descendant ideas box and moved Session Plans content out of its hidden folder into the parent. It now selects the parent's own direct ideas box. Flat photo gates now defer to the nested screen's scoped visual gate, and the home folder icons no longer trigger the fallback image requirement. Reload verified the correct four parent ideas and the Water Adaptation folder cue, then the folder's narrated cards/photo led to its first category. Added two behavioral regressions. The rest of Module 5 is still under live review; production remains unchanged.
-
-Module 5 nested return acceptance: chooser return restored Enter & Exit at the Look for cue, with its narrated cards, image and key ideas retained. Found and fixed two further nested issues: Done opened the next category directly rather than its picker; GuidedConceptLayout recorded category completion only in the DOM while the flow guide used persistent storage. Both now share the same concept-scoped persisted keys. Completed Enter & Exit and Water Movement again, reloaded normally, and the picker correctly guided to Aquatic Breathing & Submersion. Added return/last-sibling and actual-handler persistence regressions.
-
-Module 5 second folder acceptance: Floating & Balance matching passed; Streamlining fill-in exposed `b2MarkShell` marking every attempt complete even when incorrect. Completion now requires a correct result. Added a glide paraphrase validator and explicit guidance; live incorrect response left Done disabled, and “Add a glide once the swimmer has a stable body position” passed. Water Safety unsafe quick response also kept Done disabled, then the safe response passed. First two folders now complete; their final categories returned to the folder home and guided to the next folder.
-
-Module 5 third folder complete: Swimming Strokes required all four distinct images after removing a screen-level shortcut that previously credited the whole group after one image. Each image waited for its narration and minimum visible time; then readiness selection passed. Diving/Starts/Turns image, cues and ordered activity passed, and the final category returned to the folder selector. Added regression for remaining images after the first is reviewed.
+Screenshots are retained in the parent workspace, including Holly's official identity, narration/resume checks, Modules 1–3 passed, and `training-i-module-5-passed.jpg` showing the final successful result. Module 4's browser viewport prevented screenshot capture during that portion; its live UI result was checked.

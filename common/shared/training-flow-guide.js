@@ -408,10 +408,20 @@
     var label = document.createElement('p');
     label.textContent = result && result.cancelled ? 'Narration stopped. Read this narration to continue:' : 'Audio unavailable. Read this narration to continue:';
     var transcript = document.createElement('p'); transcript.textContent = text;
+    var retry = document.createElement('button'); retry.type = 'button';
+    retry.textContent = 'Retry narration';
+    retry.addEventListener('click', function(event){
+      event.stopPropagation();
+      if(!window.CSTrainingVoice) return;
+      box.remove();
+      CSTrainingVoice.speak(text, function(nextResult){
+        acceptNarrationResult(nextResult, text, host, done);
+      });
+    });
     var button = document.createElement('button'); button.type = 'button';
     button.textContent = 'I have read this narration';
     button.addEventListener('click', function (event) { event.stopPropagation(); box.remove(); done(); });
-    box.appendChild(label); box.appendChild(transcript); box.appendChild(button);
+    box.appendChild(label); box.appendChild(transcript); box.appendChild(retry); box.appendChild(button);
     (host || document.body).appendChild(box);
   }
 
@@ -929,6 +939,12 @@
 
   function resolveM5LeafReturn(panel){
     if(!isM5LeafFlowComplete(panel)) return null;
+    var finish = panel.querySelector('[data-finish-concept]');
+    if(finish && !finish.disabled && isVisibleEl(finish)){
+      return sectionScrollStep('m5-nested-finish', finish, 'Complete this section', {
+        scrollEl: finish, scrollBlock: 'center', forceScroll: true, tone: 'm5-nav', pulseEls: [finish]
+      });
+    }
     var active = getM5ActiveScreen(panel);
     var screenId = getM5ScreenId(panel);
     if(!active || !screenId || isM5ItemDone(panel, 'flowM5LeafReturned', screenId)) return null;
@@ -1620,6 +1636,16 @@
     return null;
   }
 
+  function resolveYellowUseCards(panel){
+    var scope = getM5FlowScope(panel);
+    var cards = Array.from(scope.querySelectorAll('.m5-yellow-use-card:not(.clicked)')).filter(isVisibleEl);
+    if(!cards.length) return null;
+    var title = cards[0].querySelector('h6');
+    return sectionScrollStep('yellow-use', cards[0], 'Review: ' + (title ? title.textContent.trim() : 'how to use this card'), {
+      scrollEl: cards[0], scrollBlock: 'center', forceScroll: true, tone: 'expand'
+    });
+  }
+
   function resolveKeyIdeaItems(panel){
     if(!preKeyIdeasVisualsComplete(panel)) return null;
 
@@ -2278,6 +2304,9 @@
 
     var preVisualStep = resolveNextVisualExpand(panel, { phase: 'preKeyideas' });
     if(preVisualStep) return withM5Tone(panel, preVisualStep);
+
+    var yellowUseStep = resolveYellowUseCards(panel);
+    if(yellowUseStep) return withM5Tone(panel, yellowUseStep);
 
     var stageCardStep = resolveStageIntroCards(panel);
     if(stageCardStep) return stageCardStep;

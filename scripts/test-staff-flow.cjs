@@ -219,4 +219,56 @@ test('M5 a reviewed first image does not skip the remaining images',()=>{
  vm.runInContext(fn(source('common/shared/training-flow-guide.js'),'getPanelExpandButtons'),ctx);
  assert.equal(ctx.getPanelExpandButtons({})[0],second);
 });
+test('M5 yellow-card guide resumes at the first remaining visible step',()=>{
+ const next={querySelector:()=>({textContent:' Step five '})},hidden={};let remaining=[hidden,next];
+ const ctx=vm.createContext({getM5FlowScope:()=>({querySelectorAll:()=>remaining}),isVisibleEl:e=>e!==hidden,
+  sectionScrollStep:(kind,target,label)=>({kind,target,label})});
+ vm.runInContext(fn(source('common/shared/training-flow-guide.js'),'resolveYellowUseCards'),ctx);
+ const step=ctx.resolveYellowUseCards({});assert.equal(step.target,next);assert.equal(step.label,'Review: Step five');
+ remaining=[];assert.equal(ctx.resolveYellowUseCards({}),null);
+});
+test('M5 completed leaf guides to its finish handler instead of bypassing it with Back',()=>{
+ const finish={disabled:false};const ctx=vm.createContext({isM5LeafFlowComplete:()=>true,isVisibleEl:()=>true,
+ sectionScrollStep:(kind,target)=>({kind,target})});
+ vm.runInContext(fn(source('common/shared/training-flow-guide.js'),'resolveM5LeafReturn'),ctx);
+ assert.equal(ctx.resolveM5LeafReturn({querySelector:()=>finish}).target,finish);
+});
+test('M5 completed nested hub exposes Done after returning or reloading',()=>{
+ const finish={style:{},disabled:true},panel={querySelector:s=>s==='[data-finish-concept]'?finish:null};
+ const layout={getNestedScreenContext:()=>({mode:'hub'}),isItemDone:()=>true};
+ const ctx=vm.createContext({conceptContent:{b2c3:{nestedChoiceKeys:['one','two']}},window:{GuidedConceptLayout:layout},GuidedConceptLayout:layout});
+ vm.runInContext(fn(source('training-i/modules/module-5/index.html'),'updateConceptFinishStateM5'),ctx);
+ ctx.updateConceptFinishStateM5(panel,'block2','b2c3');assert.equal(finish.disabled,false);assert.equal(finish.style.display,'');
+ layout.isItemDone=()=>false;ctx.updateConceptFinishStateM5(panel,'block2','b2c3');assert.equal(finish.style.display,'none');
+});
+test('narration retry only awards progress after successful playback',()=>{
+ const nodes=[];let callback,completed=0;
+ const voice={speak:(_text,done)=>{callback=done;}};
+ const ctx=vm.createContext({window:{CSTrainingVoice:voice},CSTrainingVoice:voice,document:{createElement(){
+ const el={style:{},children:[],appendChild(c){this.children.push(c);},addEventListener(_name,handler){this.click=handler;},remove(){this.removed=true;}};
+ nodes.push(el);return el;
+ }}});
+ vm.runInContext(fn(source('common/shared/training-flow-guide.js'),'acceptNarrationResult'),ctx);
+ ctx.acceptNarrationResult({completed:false},'Narration',{appendChild(){}},()=>completed++);
+ nodes.find(e=>e.textContent==='Retry narration').click({stopPropagation(){}});
+ assert.equal(completed,0);callback({completed:true});assert.equal(completed,1);
+});
+test('M5 schedule pockets place a selected card with Enter or Space',()=>{
+ const slot=new Element();slot.setAttribute('data-m5-ftx-slot','first');slot.setAttribute('data-m5-ftx-sc','s1');const placed=[];
+ const ctx=vm.createContext({root:{querySelectorAll:()=>[slot]},selectedId:'bubbles',placeInto:(...args)=>placed.push(args)});
+ vm.runInContext(fn(source('training-i/modules/module-5/index.html'),'bindSlots'),ctx);ctx.bindSlots();
+ slot.emit('keydown',{key:'Enter'});slot.emit('keydown',{key:' '});slot.emit('keydown',{key:'ArrowDown'});
+ assert.equal(placed.length,2);assert.deepEqual(placed[0],['s1','first','bubbles']);
+});
+test('failed result preserves numeric score and cannot be interpreted as a pass by the shell',()=>{
+ const score={textContent:'7/8'},attrs={},card={classList:{add(){},remove(){}},querySelector:()=>null,setAttribute:(k,v)=>attrs[k]=v,hasAttribute:k=>k in attrs};
+ const resultCtx=vm.createContext({ensureActionWrap(){}});
+ vm.runInContext(fn(source('common/shared/module-completion-flow.js'),'renderResultCard'),resultCtx);
+ resultCtx.renderResultCard({scoreCard:card,scoreValue:score,passed:false});
+ assert.equal(score.textContent,'7/8');assert.equal(attrs['data-quiz-passed'],'false');
+ const handlers={},ctx=vm.createContext({document:{addEventListener:(type,handler)=>handlers[type]=handler},setTimeout:cb=>cb(),
+ refresh(){},P:{submitQuiz(){throw Error('Presentation must not submit a second score');}}});
+ vm.runInContext(fn(source('common/shared/training-i-module-shell.js'),'bindQuiz'),ctx);ctx.bindQuiz(5);
+ handlers.submit({target:{id:'quizFormM5',parentNode:{querySelector:()=>card}}});
+});
 console.log(`${count} behavioral staff-flow tests passed`);

@@ -532,6 +532,12 @@
       if (!form || !form.id || !/quizForm/i.test(form.id)) return;
       setTimeout(function () {
         var scoreCard = form.parentNode && form.parentNode.querySelector('.score-card.show, #scoreCardM1, #scoreCardM2, #scoreCardM3, #scoreCardM4, #scoreCardM5');
+        // Current modules submit their numeric score directly. Never infer a pass
+        // from presentation copy, which may be changed by a shared result card.
+        if(scoreCard && scoreCard.hasAttribute('data-quiz-passed')){
+          refresh(moduleNumber);
+          return;
+        }
         var valueEl = document.getElementById('scoreValueM' + moduleNumber) || (scoreCard && scoreCard.querySelector('#scoreValueM' + moduleNumber + ', .score-value, #scoreValue'));
         var text = valueEl ? String(valueEl.textContent || '') : '';
         var passed = /passed/i.test(text);
