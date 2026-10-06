@@ -1245,10 +1245,9 @@
   function getPanelExpandButtons(panel){
     if(!panel) return [];
     var scope = getM5FlowScope(panel);
-    // Nested M5: one primary visual cue ? don't require every fan thumb
+    // Nested M5: review each instructional image; navigation art is excluded.
     if(panelHasM5NestedNav(panel)){
       var screenId = getM5ScreenId(panel);
-      if(isM5ItemDone(panel, 'flowM5VisualDone', screenId)) return [];
       var primary = scope.querySelector(
         '.m5-nested-visual-shell > .img-expand-btn, ' +
         '.m5-nested-visual-frame > .img-expand-btn, ' +

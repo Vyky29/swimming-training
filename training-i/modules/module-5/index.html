@@ -6590,7 +6590,7 @@
  'f2-s2': {
  format: 'fill_step',
  activityType: 'Fill in the missing step',
- guideText: 'Type the correct missing line to complete a sensible teaching sequence. Spelling can be a little different.',
+ guideText: 'Type the correct missing line to complete a sensible teaching sequence. Explain when you would introduce a glide; equivalent wording is accepted.',
  q: 'Complete the teaching sequence:',
  steps: [
  '1. Establish body alignment',
@@ -6859,8 +6859,15 @@
  .replace(/\s+/g, ' ')
  .trim();
  }
+ function b2GlideStepCorrect(value, accepted){
+ var text = b2Norm(value);
+ if((accepted || []).some(function(phrase){ return text === b2Norm(phrase); })) return true;
+ return /\bglid(?:e|ing)\b/.test(text) && /\b(?:when|once|after)\b/.test(text) &&
+ /\b(?:shape|alignment|streamline|control|stable|stability)\b/.test(text) &&
+ !/\b(?:not|cannot|can't|unstable|before)\b/.test(text);
+ }
  function b2MarkShell(shell, panel, block, target, feedback, text, good){
- shell.dataset.choiceShellComplete = 'true';
+ shell.dataset.choiceShellComplete = good ? 'true' : 'false';
  if(feedback){
  feedback.textContent = text || '';
  feedback.classList.remove('hidden', 'is-correct', 'is-incorrect');
@@ -7263,9 +7270,7 @@
  var inf = inner.querySelector('[data-b2-fill]');
  if(ck4) ck4.addEventListener('click', function(){
  var u = b2Norm(inf && inf.value);
- var ok4 = (cfg.accept || []).some(function(phrase){
- return u.indexOf(b2Norm(phrase)) !== -1;
- });
+ var ok4 = b2GlideStepCorrect(u, cfg.accept);
  b2MarkShell(shell, panel, block, target, feedback, ok4 ? cfg.ok : cfg.bad, ok4);
  });
  return;
@@ -10442,11 +10447,11 @@
  <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20261005utf8"></script>
  <script src="/shared/in-practice-copy.js?v=20260713practice6"></script>
-<script src="/shared/in-practice-system.js?v=20261006resume17"></script>
+<script src="/shared/in-practice-system.js?v=20261006resume19"></script>
 <script src="/shared/premium-option-grid.js?v=20260714opt2"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260714core1"></script>
- <script src="/shared/parent-subconcept-layout.js?v=20261006resume17"></script>
+ <script src="/shared/parent-subconcept-layout.js?v=20261006resume19"></script>
  <script src="/shared/concept-insight-nested-m5.js?v=20260610"></script>
  <script src="/shared/concept-insight-intro.js?v=20260925body2"></script>
  <script src="/shared/review-item-clicks.js"></script>
@@ -10454,11 +10459,11 @@
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/guided-concept-layout.js?v=20261006resume17"></script>
- <script src="/shared/training-i-resume.js?v=20261006resume17"></script>
-<script src="/shared/training-flow-guide.js?v=20261006resume17"></script>
-<script src="/shared/training-i-progress.js?v=20261006resume17"></script>
-<script src="/shared/training-i-module-shell.js?v=20261006resume17"></script>
+ <script src="/shared/guided-concept-layout.js?v=20261006resume19"></script>
+ <script src="/shared/training-i-resume.js?v=20261006resume19"></script>
+<script src="/shared/training-flow-guide.js?v=20261006resume19"></script>
+<script src="/shared/training-i-progress.js?v=20261006resume19"></script>
+<script src="/shared/training-i-module-shell.js?v=20261006resume19"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
@@ -10756,8 +10761,8 @@
  })();
  </script>
  
- <script src="/shared/training-i-image-speech.js?v=20261006resume17"></script>
- <script src="/shared/concept-visual-expand-system.js?v=20261006resume17"></script>
+ <script src="/shared/training-i-image-speech.js?v=20261006resume19"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20261006resume19"></script>
 </body>
 </html>
 

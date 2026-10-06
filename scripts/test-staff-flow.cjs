@@ -203,4 +203,20 @@ test('M5 category completion persists from the actual layout handler and stays c
  assert.equal(ctx.isItemDone({dataset:{currentTarget:'b2c2'}},'flowM5CatsDone','f1-s1'),true);
  assert.equal(ctx.isItemDone({dataset:{currentTarget:'b2c3'}},'flowM5CatsDone','f1-s1'),false);
 });
+test('M5 incorrect activity feedback cannot unlock completion; valid glide paraphrases pass',()=>{
+ const src=source('training-i/modules/module-5/index.html'),ctx=vm.createContext({updateConceptFinishStateM5(){},window:{}});
+ ['b2Norm','b2GlideStepCorrect','b2MarkShell'].forEach(name=>vm.runInContext(fn(src,name),ctx));
+ const shell={dataset:{}};ctx.b2MarkShell(shell,{},'block2','b2c2',null,'Try again',false);assert.equal(shell.dataset.choiceShellComplete,'false');
+ assert.equal(ctx.b2GlideStepCorrect('Introduce rotation and sculling',[]),false);
+ assert.equal(ctx.b2GlideStepCorrect('Add a glide once the swimmer has a stable body position',[]),true);
+ assert.equal(ctx.b2GlideStepCorrect('Add glide before the swimmer has stable control',[]),false);
+ ctx.b2MarkShell(shell,{},'block2','b2c2',null,'Correct',true);assert.equal(shell.dataset.choiceShellComplete,'true');
+});
+test('M5 a reviewed first image does not skip the remaining images',()=>{
+ const first={getAttribute:()=> 'true'},second={getAttribute:()=> 'false'};
+ const scope={querySelector:s=>s.includes('visual-shell')?first:null,querySelectorAll:()=>[first,second]};
+ const ctx=vm.createContext({getM5FlowScope:()=>scope,panelHasM5NestedNav:()=>true,getM5ScreenId:()=> 'f3-s1',isM5ItemDone:()=>true,isVisibleEl:()=>true});
+ vm.runInContext(fn(source('common/shared/training-flow-guide.js'),'getPanelExpandButtons'),ctx);
+ assert.equal(ctx.getPanelExpandButtons({})[0],second);
+});
 console.log(`${count} behavioral staff-flow tests passed`);
