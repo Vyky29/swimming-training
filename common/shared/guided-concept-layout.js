@@ -174,7 +174,14 @@
   }
 
   function parseDoneList(panel, key) {
-    return (panel.dataset[key] || '').split(',').filter(Boolean);
+    var list = (panel.dataset[key] || '').split(',').filter(Boolean);
+    if(panel.dataset.currentTarget){
+      try {
+        var saved = JSON.parse(localStorage.getItem('swimming_module_5_nested_' + panel.dataset.currentTarget + '_' + key) || '[]');
+        if(Array.isArray(saved)) saved.forEach(function(id){ if(list.indexOf(id) < 0) list.push(id); });
+      } catch(err){}
+    }
+    return list;
   }
 
   function isItemDone(panel, key, id) {
@@ -182,34 +189,22 @@
   }
 
   function markItemDone(panel, key, id) {
-    if (!panel || !id || isItemDone(panel, key, id)) return;
+    if (!panel || !id) return;
     var list = parseDoneList(panel, key);
-    list.push(id);
+    if(list.indexOf(id) < 0) list.push(id);
     panel.dataset[key] = list.join(',');
+    if(panel.dataset.currentTarget){
+      try { localStorage.setItem('swimming_module_5_nested_' + panel.dataset.currentTarget + '_' + key, JSON.stringify(list)); } catch(err){}
+    }
   }
 
   function findNextLeafTarget(panel, leafId) {
     var ctx = getNestedScreenContext(panel);
     if (!ctx.wrapper || !leafId) return null;
-    var folderId = leafId.replace(/-s\d+$/, '').replace(/^fc/, 'fc');
-    if (/^f\d+-s\d+$/.test(leafId)) {
-      folderId = leafId.replace(/-s\d+$/, '');
-    }
+    var folderId = /^f\d+-s\d+$/.test(leafId) ? leafId.replace(/-s\d+$/, '') : leafId;
     var cats = getCategoryIdsForFolder(ctx.wrapper, folderId);
-    if (cats.length) {
-      for (var i = 0; i < cats.length; i++) {
-        if (cats[i] === leafId) {
-          for (var j = i + 1; j < cats.length; j++) {
-            if (!isItemDone(panel, 'flowM5CatsDone', cats[j])) return cats[j];
-          }
-          return folderId;
-        }
-      }
-      for (var k = 0; k < cats.length; k++) {
-        if (!isItemDone(panel, 'flowM5CatsDone', cats[k])) return cats[k];
-      }
-      return folderId;
-    }
+    // Return to the picker between siblings; leave the folder after its last category.
+    if (cats.some(function(id){ return !isItemDone(panel, 'flowM5CatsDone', id); })) return folderId;
     return 'home';
   }
 

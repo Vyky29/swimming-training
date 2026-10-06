@@ -1216,7 +1216,7 @@
   function imgHasRealSrc(img){
     if(!img) return false;
     // Level mascots are navigation, not instructional photos.
-    if(img.closest && img.closest('.concept-square, .b2-level-thumb, .b2l-level-mascot, .b2l-focus-mascot-bar, .breadcrumb-mascot, .level-badge-mascot, .concept-title-icon--mascot, [data-no-expand="true"]')) return false;
+    if(img.closest && img.closest('.concept-square, .b2c2-folder-tile, .b2c3-folder-tile, [data-b2c2-no-expand="true"], .b2-level-thumb, .b2l-level-mascot, .b2l-focus-mascot-bar, .breadcrumb-mascot, .level-badge-mascot, .concept-title-icon--mascot, [data-no-expand="true"]')) return false;
     var src = (img.getAttribute('src') || '').trim();
     return !!src;
   }
@@ -1297,7 +1297,7 @@
   }
 
   function conceptPhotoPending(panel){
-    if(!panel) return false;
+    if(!panel || panel.querySelector('[data-b2-screens]')) return false;
     var img = Array.from(panel.querySelectorAll('.concept-image img[src]')).find(imgHasRealSrc);
     if(!img) return false;
     var btn = panel.querySelector('.concept-image .img-expand-btn');
@@ -1509,7 +1509,8 @@
   }
 
   function resolveConceptPhoto(panel){
-    if(!panel || getVisibleInsightPillars(panel).length) return null;
+    // Nested screens have their own scoped visual resolver; hidden siblings are not prerequisites.
+    if(!panel || panel.querySelector('[data-b2-screens]') || getVisibleInsightPillars(panel).length) return null;
     var box = panel.querySelector('.concept-image');
     if(!box) return null;
     var img = Array.from(box.querySelectorAll('img[src]')).find(imgHasRealSrc);
@@ -1586,7 +1587,7 @@
       });
     }
 
-    if(options.phase === 'preKeyideas' && panelHasM5NestedNav(panel)){
+    if(options.phase === 'preKeyideas' && panelHasM5NestedNav(panel) && getM5ScreenId(panel) !== 'home'){
       var screenId = getM5ScreenId(panel);
       if(!isM5ItemDone(panel, 'flowM5VisualDone', screenId)){
         var visualHost = resolveLeafVisualPulseTarget(scope) ||

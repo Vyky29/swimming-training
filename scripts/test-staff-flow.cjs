@@ -178,4 +178,29 @@ class Element {
   vm.runInContext(fn(source(`training-i/modules/module-${n}/index.html`),'finishConcept'),ctx);
   ctx.finishConcept('block1','test');
 }));
+test('M5 nested photo checks do not inspect hidden sibling images',()=>{
+ const src=source('common/shared/training-flow-guide.js'),ctx=vm.createContext({});
+ ['conceptPhotoPending','resolveConceptPhoto'].forEach(name=>vm.runInContext(fn(src,name),ctx));
+ const panel={querySelector:s=>s==='[data-b2-screens]'?{}:null,querySelectorAll(){throw Error('Hidden sibling inspected');}};
+ assert.equal(ctx.conceptPhotoPending(panel),false);assert.equal(ctx.resolveConceptPhoto(panel),null);
+});
+test('parent layout selects its own ideas without moving nested folder content',()=>{
+ const own={},nested={},ctx=vm.createContext({});
+ vm.runInContext(fn(source('common/shared/parent-subconcept-layout.js'),'getPoints'),ctx);
+ const panel={querySelector:s=>s===':scope > .concept-points-box'?own:nested};
+ assert.equal(ctx.getPoints(panel),own);
+});
+test('M5 returns to its category picker between siblings and exits after the last',()=>{
+ let done=['f1-s1'];
+ const ctx=vm.createContext({getNestedScreenContext:()=>({wrapper:{}}),getCategoryIdsForFolder:()=>['f1-s1','f1-s2'],isItemDone:(_p,_key,id)=>done.includes(id)});
+ vm.runInContext(fn(source('common/shared/guided-concept-layout.js'),'findNextLeafTarget'),ctx);
+ assert.equal(ctx.findNextLeafTarget({},'f1-s1'),'f1');done.push('f1-s2');assert.equal(ctx.findNextLeafTarget({},'f1-s2'),'home');
+});
+test('M5 category completion persists from the actual layout handler and stays concept scoped',()=>{
+ const saved=new Map(),ctx=vm.createContext({localStorage:{getItem:k=>saved.get(k)||null,setItem:(k,v)=>saved.set(k,v)}});
+ const src=source('common/shared/guided-concept-layout.js');['parseDoneList','isItemDone','markItemDone'].forEach(name=>vm.runInContext(fn(src,name),ctx));
+ const first={dataset:{currentTarget:'b2c2'}};ctx.markItemDone(first,'flowM5CatsDone','f1-s1');
+ assert.equal(ctx.isItemDone({dataset:{currentTarget:'b2c2'}},'flowM5CatsDone','f1-s1'),true);
+ assert.equal(ctx.isItemDone({dataset:{currentTarget:'b2c3'}},'flowM5CatsDone','f1-s1'),false);
+});
 console.log(`${count} behavioral staff-flow tests passed`);
