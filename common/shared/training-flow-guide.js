@@ -440,6 +440,12 @@
         if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
       });
     });
+    if(CSTrainingVoice.prefetch){
+      var outcomes = Array.from(el.parentElement.querySelectorAll('.outcome'));
+      var next = outcomes[outcomes.indexOf(el) + 1];
+      if(next) CSTrainingVoice.prefetch(String(next.textContent || '').replace(/\s+/g, ' ').trim());
+      else CSTrainingVoice.prefetch(insideModuleSpeechText());
+    }
     if(started === false){
       el.setAttribute('data-outcome-spoken', 'done');
       if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
@@ -461,6 +467,20 @@
         if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
       });
     });
+    if(CSTrainingVoice.prefetch){
+      var pillars = Array.from(el.parentElement.querySelectorAll('.concept-insight-pillar'));
+      var nextPillar = pillars[pillars.indexOf(el) + 1];
+      if(nextPillar) CSTrainingVoice.prefetch(pillarSpeechText(nextPillar));
+      else {
+        var panel = el.closest('.concept-panel');
+        var scope = panel && getM5FlowScope(panel);
+        var photo = scope && Array.from(scope.querySelectorAll('img[src]')).find(function(img){
+          var file = (img.currentSrc || img.getAttribute('src') || '').split('/').pop().split('?')[0];
+          return isVisibleEl(img) && window.TrainingIImageSpeech && TrainingIImageSpeech[file];
+        });
+        if(photo) CSTrainingVoice.prefetch(TrainingIImageSpeech[(photo.currentSrc || photo.getAttribute('src')).split('/').pop().split('?')[0]]);
+      }
+    }
     if(started === false){
       el.setAttribute('data-pillar-spoken', 'done');
       if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
@@ -2281,6 +2301,8 @@
     if(titleText && !spokenReady(titleKey)){
       var heading = panel.querySelector('.concept-heading-row h4') || panel;
       speakSectionThen(titleKey, titleText);
+      var firstPillar = getVisibleInsightPillars(panel)[0];
+      if(firstPillar && window.CSTrainingVoice && CSTrainingVoice.prefetch) CSTrainingVoice.prefetch(pillarSpeechText(firstPillar));
       return withM5Tone(panel, sectionScrollStep('concept-title', heading, 'Listen to this concept', {
         scrollEl: heading,
         scrollBlock: 'center',
