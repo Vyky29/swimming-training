@@ -721,6 +721,11 @@
     }).catch(function (error) { delete voiceCache[text]; throw error; });
     return voiceCache[text];
   }
+  var voiceResumePrompt = null;
+  function clearVoiceResumePrompt(){
+    if(voiceResumePrompt) voiceResumePrompt.remove();
+    voiceResumePrompt = null;
+  }
   var voiceQueue = [];
   var voicePlaying = false;
   var currentVoiceJob = null;
@@ -780,15 +785,46 @@
         var settled = false;
         function settle(ok) {
           if (settled) return;
-          settled = true; URL.revokeObjectURL(objectUrl);
+          settled = true; clearVoiceResumePrompt(); URL.revokeObjectURL(objectUrl);
           if (voiceAudio === audio) voiceAudio = null;
           if (ok) play(index + 1); else finishVoiceJob(job, gen, false);
         }
+        function offerResume(){
+          if(settled || gen !== voiceGen || document.hidden) return;
+          clearVoiceResumePrompt();
+          var button = document.createElement('button');
+          button.type = 'button';
+          button.textContent = 'Tap to play narration';
+          button.style.cssText = 'position:fixed;bottom:100px;left:5%;width:90%;z-index:100000;padding:18px;border:2px solid #24799b;border-radius:14px;background:white;color:#123b50;font:600 18px sans-serif;box-shadow:0 4px 24px #123b5033';
+          button.addEventListener('click', function(event){
+            event.stopPropagation();
+            // Play the existing, loaded element directly inside the user gesture.
+            // Re-fetching or creating a new element here loses Safari activation.
+            attemptPlayback();
+          });
+          voiceResumePrompt = button;
+          document.body.appendChild(button);
+        }
+        function playbackRejected(error){
+          if(settled || gen !== voiceGen) return;
+          if(error && (error.name === 'NotAllowedError' || error.name === 'AbortError')) offerResume();
+          else settle(false);
+        }
+        function attemptPlayback(){
+          try{
+            var started = audio.play();
+            if(started && started.then) started.then(function(){
+              if(gen === voiceGen) clearVoiceResumePrompt();
+            }).catch(playbackRejected);
+          }catch(error){ playbackRejected(error); }
+        }
+        audio.onpause = function(){ if(!audio.ended) offerResume(); };
+        audio.resumeNarration = attemptPlayback;
         voiceAudio.onended = function () { settle(true); };
         voiceAudio.onerror = function () { settle(false); };
-        var started = document.hidden ? null : voiceAudio.play();
+        if(!document.hidden) attemptPlayback();
         if(voiceWarmText){ var warm = voiceWarmText; voiceWarmText = ''; warmVoice(warm); }
-        if (started && typeof started.catch === 'function') started.catch(function () { settle(false); });
+
       }).catch(function () {
         if (gen === voiceGen) finishVoiceJob(job, gen, false);
       });
@@ -821,6 +857,7 @@
     },
     stop: function () {
       voiceGen += 1;
+      clearVoiceResumePrompt();
       var cancelled = (currentVoiceJob ? [currentVoiceJob] : []).concat(voiceQueue);
       currentVoiceJob = null;
       voiceQueue = [];
@@ -841,10 +878,7 @@
     if (!voiceAudio || !voicePlaying) return;
     if (document.hidden) voiceAudio.pause();
     else {
-      var resumed = voiceAudio.play();
-      if (resumed && resumed.catch) resumed.catch(function () {
-        if (voiceAudio && voiceAudio.onerror) voiceAudio.onerror();
-      });
+      if(voiceAudio.resumeNarration) voiceAudio.resumeNarration();
     }
   });
 
