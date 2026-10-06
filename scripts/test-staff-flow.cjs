@@ -118,6 +118,18 @@ test('M5 nested completion survives re-render and stays scoped to its concept',(
   assert.equal(ctx.isM5ItemDone({dataset:{currentTarget:'b2c2'}},'flowM5CatsDone','f1-s1'),true);
   assert.equal(ctx.isM5ItemDone({dataset:{currentTarget:'b2c3'}},'flowM5CatsDone','f1-s1'),false);
 });
+test('M4 reload restores earned concepts and expands only completed levels',()=>{
+  const src=source('training-i/modules/module-4/index.html');
+  const sets={block1:new Set(),block2:new Set(),block3:new Set(),block4:new Set()}, updated=[];
+  const saved={block1:['b1c1','b1c2'],block3:['b2l1']};
+  const ctx=vm.createContext({window:{TrainingIProgress:{}},TrainingIProgress:{getSnapshot:()=>({concepts:saved})},
+    conceptCompletion:sets,block2LevelIds:['b2l1','b2l2'],block2LevelGroups:[['b2l1_f1','b2l1_activities'],['b2l2_f1']],
+    conceptGroups:{block3:{order:['b2l1_focus','b2l2_focus']}},document:{querySelectorAll:()=>[]},updateConceptProgress:b=>updated.push(b)});
+  vm.runInContext(fn(src,'restoreConceptCompletion'),ctx);ctx.restoreConceptCompletion();
+  assert.deepEqual([...sets.block1],['b1c1','b1c2']);
+  assert.ok(sets.block3.has('b2l1_f1'));assert.ok(sets.block3.has('b2l1_activities'));assert.ok(sets.block3.has('b2l1_focus'));
+  assert.ok(!sets.block3.has('b2l2_f1'));assert.ok(!sets.block3.has('b2l2_focus'));assert.equal(updated.length,4);
+});
 // Minimal bubbling DOM for the production classification activity handlers.
 class Element {
   constructor(classes='',data={}) {this.classes=new Set(classes.split(' ').filter(Boolean));this.dataset=data;this.children=[];this.parent=null;this.listeners={};this.style={};this.attrs={};this.textContent='';this.classList={add:(...x)=>x.forEach(c=>this.classes.add(c)),remove:(...x)=>x.forEach(c=>this.classes.delete(c)),contains:x=>this.classes.has(x)};}

@@ -9778,14 +9778,26 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
 
  const principlesReviewed = new Set();
 
- document.addEventListener('DOMContentLoaded', function(){
+ function restoreConceptCompletion(){
  if(!window.TrainingIProgress) return;
  var saved = TrainingIProgress.getSnapshot(4).concepts || {};
  Object.keys(conceptCompletion).forEach(function(block){
  (saved[block] || []).forEach(function(target){ conceptCompletion[block].add(target); });
  });
- Object.keys(conceptCompletion).forEach(function(block){ updateConceptProgress(block); });
+ // A completed level earns its nested focus/activity keys as one unit.
+ block2LevelIds.forEach(function(levelId, index){
+ if(!conceptCompletion.block3.has(levelId)) return;
+ (block2LevelGroups[index] || []).forEach(function(target){ conceptCompletion.block3.add(target); });
+ var hub = levelId + '_focus';
+ if(conceptGroups.block3.order.indexOf(hub) !== -1) conceptCompletion.block3.add(hub);
  });
+ Object.keys(conceptCompletion).forEach(function(block){
+ document.querySelectorAll('[data-concept-grid="' + block + '"] [data-target]').forEach(function(button){
+ button.classList.toggle('visited', conceptCompletion[block].has(button.dataset.target));
+ });
+ updateConceptProgress(block);
+ });
+ }
  const conceptHistory = { block1: [], block2: [], block3: [], block4: [] };
 
  const block2LevelGroups = [
@@ -12449,6 +12461,7 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  function setupClickToPlace(){
  container.querySelectorAll('.match-chip').forEach(function(chip){
  chip.setAttribute('tabindex', '0');
+ chip.setAttribute('role', 'button');
  chip.addEventListener('click', function(){
  var parentDrop = chip.closest('.slot-drop');
  if(parentDrop){
@@ -12468,6 +12481,7 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  chip.classList.add('selected');
  });
  chip.addEventListener('keydown', function(e){
+ e.stopPropagation();
  if(e.key === 'Enter' || e.key === ' '){
  e.preventDefault();
  chip.click();
@@ -12475,6 +12489,16 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  });
  });
  slots.forEach(function(slot){
+ slot.setAttribute('role', 'button');
+ slot.setAttribute('tabindex', '0');
+ var label = slot.querySelector('.slot-label');
+ if(label) slot.setAttribute('aria-label', label.textContent.trim());
+ slot.addEventListener('keydown', function(e){
+ if(e.target === slot && (e.key === 'Enter' || e.key === ' ')){
+ e.preventDefault();
+ slot.click();
+ }
+ });
  slot.addEventListener('click', function(){
  if(!selectedChip) return;
  var dz = slot.querySelector('.slot-drop');
@@ -13708,6 +13732,9 @@ updateFocusProgress();
 
  try {
  if (typeof console !== 'undefined') console.log('Module 4: running setup...');
+ // Share the module renderer with the common Continue/resume controller.
+ window.renderConcept = renderConcept;
+ restoreConceptCompletion();
  setupConcepts();
  if(typeof ParentSubconceptLayout !== "undefined" && ParentSubconceptLayout.markParentConceptSquares){
  ParentSubconceptLayout.markParentConceptSquares(conceptContent);
@@ -14006,6 +14033,7 @@ updateFocusProgress();
  function setupClickMode(){
  container.querySelectorAll('.match-chip').forEach(function(chip){
  chip.setAttribute('tabindex','0');
+ chip.setAttribute('role', 'button');
  chip.addEventListener('click', function(){
  var parentDrop = chip.closest('.slot-drop');
  if(parentDrop){
@@ -14024,6 +14052,7 @@ updateFocusProgress();
  chip.classList.add('selected');
  });
  chip.addEventListener('keydown', function(e){
+ e.stopPropagation();
  if(e.key === 'Enter' || e.key === ' '){
  e.preventDefault();
  chip.click();
@@ -14031,6 +14060,16 @@ updateFocusProgress();
  });
  });
  slots.forEach(function(slot){
+ slot.setAttribute('role', 'button');
+ slot.setAttribute('tabindex', '0');
+ var label = slot.querySelector('.slot-label');
+ if(label) slot.setAttribute('aria-label', label.textContent.trim());
+ slot.addEventListener('keydown', function(e){
+ if(e.target === slot && (e.key === 'Enter' || e.key === ' ')){
+ e.preventDefault();
+ slot.click();
+ }
+ });
  slot.addEventListener('click', function(){
  if(!selectedChip) return;
  moveChipToSlot(selectedChip, slot);
