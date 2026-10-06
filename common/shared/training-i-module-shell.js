@@ -672,14 +672,23 @@
   }
 
   var voiceCache = {};
+  var voiceWarmText = '';
+  function warmVoice(text) {
+    // Fetch only; never play, change checkpoints, or award progress.
+    voicePieces(text).slice(0, 2).forEach(function(piece){ fetchVoice(piece).catch(function(){}); });
+  }
   function fetchVoice(text) {
     if (voiceCache[text]) return voiceCache[text];
-    voiceCache[text] = fetch('/api/tts', {
+    var prepared = global.TrainingIPreparedAudio && global.TrainingIPreparedAudio[text];
+    function generate(){ return fetch('/api/tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: text }),
       signal: AbortSignal.timeout(45000)
-    }).then(function (res) {
+    }); }
+    voiceCache[text] = (prepared ? fetch(prepared).then(function(res){
+      return res.ok ? res : generate();
+    }).catch(generate) : generate()).then(function (res) {
       if (!res.ok) throw new Error('tts');
       return res.blob();
     }).catch(function (error) { delete voiceCache[text]; throw error; });
@@ -751,6 +760,7 @@
         voiceAudio.onended = function () { settle(true); };
         voiceAudio.onerror = function () { settle(false); };
         var started = document.hidden ? null : voiceAudio.play();
+        if(voiceWarmText){ var warm = voiceWarmText; voiceWarmText = ''; warmVoice(warm); }
         if (started && typeof started.catch === 'function') started.catch(function () { settle(false); });
       }).catch(function () {
         if (gen === voiceGen) finishVoiceJob(job, gen, false);
@@ -762,6 +772,11 @@
   global.CSTrainingVoice = {
     id: 'B9PDs7mcHTMxHUw5U8Cf',
     name: 'Holly',
+    prefetch: function(text){
+      // Let the current audio download first; warm the next step while it plays.
+      if(voicePlaying && !voiceAudio) voiceWarmText = text;
+      else warmVoice(text);
+    },
     speak: function (text, onDone) {
       if (!onDone && (voicePlaying || voiceQueue.length)) return false;
       voiceQueue.push({ text: text, onDone: onDone });
@@ -782,6 +797,7 @@
       var cancelled = (currentVoiceJob ? [currentVoiceJob] : []).concat(voiceQueue);
       currentVoiceJob = null;
       voiceQueue = [];
+      voiceWarmText = '';
       voicePlaying = false;
       if (voiceAudio) {
         try { voiceAudio.pause(); } catch (err) {}

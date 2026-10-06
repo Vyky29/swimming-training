@@ -440,6 +440,12 @@
         if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
       });
     });
+    if(CSTrainingVoice.prefetch){
+      var outcomes = Array.from(el.parentElement.querySelectorAll('.outcome'));
+      var next = outcomes[outcomes.indexOf(el) + 1];
+      if(next) CSTrainingVoice.prefetch(String(next.textContent || '').replace(/\s+/g, ' ').trim());
+      else CSTrainingVoice.prefetch(insideModuleSpeechText());
+    }
     if(started === false){
       el.setAttribute('data-outcome-spoken', 'done');
       if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
@@ -461,6 +467,11 @@
         if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
       });
     });
+    if(CSTrainingVoice.prefetch){
+      var pillars = Array.from(el.parentElement.querySelectorAll('.concept-insight-pillar'));
+      var nextPillar = pillars[pillars.indexOf(el) + 1];
+      if(nextPillar) CSTrainingVoice.prefetch(pillarSpeechText(nextPillar));
+    }
     if(started === false){
       el.setAttribute('data-pillar-spoken', 'done');
       if(activeModuleConfig) scheduleRefresh(activeModuleConfig, 40);
