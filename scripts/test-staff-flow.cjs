@@ -130,6 +130,16 @@ test('M4 reload restores earned concepts and expands only completed levels',()=>
   assert.ok(sets.block3.has('b2l1_f1'));assert.ok(sets.block3.has('b2l1_activities'));assert.ok(sets.block3.has('b2l1_focus'));
   assert.ok(!sets.block3.has('b2l2_f1'));assert.ok(!sets.block3.has('b2l2_focus'));assert.equal(updated.length,4);
 });
+test('level mascots do not create an impossible photo requirement',()=>{
+ const ctx=vm.createContext({});const src=source('common/shared/training-flow-guide.js');
+ ['imgHasRealSrc','conceptPhotoPending'].forEach(name=>vm.runInContext(fn(src,name),ctx));
+ const mascot={getAttribute:()=>'/mascot.png',closest:()=>({})};
+ const photo={getAttribute:()=>'/lesson.png',closest:()=>null};
+ const panel={querySelectorAll:()=>[mascot],querySelector:()=>null};
+ assert.equal(ctx.conceptPhotoPending(panel),false);
+ panel.querySelectorAll=()=>[mascot,photo];assert.equal(ctx.conceptPhotoPending(panel),true);
+ panel.querySelector=()=>({getAttribute:()=> 'true'});assert.equal(ctx.conceptPhotoPending(panel),false);
+});
 // Minimal bubbling DOM for the production classification activity handlers.
 class Element {
   constructor(classes='',data={}) {this.classes=new Set(classes.split(' ').filter(Boolean));this.dataset=data;this.children=[];this.parent=null;this.listeners={};this.style={};this.attrs={};this.textContent='';this.classList={add:(...x)=>x.forEach(c=>this.classes.add(c)),remove:(...x)=>x.forEach(c=>this.classes.delete(c)),contains:x=>this.classes.has(x)};}

@@ -9675,12 +9675,12 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
    + '<div class="b3c3-timeline-activity concept-section-card section-activity-shell">'
    + ((window.ConceptSectionIcons && ConceptSectionIcons.headHtml('activity')) ||
       '<div class="concept-section-head concept-section-head--activity activity-shell-head"><span class="icon icon--activity" aria-hidden="true"></span><span>Activity - Apply your understanding</span></div>')
-   + '<p class="activity-mini-guide">Familiarise yourself with the Swimming Term Review form. Open it and simulate a full review from start to finish, as you would for a real swimmer.</p>'
+   + '<p class="activity-mini-guide">Optional practice: familiarise yourself with the Swimming Term Review form. Use a fictional example to plan a review; do not submit a practice record.</p>'
    + '<div class="activity-container activity-container--concept">'
-   + '<p class="activity-question">Open the Term Review form and complete one practice review end to end.</p>'
+   + '<p class="activity-question">This external practice is not recorded in your training progress. Your three review steps above count towards this module.</p>'
    + '<a href="https://clubsensational-staff.vercel.app/swtermreview.html" class="b3c3-timeline-form" target="_blank" rel="noopener noreferrer">'
    + '<span class="b3c3-timeline-form-copy">'
-   + '<span class="b3c3-timeline-form-kicker">Practice task</span>'
+   + '<span class="b3c3-timeline-form-kicker">Optional practice</span>'
    + '<span class="b3c3-timeline-form-title">Swimming Term Review</span>'
    + '<span class="b3c3-timeline-form-hint">Open the form and work through a complete example</span>'
    + '</span>'
@@ -11355,6 +11355,9 @@ introMediaHTML: '<div class="concept-image b2-level-overview-visual"><img src="/
  : 'Tap each card to review it. Complete all three to unlock the levels.';
  }
  }
+ if(panel._stageCardsRestored) panel.removeEventListener('training-stage-cards-restored', panel._stageCardsRestored);
+ panel._stageCardsRestored = syncStageCards;
+ panel.addEventListener('training-stage-cards-restored', syncStageCards);
  cards.forEach(function(card){
  if(stageHasProgress){
  card.classList.add('is-complete');
@@ -12768,7 +12771,10 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  /* Detail lives in the factor grid so it can spill under the active row */
  if(panelEl.parentNode !== grid) grid.appendChild(panelEl);
  panelEl.setAttribute('aria-live','polite');
- var reviewed = {};
+ var reviewTarget = panel.dataset.currentTarget;
+ var factorReview = window.TrainingIResume ? TrainingIResume.levelReview(reviewTarget) : {};
+ var reviewed = factorReview.factors || (factorReview.factors = {});
+ function saveFactorReview(){ if(window.TrainingIResume) TrainingIResume.saveLevelReview(reviewTarget, factorReview); }
 
  function syncExploreDone(){
  var done = true;
@@ -12854,6 +12860,7 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  }
  card.addEventListener('click', function(){
  reviewed[factorKey][key] = true;
+ saveFactorReview();
  card.classList.add('is-done');
  card.setAttribute('aria-pressed', 'true');
  var conf = card.querySelector('.b3c2-factor-info-confirm');
@@ -12866,6 +12873,7 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  boxes.forEach(function(btn){
  btn.addEventListener('click', function(){
  var key = btn.getAttribute('data-factor-key');
+ factorReview.lastFactor = key; saveFactorReview();
  var titleEl = btn.querySelector('.b3c2-factor-box-title');
  var iconEl = btn.querySelector('.b3c2-factor-box-icon img');
  var factorTitle = titleEl ? titleEl.textContent.trim() : '';
@@ -12896,6 +12904,8 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  });
  });
  syncExploreDone();
+ var lastFactor = boxes.find(function(btn){ return btn.getAttribute('data-factor-key') === factorReview.lastFactor; });
+ if(lastFactor) lastFactor.click();
  }
 
  function setupBlock3ConceptActivities(panel){
@@ -13263,7 +13273,10 @@ inPracticeLine = InPracticeCopy.resolve(target, '') || '';
  };
  var focusData = focusDataByLevel[target] || {};
  var activityData = activityDataByLevel[target] || {};
- var pointDone = {};
+ var levelReview = window.TrainingIResume ? TrainingIResume.levelReview(target) : { points: {}, activities: {} };
+ var pointDone = levelReview.points || (levelReview.points = {});
+ var reviewedActivities = levelReview.activities || (levelReview.activities = {});
+ function saveLevelReview(){ if(window.TrainingIResume) TrainingIResume.saveLevelReview(target, levelReview); }
  var focusOpen = {};
  var activityOpen = {};
  function setDisclosureState(btn, open){
@@ -13309,6 +13322,11 @@ progress.setAttribute('aria-valuemin', '0');
 progress.setAttribute('aria-valuemax', String(total));
 progress.setAttribute('aria-valuenow', String(done));
 }
+ buttons.forEach(function(btn){
+ var data = focusData[btn.getAttribute('data-b2l1-item')];
+ var key = btn.getAttribute('data-b2l1-item');
+ if(data && data.points.every(function(_, idx){ return !!pointDone[target + '_' + key + '_' + idx]; })){ btn.classList.add('is-complete'); data.completed = true; }
+ });
 updateFocusProgress();
  buttons.forEach(function(btn){
  var key = btn.getAttribute('data-b2l1-item');
@@ -13320,10 +13338,12 @@ updateFocusProgress();
  if(isOpen){
  detail.hidden = true;
  focusOpen[key] = false;
+ if(levelReview.lastFocus === key) { delete levelReview.lastFocus; saveLevelReview(); }
  setDisclosureState(btn, false);
  return;
  }
  focusOpen[key] = true;
+ levelReview.lastFocus = key; saveLevelReview();
  setDisclosureState(btn, true);
  detail.innerHTML = '<div class="b2l1-list">' +
  data.points.map(function(point, idx){
@@ -13335,6 +13355,7 @@ updateFocusProgress();
  pointBtn.addEventListener('click', function(){
  var pKey = pointBtn.getAttribute('data-b2l1-point');
  pointDone[pKey] = true;
+ saveLevelReview();
  pointBtn.classList.add('is-done');
  var allDone = data.points.every(function(_, idx){ return !!pointDone[target + '_' + key + '_' + idx]; });
  if(allDone){
@@ -13355,6 +13376,7 @@ updateFocusProgress();
  buttons.forEach(function(btn){
  var key = btn.getAttribute('data-b2l1-item');
  var detail = ensureDetailAfter(btn, 'b2l1-activity-detail');
+ if(reviewedActivities[key]) { btn.classList.add('is-complete'); if(activityData[key]) activityData[key].completed = true; }
  btn.onclick = function(){
  var data = activityData[key];
  if(!data) return;
@@ -13384,12 +13406,17 @@ updateFocusProgress();
  detail.innerHTML = '<p class="b2l1-detail-section">' + data.text + '</p>';
  detail.hidden = false;
  data.completed = true;
+ reviewedActivities[key] = true; saveLevelReview();
  syncConceptFinishBtn(panel, block, target, { force: true });
  };
  });
  }
  bindFocus();
  bindActivities();
+ if(levelReview.lastFocus){
+ var lastFocusButton = panel.querySelector('[data-b2l1-focus-list] [data-b2l1-item="' + levelReview.lastFocus + '"]');
+ if(lastFocusButton) lastFocusButton.click();
+ }
  syncConceptFinishBtn(panel, block, target, { force: true });
  }
 
@@ -13782,7 +13809,7 @@ updateFocusProgress();
  <script src="/shared/tts-controls.js?v=20260612"></script>
 <script src="/shared/concept-insight-content.js?v=20261005utf8"></script>
 <script src="/shared/in-practice-copy.js?v=20260716practice7"></script>
-<script src="/shared/in-practice-system.js?v=20261005resume10"></script>
+<script src="/shared/in-practice-system.js?v=20261006resume13"></script>
 <script src="/shared/premium-option-grid.js?v=20260714opt3"></script>
 <script src="/shared/concept-dwell-timer.js?v=20260629"></script>
 <script src="/shared/concept-section-icons.js?v=20260714core1"></script>
@@ -13792,10 +13819,10 @@ updateFocusProgress();
  <script src="/shared/module-completion-flow.js"></script>
  <script src="/shared/module-nav-blocks.js"></script>
  <script src="/shared/training-flow-config.js?v=20260716"></script>
- <script src="/shared/training-i-resume.js?v=20261005resume10"></script>
-<script src="/shared/training-flow-guide.js?v=20261005resume10"></script>
-<script src="/shared/training-i-progress.js?v=20261005resume10"></script>
-<script src="/shared/training-i-module-shell.js?v=20261005resume10"></script>
+ <script src="/shared/training-i-resume.js?v=20261006resume13"></script>
+<script src="/shared/training-flow-guide.js?v=20261006resume13"></script>
+<script src="/shared/training-i-progress.js?v=20261006resume13"></script>
+<script src="/shared/training-i-module-shell.js?v=20261006resume13"></script>
 
  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script>
@@ -14171,8 +14198,8 @@ updateFocusProgress();
  </script>
  
  <script src="/shared/programme-journey-map.js?v=20260714pjmfixed1"></script>
- <script src="/shared/training-i-image-speech.js?v=20261005resume10"></script>
- <script src="/shared/concept-visual-expand-system.js?v=20261005resume10"></script>
+ <script src="/shared/training-i-image-speech.js?v=20261006resume13"></script>
+ <script src="/shared/concept-visual-expand-system.js?v=20261006resume13"></script>
 </body>
 </html>
 

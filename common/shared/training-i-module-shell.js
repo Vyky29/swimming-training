@@ -335,7 +335,7 @@
           : !!(snap.steps && snap.steps[stepKey]);
       var isNext = nextId === id;
       if (!done && !isNext) return;
-      var section = document.getElementById(id);
+      var section = document.getElementById(id) || (id === 'recap' ? document.getElementById('keyideas') : null);
       if (section) section.classList.remove('gated-locked');
     });
   }

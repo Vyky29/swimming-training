@@ -985,6 +985,13 @@
     return true;
   }
 
+  function conceptNavLabel(btn){
+    if(!btn) return '';
+    var title = btn.querySelector('.b3c3-timeline-title');
+    var step = btn.querySelector('.b3c3-timeline-kicker');
+    return (title ? [step && step.textContent, title.textContent].filter(Boolean).join(': ') : (btn.textContent || '')).replace(/\s+/g, ' ').trim();
+  }
+
   function b2LevelItemLabel(btn, fallback){
     if(!btn) return fallback || 'next item';
     var labelEl = btn.querySelector('.b2l1-item-label');
@@ -1208,6 +1215,8 @@
 
   function imgHasRealSrc(img){
     if(!img) return false;
+    // Level mascots are navigation, not instructional photos.
+    if(img.closest && img.closest('.concept-square, .b2-level-thumb, .b2l-level-mascot, .b2l-focus-mascot-bar, .breadcrumb-mascot, .level-badge-mascot, .concept-title-icon--mascot, [data-no-expand="true"]')) return false;
     var src = (img.getAttribute('src') || '').trim();
     return !!src;
   }
@@ -1289,7 +1298,7 @@
 
   function conceptPhotoPending(panel){
     if(!panel) return false;
-    var img = panel.querySelector('.concept-image img[src]');
+    var img = Array.from(panel.querySelectorAll('.concept-image img[src]')).find(imgHasRealSrc);
     if(!img) return false;
     var btn = panel.querySelector('.concept-image .img-expand-btn');
     return !btn || btn.getAttribute('data-visual-expanded') !== 'true';
@@ -1503,7 +1512,7 @@
     if(!panel || getVisibleInsightPillars(panel).length) return null;
     var box = panel.querySelector('.concept-image');
     if(!box) return null;
-    var img = box.querySelector('img[src]');
+    var img = Array.from(box.querySelectorAll('img[src]')).find(imgHasRealSrc);
     if(!img) return null;
     var btn = box.querySelector('.img-expand-btn');
     if(btn && btn.getAttribute('data-visual-expanded') === 'true') return null;
@@ -2077,7 +2086,7 @@
     return {
       kind: 'subconcept',
       el: btn,
-      label: (btn.textContent || '').replace(/\s+/g, ' ').trim() || 'Choose the next subconcept'
+      label: conceptNavLabel(btn) || 'Choose the next subconcept'
     };
   }
 
@@ -2119,7 +2128,7 @@
     var subconceptStep = resolveSubconceptNav(panel);
     if(!subconceptStep) return null;
     var btn = subconceptStep.el;
-    var label = btn && btn.textContent ? btn.textContent.replace(/\s+/g, ' ').trim() : subconceptStep.label;
+    var label = conceptNavLabel(btn) || subconceptStep.label;
     return sectionScrollStep('subconcept', btn, label || subconceptStep.label, {
       scrollEl: btn.closest('.overview-subconcept-grid') || btn.closest('[data-parent-subconcept-nav]') || btn,
       scrollBlock: 'center',
@@ -2163,7 +2172,7 @@
     }
     if(!btn) btn = unvisited[0];
 
-    var label = btn.textContent.replace(/\s+/g, ' ').trim() || 'Choose the next subconcept';
+    var label = conceptNavLabel(btn) || 'Choose the next subconcept';
     return sectionScrollStep('subconcept', btn, label, {
       scrollEl: btn.closest('.overview-subconcept-grid') || btn,
       scrollBlock: 'center',
@@ -3322,6 +3331,8 @@
   }
 
   function resolveSectionStage(sectionId){
+    // Module 4 uses the historical keyideas DOM id for its recap.
+    if(sectionId === 'recap' && !document.getElementById('recap') && document.getElementById('keyideas')) sectionId = 'keyideas';
     if(sectionId.indexOf('block') === 0) return null;
     if(!isModuleStarted()) return null;
     if(!isChecked($('input[data-stage-check="journey"]'))) return null;
@@ -3449,7 +3460,7 @@
       var id = sections[i];
       if(id.indexOf('block') === 0) continue;
       if(id === 'journey' || id === 'outcomes' || id === 'inside-module') continue;
-      var section = document.getElementById(id);
+      var section = document.getElementById(id) || (id === 'recap' ? document.getElementById('keyideas') : null);
       if(section && section.classList.contains('gated-locked')){
         section.classList.remove('gated-locked');
       }

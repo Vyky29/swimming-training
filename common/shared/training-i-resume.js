@@ -7,7 +7,7 @@
   var saved;
   try { saved = JSON.parse(localStorage.getItem(key) || '{}'); } catch (_) { saved = {}; }
   if (!saved || typeof saved !== 'object' || Array.isArray(saved)) saved = {};
-  ['reviews', 'speech', 'images', 'audio'].forEach(function (name) {
+  ['reviews', 'speech', 'images', 'audio', 'levels'].forEach(function (name) {
     if (!saved[name] || typeof saved[name] !== 'object') saved[name] = {};
   });
   function write() { try { localStorage.setItem(key, JSON.stringify(saved)); } catch (_) {} }
@@ -20,31 +20,44 @@
     var text = String(copyText || '').replace(/✓|\bREVIEWED\b|\bREVIEW\b/g, '').replace(/\s+/g, ' ').trim();
     return [(panel && panel.dataset.currentTarget) || (section && section.id) || 'module', screen && screen.dataset.b2Screen || '', text].join('|');
   }
-  var selector = '.concept-insight-pillar, .key-idea-item, #outcomes .outcome, .block-intro-card, .recap-card, .recap-takeaway-card, [data-inprac-part], .key-ideas-action, .m5-yellow-use-card';
+  var selector = '.concept-insight-pillar, .key-idea-item, #outcomes .outcome, .block-intro-card, .recap-card, .recap-takeaway-card, [data-inprac-part], .key-ideas-action, .m5-yellow-use-card, .stage-intro-card[data-stage-card]';
   function capture() {
     document.querySelectorAll(selector).forEach(function (el) {
       var flags = {};
       if (el.classList.contains('clicked')) flags.clicked = true;
       if (el.classList.contains('is-reviewed')) flags.reviewed = true;
       if (el.classList.contains('is-completed')) flags.completed = true;
+      if (el.classList.contains('stage-intro-card') && el.classList.contains('is-complete')) flags.stageComplete = true;
       ['data-pillar-spoken', 'data-outcome-spoken'].forEach(function (attr) { if (el.getAttribute(attr) === 'done') flags[attr] = 'done'; });
       if (Object.keys(flags).length) saved.reviews[reviewKey(el)] = flags;
     });
     Array.prototype.forEach.call(document.documentElement.attributes, function (a) {
       if (a.name.indexOf('data-spoken-') === 0 && a.value === 'done') saved.speech[a.name] = true;
     });
+    var journeyMap = document.querySelector('[data-programme-journey-map]');
+    var tour = journeyMap && journeyMap.getAttribute('data-pjm-tour-visited');
+    if (tour) saved.journeyTour = tour;
     var panel = document.querySelector('.concept-panel.show[data-current-target]');
     if (panel) saved.point = { block: panel.dataset.panelFor, target: panel.dataset.currentTarget, screen: panel.dataset.m5NestedScreen || null };
     write();
   }
   function restore() {
     var changedActions = [];
+    var journeyMap = document.querySelector('[data-programme-journey-map]');
+    if (journeyMap && saved.journeyTour && global.ProgrammeJourneyMap && journeyMap.getAttribute('data-pjm-tour-visited') !== saved.journeyTour) {
+      saved.journeyTour.split(',').forEach(function (level) { global.ProgrammeJourneyMap.markTourLevel(journeyMap, Number(level)); });
+    }
     Object.keys(saved.speech).forEach(function (attr) {
       if (saved.speech[attr] && attr.indexOf('data-spoken-') === 0 && document.documentElement.getAttribute(attr) !== 'done') document.documentElement.setAttribute(attr, 'done');
     });
     document.querySelectorAll(selector).forEach(function (el) {
       var flags = saved.reviews[reviewKey(el)];
       if (!flags) return;
+      if (flags.stageComplete && !el.classList.contains('is-complete')) {
+        el.classList.add('is-complete'); el.setAttribute('aria-pressed', 'true');
+        var stagePanel = el.closest('.concept-panel');
+        if (stagePanel) stagePanel.dispatchEvent(new CustomEvent('training-stage-cards-restored'));
+      }
       if (flags.reviewed && !el.classList.contains('is-reviewed')) {
         el.classList.add('is-reviewed'); el.setAttribute('aria-pressed', 'true');
         var action = el.closest('.key-ideas-action');
@@ -82,6 +95,8 @@
   }
   global.TrainingIResume = {
     capture: capture,
+    levelReview: function (target) { return saved.levels[target] || { points: {}, activities: {} }; },
+    saveLevelReview: function (target, value) { saved.levels[target] = value; write(); },
     hasImage: function (src) { return saved.images[new URL(src, location.href).href] === true; },
     imageReviewed: function (src) { saved.images[new URL(src, location.href).href] = true; write(); },
     audioPosition: function (text) { return saved.audio[text] || { index: 0, time: 0 }; },
@@ -128,7 +143,7 @@
       if (queued) return;
       queued = true;
       setTimeout(function () { queued = false; restore(); capture(); }, 100);
-    }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['class', 'data-pillar-spoken', 'data-outcome-spoken', 'data-current-target'] });
+    }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['class', 'data-pillar-spoken', 'data-outcome-spoken', 'data-current-target', 'data-pjm-tour-visited'] });
     document.addEventListener('click', function (event) {
       var el = event.target.closest && event.target.closest('[data-finish-concept], .concept-back');
       if (el && !el.disabled) { saved.point = null; write(); }

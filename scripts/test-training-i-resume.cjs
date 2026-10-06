@@ -29,3 +29,7 @@ assert.equal(harness(h.storage,2).element.classes.has('clicked'),false);assert.e
 let finished=harness(h.storage);assert.equal(finished.api.resume({nextStep:'block1',concepts:{block1:['water']}}),false);assert.equal(finished.renders.length,0);console.log('ok completed concepts are not reopened by stale resume points');
 
 let practice=harness();practice.element.classes.add('is-reviewed');practice.api.capture();let continuedPractice=harness(practice.storage);assert.ok(continuedPractice.element.classes.has('is-reviewed'));assert.equal(continuedPractice.element.a['aria-pressed'],'true');console.log('ok partially reviewed practice cues survive navigation');
+
+let stage=harness({},4);stage.element.classes.add("stage-intro-card");stage.element.classes.add("is-complete");stage.api.capture();let returnedStage=harness(stage.storage,4);assert.ok(returnedStage.element.classes.has("is-complete"));assert.equal(returnedStage.element.a["aria-pressed"],"true");console.log("ok partial stage-card reviews survive navigation");
+
+let level=harness({},4);level.api.saveLevelReview("b2l1",{points:{b2l1_wf_0:true},activities:{},lastFocus:"wf"});let resumedLevel=harness(level.storage,4);assert.equal(resumedLevel.api.levelReview("b2l1").points.b2l1_wf_0,true);assert.equal(resumedLevel.api.levelReview("b2l1").lastFocus,"wf");assert.equal(resumedLevel.api.levelReview("b2l2").points.b2l1_wf_0,undefined);console.log("ok level outcomes and open focus persist without leaking to other levels");
